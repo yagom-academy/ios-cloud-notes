@@ -6,13 +6,10 @@ class MemoListTableViewCell: UITableViewCell {
     let lastModifiedDateLabel = UILabel()
     let contentsContainerView = UIView()
     
-    init(style: UITableViewCell.CellStyle, reuseIdentifier: String?, memo: Memo) {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         self.accessoryType = .disclosureIndicator
-        titleLabel.text = memo.title
-        shortBodyLabel.text = memo.body
-        lastModifiedDateLabel.text = memo.lastModifiedDate
         
         configureContents()
         setAutoLayout()
@@ -71,5 +68,11 @@ class MemoListTableViewCell: UITableViewCell {
         let bodyLabelWidthConstraint = shortBodyLabel.widthAnchor.constraint(equalTo: contentsContainerView.widthAnchor, multiplier: 0.6)
         bodyLabelWidthConstraint.priority = .defaultLow
         bodyLabelLeadingConstraint.isActive = true
+    }
+    
+    func setLabels(memo: Memo) {
+        titleLabel.text = memo.title
+        shortBodyLabel.text = memo.body
+        lastModifiedDateLabel.text = memo.lastModifiedDate
     }
 }

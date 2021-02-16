@@ -5,7 +5,11 @@ class MemoListTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        tableView.register(MemoListTableViewCell.self, forCellReuseIdentifier: "MemoCell")
+        
+        let data = NSDataAsset(name: "sample")
+        memoList = try! JSONDecoder().decode([Memo].self, from: data!.data)
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -13,6 +17,11 @@ class MemoListTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        <#code#>
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MemoCell") as? MemoListTableViewCell else {
+            return UITableViewCell()
+        }
+        cell.setLabels(memo: memoList[indexPath.row])
+        
+        return cell
     }
 }

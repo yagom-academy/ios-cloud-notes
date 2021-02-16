@@ -22,6 +22,8 @@ final class MemoTableViewCell: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = UIColor.systemGray
         label.font = .preferredFont(forTextStyle: .body)
+        label.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         label.adjustsFontForContentSizeCategory = true
         return label
     }()
@@ -30,18 +32,15 @@ final class MemoTableViewCell: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = UIColor.black
         label.font = .preferredFont(forTextStyle: .body)
+        label.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        label.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         label.adjustsFontForContentSizeCategory = true
         return label
     }()
     
-    //MARK: Init
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    override func awakeFromNib() {
+        super.awakeFromNib()
         setUpView()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
     
     //MARK: SetUpMemoTableViewCell

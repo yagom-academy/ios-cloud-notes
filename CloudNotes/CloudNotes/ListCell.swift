@@ -42,6 +42,12 @@ class ListCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func updateCell(info: Memo) {
+        titleLabel.text = info.title
+        contentsLabel.text = info.contents
+        //to do: Date type 
+    }
+    
     private func addContentView() {
         contentView.addSubview(titleLabel)
         contentView.addSubview(dateLabel)

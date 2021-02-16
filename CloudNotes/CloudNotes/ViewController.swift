@@ -12,6 +12,7 @@ final class ViewController: UITableViewController {
         super.viewDidLoad()
         decodeMemoData()
         setUpNavigationBar()
+        setUpMemoTableView()
     }
     
     private func decodeMemoData() {
@@ -34,4 +35,37 @@ final class ViewController: UITableViewController {
     @objc private func moveToPostViewController() {
         //📍 CRUD Create 부분
     }
+    
+    private func setUpMemoTableView() {
+        self.tableView.delegate = self
+        self.tableView.dataSource = self
+        
+        NSLayoutConstraint.activate([
+            self.tableView.topAnchor.constraint(equalTo: view.topAnchor),
+            self.tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            self.tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            self.tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+    }
 }
+
+//MARK: extension TableView
+extension ViewController {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return memoList.count
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let memoCell = tableView.dequeueReusableCell(withIdentifier: "MemoTableViewCell", for: indexPath) as? MemoTableViewCell else {
+            return UITableViewCell()
+        }
+        memoCell.accessoryType = .disclosureIndicator
+        memoCell.setUpMemoCell(memoList[indexPath.row])
+        return memoCell
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+}
+

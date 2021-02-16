@@ -31,6 +31,13 @@ class MainViewController: UIViewController {
        let addMemoViewController = AddMemoViewController()
         self.navigationController?.pushViewController(addMemoViewController, animated: true)
     }
+
+    private func configure() {
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = UITableView.automaticDimension
+    }
     
     private func addSubView() {
         self.view.addSubview(tableView)
@@ -47,3 +54,16 @@ class MainViewController: UIViewController {
     }
 }
 
+extension MainViewController: UITableViewDelegate {
+    
+}
+
+extension MainViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 10
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        return UITableViewCell()
+    }
+}

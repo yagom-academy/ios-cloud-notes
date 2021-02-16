@@ -5,4 +5,10 @@
 //  Created by sole on 2021/02/16.
 //
 
-import Foundation
+import UIKit
+
+class AddMemoViewController: UIViewController {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
+}

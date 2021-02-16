@@ -10,7 +10,7 @@ class MainViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        setNavigation()
     }
     
     private func setNavigation() {
@@ -20,7 +20,8 @@ class MainViewController: UIViewController {
     }
     
     @objc private func goToAddMemoVeiwController() {
-       
+       let addMemoViewController = AddMemoViewController()
+        self.navigationController?.pushViewController(addMemoViewController, animated: true)
     }
 }
 

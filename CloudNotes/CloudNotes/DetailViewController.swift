@@ -13,6 +13,11 @@ final class DetailViewController: UIViewController {
     private var memoBodyTextView: UITextView = {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
+        textView.dataDetectorTypes = [.link, .phoneNumber, .calendarEvent]
+        textView.isSelectable = true
+        textView.isEditable = false
+        textView.isUserInteractionEnabled = true
+        textView.font = .preferredFont(forTextStyle: .body)
         textView.textColor = .black
         return textView
     }()
@@ -20,6 +25,7 @@ final class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpTextView()
+        setTapGesture()
     }
     
     private func setUpTextView() {
@@ -39,5 +45,25 @@ final class DetailViewController: UIViewController {
             memoBodyTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
             memoBodyTextView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
+    }
+}
+
+//MARK: extension UITextViewDelegate
+extension DetailViewController: UITextViewDelegate {
+    func textViewDidEndEditing(_ textView: UITextView) {
+        textView.isEditable = false
+        textView.dataDetectorTypes = [.link, .phoneNumber, .calendarEvent]
+        textView.resignFirstResponder()
+    }
+    
+    private func setTapGesture() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapTextView(_:)))
+        memoBodyTextView.addGestureRecognizer(tapGesture)
+    }
+    
+    @objc private func tapTextView(_ gesture: UITapGestureRecognizer) {
+        memoBodyTextView.isEditable = true
+        memoBodyTextView.dataDetectorTypes = []
+        memoBodyTextView.becomeFirstResponder()
     }
 }

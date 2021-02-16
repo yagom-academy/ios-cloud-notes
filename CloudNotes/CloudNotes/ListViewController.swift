@@ -6,7 +6,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ListViewController: UIViewController {
     let tableView = UITableView()
     lazy var addMemoButton: UIBarButtonItem = {
         let button =  UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonTapped(_:)))
@@ -59,7 +59,7 @@ class ViewController: UIViewController {
         print("button pressed")
     }
 }
-extension ViewController: UITableViewDataSource {
+extension ListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return memoList.count
     }
@@ -74,7 +74,7 @@ extension ViewController: UITableViewDataSource {
         return cell
     }
 }
-extension ViewController: UITableViewDelegate {
+extension ListViewController: UITableViewDelegate {
     
 }
 extension Double {

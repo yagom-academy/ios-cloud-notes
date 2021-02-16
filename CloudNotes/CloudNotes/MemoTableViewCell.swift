@@ -95,5 +95,6 @@ class MemoTableViewCell: UITableViewCell {
             memoListStackView.trailingAnchor.constraint(equalTo: nextButton.leadingAnchor),
             memoListStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
+        nextButton.setContentCompressionResistancePriority(.required, for: .horizontal)
     }
 }

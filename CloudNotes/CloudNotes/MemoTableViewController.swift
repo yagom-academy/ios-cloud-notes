@@ -11,6 +11,7 @@ class MemoTableViewController: UIViewController {
     private let memoListTableView: UITableView = {
         let tableView = UITableView()
         tableView.register(MemoTableViewCell.self, forCellReuseIdentifier: MemoTableViewCell.reuseIdentifier)
+        tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
     var memoModel: [Memo]?
@@ -27,8 +28,17 @@ extension MemoTableViewController {
     func configureTableView() {
         memoListTableView.delegate = self
         memoListTableView.dataSource = self
-        memoListTableView.frame = view.bounds
+        memoListTableView.frame = view.frame
         view.addSubview(memoListTableView)
+        configureConstraints()
+    }
+    private func configureConstraints() {
+        NSLayoutConstraint.activate([
+            memoListTableView.topAnchor.constraint(equalTo: view.topAnchor),
+            memoListTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            memoListTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            memoListTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ])
     }
 }
 

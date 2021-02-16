@@ -22,7 +22,7 @@ class ViewController: UIViewController {
     private func setUpTableView() {
         self.tableView.dataSource = self
         self.tableView.delegate = self
-        
+        self.tableView.register(MemoListCell.self, forCellReuseIdentifier: MemoListCell.identifier)
         self.view.addSubview(tableView)
         
         self.tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -50,7 +50,11 @@ extension ViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return UITableViewCell()
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: MemoListCell.identifier, for: indexPath) as? MemoListCell else {
+            return UITableViewCell()
+        }
+      
+        return cell
     }
     
     

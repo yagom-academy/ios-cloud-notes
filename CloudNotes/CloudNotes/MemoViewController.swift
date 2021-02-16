@@ -14,6 +14,8 @@ protocol MemoViewControllerDelegate {
 class MemoViewController: UIViewController {
     private let memoTextView: UITextView = {
         let textView = UITextView()
+        textView.isUserInteractionEnabled = false
+        textView.isEditable = false
         textView.dataDetectorTypes = .all
         textView.textContainerInset = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
         textView.translatesAutoresizingMaskIntoConstraints = false
@@ -28,6 +30,14 @@ class MemoViewController: UIViewController {
         configureConstraints()
         registerKeyboardNotifications()
     }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if memoTextView.isUserInteractionEnabled == false {
+            memoTextView.isUserInteractionEnabled = true
+            memoTextView.isEditable = true
+        }
+    }
+
 }
 
 extension MemoViewController {
@@ -65,6 +75,10 @@ extension MemoViewController: UITextViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if(scrollView.panGestureRecognizer.translation(in: scrollView.superview).y > 0) {
             view.endEditing(true)
+            if memoTextView.isUserInteractionEnabled == true {
+                memoTextView.isUserInteractionEnabled = false
+                memoTextView.isEditable = false
+            }
         }
     }
 }

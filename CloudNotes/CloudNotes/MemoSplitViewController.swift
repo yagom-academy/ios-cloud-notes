@@ -11,11 +11,16 @@ class MemoSplitViewController: UISplitViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        let masterViewController = UINavigationController(rootViewController: MemoTableViewController())
+        let memoTableViewController = MemoTableViewController()
+        let masterViewController = UINavigationController(rootViewController: memoTableViewController)
         let detailViewController = MemoViewController()
+        memoTableViewController.memoViewControllerDelegate = detailViewController
         self.viewControllers = [masterViewController, detailViewController]
         self.preferredPrimaryColumnWidthFraction = 1/3
         self.preferredDisplayMode = .oneBesideSecondary
+        if self.traitCollection.horizontalSizeClass == .compact {
+            self.show(masterViewController, sender: self)
+        }
     }
 
 }

@@ -15,6 +15,7 @@ class MemoTableViewController: UIViewController {
         return tableView
     }()
     var memoModel: [Memo]?
+    var memoViewControllerDelegate: MemoViewControllerDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,6 +38,7 @@ extension MemoTableViewController {
         view.addSubview(memoListTableView)
         configureConstraints()
     }
+    
     private func configureConstraints() {
         NSLayoutConstraint.activate([
             memoListTableView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -57,14 +59,17 @@ extension MemoTableViewController: UITableViewDelegate, UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: MemoTableViewCell.reuseIdentifier, for: indexPath) as? MemoTableViewCell else {
             return UITableViewCell()
         }
-        cell.memoCellDelegate = self
         cell.configure(with: memoModel?[indexPath.row])
         return cell
     }
-}
-
-extension MemoTableViewController: MemoTableViewCellDelegate {
-    func didTapNextButton() {
-        self.navigationController?.pushViewController(MemoViewController(), animated: true)
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let memoModel = self.memoModel else {
+            return
+        }
+        let memo = memoModel[indexPath.row].body
+        let memoViewController = MemoViewController()
+        memoViewController.setMemo(memo)
+        self.splitViewController?.showDetailViewController(memoViewController, sender: nil)
     }
 }

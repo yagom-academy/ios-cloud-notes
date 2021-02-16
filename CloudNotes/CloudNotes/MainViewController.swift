@@ -7,10 +7,17 @@
 import UIKit
 
 class MainViewController: UIViewController {
+    
+    private let tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        return tableView
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setNavigation()
+        addSubView()
     }
     
     private func setNavigation() {
@@ -22,6 +29,10 @@ class MainViewController: UIViewController {
     @objc private func goToAddMemoVeiwController() {
        let addMemoViewController = AddMemoViewController()
         self.navigationController?.pushViewController(addMemoViewController, animated: true)
+    }
+    
+    private func addSubView() {
+        self.view.addSubview(tableView)
     }
 }
 

@@ -28,13 +28,14 @@ class ListCell: UITableViewCell {
         let contentsLabel = UILabel()
         contentsLabel.text = "testContents"
         contentsLabel.translatesAutoresizingMaskIntoConstraints = false
-        contentsLabel.tintColor = .darkGray
+        contentsLabel.textColor = .darkGray
         return contentsLabel
     }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         addContentView()
+        setAutoLayout()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -45,5 +46,22 @@ class ListCell: UITableViewCell {
         contentView.addSubview(titleLabel)
         contentView.addSubview(dateLabel)
         contentView.addSubview(contentsLabel)
+    }
+    
+    private func setAutoLayout() {
+        let margin: CGFloat = 10
+        
+        NSLayoutConstraint.activate([
+            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: margin),
+            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: margin),
+            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
+        
+            dateLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: margin),
+            dateLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: margin),
+            dateLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
+            
+            contentsLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
+            contentsLabel.leadingAnchor.constraint(equalTo: dateLabel.trailingAnchor, constant: 50)
+        ])
     }
 }

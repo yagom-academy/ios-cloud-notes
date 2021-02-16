@@ -11,7 +11,8 @@ class MemoSplitViewController: UISplitViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        let masterViewController = UINavigationController(rootViewController: MemoTableViewController())
+        let memoTableViewController = MemoTableViewController()
+        let masterViewController = UINavigationController(rootViewController: memoTableViewController)
         let detailViewController = MemoViewController()
         self.viewControllers = [masterViewController, detailViewController]
         self.preferredPrimaryColumnWidthFraction = 1/3

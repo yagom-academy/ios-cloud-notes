@@ -20,6 +20,8 @@ class MemoTableViewController: UIViewController {
         super.viewDidLoad()
         memoModel = MemoModel.getData()
         configureTableView()
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: nil)
+        navigationItem.title = "메모"
     }
 }
 

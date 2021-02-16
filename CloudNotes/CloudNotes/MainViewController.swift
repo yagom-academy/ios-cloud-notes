@@ -18,6 +18,7 @@ class MainViewController: UIViewController {
         super.viewDidLoad()
         setNavigation()
         addSubView()
+        setAutoLayout()
     }
     
     private func setNavigation() {
@@ -33,6 +34,16 @@ class MainViewController: UIViewController {
     
     private func addSubView() {
         self.view.addSubview(tableView)
+    }
+    
+    private func setAutoLayout() {
+        let safeArea = view.safeAreaLayoutGuide
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: safeArea.topAnchor),
+            tableView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
+        ])
     }
 }
 

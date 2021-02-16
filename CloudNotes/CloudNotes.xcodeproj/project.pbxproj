@@ -478,7 +478,11 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+<<<<<<< HEAD
 				PRODUCT_BUNDLE_IDENTIFIER = net.yagom.OpenMarket;
+=======
+				PRODUCT_BUNDLE_IDENTIFIER = net.yagom.CloudNotes;
+>>>>>>> 601e6e65fe0289e89f3a69579abe5aa025684476
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

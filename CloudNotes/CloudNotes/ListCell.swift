@@ -15,6 +15,7 @@ class ListCell: UITableViewCell {
         let titleLabel = UILabel()
         titleLabel.text = "testTitle"
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        titleLabel.font = UIFont.boldSystemFont(ofSize: 24)
         return titleLabel
     }()
     private let dateLabel: UILabel = {
@@ -27,6 +28,7 @@ class ListCell: UITableViewCell {
         let contentsLabel = UILabel()
         contentsLabel.text = "testContents"
         contentsLabel.translatesAutoresizingMaskIntoConstraints = false
+        contentsLabel.tintColor = .darkGray
         return contentsLabel
     }()
     

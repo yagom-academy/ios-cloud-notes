@@ -18,6 +18,7 @@
 		C7481C9325BBCF3A00B9CA55 /* CloudNotesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C9225BBCF3A00B9CA55 /* CloudNotesUITests.swift */; };
 		E2B0F1CB25DAB0F60027AFE6 /* NotesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2B0F1CA25DAB0F60027AFE6 /* NotesTableViewCell.swift */; };
 		E2B0F1D425DB4E5E0027AFE6 /* SampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2B0F1D325DB4E5E0027AFE6 /* SampleData.swift */; };
+		E2B0F1F525DBA9DF0027AFE6 /* JSONDecodingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2B0F1F425DBA9DF0027AFE6 /* JSONDecodingError.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +56,7 @@
 		C7481C9425BBCF3A00B9CA55 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E2B0F1CA25DAB0F60027AFE6 /* NotesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesTableViewCell.swift; sourceTree = "<group>"; };
 		E2B0F1D325DB4E5E0027AFE6 /* SampleData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleData.swift; sourceTree = "<group>"; };
+		E2B0F1F425DBA9DF0027AFE6 /* JSONDecodingError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONDecodingError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +109,7 @@
 			children = (
 				E2B0F1D225DB4D210027AFE6 /* Model */,
 				E2B0F1BC25DAAAE40027AFE6 /* ViewController */,
+				E2B0F1F325DBA96B0027AFE6 /* Error */,
 				C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */,
 				C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */,
 				C7481C7325BBCF3900B9CA55 /* Main.storyboard */,
@@ -159,6 +162,14 @@
 				E2B0F1D325DB4E5E0027AFE6 /* SampleData.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		E2B0F1F325DBA96B0027AFE6 /* Error */ = {
+			isa = PBXGroup;
+			children = (
+				E2B0F1F425DBA9DF0027AFE6 /* JSONDecodingError.swift */,
+			);
+			path = Error;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -292,6 +303,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C7481C7225BBCF3900B9CA55 /* NotesViewController.swift in Sources */,
+				E2B0F1F525DBA9DF0027AFE6 /* JSONDecodingError.swift in Sources */,
 				E2B0F1D425DB4E5E0027AFE6 /* SampleData.swift in Sources */,
 				C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */,
 				E2B0F1CB25DAB0F60027AFE6 /* NotesTableViewCell.swift in Sources */,
@@ -496,7 +508,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-                PRODUCT_BUNDLE_IDENTIFIER = net.yagom.CloudNotes;
+				PRODUCT_BUNDLE_IDENTIFIER = net.yagom.CloudNotes;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

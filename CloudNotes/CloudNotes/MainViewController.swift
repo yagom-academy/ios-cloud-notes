@@ -11,14 +11,14 @@ class MainViewController: UIViewController {
     private let tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.register(ListCell.self, forCellReuseIdentifier: ListCell.identifier)
         return tableView
     }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setNavigation()
-        addSubView()
-        setAutoLayout()
+        setTableView()
     }
     
     private func setNavigation() {
@@ -30,6 +30,19 @@ class MainViewController: UIViewController {
     @objc private func goToAddMemoVeiwController() {
        let addMemoViewController = AddMemoViewController()
         self.navigationController?.pushViewController(addMemoViewController, animated: true)
+    }
+    
+    private func setTableView() {
+        configure()
+        addSubView()
+        setAutoLayout()
+    }
+
+    private func configure() {
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = UITableView.automaticDimension
     }
     
     private func addSubView() {
@@ -47,3 +60,19 @@ class MainViewController: UIViewController {
     }
 }
 
+extension MainViewController: UITableViewDelegate {
+    
+}
+
+extension MainViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 10
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: ListCell.identifier, for: indexPath) as? ListCell else {
+            return UITableViewCell()
+        }
+        return cell
+    }
+}

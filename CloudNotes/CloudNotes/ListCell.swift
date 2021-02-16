@@ -9,10 +9,13 @@ import UIKit
 
 class ListCell: UITableViewCell {
     
+    static let identifier = "ListCell"
+    
     private let titleLabel: UILabel = {
         let titleLabel = UILabel()
         titleLabel.text = "testTitle"
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        titleLabel.font = UIFont.boldSystemFont(ofSize: 24)
         return titleLabel
     }()
     private let dateLabel: UILabel = {
@@ -25,12 +28,14 @@ class ListCell: UITableViewCell {
         let contentsLabel = UILabel()
         contentsLabel.text = "testContents"
         contentsLabel.translatesAutoresizingMaskIntoConstraints = false
+        contentsLabel.textColor = .darkGray
         return contentsLabel
     }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         addContentView()
+        setAutoLayout()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -41,5 +46,22 @@ class ListCell: UITableViewCell {
         contentView.addSubview(titleLabel)
         contentView.addSubview(dateLabel)
         contentView.addSubview(contentsLabel)
+    }
+    
+    private func setAutoLayout() {
+        let margin: CGFloat = 10
+        
+        NSLayoutConstraint.activate([
+            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: margin),
+            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: margin),
+            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -margin),
+        
+            dateLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: margin),
+            dateLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: margin),
+            dateLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -margin),
+            
+            contentsLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -margin),
+            contentsLabel.leadingAnchor.constraint(equalTo: dateLabel.trailingAnchor, constant: margin * 5)
+        ])
     }
 }

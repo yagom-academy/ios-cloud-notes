@@ -77,7 +77,7 @@ class MemoTableViewCell: UITableViewCell {
             dateLabel.text = "\(date)"
         }
         if let body = model?.body {
-            let bodyToShow = body.prefix(30)
+            let bodyToShow = body.prefix(50)
             describingLabel.text = "\(bodyToShow)"
         }
     }

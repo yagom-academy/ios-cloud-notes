@@ -9,7 +9,6 @@ import UIKit
 
 protocol MemoViewControllerDelegate {
     func setMemo(_ memo: String)
-    func getMemoViewController() -> MemoViewController
 }
 
 class MemoViewController: UIViewController {
@@ -44,8 +43,5 @@ extension MemoViewController: MemoViewControllerDelegate {
     func setMemo(_ memo: String) {
         memoTextView.text = memo
     }
-    
-    func getMemoViewController() -> MemoViewController {
-        return self
     }
 }

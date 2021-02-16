@@ -24,7 +24,7 @@
             </objects>
             <point key="canvasLocation" x="1259" y="1480"/>
         </scene>
-        <!--Root View Controller-->
+        <!--View Controller-->
         <scene sceneID="XHd-uZ-7Re">
             <objects>
                 <tableViewController clearsSelectionOnViewWillAppear="NO" id="urd-3x-0qY" customClass="ViewController" customModule="CloudNotes" customModuleProvider="target" sceneMemberID="viewController">
@@ -50,7 +50,7 @@
                             <outlet property="delegate" destination="urd-3x-0qY" id="VKC-eL-uLV"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Root View Controller" id="wpN-1R-ClF"/>
+                    <navigationItem key="navigationItem" id="wpN-1R-ClF"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RxA-9o-AVo" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

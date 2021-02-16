@@ -16,9 +16,6 @@ class MemoSplitViewController: UISplitViewController {
         self.viewControllers = [masterViewController]
         self.preferredPrimaryColumnWidthFraction = 1/3
         self.preferredDisplayMode = .oneBesideSecondary
-        if self.traitCollection.horizontalSizeClass == .compact {
-            self.show(masterViewController, sender: self)
-        }
     }
 
 }

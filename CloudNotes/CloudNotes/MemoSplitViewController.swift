@@ -14,6 +14,7 @@ class MemoSplitViewController: UISplitViewController {
         let memoTableViewController = MemoTableViewController()
         let masterViewController = UINavigationController(rootViewController: memoTableViewController)
         let detailViewController = MemoViewController()
+        memoTableViewController.memoViewControllerDelegate = detailViewController
         self.viewControllers = [masterViewController, detailViewController]
         self.preferredPrimaryColumnWidthFraction = 1/3
         self.preferredDisplayMode = .oneBesideSecondary

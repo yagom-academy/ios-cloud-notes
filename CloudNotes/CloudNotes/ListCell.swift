@@ -54,14 +54,14 @@ class ListCell: UITableViewCell {
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: margin),
             titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: margin),
-            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
+            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -margin),
         
             dateLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: margin),
             dateLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: margin),
-            dateLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
+            dateLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -margin),
             
-            contentsLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
-            contentsLabel.leadingAnchor.constraint(equalTo: dateLabel.trailingAnchor, constant: 50)
+            contentsLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -margin),
+            contentsLabel.leadingAnchor.constraint(equalTo: dateLabel.trailingAnchor, constant: margin * 5)
         ])
     }
 }

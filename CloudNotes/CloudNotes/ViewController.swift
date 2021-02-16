@@ -6,13 +6,21 @@
 
 import UIKit
 
-class ViewController: UIViewController {
-
+final class ViewController: UITableViewController {
+    private var memoList: [Memo] = []
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        decodeMemoData()
     }
-
-
+    
+    private func decodeMemoData() {
+        guard let dataAsset: NSDataAsset = NSDataAsset(name: "sample") else {
+            return
+        }
+        do {
+            self.memoList = try JSONDecoder().decode([Memo].self, from: dataAsset.data)
+        } catch {
+            print(error)
+        }
+    }
 }
-

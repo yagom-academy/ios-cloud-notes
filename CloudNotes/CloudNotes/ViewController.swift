@@ -47,6 +47,18 @@ final class ViewController: UITableViewController {
             self.tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let destinationNavigationController = segue.destination as? UINavigationController,
+              let detailViewController = destinationNavigationController.topViewController as? DetailViewController else {
+            return
+        }
+        guard let cellIndex = self.tableView.indexPathForSelectedRow?.row else {
+            return
+        }
+        detailViewController.memoTitle = memoList[cellIndex].title
+        detailViewController.memoBody = memoList[cellIndex].body
+    }
 }
 
 //MARK: extension TableView

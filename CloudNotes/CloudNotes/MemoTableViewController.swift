@@ -7,18 +7,42 @@
 
 import UIKit
 
-class MemoTableViewController: UITableViewController {
+class MemoTableViewController: UIViewController {
+    private let memoListTableView: UITableView = {
+        let tableView = UITableView()
+        tableView.register(MemoTableViewCell.self, forCellReuseIdentifier: MemoTableViewCell.reuseIdentifier)
+        return tableView
+    }()
+    var memoModel: [Memo]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        memoModel = MemoModel.getData()
+        configureTableView()
     }
+}
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        0
+//MARK: - TableView
+extension MemoTableViewController {
+    func configureTableView() {
+        memoListTableView.delegate = self
+        memoListTableView.dataSource = self
+        memoListTableView.frame = view.bounds
+        view.addSubview(memoListTableView)
+    }
+}
+
+//MARK: - UITableViewDelegate, UITableViewDataSource
+extension MemoTableViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return memoModel?.count ?? 0
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        UITableViewCell()
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: MemoTableViewCell.reuseIdentifier, for: indexPath) as? MemoTableViewCell else {
+            return UITableViewCell()
+        }
+        cell.configure(with: memoModel?[indexPath.row])
+        return cell
     }
-
 }

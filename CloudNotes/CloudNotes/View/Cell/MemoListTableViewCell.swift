@@ -1,9 +1,31 @@
 import UIKit
 
 class MemoListTableViewCell: UITableViewCell {
-    let titleLabel = UILabel()
-    let shortBodyLabel = UILabel()
-    let lastModifiedDateLabel = UILabel()
+    let titleLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.adjustsFontForContentSizeCategory = true
+        label.font = .preferredFont(forTextStyle: .body)
+        return label
+    }()
+    
+    let shortBodyLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.adjustsFontForContentSizeCategory = true
+        label.font = .preferredFont(forTextStyle: .caption2)
+        label.textColor = .gray
+        return label
+    }()
+    
+    let lastModifiedDateLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.adjustsFontForContentSizeCategory = true
+        label.font = .preferredFont(forTextStyle: .caption2)
+        return label
+    }()
+
     let contentsContainerView = UIView()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -11,7 +33,7 @@ class MemoListTableViewCell: UITableViewCell {
         
         self.accessoryType = .disclosureIndicator
         
-        configureContents()
+        configureContentsContainerView()
         setAutoLayout()
     }
     
@@ -19,22 +41,8 @@ class MemoListTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    private func configureContents() {
+    private func configureContentsContainerView() {
         contentsContainerView.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        shortBodyLabel.translatesAutoresizingMaskIntoConstraints = false
-        lastModifiedDateLabel.translatesAutoresizingMaskIntoConstraints = false
-        
-        titleLabel.adjustsFontForContentSizeCategory = true
-        shortBodyLabel.adjustsFontForContentSizeCategory = true
-        lastModifiedDateLabel.adjustsFontForContentSizeCategory = true
-        
-        titleLabel.font = .preferredFont(forTextStyle: .body)
-        shortBodyLabel.font = .preferredFont(forTextStyle: .callout)
-        shortBodyLabel.font = .preferredFont(forTextStyle: .callout)
-        
-        lastModifiedDateLabel.textColor = .gray
-        
         contentsContainerView.addSubview(titleLabel)
         contentsContainerView.addSubview(shortBodyLabel)
         contentsContainerView.addSubview(lastModifiedDateLabel)
@@ -43,8 +51,8 @@ class MemoListTableViewCell: UITableViewCell {
     
     private func setAutoLayout() {
         NSLayoutConstraint.activate([
-            contentsContainerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            contentsContainerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            contentsContainerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            contentsContainerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
             contentsContainerView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             contentsContainerView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.9),
             
@@ -56,18 +64,11 @@ class MemoListTableViewCell: UITableViewCell {
             lastModifiedDateLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
             lastModifiedDateLabel.bottomAnchor.constraint(equalTo: contentsContainerView.bottomAnchor),
             
+            shortBodyLabel.leadingAnchor.constraint(greaterThanOrEqualTo: lastModifiedDateLabel.trailingAnchor, constant: 40),
             shortBodyLabel.trailingAnchor.constraint(equalTo: contentsContainerView.trailingAnchor),
             shortBodyLabel.bottomAnchor.constraint(equalTo: contentsContainerView.bottomAnchor),
             shortBodyLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor)
         ])
-        
-        let bodyLabelLeadingConstraint = shortBodyLabel.leadingAnchor.constraint(greaterThanOrEqualTo: lastModifiedDateLabel.trailingAnchor, constant: 50)
-        bodyLabelLeadingConstraint.priority = .defaultHigh
-        bodyLabelLeadingConstraint.isActive = true
-        
-        let bodyLabelWidthConstraint = shortBodyLabel.widthAnchor.constraint(equalTo: contentsContainerView.widthAnchor, multiplier: 0.6)
-        bodyLabelWidthConstraint.priority = .defaultLow
-        bodyLabelLeadingConstraint.isActive = true
     }
     
     func setLabels(memo: Memo) {

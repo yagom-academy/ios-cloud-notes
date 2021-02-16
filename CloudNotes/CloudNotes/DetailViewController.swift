@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class DetailViewController: UIViewController {
+class DetailViewController: UIViewController {
     var memoTitle: String?
     var memoBody: String?
     private var memoBodyTextView: UITextView = {
@@ -35,7 +35,7 @@ final class DetailViewController: UIViewController {
         }
         let prefix = title
         let fontSize = UIFont.preferredFont(forTextStyle: .title1)
-        let attributedStr = NSMutableAttributedString(string: prefix + "\n\n" + body)
+        let attributedStr = NSMutableAttributedString(string: prefix + "\n\n" + body + "\n010-1234-5678\nyagomCamp@gmail.com\n")
         attributedStr.addAttribute(NSAttributedString.Key(rawValue: kCTFontAttributeName as String), value: fontSize, range: NSMakeRange(0, prefix.count))
         memoBodyTextView.attributedText = attributedStr
         

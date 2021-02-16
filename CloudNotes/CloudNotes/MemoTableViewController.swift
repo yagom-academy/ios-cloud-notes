@@ -57,7 +57,14 @@ extension MemoTableViewController: UITableViewDelegate, UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: MemoTableViewCell.reuseIdentifier, for: indexPath) as? MemoTableViewCell else {
             return UITableViewCell()
         }
+        cell.memoCellDelegate = self
         cell.configure(with: memoModel?[indexPath.row])
         return cell
+    }
+}
+
+extension MemoTableViewController: MemoTableViewCellDelegate {
+    func didTapNextButton() {
+        self.navigationController?.pushViewController(MemoViewController(), animated: true)
     }
 }

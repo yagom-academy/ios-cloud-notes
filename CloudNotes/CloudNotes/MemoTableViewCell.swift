@@ -3,9 +3,13 @@
 
 import UIKit
 
+protocol MemoTableViewCellDelegate: AnyObject {
+    func didTapNextButton()
+}
+
 class MemoTableViewCell: UITableViewCell {
     static let reuseIdentifier = String(describing: MemoTableViewCell.self)
-    
+    var memoCellDelegate: MemoTableViewCellDelegate?
     //MARK: - Views
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -56,6 +60,7 @@ class MemoTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupViews()
+        nextButton.addTarget(self, action: #selector(didTapNextButton), for: .touchUpInside)
     }
     
     required init?(coder: NSCoder) {
@@ -102,5 +107,10 @@ class MemoTableViewCell: UITableViewCell {
             memoListStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
         nextButton.setContentCompressionResistancePriority(.required, for: .horizontal)
+    }
+    
+    //MARK: - Actions
+    @objc private func didTapNextButton() {
+        memoCellDelegate?.didTapNextButton()
     }
 }

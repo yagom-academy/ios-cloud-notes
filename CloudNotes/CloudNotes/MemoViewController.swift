@@ -40,4 +40,12 @@ extension MemoViewController {
     }
 }
 
+extension MemoViewController: MemoViewControllerDelegate {
+    func setMemo(_ memo: String) {
+        memoTextView.text = memo
+    }
+    
+    func getMemoViewController() -> MemoViewController {
+        return self
+    }
 }

@@ -24,10 +24,10 @@
             </objects>
             <point key="canvasLocation" x="1259" y="1480"/>
         </scene>
-        <!--View Controller-->
+        <!--List View Controller-->
         <scene sceneID="XHd-uZ-7Re">
             <objects>
-                <tableViewController clearsSelectionOnViewWillAppear="NO" id="urd-3x-0qY" customClass="ViewController" customModule="CloudNotes" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController clearsSelectionOnViewWillAppear="NO" id="urd-3x-0qY" customClass="ListViewController" customModule="CloudNotes" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="o2V-aF-9Go">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -88,7 +88,6 @@
         <!--Navigation Controller-->
         <scene sceneID="6Qn-Tb-RS0">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="EXT-dw-jNl" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="wdV-64-cLk" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="h3J-Qd-5t3"/>
@@ -101,6 +100,7 @@
                         <segue destination="QJT-iv-4dr" kind="relationship" relationship="rootViewController" id="3Ke-6X-RQo"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="EXT-dw-jNl" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="382.60869565217394" y="1479.9107142857142"/>
         </scene>

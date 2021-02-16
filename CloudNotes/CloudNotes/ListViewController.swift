@@ -1,12 +1,12 @@
 //
-//  CloudNotes - ViewController.swift
+//  CloudNotes - ListViewController.swift
 //  Created by yagom.
 //  Copyright © yagom. All rights reserved.
 //
 
 import UIKit
 
-final class ViewController: UITableViewController {
+final class ListViewController: UITableViewController {
     private var memoList: [Memo] = []
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,7 +62,7 @@ final class ViewController: UITableViewController {
 }
 
 //MARK: extension TableView
-extension ViewController {
+extension ListViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return memoList.count
     }

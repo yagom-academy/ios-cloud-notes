@@ -14,6 +14,8 @@ class NotesViewController: UIViewController {
         super.viewDidLoad()
         configureTableView()
         decodeJSONFile()
+        self.view.backgroundColor = .white
+        self.navigationItem.title = "메모"
     }
     
     private func configureTableView() {

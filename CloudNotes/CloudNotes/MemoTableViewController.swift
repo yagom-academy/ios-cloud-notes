@@ -38,6 +38,7 @@ extension MemoTableViewController {
         view.addSubview(memoListTableView)
         configureConstraints()
     }
+    
     private func configureConstraints() {
         NSLayoutConstraint.activate([
             memoListTableView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -67,10 +68,8 @@ extension MemoTableViewController: UITableViewDelegate, UITableViewDataSource {
             return
         }
         let memo = memoModel[indexPath.row].body
-        if self.splitViewController?.traitCollection.horizontalSizeClass == .compact {
-            let memoViewController = memoViewControllerDelegate!.getMemoViewController()
-            self.splitViewController?.showDetailViewController(memoViewController, sender: nil)
-        }
-        memoViewControllerDelegate?.setMemo(memo)
+        let memoViewController = MemoViewController()
+        memoViewController.setMemo(memo)
+        self.splitViewController?.showDetailViewController(memoViewController, sender: nil)
     }
 }

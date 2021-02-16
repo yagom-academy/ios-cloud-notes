@@ -12,7 +12,7 @@ struct Memo: Decodable {
     let contents: String
     let lastModified: Date
     
-    enum Codingkeys: String, CodingKey {
+    enum CodingKeys: String, CodingKey {
         case title
         case contents = "body"
         case lastModified = "last_modified"

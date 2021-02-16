@@ -1,8 +1,12 @@
-//
-//  Extensions.swift
-//  CloudNotes
-//
-//  Created by 김호준 on 2021/02/16.
-//
-
 import Foundation
+
+extension DateFormatter {
+    func makeLocaleDateFormatter() -> DateFormatter {
+        let locale = Locale.preferredLanguages[0]
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: locale)
+        dateFormatter.dateStyle = .medium
+        dateFormatter.timeStyle = .none
+        return dateFormatter
+    }
+}

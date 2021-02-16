@@ -56,4 +56,16 @@ extension MemoTableViewController: UITableViewDelegate, UITableViewDataSource {
         cell.configure(with: memoModel?[indexPath.row])
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let memoModel = self.memoModel else {
+            return
+        }
+        let memo = memoModel[indexPath.row].body
+        if self.splitViewController?.traitCollection.horizontalSizeClass == .compact {
+            let memoViewController = memoViewControllerDelegate!.getMemoViewController()
+            self.splitViewController?.showDetailViewController(memoViewController, sender: nil)
+        }
+        memoViewControllerDelegate?.setMemo(memo)
+    }
 }

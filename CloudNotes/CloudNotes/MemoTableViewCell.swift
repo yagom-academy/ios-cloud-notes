@@ -71,8 +71,7 @@ class MemoTableViewCell: UITableViewCell {
         titleLabel.text = model?.title
         if let lastModified = model?.lastModified {
             let timeInterval = TimeInterval(lastModified)
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyyy. MM. dd"
+            let dateFormatter = DateFormatter().makeLocaleDateFormatter()
             let date = dateFormatter.string(from: Date(timeIntervalSince1970: timeInterval))
             dateLabel.text = "\(date)"
         }
@@ -104,3 +103,4 @@ class MemoTableViewCell: UITableViewCell {
         nextButton.setContentCompressionResistancePriority(.required, for: .horizontal)
     }
 }
+

@@ -17,8 +17,7 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setNavigation()
-        addSubView()
-        setAutoLayout()
+        setTableView()
     }
     
     private func setNavigation() {
@@ -30,6 +29,12 @@ class MainViewController: UIViewController {
     @objc private func goToAddMemoVeiwController() {
        let addMemoViewController = AddMemoViewController()
         self.navigationController?.pushViewController(addMemoViewController, animated: true)
+    }
+    
+    private func setTableView() {
+        configure()
+        addSubView()
+        setAutoLayout()
     }
 
     private func configure() {

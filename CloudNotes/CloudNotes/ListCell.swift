@@ -9,6 +9,8 @@ import UIKit
 
 class ListCell: UITableViewCell {
     
+    static let identifier = "ListCell"
+    
     private let titleLabel: UILabel = {
         let titleLabel = UILabel()
         titleLabel.text = "testTitle"

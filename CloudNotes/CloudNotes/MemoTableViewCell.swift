@@ -71,8 +71,14 @@ class MemoTableViewCell: UITableViewCell {
         titleLabel.text = model?.title
         if let lastModified = model?.lastModified {
             let timeInterval = TimeInterval(lastModified)
-            let date = Date(timeIntervalSince1970: timeInterval)
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy. MM. dd"
+            let date = dateFormatter.string(from: Date(timeIntervalSince1970: timeInterval))
             dateLabel.text = "\(date)"
+        }
+        if let body = model?.body {
+            let bodyToShow = body.prefix(30)
+            describingLabel.text = "\(bodyToShow)"
         }
     }
     

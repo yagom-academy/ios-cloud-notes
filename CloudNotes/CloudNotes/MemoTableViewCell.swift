@@ -3,28 +3,32 @@
 
 import UIKit
 
+protocol MemoTableViewCellDelegate: AnyObject {
+    func didTapNextButton()
+}
+
 class MemoTableViewCell: UITableViewCell {
     static let reuseIdentifier = String(describing: MemoTableViewCell.self)
-    
+    var memoCellDelegate: MemoTableViewCellDelegate?
     //MARK: - Views
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .body)
-        label.adjustsFontSizeToFitWidth = true
+        label.adjustsFontSizeToFitWidth = false
         label.textColor = .label
         return label
     }()
     private let dateLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .caption1)
-        label.adjustsFontSizeToFitWidth = true
+        label.adjustsFontSizeToFitWidth = false
         label.textColor = .label
         return label
     }()
     private let describingLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .caption1)
-        label.adjustsFontSizeToFitWidth = true
+        label.adjustsFontSizeToFitWidth = false
         label.textColor = .secondaryLabel
         label.text = "Describing Something"
         return label
@@ -56,6 +60,7 @@ class MemoTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupViews()
+        nextButton.addTarget(self, action: #selector(didTapNextButton), for: .touchUpInside)
     }
     
     required init?(coder: NSCoder) {
@@ -71,8 +76,14 @@ class MemoTableViewCell: UITableViewCell {
         titleLabel.text = model?.title
         if let lastModified = model?.lastModified {
             let timeInterval = TimeInterval(lastModified)
-            let date = Date(timeIntervalSince1970: timeInterval)
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy. MM. dd"
+            let date = dateFormatter.string(from: Date(timeIntervalSince1970: timeInterval))
             dateLabel.text = "\(date)"
+        }
+        if let body = model?.body {
+            let bodyToShow = body.prefix(50)
+            describingLabel.text = "\(bodyToShow)"
         }
     }
     
@@ -96,5 +107,10 @@ class MemoTableViewCell: UITableViewCell {
             memoListStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
         nextButton.setContentCompressionResistancePriority(.required, for: .horizontal)
+    }
+    
+    //MARK: - Actions
+    @objc private func didTapNextButton() {
+        memoCellDelegate?.didTapNextButton()
     }
 }

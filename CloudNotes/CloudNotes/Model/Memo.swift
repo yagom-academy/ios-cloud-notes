@@ -4,9 +4,9 @@ struct Memo: Codable {
     var title: String
     var body: String
     var lastModified: Int
-    var lastModifiedDate: Date {
-        let date = Date(timeIntervalSince1970: TimeInterval(lastModified))
-        return date
+    var lastModifiedDate: String {
+        let dateStr = Date(timeIntervalSince1970: TimeInterval(lastModified)).toStringWithDot()
+        return dateStr
     }
     
     enum CodingKeys: String, CodingKey {

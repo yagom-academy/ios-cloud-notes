@@ -82,7 +82,8 @@ extension Double {
         let date = Date(timeIntervalSince1970: self)
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "YYYY.MM.dd."
-        dateFormatter.timeZone = .current
+        dateFormatter.timeZone = .autoupdatingCurrent
+        dateFormatter.locale = .autoupdatingCurrent
         return dateFormatter.string(from: date)
     }
 }

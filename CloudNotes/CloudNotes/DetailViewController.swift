@@ -27,7 +27,11 @@ final class DetailViewController: UIViewController {
         guard let title = memoTitle, let body = memoBody else {
             return
         }
-        memoBodyTextView.text = "\(title)\n\n\(body)"
+        let prefix = title
+        let fontSize = UIFont.preferredFont(forTextStyle: .title1)
+        let attributedStr = NSMutableAttributedString(string: prefix + "\n\n" + body)
+        attributedStr.addAttribute(NSAttributedString.Key(rawValue: kCTFontAttributeName as String), value: fontSize, range: NSMakeRange(0, prefix.count))
+        memoBodyTextView.attributedText = attributedStr
         
         NSLayoutConstraint.activate([
             memoBodyTextView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),

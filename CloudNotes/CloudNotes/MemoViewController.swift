@@ -7,6 +7,11 @@
 
 import UIKit
 
+protocol MemoViewControllerDelegate {
+    func setMemo(_ memo: String)
+    func getMemoViewController() -> MemoViewController
+}
+
 class MemoViewController: UIViewController {
 
     override func viewDidLoad() {

@@ -53,7 +53,9 @@ extension ViewController: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: MemoListCell.identifier, for: indexPath) as? MemoListCell else {
             return UITableViewCell()
         }
-      
+        cell.dateLabel.text = "testDate \(indexPath.row)"
+        cell.predescriptionLabel.text = "testPredescription \(indexPath.row)"
+        cell.titleLabel.text = "testTitleLabel \(indexPath.row)"
         return cell
     }
     

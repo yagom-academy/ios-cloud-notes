@@ -21,6 +21,11 @@ class MemoTableViewController: UIViewController {
         super.viewDidLoad()
         memoModel = MemoModel.getData()
         configureTableView()
+        setupNavigationItem()
+    }
+    private func setupNavigationItem() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: nil)
+        navigationItem.title = "메모"
     }
 }
 
@@ -54,6 +59,7 @@ extension MemoTableViewController: UITableViewDelegate, UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: MemoTableViewCell.reuseIdentifier, for: indexPath) as? MemoTableViewCell else {
             return UITableViewCell()
         }
+        cell.memoCellDelegate = self
         cell.configure(with: memoModel?[indexPath.row])
         return cell
     }
@@ -66,5 +72,11 @@ extension MemoTableViewController: UITableViewDelegate, UITableViewDataSource {
         let memoViewController = MemoViewController()
         memoViewController.setMemo(memo)
         self.splitViewController?.showDetailViewController(memoViewController, sender: nil)
+    }
+}
+
+extension MemoTableViewController: MemoTableViewCellDelegate {
+    func didTapNextButton() {
+        self.navigationController?.pushViewController(MemoViewController(), animated: true)
     }
 }

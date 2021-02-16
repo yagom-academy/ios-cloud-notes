@@ -13,7 +13,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } else {
             window = UIWindow()
             let rootViewController = MemoListTableViewController()
-            window?.rootViewController = rootViewController
+            window?.rootViewController = UINavigationController(rootViewController: rootViewController)
             window?.makeKeyAndVisible()
         }
 

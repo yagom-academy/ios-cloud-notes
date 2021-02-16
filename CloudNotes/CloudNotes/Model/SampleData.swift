@@ -10,10 +10,19 @@ import Foundation
 struct SampleData: Decodable {
     let title: String
     let body: String
-    let lastModifiedDate: Int
+    let timeStamp: Double
     
     enum CodingKeys: String, CodingKey {
         case title, body
-        case lastModifiedDate = "last_modified"
+        case timeStamp = "last_modified"
+    }
+    
+    func convertFormatToString() -> String {
+        let lastModifiedDate = Date(timeIntervalSince1970: timeStamp)
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .medium
+        dateFormatter.timeStyle = .none
+        dateFormatter.locale = Locale.current
+        return dateFormatter.string(from: lastModifiedDate)
     }
 }

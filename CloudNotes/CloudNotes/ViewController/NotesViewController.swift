@@ -69,7 +69,7 @@ extension NotesViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         cell.titleLabel.text = sampleData[indexPath.row].title
-        cell.lastModifiedDateLabel.text = "\(sampleData[indexPath.row].lastModifiedDate)"
+        cell.lastModifiedDateLabel.text = sampleData[indexPath.row].convertFormatToString()
         cell.bodyLabel.text = sampleData[indexPath.row].body
         return cell
     }

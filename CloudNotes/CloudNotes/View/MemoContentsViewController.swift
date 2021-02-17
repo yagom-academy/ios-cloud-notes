@@ -6,7 +6,6 @@ class MemoContentsViewController: UIViewController {
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.adjustsFontForContentSizeCategory = true
         textView.dataDetectorTypes = .all
-        textView.font = .preferredFont(forTextStyle: .body)
         return textView
     }()
     

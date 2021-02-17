@@ -12,7 +12,6 @@ class NoteViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureTableView()
-        SampleDataJSONDecoder.shared.decodeJSONFile()
         self.view.backgroundColor = .white
         configureNavigationItem()
     }
@@ -47,18 +46,17 @@ class NoteViewController: UIViewController {
 // MARK: - TableView DataSource
 extension NoteViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return SampleDataJSONDecoder.shared.decodedDatas.count
+        return NoteData.shared.notesLists.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: NotesTableViewCell.identifier, for: indexPath) as? NotesTableViewCell else {
             return UITableViewCell()
         }
-
-        let sampleData = SampleDataJSONDecoder.shared.decodedDatas
-        cell.titleLabel.text = sampleData[indexPath.row].title
-        cell.lastModifiedDateLabel.text = sampleData[indexPath.row].convertFormatToString()
-        cell.bodyLabel.text = sampleData[indexPath.row].body
+        let noteLists = NoteData.shared.notesLists
+        cell.titleLabel.text = noteLists[indexPath.row].title
+        cell.lastModifiedDateLabel.text = noteLists[indexPath.row].convertFormatToString()
+        cell.bodyLabel.text = noteLists[indexPath.row].body
         return cell
     }
 }

@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */; };
 		C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */; };
-		C7481C7225BBCF3900B9CA55 /* NotesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C7125BBCF3900B9CA55 /* NotesViewController.swift */; };
+		C7481C7225BBCF3900B9CA55 /* NoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C7125BBCF3900B9CA55 /* NoteViewController.swift */; };
 		C7481C7825BBCF3900B9CA55 /* CloudNotes.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C7481C7625BBCF3900B9CA55 /* CloudNotes.xcdatamodeld */; };
 		C7481C7A25BBCF3A00B9CA55 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C7481C7925BBCF3A00B9CA55 /* Assets.xcassets */; };
 		C7481C7D25BBCF3A00B9CA55 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C7481C7B25BBCF3A00B9CA55 /* LaunchScreen.storyboard */; };
@@ -19,6 +19,7 @@
 		E2B0F1D425DB4E5E0027AFE6 /* SampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2B0F1D325DB4E5E0027AFE6 /* SampleData.swift */; };
 		E2B0F1F525DBA9DF0027AFE6 /* JSONDecodingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2B0F1F425DBA9DF0027AFE6 /* JSONDecodingError.swift */; };
 		E2B0F21225DCEB0D0027AFE6 /* NewNoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2B0F21125DCEB0D0027AFE6 /* NewNoteViewController.swift */; };
+		E2B0F21D25DD5E5A0027AFE6 /* NoteData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2B0F21C25DD5E5A0027AFE6 /* NoteData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,7 +43,7 @@
 		C7481C6A25BBCF3900B9CA55 /* CloudNotes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CloudNotes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		C7481C7125BBCF3900B9CA55 /* NotesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesViewController.swift; sourceTree = "<group>"; };
+		C7481C7125BBCF3900B9CA55 /* NoteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteViewController.swift; sourceTree = "<group>"; };
 		C7481C7725BBCF3900B9CA55 /* CloudNotes.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CloudNotes.xcdatamodel; sourceTree = "<group>"; };
 		C7481C7925BBCF3A00B9CA55 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C7481C7C25BBCF3A00B9CA55 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -57,6 +58,7 @@
 		E2B0F1D325DB4E5E0027AFE6 /* SampleData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleData.swift; sourceTree = "<group>"; };
 		E2B0F1F425DBA9DF0027AFE6 /* JSONDecodingError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONDecodingError.swift; sourceTree = "<group>"; };
 		E2B0F21125DCEB0D0027AFE6 /* NewNoteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewNoteViewController.swift; sourceTree = "<group>"; };
+		E2B0F21C25DD5E5A0027AFE6 /* NoteData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -141,7 +143,7 @@
 		E2B0F1BC25DAAAE40027AFE6 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
-				C7481C7125BBCF3900B9CA55 /* NotesViewController.swift */,
+				C7481C7125BBCF3900B9CA55 /* NoteViewController.swift */,
 				E2B0F21125DCEB0D0027AFE6 /* NewNoteViewController.swift */,
 				E2B0F1BD25DAAAFD0027AFE6 /* CustomCell */,
 			);
@@ -160,6 +162,7 @@
 			isa = PBXGroup;
 			children = (
 				E2B0F1D325DB4E5E0027AFE6 /* SampleData.swift */,
+				E2B0F21C25DD5E5A0027AFE6 /* NoteData.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -301,7 +304,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C7481C7225BBCF3900B9CA55 /* NotesViewController.swift in Sources */,
+				E2B0F21D25DD5E5A0027AFE6 /* NoteData.swift in Sources */,
+				C7481C7225BBCF3900B9CA55 /* NoteViewController.swift in Sources */,
 				E2B0F1F525DBA9DF0027AFE6 /* JSONDecodingError.swift in Sources */,
 				E2B0F1D425DB4E5E0027AFE6 /* SampleData.swift in Sources */,
 				C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */,

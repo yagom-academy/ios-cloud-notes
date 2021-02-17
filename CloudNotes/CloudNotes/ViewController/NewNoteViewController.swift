@@ -21,10 +21,6 @@ class NewNoteViewController: UIViewController {
         noteTextView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(noteTextView)
         noteTextView.font = .preferredFont(forTextStyle: .body)
-        noteTextView.isEditable = true
-        noteTextView.isSelectable = true
-        noteTextView.dataDetectorTypes = .all
-        noteTextView.text = "Phone: 000-111-2222 \n Email: sample@gmail.com \n URL: https://www.naver.com"
         
         let safeArea = view.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
@@ -41,6 +37,7 @@ class NewNoteViewController: UIViewController {
     }
     
     @objc func touchUpCompleteButton() {
+        //이걸해야되는게 아니고 데이터를 전달해서 모델에 append해서 나타내야함
         noteTextView.isEditable = false
     }
 }

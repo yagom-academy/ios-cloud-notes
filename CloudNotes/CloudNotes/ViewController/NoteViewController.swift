@@ -6,7 +6,7 @@
 
 import UIKit
 
-class NotesViewController: UIViewController {
+class NoteViewController: UIViewController {
     private let tableView = UITableView()
     private var sampleData: [SampleData] = []
     
@@ -68,15 +68,20 @@ class NotesViewController: UIViewController {
 }
 
 // MARK: - TableView DataSource
-extension NotesViewController: UITableViewDataSource {
+extension NoteViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return sampleData.count
+//        return NoteData.shared.notesLists.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: NotesTableViewCell.identifier, for: indexPath) as? NotesTableViewCell else {
             return UITableViewCell()
         }
+//        let noteLists = NoteData.shared.notesLists
+//        cell.titleLabel.text = noteLists[indexPath.row].title
+//        cell.lastModifiedDateLabel.text = sampleData[indexPath.row].convertFormatToString()
+//        cell.bodyLabel.text = sampleData[indexPath.row].body
         cell.titleLabel.text = sampleData[indexPath.row].title
         cell.lastModifiedDateLabel.text = sampleData[indexPath.row].convertFormatToString()
         cell.bodyLabel.text = sampleData[indexPath.row].body

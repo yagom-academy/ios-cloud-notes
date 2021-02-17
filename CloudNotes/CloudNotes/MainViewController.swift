@@ -8,6 +8,8 @@ import UIKit
 
 class MainViewController: UIViewController {
     
+    private var memoList: [Memo] = []
+    
     private let tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -33,9 +35,21 @@ class MainViewController: UIViewController {
     }
     
     private func setTableView() {
+        decodeMemo()
         configure()
         addSubView()
         setAutoLayout()
+    }
+    
+    private func decodeMemo() {
+        let jsonDecoder = JSONDecoder()
+        guard let assetData: NSDataAsset = NSDataAsset(name: "sample") else {
+            return
+        }
+        guard let memo = try? jsonDecoder.decode([Memo].self, from: assetData.data) else {
+            return
+        }
+        memoList = memo
     }
 
     private func configure() {
@@ -66,13 +80,15 @@ extension MainViewController: UITableViewDelegate {
 
 extension MainViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return memoList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: ListCell.identifier, for: indexPath) as? ListCell else {
             return UITableViewCell()
         }
+        let memoListInfo = memoList[indexPath.row]
+        cell.updateCell(info: memoListInfo)
         return cell
     }
 }

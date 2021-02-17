@@ -18,6 +18,7 @@
 		C7481C9325BBCF3A00B9CA55 /* CloudNotesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C9225BBCF3A00B9CA55 /* CloudNotesUITests.swift */; };
 		EA952B1B25DBA89500D3D921 /* ListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA952B1A25DBA89500D3D921 /* ListCell.swift */; };
 		FD64A83F25DB97270098C7D7 /* AddMemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD64A83E25DB97270098C7D7 /* AddMemoViewController.swift */; };
+		FD64A85D25DC08B80098C7D7 /* Memo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD64A85C25DC08B80098C7D7 /* Memo.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +56,7 @@
 		C7481C9425BBCF3A00B9CA55 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EA952B1A25DBA89500D3D921 /* ListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCell.swift; sourceTree = "<group>"; };
 		FD64A83E25DB97270098C7D7 /* AddMemoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMemoViewController.swift; sourceTree = "<group>"; };
+		FD64A85C25DC08B80098C7D7 /* Memo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memo.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +109,7 @@
 			children = (
 				C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */,
 				C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */,
+				FD64A85C25DC08B80098C7D7 /* Memo.swift */,
 				EA952B1A25DBA89500D3D921 /* ListCell.swift */,
 				C7481C7125BBCF3900B9CA55 /* MainViewController.swift */,
 				FD64A83E25DB97270098C7D7 /* AddMemoViewController.swift */,
@@ -267,6 +270,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FD64A85D25DC08B80098C7D7 /* Memo.swift in Sources */,
 				C7481C7225BBCF3900B9CA55 /* MainViewController.swift in Sources */,
 				FD64A83F25DB97270098C7D7 /* AddMemoViewController.swift in Sources */,
 				C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */,

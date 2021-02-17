@@ -8,6 +8,8 @@ import UIKit
 
 class ListViewController: UIViewController {
     let tableView = UITableView()
+    let contentViewController = ContentViewController()
+    var delegate: SendingDataDelegate?
     lazy var addMemoButton: UIBarButtonItem = {
         let button =  UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonTapped(_:)))
         return button
@@ -19,6 +21,13 @@ class ListViewController: UIViewController {
         setUpTableView()
         setUpNavigationBar()
         decodeMemoList()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+           if let selectedIndexPath = tableView.indexPathForSelectedRow {
+               tableView.deselectRow(at: selectedIndexPath, animated: animated)
+           }
     }
     
     private func setUpTableView() {
@@ -75,7 +84,12 @@ extension ListViewController: UITableViewDataSource {
     }
 }
 extension ListViewController: UITableViewDelegate {
-    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let selectedMemo = memoList[indexPath.row]
+        self.delegate = contentViewController
+        delegate?.matchData(with: selectedMemo)
+        self.navigationController?.pushViewController(contentViewController, animated: true)
+    }
 }
 extension Double {
     func convertToDate() -> String {

@@ -26,7 +26,7 @@ class MemoListTableViewController: UITableViewController {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "MemoCell") as? MemoListTableViewCell else {
             return UITableViewCell()
         }
-        cell.setLabels(memo: memoList[indexPath.row])
+        cell.receiveLabelsText(memo: memoList[indexPath.row])
         
         return cell
     }

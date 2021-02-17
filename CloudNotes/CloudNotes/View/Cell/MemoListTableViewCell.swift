@@ -1,7 +1,7 @@
 import UIKit
 
 class MemoListTableViewCell: UITableViewCell {
-    let titleLabel: UILabel = {
+    let listTitleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.adjustsFontForContentSizeCategory = true
@@ -9,7 +9,7 @@ class MemoListTableViewCell: UITableViewCell {
         return label
     }()
     
-    let shortBodyLabel: UILabel = {
+    let listShortBodyLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.adjustsFontForContentSizeCategory = true
@@ -18,7 +18,7 @@ class MemoListTableViewCell: UITableViewCell {
         return label
     }()
     
-    let lastModifiedDateLabel: UILabel = {
+    let listLastModifiedDateLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.adjustsFontForContentSizeCategory = true
@@ -34,7 +34,7 @@ class MemoListTableViewCell: UITableViewCell {
         self.accessoryType = .disclosureIndicator
         
         configureContentsContainerView()
-        setAutoLayout()
+        configureAutoLayout()
     }
     
     required init?(coder: NSCoder) {
@@ -43,37 +43,37 @@ class MemoListTableViewCell: UITableViewCell {
 
     private func configureContentsContainerView() {
         contentsContainerView.translatesAutoresizingMaskIntoConstraints = false
-        contentsContainerView.addSubview(titleLabel)
-        contentsContainerView.addSubview(shortBodyLabel)
-        contentsContainerView.addSubview(lastModifiedDateLabel)
+        contentsContainerView.addSubview(listTitleLabel)
+        contentsContainerView.addSubview(listShortBodyLabel)
+        contentsContainerView.addSubview(listLastModifiedDateLabel)
         contentView.addSubview(contentsContainerView)
     }
     
-    private func setAutoLayout() {
+    private func configureAutoLayout() {
         NSLayoutConstraint.activate([
             contentsContainerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             contentsContainerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
             contentsContainerView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             contentsContainerView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.9),
             
-            titleLabel.leadingAnchor.constraint(equalTo: contentsContainerView.leadingAnchor),
-            titleLabel.trailingAnchor.constraint(equalTo: contentsContainerView.trailingAnchor),
-            titleLabel.topAnchor.constraint(equalTo: contentsContainerView.topAnchor),
+            listTitleLabel.leadingAnchor.constraint(equalTo: contentsContainerView.leadingAnchor),
+            listTitleLabel.trailingAnchor.constraint(equalTo: contentsContainerView.trailingAnchor),
+            listTitleLabel.topAnchor.constraint(equalTo: contentsContainerView.topAnchor),
             
-            lastModifiedDateLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
-            lastModifiedDateLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
-            lastModifiedDateLabel.bottomAnchor.constraint(equalTo: contentsContainerView.bottomAnchor),
+            listLastModifiedDateLabel.leadingAnchor.constraint(equalTo: listTitleLabel.leadingAnchor),
+            listLastModifiedDateLabel.topAnchor.constraint(equalTo: listTitleLabel.bottomAnchor),
+            listLastModifiedDateLabel.bottomAnchor.constraint(equalTo: contentsContainerView.bottomAnchor),
             
-            shortBodyLabel.leadingAnchor.constraint(greaterThanOrEqualTo: lastModifiedDateLabel.trailingAnchor, constant: 40),
-            shortBodyLabel.trailingAnchor.constraint(equalTo: contentsContainerView.trailingAnchor),
-            shortBodyLabel.bottomAnchor.constraint(equalTo: contentsContainerView.bottomAnchor),
-            shortBodyLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor)
+            listShortBodyLabel.leadingAnchor.constraint(greaterThanOrEqualTo: listLastModifiedDateLabel.trailingAnchor, constant: 40),
+            listShortBodyLabel.trailingAnchor.constraint(equalTo: contentsContainerView.trailingAnchor),
+            listShortBodyLabel.bottomAnchor.constraint(equalTo: contentsContainerView.bottomAnchor),
+            listShortBodyLabel.topAnchor.constraint(equalTo: listTitleLabel.bottomAnchor)
         ])
     }
     
-    func setLabels(memo: Memo) {
-        titleLabel.text = memo.title
-        shortBodyLabel.text = memo.body
-        lastModifiedDateLabel.text = memo.lastModifiedDate
+    func receiveLabelsText(memo: Memo) {
+        listTitleLabel.text = memo.title
+        listShortBodyLabel.text = memo.body
+        listLastModifiedDateLabel.text = memo.lastModifiedDate
     }
 }

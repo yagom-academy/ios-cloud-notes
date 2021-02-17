@@ -8,7 +8,7 @@ import UIKit
 
 class NotesViewController: UIViewController {
     private let tableView = UITableView()
-    var sampleData: [SampleData] = []
+    private var sampleData: [SampleData] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,7 +33,7 @@ class NotesViewController: UIViewController {
         ])
     }
     
-    func decodeJSONFile() {
+    private func decodeJSONFile() {
         let jsonDecoder: JSONDecoder = JSONDecoder()
         let dataAssetName: String = "sample"
         guard let dataAsset: NSDataAsset = NSDataAsset.init(name: dataAssetName) else {

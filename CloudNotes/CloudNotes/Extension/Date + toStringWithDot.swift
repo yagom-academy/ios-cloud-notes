@@ -2,7 +2,7 @@ import Foundation
 
 extension Date {
     func toStringWithDot() -> String {
-        let currentLocale = Locale.current.regionCode ?? "ko_KR"
+        let currentLocale = Locale.current.collatorIdentifier ?? "ko_KR"
         let dateFormatter = DateFormatter()
         
         dateFormatter.locale = Locale(identifier: currentLocale)

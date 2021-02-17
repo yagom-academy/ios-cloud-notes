@@ -12,7 +12,7 @@ extension Int {
         static let utcFormatter: DateFormatter = {
             let dateFormatter = DateFormatter()
             dateFormatter.timeZone = TimeZone.autoupdatingCurrent
-            dateFormatter.locale = NSLocale.current
+            dateFormatter.locale = Locale.autoupdatingCurrent
             dateFormatter.dateFormat = "yyyy.MM.dd"
             
             return dateFormatter

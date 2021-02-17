@@ -109,18 +109,11 @@
 		C7481C6C25BBCF3900B9CA55 /* CloudNotes */ = {
 			isa = PBXGroup;
 			children = (
-				C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */,
-				C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */,
-				FD64A85C25DC08B80098C7D7 /* Memo.swift */,
-				EA952B1A25DBA89500D3D921 /* ListCell.swift */,
-				C7481C7125BBCF3900B9CA55 /* MainViewController.swift */,
-				FD64A83E25DB97270098C7D7 /* AddMemoViewController.swift */,
-				C7481C7325BBCF3900B9CA55 /* Main.storyboard */,
-				C7481C7925BBCF3A00B9CA55 /* Assets.xcassets */,
-				C7481C7B25BBCF3A00B9CA55 /* LaunchScreen.storyboard */,
 				C7481C7E25BBCF3A00B9CA55 /* Info.plist */,
-				C7481C7625BBCF3900B9CA55 /* CloudNotes.xcdatamodeld */,
-				EAAB4C4A25DD43C40020B13E /* IntExtension.swift */,
+				FD5DBA8625DD89E0005459A9 /* SupportingFiles */,
+				FD5DBA8525DD89B3005459A9 /* View */,
+				FD5DBA8225DD8902005459A9 /* Controller */,
+				FD5DBA8325DD8966005459A9 /* Model */,
 			);
 			path = CloudNotes;
 			sourceTree = "<group>";
@@ -141,6 +134,45 @@
 				C7481C9425BBCF3A00B9CA55 /* Info.plist */,
 			);
 			path = CloudNotesUITests;
+			sourceTree = "<group>";
+		};
+		FD5DBA8225DD8902005459A9 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				C7481C7125BBCF3900B9CA55 /* MainViewController.swift */,
+				FD64A83E25DB97270098C7D7 /* AddMemoViewController.swift */,
+				EAAB4C4A25DD43C40020B13E /* IntExtension.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		FD5DBA8325DD8966005459A9 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				FD64A85C25DC08B80098C7D7 /* Memo.swift */,
+				EA952B1A25DBA89500D3D921 /* ListCell.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		FD5DBA8525DD89B3005459A9 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				C7481C7325BBCF3900B9CA55 /* Main.storyboard */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		FD5DBA8625DD89E0005459A9 /* SupportingFiles */ = {
+			isa = PBXGroup;
+			children = (
+				C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */,
+				C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */,
+				C7481C7925BBCF3A00B9CA55 /* Assets.xcassets */,
+				C7481C7B25BBCF3A00B9CA55 /* LaunchScreen.storyboard */,
+				C7481C7625BBCF3900B9CA55 /* CloudNotes.xcdatamodeld */,
+			);
+			path = SupportingFiles;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

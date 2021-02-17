@@ -25,7 +25,7 @@ class MainViewController: UIViewController {
     
     private func setNavigation() {
         self.title = "메모"
-        self.view.backgroundColor = .gray
+        self.view.backgroundColor = .white
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: #selector(goToAddMemoVeiwController))
     }
     

@@ -1,7 +1,6 @@
 import UIKit
 
 class MemoContentsViewController: UIViewController {
-
     private var memoTextView: UITextView = {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
@@ -14,12 +13,16 @@ class MemoContentsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .white
-        view.addSubview(memoTextView)
-        setAutoLayout()
+        configureView()
+        configureAutoLayout()
     }
     
-    private func setAutoLayout() {
+    private func configureView() {
+        view.backgroundColor = .white
+        view.addSubview(memoTextView)
+    }
+    
+    private func configureAutoLayout() {
         NSLayoutConstraint.activate([
             memoTextView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             memoTextView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
@@ -28,7 +31,7 @@ class MemoContentsViewController: UIViewController {
         ])
     }
     
-    func setText(memo: Memo) {
+    func receiveText(memo: Memo) {
         self.memoTextView.text = memo.title + "\n" + "\n" + memo.body
     }
 }

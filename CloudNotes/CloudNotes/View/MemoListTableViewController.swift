@@ -38,6 +38,6 @@ extension MemoListTableViewController {
         let memoContentsViewController = MemoContentsViewController()
         navigationController?.pushViewController(memoContentsViewController, animated: true)
         
-        memoContentsViewController.setText(memo: memoList[indexPath.row])
+        memoContentsViewController.receiveText(memo: memoList[indexPath.row])
     }
 }

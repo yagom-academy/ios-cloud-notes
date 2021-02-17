@@ -8,8 +8,7 @@ class MemoListTableViewController: UITableViewController {
         
         tableView.register(MemoListTableViewCell.self, forCellReuseIdentifier: "MemoCell")
         
-        let data = NSDataAsset(name: "sample")
-        memoList = try! JSONDecoder().decode([Memo].self, from: data!.data)
+        decodeJSONToMemoList(fileName: "sample")
         
         setNavigationBar()
     }
@@ -39,5 +38,34 @@ extension MemoListTableViewController {
         navigationController?.pushViewController(memoContentsViewController, animated: true)
         
         memoContentsViewController.receiveText(memo: memoList[indexPath.row])
+    }
+}
+
+// MARK: JSONDecoding
+extension MemoListTableViewController {
+    func decodeJSONToMemoList(fileName: String) {
+        guard let dataAsset: NSDataAsset = NSDataAsset.init(name: fileName) else {
+            return
+        }
+        let jsonDecoder: JSONDecoder = JSONDecoder()
+        do {
+            let decodeData = try jsonDecoder.decode([Memo].self, from: dataAsset.data)
+            memoList = decodeData
+        } catch {
+            showAlertMessage(MemoAppError.system.message)
+        }
+    }
+}
+
+// MARK: Alert
+extension MemoListTableViewController {
+    func showAlertMessage(_ message: String) {
+        let alert = UIAlertController(title: nil, message: message, preferredStyle: UIAlertController.Style.alert)
+        
+        let okAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+        
+        alert.addAction(okAction)
+        
+        present(alert, animated: true, completion: nil)
     }
 }

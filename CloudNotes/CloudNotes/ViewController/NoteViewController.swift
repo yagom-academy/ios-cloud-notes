@@ -46,14 +46,14 @@ class NoteViewController: UIViewController {
 // MARK: - TableView DataSource
 extension NoteViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return NoteData.shared.notesLists.count
+        return NoteData.shared.noteLists.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: NotesTableViewCell.identifier, for: indexPath) as? NotesTableViewCell else {
             return UITableViewCell()
         }
-        let noteLists = NoteData.shared.notesLists
+        let noteLists = NoteData.shared.noteLists
         cell.titleLabel.text = noteLists[indexPath.row].title
         cell.lastModifiedDateLabel.text = noteLists[indexPath.row].convertFormatToString()
         cell.bodyLabel.text = noteLists[indexPath.row].body

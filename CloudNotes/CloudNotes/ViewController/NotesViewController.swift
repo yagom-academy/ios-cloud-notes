@@ -15,7 +15,7 @@ class NotesViewController: UIViewController {
         configureTableView()
         decodeJSONFile()
         self.view.backgroundColor = .white
-        self.navigationItem.title = "메모"
+        configureNavigationItem()
     }
     
     private func configureTableView() {
@@ -53,6 +53,16 @@ class NotesViewController: UIViewController {
         } catch {
             debugPrint(JSONDecodingError.unknown.errorDescription!)
         }
+    }
+    
+    private func configureNavigationItem() {
+        self.navigationItem.title = "메모"
+        let addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.add, target: self, action: #selector(touchUpAddButton))
+        self.navigationItem.rightBarButtonItem = addButton
+    }
+    
+    @objc func touchUpAddButton() {
+        
     }
 }
 

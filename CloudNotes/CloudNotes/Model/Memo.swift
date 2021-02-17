@@ -1,9 +1,9 @@
 import Foundation
 
-struct Memo: Codable {
+struct Memo: Decodable {
     var title: String
     var body: String
-    var lastModified: Int
+    private var lastModified: Int
     var lastModifiedDate: String {
         let dateStr = Date(timeIntervalSince1970: TimeInterval(lastModified)).toStringWithDot()
         return dateStr

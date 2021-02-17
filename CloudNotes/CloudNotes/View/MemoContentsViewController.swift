@@ -32,6 +32,14 @@ class MemoContentsViewController: UIViewController {
     }
     
     func receiveText(memo: Memo) {
-        self.memoTextView.text = memo.title + "\n" + "\n" + memo.body
+        let title = memo.title
+        let body = "\n" + "\n" + memo.body
+        let titleFontSize = UIFont.preferredFont(forTextStyle: .largeTitle)
+        let bodyFontSize = UIFont.preferredFont(forTextStyle: .body)
+        
+        let attributedText = NSMutableAttributedString(string: title, attributes: [.font: titleFontSize])
+        attributedText.append(NSAttributedString(string: body, attributes: [.font: bodyFontSize]))
+        
+        memoTextView.attributedText = attributedText
     }
 }

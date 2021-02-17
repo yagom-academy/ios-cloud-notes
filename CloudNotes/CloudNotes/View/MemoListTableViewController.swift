@@ -16,7 +16,6 @@ class MemoListTableViewController: UITableViewController {
     
     private func setNavigationBar() {
         navigationItem.title = "메모"
-//        navigationItem.rightBarButtonItem
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

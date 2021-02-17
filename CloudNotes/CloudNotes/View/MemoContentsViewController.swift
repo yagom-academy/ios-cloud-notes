@@ -7,6 +7,7 @@ class MemoContentsViewController: UIViewController {
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.adjustsFontForContentSizeCategory = true
         textView.dataDetectorTypes = .all
+        textView.font = .preferredFont(forTextStyle: .body)
         return textView
     }()
     
@@ -28,6 +29,6 @@ class MemoContentsViewController: UIViewController {
     }
     
     func setText(memo: Memo) {
-        self.memoTextView.text = memo.title + memo.body
+        self.memoTextView.text = memo.title + "\n" + "\n" + memo.body
     }
 }

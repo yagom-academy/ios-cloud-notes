@@ -20,6 +20,11 @@ class NewNoteViewController: UIViewController {
     private func configureTextView() {
         noteTextView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(noteTextView)
+        noteTextView.font = .preferredFont(forTextStyle: .body)
+        noteTextView.isEditable = true
+        noteTextView.isSelectable = true
+        noteTextView.dataDetectorTypes = .all
+        noteTextView.text = "Phone: 000-111-2222 \n Email: sample@gmail.com \n URL: https://www.naver.com"
         
         let safeArea = view.safeAreaLayoutGuide
         NSLayoutConstraint.activate([

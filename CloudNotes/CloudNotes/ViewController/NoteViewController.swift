@@ -8,12 +8,11 @@ import UIKit
 
 class NoteViewController: UIViewController {
     private let tableView = UITableView()
-    private var sampleData: [SampleData] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureTableView()
-        decodeJSONFile()
+        SampleDataJSONDecoder.shared.decodeJSONFile()
         self.view.backgroundColor = .white
         configureNavigationItem()
     }
@@ -33,28 +32,6 @@ class NoteViewController: UIViewController {
         ])
     }
     
-    private func decodeJSONFile() {
-        let jsonDecoder: JSONDecoder = JSONDecoder()
-        let dataAssetName: String = "sample"
-        guard let dataAsset: NSDataAsset = NSDataAsset.init(name: dataAssetName) else {
-            return
-        }
-        
-        do {
-            self.sampleData = try jsonDecoder.decode([SampleData].self, from: dataAsset.data)
-        } catch DecodingError.dataCorrupted {
-            debugPrint(JSONDecodingError.dataCorrupted.errorDescription!)
-        } catch DecodingError.keyNotFound {
-            debugPrint(JSONDecodingError.keyNotFound.errorDescription!)
-        } catch DecodingError.typeMismatch {
-            debugPrint(JSONDecodingError.typeMismatch.errorDescription!)
-        } catch DecodingError.valueNotFound {
-            debugPrint(JSONDecodingError.valueNotFound.errorDescription!)
-        } catch {
-            debugPrint(JSONDecodingError.unknown.errorDescription!)
-        }
-    }
-    
     private func configureNavigationItem() {
         self.navigationItem.title = "메모"
         let addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.add, target: self, action: #selector(touchUpAddButton))
@@ -70,18 +47,15 @@ class NoteViewController: UIViewController {
 // MARK: - TableView DataSource
 extension NoteViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return sampleData.count
-//        return NoteData.shared.notesLists.count
+        return SampleDataJSONDecoder.shared.decodedDatas.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: NotesTableViewCell.identifier, for: indexPath) as? NotesTableViewCell else {
             return UITableViewCell()
         }
-//        let noteLists = NoteData.shared.notesLists
-//        cell.titleLabel.text = noteLists[indexPath.row].title
-//        cell.lastModifiedDateLabel.text = sampleData[indexPath.row].convertFormatToString()
-//        cell.bodyLabel.text = sampleData[indexPath.row].body
+
+        let sampleData = SampleDataJSONDecoder.shared.decodedDatas
         cell.titleLabel.text = sampleData[indexPath.row].title
         cell.lastModifiedDateLabel.text = sampleData[indexPath.row].convertFormatToString()
         cell.bodyLabel.text = sampleData[indexPath.row].body

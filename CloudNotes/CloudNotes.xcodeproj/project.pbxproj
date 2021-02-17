@@ -20,6 +20,7 @@
 		E2B0F1F525DBA9DF0027AFE6 /* JSONDecodingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2B0F1F425DBA9DF0027AFE6 /* JSONDecodingError.swift */; };
 		E2B0F21225DCEB0D0027AFE6 /* NewNoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2B0F21125DCEB0D0027AFE6 /* NewNoteViewController.swift */; };
 		E2B0F21D25DD5E5A0027AFE6 /* NoteData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2B0F21C25DD5E5A0027AFE6 /* NoteData.swift */; };
+		E2B0F22825DD62EF0027AFE6 /* SampleDataJSONDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2B0F22725DD62EF0027AFE6 /* SampleDataJSONDecoder.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +60,7 @@
 		E2B0F1F425DBA9DF0027AFE6 /* JSONDecodingError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONDecodingError.swift; sourceTree = "<group>"; };
 		E2B0F21125DCEB0D0027AFE6 /* NewNoteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewNoteViewController.swift; sourceTree = "<group>"; };
 		E2B0F21C25DD5E5A0027AFE6 /* NoteData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteData.swift; sourceTree = "<group>"; };
+		E2B0F22725DD62EF0027AFE6 /* SampleDataJSONDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleDataJSONDecoder.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -162,6 +164,7 @@
 			isa = PBXGroup;
 			children = (
 				E2B0F1D325DB4E5E0027AFE6 /* SampleData.swift */,
+				E2B0F22725DD62EF0027AFE6 /* SampleDataJSONDecoder.swift */,
 				E2B0F21C25DD5E5A0027AFE6 /* NoteData.swift */,
 			);
 			path = Model;
@@ -306,6 +309,7 @@
 			files = (
 				E2B0F21D25DD5E5A0027AFE6 /* NoteData.swift in Sources */,
 				C7481C7225BBCF3900B9CA55 /* NoteViewController.swift in Sources */,
+				E2B0F22825DD62EF0027AFE6 /* SampleDataJSONDecoder.swift in Sources */,
 				E2B0F1F525DBA9DF0027AFE6 /* JSONDecodingError.swift in Sources */,
 				E2B0F1D425DB4E5E0027AFE6 /* SampleData.swift in Sources */,
 				C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */,

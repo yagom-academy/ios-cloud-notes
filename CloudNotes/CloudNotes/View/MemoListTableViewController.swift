@@ -10,6 +10,13 @@ class MemoListTableViewController: UITableViewController {
         
         let data = NSDataAsset(name: "sample")
         memoList = try! JSONDecoder().decode([Memo].self, from: data!.data)
+        
+        setNavigationBar()
+    }
+    
+    private func setNavigationBar() {
+        navigationItem.title = "메모"
+//        navigationItem.rightBarButtonItem
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -23,5 +30,15 @@ class MemoListTableViewController: UITableViewController {
         cell.setLabels(memo: memoList[indexPath.row])
         
         return cell
+    }
+}
+
+// MARK: UITableViewDelegate
+extension MemoListTableViewController {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let memoContentsViewController = MemoContentsViewController()
+        navigationController?.pushViewController(memoContentsViewController, animated: true)
+        
+        memoContentsViewController.setText(memo: memoList[indexPath.row])
     }
 }

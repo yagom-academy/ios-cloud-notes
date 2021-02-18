@@ -49,8 +49,11 @@ class MemoContentsViewController: UIViewController {
     }
 }
 
+// MARK: UITextViewDelegate
 extension MemoContentsViewController: UITextViewDelegate {
-    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        memoTextView.isEditable = false
+    }
 }
 
 // MARK: dataDetectorTypes & isEditable

@@ -51,9 +51,9 @@ final class DetailViewController: UIViewController {
         setTapGesture()
         view.addSubview(memoBodyTextView)
         NSLayoutConstraint.activate([
-            memoBodyTextView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
-            memoBodyTextView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
-            memoBodyTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
+            memoBodyTextView.topAnchor.constraint(equalTo: view.topAnchor),
+            memoBodyTextView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            memoBodyTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             memoBodyTextView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }

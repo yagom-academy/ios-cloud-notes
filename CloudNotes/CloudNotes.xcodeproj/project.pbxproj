@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		17673E8625DE10E0001FCF9E /* SplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17673E8525DE10E0001FCF9E /* SplitViewController.swift */; };
 		26BFB7B325DAAD850082AA1C /* Memo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26BFB7B225DAAD850082AA1C /* Memo.swift */; };
 		26BFB7BE25DACD7D0082AA1C /* IntExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26BFB7BD25DACD7D0082AA1C /* IntExtension.swift */; };
 		26BFB7D025DB72D50082AA1C /* MemoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26BFB7CF25DB72D50082AA1C /* MemoTableViewCell.swift */; };
@@ -14,7 +15,6 @@
 		C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */; };
 		C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */; };
 		C7481C7225BBCF3900B9CA55 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C7125BBCF3900B9CA55 /* ListViewController.swift */; };
-		C7481C7525BBCF3900B9CA55 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C7481C7325BBCF3900B9CA55 /* Main.storyboard */; };
 		C7481C7825BBCF3900B9CA55 /* CloudNotes.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C7481C7625BBCF3900B9CA55 /* CloudNotes.xcdatamodeld */; };
 		C7481C7A25BBCF3A00B9CA55 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C7481C7925BBCF3A00B9CA55 /* Assets.xcassets */; };
 		C7481C7D25BBCF3A00B9CA55 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C7481C7B25BBCF3A00B9CA55 /* LaunchScreen.storyboard */; };
@@ -40,6 +40,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		17673E8525DE10E0001FCF9E /* SplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitViewController.swift; sourceTree = "<group>"; };
 		26BFB7B225DAAD850082AA1C /* Memo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memo.swift; sourceTree = "<group>"; };
 		26BFB7BD25DACD7D0082AA1C /* IntExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntExtension.swift; sourceTree = "<group>"; };
 		26BFB7CF25DB72D50082AA1C /* MemoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoTableViewCell.swift; sourceTree = "<group>"; };
@@ -48,7 +49,6 @@
 		C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		C7481C7125BBCF3900B9CA55 /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
-		C7481C7425BBCF3900B9CA55 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C7481C7725BBCF3900B9CA55 /* CloudNotes.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CloudNotes.xcdatamodel; sourceTree = "<group>"; };
 		C7481C7925BBCF3A00B9CA55 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C7481C7C25BBCF3A00B9CA55 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -150,9 +150,9 @@
 				26BFB7C325DAD4510082AA1C /* Extension */,
 				26BFB7C225DAD44D0082AA1C /* Model */,
 				26BFB7D725DB870F0082AA1C /* Cell */,
-				C7481C7325BBCF3900B9CA55 /* Main.storyboard */,
 				C7481C7125BBCF3900B9CA55 /* ListViewController.swift */,
 				26BFB7DB25DBA6E70082AA1C /* DetailViewController.swift */,
+				17673E8525DE10E0001FCF9E /* SplitViewController.swift */,
 			);
 			path = CloudNotes;
 			sourceTree = "<group>";
@@ -280,7 +280,6 @@
 			files = (
 				C7481C7D25BBCF3A00B9CA55 /* LaunchScreen.storyboard in Resources */,
 				C7481C7A25BBCF3A00B9CA55 /* Assets.xcassets in Resources */,
-				C7481C7525BBCF3900B9CA55 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -310,6 +309,7 @@
 				C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */,
 				26BFB7D025DB72D50082AA1C /* MemoTableViewCell.swift in Sources */,
 				C7481C7825BBCF3900B9CA55 /* CloudNotes.xcdatamodeld in Sources */,
+				17673E8625DE10E0001FCF9E /* SplitViewController.swift in Sources */,
 				26BFB7B325DAAD850082AA1C /* Memo.swift in Sources */,
 				26BFB7BE25DACD7D0082AA1C /* IntExtension.swift in Sources */,
 				26BFB7DC25DBA6E70082AA1C /* DetailViewController.swift in Sources */,
@@ -348,14 +348,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		C7481C7325BBCF3900B9CA55 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				C7481C7425BBCF3900B9CA55 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		C7481C7B25BBCF3A00B9CA55 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (

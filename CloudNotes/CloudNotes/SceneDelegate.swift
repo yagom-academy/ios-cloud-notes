@@ -11,19 +11,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        guard
-            let splitViewController = window?.rootViewController as? UISplitViewController,
-            let leftNavigationController = splitViewController.viewControllers.first
-                as? UINavigationController,
-            let listViewController = leftNavigationController.viewControllers.first
-                as? ListViewController,
-            let rightNavigationController = splitViewController.viewControllers.last
-                as? UINavigationController,
-            let detailViewController = rightNavigationController.viewControllers.first
-                as? DetailViewController
-        else { fatalError() }
+        guard let windowScene = (scene as? UIWindowScene) else { return }
         
-        listViewController.delegate = detailViewController
+        let window = UIWindow(windowScene: windowScene)
+        window.rootViewController = SplitViewController()
+        window.makeKeyAndVisible()
+        self.window = window
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

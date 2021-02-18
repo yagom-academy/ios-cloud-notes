@@ -12,10 +12,18 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
 
         window = UIWindow(windowScene: windowScene)
-        let rootViewController = MemoListTableViewController()
         
-        window?.rootViewController = UINavigationController(rootViewController: rootViewController)
-//        window?.rootViewController = MemoViewController()
+        let savedTraitCollection = UITraitCollection.current
+        
+        switch (savedTraitCollection.horizontalSizeClass) {
+        case (.regular):
+            window?.rootViewController = MemoSplitViewController()
+            
+        case (.compact):
+            window?.rootViewController = UINavigationController(rootViewController: MemoListTableViewController())
+            
+        default: break
+        }
         window?.makeKeyAndVisible()
     }
 

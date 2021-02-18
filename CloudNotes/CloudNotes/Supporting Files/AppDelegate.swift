@@ -11,9 +11,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if #available(iOS 13.0, *) {
             // empty
         } else {
-            window = UIWindow()
-            let rootViewController = MemoListTableViewController()
-            window?.rootViewController = UINavigationController(rootViewController: rootViewController)
+            let savedTraitCollection = UITraitCollection.current
+            
+            switch (savedTraitCollection.horizontalSizeClass) {
+            case (.regular):
+                window?.rootViewController = MemoSplitViewController()
+                
+            case (.compact):
+                window?.rootViewController = UINavigationController(rootViewController: MemoListTableViewController())
+                
+            default: break
+            }
             window?.makeKeyAndVisible()
         }
 

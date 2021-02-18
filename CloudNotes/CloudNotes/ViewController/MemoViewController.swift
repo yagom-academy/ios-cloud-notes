@@ -1,7 +1,6 @@
 import UIKit
 
 class MemoViewController: UIViewController {
-
     var containerView1 = UIView()
     var containerView2 = UIView()
     
@@ -13,7 +12,6 @@ class MemoViewController: UIViewController {
         traitCollectionDidChange(traitCollection)
     }
     
-    // 이건 런타임 중에 바뀌는 코드..
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
 
@@ -41,32 +39,10 @@ class MemoViewController: UIViewController {
             containerView2.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
             containerView2.widthAnchor.constraint(equalTo: view.safeAreaLayoutGuide.widthAnchor, multiplier: 2/3).isActive = true
             containerView2.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
-            containerView2.backgroundColor = .blue
             
-//            view.backgroundColor = .blue
-        case .unspecified:
+        default:
             break
         }
-    }
-    
-    private func setView1() {
-        view.addSubview(containerView1)
-        containerView1.translatesAutoresizingMaskIntoConstraints = false
-        containerView1.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-        containerView1.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
-        containerView1.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
-        containerView1.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
-        containerView1.backgroundColor = .yellow
-    }
-    
-    private func setView2() {
-        view.addSubview(containerView2)
-        containerView2.translatesAutoresizingMaskIntoConstraints = false
-        containerView2.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-        containerView2.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
-        containerView2.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
-        containerView2.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
-        containerView2.backgroundColor = .yellow
     }
 }
 

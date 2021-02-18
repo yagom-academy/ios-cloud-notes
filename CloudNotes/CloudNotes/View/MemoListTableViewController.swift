@@ -2,21 +2,46 @@ import UIKit
 
 class MemoListTableViewController: UITableViewController {
     var memoList = [Memo]()
-
+    let memoContentsView = MemoContentsViewController()
+    let enrollButton = UIButton()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        configureNavigationBar()
         
         tableView.register(MemoListTableViewCell.self, forCellReuseIdentifier: "MemoCell")
         
         decodeJSONToMemoList(fileName: "sample")
-        
-        setNavigationBar()
     }
     
-    private func setNavigationBar() {
+    func configureNavigationBar() {
+        configureEnrollButton()
         navigationItem.title = "메모"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: enrollButton)
     }
-
+    
+    func configureEnrollButton() {
+        enrollButton.translatesAutoresizingMaskIntoConstraints = false
+        enrollButton.setImage(UIImage(systemName: "plus"), for: .normal)
+        enrollButton.addTarget(self, action: #selector(moveToEnrollView), for: .touchUpInside)
+    }
+    
+    @objc func moveToEnrollView(sender: UIButton) {
+        let savedTraitCollection = UITraitCollection.current
+        
+        switch (savedTraitCollection.horizontalSizeClass) {
+        //        case (.regular):
+        // 테이블 셀 1개 추가
+        // 우측에 새로운 텍스트뷰 1개 생성
+        
+        case (.compact):
+            self.navigationController?.pushViewController(memoContentsView, animated: true)
+            
+        default: break
+        }
+    }
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return memoList.count
     }
@@ -31,13 +56,24 @@ class MemoListTableViewController: UITableViewController {
     }
 }
 
+
 // MARK: UITableViewDelegate
 extension MemoListTableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let memoContentsViewController = MemoContentsViewController()
-        navigationController?.pushViewController(memoContentsViewController, animated: true)
         
-        memoContentsViewController.receiveText(memo: memoList[indexPath.row])
+        let savedTraitCollection = UITraitCollection.current
+        
+        switch (savedTraitCollection.horizontalSizeClass) {
+        case (.regular):
+            memoContentsView.receiveText(memo: memoList[indexPath.row])
+        //텍스트 뷰 리로드
+        
+        case (.compact):
+            memoContentsView.receiveText(memo: memoList[indexPath.row])
+            self.navigationController?.pushViewController(memoContentsView, animated: true)
+            
+        default: break
+        }
     }
 }
 

@@ -44,8 +44,8 @@ class NoteViewController: UIViewController {
     }
     
     @objc func touchUpAddButton() {
-        let newNoteViewController = NewNoteViewController()
-        self.navigationController?.pushViewController(newNoteViewController, animated: true)
+        let detailNoteViewController = DetailNoteViewController()
+        self.navigationController?.pushViewController(detailNoteViewController, animated: true)
     }
 }
 

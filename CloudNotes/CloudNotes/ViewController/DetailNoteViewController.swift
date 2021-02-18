@@ -41,6 +41,22 @@ class DetailNoteViewController: UIViewController {
     
     @objc func touchUpCompleteButton() {
         detailNoteTextView.isEditable = false
+        
+        if let textViewText = detailNoteTextView.text, textViewText == "" {
+            let titleText = "제목 없음"
+            let bodyText = ""
+            let lastModifiedDate = Date()
+            let note = Note(title: titleText, body: bodyText, lastModifiedDate: lastModifiedDate)
+            NoteData.shared.noteLists.append(note)
+        } else {
+            let textViewText = detailNoteTextView.text.split(separator: "\n", maxSplits: 1, omittingEmptySubsequences: true)
+            let titleText = String(textViewText[0])
+            let bodyText = String(textViewText[1])
+            let lastModifiedDate = Date()
+            let note = Note(title: titleText, body: bodyText, lastModifiedDate: lastModifiedDate)
+            NoteData.shared.noteLists.append(note)
+        }
+        self.navigationController?.popViewController(animated: true)
     }
     
     private func addTapGestureRecognizerToTextView() {

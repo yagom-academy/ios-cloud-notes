@@ -22,7 +22,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TjZ-AL-Agh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1259" y="1480"/>
+            <point key="canvasLocation" x="354" y="1485"/>
         </scene>
         <!--List View Controller-->
         <scene sceneID="XHd-uZ-7Re">
@@ -32,19 +32,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="MemoTableViewCell" id="Hot-hl-W5W" customClass="MemoTableViewCell" customModule="CloudNotes" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Hot-hl-W5W" id="1yQ-qW-OIA">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                                <connections>
-                                    <segue destination="wdV-64-cLk" kind="showDetail" identifier="" id="YzY-Si-e97"/>
-                                </connections>
-                            </tableViewCell>
-                        </prototypes>
                         <connections>
                             <outlet property="dataSource" destination="urd-3x-0qY" id="Jvj-lp-VWB"/>
                             <outlet property="delegate" destination="urd-3x-0qY" id="VKC-eL-uLV"/>
@@ -78,36 +65,14 @@
                 <splitViewController allowDoubleColumnStyle="YES" id="HvK-7x-fou" sceneMemberID="viewController">
                     <connections>
                         <segue destination="OKl-yc-ej3" kind="relationship" relationship="masterViewController" id="ORr-vw-fdl"/>
-                        <segue destination="wdV-64-cLk" kind="relationship" relationship="detailViewController" id="5Vu-gL-5Lz"/>
+                        <segue destination="QJT-iv-4dr" kind="relationship" relationship="detailViewController" id="T9K-lF-oUh"/>
                     </connections>
                 </splitViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gtk-lP-JRR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-597" y="1118"/>
         </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="6Qn-Tb-RS0">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="wdV-64-cLk" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationItem key="navigationItem" id="h3J-Qd-5t3"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="nGE-4r-4OP">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="QJT-iv-4dr" kind="relationship" relationship="rootViewController" id="3Ke-6X-RQo"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="EXT-dw-jNl" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="382.60869565217394" y="1479.9107142857142"/>
-        </scene>
     </scenes>
-    <inferredMetricsTieBreakers>
-        <segue reference="YzY-Si-e97"/>
-    </inferredMetricsTieBreakers>
     <resources>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

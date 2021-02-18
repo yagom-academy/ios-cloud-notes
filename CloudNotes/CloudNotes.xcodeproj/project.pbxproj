@@ -86,6 +86,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		17673E6B25DDC3D6001FCF9E /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */,
+				C7481C7E25BBCF3A00B9CA55 /* Info.plist */,
+				C7481C7625BBCF3900B9CA55 /* CloudNotes.xcdatamodeld */,
+				C7481C7B25BBCF3A00B9CA55 /* LaunchScreen.storyboard */,
+				C7481C7925BBCF3A00B9CA55 /* Assets.xcassets */,
+				C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		26BFB7C225DAD44D0082AA1C /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -133,18 +146,13 @@
 		C7481C6C25BBCF3900B9CA55 /* CloudNotes */ = {
 			isa = PBXGroup;
 			children = (
-				26BFB7D725DB870F0082AA1C /* Cell */,
+				17673E6B25DDC3D6001FCF9E /* Supporting Files */,
 				26BFB7C325DAD4510082AA1C /* Extension */,
 				26BFB7C225DAD44D0082AA1C /* Model */,
-				C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */,
-				C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */,
+				26BFB7D725DB870F0082AA1C /* Cell */,
+				C7481C7325BBCF3900B9CA55 /* Main.storyboard */,
 				C7481C7125BBCF3900B9CA55 /* ListViewController.swift */,
 				26BFB7DB25DBA6E70082AA1C /* DetailViewController.swift */,
-				C7481C7325BBCF3900B9CA55 /* Main.storyboard */,
-				C7481C7925BBCF3A00B9CA55 /* Assets.xcassets */,
-				C7481C7B25BBCF3A00B9CA55 /* LaunchScreen.storyboard */,
-				C7481C7E25BBCF3A00B9CA55 /* Info.plist */,
-				C7481C7625BBCF3900B9CA55 /* CloudNotes.xcdatamodeld */,
 			);
 			path = CloudNotes;
 			sourceTree = "<group>";

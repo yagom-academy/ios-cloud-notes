@@ -6,13 +6,19 @@
 
 import UIKit
 
+protocol MemoSelectionDelegate: class {
+    func memoSelected(_ memo: Memo)
+}
+
 final class ListViewController: UITableViewController {
     private var memoList: [Memo] = []
+    weak var delegate: MemoSelectionDelegate?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.tableView.register(MemoTableViewCell.self, forCellReuseIdentifier: "MemoTableViewCell")
         decodeMemoData()
         setUpNavigationBar()
-        setUpMemoTableView()
     }
     
     private func decodeMemoData() {
@@ -35,33 +41,9 @@ final class ListViewController: UITableViewController {
     @objc private func moveToPostViewController() {
         //📍 CRUD Create 부분
     }
-    
-    private func setUpMemoTableView() {
-        self.tableView.delegate = self
-        self.tableView.dataSource = self
-        
-        NSLayoutConstraint.activate([
-            self.tableView.topAnchor.constraint(equalTo: view.topAnchor),
-            self.tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            self.tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            self.tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ])
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let destinationNavigationController = segue.destination as? UINavigationController,
-              let detailViewController = destinationNavigationController.topViewController as? DetailViewController else {
-            return
-        }
-        guard let cellIndex = self.tableView.indexPathForSelectedRow?.row else {
-            return
-        }
-        detailViewController.memoTitle = memoList[cellIndex].title
-        detailViewController.memoBody = memoList[cellIndex].body
-    }
 }
 
-//MARK: extension TableView
+// MARK: - extension TableView
 extension ListViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return memoList.count
@@ -78,6 +60,13 @@ extension ListViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        
+        let selectedMemo = memoList[indexPath.row]
+        delegate?.memoSelected(selectedMemo)
+        
+        if let detailViewController = delegate as? DetailViewController {
+          splitViewController?.showDetailViewController(detailViewController, sender: nil)
+        }
     }
 }
 

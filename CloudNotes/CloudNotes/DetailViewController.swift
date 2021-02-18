@@ -7,9 +7,13 @@
 
 import UIKit
 
-class DetailViewController: UIViewController {
-    var memoTitle: String?
-    var memoBody: String?
+final class DetailViewController: UIViewController {
+    var memo: Memo? {
+        didSet {
+            refreshUI()
+        }
+    }
+    
     private var memoBodyTextView: UITextView = {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
@@ -24,41 +28,47 @@ class DetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUpTextView()
-        setUpNavigationBar()
+        setupTextView()
+        setupNavigationBar()
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
-        setUpNavigationBar()
+        setupNavigationBar()
     }
     
-    private func setUpNavigationBar() {
+    private func setupNavigationBar() {
         if traitCollection.userInterfaceIdiom == .pad &&
             UIDevice.current.orientation.isLandscape {
             navigationController?.navigationBar.isHidden = true
-        } else {
+        }
+        else {
             navigationController?.navigationBar.isHidden = false
         }
     }
     
-    private func setUpTextView() {
+    private func setupTextView() {
+        setTapGesture()
         view.addSubview(memoBodyTextView)
-        guard let title = memoTitle, let body = memoBody else {
-            return
-        }
-        let prefix = title
-        let fontSize = UIFont.preferredFont(forTextStyle: .title1)
-        let attributedStr = NSMutableAttributedString(string: prefix + "\n\n" + body + "\n010-1234-5678\nyagomCamp@gmail.com\n")
-        attributedStr.addAttribute(NSAttributedString.Key(rawValue: kCTFontAttributeName as String), value: fontSize, range: NSMakeRange(0, prefix.count))
-        memoBodyTextView.attributedText = attributedStr
-        
         NSLayoutConstraint.activate([
             memoBodyTextView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
             memoBodyTextView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
             memoBodyTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
             memoBodyTextView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
+    }
+    
+    private func refreshUI() {
+        loadViewIfNeeded()
+        guard let memo = memo else {
+            return
+        }
+        let title = memo.title
+        let fontAttributeKey = NSAttributedString.Key(rawValue: kCTFontAttributeName as String)
+        let fontSize = UIFont.preferredFont(forTextStyle: .title1)
+        let content = NSMutableAttributedString(string: "\(memo.title)\n\n\(memo.body)")
+        content.addAttribute(fontAttributeKey, value: fontSize, range: NSMakeRange(0, title.count))
+        memoBodyTextView.attributedText = content
     }
 }
 
@@ -79,5 +89,11 @@ extension DetailViewController: UITextViewDelegate {
         memoBodyTextView.isEditable = true
         memoBodyTextView.dataDetectorTypes = []
         memoBodyTextView.becomeFirstResponder()
+    }
+}
+
+extension DetailViewController: MemoSelectionDelegate {
+    func memoSelected(_ memo: Memo) {
+        self.memo = memo
     }
 }

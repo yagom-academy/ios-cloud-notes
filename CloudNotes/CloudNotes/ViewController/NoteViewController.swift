@@ -23,6 +23,7 @@ class NoteViewController: UIViewController {
     
     private func configureTableView() {
         tableView.dataSource = self
+        tableView.delegate = self
         tableView.register(NotesTableViewCell.self, forCellReuseIdentifier: NotesTableViewCell.identifier)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(tableView)
@@ -63,5 +64,14 @@ extension NoteViewController: UITableViewDataSource {
         cell.lastModifiedDateLabel.text = noteLists[indexPath.row].convertFormatToString()
         cell.bodyLabel.text = noteLists[indexPath.row].body
         return cell
+    }
+}
+
+// MARK: - TableView Delegate
+extension NoteViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let detailNoteViewController = DetailNoteViewController()
+        detailNoteViewController.fetchedNoteData = NoteData.shared.noteLists[indexPath.row]
+        self.navigationController?.pushViewController(detailNoteViewController, animated: true)
     }
 }

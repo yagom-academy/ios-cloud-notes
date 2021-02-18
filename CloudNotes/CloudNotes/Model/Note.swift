@@ -8,8 +8,8 @@
 import Foundation
 
 struct Note {
-    let title: String?
-    let body: String?
+    let title: String
+    let body: String
     let lastModifiedDate: Date
     
     func convertFormatToString() -> String {

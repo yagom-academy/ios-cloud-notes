@@ -4,12 +4,12 @@ class MemoSplitViewController: UISplitViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        view.backgroundColor = .white
+        
         let memoListTableViewController = MemoListTableViewController()
-        let memoContentsViewController = MemoContentsViewController()
         let memoListNavigationController = UINavigationController(rootViewController: memoListTableViewController)
-        let memoContentsNavigationController = UINavigationController(rootViewController: memoContentsViewController)
-    
-        self.viewControllers = [memoListNavigationController, memoContentsNavigationController]
+        
+        self.viewControllers = [memoListNavigationController]
         self.preferredPrimaryColumnWidthFraction = 1/3
         self.preferredDisplayMode = .oneBesideSecondary
     }

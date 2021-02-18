@@ -25,7 +25,21 @@ class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpTextView()
-        setTapGesture()
+        setUpNavigationBar()
+    }
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        setUpNavigationBar()
+    }
+    
+    private func setUpNavigationBar() {
+        if traitCollection.userInterfaceIdiom == .pad &&
+            UIDevice.current.orientation.isLandscape {
+            navigationController?.navigationBar.isHidden = true
+        } else {
+            navigationController?.navigationBar.isHidden = false
+        }
     }
     
     private func setUpTextView() {

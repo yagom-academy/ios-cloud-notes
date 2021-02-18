@@ -8,7 +8,6 @@ class MemoSplitViewController: UISplitViewController {
         let memoContentsViewController = MemoContentsViewController()
         let memoListNavigationController = UINavigationController(rootViewController: memoListTableViewController)
         let memoContentsNavigationController = UINavigationController(rootViewController: memoContentsViewController)
-        memoContentsNavigationController.navigationBar.isHidden = true
     
         self.viewControllers = [memoListNavigationController, memoContentsNavigationController]
         self.preferredPrimaryColumnWidthFraction = 1/3

@@ -2,7 +2,6 @@ import UIKit
 
 class MemoListTableViewController: UITableViewController {
     var memoList = [Memo]()
-    let memoContentsView = MemoContentsViewController()
     let enrollButton = UIButton()
     
     override func viewDidLoad() {
@@ -40,19 +39,9 @@ class MemoListTableViewController: UITableViewController {
 // MARK: UITableViewDelegate
 extension MemoListTableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        let savedTraitCollection = UITraitCollection.current
-        
-        switch (savedTraitCollection.horizontalSizeClass) {
-        case (.regular):
-            memoContentsView.receiveText(memo: memoList[indexPath.row])
-            
-        case (.compact):
-            memoContentsView.receiveText(memo: memoList[indexPath.row])
-            self.navigationController?.pushViewController(memoContentsView, animated: true)
-            
-        default: break
-        }
+        let memoContentsView = MemoContentsViewController()
+        memoContentsView.receiveText(memo: memoList[indexPath.row])
+        self.splitViewController?.showDetailViewController(memoContentsView, sender: nil)
     }
 }
 

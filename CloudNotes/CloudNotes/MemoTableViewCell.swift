@@ -1,6 +1,3 @@
-//TitleLabel
-//DateLabel  DescribingLabel  NextButton
-
 import UIKit
 
 class MemoTableViewCell: UITableViewCell {
@@ -25,7 +22,6 @@ class MemoTableViewCell: UITableViewCell {
         label.font = UIFont.preferredFont(forTextStyle: .caption1)
         label.adjustsFontSizeToFitWidth = false
         label.textColor = .secondaryLabel
-        label.text = "Describing Something"
         return label
     }()
     private let dateAndDescribingStackView: UIStackView = {

@@ -10,16 +10,17 @@ import UIKit
 class DetailNoteViewController: UIViewController {
     var fetchedNoteData: Note?
     let detailNoteTextView = UITextView()
+    let completeButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.done, target: self, action: #selector(touchUpCompleteButton))
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
         configureTextView()
-        configureNavigationItem()
     }
     
     private func configureTextView() {
         addTapGestureRecognizerToTextView()
+        detailNoteTextView.delegate = self
         detailNoteTextView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(detailNoteTextView)
         detailNoteTextView.font = .preferredFont(forTextStyle: .body)
@@ -38,11 +39,6 @@ class DetailNoteViewController: UIViewController {
         detailNoteTextView.text = "\(noteData.title)\n\(noteData.body)"
     }
     
-    private func configureNavigationItem() {
-        let completeButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.done, target: self, action: #selector(touchUpCompleteButton))
-        self.navigationItem.rightBarButtonItem = completeButton
-    }
-    
     @objc func touchUpCompleteButton() {
         detailNoteTextView.isEditable = false
     }
@@ -57,5 +53,15 @@ class DetailNoteViewController: UIViewController {
     @objc func changeTextViewEditableState() {
         detailNoteTextView.isEditable = true
         detailNoteTextView.becomeFirstResponder()
+    }
+}
+
+extension DetailNoteViewController: UITextViewDelegate {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        self.navigationItem.rightBarButtonItem = completeButton
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        self.navigationItem.rightBarButtonItem = nil
     }
 }

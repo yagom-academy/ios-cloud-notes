@@ -11,17 +11,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if #available(iOS 13.0, *) {
             // empty
         } else {
-            let savedTraitCollection = UITraitCollection.current
-            
-            switch (savedTraitCollection.horizontalSizeClass) {
-            case (.regular):
-                window?.rootViewController = MemoSplitViewController()
-                
-            case (.compact):
-                window?.rootViewController = UINavigationController(rootViewController: MemoListTableViewController())
-                
-            default: break
-            }
+            window?.rootViewController = MemoSplitViewController()
             window?.makeKeyAndVisible()
         }
 

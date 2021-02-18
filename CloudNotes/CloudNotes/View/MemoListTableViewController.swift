@@ -16,30 +16,10 @@ class MemoListTableViewController: UITableViewController {
     }
     
     func configureNavigationBar() {
-        configureEnrollButton()
         navigationItem.title = "메모"
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: enrollButton)
-    }
-    
-    func configureEnrollButton() {
         enrollButton.translatesAutoresizingMaskIntoConstraints = false
         enrollButton.setImage(UIImage(systemName: "plus"), for: .normal)
-        enrollButton.addTarget(self, action: #selector(moveToEnrollView), for: .touchUpInside)
-    }
-    
-    @objc func moveToEnrollView(sender: UIButton) {
-        let savedTraitCollection = UITraitCollection.current
-        
-        switch (savedTraitCollection.horizontalSizeClass) {
-        //        case (.regular):
-        // 테이블 셀 1개 추가
-        // 우측에 새로운 텍스트뷰 1개 생성
-        
-        case (.compact):
-            self.navigationController?.pushViewController(memoContentsView, animated: true)
-            
-        default: break
-        }
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -66,8 +46,7 @@ extension MemoListTableViewController {
         switch (savedTraitCollection.horizontalSizeClass) {
         case (.regular):
             memoContentsView.receiveText(memo: memoList[indexPath.row])
-        //텍스트 뷰 리로드
-        
+            
         case (.compact):
             memoContentsView.receiveText(memo: memoList[indexPath.row])
             self.navigationController?.pushViewController(memoContentsView, animated: true)
@@ -97,11 +76,9 @@ extension MemoListTableViewController {
 extension MemoListTableViewController {
     func showAlertMessage(_ message: String) {
         let alert = UIAlertController(title: nil, message: message, preferredStyle: UIAlertController.Style.alert)
-        
         let okAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
         
         alert.addAction(okAction)
-        
         present(alert, animated: true, completion: nil)
     }
 }

@@ -58,6 +58,11 @@ final class DetailViewController: UIViewController {
         ])
     }
     
+    private func setTapGesture() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapTextView(_:)))
+        memoBodyTextView.addGestureRecognizer(tapGesture)
+    }
+    
     private func refreshUI() {
         loadViewIfNeeded()
         guard let memo = memo else {
@@ -78,11 +83,6 @@ extension DetailViewController: UITextViewDelegate {
         textView.isEditable = false
         textView.dataDetectorTypes = [.link, .phoneNumber, .calendarEvent]
         textView.resignFirstResponder()
-    }
-    
-    private func setTapGesture() {
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapTextView(_:)))
-        memoBodyTextView.addGestureRecognizer(tapGesture)
     }
     
     @objc private func tapTextView(_ gesture: UITapGestureRecognizer) {

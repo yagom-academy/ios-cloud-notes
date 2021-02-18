@@ -34,8 +34,7 @@ final class ListViewController: UITableViewController {
     
     private func setUpNavigationBar() {
         navigationItem.title = "메모"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "+", style: .plain, target: self, action: #selector(moveToPostViewController))
-        navigationItem.rightBarButtonItem?.tintColor = UIColor.systemBlue
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(moveToPostViewController))
     }
     
     @objc private func moveToPostViewController() {

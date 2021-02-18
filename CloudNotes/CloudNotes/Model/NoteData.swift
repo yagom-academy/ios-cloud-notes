@@ -9,7 +9,7 @@ import Foundation
 
 class NoteData {
     static let shared = NoteData()
-    var noteLists: [SampleData] = []
+    var noteLists: [Note] = []
     
     private init() {}
 }

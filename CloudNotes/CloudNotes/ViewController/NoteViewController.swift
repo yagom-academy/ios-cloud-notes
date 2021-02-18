@@ -16,6 +16,11 @@ class NoteViewController: UIViewController {
         configureNavigationItem()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        tableView.reloadData()
+    }
+    
     private func configureTableView() {
         tableView.dataSource = self
         tableView.register(NotesTableViewCell.self, forCellReuseIdentifier: NotesTableViewCell.identifier)

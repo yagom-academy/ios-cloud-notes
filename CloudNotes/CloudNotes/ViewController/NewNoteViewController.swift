@@ -37,7 +37,20 @@ class NewNoteViewController: UIViewController {
     }
     
     @objc func touchUpCompleteButton() {
-        //이걸해야되는게 아니고 데이터를 전달해서 모델에 append해서 나타내야함
-        noteTextView.isEditable = false
+        if let textViewText = noteTextView.text, textViewText == "" {
+            let titleText = "제목 없음"
+            let bodyText = ""
+            let lastModifiedDate = Date()
+            let note = Note(title: titleText, body: bodyText, lastModifiedDate: lastModifiedDate)
+            NoteData.shared.noteLists.append(note)
+        } else {
+            let textViewText = noteTextView.text.split(separator: "\n", maxSplits: 1, omittingEmptySubsequences: true)
+            let titleText = String(textViewText[0])
+            let bodyText = String(textViewText[1])
+            let lastModifiedDate = Date()
+            let note = Note(title: titleText, body: bodyText, lastModifiedDate: lastModifiedDate)
+            NoteData.shared.noteLists.append(note)
+        }
+        self.navigationController?.popViewController(animated: true)
     }
 }

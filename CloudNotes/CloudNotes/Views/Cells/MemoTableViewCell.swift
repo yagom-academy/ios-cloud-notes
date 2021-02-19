@@ -1,7 +1,16 @@
 import UIKit
 
+protocol Reusable: class {}
+ 
+extension Reusable where Self: UITableViewCell {
+    static var reuseIdentifier: String {
+        return String(describing: self)
+    }
+}
+ 
+extension UITableViewCell: Reusable {}
+
 class MemoTableViewCell: UITableViewCell {
-    static let reuseIdentifier = String(describing: MemoTableViewCell.self)
     //MARK: - Views
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -55,7 +64,9 @@ class MemoTableViewCell: UITableViewCell {
     }
     
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: coder)
+        self.setupViews()
+        self.selectionStyle = .none
     }
     
     override func layoutSubviews() {
@@ -63,7 +74,7 @@ class MemoTableViewCell: UITableViewCell {
         setupConstraints()
     }
     
-    public func configure(with model: Memo?) {
+    func configure(with model: Memo?) {
         titleLabel.text = model?.title
         if let lastModified = model?.lastModified {
             let timeInterval = TimeInterval(lastModified)

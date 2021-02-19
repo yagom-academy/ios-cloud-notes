@@ -29,12 +29,18 @@ final class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTextView()
+        setUpDefaultMemo()
         setupNavigationBar()
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         setupNavigationBar()
+    }
+    
+    private func setUpDefaultMemo() {
+        let index =  UserDefaults.standard.integer(forKey: "lastMemoIndex")
+        memo = MemoData.shared.list[index]
     }
     
     private func setupNavigationBar() {

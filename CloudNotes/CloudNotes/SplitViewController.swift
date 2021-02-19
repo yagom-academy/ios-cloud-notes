@@ -7,10 +7,14 @@
 
 import UIKit
 
-class SplitViewController: UISplitViewController {
-
+final class SplitViewController: UISplitViewController, UISplitViewControllerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.delegate = self
+        setUpViewControllers()
+    }
+    
+    private func setUpViewControllers() {
         let listViewController = ListViewController()
         let detailViewController = DetailViewController()
         let leftNavigationController = UINavigationController(rootViewController: listViewController)
@@ -20,5 +24,9 @@ class SplitViewController: UISplitViewController {
         self.preferredDisplayMode = .oneBesideSecondary
         
         listViewController.delegate = detailViewController
+    }
+    
+    func splitViewController(_ splitViewController: UISplitViewController, collapseSecondary secondaryViewController: UIViewController, onto primaryViewController: UIViewController) -> Bool {
+        return true
     }
 }

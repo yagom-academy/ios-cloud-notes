@@ -45,7 +45,7 @@ class ListCell: UITableViewCell {
     func updateCell(info: Memo) {
         titleLabel.text = info.title
         contentsLabel.text = info.contents
-        dateLabel.text = info.lastModified.dateToString
+        dateLabel.text = info.dateToString
     }
     
     private func addContentView() {

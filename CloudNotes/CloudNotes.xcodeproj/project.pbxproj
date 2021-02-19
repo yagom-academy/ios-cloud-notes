@@ -17,7 +17,6 @@
 		C7481C8825BBCF3A00B9CA55 /* CloudNotesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C8725BBCF3A00B9CA55 /* CloudNotesTests.swift */; };
 		C7481C9325BBCF3A00B9CA55 /* CloudNotesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C9225BBCF3A00B9CA55 /* CloudNotesUITests.swift */; };
 		EA952B1B25DBA89500D3D921 /* ListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA952B1A25DBA89500D3D921 /* ListCell.swift */; };
-		EAAB4C4B25DD43C40020B13E /* IntExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAAB4C4A25DD43C40020B13E /* IntExtension.swift */; };
 		EAFA074E25DFEFF5004A91E1 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAFA074D25DFEFF5004A91E1 /* MainViewController.swift */; };
 		EAFA075625DFF607004A91E1 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAFA075525DFF607004A91E1 /* DetailViewController.swift */; };
 		FD64A83F25DB97270098C7D7 /* AddMemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD64A83E25DB97270098C7D7 /* AddMemoViewController.swift */; };
@@ -58,7 +57,6 @@
 		C7481C9225BBCF3A00B9CA55 /* CloudNotesUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudNotesUITests.swift; sourceTree = "<group>"; };
 		C7481C9425BBCF3A00B9CA55 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EA952B1A25DBA89500D3D921 /* ListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCell.swift; sourceTree = "<group>"; };
-		EAAB4C4A25DD43C40020B13E /* IntExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntExtension.swift; sourceTree = "<group>"; };
 		EAFA074D25DFEFF5004A91E1 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		EAFA075525DFF607004A91E1 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		FD64A83E25DB97270098C7D7 /* AddMemoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMemoViewController.swift; sourceTree = "<group>"; };
@@ -147,7 +145,6 @@
 				C7481C7125BBCF3900B9CA55 /* ListViewController.swift */,
 				EAFA075525DFF607004A91E1 /* DetailViewController.swift */,
 				FD64A83E25DB97270098C7D7 /* AddMemoViewController.swift */,
-				EAAB4C4A25DD43C40020B13E /* IntExtension.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -311,7 +308,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EAAB4C4B25DD43C40020B13E /* IntExtension.swift in Sources */,
 				FD64A85D25DC08B80098C7D7 /* Memo.swift in Sources */,
 				C7481C7225BBCF3900B9CA55 /* ListViewController.swift in Sources */,
 				FD64A83F25DB97270098C7D7 /* AddMemoViewController.swift in Sources */,

@@ -10,11 +10,21 @@ import Foundation
 struct Memo: Decodable {
     let title: String
     let contents: String
-    let lastModified: Int
+    private let lastModified: Double
     
     enum CodingKeys: String, CodingKey {
         case title
         case contents = "body"
         case lastModified = "last_modified"
+    }
+}
+
+extension Memo {
+    var dateToString: String {
+        let date = Date(timeIntervalSince1970: lastModified)
+        let dateFormatter = DateFormatter()
+        dateFormatter.timeZone = .autoupdatingCurrent
+        dateFormatter.dateFormat = "yyyy. MM. dd."
+        return dateFormatter.string(from: date)
     }
 }

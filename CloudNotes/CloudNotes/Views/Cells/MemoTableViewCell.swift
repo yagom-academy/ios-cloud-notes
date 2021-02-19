@@ -79,9 +79,9 @@ class MemoTableViewCell: UITableViewCell {
     }
     
     private func setupViews() {
-        memoListStackView.addArrangedSubview(titleLabel)
         dateAndDescribingStackView.addArrangedSubview(dateLabel)
         dateAndDescribingStackView.addArrangedSubview(describingLabel)
+        memoListStackView.addArrangedSubview(titleLabel)
         memoListStackView.addArrangedSubview(dateAndDescribingStackView)
         contentView.addSubview(memoListStackView)
         contentView.addSubview(nextButton)

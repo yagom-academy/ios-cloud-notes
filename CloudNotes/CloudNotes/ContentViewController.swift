@@ -7,10 +7,6 @@
 
 import UIKit
 
-protocol SendingDataDelegate {
-    func matchData(with memo: Memo)
-}
-
 class ContentViewController: UIViewController {
     lazy var titleTextView: UITextView = {
         let titleTextView = UITextView()
@@ -29,6 +25,9 @@ class ContentViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
         setUpContentView()
     }
     
@@ -69,10 +68,12 @@ class ContentViewController: UIViewController {
         bodyTextView.text = memo.body
     }
 }
-extension ContentViewController: SendingDataDelegate {
-    func matchData(with memo: Memo) {
-        updateUI(with: memo)
+extension ContentViewController: ListViewControllerDelegate {
+    func didTapMemoItem(title: String, body: String) {
+        self.titleTextView.text = title
+        self.bodyTextView.text = body
     }
+    
 }
 extension ContentViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {

@@ -6,10 +6,12 @@
 
 import UIKit
 
-class ListViewController: UIViewController {
-    let tableView = UITableView()
-    let contentViewController = ContentViewController()
-    var delegate: SendingDataDelegate?
+protocol ListViewControllerDelegate: AnyObject {
+    func didTapMemoItem(title: String, body: String)
+}
+
+class ListViewController: UITableViewController {
+    weak var delegate: ListViewControllerDelegate?
     lazy var addMemoButton: UIBarButtonItem = {
         let button =  UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonTapped(_:)))
         return button
@@ -23,27 +25,28 @@ class ListViewController: UIViewController {
         decodeMemoList()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-           if let selectedIndexPath = tableView.indexPathForSelectedRow {
-               tableView.deselectRow(at: selectedIndexPath, animated: animated)
-           }
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return memoList.count
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: MemoListCell.identifier, for: indexPath) as? MemoListCell else {
+            return UITableViewCell()
+        }
+        cell.titleLabel.text = memoList[indexPath.row].title
+        cell.predescriptionLabel.text = memoList[indexPath.row].body
+        cell.dateLabel.text = memoList[indexPath.row].lastModified.convertToDate()
+        return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        let selectedMemo = memoList[indexPath.row]
+        delegate?.didTapMemoItem(title: selectedMemo.title, body: selectedMemo.body)
     }
     
     private func setUpTableView() {
-        self.tableView.dataSource = self
-        self.tableView.delegate = self
         self.tableView.register(MemoListCell.self, forCellReuseIdentifier: MemoListCell.identifier)
-        self.view.addSubview(tableView)
-        
-        self.tableView.translatesAutoresizingMaskIntoConstraints = false
-        let safeLayoutGuide = self.view.safeAreaLayoutGuide
-        NSLayoutConstraint.activate([
-            self.tableView.leadingAnchor.constraint(equalTo: safeLayoutGuide.leadingAnchor),
-            self.tableView.trailingAnchor.constraint(equalTo: safeLayoutGuide.trailingAnchor),
-            self.tableView.topAnchor.constraint(equalTo: safeLayoutGuide.topAnchor),
-            self.tableView.bottomAnchor.constraint(equalTo: safeLayoutGuide.bottomAnchor)
-        ])
     }
     
     private func setUpNavigationBar() {
@@ -66,29 +69,6 @@ class ListViewController: UIViewController {
     
     @objc private func addButtonTapped(_ sender: Any) {
         print("button pressed")
-    }
-}
-extension ListViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return memoList.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: MemoListCell.identifier, for: indexPath) as? MemoListCell else {
-            return UITableViewCell()
-        }
-        cell.titleLabel.text = memoList[indexPath.row].title
-        cell.predescriptionLabel.text = memoList[indexPath.row].body
-        cell.dateLabel.text = memoList[indexPath.row].lastModified.convertToDate()
-        return cell
-    }
-}
-extension ListViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let selectedMemo = memoList[indexPath.row]
-        self.delegate = contentViewController
-        delegate?.matchData(with: selectedMemo)
-        self.navigationController?.pushViewController(contentViewController, animated: true)
     }
 }
 extension Double {

@@ -18,6 +18,7 @@
 		D97BCBB125DB5AFC00CB551A /* MemoListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97BCBB025DB5AFC00CB551A /* MemoListCell.swift */; };
 		D97BCBC225DBA90300CB551A /* Memo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97BCBC125DBA90300CB551A /* Memo.swift */; };
 		D97BCBE025DBC0E500CB551A /* ContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97BCBDF25DBC0E500CB551A /* ContentViewController.swift */; };
+		D97BCBFD25DE555A00CB551A /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97BCBFC25DE555A00CB551A /* MainViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +56,7 @@
 		D97BCBB025DB5AFC00CB551A /* MemoListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoListCell.swift; sourceTree = "<group>"; };
 		D97BCBC125DBA90300CB551A /* Memo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memo.swift; sourceTree = "<group>"; };
 		D97BCBDF25DBC0E500CB551A /* ContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewController.swift; sourceTree = "<group>"; };
+		D97BCBFC25DE555A00CB551A /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,6 +117,7 @@
 				D97BCBC125DBA90300CB551A /* Memo.swift */,
 				D97BCBB025DB5AFC00CB551A /* MemoListCell.swift */,
 				D97BCBDF25DBC0E500CB551A /* ContentViewController.swift */,
+				D97BCBFC25DE555A00CB551A /* MainViewController.swift */,
 			);
 			path = CloudNotes;
 			sourceTree = "<group>";
@@ -273,6 +276,7 @@
 				C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */,
 				C7481C7825BBCF3900B9CA55 /* CloudNotes.xcdatamodeld in Sources */,
 				D97BCBE025DBC0E500CB551A /* ContentViewController.swift in Sources */,
+				D97BCBFD25DE555A00CB551A /* MainViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

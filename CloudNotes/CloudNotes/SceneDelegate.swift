@@ -14,9 +14,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
          window = UIWindow(windowScene: windowScene)
-        let mainViewController = ListViewController()
-        let navigationController = UINavigationController(rootViewController: mainViewController)
-        window?.rootViewController = navigationController
+        let mainViewController = MainViewController(style: .doubleColumn)
+        let masterViewController = ListViewController()
+        let detailViewController = ContentViewController()
+        masterViewController.delegate = detailViewController
+        
+        mainViewController.viewControllers = [UINavigationController(rootViewController: masterViewController), detailViewController]
+        window?.rootViewController = mainViewController
         window?.makeKeyAndVisible()
     }
 

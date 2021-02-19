@@ -8,6 +8,26 @@
 import UIKit
 
 class ContentViewController: UIViewController, UIGestureRecognizerDelegate {
+    let contentView = UIView()
+    lazy var scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(scrollView)
+        scrollView.addSubview(contentView)
+        
+        scrollView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        scrollView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+        scrollView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        
+        contentView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
+        contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
+        contentView.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
+        contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
+        
+        return scrollView
+    }()
     lazy var titleTextView: UITextView = {
         let titleTextView = UITextView()
         titleTextView.translatesAutoresizingMaskIntoConstraints = false
@@ -29,18 +49,40 @@ class ContentViewController: UIViewController, UIGestureRecognizerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         
+        self.navigationItem.rightBarButtonItem = doneButton
+        setUpContentView()
+        setUpGestureRecognization()
+        setUpTextViewDelegation()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        setUpContentView()
+    private func setUpContentView() {
+        self.view.backgroundColor = .white
+        view.addSubview(scrollView)
+        
+        contentView.addSubview(titleTextView)
+        NSLayoutConstraint.activate([
+            titleTextView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
+            titleTextView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            titleTextView.widthAnchor.constraint(equalTo: contentView.widthAnchor),
+            titleTextView.heightAnchor.constraint(equalToConstant: 50)
+        ])
+        
+        contentView.addSubview(bodyTextView)
+        NSLayoutConstraint.activate([
+            bodyTextView.topAnchor.constraint(equalTo: titleTextView.bottomAnchor, constant: 5),
+            bodyTextView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            bodyTextView.widthAnchor.constraint(equalTo: contentView.widthAnchor),
+            bodyTextView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+        ])
+        
+        setUpViewPropertyConstraints()
     }
     
-    private func setUpContentView() {
-        self.navigationItem.rightBarButtonItem = doneButton
-        
+    private func setUpGestureRecognization() {
         let titleTapGesture = UITapGestureRecognizer(target: self, action: #selector(textViewTapped))
         let bodyTapGesture = UITapGestureRecognizer(target: self, action: #selector(textViewTapped))
         
@@ -49,37 +91,19 @@ class ContentViewController: UIViewController, UIGestureRecognizerDelegate {
         
         self.titleTextView.addGestureRecognizer(titleTapGesture)
         self.bodyTextView.addGestureRecognizer(bodyTapGesture)
-        
-        self.view.backgroundColor = .white
-        self.view.addSubview(titleTextView)
-        self.view.addSubview(bodyTextView)
-        
+    }
+    
+    private func setUpTextViewDelegation() {
         titleTextView.delegate = self
         bodyTextView.delegate = self
-        
-        setUpConstraints()
         
         textViewDidChange(titleTextView)
         textViewDidChange(bodyTextView)
     }
     
-    private func setUpConstraints() {
-        let safeLayoutGuide = self.view.safeAreaLayoutGuide
-        NSLayoutConstraint.activate([
-            titleTextView.topAnchor.constraint(equalTo: safeLayoutGuide.topAnchor, constant: 5),
-            titleTextView.leadingAnchor.constraint(equalTo: safeLayoutGuide.leadingAnchor),
-            titleTextView.trailingAnchor.constraint(equalTo: safeLayoutGuide.trailingAnchor),
-            titleTextView.heightAnchor.constraint(equalToConstant: 50),
-            
-            bodyTextView.topAnchor.constraint(equalTo: titleTextView.bottomAnchor, constant: 20),
-            bodyTextView.leadingAnchor.constraint(equalTo: safeLayoutGuide.leadingAnchor),
-            bodyTextView.trailingAnchor.constraint(equalTo: safeLayoutGuide.trailingAnchor),
-            bodyTextView.heightAnchor.constraint(equalToConstant: <#T##CGFloat#>)
-//            bodyTextView.bottomAnchor.constraint(equalTo: safeLayoutGuide.bottomAnchor)
-        ])
-        
-        titleTextView.isScrollEnabled = true
-        bodyTextView.isScrollEnabled = true
+    private func setUpViewPropertyConstraints() {
+        titleTextView.isScrollEnabled = false
+        bodyTextView.isScrollEnabled = false
         
         titleTextView.isEditable = false
         bodyTextView.isEditable = false
@@ -96,16 +120,16 @@ class ContentViewController: UIViewController, UIGestureRecognizerDelegate {
     @objc func keyboardWillShow(_ sender: Notification) {
         let safeLayoutGuide = self.view.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
-        bodyTextView.bottomAnchor.constraint(equalTo: safeLayoutGuide.bottomAnchor, constant: -150)
+            bodyTextView.bottomAnchor.constraint(equalTo: safeLayoutGuide.bottomAnchor, constant: -150)
         ])
     }
     @objc func keyboardWillHide(_ sender: Notification) {
         let safeLayoutGuide = self.view.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
-        bodyTextView.bottomAnchor.constraint(equalTo: safeLayoutGuide.bottomAnchor)
+            bodyTextView.bottomAnchor.constraint(equalTo: safeLayoutGuide.bottomAnchor)
         ])
     }
-
+    
     @objc func textViewTapped(sender: UITapGestureRecognizer) {
         let sentTextView = sender.view as? UITextView
         if let textView = sentTextView {

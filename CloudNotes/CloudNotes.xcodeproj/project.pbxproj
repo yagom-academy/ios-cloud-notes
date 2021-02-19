@@ -88,6 +88,49 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B479F2D025DF789B00A7253C /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				3621012725DAFEDB0063FDFA /* MemoSplitViewController.swift */,
+				3621012C25DAFF570063FDFA /* MemoTableViewController.swift */,
+				3621013125DAFF7A0063FDFA /* MemoViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		B479F2D125DF78A200A7253C /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				362100FD25DA79F30063FDFA /* Memo.swift */,
+				3621010625DA7B8B0063FDFA /* MemoModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		B479F2D225DF78E000A7253C /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				B45CA67625DBF797004CEAC5 /* Extensions.swift */,
+			);
+			path = Utility;
+			sourceTree = "<group>";
+		};
+		B479F2D325DF78FC00A7253C /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				B479F2D425DF78FF00A7253C /* Cells */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		B479F2D425DF78FF00A7253C /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				B482062625DB6A73008B9189 /* MemoTableViewCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
 		C7481C6125BBCF3900B9CA55 = {
 			isa = PBXGroup;
 			children = (
@@ -111,19 +154,16 @@
 		C7481C6C25BBCF3900B9CA55 /* CloudNotes */ = {
 			isa = PBXGroup;
 			children = (
+				B479F2D325DF78FC00A7253C /* Views */,
+				B479F2D225DF78E000A7253C /* Utility */,
+				B479F2D125DF78A200A7253C /* Models */,
+				B479F2D025DF789B00A7253C /* Controllers */,
 				C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */,
 				C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */,
 				C7481C7925BBCF3A00B9CA55 /* Assets.xcassets */,
 				C7481C7B25BBCF3A00B9CA55 /* LaunchScreen.storyboard */,
 				C7481C7E25BBCF3A00B9CA55 /* Info.plist */,
 				C7481C7625BBCF3900B9CA55 /* CloudNotes.xcdatamodeld */,
-				362100FD25DA79F30063FDFA /* Memo.swift */,
-				3621010625DA7B8B0063FDFA /* MemoModel.swift */,
-				3621012725DAFEDB0063FDFA /* MemoSplitViewController.swift */,
-				3621012C25DAFF570063FDFA /* MemoTableViewController.swift */,
-				3621013125DAFF7A0063FDFA /* MemoViewController.swift */,
-				B482062625DB6A73008B9189 /* MemoTableViewCell.swift */,
-				B45CA67625DBF797004CEAC5 /* Extensions.swift */,
 			);
 			path = CloudNotes;
 			sourceTree = "<group>";

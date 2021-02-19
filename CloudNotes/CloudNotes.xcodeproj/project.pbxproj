@@ -19,6 +19,7 @@
 		EA952B1B25DBA89500D3D921 /* ListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA952B1A25DBA89500D3D921 /* ListCell.swift */; };
 		EAAB4C4B25DD43C40020B13E /* IntExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAAB4C4A25DD43C40020B13E /* IntExtension.swift */; };
 		EAFA074E25DFEFF5004A91E1 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAFA074D25DFEFF5004A91E1 /* MainViewController.swift */; };
+		EAFA075625DFF607004A91E1 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAFA075525DFF607004A91E1 /* DetailViewController.swift */; };
 		FD64A83F25DB97270098C7D7 /* AddMemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD64A83E25DB97270098C7D7 /* AddMemoViewController.swift */; };
 		FD64A85D25DC08B80098C7D7 /* Memo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD64A85C25DC08B80098C7D7 /* Memo.swift */; };
 /* End PBXBuildFile section */
@@ -59,6 +60,7 @@
 		EA952B1A25DBA89500D3D921 /* ListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCell.swift; sourceTree = "<group>"; };
 		EAAB4C4A25DD43C40020B13E /* IntExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntExtension.swift; sourceTree = "<group>"; };
 		EAFA074D25DFEFF5004A91E1 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		EAFA075525DFF607004A91E1 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		FD64A83E25DB97270098C7D7 /* AddMemoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMemoViewController.swift; sourceTree = "<group>"; };
 		FD64A85C25DC08B80098C7D7 /* Memo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memo.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -143,6 +145,7 @@
 			children = (
 				EAFA074D25DFEFF5004A91E1 /* MainViewController.swift */,
 				C7481C7125BBCF3900B9CA55 /* ListViewController.swift */,
+				EAFA075525DFF607004A91E1 /* DetailViewController.swift */,
 				FD64A83E25DB97270098C7D7 /* AddMemoViewController.swift */,
 				EAAB4C4A25DD43C40020B13E /* IntExtension.swift */,
 			);
@@ -315,6 +318,7 @@
 				C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */,
 				EA952B1B25DBA89500D3D921 /* ListCell.swift in Sources */,
 				EAFA074E25DFEFF5004A91E1 /* MainViewController.swift in Sources */,
+				EAFA075625DFF607004A91E1 /* DetailViewController.swift in Sources */,
 				C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */,
 				C7481C7825BBCF3900B9CA55 /* CloudNotes.xcdatamodeld in Sources */,
 			);

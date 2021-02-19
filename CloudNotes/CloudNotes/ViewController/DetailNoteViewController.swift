@@ -42,6 +42,37 @@ class DetailNoteViewController: UIViewController {
     @objc func touchUpCompleteButton() {
         detailNoteTextView.isEditable = false
         
+        saveNoteDate()
+        
+        if let _ = navigationController?.presentingViewController {
+            self.navigationController?.popViewController(animated: true)
+        } else {
+            
+        }
+        
+        if let noteViewController = splitViewController?.viewControllers.first as? NoteViewController {
+            noteViewController.reloadTableView()
+            //noteViewController.reloadInputViews()
+        }
+    }
+    
+    private func addTapGestureRecognizerToTextView() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(changeTextViewEditableState))
+        detailNoteTextView.isEditable = false
+        detailNoteTextView.dataDetectorTypes = .all
+        detailNoteTextView.addGestureRecognizer(tapGesture)
+    }
+    
+    @objc func changeTextViewEditableState() {
+        detailNoteTextView.isEditable.toggle()
+        if detailNoteTextView.isEditable {
+            detailNoteTextView.becomeFirstResponder()
+        } else {
+            saveNoteDate()
+        }
+    }
+    
+    func saveNoteDate() {
         if let textViewText = detailNoteTextView.text, textViewText == "" {
             let titleText = "제목 없음"
             let bodyText = ""
@@ -56,19 +87,13 @@ class DetailNoteViewController: UIViewController {
             let note = Note(title: titleText, body: bodyText, lastModifiedDate: lastModifiedDate)
             NoteData.shared.noteLists.append(note)
         }
-        self.navigationController?.popViewController(animated: true)
-    }
-    
-    private func addTapGestureRecognizerToTextView() {
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(changeTextViewEditableState))
-        detailNoteTextView.isEditable = false
-        detailNoteTextView.dataDetectorTypes = .all
-        detailNoteTextView.addGestureRecognizer(tapGesture)
-    }
-    
-    @objc func changeTextViewEditableState() {
-        detailNoteTextView.isEditable = true
-        detailNoteTextView.becomeFirstResponder()
+        print("레디")
+        if let noteViewController = splitViewController?.viewControllers.first as? NoteViewController {
+            //noteViewController.reloadTableView()
+            print("이전뷰")
+            noteViewController.reloadInputViews()
+        }
+        
     }
 }
 

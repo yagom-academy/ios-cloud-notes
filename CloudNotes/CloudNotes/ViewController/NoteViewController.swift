@@ -44,8 +44,9 @@ class NoteViewController: UIViewController {
     }
     
     @objc func touchUpAddButton() {
-        let newNoteViewController = NewNoteViewController()
-        self.navigationController?.pushViewController(newNoteViewController, animated: true)
+        let detailNoteViewController = DetailNoteViewController()
+//        self.navigationController?.pushViewController(detailNoteViewController, animated: true)
+        splitViewController?.showDetailViewController(detailNoteViewController, sender: nil)
     }
 }
 
@@ -65,6 +66,10 @@ extension NoteViewController: UITableViewDataSource {
         cell.bodyLabel.text = noteLists[indexPath.row].body
         return cell
     }
+    
+    func reloadTableView() {
+        tableView.reloadData()
+    }
 }
 
 // MARK: - TableView Delegate
@@ -72,6 +77,7 @@ extension NoteViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let detailNoteViewController = DetailNoteViewController()
         detailNoteViewController.fetchedNoteData = NoteData.shared.noteLists[indexPath.row]
-        self.navigationController?.pushViewController(detailNoteViewController, animated: true)
+//        self.navigationController?.pushViewController(detailNoteViewController, animated: true)
+        splitViewController?.showDetailViewController(detailNoteViewController, sender: nil)
     }
 }

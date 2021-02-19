@@ -41,6 +41,19 @@ class DetailNoteViewController: UIViewController {
     
     @objc func touchUpCompleteButton() {
         detailNoteTextView.isEditable = false
+        
+        saveNoteDate()
+        
+        if let _ = navigationController?.presentingViewController {
+            self.navigationController?.popViewController(animated: true)
+        } else {
+            
+        }
+        
+        if let noteViewController = splitViewController?.viewControllers.first as? NoteViewController {
+            noteViewController.reloadTableView()
+            //noteViewController.reloadInputViews()
+        }
     }
     
     private func addTapGestureRecognizerToTextView() {
@@ -51,8 +64,36 @@ class DetailNoteViewController: UIViewController {
     }
     
     @objc func changeTextViewEditableState() {
-        detailNoteTextView.isEditable = true
-        detailNoteTextView.becomeFirstResponder()
+        detailNoteTextView.isEditable.toggle()
+        if detailNoteTextView.isEditable {
+            detailNoteTextView.becomeFirstResponder()
+        } else {
+            saveNoteDate()
+        }
+    }
+    
+    func saveNoteDate() {
+        if let textViewText = detailNoteTextView.text, textViewText == "" {
+            let titleText = "제목 없음"
+            let bodyText = ""
+            let lastModifiedDate = Date()
+            let note = Note(title: titleText, body: bodyText, lastModifiedDate: lastModifiedDate)
+            NoteData.shared.noteLists.append(note)
+        } else {
+            let textViewText = detailNoteTextView.text.split(separator: "\n", maxSplits: 1, omittingEmptySubsequences: true)
+            let titleText = String(textViewText[0])
+            let bodyText = String(textViewText[1])
+            let lastModifiedDate = Date()
+            let note = Note(title: titleText, body: bodyText, lastModifiedDate: lastModifiedDate)
+            NoteData.shared.noteLists.append(note)
+        }
+        print("레디")
+        if let noteViewController = splitViewController?.viewControllers.first as? NoteViewController {
+            //noteViewController.reloadTableView()
+            print("이전뷰")
+            noteViewController.reloadInputViews()
+        }
+        
     }
 }
 

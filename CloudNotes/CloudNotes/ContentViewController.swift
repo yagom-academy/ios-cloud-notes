@@ -56,11 +56,11 @@ class ContentViewController: UIViewController {
             bodyTextView.topAnchor.constraint(equalTo: titleTextView.bottomAnchor, constant: 20),
             bodyTextView.leadingAnchor.constraint(equalTo: safeLayoutGuide.leadingAnchor),
             bodyTextView.trailingAnchor.constraint(equalTo: safeLayoutGuide.trailingAnchor),
-            bodyTextView.heightAnchor.constraint(equalToConstant: 50),
+            bodyTextView.bottomAnchor.constraint(equalTo: safeLayoutGuide.bottomAnchor)
         ])
         
-        titleTextView.isScrollEnabled = false
-        bodyTextView.isScrollEnabled = false
+        titleTextView.isScrollEnabled = true
+        bodyTextView.isScrollEnabled = true
     }
 
     private func updateUI(with memo: Memo) {

@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		17673E8625DE10E0001FCF9E /* SplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17673E8525DE10E0001FCF9E /* SplitViewController.swift */; };
+		2680E2A325DF59B5008D8D41 /* CustomDateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2680E2A225DF59B5008D8D41 /* CustomDateFormatter.swift */; };
+		2680E2BD25DF6817008D8D41 /* MemoData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2680E2BC25DF6817008D8D41 /* MemoData.swift */; };
 		26BFB7B325DAAD850082AA1C /* Memo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26BFB7B225DAAD850082AA1C /* Memo.swift */; };
 		26BFB7BE25DACD7D0082AA1C /* IntExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26BFB7BD25DACD7D0082AA1C /* IntExtension.swift */; };
 		26BFB7D025DB72D50082AA1C /* MemoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26BFB7CF25DB72D50082AA1C /* MemoTableViewCell.swift */; };
@@ -41,6 +43,8 @@
 
 /* Begin PBXFileReference section */
 		17673E8525DE10E0001FCF9E /* SplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitViewController.swift; sourceTree = "<group>"; };
+		2680E2A225DF59B5008D8D41 /* CustomDateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDateFormatter.swift; sourceTree = "<group>"; };
+		2680E2BC25DF6817008D8D41 /* MemoData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoData.swift; sourceTree = "<group>"; };
 		26BFB7B225DAAD850082AA1C /* Memo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memo.swift; sourceTree = "<group>"; };
 		26BFB7BD25DACD7D0082AA1C /* IntExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntExtension.swift; sourceTree = "<group>"; };
 		26BFB7CF25DB72D50082AA1C /* MemoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoTableViewCell.swift; sourceTree = "<group>"; };
@@ -99,10 +103,19 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		2680E2BB25DF6649008D8D41 /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				2680E2A225DF59B5008D8D41 /* CustomDateFormatter.swift */,
+			);
+			path = Utility;
+			sourceTree = "<group>";
+		};
 		26BFB7C225DAD44D0082AA1C /* Model */ = {
 			isa = PBXGroup;
 			children = (
 				26BFB7B225DAAD850082AA1C /* Memo.swift */,
+				2680E2BC25DF6817008D8D41 /* MemoData.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -146,6 +159,7 @@
 		C7481C6C25BBCF3900B9CA55 /* CloudNotes */ = {
 			isa = PBXGroup;
 			children = (
+				2680E2BB25DF6649008D8D41 /* Utility */,
 				17673E6B25DDC3D6001FCF9E /* Supporting Files */,
 				26BFB7C325DAD4510082AA1C /* Extension */,
 				26BFB7C225DAD44D0082AA1C /* Model */,
@@ -306,8 +320,10 @@
 			files = (
 				C7481C7225BBCF3900B9CA55 /* ListViewController.swift in Sources */,
 				C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */,
+				2680E2BD25DF6817008D8D41 /* MemoData.swift in Sources */,
 				C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */,
 				26BFB7D025DB72D50082AA1C /* MemoTableViewCell.swift in Sources */,
+				2680E2A325DF59B5008D8D41 /* CustomDateFormatter.swift in Sources */,
 				C7481C7825BBCF3900B9CA55 /* CloudNotes.xcdatamodeld in Sources */,
 				17673E8625DE10E0001FCF9E /* SplitViewController.swift in Sources */,
 				26BFB7B325DAAD850082AA1C /* Memo.swift in Sources */,
@@ -483,6 +499,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = CloudNotes/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -502,6 +519,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = CloudNotes/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

@@ -37,9 +37,9 @@ class MemoViewController: UIViewController {
             memoTextView.isEditable = true
         }
     }
-
 }
 
+// MARK:- 오토레이아웃 관련
 extension MemoViewController {
     private func configureConstraints() {
         NSLayoutConstraint.activate([
@@ -49,7 +49,10 @@ extension MemoViewController {
             memoTextView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
         ])
     }
-    
+}
+
+// MARK:- Keyboard 관련
+extension MemoViewController {
     private func registerKeyboardNotifications() {
         NotificationCenter.default.addObserver(self, selector: #selector(changeTextViewBottomInsetToKeyboardHeight), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(resetTextViewBottomInset), name: UIResponder.keyboardWillHideNotification, object: nil)

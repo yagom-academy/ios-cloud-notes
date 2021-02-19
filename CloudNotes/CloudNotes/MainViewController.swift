@@ -7,9 +7,22 @@
 
 import UIKit
 
-class MainViewController: UISplitViewController, UISplitViewControllerDelegate {
+class MainViewController: UISplitViewController {
+    private let masterViewController = ListViewController()
+    private let detailViewController = ContentViewController()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        delegate = self
+        masterViewController.delegate = detailViewController
+
+        
+        self.viewControllers = [UINavigationController(rootViewController: masterViewController), detailViewController]
+    }
+}
+
+extension MainViewController: UISplitViewControllerDelegate {
+    func splitViewController(_ splitViewController: UISplitViewController, collapseSecondary secondaryViewController: UIViewController, onto primaryViewController: UIViewController) -> Bool {
+        return true
     }
 }

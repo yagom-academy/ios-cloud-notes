@@ -57,9 +57,11 @@ final class MemoTableViewCell: UITableViewCell {
             memoTitleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
             memoTitleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             memoTitleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5),
+            
             memoModifiedDateLabel.topAnchor.constraint(equalTo: memoTitleLabel.bottomAnchor, constant: 5),
             memoModifiedDateLabel.leadingAnchor.constraint(equalTo: memoTitleLabel.leadingAnchor),
             memoModifiedDateLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
+            
             memoDescriptionLabel.leadingAnchor.constraint(equalTo: memoModifiedDateLabel.trailingAnchor, constant: 30),
             memoDescriptionLabel.topAnchor.constraint(equalTo: memoModifiedDateLabel.topAnchor),
             memoDescriptionLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5),

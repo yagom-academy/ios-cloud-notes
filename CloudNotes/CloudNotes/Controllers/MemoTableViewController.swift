@@ -14,8 +14,8 @@ class MemoTableViewController: UIViewController {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
-    var memoModel: [Memo]?
-    var memoViewControllerDelegate: MemoViewControllerDelegate?
+    private var memoModel: [Memo]?
+    private var memoViewControllerDelegate: MemoViewControllerDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()

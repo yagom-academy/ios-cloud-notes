@@ -141,10 +141,10 @@
 		FD5DBA8225DD8902005459A9 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				EAFA074D25DFEFF5004A91E1 /* MainViewController.swift */,
 				C7481C7125BBCF3900B9CA55 /* ListViewController.swift */,
 				FD64A83E25DB97270098C7D7 /* AddMemoViewController.swift */,
 				EAAB4C4A25DD43C40020B13E /* IntExtension.swift */,
-				EAFA074D25DFEFF5004A91E1 /* MainViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";

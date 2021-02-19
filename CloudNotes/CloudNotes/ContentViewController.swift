@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ContentViewController: UIViewController, UIGestureRecognizerDelegate {
+class ContentViewController: UIViewController {
     let contentView = UIView()
     lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -116,7 +116,13 @@ class ContentViewController: UIViewController, UIGestureRecognizerDelegate {
         titleTextView.text = memo.title
         bodyTextView.text = memo.body
     }
-    
+}
+extension ContentViewController: ListViewControllerDelegate {
+    func didTapMemoItem(with memo: Memo) {
+        updateUI(with: memo)
+    }
+}
+extension ContentViewController: UIGestureRecognizerDelegate {
     @objc func keyboardWillShow(_ sender: Notification) {
         let safeLayoutGuide = self.view.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
@@ -129,7 +135,6 @@ class ContentViewController: UIViewController, UIGestureRecognizerDelegate {
             bodyTextView.bottomAnchor.constraint(equalTo: safeLayoutGuide.bottomAnchor)
         ])
     }
-    
     @objc func textViewTapped(sender: UITapGestureRecognizer) {
         let sentTextView = sender.view as? UITextView
         if let textView = sentTextView {
@@ -137,18 +142,13 @@ class ContentViewController: UIViewController, UIGestureRecognizerDelegate {
             textView.becomeFirstResponder()
         }
     }
-    
+}
+extension ContentViewController: UITextViewDelegate {
     @objc private func didTapDoneButton(_ sender: Any) {
         self.titleTextView.endEditing(true)
         self.bodyTextView.endEditing(true)
     }
-}
-extension ContentViewController: ListViewControllerDelegate {
-    func didTapMemoItem(with memo: Memo) {
-        updateUI(with: memo)
-    }
-}
-extension ContentViewController: UITextViewDelegate {
+        
     func textViewDidChange(_ textView: UITextView) {
         let size = CGSize(width: self.view.frame.width, height: .infinity)
         let rearrangedSize = textView.sizeThatFits(size)

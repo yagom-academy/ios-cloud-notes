@@ -8,7 +8,7 @@
 import UIKit
 
 final class DetailViewController: UIViewController {
-    var memo: Memo? {
+    private var memo: Memo? {
         didSet {
             refreshUI()
         }

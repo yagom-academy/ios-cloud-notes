@@ -7,7 +7,7 @@
 import UIKit
 
 protocol ListViewControllerDelegate: AnyObject {
-    func didTapMemoItem(title: String, body: String)
+    func didTapMemoItem(with memo: Memo)
 }
 
 class ListViewController: UITableViewController {
@@ -42,7 +42,7 @@ class ListViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let selectedMemo = memoList[indexPath.row]
-        delegate?.didTapMemoItem(title: selectedMemo.title, body: selectedMemo.body)
+        delegate?.didTapMemoItem(with: selectedMemo)
     }
     
     private func setUpTableView() {

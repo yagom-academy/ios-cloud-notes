@@ -69,11 +69,9 @@ class ContentViewController: UIViewController {
     }
 }
 extension ContentViewController: ListViewControllerDelegate {
-    func didTapMemoItem(title: String, body: String) {
-        self.titleTextView.text = title
-        self.bodyTextView.text = body
+    func didTapMemoItem(with memo: Memo) {
+        updateUI(with: memo)
     }
-    
 }
 extension ContentViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {

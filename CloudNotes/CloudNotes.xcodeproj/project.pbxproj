@@ -7,10 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		28046DD025DBB54500E127FF /* Memo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28046DCF25DBB54500E127FF /* Memo.swift */; };
+		28046DD625DBB9A600E127FF /* MemoError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28046DD525DBB9A600E127FF /* MemoError.swift */; };
+		28046DE225DBBAF200E127FF /* ViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28046DE125DBBAF200E127FF /* ViewControllerExtension.swift */; };
+		283FA8AB25DE570700902F3A /* MemoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 283FA8AA25DE570700902F3A /* MemoDetailViewController.swift */; };
+		283FA8B325DE601A00902F3A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 283FA8B225DE601A00902F3A /* Main.storyboard */; };
+		283FA8B825DE650C00902F3A /* UITextViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 283FA8B725DE650C00902F3A /* UITextViewExtension.swift */; };
+		28F0B7D425DF95DD00916219 /* MainSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F0B7D325DF95DD00916219 /* MainSplitViewController.swift */; };
+		28F0B7E225DF965100916219 /* MemoListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F0B7E125DF965100916219 /* MemoListTableViewController.swift */; };
+		28F0B7EA25DF99A600916219 /* MemoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F0B7E925DF99A600916219 /* MemoModel.swift */; };
+		28F0B80025DFA0AE00916219 /* MemoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F0B7FF25DFA0AE00916219 /* MemoTableViewCell.swift */; };
 		C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */; };
 		C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */; };
-		C7481C7225BBCF3900B9CA55 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C7125BBCF3900B9CA55 /* ViewController.swift */; };
-		C7481C7525BBCF3900B9CA55 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C7481C7325BBCF3900B9CA55 /* Main.storyboard */; };
 		C7481C7825BBCF3900B9CA55 /* CloudNotes.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C7481C7625BBCF3900B9CA55 /* CloudNotes.xcdatamodeld */; };
 		C7481C7A25BBCF3A00B9CA55 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C7481C7925BBCF3A00B9CA55 /* Assets.xcassets */; };
 		C7481C7D25BBCF3A00B9CA55 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C7481C7B25BBCF3A00B9CA55 /* LaunchScreen.storyboard */; };
@@ -36,11 +44,19 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		28046DCF25DBB54500E127FF /* Memo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memo.swift; sourceTree = "<group>"; };
+		28046DD525DBB9A600E127FF /* MemoError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoError.swift; sourceTree = "<group>"; };
+		28046DE125DBBAF200E127FF /* ViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerExtension.swift; sourceTree = "<group>"; };
+		283FA8AA25DE570700902F3A /* MemoDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoDetailViewController.swift; sourceTree = "<group>"; };
+		283FA8B225DE601A00902F3A /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		283FA8B725DE650C00902F3A /* UITextViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextViewExtension.swift; sourceTree = "<group>"; };
+		28F0B7D325DF95DD00916219 /* MainSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSplitViewController.swift; sourceTree = "<group>"; };
+		28F0B7E125DF965100916219 /* MemoListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoListTableViewController.swift; sourceTree = "<group>"; };
+		28F0B7E925DF99A600916219 /* MemoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoModel.swift; sourceTree = "<group>"; };
+		28F0B7FF25DFA0AE00916219 /* MemoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoTableViewCell.swift; sourceTree = "<group>"; };
 		C7481C6A25BBCF3900B9CA55 /* CloudNotes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CloudNotes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		C7481C7125BBCF3900B9CA55 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		C7481C7425BBCF3900B9CA55 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C7481C7725BBCF3900B9CA55 /* CloudNotes.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CloudNotes.xcdatamodel; sourceTree = "<group>"; };
 		C7481C7925BBCF3A00B9CA55 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C7481C7C25BBCF3A00B9CA55 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -78,6 +94,43 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		28046DCE25DBB53400E127FF /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				28046DCF25DBB54500E127FF /* Memo.swift */,
+				28F0B7E925DF99A600916219 /* MemoModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		28046DD425DBB99D00E127FF /* Error */ = {
+			isa = PBXGroup;
+			children = (
+				28046DD525DBB9A600E127FF /* MemoError.swift */,
+			);
+			path = Error;
+			sourceTree = "<group>";
+		};
+		28046DE025DBBAE700E127FF /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				28046DE125DBBAF200E127FF /* ViewControllerExtension.swift */,
+				283FA8B725DE650C00902F3A /* UITextViewExtension.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		28F0B7D825DF962A00916219 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				283FA8AA25DE570700902F3A /* MemoDetailViewController.swift */,
+				28F0B7D325DF95DD00916219 /* MainSplitViewController.swift */,
+				28F0B7E125DF965100916219 /* MemoListTableViewController.swift */,
+				28F0B7FF25DFA0AE00916219 /* MemoTableViewCell.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
 		C7481C6125BBCF3900B9CA55 = {
 			isa = PBXGroup;
 			children = (
@@ -101,10 +154,13 @@
 		C7481C6C25BBCF3900B9CA55 /* CloudNotes */ = {
 			isa = PBXGroup;
 			children = (
+				28F0B7D825DF962A00916219 /* ViewControllers */,
+				28046DE025DBBAE700E127FF /* Extension */,
+				28046DD425DBB99D00E127FF /* Error */,
+				28046DCE25DBB53400E127FF /* Model */,
 				C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */,
+				283FA8B225DE601A00902F3A /* Main.storyboard */,
 				C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */,
-				C7481C7125BBCF3900B9CA55 /* ViewController.swift */,
-				C7481C7325BBCF3900B9CA55 /* Main.storyboard */,
 				C7481C7925BBCF3A00B9CA55 /* Assets.xcassets */,
 				C7481C7B25BBCF3A00B9CA55 /* LaunchScreen.storyboard */,
 				C7481C7E25BBCF3A00B9CA55 /* Info.plist */,
@@ -234,9 +290,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				283FA8B325DE601A00902F3A /* Main.storyboard in Resources */,
 				C7481C7D25BBCF3A00B9CA55 /* LaunchScreen.storyboard in Resources */,
 				C7481C7A25BBCF3A00B9CA55 /* Assets.xcassets in Resources */,
-				C7481C7525BBCF3900B9CA55 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -261,10 +317,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C7481C7225BBCF3900B9CA55 /* ViewController.swift in Sources */,
+				28F0B80025DFA0AE00916219 /* MemoTableViewCell.swift in Sources */,
+				28046DD625DBB9A600E127FF /* MemoError.swift in Sources */,
+				283FA8AB25DE570700902F3A /* MemoDetailViewController.swift in Sources */,
 				C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */,
+				28F0B7EA25DF99A600916219 /* MemoModel.swift in Sources */,
+				28F0B7D425DF95DD00916219 /* MainSplitViewController.swift in Sources */,
 				C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */,
+				28046DE225DBBAF200E127FF /* ViewControllerExtension.swift in Sources */,
+				28046DD025DBB54500E127FF /* Memo.swift in Sources */,
+				283FA8B825DE650C00902F3A /* UITextViewExtension.swift in Sources */,
 				C7481C7825BBCF3900B9CA55 /* CloudNotes.xcdatamodeld in Sources */,
+				28F0B7E225DF965100916219 /* MemoListTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -300,14 +364,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		C7481C7325BBCF3900B9CA55 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				C7481C7425BBCF3900B9CA55 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		C7481C7B25BBCF3A00B9CA55 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -441,12 +497,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 6VQP8JUW36;
 				INFOPLIST_FILE = CloudNotes/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "";
+				PRODUCT_BUNDLE_IDENTIFIER = com.wonhee;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -459,12 +516,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 6VQP8JUW36;
 				INFOPLIST_FILE = CloudNotes/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "";
+				PRODUCT_BUNDLE_IDENTIFIER = com.wonhee;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

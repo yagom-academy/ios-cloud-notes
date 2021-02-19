@@ -6,7 +6,7 @@
 
 import UIKit
 
-class MainViewController: UIViewController {
+class ListViewController: UIViewController {
     
     private var memoList: [Memo] = []
     
@@ -74,11 +74,11 @@ class MainViewController: UIViewController {
     }
 }
 
-extension MainViewController: UITableViewDelegate {
+extension ListViewController: UITableViewDelegate {
     
 }
 
-extension MainViewController: UITableViewDataSource {
+extension ListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return memoList.count
     }

@@ -75,7 +75,10 @@ class ListViewController: UIViewController {
 }
 
 extension ListViewController: UITableViewDelegate {
-    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let detailViewController = DetailViewController()
+        self.splitViewController?.showDetailViewController(detailViewController, sender: nil)
+    }
 }
 
 extension ListViewController: UITableViewDataSource {

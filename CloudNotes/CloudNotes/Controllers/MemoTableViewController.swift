@@ -14,6 +14,7 @@ class MemoTableViewController: UIViewController {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
+
     private var memoModel: [Memo]?
     private var memoViewControllerDelegate: MemoViewControllerDelegate?
     

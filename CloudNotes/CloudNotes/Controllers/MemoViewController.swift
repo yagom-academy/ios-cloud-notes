@@ -14,14 +14,16 @@ protocol MemoViewControllerDelegate {
 class MemoViewController: UIViewController {
     private let memoTextView: UITextView = {
         let textView = UITextView()
-        textView.isUserInteractionEnabled = false
         textView.isEditable = false
         textView.dataDetectorTypes = .all
         textView.textContainerInset = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
         textView.translatesAutoresizingMaskIntoConstraints = false
+        
         return textView
     }()
-
+    
+    var tapGesture: UITapGestureRecognizer?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
@@ -29,14 +31,27 @@ class MemoViewController: UIViewController {
         memoTextView.delegate = self
         configureConstraints()
         registerKeyboardNotifications()
+        tapGesture = UITapGestureRecognizer(target: self, action: #selector(enterEditMode))
+        if let tapGesture = self.tapGesture {
+            memoTextView.addGestureRecognizer(tapGesture)
+        }
+        let swipeDownGesture = UISwipeGestureRecognizer(target: self, action: #selector(exitEditMode))
+        swipeDownGesture.direction = UISwipeGestureRecognizer.Direction.down
+        memoTextView.addGestureRecognizer(swipeDownGesture)
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if memoTextView.isUserInteractionEnabled == false {
-            memoTextView.isUserInteractionEnabled = true
-            memoTextView.isEditable = true
-        }
+    @objc func enterEditMode() {
+        memoTextView.isEditable = true
+        tapGesture?.isEnabled = false
+        memoTextView.becomeFirstResponder()
     }
+    
+    @objc func exitEditMode() {
+        memoTextView.isEditable = false
+        tapGesture?.isEnabled = true
+        memoTextView.resignFirstResponder()
+    }
+
 }
 
 // MARK:- 오토레이아웃 관련
@@ -77,11 +92,15 @@ extension MemoViewController: MemoViewControllerDelegate {
 extension MemoViewController: UITextViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if(scrollView.panGestureRecognizer.translation(in: scrollView.superview).y > 0) {
-            view.endEditing(true)
-            if memoTextView.isUserInteractionEnabled == true {
-                memoTextView.isUserInteractionEnabled = false
-                memoTextView.isEditable = false
-            }
+            exitEditMode()
         }
+    }
+    
+    func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
+        return true
+    }
+    
+    func textViewDidChangeSelection(_ textView: UITextView) {
+        
     }
 }

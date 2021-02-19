@@ -16,13 +16,11 @@ class MainViewController: UISplitViewController {
         delegate = self
         masterViewController.delegate = detailViewController
 
-        
-        self.viewControllers = [UINavigationController(rootViewController: masterViewController), detailViewController]
+        self.setViewController(UINavigationController(rootViewController: masterViewController), for: .primary)
+        self.setViewController(detailViewController, for: .secondary)
     }
 }
 
 extension MainViewController: UISplitViewControllerDelegate {
-    func splitViewController(_ splitViewController: UISplitViewController, collapseSecondary secondaryViewController: UIViewController, onto primaryViewController: UIViewController) -> Bool {
-        return true
-    }
+    // Delegate...
 }

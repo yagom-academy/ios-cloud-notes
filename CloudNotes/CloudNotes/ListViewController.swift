@@ -43,6 +43,9 @@ class ListViewController: UITableViewController {
         tableView.deselectRow(at: indexPath, animated: true)
         let selectedMemo = memoList[indexPath.row]
         delegate?.didTapMemoItem(with: selectedMemo)
+        if let detailVC = delegate as? ContentViewController {
+            self.splitViewController?.showDetailViewController(detailVC, sender: nil)
+        }
     }
     
     private func setUpTableView() {

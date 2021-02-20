@@ -17,6 +17,12 @@ class MemoContentsViewController: UIViewController {
         configureAutoLayout()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        if self.isMovingFromParent {
+            NotificationCenter.default.post(name: NSNotification.Name("ShowTableView"), object: nil)
+        }
+    }
+    
     private func configureMemoContentsView() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(textViewDidTapped))
         memoTextView.delegate = self

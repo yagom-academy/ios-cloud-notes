@@ -3,13 +3,15 @@ import UIKit
 class MemoListTableViewController: UITableViewController {
     var memoList = [Memo]()
     let enrollButton = UIButton()
-    var firstSelection: Bool = false
+    var isCellSelected: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         configureNavigationBar()
         tableView.register(MemoListTableViewCell.self, forCellReuseIdentifier: "MemoCell")
+  
+        NotificationCenter.default.addObserver(self, selector: #selector(changeIsCellSelected), name: NSNotification.Name("ShowTableView"), object: nil)
     }
     
     override init(style: UITableView.Style = .plain) {
@@ -19,6 +21,10 @@ class MemoListTableViewController: UITableViewController {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    @objc func changeIsCellSelected() {
+        isCellSelected = false
     }
     
     func configureNavigationBar() {
@@ -49,7 +55,7 @@ extension MemoListTableViewController {
         memoContentsView.receiveText(memo: memoList[indexPath.row])
         self.splitViewController?.showDetailViewController(memoContentsView, sender: nil)
         
-        firstSelection = true
+        isCellSelected = true
     }
 }
 

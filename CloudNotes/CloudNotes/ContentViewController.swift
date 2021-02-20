@@ -59,6 +59,11 @@ class ContentViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
+    func didTapMemoItem(with memo: Memo) {
+        updateUI(with: memo)
+    }
+}
+extension ContentViewController {
     private func setUpContentView() {
         self.view.backgroundColor = .white
         view.addSubview(scrollView)
@@ -115,11 +120,6 @@ class ContentViewController: UIViewController {
     private func updateUI(with memo: Memo) {
         titleTextView.text = memo.title
         bodyTextView.text = memo.body
-    }
-}
-extension ContentViewController: ListViewControllerDelegate {
-    func didTapMemoItem(with memo: Memo) {
-        updateUI(with: memo)
     }
 }
 extension ContentViewController: UIGestureRecognizerDelegate {

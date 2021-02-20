@@ -6,12 +6,8 @@
 
 import UIKit
 
-protocol ListViewControllerDelegate: AnyObject {
-    func didTapMemoItem(with memo: Memo)
-}
-
 class ListViewController: UITableViewController {
-    weak var delegate: ListViewControllerDelegate?
+    let contentViewController = ContentViewController()
     lazy var addMemoButton: UIBarButtonItem = {
         let button =  UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonTapped(_:)))
         return button
@@ -42,7 +38,8 @@ class ListViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let selectedMemo = memoList[indexPath.row]
-        delegate?.didTapMemoItem(with: selectedMemo)
+        contentViewController.didTapMemoItem(with: selectedMemo)
+        self.splitViewController?.showDetailViewController(contentViewController, sender: nil)
     }
     
     private func setUpTableView() {

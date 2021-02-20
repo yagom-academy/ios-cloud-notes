@@ -2,8 +2,8 @@ import UIKit
 
 class MemoListTableViewController: UITableViewController {
     var memoList = [Memo]()
-    let enrollButton = UIButton()
     var isCellSelected: Bool = false
+    private let enrollButton = UIButton()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,7 +27,7 @@ class MemoListTableViewController: UITableViewController {
         isCellSelected = false
     }
     
-    func configureNavigationBar() {
+    private func configureNavigationBar() {
         navigationItem.title = "메모"
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: enrollButton)
         enrollButton.translatesAutoresizingMaskIntoConstraints = false
@@ -61,7 +61,7 @@ extension MemoListTableViewController {
 
 // MARK: JSONDecoding
 extension MemoListTableViewController {
-    func decodeJSONToMemoList(fileName: String) {
+    private func decodeJSONToMemoList(fileName: String) {
         guard let dataAsset: NSDataAsset = NSDataAsset.init(name: fileName) else {
             return
         }
@@ -77,7 +77,7 @@ extension MemoListTableViewController {
 
 // MARK: Alert
 extension MemoListTableViewController {
-    func showAlertMessage(_ message: String) {
+    private func showAlertMessage(_ message: String) {
         let alert = UIAlertController(title: nil, message: message, preferredStyle: UIAlertController.Style.alert)
         let okAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
         

@@ -110,6 +110,9 @@ extension ContentViewController {
         titleTextView.isScrollEnabled = false
         bodyTextView.isScrollEnabled = false
         
+        titleTextView.isSelectable = true
+        bodyTextView.isSelectable = true
+        
         titleTextView.isEditable = false
         bodyTextView.isEditable = false
         
@@ -124,9 +127,8 @@ extension ContentViewController {
 }
 extension ContentViewController: UIGestureRecognizerDelegate {
     @objc func keyboardWillShow(_ sender: Notification) {
-        let safeLayoutGuide = self.view.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
-            bodyTextView.bottomAnchor.constraint(equalTo: safeLayoutGuide.bottomAnchor, constant: -150)
+            bodyTextView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -150)
         ])
     }
     @objc func keyboardWillHide(_ sender: Notification) {
@@ -162,5 +164,9 @@ extension ContentViewController: UITextViewDelegate {
     
     func textViewDidEndEditing(_ textView: UITextView) {
         textView.isEditable = false
+    }
+    
+    func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
+        return true
     }
 }

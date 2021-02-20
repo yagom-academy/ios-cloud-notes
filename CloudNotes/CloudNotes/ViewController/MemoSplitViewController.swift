@@ -23,11 +23,6 @@ class MemoSplitViewController: UISplitViewController {
 
 extension MemoSplitViewController: UISplitViewControllerDelegate {
     func splitViewController(_ splitViewController: UISplitViewController, collapseSecondary secondaryViewController: UIViewController, onto primaryViewController: UIViewController) -> Bool {
-        switch memoListTableViewController.isCellSelected {
-        case true:
-            return false
-        case false:
-            return true
-        }
+        return !memoListTableViewController.isCellSelected
     }
 }

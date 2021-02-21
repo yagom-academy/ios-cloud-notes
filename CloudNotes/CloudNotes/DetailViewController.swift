@@ -36,13 +36,8 @@ final class DetailViewController: UIViewController {
     }
     
     private func setupNavigationBar() {
-        if traitCollection.horizontalSizeClass == .regular &&
-            UIDevice.current.orientation.isLandscape {
-            navigationController?.navigationBar.isHidden = true
-        }
-        else {
-            navigationController?.navigationBar.isHidden = false
-        }
+        let isRegular = traitCollection.horizontalSizeClass == .regular
+        navigationController?.navigationBar.isHidden = isRegular
     }
     
     private func setupTextView() {

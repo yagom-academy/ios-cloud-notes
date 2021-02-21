@@ -16,13 +16,10 @@ final class DetailViewController: UIViewController {
     
     private var memoBodyTextView: UITextView = {
         let textView = UITextView()
+        textView.adjustsFontForContentSizeCategory = true
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.dataDetectorTypes = [.link, .phoneNumber, .calendarEvent]
-        textView.isSelectable = true
         textView.isEditable = false
-        textView.isUserInteractionEnabled = true
-        textView.font = .preferredFont(forTextStyle: .body)
-        textView.textColor = .black
         return textView
     }()
     
@@ -74,11 +71,9 @@ final class DetailViewController: UIViewController {
         guard let memo = memo else {
             return
         }
-        let title = memo.title
-        let fontAttributeKey = NSAttributedString.Key(rawValue: kCTFontAttributeName as String)
-        let fontSize = UIFont.preferredFont(forTextStyle: .title1)
-        let content = NSMutableAttributedString(string: "\(memo.title)\n\n\(memo.body)")
-        content.addAttribute(fontAttributeKey, value: fontSize, range: NSMakeRange(0, title.count))
+        let content = NSMutableAttributedString(string: memo.title, attributes: [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .title1)])
+        content.append(NSAttributedString(string: "\n\n" + memo.body, attributes: [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .body)]))
+
         memoBodyTextView.attributedText = content
     }
 }

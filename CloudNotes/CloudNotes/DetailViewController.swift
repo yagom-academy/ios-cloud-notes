@@ -17,7 +17,6 @@ final class DetailViewController: UIViewController {
     private var memoBodyTextView: UITextView = {
         let textView = UITextView()
         textView.adjustsFontForContentSizeCategory = true
-        textView.translatesAutoresizingMaskIntoConstraints = false
         textView.dataDetectorTypes = [.link, .phoneNumber, .calendarEvent]
         textView.isEditable = false
         return textView
@@ -41,7 +40,7 @@ final class DetailViewController: UIViewController {
     }
     
     private func setupNavigationBar() {
-        if traitCollection.userInterfaceIdiom == .pad &&
+        if traitCollection.horizontalSizeClass == .regular &&
             UIDevice.current.orientation.isLandscape {
             navigationController?.navigationBar.isHidden = true
         }
@@ -52,11 +51,13 @@ final class DetailViewController: UIViewController {
     
     private func setupTextView() {
         setTapGesture()
+        self.view.backgroundColor = .white
+        memoBodyTextView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(memoBodyTextView)
         NSLayoutConstraint.activate([
             memoBodyTextView.topAnchor.constraint(equalTo: view.topAnchor),
             memoBodyTextView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            memoBodyTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            memoBodyTextView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             memoBodyTextView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }

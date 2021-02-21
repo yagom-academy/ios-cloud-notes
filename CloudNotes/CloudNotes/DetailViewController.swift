@@ -11,6 +11,7 @@ final class DetailViewController: UIViewController {
     private var memo: Memo? {
         didSet {
             refreshUI()
+            memoBodyTextView.isEditable = false
         }
     }
     
@@ -59,7 +60,39 @@ final class DetailViewController: UIViewController {
     
     private func setTapGesture() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapTextView(_:)))
+        tapGesture.delegate = self
         memoBodyTextView.addGestureRecognizer(tapGesture)
+    }
+    
+    @objc private func tapTextView(_ gesture: UITapGestureRecognizer) {
+        // isEditable = false 일 때만 textView가 좌표를 잡지 못하므로 gestureRecognizer가 받은 좌표를 넘겨주기 위함
+        if memoBodyTextView.isEditable { return }
+        
+        guard let textView = gesture.view as? UITextView else { return }
+        let tappedLocation = gesture.location(in: textView)
+        
+        let glyphIndex = textView.layoutManager.glyphIndex(for: tappedLocation, in: textView.textContainer)
+        let glyphRect = textView.layoutManager.boundingRect(forGlyphRange: NSRange(location: glyphIndex, length: 1), in: textView.textContainer)
+        
+        if glyphIndex < textView.textStorage.length,
+           glyphRect.contains(tappedLocation),
+           textView.textStorage.attribute(NSAttributedString.Key.link, at: glyphIndex, effectiveRange: nil) == nil {
+            memoBodyTextView.isEditable = true
+            placeCursor(textView, tappedLocation)
+            memoBodyTextView.becomeFirstResponder()
+        }
+    }
+    
+    private func placeCursor(_ textView: UITextView, _ tappedLocation: CGPoint) {
+        if let position = textView.closestPosition(to: tappedLocation) {
+            let uiTextRange = textView.textRange(from: position, to: position)
+            
+            if let start = uiTextRange?.start, let end = uiTextRange?.end {
+                let loc = textView.offset(from: textView.beginningOfDocument, to: position)
+                let length = textView.offset(from: start, to: end)
+                textView.selectedRange = NSMakeRange(loc, length)
+            }
+        }
     }
     
     private func refreshUI() {
@@ -80,16 +113,16 @@ extension DetailViewController: UITextViewDelegate {
         textView.isEditable = false
         textView.dataDetectorTypes = [.link, .phoneNumber, .calendarEvent]
     }
-    
-    @objc private func tapTextView(_ gesture: UITapGestureRecognizer) {
-        memoBodyTextView.isEditable = true
-        memoBodyTextView.dataDetectorTypes = []
-        memoBodyTextView.becomeFirstResponder()
-    }
 }
 
 extension DetailViewController: MemoSelectionDelegate {
     func memoSelected(_ memo: Memo) {
         self.memo = memo
+    }
+}
+
+extension DetailViewController: UIGestureRecognizerDelegate {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
     }
 }

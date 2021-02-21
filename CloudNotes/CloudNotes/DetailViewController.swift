@@ -24,6 +24,7 @@ final class DetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .white
         setupTextView()
         setupNavigationBar()
     }
@@ -45,7 +46,7 @@ final class DetailViewController: UIViewController {
     
     private func setupTextView() {
         setTapGesture()
-        self.view.backgroundColor = .white
+        memoBodyTextView.delegate = self
         memoBodyTextView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(memoBodyTextView)
         NSLayoutConstraint.activate([
@@ -78,7 +79,6 @@ extension DetailViewController: UITextViewDelegate {
     func textViewDidEndEditing(_ textView: UITextView) {
         textView.isEditable = false
         textView.dataDetectorTypes = [.link, .phoneNumber, .calendarEvent]
-        textView.resignFirstResponder()
     }
     
     @objc private func tapTextView(_ gesture: UITapGestureRecognizer) {

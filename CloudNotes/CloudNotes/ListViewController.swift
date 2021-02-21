@@ -26,9 +26,15 @@ final class ListViewController: UITableViewController {
         }
         do {
             MemoData.shared.list = try JSONDecoder().decode([Memo].self, from: dataAsset.data)
+            setUpDefaultMemo()
         } catch {
             print(error)
         }
+    }
+    
+    private func setUpDefaultMemo() {
+        let index =  UserDefaults.standard.integer(forKey: "lastMemoIndex")
+        delegate?.memoSelected(MemoData.shared.list[index])
     }
     
     private func setUpNavigationBar() {

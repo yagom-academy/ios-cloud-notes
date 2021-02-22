@@ -62,7 +62,22 @@ extension DetailViewController {
     }
     
     @objc private func didTappedTextView(_ gestrue: UITapGestureRecognizer) {
+        if memoTextView.isEditable {
+            return
+        }
         
+        guard let textView = gestrue.view as? UITextView else {
+            return
+        }
+        
+        let tappedLocation = gestrue.location(in: textView)
+        let glyphIndex = textView.layoutManager.glyphIndex(for: tappedLocation, in: textView.textContainer)
+        
+        if glyphIndex < textView.textStorage.length,
+           textView.textStorage.attribute(NSAttributedString.Key.link, at: glyphIndex, effectiveRange: nil) == nil {
+            memoTextView.isEditable = true
+            memoTextView.becomeFirstResponder()
+        }
     }
 }
 

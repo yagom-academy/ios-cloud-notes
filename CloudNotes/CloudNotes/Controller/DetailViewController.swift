@@ -15,6 +15,8 @@ class DetailViewController: UIViewController {
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.backgroundColor = .white
         textView.font = UIFont.systemFont(ofSize: 17)
+        textView.isEditable = false
+        textView.dataDetectorTypes = [.link, .phoneNumber, .calendarEvent]
         return textView
     }()
 

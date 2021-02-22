@@ -1,31 +1,9 @@
 import UIKit
 
 class MemoListTableViewCell: UITableViewCell {
-    let listTitleLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.adjustsFontForContentSizeCategory = true
-        label.font = .preferredFont(forTextStyle: .body)
-        return label
-    }()
-    
-    let listShortBodyLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.adjustsFontForContentSizeCategory = true
-        label.font = .preferredFont(forTextStyle: .caption2)
-        label.textColor = .gray
-        return label
-    }()
-    
-    let listLastModifiedDateLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.adjustsFontForContentSizeCategory = true
-        label.font = .preferredFont(forTextStyle: .caption2)
-        return label
-    }()
-
+    let listTitleLabel: UILabel = makeLabel(textStyle: .body)
+    let listShortBodyLabel: UILabel = makeLabel(textStyle: .body, textColor: .gray)
+    let listLastModifiedDateLabel: UILabel = makeLabel(textStyle: .caption2)
     let contentsContainerView = UIView()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -39,6 +17,15 @@ class MemoListTableViewCell: UITableViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    class private func makeLabel(textStyle: UIFont.TextStyle, textColor: UIColor = .black) -> UILabel {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.adjustsFontForContentSizeCategory = true
+        label.font = .preferredFont(forTextStyle: textStyle)
+        label.textColor = textColor
+        return label
     }
 
     private func configureContentsContainerView() {

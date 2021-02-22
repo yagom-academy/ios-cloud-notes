@@ -8,6 +8,7 @@
 import UIKit
 
 class DetailViewController: UIViewController {
+    
     var memo: Memo?
     
     private var memoTextView: UITextView = {
@@ -36,6 +37,7 @@ class DetailViewController: UIViewController {
     private func updateTextView() {
         navigationItem.title = memo?.title
         memoTextView.text = memo?.contents
+        memoTextView.text += "\n 010-1234-1234 \n www.naver.com \n"
     }
     
     private func configure() {
@@ -66,6 +68,7 @@ extension DetailViewController: UITextViewDelegate {
 }
 
 extension DetailViewController {
+    
     private func setTapGesture() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTappedTextView(_:)))
         tapGesture.delegate = self
@@ -80,7 +83,7 @@ extension DetailViewController {
         guard let textView = gestrue.view as? UITextView else {
             return
         }
-        
+
         let tappedLocation = gestrue.location(in: textView)
         let glyphIndex = textView.layoutManager.glyphIndex(for: tappedLocation, in: textView.textContainer)
         
@@ -106,7 +109,7 @@ extension DetailViewController {
 }
 
 extension DetailViewController: UIGestureRecognizerDelegate {
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRequireFailureOf otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }
 }

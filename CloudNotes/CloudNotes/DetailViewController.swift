@@ -28,6 +28,7 @@ final class DetailViewController: UIViewController {
         view.backgroundColor = .white
         setupTextView()
         setupNavigationBar()
+        setupKeyboardDoneButton()
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -60,17 +61,18 @@ final class DetailViewController: UIViewController {
     }
     
     @objc private func tapTextView(_ gesture: UITapGestureRecognizer) {
-        // isEditable = false 일 때만 textView가 좌표를 잡지 못하므로 gestureRecognizer가 받은 좌표를 넘겨주기 위함
-        if memoBodyTextView.isEditable { return }
+        if memoBodyTextView.isEditable {
+            return
+        }
         
-        guard let textView = gesture.view as? UITextView else { return }
+        guard let textView = gesture.view as? UITextView else {
+            return
+        }
+        
         let tappedLocation = gesture.location(in: textView)
-        
         let glyphIndex = textView.layoutManager.glyphIndex(for: tappedLocation, in: textView.textContainer)
-        let glyphRect = textView.layoutManager.boundingRect(forGlyphRange: NSRange(location: glyphIndex, length: 1), in: textView.textContainer)
         
         if glyphIndex < textView.textStorage.length,
-           glyphRect.contains(tappedLocation),
            textView.textStorage.attribute(NSAttributedString.Key.link, at: glyphIndex, effectiveRange: nil) == nil {
             memoBodyTextView.isEditable = true
             placeCursor(textView, tappedLocation)
@@ -99,6 +101,21 @@ final class DetailViewController: UIViewController {
         content.append(NSAttributedString(string: "\n\n" + memo.body, attributes: [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .body)]))
 
         memoBodyTextView.attributedText = content
+    }
+    
+    
+    private func setupKeyboardDoneButton() {
+        let toolBarKeyboard = UIToolbar()
+        toolBarKeyboard.sizeToFit()
+        let btnDoneBar = UIBarButtonItem(title: "완료", style: .done, target: self, action: #selector(self.doneButtonClicked))
+        toolBarKeyboard.items = [btnDoneBar]
+        toolBarKeyboard.tintColor = #colorLiteral(red: 0.2745098174, green: 0.4862745106, blue: 0.1411764771, alpha: 1)
+        
+        memoBodyTextView.inputAccessoryView = toolBarKeyboard
+    }
+    
+    @objc func doneButtonClicked(_ sender: Any) {
+        self.memoBodyTextView.endEditing(true)
     }
 }
 

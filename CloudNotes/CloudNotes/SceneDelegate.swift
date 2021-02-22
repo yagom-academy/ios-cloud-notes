@@ -17,10 +17,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let noteViewController = NoteViewController()
         let masterViewController = UINavigationController(rootViewController: noteViewController)
-        let detailNoteViewController = DetailNoteViewController()
-        
+    
         let splitViewController = UISplitViewController()
-        splitViewController.viewControllers = [masterViewController, detailNoteViewController]
+        splitViewController.viewControllers = [masterViewController]
         splitViewController.preferredPrimaryColumnWidthFraction = 1/3
         splitViewController.preferredDisplayMode = .oneBesideSecondary
 

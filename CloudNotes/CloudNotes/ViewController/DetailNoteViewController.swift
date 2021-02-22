@@ -87,13 +87,12 @@ class DetailNoteViewController: UIViewController {
             let note = Note(title: titleText, body: bodyText, lastModifiedDate: lastModifiedDate)
             NoteData.shared.noteLists.append(note)
         }
-        print("레디")
-        if let noteViewController = splitViewController?.viewControllers.first as? NoteViewController {
-            //noteViewController.reloadTableView()
-            print("이전뷰")
-            noteViewController.reloadInputViews()
+  
+        if
+            let navi = splitViewController?.viewControllers.first as? UINavigationController,
+            let noteViewController = navi.viewControllers.first as? NoteViewController {
+            noteViewController.reloadTableView()
         }
-        
     }
 }
 

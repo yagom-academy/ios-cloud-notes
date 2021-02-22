@@ -18,7 +18,6 @@
 		E2B0F1CB25DAB0F60027AFE6 /* NotesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2B0F1CA25DAB0F60027AFE6 /* NotesTableViewCell.swift */; };
 		E2B0F1D425DB4E5E0027AFE6 /* SampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2B0F1D325DB4E5E0027AFE6 /* SampleData.swift */; };
 		E2B0F1F525DBA9DF0027AFE6 /* JSONDecodingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2B0F1F425DBA9DF0027AFE6 /* JSONDecodingError.swift */; };
-		E2B0F21225DCEB0D0027AFE6 /* NewNoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2B0F21125DCEB0D0027AFE6 /* NewNoteViewController.swift */; };
 		E2B0F21D25DD5E5A0027AFE6 /* NoteData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2B0F21C25DD5E5A0027AFE6 /* NoteData.swift */; };
 		E2B0F22825DD62EF0027AFE6 /* SampleDataJSONDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2B0F22725DD62EF0027AFE6 /* SampleDataJSONDecoder.swift */; };
 		E2B0F23025DE74ED0027AFE6 /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2B0F22F25DE74ED0027AFE6 /* Note.swift */; };
@@ -61,7 +60,6 @@
 		E2B0F1CA25DAB0F60027AFE6 /* NotesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesTableViewCell.swift; sourceTree = "<group>"; };
 		E2B0F1D325DB4E5E0027AFE6 /* SampleData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleData.swift; sourceTree = "<group>"; };
 		E2B0F1F425DBA9DF0027AFE6 /* JSONDecodingError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONDecodingError.swift; sourceTree = "<group>"; };
-		E2B0F21125DCEB0D0027AFE6 /* NewNoteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewNoteViewController.swift; sourceTree = "<group>"; };
 		E2B0F21C25DD5E5A0027AFE6 /* NoteData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteData.swift; sourceTree = "<group>"; };
 		E2B0F22725DD62EF0027AFE6 /* SampleDataJSONDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleDataJSONDecoder.swift; sourceTree = "<group>"; };
 		E2B0F22F25DE74ED0027AFE6 /* Note.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Note.swift; sourceTree = "<group>"; };
@@ -153,7 +151,6 @@
 			children = (
 				C7481C7125BBCF3900B9CA55 /* NoteViewController.swift */,
 				E2B0F23925DF828C0027AFE6 /* NoteSplitViewController.swift */,
-				E2B0F21125DCEB0D0027AFE6 /* NewNoteViewController.swift */,
 				E2B0F23425DE798D0027AFE6 /* DetailNoteViewController.swift */,
 				E2B0F1BD25DAAAFD0027AFE6 /* CustomCell */,
 			);
@@ -326,7 +323,6 @@
 				E2B0F1CB25DAB0F60027AFE6 /* NotesTableViewCell.swift in Sources */,
 				E2B0F23025DE74ED0027AFE6 /* Note.swift in Sources */,
 				E2B0F23A25DF828D0027AFE6 /* NoteSplitViewController.swift in Sources */,
-				E2B0F21225DCEB0D0027AFE6 /* NewNoteViewController.swift in Sources */,
 				C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */,
 				C7481C7825BBCF3900B9CA55 /* CloudNotes.xcdatamodeld in Sources */,
 			);

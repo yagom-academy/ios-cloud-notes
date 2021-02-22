@@ -46,13 +46,10 @@ class DetailNoteViewController: UIViewController {
         
         if let _ = navigationController?.presentingViewController {
             self.navigationController?.popViewController(animated: true)
-        } else {
-            
         }
         
         if let noteViewController = splitViewController?.viewControllers.first as? NoteViewController {
             noteViewController.reloadTableView()
-            //noteViewController.reloadInputViews()
         }
     }
     
@@ -81,11 +78,18 @@ class DetailNoteViewController: UIViewController {
             NoteData.shared.noteLists.append(note)
         } else {
             let textViewText = detailNoteTextView.text.split(separator: "\n", maxSplits: 1, omittingEmptySubsequences: true)
-            let titleText = String(textViewText[0])
-            let bodyText = String(textViewText[1])
-            let lastModifiedDate = Date()
-            let note = Note(title: titleText, body: bodyText, lastModifiedDate: lastModifiedDate)
-            NoteData.shared.noteLists.append(note)
+            if textViewText.count == 1 {
+                let titleText = String(textViewText[0])
+                let lastModifiedDate = Date()
+                let note = Note(title: titleText, body: "", lastModifiedDate: lastModifiedDate)
+                NoteData.shared.noteLists.append(note)
+            } else {
+                let titleText = String(textViewText[0])
+                let bodyText = String(textViewText[1])
+                let lastModifiedDate = Date()
+                let note = Note(title: titleText, body: bodyText, lastModifiedDate: lastModifiedDate)
+                NoteData.shared.noteLists.append(note)
+            }
         }
   
         if

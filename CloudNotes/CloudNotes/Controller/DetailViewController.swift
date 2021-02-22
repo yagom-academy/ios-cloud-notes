@@ -76,7 +76,20 @@ extension DetailViewController {
         if glyphIndex < textView.textStorage.length,
            textView.textStorage.attribute(NSAttributedString.Key.link, at: glyphIndex, effectiveRange: nil) == nil {
             memoTextView.isEditable = true
+            placeCursor(textView, tappedLocation)
             memoTextView.becomeFirstResponder()
+        }
+    }
+    
+    private func placeCursor(_ textView: UITextView, _ tappedLocation: CGPoint) {
+        if let position = textView.closestPosition(to: tappedLocation) {
+            let uiTextRange = textView.textRange(from: position, to: position)
+            
+            if let start = uiTextRange?.start, let end = uiTextRange?.end {
+                let location = textView.offset(from: textView.beginningOfDocument, to: position)
+                let length = textView.offset(from: start, to: end)
+                textView.selectedRange = NSMakeRange(location, length)
+            }
         }
     }
 }

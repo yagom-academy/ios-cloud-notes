@@ -14,18 +14,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
-        
-        let noteViewController = NoteViewController()
-        let masterViewController = UINavigationController(rootViewController: noteViewController)
-    
-        let splitViewController = UISplitViewController()
-        splitViewController.viewControllers = [masterViewController]
-        splitViewController.preferredPrimaryColumnWidthFraction = 1/3
-        splitViewController.preferredDisplayMode = .oneBesideSecondary
-
-        window?.rootViewController = splitViewController
+        let noteSplitViewController = NoteSplitViewController()
+        window?.rootViewController = noteSplitViewController
         window?.makeKeyAndVisible()
-        
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

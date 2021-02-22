@@ -8,6 +8,8 @@
 import UIKit
 
 class DetailViewController: UIViewController {
+    var memo: Memo?
+    
     private var memoTextView: UITextView = {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
@@ -17,7 +19,6 @@ class DetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setAutoLayout()
     }
 
     private func setAutoLayout() {

@@ -4,7 +4,7 @@ struct Memo: Decodable {
     var title: String
     var body: String
     private var lastModified: Int
-    var lastModifiedDate: String {
+    var lastModifiedDateString: String {
         let dateStr = Date(timeIntervalSince1970: TimeInterval(lastModified)).convertToString()
         return dateStr
     }

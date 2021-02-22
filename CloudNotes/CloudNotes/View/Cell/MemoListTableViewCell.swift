@@ -61,6 +61,6 @@ class MemoListTableViewCell: UITableViewCell {
     func receiveLabelsText(memo: Memo) {
         listTitleLabel.text = memo.title
         listShortBodyLabel.text = memo.body
-        listLastModifiedDateLabel.text = memo.lastModifiedDate
+        listLastModifiedDateLabel.text = memo.lastModifiedDateString
     }
 }

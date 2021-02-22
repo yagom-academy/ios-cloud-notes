@@ -15,7 +15,7 @@ class ListCell: UITableViewCell {
         let titleLabel = UILabel()
         titleLabel.text = "testTitle"
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.font = UIFont.boldSystemFont(ofSize: 24)
+        titleLabel.font = UIFont.boldSystemFont(ofSize: 19)
         return titleLabel
     }()
     private let dateLabel: UILabel = {

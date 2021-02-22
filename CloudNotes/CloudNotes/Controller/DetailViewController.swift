@@ -23,6 +23,7 @@ class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setTextView()
+        setTapGesture()
     }
     
     private func setTextView() {
@@ -50,5 +51,23 @@ class DetailViewController: UIViewController {
             memoTextView.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -magin),
             memoTextView.bottomAnchor.constraint(equalTo: guide.bottomAnchor, constant: -magin)
         ])
+    }
+}
+
+extension DetailViewController {
+    private func setTapGesture() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTappedTextView(_:)))
+        tapGesture.delegate = self
+        memoTextView.addGestureRecognizer(tapGesture)
+    }
+    
+    @objc private func didTappedTextView(_ gestrue: UITapGestureRecognizer) {
+        
+    }
+}
+
+extension DetailViewController: UIGestureRecognizerDelegate {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRequireFailureOf otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
     }
 }

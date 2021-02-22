@@ -20,6 +20,11 @@ class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
     }
+    
+    private func updateTextView() {
+        navigationItem.title = memo?.title
+        memoTextView.text = memo?.contents
+    }
 
     private func setAutoLayout() {
         let guide = view.safeAreaLayoutGuide

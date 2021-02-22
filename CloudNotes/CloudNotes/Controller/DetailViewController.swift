@@ -28,6 +28,7 @@ class DetailViewController: UIViewController {
     
     private func setTextView() {
         updateTextView()
+        configure()
         addSubView()
         setAutoLayout()
     }
@@ -35,6 +36,10 @@ class DetailViewController: UIViewController {
     private func updateTextView() {
         navigationItem.title = memo?.title
         memoTextView.text = memo?.contents
+    }
+    
+    private func configure() {
+        memoTextView.delegate = self
     }
     
     private func addSubView() {
@@ -51,6 +56,12 @@ class DetailViewController: UIViewController {
             memoTextView.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -magin),
             memoTextView.bottomAnchor.constraint(equalTo: guide.bottomAnchor, constant: -magin)
         ])
+    }
+}
+
+extension DetailViewController: UITextViewDelegate {
+    func textViewDidEndEditing(_ textView: UITextView) {
+        memoTextView.isEditable = false
     }
 }
 

@@ -14,6 +14,7 @@ class DetailViewController: UIViewController {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.backgroundColor = .white
+        textView.font = UIFont.systemFont(ofSize: 17)
         return textView
     }()
 
@@ -38,12 +39,14 @@ class DetailViewController: UIViewController {
     }
 
     private func setAutoLayout() {
+        view.backgroundColor = .white
+        let magin: CGFloat = 10
         let guide = view.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
-            memoTextView.topAnchor.constraint(equalTo: guide.topAnchor),
-            memoTextView.leadingAnchor.constraint(equalTo: guide.leadingAnchor),
-            memoTextView.trailingAnchor.constraint(equalTo: guide.trailingAnchor),
-            memoTextView.bottomAnchor.constraint(equalTo: guide.bottomAnchor)
+            memoTextView.topAnchor.constraint(equalTo: guide.topAnchor, constant: magin),
+            memoTextView.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: magin),
+            memoTextView.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -magin),
+            memoTextView.bottomAnchor.constraint(equalTo: guide.bottomAnchor, constant: -magin)
         ])
     }
 }

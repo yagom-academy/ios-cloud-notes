@@ -18,9 +18,7 @@ class MemoContentsViewController: UIViewController {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        if self.isMovingFromParent {
-            NotificationCenter.default.post(name: NSNotification.Name("ShowTableView"), object: nil)
-        }
+        NotificationCenter.default.post(name: NSNotification.Name("ShowTableView"), object: nil)
     }
     
     private func configureMemoContentsView() {

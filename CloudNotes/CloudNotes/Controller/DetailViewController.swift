@@ -25,6 +25,10 @@ class DetailViewController: UIViewController {
         navigationItem.title = memo?.title
         memoTextView.text = memo?.contents
     }
+    
+    private func addSubView() {
+        view.addSubview(memoTextView)
+    }
 
     private func setAutoLayout() {
         let guide = view.safeAreaLayoutGuide

@@ -1,7 +1,8 @@
 import Foundation
 
 extension Date {
-    func toStringWithDot() -> String {
+    /// Returns string converted from data with user's current locale.
+    func convertToString() -> String {
         let currentLocale = Locale.current.collatorIdentifier ?? "ko_KR"
         let dateFormatter = DateFormatter()
         

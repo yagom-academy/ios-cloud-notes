@@ -13,12 +13,19 @@ class DetailViewController: UIViewController {
     private var memoTextView: UITextView = {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
-        textView.backgroundColor = .blue
+        textView.backgroundColor = .white
         return textView
     }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setTextView()
+    }
+    
+    private func setTextView() {
+        updateTextView()
+        addSubView()
+        setAutoLayout()
     }
     
     private func updateTextView() {

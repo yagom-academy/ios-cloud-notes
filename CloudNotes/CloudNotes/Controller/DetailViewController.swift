@@ -8,6 +8,7 @@
 import UIKit
 
 class DetailViewController: UIViewController {
+    
     var memo: Memo?
     
     private var memoTextView: UITextView = {
@@ -15,16 +16,20 @@ class DetailViewController: UIViewController {
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.backgroundColor = .white
         textView.font = UIFont.systemFont(ofSize: 17)
+        textView.isEditable = false
+        textView.dataDetectorTypes = [.link, .phoneNumber, .calendarEvent]
         return textView
     }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setTextView()
+        setTapGesture()
     }
     
     private func setTextView() {
         updateTextView()
+        configure()
         addSubView()
         setAutoLayout()
     }
@@ -32,6 +37,11 @@ class DetailViewController: UIViewController {
     private func updateTextView() {
         navigationItem.title = memo?.title
         memoTextView.text = memo?.contents
+        memoTextView.text += "\n 010-1234-1234 \n www.naver.com \n"
+    }
+    
+    private func configure() {
+        memoTextView.delegate = self
     }
     
     private func addSubView() {
@@ -48,5 +58,58 @@ class DetailViewController: UIViewController {
             memoTextView.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -magin),
             memoTextView.bottomAnchor.constraint(equalTo: guide.bottomAnchor, constant: -magin)
         ])
+    }
+}
+
+extension DetailViewController: UITextViewDelegate {
+    func textViewDidEndEditing(_ textView: UITextView) {
+        memoTextView.isEditable = false
+    }
+}
+
+extension DetailViewController {
+    
+    private func setTapGesture() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTappedTextView(_:)))
+        tapGesture.delegate = self
+        memoTextView.addGestureRecognizer(tapGesture)
+    }
+    
+    @objc private func didTappedTextView(_ gestrue: UITapGestureRecognizer) {
+        if memoTextView.isEditable {
+            return
+        }
+        
+        guard let textView = gestrue.view as? UITextView else {
+            return
+        }
+
+        let tappedLocation = gestrue.location(in: textView)
+        let glyphIndex = textView.layoutManager.glyphIndex(for: tappedLocation, in: textView.textContainer)
+        
+        if glyphIndex < textView.textStorage.length,
+           textView.textStorage.attribute(NSAttributedString.Key.link, at: glyphIndex, effectiveRange: nil) == nil {
+            memoTextView.isEditable = true
+            placeCursor(textView, tappedLocation)
+            memoTextView.becomeFirstResponder()
+        }
+    }
+    
+    private func placeCursor(_ textView: UITextView, _ tappedLocation: CGPoint) {
+        if let position = textView.closestPosition(to: tappedLocation) {
+            let uiTextRange = textView.textRange(from: position, to: position)
+            
+            if let start = uiTextRange?.start, let end = uiTextRange?.end {
+                let location = textView.offset(from: textView.beginningOfDocument, to: position)
+                let length = textView.offset(from: start, to: end)
+                textView.selectedRange = NSMakeRange(location, length)
+            }
+        }
+    }
+}
+
+extension DetailViewController: UIGestureRecognizerDelegate {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
     }
 }

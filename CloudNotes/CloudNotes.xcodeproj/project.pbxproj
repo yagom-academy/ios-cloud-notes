@@ -15,6 +15,7 @@
 		C7481C7D25BBCF3A00B9CA55 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C7481C7B25BBCF3A00B9CA55 /* LaunchScreen.storyboard */; };
 		C7481C8825BBCF3A00B9CA55 /* CloudNotesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C8725BBCF3A00B9CA55 /* CloudNotesTests.swift */; };
 		C7481C9325BBCF3A00B9CA55 /* CloudNotesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C9225BBCF3A00B9CA55 /* CloudNotesUITests.swift */; };
+		D97A6A3D25E4D1CB00BD271E /* MemoTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97A6A3C25E4D1CB00BD271E /* MemoTextView.swift */; };
 		D97BCBB125DB5AFC00CB551A /* MemoListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97BCBB025DB5AFC00CB551A /* MemoListCell.swift */; };
 		D97BCBC225DBA90300CB551A /* Memo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97BCBC125DBA90300CB551A /* Memo.swift */; };
 		D97BCBE025DBC0E500CB551A /* ContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97BCBDF25DBC0E500CB551A /* ContentViewController.swift */; };
@@ -53,6 +54,7 @@
 		C7481C8E25BBCF3A00B9CA55 /* CloudNotesUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CloudNotesUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7481C9225BBCF3A00B9CA55 /* CloudNotesUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudNotesUITests.swift; sourceTree = "<group>"; };
 		C7481C9425BBCF3A00B9CA55 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D97A6A3C25E4D1CB00BD271E /* MemoTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoTextView.swift; sourceTree = "<group>"; };
 		D97BCBB025DB5AFC00CB551A /* MemoListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoListCell.swift; sourceTree = "<group>"; };
 		D97BCBC125DBA90300CB551A /* Memo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memo.swift; sourceTree = "<group>"; };
 		D97BCBDF25DBC0E500CB551A /* ContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewController.swift; sourceTree = "<group>"; };
@@ -118,6 +120,7 @@
 				C7481C7625BBCF3900B9CA55 /* CloudNotes.xcdatamodeld */,
 				D97BCBC125DBA90300CB551A /* Memo.swift */,
 				D97BCBB025DB5AFC00CB551A /* MemoListCell.swift */,
+				D97A6A3C25E4D1CB00BD271E /* MemoTextView.swift */,
 			);
 			path = CloudNotes;
 			sourceTree = "<group>";
@@ -274,6 +277,7 @@
 				D97BCBB125DB5AFC00CB551A /* MemoListCell.swift in Sources */,
 				D97BCBC225DBA90300CB551A /* Memo.swift in Sources */,
 				C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */,
+				D97A6A3D25E4D1CB00BD271E /* MemoTextView.swift in Sources */,
 				C7481C7825BBCF3900B9CA55 /* CloudNotes.xcdatamodeld in Sources */,
 				D97BCBE025DBC0E500CB551A /* ContentViewController.swift in Sources */,
 				D97BCBFD25DE555A00CB551A /* MainViewController.swift in Sources */,

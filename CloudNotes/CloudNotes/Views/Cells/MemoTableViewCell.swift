@@ -7,10 +7,8 @@ extension Reusable where Self: UITableViewCell {
         return String(describing: self)
     }
 }
- 
-extension UITableViewCell: Reusable {}
 
-class MemoTableViewCell: UITableViewCell {
+class MemoTableViewCell: UITableViewCell, Reusable {
     //MARK: - Views
     private let titleLabel: UILabel = {
         let label = UILabel()

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		56A3702D25E521D200BD9CB2 /* UIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56A3702C25E521D200BD9CB2 /* UIConstants.swift */; };
 		C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */; };
 		C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */; };
 		C7481C7225BBCF3900B9CA55 /* NoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C7125BBCF3900B9CA55 /* NoteViewController.swift */; };
@@ -43,6 +44,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		56A3702C25E521D200BD9CB2 /* UIConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIConstants.swift; sourceTree = "<group>"; };
 		C7481C6A25BBCF3900B9CA55 /* CloudNotes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CloudNotes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -124,6 +126,7 @@
 				C7481C7B25BBCF3A00B9CA55 /* LaunchScreen.storyboard */,
 				C7481C7E25BBCF3A00B9CA55 /* Info.plist */,
 				C7481C7625BBCF3900B9CA55 /* CloudNotes.xcdatamodeld */,
+				56A3702C25E521D200BD9CB2 /* UIConstants.swift */,
 			);
 			path = CloudNotes;
 			sourceTree = "<group>";
@@ -318,6 +321,7 @@
 				E2B0F22825DD62EF0027AFE6 /* SampleDataJSONDecoder.swift in Sources */,
 				E2B0F1F525DBA9DF0027AFE6 /* JSONDecodingError.swift in Sources */,
 				E2B0F1D425DB4E5E0027AFE6 /* SampleData.swift in Sources */,
+				56A3702D25E521D200BD9CB2 /* UIConstants.swift in Sources */,
 				E2B0F23525DE798D0027AFE6 /* DetailNoteViewController.swift in Sources */,
 				C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */,
 				E2B0F1CB25DAB0F60027AFE6 /* NotesTableViewCell.swift in Sources */,

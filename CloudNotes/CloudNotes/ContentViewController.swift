@@ -78,7 +78,12 @@ extension ContentViewController {
     
     
     private func updateUI(with memo: Memo) {
-        contentView.text = "\(memo.title)\n \(memo.body)"
+        let headLinefont = UIFont.preferredFont(forTextStyle: .headline)
+        let memoAttributedString = NSMutableAttributedString(string: memo.title)
+        let bodyAttributedString = NSAttributedString(string: "\n\(memo.body)")
+        memoAttributedString.addAttribute(.font, value: headLinefont, range: NSRange(location: 0, length: memo.title.count))
+        memoAttributedString.append(bodyAttributedString)
+        contentView.attributedText = memoAttributedString
         setUpContentView()
     }
 }

@@ -59,10 +59,11 @@ extension NoteViewController: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: NotesTableViewCell.identifier, for: indexPath) as? NotesTableViewCell else {
             return UITableViewCell()
         }
-        let noteLists = NoteData.shared.noteLists
-        cell.titleLabel.text = noteLists[indexPath.row].title
-        cell.bodyLabel.text = noteLists[indexPath.row].body
-        cell.lastModifiedDateLabel.text = noteLists[indexPath.row].lastModifiedDate
+        
+        cell.titleLabel.text = NoteData.shared.title(index: indexPath.row)
+        cell.bodyLabel.text = NoteData.shared.body(index: indexPath.row)
+        cell.lastModifiedDateLabel.text = NoteData.shared.lastModifiedDate(index: indexPath.row)
+        
         return cell
     }
     

@@ -47,10 +47,6 @@ class DetailNoteViewController: UIViewController {
         if let _ = navigationController?.presentingViewController {
             self.navigationController?.popViewController(animated: true)
         }
-        
-        if let noteViewController = splitViewController?.viewControllers.first as? NoteViewController {
-            noteViewController.reloadTableView()
-        }
     }
     
     private func addTapGestureRecognizerToTextView() {

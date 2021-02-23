@@ -15,12 +15,7 @@ class NoteViewController: UIViewController {
         self.view.backgroundColor = .white
         configureNavigationItem()
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
-        tableView.reloadData()
-    }
-    
+        
     private func configureTableView() {
         tableView.dataSource = self
         tableView.delegate = self

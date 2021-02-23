@@ -39,16 +39,16 @@ class ListViewController: UITableViewController {
         tableView.deselectRow(at: indexPath, animated: true)
         let selectedMemo = memoList[indexPath.row]
         contentViewController.didTapMemoItem(with: selectedMemo)
-        self.splitViewController?.showDetailViewController(contentViewController, sender: nil)
+        splitViewController?.showDetailViewController(contentViewController, sender: nil)
     }
     
     private func setUpTableView() {
-        self.tableView.register(MemoListCell.self, forCellReuseIdentifier: MemoListCell.identifier)
+        tableView.register(MemoListCell.self, forCellReuseIdentifier: MemoListCell.identifier)
     }
     
     private func setUpNavigationBar() {
-        self.navigationItem.title = "메모"
-        self.navigationItem.rightBarButtonItem = addMemoButton
+        navigationItem.title = "메모"
+        navigationItem.rightBarButtonItem = addMemoButton
     }
     
     private func decodeMemoList() {
@@ -68,7 +68,7 @@ class ListViewController: UITableViewController {
         print("button pressed")
     }
 }
-extension Double {
+extension TimeInterval {
     func convertToDate() -> String {
         let date = Date(timeIntervalSince1970: self)
         let dateFormatter = DateFormatter()

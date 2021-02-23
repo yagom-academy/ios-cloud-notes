@@ -13,9 +13,8 @@ class MainViewController: UISplitViewController, UISplitViewControllerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.viewControllers = [UINavigationController(rootViewController: masterViewController)]
-        self.preferredPrimaryColumnWidthFraction = 0.4
-        self.preferredDisplayMode = UISplitViewController.DisplayMode.oneBesideSecondary
-        self.viewControllers = [UINavigationController(rootViewController: masterViewController)]
+        viewControllers = [UINavigationController(rootViewController: masterViewController)]
+        preferredPrimaryColumnWidthFraction = 0.4
+        preferredDisplayMode = .oneBesideSecondary
     }
 }

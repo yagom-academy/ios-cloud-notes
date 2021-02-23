@@ -14,6 +14,7 @@ class MemoTextView: UITextView {
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+        preconditionFailure("init(coder:) has not been implemented")
     }
     
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
@@ -24,9 +25,9 @@ class MemoTextView: UITextView {
                 return self
             }
             else {
-                    self.isEditable = true
-                    self.becomeFirstResponder()
-                    return self
+                self.isEditable = true
+                self.becomeFirstResponder()
+                return self
             }
         }
         

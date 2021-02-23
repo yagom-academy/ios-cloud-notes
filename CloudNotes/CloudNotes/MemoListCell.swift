@@ -37,7 +37,7 @@ class MemoListCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        self.accessoryType = UITableViewCell.AccessoryType.disclosureIndicator
+        self.accessoryType = .disclosureIndicator
         setUpConstraints()
     }
     
@@ -45,14 +45,20 @@ class MemoListCell: UITableViewCell {
         preconditionFailure("init(coder:) has not been implemented")
     }
     
+    override func prepareForReuse() {
+        titleLabel.text = ""
+        dateLabel.text = ""
+        predescriptionLabel.text = ""
+    }
+    
     private func setUpConstraints() {
-        self.contentView.addSubview(titleLabel)
-        self.contentView.addSubview(dateLabel)
-        self.contentView.addSubview(predescriptionLabel)
+        contentView.addSubview(titleLabel)
+        contentView.addSubview(dateLabel)
+        contentView.addSubview(predescriptionLabel)
         
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 5),
-            titleLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 10),
+            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
+            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
             titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             
             dateLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 5),

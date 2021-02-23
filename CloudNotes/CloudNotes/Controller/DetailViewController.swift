@@ -14,10 +14,9 @@ class DetailViewController: UIViewController {
     private var memoTextView: UITextView = {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
-        textView.backgroundColor = .white
         textView.font = UIFont.systemFont(ofSize: 17)
         textView.isEditable = false
-        textView.dataDetectorTypes = [.link, .phoneNumber, .calendarEvent]
+        textView.dataDetectorTypes = .all
         return textView
     }()
 
@@ -25,18 +24,31 @@ class DetailViewController: UIViewController {
         super.viewDidLoad()
         setTextView()
         setTapGesture()
+        setNavigation()
     }
     
+    private func setNavigation() {
+        self.view.backgroundColor = .white
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: #selector(didTapEllipsisButton))
+    }
+    
+    @objc private func didTapEllipsisButton() {
+        
+    }
+
     private func setTextView() {
-        updateTextView()
+        setPropertyStyle()
         configure()
         addSubView()
         setAutoLayout()
     }
     
-    private func updateTextView() {
-        navigationItem.title = memo?.title
-        memoTextView.text = memo?.contents
+    private func setPropertyStyle() {
+        memoTextView.text = memo?.title
+        guard let contentText: String = memo?.contents else {
+            return
+        }
+        memoTextView.text += "\n\n\(contentText)"
         memoTextView.text += "\n 010-1234-1234 \n www.naver.com \n"
     }
     
@@ -49,7 +61,6 @@ class DetailViewController: UIViewController {
     }
 
     private func setAutoLayout() {
-        view.backgroundColor = .white
         let magin: CGFloat = 10
         let guide = view.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
@@ -67,8 +78,8 @@ extension DetailViewController: UITextViewDelegate {
     }
 }
 
+// MARK: GestureRecognizer
 extension DetailViewController {
-    
     private func setTapGesture() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTappedTextView(_:)))
         tapGesture.delegate = self

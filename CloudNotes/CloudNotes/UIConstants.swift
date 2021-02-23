@@ -20,5 +20,8 @@ struct UIConstants {
         
         static let notesCellBodyLabelLeadingOffset: CGFloat = 40
         static let notesCellBodyLabelTrailingOffset: CGFloat = -5
+        
+        // MARK: - NoteSplitViewController
+        static let noteSplitViewPreferredPrimaryColumnWidthFraction: CGFloat = 1/3
     }
 }

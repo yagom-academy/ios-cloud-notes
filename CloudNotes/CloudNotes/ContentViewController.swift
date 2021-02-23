@@ -13,6 +13,7 @@ class ContentViewController: UIViewController {
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.backgroundColor = .white
         return scrollView
     }()
     
@@ -82,6 +83,19 @@ extension ContentViewController {
         textViewDidChange(contentView)
     }
     
+    private func updateTextViewSize() {
+        let size = CGSize(width: self.view.frame.width, height: .infinity)
+        let rearrangedSize = contentView.sizeThatFits(size)
+        contentView.constraints.forEach { (constraint) in
+            if constraint.firstAttribute == .height {
+                constraint.constant = rearrangedSize.height
+            }
+        }
+        
+        let heightAnchor = contentView.heightAnchor.constraint(equalTo: scrollView.heightAnchor)
+        heightAnchor.isActive = true
+    }
+    
     @objc private func keyboardWillShow(_ sender: Notification) {
         guard let userInfo = sender.userInfo,
               let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else {
@@ -104,19 +118,8 @@ extension ContentViewController {
 }
 
 extension ContentViewController: UITextViewDelegate {
-   
-    
     func textViewDidChange(_ textView: UITextView) {
-        let size = CGSize(width: self.view.frame.width, height: .infinity)
-        let rearrangedSize = textView.sizeThatFits(size)
-        textView.constraints.forEach { (constraint) in
-            if constraint.firstAttribute == .height {
-                constraint.constant = rearrangedSize.height
-            }
-        }
-        
-        let heightAnchor = contentView.heightAnchor.constraint(equalTo: scrollView.heightAnchor)
-        heightAnchor.isActive = true
+        updateTextViewSize()
     }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {

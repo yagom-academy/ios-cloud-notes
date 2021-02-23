@@ -76,11 +76,13 @@ extension MemoViewController {
     
     @objc func changeTextViewBottomInsetToKeyboardHeight(_ notification: Notification) {
         guard let keyboardFrame = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else { return }
-        memoTextView.textContainerInset = UIEdgeInsets(top: 15, left: 15, bottom: keyboardFrame.height, right: 15)
+        let contentInsets = UIEdgeInsets(top: 0, left: 0, bottom: keyboardFrame.height , right: 0)
+        memoTextView.contentInset = contentInsets
     }
     
     @objc func resetTextViewBottomInset(_ notification: Notification) {
-        memoTextView.textContainerInset = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
+        let contentInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        memoTextView.contentInset = contentInsets
     }
 }
 

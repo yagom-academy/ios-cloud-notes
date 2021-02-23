@@ -16,7 +16,6 @@ class MemoTableViewController: UIViewController {
     }()
 
     private var memoModel: [Memo]?
-    private var memoViewControllerDelegate: MemoViewControllerDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()

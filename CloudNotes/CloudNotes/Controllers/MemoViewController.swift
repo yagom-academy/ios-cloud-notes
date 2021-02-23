@@ -7,10 +7,6 @@
 
 import UIKit
 
-protocol MemoViewControllerDelegate {
-    func setMemo(_ memo: String)
-}
-
 class MemoViewController: UIViewController {
     private let memoTextView: UITextView = {
         let textView = UITextView()
@@ -64,6 +60,9 @@ extension MemoViewController {
             memoTextView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
         ])
     }
+    func setMemo(_ memo: String) {
+        memoTextView.text = memo
+    }
 }
 
 // MARK:- Keyboard 관련
@@ -80,12 +79,6 @@ extension MemoViewController {
     
     @objc func resetTextViewBottomInset(_ notification: Notification) {
         memoTextView.textContainerInset = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
-    }
-}
-
-extension MemoViewController: MemoViewControllerDelegate {
-    func setMemo(_ memo: String) {
-        memoTextView.text = memo
     }
 }
 

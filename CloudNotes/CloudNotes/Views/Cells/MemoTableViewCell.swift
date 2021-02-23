@@ -63,8 +63,8 @@ class MemoTableViewCell: UITableViewCell, Reusable {
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        self.setupViews()
-        self.selectionStyle = .none
+        setupViews()
+        selectionStyle = .none
     }
     
     override func layoutSubviews() {

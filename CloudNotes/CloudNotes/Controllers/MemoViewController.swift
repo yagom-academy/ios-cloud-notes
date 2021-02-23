@@ -14,7 +14,6 @@ class MemoViewController: UIViewController {
         textView.dataDetectorTypes = .all
         textView.textContainerInset = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
         textView.translatesAutoresizingMaskIntoConstraints = false
-        
         return textView
     }()
     
@@ -27,13 +26,7 @@ class MemoViewController: UIViewController {
         memoTextView.delegate = self
         configureConstraints()
         registerKeyboardNotifications()
-        tapGesture = UITapGestureRecognizer(target: self, action: #selector(enterEditMode))
-        if let tapGesture = self.tapGesture {
-            memoTextView.addGestureRecognizer(tapGesture)
-        }
-        let swipeDownGesture = UISwipeGestureRecognizer(target: self, action: #selector(exitEditMode))
-        swipeDownGesture.direction = UISwipeGestureRecognizer.Direction.down
-        memoTextView.addGestureRecognizer(swipeDownGesture)
+        configureGesture()
     }
     
     @objc func enterEditMode() {
@@ -50,7 +43,7 @@ class MemoViewController: UIViewController {
 
 }
 
-// MARK:- 오토레이아웃 관련
+// MARK:- Configure
 extension MemoViewController {
     private func configureConstraints() {
         NSLayoutConstraint.activate([
@@ -59,6 +52,15 @@ extension MemoViewController {
             memoTextView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             memoTextView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
         ])
+    }
+    private func configureGesture() {
+        tapGesture = UITapGestureRecognizer(target: self, action: #selector(enterEditMode))
+        if let tapGesture = self.tapGesture {
+            memoTextView.addGestureRecognizer(tapGesture)
+        }
+        let swipeDownGesture = UISwipeGestureRecognizer(target: self, action: #selector(exitEditMode))
+        swipeDownGesture.direction = UISwipeGestureRecognizer.Direction.down
+        memoTextView.addGestureRecognizer(swipeDownGesture)
     }
     func setMemo(_ memo: String) {
         memoTextView.text = memo

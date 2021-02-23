@@ -28,15 +28,18 @@ class DetailViewController: UIViewController {
     }
     
     private func setTextView() {
-        updateTextView()
+        setPropertyStyle()
         configure()
         addSubView()
         setAutoLayout()
     }
     
-    private func updateTextView() {
-        navigationItem.title = memo?.title
-        memoTextView.text = memo?.contents
+    private func setPropertyStyle() {
+        memoTextView.text = memo?.title
+        guard let contentText: String = memo?.contents else {
+            return
+        }
+        memoTextView.text += "\n\n\(contentText)"
         memoTextView.text += "\n 010-1234-1234 \n www.naver.com \n"
     }
     

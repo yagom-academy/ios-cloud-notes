@@ -66,25 +66,21 @@ class DetailNoteViewController: UIViewController {
     }
     
     func saveNoteDate() {
-        if let textViewText = detailNoteTextView.text, textViewText == "" {
-            let titleText = "제목 없음"
-            let bodyText = ""
-            let note = Note(title: titleText, body: bodyText)
-            NoteData.shared.noteLists.append(note)
-        } else {
-            let textViewText = detailNoteTextView.text.split(separator: "\n", maxSplits: 1, omittingEmptySubsequences: true)
-            if textViewText.count == 1 {
-                let titleText = String(textViewText[0])
-                let note = Note(title: titleText, body: "")
-                NoteData.shared.noteLists.append(note)
-            } else {
-                let titleText = String(textViewText[0])
-                let bodyText = String(textViewText[1])
-                let note = Note(title: titleText, body: bodyText)
-                NoteData.shared.noteLists.append(note)
-            }
+        guard let textViewText = detailNoteTextView.text else {
+            return
         }
-  
+        guard textViewText != "" else {
+            let note = Note(title: "제목 없음", body: "")
+            NoteData.shared.noteLists.append(note)
+            return
+        }
+        
+        let splitTextViewText = textViewText.split(separator: "\n", maxSplits: 1, omittingEmptySubsequences: true)
+        let titleText = String(splitTextViewText[0])
+        let bodyText = (splitTextViewText.count == 1) ? "" : String(splitTextViewText[1])
+        let note = Note(title: titleText, body: bodyText)
+        NoteData.shared.noteLists.append(note)
+        
         if let navi = splitViewController?.viewControllers.first as? UINavigationController,
            let noteViewController = navi.viewControllers.first as? NoteViewController {
             noteViewController.reloadTableView()

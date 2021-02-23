@@ -31,7 +31,7 @@ class ListViewController: UIViewController {
     
     @objc private func goToAddMemoVeiwController() {
        let addMemoViewController = AddMemoViewController()
-        self.navigationController?.pushViewController(addMemoViewController, animated: true)
+        self.navigationController?.pushViewController(addMemoViewController, animated: false)
     }
     
     private func setTableView() {

@@ -25,8 +25,18 @@ class DetailViewController: UIViewController {
         super.viewDidLoad()
         setTextView()
         setTapGesture()
+        setNavigation()
     }
     
+    private func setNavigation() {
+        self.view.backgroundColor = .white
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: #selector(didTapEllipsisButton))
+    }
+    
+    @objc private func didTapEllipsisButton() {
+        
+    }
+
     private func setTextView() {
         setPropertyStyle()
         configure()

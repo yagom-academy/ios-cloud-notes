@@ -14,10 +14,9 @@ class DetailViewController: UIViewController {
     private var memoTextView: UITextView = {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
-        textView.backgroundColor = .white
         textView.font = UIFont.systemFont(ofSize: 17)
         textView.isEditable = false
-        textView.dataDetectorTypes = [.link, .phoneNumber, .calendarEvent]
+        textView.dataDetectorTypes = .all
         return textView
     }()
 
@@ -62,7 +61,6 @@ class DetailViewController: UIViewController {
     }
 
     private func setAutoLayout() {
-        view.backgroundColor = .white
         let magin: CGFloat = 10
         let guide = view.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
@@ -80,8 +78,8 @@ extension DetailViewController: UITextViewDelegate {
     }
 }
 
+// MARK: GestureRecognizer
 extension DetailViewController {
-    
     private func setTapGesture() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTappedTextView(_:)))
         tapGesture.delegate = self

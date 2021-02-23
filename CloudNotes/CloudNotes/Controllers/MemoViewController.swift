@@ -29,6 +29,11 @@ class MemoViewController: UIViewController {
         configureGesture()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        exitEditMode()
+    }
+    
     @objc func enterEditMode() {
         memoTextView.isEditable = true
         tapGesture?.isEnabled = false

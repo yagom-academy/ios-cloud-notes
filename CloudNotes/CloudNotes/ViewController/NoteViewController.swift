@@ -38,7 +38,7 @@ class NoteViewController: UIViewController {
     }
     
     private func configureNavigationItem() {
-        self.navigationItem.title = "메모"
+        self.navigationItem.title = UIConstants.strings.noteViewControllerNavigationBarTitle
         let addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.add, target: self, action: #selector(touchUpAddButton))
         self.navigationItem.rightBarButtonItem = addButton
     }

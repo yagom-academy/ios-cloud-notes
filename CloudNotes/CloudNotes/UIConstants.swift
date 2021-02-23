@@ -24,4 +24,8 @@ struct UIConstants {
         // MARK: - NoteSplitViewController
         static let noteSplitViewPreferredPrimaryColumnWidthFraction: CGFloat = 1/3
     }
+    
+    struct strings {
+        static let noteViewControllerNavigationBarTitle: String = "메모"
+    }
 }

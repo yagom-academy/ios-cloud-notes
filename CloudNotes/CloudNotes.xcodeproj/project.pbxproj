@@ -120,13 +120,13 @@
 				E2B0F1D225DB4D210027AFE6 /* Model */,
 				E2B0F1BC25DAAAE40027AFE6 /* ViewController */,
 				E2B0F1F325DBA96B0027AFE6 /* Error */,
+				56A3702C25E521D200BD9CB2 /* UIConstants.swift */,
 				C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */,
 				C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */,
 				C7481C7925BBCF3A00B9CA55 /* Assets.xcassets */,
 				C7481C7B25BBCF3A00B9CA55 /* LaunchScreen.storyboard */,
 				C7481C7E25BBCF3A00B9CA55 /* Info.plist */,
 				C7481C7625BBCF3900B9CA55 /* CloudNotes.xcdatamodeld */,
-				56A3702C25E521D200BD9CB2 /* UIConstants.swift */,
 			);
 			path = CloudNotes;
 			sourceTree = "<group>";

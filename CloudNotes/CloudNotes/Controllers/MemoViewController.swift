@@ -17,7 +17,7 @@ class MemoViewController: UIViewController {
         return textView
     }()
     
-    var tapGesture: UITapGestureRecognizer?
+    private var tapGesture: UITapGestureRecognizer?
     
     override func viewDidLoad() {
         super.viewDidLoad()

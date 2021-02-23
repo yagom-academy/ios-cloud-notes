@@ -61,8 +61,8 @@ extension NoteViewController: UITableViewDataSource {
         }
         let noteLists = NoteData.shared.noteLists
         cell.titleLabel.text = noteLists[indexPath.row].title
-        cell.lastModifiedDateLabel.text = noteLists[indexPath.row].convertFormatToString()
         cell.bodyLabel.text = noteLists[indexPath.row].body
+        cell.lastModifiedDateLabel.text = noteLists[indexPath.row].lastModifiedDate
         return cell
     }
     

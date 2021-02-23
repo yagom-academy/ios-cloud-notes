@@ -16,6 +16,7 @@ class DetailNoteViewController: UIViewController {
         super.viewDidLoad()
         self.view.backgroundColor = .white
         configureTextView()
+        setFetchedNoteDate()
     }
     
     private func configureTextView() {
@@ -32,10 +33,13 @@ class DetailNoteViewController: UIViewController {
             detailNoteTextView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
             detailNoteTextView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor)
         ])
-        
+    }
+    
+    private func setFetchedNoteDate() {
         guard let noteData = fetchedNoteData else {
             return
         }
+        
         detailNoteTextView.text = "\(noteData.title)\n\(noteData.body)"
     }
     

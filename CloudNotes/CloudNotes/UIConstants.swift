@@ -7,8 +7,8 @@
 
 import UIKit
 
-struct UIConstants {
-    struct layout {
+enum UIConstants {
+    enum layout {
         // MARK: - NotesTableViewCell
         static let notesCellTitleLabelTopOffset: CGFloat = 5
         static let notesCellTitleLabelLeadingOffset: CGFloat = 5
@@ -25,7 +25,7 @@ struct UIConstants {
         static let noteSplitViewPreferredPrimaryColumnWidthFraction: CGFloat = 1/3
     }
     
-    struct strings {
+    enum strings {
         static let noteViewControllerNavigationBarTitle: String = "메모"
     }
 }

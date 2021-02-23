@@ -92,8 +92,4 @@ extension MemoViewController: UITextViewDelegate {
     func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
         return true
     }
-    
-    func textViewDidChangeSelection(_ textView: UITextView) {
-        
-    }
 }

@@ -12,9 +12,11 @@ class MainViewController: UISplitViewController {
         super.viewDidLoad()
         
         let listViewController = ListViewController()
-        let navigationController = UINavigationController(rootViewController: listViewController)
+        let detailViewController = DetailViewController()
+        let listViewNavigationController = UINavigationController(rootViewController: listViewController)
+        let detailViewNavigationController = UINavigationController(rootViewController: detailViewController)
 
-        self.viewControllers = [navigationController]
+        self.viewControllers = [listViewNavigationController, detailViewNavigationController]
         self.preferredPrimaryColumnWidthFraction = 1/3
         self.preferredDisplayMode = .oneBesideSecondary
     }

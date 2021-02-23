@@ -13,7 +13,7 @@ class ListViewController: UITableViewController {
         return button
     }()
     private var memoList = [Memo]()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpTableView()
@@ -29,6 +29,7 @@ class ListViewController: UITableViewController {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: MemoListCell.identifier, for: indexPath) as? MemoListCell else {
             return UITableViewCell()
         }
+        
         cell.titleLabel.text = memoList[indexPath.row].title
         cell.predescriptionLabel.text = memoList[indexPath.row].body
         cell.dateLabel.text = memoList[indexPath.row].lastModified.convertToDate()

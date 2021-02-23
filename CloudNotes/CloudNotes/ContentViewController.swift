@@ -9,14 +9,12 @@ import UIKit
 
 class ContentViewController: UIViewController {
     let doneText = "완료"
-    
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.backgroundColor = .white
         return scrollView
     }()
-    
     private lazy var contentView: MemoTextView = {
         let contentView = MemoTextView()
         contentView.delegate = self
@@ -30,7 +28,6 @@ class ContentViewController: UIViewController {
         contentView.dataDetectorTypes = .all
         return contentView
     }()
-    
     private lazy var doneButton: UIBarButtonItem = {
         let button = UIBarButtonItem(title: doneText, style: .done, target: self, action: #selector(didTapDoneButton(_:)))
         return button
@@ -86,6 +83,7 @@ extension ContentViewController {
     private func updateTextViewSize() {
         let size = CGSize(width: self.view.frame.width, height: .infinity)
         let rearrangedSize = contentView.sizeThatFits(size)
+        
         contentView.constraints.forEach { (constraint) in
             if constraint.firstAttribute == .height {
                 constraint.constant = rearrangedSize.height
@@ -125,15 +123,16 @@ extension ContentViewController: UITextViewDelegate {
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         let headerAttributes: [NSAttributedString.Key: UIFont] = [.font: .boldSystemFont(ofSize: 24)]
         let bodyAttributes: [NSAttributedString.Key: UIFont] = [.font : .systemFont(ofSize: 15)]
-        
         let textAsNSString: NSString = contentView.text as NSString
         let replaced: NSString = textAsNSString.replacingCharacters(in: range, with: text) as NSString
         let boldRange: NSRange = replaced.range(of: "\n")
+        
         if boldRange.location <= range.location {
             contentView.typingAttributes = bodyAttributes
         } else {
             contentView.typingAttributes = headerAttributes
         }
+        
         return true
     }
 }

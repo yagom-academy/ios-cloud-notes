@@ -78,10 +78,12 @@ extension ContentViewController {
     
     
     private func updateUI(with memo: Memo) {
-        let headLinefont = UIFont.preferredFont(forTextStyle: .headline)
+        let headLinefont = UIFont.boldSystemFont(ofSize: 24)
+        let bodyLinefont = UIFont.systemFont(ofSize: 15)
         let memoAttributedString = NSMutableAttributedString(string: memo.title)
-        let bodyAttributedString = NSAttributedString(string: "\n\(memo.body)")
+        let bodyAttributedString = NSMutableAttributedString(string: "\n\(memo.body)")
         memoAttributedString.addAttribute(.font, value: headLinefont, range: NSRange(location: 0, length: memo.title.count))
+        bodyAttributedString.addAttribute(.font, value: bodyLinefont, range: NSRange(location: 0, length: memo.body.count))
         memoAttributedString.append(bodyAttributedString)
         contentView.attributedText = memoAttributedString
         setUpContentView()
@@ -119,5 +121,20 @@ extension ContentViewController: UITextViewDelegate {
         
         let heightAnchor = contentView.heightAnchor.constraint(equalTo: scrollView.heightAnchor)
         heightAnchor.isActive = true
+    }
+
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        let headerAttributes: [NSAttributedString.Key: UIFont] = [.font: .boldSystemFont(ofSize: 24)]
+        let bodyAttributes: [NSAttributedString.Key: UIFont] = [.font : .systemFont(ofSize: 15)]
+
+        let textAsNSString: NSString = self.contentView.text as NSString
+        let replaced: NSString = textAsNSString.replacingCharacters(in: range, with: text) as NSString
+        let boldRange: NSRange = replaced.range(of: "\n")
+        if boldRange.location <= range.location {
+            self.contentView.typingAttributes = bodyAttributes
+        } else {
+            self.contentView.typingAttributes = headerAttributes
+        }
+        return true
     }
 }

@@ -89,9 +89,8 @@ class DetailNoteViewController: UIViewController {
             }
         }
   
-        if
-            let navi = splitViewController?.viewControllers.first as? UINavigationController,
-            let noteViewController = navi.viewControllers.first as? NoteViewController {
+        if let navi = splitViewController?.viewControllers.first as? UINavigationController,
+           let noteViewController = navi.viewControllers.first as? NoteViewController {
             noteViewController.reloadTableView()
         }
     }

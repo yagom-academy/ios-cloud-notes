@@ -43,17 +43,17 @@ class NotesTableViewCell: UITableViewCell {
         self.contentView.addSubview(bodyLabel)
         
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
-            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5),
-            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5),
+            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: UIConstants.layout.notesCellTitleLabelTopOffset),
+            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: UIConstants.layout.notesCellTitleLabelLeadingOffset),
+            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: UIConstants.layout.notesCellTitleLabelTrailingOffset),
             
-            lastModifiedDateLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 3),
-            lastModifiedDateLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
-            lastModifiedDateLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
+            lastModifiedDateLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: UIConstants.layout.notesCellDateLabelTopOffset),
+            lastModifiedDateLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor, constant: UIConstants.layout.notesCellDateLabelLeadingOffset),
+            lastModifiedDateLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: UIConstants.layout.notesCellDateLabelBottomOffset),
             
             bodyLabel.centerYAnchor.constraint(equalTo: lastModifiedDateLabel.centerYAnchor),
-            bodyLabel.leadingAnchor.constraint(equalTo: lastModifiedDateLabel.trailingAnchor, constant: 40),
-            bodyLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5)
+            bodyLabel.leadingAnchor.constraint(equalTo: lastModifiedDateLabel.trailingAnchor, constant: UIConstants.layout.notesCellBodyLabelLeadingOffset),
+            bodyLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: UIConstants.layout.notesCellBodyLabelTrailingOffset)
         ])
         titleLabel.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
         lastModifiedDateLabel.setContentCompressionResistancePriority(.defaultLow, for: .vertical)

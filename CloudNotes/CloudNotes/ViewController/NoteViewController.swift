@@ -15,12 +15,7 @@ class NoteViewController: UIViewController {
         self.view.backgroundColor = .white
         configureNavigationItem()
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
-        tableView.reloadData()
-    }
-    
+        
     private func configureTableView() {
         tableView.dataSource = self
         tableView.delegate = self
@@ -38,7 +33,7 @@ class NoteViewController: UIViewController {
     }
     
     private func configureNavigationItem() {
-        self.navigationItem.title = "메모"
+        self.navigationItem.title = UIConstants.strings.noteViewControllerNavigationBarTitle
         let addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.add, target: self, action: #selector(touchUpAddButton))
         self.navigationItem.rightBarButtonItem = addButton
     }
@@ -59,10 +54,11 @@ extension NoteViewController: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: NotesTableViewCell.identifier, for: indexPath) as? NotesTableViewCell else {
             return UITableViewCell()
         }
-        let noteLists = NoteData.shared.noteLists
-        cell.titleLabel.text = noteLists[indexPath.row].title
-        cell.lastModifiedDateLabel.text = noteLists[indexPath.row].convertFormatToString()
-        cell.bodyLabel.text = noteLists[indexPath.row].body
+        
+        cell.titleLabel.text = NoteData.shared.title(index: indexPath.row)
+        cell.bodyLabel.text = NoteData.shared.body(index: indexPath.row)
+        cell.lastModifiedDateLabel.text = NoteData.shared.lastModifiedDate(index: indexPath.row)
+        
         return cell
     }
     

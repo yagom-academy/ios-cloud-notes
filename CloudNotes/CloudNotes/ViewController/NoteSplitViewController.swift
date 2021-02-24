@@ -15,7 +15,7 @@ class NoteSplitViewController: UISplitViewController {
         let noteViewController = NoteViewController()
         let masterViewController = UINavigationController(rootViewController: noteViewController)
         self.viewControllers = [masterViewController]
-        self.preferredPrimaryColumnWidthFraction = 1/3
+        self.preferredPrimaryColumnWidthFraction = UIConstants.layout.noteSplitViewPreferredPrimaryColumnWidthFraction
         self.preferredDisplayMode = .oneBesideSecondary
     }
 }

@@ -37,8 +37,53 @@ final class DetailViewController: UIViewController {
     }
     
     private func setupNavigationBar() {
-        let isRegular = traitCollection.horizontalSizeClass == .regular
-        navigationController?.navigationBar.isHidden = isRegular
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: #selector(showActionSheet))
+    }
+    
+    @objc private func showActionSheet(_ sender: UIBarButtonItem) {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let share = UIAlertAction(title: "Share", style: .default) { _ in
+            self.shareMemo()
+        }
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let delete = UIAlertAction(title: "Delete", style: .destructive) { _ in
+            self.showAlert()
+        }
+        
+        alert.addAction(share)
+        alert.addAction(delete)
+        alert.addAction(cancel)
+        
+        if traitCollection.userInterfaceIdiom == .phone {
+            self.present(alert, animated: true, completion: nil)
+        }
+        else {
+            alert.popoverPresentationController?.barButtonItem = sender
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
+    
+    private func shareMemo() {
+        var memoToShare = [String]()
+        if let text = self.memoBodyTextView.text {
+            memoToShare.append(text)
+        }
+        let activityViewController = UIActivityViewController(activityItems: memoToShare, applicationActivities: nil)
+        activityViewController.popoverPresentationController?.sourceView = self.view
+        self.present(activityViewController, animated: true, completion: nil)
+    }
+    
+    private func showAlert() {
+        let alert = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
+        let delete = UIAlertAction(title: "삭제", style: .destructive) { _ in
+            // CRUD 중에서 Delete 부분 코드
+        }
+        let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        
+        alert.addAction(delete)
+        alert.addAction(cancel)
+        
+        self.present(alert, animated: true, completion: nil)
     }
     
     private func setupTextView() {

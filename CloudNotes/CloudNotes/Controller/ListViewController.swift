@@ -37,7 +37,7 @@ class ListViewController: UIViewController {
     private func setTableView() {
         decodeMemo()
         configure()
-        addSubView()
+        addSubview()
         setAutoLayout()
     }
     
@@ -59,7 +59,7 @@ class ListViewController: UIViewController {
         tableView.estimatedRowHeight = UITableView.automaticDimension
     }
     
-    private func addSubView() {
+    private func addSubview() {
         self.view.addSubview(tableView)
     }
     

@@ -39,7 +39,7 @@ class DetailViewController: UIViewController {
     private func setTextView() {
         setPropertyStyle()
         configure()
-        addSubView()
+        addSubview()
         setAutoLayout()
     }
     
@@ -56,7 +56,7 @@ class DetailViewController: UIViewController {
         memoTextView.delegate = self
     }
     
-    private func addSubView() {
+    private func addSubview() {
         view.addSubview(memoTextView)
     }
 

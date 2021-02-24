@@ -50,6 +50,7 @@ class MemoListTableViewCell: UITableViewCell {
             listLastModifiedDateLabel.leadingAnchor.constraint(equalTo: listTitleLabel.leadingAnchor),
             listLastModifiedDateLabel.topAnchor.constraint(equalTo: listTitleLabel.bottomAnchor),
             listLastModifiedDateLabel.bottomAnchor.constraint(equalTo: contentsContainerView.bottomAnchor),
+            listLastModifiedDateLabel.widthAnchor.constraint(equalTo: contentsContainerView.widthAnchor, multiplier: 0.4),
             
             listShortBodyLabel.leadingAnchor.constraint(greaterThanOrEqualTo: listLastModifiedDateLabel.trailingAnchor, constant: 40),
             listShortBodyLabel.trailingAnchor.constraint(equalTo: contentsContainerView.trailingAnchor),

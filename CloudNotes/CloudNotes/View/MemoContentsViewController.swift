@@ -1,7 +1,9 @@
 import UIKit
 
 class MemoContentsViewController: UIViewController {
-    private let disclosureButton = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: #selector(showActionSheet))
+    let disclosure = UIButton()
+    
+//    private let disclosureButton = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: #selector(showActionSheet))
     private let finishButton = UIBarButtonItem(title: "완료", style: .plain, target: self, action: #selector(dismissButton))
     
     private var memoTextView: UITextView = {
@@ -9,7 +11,7 @@ class MemoContentsViewController: UIViewController {
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.adjustsFontForContentSizeCategory = true
         textView.dataDetectorTypes = .all
-        
+
         return textView
     }()
     
@@ -19,13 +21,21 @@ class MemoContentsViewController: UIViewController {
         configureMemoContentsView()
         configureAutoLayout()
         configureNavigationBar()
+        make()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         NotificationCenter.default.post(name: NSNotification.Name("ShowTableView"), object: nil)
     }
     
+    func make() {
+        disclosure.translatesAutoresizingMaskIntoConstraints = false
+        disclosure.setImage(UIImage(systemName: "ellipsis.circle"), for: .normal)
+        disclosure.addTarget(self, action: #selector(showActionSheet(_:)), for: .touchUpInside)
+    }
+    
     private func configureNavigationBar() {
+        let disclosureButton = UIBarButtonItem(customView: disclosure)
         navigationItem.rightBarButtonItems = [disclosureButton]
     }
     

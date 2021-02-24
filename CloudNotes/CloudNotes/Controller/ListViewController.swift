@@ -35,8 +35,9 @@ class ListViewController: UIViewController {
     }
     
     private func setTableView() {
+        tableView.dataSource = self
+        tableView.delegate = self
         decodeMemo()
-        configure()
         addSubview()
         setAutoLayout()
     }
@@ -52,13 +53,6 @@ class ListViewController: UIViewController {
         memoList = memo
     }
 
-    private func configure() {
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.rowHeight = UITableView.automaticDimension
-        tableView.estimatedRowHeight = UITableView.automaticDimension
-    }
-    
     private func addSubview() {
         self.view.addSubview(tableView)
     }

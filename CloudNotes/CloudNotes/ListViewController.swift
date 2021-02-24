@@ -44,6 +44,13 @@ final class ListViewController: UITableViewController {
     
     @objc private func moveToPostViewController() {
         //📍 CRUD Create 부분
+        let emptyMemo = Memo.init(title: "", body: "", modifiedDate: 0)
+        delegate?.memoSelected(emptyMemo)
+        if let detailViewController = delegate as? DetailViewController,
+           (traitCollection.horizontalSizeClass == .compact && traitCollection.userInterfaceIdiom == .phone) {
+            let detailViewNavigationController = UINavigationController(rootViewController: detailViewController)
+            splitViewController?.showDetailViewController(detailViewNavigationController, sender: nil)
+        }
     }
 }
 

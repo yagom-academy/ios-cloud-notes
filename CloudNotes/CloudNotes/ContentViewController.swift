@@ -19,6 +19,7 @@ class ContentViewController: UIViewController {
         let contentView = MemoTextView()
         contentView.delegate = self
         contentView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.sizeToFit()
         contentView.backgroundColor = .white
         contentView.isScrollEnabled = false
         contentView.isSelectable = true
@@ -37,7 +38,6 @@ class ContentViewController: UIViewController {
         super.viewDidLoad()
         navigationItem.rightBarButtonItem = doneButton
         setUpConstraints()
-        
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
@@ -64,7 +64,7 @@ extension ContentViewController {
             contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
             contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
-            contentView.heightAnchor.constraint(equalTo: scrollView.heightAnchor),
+            contentView.heightAnchor.constraint(greaterThanOrEqualToConstant: 50),
         ])
     }
     
@@ -77,7 +77,7 @@ extension ContentViewController {
         bodyAttributedString.addAttribute(.font, value: bodyLinefont, range: NSRange(location: 0, length: memo.body.count))
         memoAttributedString.append(bodyAttributedString)
         contentView.attributedText = memoAttributedString
-        textViewDidChange(contentView)
+        updateTextViewSize()
     }
     
     private func updateTextViewSize() {
@@ -89,9 +89,6 @@ extension ContentViewController {
                 constraint.constant = rearrangedSize.height
             }
         }
-        
-        let heightAnchor = contentView.heightAnchor.constraint(equalTo: scrollView.heightAnchor)
-        heightAnchor.isActive = true
     }
     
     @objc private func keyboardWillShow(_ sender: Notification) {

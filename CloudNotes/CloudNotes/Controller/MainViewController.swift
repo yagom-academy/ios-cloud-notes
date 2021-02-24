@@ -10,6 +10,11 @@ import UIKit
 class MainViewController: UISplitViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
+        setMainViewController()
+    }
+    
+    private func setMainViewController() {
+        self.delegate = self
         
         let listViewController = ListViewController()
         let detailViewController = DetailViewController()
@@ -19,5 +24,13 @@ class MainViewController: UISplitViewController {
         self.viewControllers = [listViewNavigationController, detailViewNavigationController]
         self.preferredPrimaryColumnWidthFraction = 1/3
         self.preferredDisplayMode = .oneBesideSecondary
+        
+        splitViewController(self, collapseSecondary: detailViewController, onto: listViewController)
+    }
+}
+
+extension MainViewController: UISplitViewControllerDelegate {
+    func splitViewController(_ splitViewController: UISplitViewController, collapseSecondary secondaryViewController: UIViewController, onto primaryViewController: UIViewController) -> Bool {
+        return true
     }
 }

@@ -13,20 +13,17 @@ class ListCell: UITableViewCell {
     
     private let titleLabel: UILabel = {
         let titleLabel = UILabel()
-        titleLabel.text = "testTitle"
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.font = UIFont.boldSystemFont(ofSize: 19)
         return titleLabel
     }()
     private let dateLabel: UILabel = {
         let dateLabel = UILabel()
-        dateLabel.text = "testData"
         dateLabel.translatesAutoresizingMaskIntoConstraints = false
         return dateLabel
     }()
     private let contentsLabel: UILabel = {
         let contentsLabel = UILabel()
-        contentsLabel.text = "testContents"
         contentsLabel.translatesAutoresizingMaskIntoConstraints = false
         contentsLabel.textColor = .darkGray
         return contentsLabel
@@ -69,5 +66,12 @@ class ListCell: UITableViewCell {
             contentsLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -margin),
             contentsLabel.leadingAnchor.constraint(equalTo: dateLabel.trailingAnchor, constant: margin * 5)
         ])
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        titleLabel.text = nil
+        contentsLabel.text = nil
+        dateLabel.text = nil
     }
 }

@@ -1,6 +1,12 @@
 import UIKit
 
 class MemoContentsViewController: UIViewController {
+    private let disclosureButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "ellipsis.circle"), for: .normal)
+        return button
+    }()
+    
     private var memoTextView: UITextView = {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
@@ -15,10 +21,15 @@ class MemoContentsViewController: UIViewController {
         
         configureMemoContentsView()
         configureAutoLayout()
+        configureNavigationBar()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         NotificationCenter.default.post(name: NSNotification.Name("ShowTableView"), object: nil)
+    }
+    
+    private func configureNavigationBar() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: disclosureButton)
     }
     
     private func configureMemoContentsView() {

@@ -11,13 +11,9 @@ class MemoSplitViewController: UISplitViewController {
         let memoListNavigationController = UINavigationController(rootViewController: memoListTableViewController)
         memoContentsViewController.receiveText(memo: memoListTableViewController.memoList[0])
 
-        self.viewControllers = [memoListNavigationController]
+        self.viewControllers = [memoListNavigationController, memoContentsViewController]
         self.preferredPrimaryColumnWidthFraction = 1/3
         self.preferredDisplayMode = .oneBesideSecondary
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        self.viewControllers.append(memoContentsViewController)
     }
 }
 

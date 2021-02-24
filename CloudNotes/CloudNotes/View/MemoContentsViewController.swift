@@ -80,14 +80,27 @@ class MemoContentsViewController: UIViewController {
     @objc func showActionSheet(_ sender: UIButton) {
         let actionSheet = UIAlertController(title: nil, message: "Choose Option", preferredStyle: .actionSheet)
         let shareAction = UIAlertAction(title: "Share", style: .default, handler: nil)
-        let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: nil)
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: {
+            (action: UIAlertAction) in self.showDeleteMessage()
+        })
          
         actionSheet.addAction(shareAction)
         actionSheet.addAction(deleteAction)
         actionSheet.addAction(cancelAction)
         self.present(actionSheet, animated: true, completion: nil)
     }
+    
+    private func showDeleteMessage() {
+         let deleteMenu = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: UIAlertController.Style.alert)
+         
+         let cancleAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+         let deleteAction = UIAlertAction(title: "삭제", style: .destructive, handler: nil)
+         deleteMenu.addAction(cancleAction)
+         deleteMenu.addAction(deleteAction)
+         
+         present(deleteMenu, animated: true, completion: nil)
+     }
 }
 
 // MARK: UITextViewDelegate

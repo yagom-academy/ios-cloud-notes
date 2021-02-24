@@ -51,11 +51,12 @@ class MemoListTableViewController: UITableViewController {
 // MARK: UITableViewDelegate
 extension MemoListTableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let memoContentsView = MemoContentsViewController()
-        memoContentsView.receiveText(memo: memoList[indexPath.row])
-        self.splitViewController?.showDetailViewController(memoContentsView, sender: nil)
+        let memoContentsViewController = MemoContentsViewController()
+        let memoContentsNavigationViewController = UINavigationController(rootViewController: memoContentsViewController)
         
         isCellSelected = true
+        memoContentsViewController.receiveText(memo: memoList[indexPath.row])
+        self.splitViewController?.showDetailViewController(memoContentsNavigationViewController, sender: nil)
     }
 }
 

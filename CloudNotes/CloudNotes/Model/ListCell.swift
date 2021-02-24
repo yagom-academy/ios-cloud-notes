@@ -31,7 +31,7 @@ class ListCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        addContentView()
+        addSubview()
         setAutoLayout()
     }
     
@@ -45,7 +45,7 @@ class ListCell: UITableViewCell {
         dateLabel.text = info.dateToString
     }
     
-    private func addContentView() {
+    private func addSubview() {
         contentView.addSubview(titleLabel)
         contentView.addSubview(dateLabel)
         contentView.addSubview(contentsLabel)

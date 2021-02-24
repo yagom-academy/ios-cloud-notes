@@ -1,7 +1,7 @@
 import UIKit
 
 class MemoContentsViewController: UIViewController {
-    private let disclosureButton = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: nil, action: nil)
+    private let disclosureButton = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: #selector(showActionSheet))
     private let finishButton = UIBarButtonItem(title: "완료", style: .plain, target: self, action: #selector(dismissButton))
     
     private var memoTextView: UITextView = {
@@ -65,6 +65,18 @@ class MemoContentsViewController: UIViewController {
     @objc func dismissButton(_ sender: UIButton) {
         memoTextView.resignFirstResponder()
         navigationItem.rightBarButtonItems?.removeFirst()
+    }
+    
+    @objc func showActionSheet(_ sender: UIButton) {
+        let actionSheet = UIAlertController(title: nil, message: "Choose Option", preferredStyle: .actionSheet)
+        let shareAction = UIAlertAction(title: "Share", style: .default, handler: nil)
+        let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: nil)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+         
+        actionSheet.addAction(shareAction)
+        actionSheet.addAction(deleteAction)
+        actionSheet.addAction(cancelAction)
+        self.present(actionSheet, animated: true, completion: nil)
     }
 }
 

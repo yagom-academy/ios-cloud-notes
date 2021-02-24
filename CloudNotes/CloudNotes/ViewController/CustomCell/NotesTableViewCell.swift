@@ -65,9 +65,9 @@ class NotesTableViewCell: UITableViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        titleLabel.text = ""
-        lastModifiedDateLabel.text = ""
-        bodyLabel.text = ""
+        titleLabel.text = UIConstants.strings.textInitalizing
+        lastModifiedDateLabel.text = UIConstants.strings.textInitalizing
+        bodyLabel.text = UIConstants.strings.textInitalizing
         bodyLabel.textColor = .black
     }
     

@@ -74,14 +74,14 @@ class DetailNoteViewController: UIViewController {
             return
         }
         guard textViewText != "" else {
-            let note = Note(title: "제목 없음", body: "")
+            let note = Note(title: UIConstants.strings.emptyNoteTitleText, body: UIConstants.strings.textInitalizing)
             NoteData.shared.noteLists.append(note)
             return
         }
         
         let splitTextViewText = textViewText.split(separator: "\n", maxSplits: 1, omittingEmptySubsequences: true)
         let titleText = String(splitTextViewText[0])
-        let bodyText = (splitTextViewText.count == 1) ? "" : String(splitTextViewText[1])
+        let bodyText = (splitTextViewText.count == 1) ? UIConstants.strings.textInitalizing : String(splitTextViewText[1])
         let note = Note(title: titleText, body: bodyText)
         NoteData.shared.noteLists.append(note)
         

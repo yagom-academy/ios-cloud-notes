@@ -68,8 +68,10 @@ extension ListViewController {
         let selectedMemo = MemoData.shared.list[indexPath.row]
         delegate?.memoSelected(selectedMemo)
         
-        if let detailViewController = delegate as? DetailViewController {
-          splitViewController?.showDetailViewController(detailViewController, sender: nil)
+        if let detailViewController = delegate as? DetailViewController,
+           (traitCollection.horizontalSizeClass == .compact && traitCollection.userInterfaceIdiom == .phone) {
+            let detailViewNavigationController = UINavigationController(rootViewController: detailViewController)
+            splitViewController?.showDetailViewController(detailViewNavigationController, sender: nil)
         }
         
         UserDefaults.standard.set(indexPath.row, forKey: "lastMemoIndex")

@@ -1,11 +1,8 @@
 import UIKit
 
 class MemoContentsViewController: UIViewController {
-    private let disclosureButton: UIButton = {
-        let button = UIButton()
-        button.setImage(UIImage(systemName: "ellipsis.circle"), for: .normal)
-        return button
-    }()
+    private let disclosureButton = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: nil, action: nil)
+    private let finishButton = UIBarButtonItem(title: "완료", style: .plain, target: self, action: #selector(dismissButton))
     
     private var memoTextView: UITextView = {
         let textView = UITextView()
@@ -29,7 +26,7 @@ class MemoContentsViewController: UIViewController {
     }
     
     private func configureNavigationBar() {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: disclosureButton)
+        navigationItem.rightBarButtonItems = [disclosureButton]
     }
     
     private func configureMemoContentsView() {
@@ -64,6 +61,11 @@ class MemoContentsViewController: UIViewController {
         
         memoTextView.attributedText = attributedText
     }
+    
+    @objc func dismissButton(_ sender: UIButton) {
+        memoTextView.resignFirstResponder()
+        navigationItem.rightBarButtonItems?.removeFirst()
+    }
 }
 
 // MARK: UITextViewDelegate
@@ -89,6 +91,7 @@ extension MemoContentsViewController {
            textView.textStorage.attribute(NSAttributedString.Key.link, at: glyphIndex, effectiveRange: nil) == nil {
             placeCursor(textView, tappedLocation)
             makeTextViewEditable()
+            navigationItem.rightBarButtonItems?.insert(finishButton, at: 0)
         }
     }
     

@@ -8,7 +8,7 @@ import UIKit
 
 class ListViewController: UIViewController {
     
-    private var memoList: [Memo] = []
+    private var memoList: [Memo]?
     
     private let tableView: UITableView = {
         let tableView = UITableView()
@@ -70,6 +70,9 @@ class ListViewController: UIViewController {
 
 extension ListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let memoList = memoList else {
+            return
+        }
         let memo = memoList[indexPath.row]
         let detailView = DetailViewController()
         detailView.memo = memo
@@ -79,11 +82,17 @@ extension ListViewController: UITableViewDelegate {
 
 extension ListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        guard let memoList = memoList else {
+            return 0
+        }
         return memoList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: ListCell.identifier, for: indexPath) as? ListCell else {
+            return UITableViewCell()
+        }
+        guard let memoList = memoList else {
             return UITableViewCell()
         }
         let memoListInfo = memoList[indexPath.row]

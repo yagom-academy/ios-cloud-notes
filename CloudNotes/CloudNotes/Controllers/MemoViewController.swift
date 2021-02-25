@@ -17,7 +17,7 @@ class MemoViewController: UIViewController {
         return textView
     }()
     
-    var tapGesture: UITapGestureRecognizer?
+    private var tapGesture: UITapGestureRecognizer?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,6 +27,11 @@ class MemoViewController: UIViewController {
         configureConstraints()
         registerKeyboardNotifications()
         configureGesture()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        exitEditMode()
     }
     
     @objc func enterEditMode() {

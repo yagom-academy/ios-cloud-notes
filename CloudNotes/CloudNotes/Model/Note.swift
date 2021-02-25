@@ -7,16 +7,18 @@
 
 import Foundation
 
-struct Note {
-    let title: String
-    let body: String
-    let lastModifiedDate: Date
-}
-
-extension Note {
-    init(title: String, body: String) {
+class Note {
+    var title: String
+    var body: String
+    var lastModifiedDate: Date
+    
+    init(title: String, body: String, lastModifiedDate: Date) {
         self.title = title
         self.body = body
-        self.lastModifiedDate = Date()
+        self.lastModifiedDate = lastModifiedDate
+    }
+    
+    convenience init(title: String, body: String) {
+        self.init(title: title, body: body, lastModifiedDate: Date())
     }
 }

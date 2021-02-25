@@ -82,7 +82,7 @@ extension NoteViewController: UITableViewDataSource {
 extension NoteViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let detailNoteViewController = DetailNoteViewController()
-        detailNoteViewController.fetchedNoteData = NoteData.shared.noteLists[indexPath.row]
+        detailNoteViewController.fetchedNote = NoteData.shared.noteLists[indexPath.row]
         splitViewController?.showDetailViewController(detailNoteViewController, sender: nil)
     }
 }

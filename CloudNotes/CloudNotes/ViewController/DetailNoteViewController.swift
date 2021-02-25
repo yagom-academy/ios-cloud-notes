@@ -10,7 +10,7 @@ import UIKit
 class DetailNoteViewController: UIViewController {
     static let memoDidSave = Notification.Name(rawValue: "memoDidSave")
     
-    var fetchedNoteData: Note?
+    var fetchedNote: Note?
     let detailNoteTextView = UITextView()
     let completeButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.done, target: self, action: #selector(touchUpCompleteButton))
     
@@ -19,7 +19,7 @@ class DetailNoteViewController: UIViewController {
         
         self.view.backgroundColor = .white
         configureTextView()
-        setFetchedNoteDate()
+        setTextViewFromFetchedNote()
     }
     
     private func configureTextView() {
@@ -38,8 +38,8 @@ class DetailNoteViewController: UIViewController {
         ])
     }
     
-    private func setFetchedNoteDate() {
-        guard let noteData = fetchedNoteData else {
+    private func setTextViewFromFetchedNote() {
+        guard let noteData = fetchedNote else {
             return
         }
         
@@ -71,20 +71,27 @@ class DetailNoteViewController: UIViewController {
     }
     
     func saveNoteDate() {
-        if let textViewText = detailNoteTextView.text, textViewText == UIConstants.strings.textInitalizing {
-            let note = Note(title: UIConstants.strings.emptyNoteTitleText, body: UIConstants.strings.textInitalizing)
-            NoteData.shared.noteLists.append(note)
+        let textViewText = detailNoteTextView.text.split(separator: "\n", maxSplits: 1, omittingEmptySubsequences: true)
+        let note = checkTextView(text: textViewText)
+        
+        if let fetchedNote = self.fetchedNote {
+            fetchedNote.title = note.title
+            fetchedNote.body = note.body
+            fetchedNote.lastModifiedDate = note.lastModifiedDate
         } else {
-            let textViewText = detailNoteTextView.text.split(separator: "\n", maxSplits: 1, omittingEmptySubsequences: true)
-            let note = checkTextView(text: textViewText, count: textViewText.count)
             NoteData.shared.noteLists.append(note)
+            self.fetchedNote = note
         }
         
         NotificationCenter.default.post(name: DetailNoteViewController.memoDidSave, object: nil)
     }
     
-    private func checkTextView(text: [String.SubSequence], count: Int) -> Note {
-        if count == 1 {
+    private func checkTextView(text: [String.SubSequence]) -> Note {
+        if detailNoteTextView.text == UIConstants.strings.textInitalizing {
+            return Note(title: UIConstants.strings.emptyNoteTitleText, body: UIConstants.strings.textInitalizing)
+        }
+        
+        if text.count == 1 {
             let titleText = String(text[0])
             let note = Note(title: titleText, body: UIConstants.strings.textInitalizing)
             return note

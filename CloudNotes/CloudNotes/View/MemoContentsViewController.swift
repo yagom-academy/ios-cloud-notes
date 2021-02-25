@@ -95,6 +95,10 @@ class MemoContentsViewController: UIViewController {
         actionSheet.addAction(shareAction)
         actionSheet.addAction(deleteAction)
         actionSheet.addAction(cancelAction)
+        
+        actionSheet.popoverPresentationController?.sourceView = disclosureButton
+        actionSheet.popoverPresentationController?.sourceRect = disclosureButton.bounds
+        
         self.present(actionSheet, animated: true, completion: nil)
     }
     

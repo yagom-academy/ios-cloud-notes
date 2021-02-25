@@ -8,26 +8,27 @@
 import UIKit
 
 class MemoListCell: UITableViewCell {
-    static let identifier: String = "MemoListCell"
+    static let identifier = String(describing: MemoListCell.self)
     lazy var titleLabel: UILabel = {
         let titleLabel = UILabel()
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.font = .preferredFont(forTextStyle: .headline)
         titleLabel.adjustsFontForContentSizeCategory = true
+        titleLabel.setContentHuggingPriority(.defaultLow, for: .vertical)
+        titleLabel.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
         return titleLabel
     }()
     lazy var dateLabel: UILabel = {
         let dateLabel = UILabel()
-        dateLabel.translatesAutoresizingMaskIntoConstraints = false
         dateLabel.font = .preferredFont(forTextStyle: .body)
         dateLabel.adjustsFontForContentSizeCategory = true
         dateLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
         dateLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        dateLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
+        dateLabel.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
         return dateLabel
     }()
     lazy var predescriptionLabel: UILabel = {
         let predescriptionLabel = UILabel()
-        predescriptionLabel.translatesAutoresizingMaskIntoConstraints = false
         predescriptionLabel.font = .preferredFont(forTextStyle: .body)
         predescriptionLabel.adjustsFontForContentSizeCategory = true
         predescriptionLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
@@ -46,6 +47,7 @@ class MemoListCell: UITableViewCell {
     }
     
     override func prepareForReuse() {
+        super.prepareForReuse()
         titleLabel.text = ""
         dateLabel.text = ""
         predescriptionLabel.text = ""
@@ -56,17 +58,23 @@ class MemoListCell: UITableViewCell {
         contentView.addSubview(dateLabel)
         contentView.addSubview(predescriptionLabel)
         
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        dateLabel.translatesAutoresizingMaskIntoConstraints = false
+        predescriptionLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
             titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
             titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            
+           
             dateLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
             dateLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
+            dateLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             
-            predescriptionLabel.centerYAnchor.constraint(equalTo: dateLabel.centerYAnchor),
             predescriptionLabel.leadingAnchor.constraint(equalTo: dateLabel.trailingAnchor, constant: 50),
-            predescriptionLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+            predescriptionLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            predescriptionLabel.bottomAnchor.constraint(equalTo: dateLabel.bottomAnchor)
         ])
     }
 }

@@ -8,21 +8,20 @@
 import UIKit
 
 class ContentViewController: UIViewController {
-    let doneText = "완료"
+    private let doneText = "완료"
+    private let headLinefont = UIFont.boldSystemFont(ofSize: 24)
+    private let bodyLinefont = UIFont.systemFont(ofSize: 15)
+    
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.backgroundColor = .white
         return scrollView
     }()
     private lazy var contentView: MemoTextView = {
         let contentView = MemoTextView()
         contentView.delegate = self
-        contentView.translatesAutoresizingMaskIntoConstraints = false
-        contentView.sizeToFit()
         contentView.backgroundColor = .white
         contentView.isScrollEnabled = false
-        contentView.isSelectable = true
         contentView.isEditable = false
         contentView.autocorrectionType = .no
         contentView.isUserInteractionEnabled = true
@@ -53,6 +52,8 @@ extension ContentViewController {
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
         
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: safeArea.topAnchor),
             scrollView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
@@ -64,13 +65,10 @@ extension ContentViewController {
             contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
             contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
-            contentView.heightAnchor.constraint(greaterThanOrEqualToConstant: 50),
         ])
     }
     
     private func updateUI(with memo: Memo) {
-        let headLinefont = UIFont.boldSystemFont(ofSize: 24)
-        let bodyLinefont = UIFont.systemFont(ofSize: 15)
         let memoAttributedString = NSMutableAttributedString(string: memo.title)
         let bodyAttributedString = NSMutableAttributedString(string: "\n\(memo.body)")
         memoAttributedString.addAttribute(.font, value: headLinefont, range: NSRange(location: 0, length: memo.title.count))

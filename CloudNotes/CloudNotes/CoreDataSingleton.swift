@@ -62,7 +62,7 @@ class CoreDataSingleton {
         }
     }
     
-    func update(object: NSManagedObject, title: String, body: String, lastModified: String) {
+    func update(object: NSManagedObject, title: String, body: String) {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             return
             // 에러 핸들링 필요
@@ -72,7 +72,7 @@ class CoreDataSingleton {
         
         object.setValue(title, forKey: "title")
         object.setValue(body, forKey: "body")
-        object.setValue(lastModified, forKey: "lastModified")
+        object.setValue(Date(), forKey: "lastModified")
         
         do {
             try managedContext.save()

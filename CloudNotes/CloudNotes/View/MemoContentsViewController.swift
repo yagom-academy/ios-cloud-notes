@@ -4,7 +4,7 @@ import CoreData
 class MemoContentsViewController: UIViewController {
     let disclosureButton = UIButton()
 //    private let disclosureButton = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: #selector(showActionSheet))
-    private let finishButton = UIBarButtonItem(title: "완료", style: .plain, target: self, action: #selector(dismissButton))
+    private let finishButton = UIBarButtonItem(title: "완료", style: .plain, target: self, action: #selector(endEditing))
     
     private var memoTextView: UITextView = {
         let textView = UITextView()
@@ -24,7 +24,7 @@ class MemoContentsViewController: UIViewController {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        NotificationCenter.default.post(name: NSNotification.Name(NotificationName.showTableView.rawValue), object: nil)
+        updateMemo()
     }
     
     private func configureDisclosureButton() {
@@ -65,19 +65,20 @@ class MemoContentsViewController: UIViewController {
         guard let memoBody: String = memo.value(forKey: "body") as? String else {
             return
         }
-        let body: String = "\n" + "\n" + "010-2222-4444 " + memoBody + "\n" + "https://www.google.com"
+//        let body: String = "\n" + "\n" + "010-2222-4444 " + memoBody + "\n" + "https://www.google.com"
         let titleFontSize = UIFont.preferredFont(forTextStyle: .largeTitle)
         let bodyFontSize = UIFont.preferredFont(forTextStyle: .body)
         
         let attributedText = NSMutableAttributedString(string: title, attributes: [.font: titleFontSize])
-        attributedText.append(NSAttributedString(string: body, attributes: [.font: bodyFontSize]))
+        attributedText.append(NSAttributedString(string: memoBody, attributes: [.font: bodyFontSize]))
         
         memoTextView.attributedText = attributedText
     }
     
-    @objc func dismissButton(_ sender: UIButton) {
+    @objc func endEditing(_ sender: UIButton) {
         memoTextView.resignFirstResponder()
         navigationItem.rightBarButtonItems?.removeFirst()
+        updateMemo()
     }
     
     @objc func showActionSheet(_ sender: UIButton) {
@@ -129,12 +130,23 @@ class MemoContentsViewController: UIViewController {
 //            self.splitViewController?.showDetailViewController(memoContentsView, sender: nil)
 //        }
     }
+    
+    func updateMemo() {
+        let selectedMemoIndexPathRow = UserDefaults.standard.integer(forKey: UserDefaultsKeys.selectedMemoIndexPathRow.rawValue)
+        CoreDataSingleton.shared.update(object: CoreDataSingleton.shared.memoData[selectedMemoIndexPathRow], title: "blue", body: self.memoTextView.text)
+        // title, body에 들어갈 값 필요
+        NotificationCenter.default.post(name: Notification.Name(NotificationName.showTableView.rawValue), object: nil)
+    }
 }
 
 // MARK: UITextViewDelegate
 extension MemoContentsViewController: UITextViewDelegate {
     func textViewDidEndEditing(_ textView: UITextView) {
         memoTextView.isEditable = false
+    }
+    
+    func textViewDidChange(_ textView: UITextView) {
+        updateMemo()
     }
 }
 

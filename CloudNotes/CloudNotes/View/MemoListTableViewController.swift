@@ -16,6 +16,7 @@ class MemoListTableViewController: UITableViewController {
     
     @objc func changeIsCellSelected() {
         UserDefaults.standard.set(false, forKey: UserDefaultsKeys.isCellSelected.rawValue)
+        tableView.reloadData()
     }
     
     private func configureNavigationBar() {
@@ -44,7 +45,7 @@ class MemoListTableViewController: UITableViewController {
     }
     
     @objc func createMemo(sender: UIButton) {
-        CoreDataSingleton.shared.save(title: "", body: "")
+        CoreDataSingleton.shared.save(title: "lll", body: "ooo")
         
         let memoContentsViewController = MemoContentsViewController()
         let memoContentsNavigationViewController = UINavigationController(rootViewController: memoContentsViewController)

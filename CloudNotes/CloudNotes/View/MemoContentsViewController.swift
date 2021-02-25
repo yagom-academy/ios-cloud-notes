@@ -65,9 +65,10 @@ class MemoContentsViewController: UIViewController {
         guard let title: String = memo.value(forKey: "title") as? String else {
             return
         }
-        guard let body: String = "\n" + "\n" + "010-2222-4444 " + (memo.value(forKey: "body") as?i String) + "\n" + "https://www.google.com" else {
+        guard let memoBody: String = memo.value(forKey: "body") as? String else {
             return
         }
+        let body: String = "\n" + "\n" + "010-2222-4444 " + memoBody + "\n" + "https://www.google.com"
         let titleFontSize = UIFont.preferredFont(forTextStyle: .largeTitle)
         let bodyFontSize = UIFont.preferredFont(forTextStyle: .body)
         

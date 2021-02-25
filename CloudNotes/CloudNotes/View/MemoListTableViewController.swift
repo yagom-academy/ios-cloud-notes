@@ -30,21 +30,37 @@ class MemoListTableViewController: UITableViewController {
     private func configureNavigationBar() {
         navigationItem.title = "메모"
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: enrollButton)
-        enrollButton.translatesAutoresizingMaskIntoConstraints = false
         enrollButton.setImage(UIImage(systemName: "plus"), for: .normal)
+        enrollButton.addTarget(self, action: #selector(createMemo), for: .touchUpInside)
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return memoList.count
+        return CoreDataSingleton.shared.memoData.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "MemoCell") as? MemoListTableViewCell else {
             return UITableViewCell()
         }
-        cell.receiveLabelsText(memo: memoList[indexPath.row])
+        
+        let record = CoreDataSingleton.shared.memoData[indexPath.row]
+        
+        cell.listTitleLabel.text = record.value(forKey: "title") as? String
+        cell.listShortBodyLabel.text = record.value(forKey: "body") as? String
+//        cell.listLastModifiedDateLabel.text = record.value(forKey: "lastModified") as? Date
         
         return cell
+    }
+    
+    @objc func createMemo(sender: UIButton) {
+        CoreDataSingleton.shared.save(title: "green", body: "red")
+        
+        let memoContentsView = MemoContentsViewController()
+        memoContentsView.receiveText(memo: CoreDataSingleton.shared.memoData[0])
+        tableView.reloadData()
+        self.splitViewController?.showDetailViewController(memoContentsView, sender: nil)
+        
+        isCellSelected = true
     }
 }
 

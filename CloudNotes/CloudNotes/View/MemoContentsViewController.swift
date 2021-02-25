@@ -3,7 +3,6 @@ import CoreData
 
 class MemoContentsViewController: UIViewController {
     let disclosureButton = UIButton()
-    
 //    private let disclosureButton = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: #selector(showActionSheet))
     private let finishButton = UIBarButtonItem(title: "완료", style: .plain, target: self, action: #selector(dismissButton))
     
@@ -12,7 +11,6 @@ class MemoContentsViewController: UIViewController {
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.adjustsFontForContentSizeCategory = true
         textView.dataDetectorTypes = .all
-
         return textView
     }()
     
@@ -30,7 +28,6 @@ class MemoContentsViewController: UIViewController {
     }
     
     private func configureDisclosureButton() {
-        disclosureButton.translatesAutoresizingMaskIntoConstraints = false
         disclosureButton.setImage(UIImage(systemName: "ellipsis.circle"), for: .normal)
         disclosureButton.addTarget(self, action: #selector(showActionSheet(_:)), for: .touchUpInside)
     }

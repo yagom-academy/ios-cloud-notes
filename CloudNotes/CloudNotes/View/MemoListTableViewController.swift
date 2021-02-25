@@ -8,6 +8,7 @@ class MemoListTableViewController: UITableViewController {
         super.viewDidLoad()
         
         configureNavigationBar()
+        
         UserDefaults.standard.set(false, forKey: UserDefaultsKeys.isCellSelected.rawValue)
         tableView.register(MemoListTableViewCell.self, forCellReuseIdentifier: "MemoCell")
         

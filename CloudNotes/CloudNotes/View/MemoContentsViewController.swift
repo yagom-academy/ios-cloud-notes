@@ -26,7 +26,7 @@ class MemoContentsViewController: UIViewController {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        NotificationCenter.default.post(name: NSNotification.Name("ShowTableView"), object: nil)
+        NotificationCenter.default.post(name: NSNotification.Name(NotificationName.showTableView.rawValue), object: nil)
     }
     
     private func configureDisclosureButton() {
@@ -123,7 +123,7 @@ class MemoContentsViewController: UIViewController {
         
         CoreDataSingleton.shared.memoData.remove(at: selectedMemoIndexPathRow)
         UserDefaults.standard.set(0, forKey: UserDefaultsKeys.selectedMemoIndexPathRow.rawValue)
-        NotificationCenter.default.post(name: NSNotification.Name("deleteCell"), object: nil)
+        NotificationCenter.default.post(name: NSNotification.Name(NotificationName.deleteCell.rawValue), object: nil)
         
 //        let memoContentsView = MemoContentsViewController()
         self.receiveText(memo: CoreDataSingleton.shared.memoData[0])

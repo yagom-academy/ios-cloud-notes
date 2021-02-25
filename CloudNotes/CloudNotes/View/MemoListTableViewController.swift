@@ -11,8 +11,8 @@ class MemoListTableViewController: UITableViewController {
         UserDefaults.standard.set(false, forKey: UserDefaultsKeys.isCellSelected.rawValue)
         tableView.register(MemoListTableViewCell.self, forCellReuseIdentifier: "MemoCell")
         
-        NotificationCenter.default.addObserver(self, selector: #selector(changeIsCellSelected), name: NSNotification.Name("ShowTableView"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(deleteCell), name: NSNotification.Name(rawValue: "deleteCell"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(changeIsCellSelected), name: NSNotification.Name(NotificationName.showTableView.rawValue), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(deleteCell), name: NSNotification.Name(rawValue: NotificationName.deleteCell.rawValue), object: nil)
     }
     
     override init(style: UITableView.Style = .plain) {

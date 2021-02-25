@@ -29,7 +29,7 @@ class NoteData {
         }
     }
     
-    func lastModifiedDate(index: Int) -> String? {
+    func lastModifiedDate(index: Int) -> Date? {
         if noteLists.count > index {
             return noteLists[index].lastModifiedDate
         } else {

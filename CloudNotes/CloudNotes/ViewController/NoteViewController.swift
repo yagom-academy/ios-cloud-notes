@@ -8,6 +8,13 @@ import UIKit
 
 class NoteViewController: UIViewController {
     private let tableView = UITableView()
+    private let dateFormatter: DateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .medium
+        dateFormatter.timeStyle = .none
+        dateFormatter.locale = Locale.current
+        return dateFormatter
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,7 +64,10 @@ extension NoteViewController: UITableViewDataSource {
         
         cell.titleLabel.text = NoteData.shared.title(index: indexPath.row)
         cell.bodyLabel.text = NoteData.shared.body(index: indexPath.row)
-        cell.lastModifiedDateLabel.text = NoteData.shared.lastModifiedDate(index: indexPath.row)
+        if let lastModifiedDate = NoteData.shared.lastModifiedDate(index: indexPath.row) {
+            cell.lastModifiedDateLabel.text = dateFormatter.string(from: lastModifiedDate)
+        }
+        
         
         return cell
     }

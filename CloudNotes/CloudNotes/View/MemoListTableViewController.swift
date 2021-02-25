@@ -2,7 +2,6 @@ import UIKit
 
 class MemoListTableViewController: UITableViewController {
     var memoList = [Memo]()
-    var isCellSelected: Bool = false
     private let enrollButton = UIButton()
     
     override func viewDidLoad() {
@@ -10,7 +9,7 @@ class MemoListTableViewController: UITableViewController {
         
         configureNavigationBar()
         tableView.register(MemoListTableViewCell.self, forCellReuseIdentifier: "MemoCell")
-  
+        
         NotificationCenter.default.addObserver(self, selector: #selector(changeIsCellSelected), name: NSNotification.Name("ShowTableView"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(deleteCell), name: NSNotification.Name(rawValue: "deleteCell"), object: nil)
     }
@@ -25,7 +24,7 @@ class MemoListTableViewController: UITableViewController {
     }
     
     @objc func changeIsCellSelected() {
-        isCellSelected = false
+        UserDefaults.standard.set(false, forKey: "isCellSelected")
     }
     
     private func configureNavigationBar() {
@@ -61,7 +60,7 @@ class MemoListTableViewController: UITableViewController {
         tableView.reloadData()
         self.splitViewController?.showDetailViewController(memoContentsView, sender: nil)
         
-        isCellSelected = true
+        UserDefaults.standard.set(true, forKey: "isCellSelected")
     }
     
     @objc func deleteCell(_ noti: Notification) {
@@ -79,7 +78,7 @@ extension MemoListTableViewController {
         let memoContentsViewController = MemoContentsViewController()
         let memoContentsNavigationViewController = UINavigationController(rootViewController: memoContentsViewController)
         
-        isCellSelected = true
+        UserDefaults.standard.set(true, forKey: "isCellSelected")
         memoContentsViewController.receiveText(memo: CoreDataSingleton.shared.memoData[indexPath.row])
         self.splitViewController?.showDetailViewController(memoContentsNavigationViewController, sender: nil)
     }

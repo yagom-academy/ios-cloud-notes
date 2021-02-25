@@ -20,6 +20,7 @@ class MemoSplitViewController: UISplitViewController {
 
 extension MemoSplitViewController: UISplitViewControllerDelegate {
     func splitViewController(_ splitViewController: UISplitViewController, collapseSecondary secondaryViewController: UIViewController, onto primaryViewController: UIViewController) -> Bool {
-        return !memoListTableViewController.isCellSelected
+        let isCellSeleted = UserDefaults.standard.bool(forKey: "isCellSelected")
+        return !isCellSeleted
     }
 }

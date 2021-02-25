@@ -70,24 +70,31 @@ class DetailNoteViewController: UIViewController {
     }
     
     func saveNoteDate() {
-        guard let textViewText = detailNoteTextView.text else {
-            return
-        }
-        guard textViewText != "" else {
+        if let textViewText = detailNoteTextView.text, textViewText == UIConstants.strings.textInitalizing {
             let note = Note(title: UIConstants.strings.emptyNoteTitleText, body: UIConstants.strings.textInitalizing)
             NoteData.shared.noteLists.append(note)
-            return
+        } else {
+            let textViewText = detailNoteTextView.text.split(separator: "\n", maxSplits: 1, omittingEmptySubsequences: true)
+            let note = checkTextView(text: textViewText, count: textViewText.count)
+            NoteData.shared.noteLists.append(note)
         }
-        
-        let splitTextViewText = textViewText.split(separator: "\n", maxSplits: 1, omittingEmptySubsequences: true)
-        let titleText = String(splitTextViewText[0])
-        let bodyText = (splitTextViewText.count == 1) ? UIConstants.strings.textInitalizing : String(splitTextViewText[1])
-        let note = Note(title: titleText, body: bodyText)
-        NoteData.shared.noteLists.append(note)
         
         if let navi = splitViewController?.viewControllers.first as? UINavigationController,
            let noteViewController = navi.viewControllers.first as? NoteViewController {
             noteViewController.reloadTableView()
+        }
+    }
+    
+    private func checkTextView(text: [String.SubSequence], count: Int) -> Note {
+        if count == 1 {
+            let titleText = String(text[0])
+            let note = Note(title: titleText, body: UIConstants.strings.textInitalizing)
+            return note
+        } else {
+            let titleText = String(text[0])
+            let bodyText = String(text[1])
+            let note = Note(title: titleText, body: bodyText)
+            return note
         }
     }
 }

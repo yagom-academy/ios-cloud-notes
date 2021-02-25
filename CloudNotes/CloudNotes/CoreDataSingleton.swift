@@ -19,15 +19,13 @@ class CoreDataSingleton {
         let managedContext =
             appDelegate.persistentContainer.viewContext
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Memo")
-        
         let result = try! managedContext.fetch(fetchRequest)
         return result
     }
     
-    func save(title: String, body: String) {
+    func save(title: String, body: String) -> Bool {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            return
-            // 에러 핸들링 필요
+            return false
         }
         let managedContext =
             appDelegate.persistentContainer.viewContext
@@ -40,15 +38,16 @@ class CoreDataSingleton {
         do {
             try managedContext.save()
             self.memoData.insert(object, at: 0)
+            return true
         } catch {
             managedContext.rollback()
+            return false
         }
     }
     
-    func delete(object: NSManagedObject) {
+    func delete(object: NSManagedObject) -> Bool {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            return
-            // 에러 핸들링 필요
+            return false
         }
         let managedContext =
             appDelegate.persistentContainer.viewContext
@@ -57,15 +56,16 @@ class CoreDataSingleton {
         
         do {
             try managedContext.save()
+            return true
         } catch {
             managedContext.rollback()
+            return false
         }
     }
     
-    func update(object: NSManagedObject, title: String, body: String) {
+    func update(object: NSManagedObject, title: String, body: String) -> Bool {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            return
-            // 에러 핸들링 필요
+            return false
         }
         let managedContext =
             appDelegate.persistentContainer.viewContext
@@ -76,8 +76,10 @@ class CoreDataSingleton {
         
         do {
             try managedContext.save()
+            return true
         } catch {
             managedContext.rollback()
+            return false
         }
     }
 }

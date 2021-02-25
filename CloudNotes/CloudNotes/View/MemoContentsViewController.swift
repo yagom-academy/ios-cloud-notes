@@ -117,25 +117,30 @@ class MemoContentsViewController: UIViewController {
     private func deleteMemo() {
         let selectedMemoIndexPathRow = UserDefaults.standard.integer(forKey: UserDefaultsKeys.selectedMemoIndexPathRow.rawValue)
         
-        CoreDataSingleton.shared.delete(object: CoreDataSingleton.shared.memoData[selectedMemoIndexPathRow])
-        
-        CoreDataSingleton.shared.memoData.remove(at: selectedMemoIndexPathRow)
-        UserDefaults.standard.set(0, forKey: UserDefaultsKeys.selectedMemoIndexPathRow.rawValue)
-        NotificationCenter.default.post(name: NSNotification.Name(NotificationName.deleteCell.rawValue), object: nil)
-        
-//        let memoContentsView = MemoContentsViewController()
-        self.receiveText(memo: CoreDataSingleton.shared.memoData[0])
-        
-//        if UITraitCollection.current.horizontalSizeClass == .regular {
-//            self.splitViewController?.showDetailViewController(memoContentsView, sender: nil)
-//        }
+        if CoreDataSingleton.shared.delete(object: CoreDataSingleton.shared.memoData[selectedMemoIndexPathRow]) {
+            CoreDataSingleton.shared.memoData.remove(at: selectedMemoIndexPathRow)
+            UserDefaults.standard.set(0, forKey: UserDefaultsKeys.selectedMemoIndexPathRow.rawValue)
+            NotificationCenter.default.post(name: NSNotification.Name(NotificationName.deleteCell.rawValue), object: nil)
+            
+            //        let memoContentsView = MemoContentsViewController()
+            self.receiveText(memo: CoreDataSingleton.shared.memoData[0])
+            
+            //        if UITraitCollection.current.horizontalSizeClass == .regular {
+            //            self.splitViewController?.showDetailViewController(memoContentsView, sender: nil)
+            //        }
+        } else {
+            showAlertMessage("메모를 삭제에 실패했습니다.")
+        }
     }
     
     func updateMemo() {
         let selectedMemoIndexPathRow = UserDefaults.standard.integer(forKey: UserDefaultsKeys.selectedMemoIndexPathRow.rawValue)
-        CoreDataSingleton.shared.update(object: CoreDataSingleton.shared.memoData[selectedMemoIndexPathRow], title: "blue", body: self.memoTextView.text)
-        // title, body에 들어갈 값 필요
-        NotificationCenter.default.post(name: Notification.Name(NotificationName.showTableView.rawValue), object: nil)
+        if CoreDataSingleton.shared.update(object: CoreDataSingleton.shared.memoData[selectedMemoIndexPathRow], title: "blue", body: self.memoTextView.text) {
+            // title, body에 들어갈 값 필요
+            NotificationCenter.default.post(name: Notification.Name(NotificationName.showTableView.rawValue), object: nil)
+        } else {
+            showAlertMessage("메모 편집에 실패했습니다!")
+        }
     }
 }
 
@@ -159,7 +164,6 @@ extension MemoContentsViewController {
             return
         }
         let tappedLocation = recognizer.location(in: textView)
-        
         let glyphIndex = textView.layoutManager.glyphIndex(for: tappedLocation, in: textView.textContainer)
         
         if glyphIndex < textView.textStorage.length,
@@ -208,5 +212,16 @@ extension MemoContentsViewController {
         let activityViewController = UIActivityViewController(activityItems: memoToShare, applicationActivities: nil)
 
         self.present(activityViewController, animated: true, completion: nil)
+    }
+}
+
+// MARK: Alert
+extension MemoContentsViewController {
+    private func showAlertMessage(_ message: String) {
+        let alert = UIAlertController(title: nil, message: message, preferredStyle: UIAlertController.Style.alert)
+        let okAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+        
+        alert.addAction(okAction)
+        present(alert, animated: true, completion: nil)
     }
 }

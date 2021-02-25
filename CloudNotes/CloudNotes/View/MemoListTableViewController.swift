@@ -45,21 +45,25 @@ class MemoListTableViewController: UITableViewController {
     }
     
     @objc func createMemo(sender: UIButton) {
-        CoreDataSingleton.shared.save(title: "lll", body: "ooo")
+        if CoreDataSingleton.shared.save(title: "lll", body: "ooo") {
+            let memoContentsViewController = MemoContentsViewController()
+            let memoContentsNavigationViewController = UINavigationController(rootViewController: memoContentsViewController)
+            memoContentsViewController.receiveText(memo: CoreDataSingleton.shared.memoData[0])
+            tableView.reloadData()
+            self.splitViewController?.showDetailViewController(memoContentsNavigationViewController, sender: nil)
+            
+            UserDefaults.standard.set(true, forKey: UserDefaultsKeys.isCellSelected.rawValue)
+        } else {
+            showAlertMessage("메모 생성에 실패했습니다!")
+        }
         
-        let memoContentsViewController = MemoContentsViewController()
-        let memoContentsNavigationViewController = UINavigationController(rootViewController: memoContentsViewController)
-        memoContentsViewController.receiveText(memo: CoreDataSingleton.shared.memoData[0])
-        tableView.reloadData()
-        self.splitViewController?.showDetailViewController(memoContentsNavigationViewController, sender: nil)
-        
-        UserDefaults.standard.set(true, forKey: UserDefaultsKeys.isCellSelected.rawValue)
     }
     
     @objc func deleteCell() {
         let selectedMemoIndexPathRow = UserDefaults.standard.integer(forKey: UserDefaultsKeys.selectedMemoIndexPathRow.rawValue)
         let indexPath = IndexPath(row: selectedMemoIndexPathRow, section: 0)
-        self.tableView.deleteRows(at: [indexPath], with: .fade)
+        tableView.deleteRows(at: [indexPath], with: .fade)
+        tableView.reloadData()
     }
 }
 

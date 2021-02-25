@@ -24,8 +24,6 @@ class MainViewController: UISplitViewController {
         self.viewControllers = [listViewNavigationController, detailViewNavigationController]
         self.preferredPrimaryColumnWidthFraction = 1/3
         self.preferredDisplayMode = .oneBesideSecondary
-        
-        splitViewController(self, collapseSecondary: detailViewController, onto: listViewController)
     }
 }
 

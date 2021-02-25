@@ -12,6 +12,7 @@ class MemoListTableViewController: UITableViewController {
         tableView.register(MemoListTableViewCell.self, forCellReuseIdentifier: "MemoCell")
   
         NotificationCenter.default.addObserver(self, selector: #selector(changeIsCellSelected), name: NSNotification.Name("ShowTableView"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(deleteCell), name: NSNotification.Name(rawValue: "deleteCell"), object: nil)
     }
     
     override init(style: UITableView.Style = .plain) {
@@ -61,6 +62,14 @@ class MemoListTableViewController: UITableViewController {
         self.splitViewController?.showDetailViewController(memoContentsView, sender: nil)
         
         isCellSelected = true
+    }
+    
+    @objc func deleteCell(_ noti: Notification) {
+        guard let index =  noti.userInfo?["cellIndexNumber"] as? Int else {
+            return
+        }
+        let indexPath = IndexPath(row: index, section: 0)
+        self.tableView.deleteRows(at: [indexPath], with: .fade)
     }
 }
 

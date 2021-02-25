@@ -2,6 +2,7 @@ import UIKit
 import CoreData
 
 class MemoContentsViewController: UIViewController {
+    private var selectedMemo: Int = 0
     let disclosureButton = UIButton()
     
 //    private let disclosureButton = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: #selector(showActionSheet))
@@ -101,12 +102,31 @@ class MemoContentsViewController: UIViewController {
          let deleteMenu = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: UIAlertController.Style.alert)
          
          let cancleAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
-         let deleteAction = UIAlertAction(title: "삭제", style: .destructive, handler: nil)
+        let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
+            self.deleteMemo()
+        }
          deleteMenu.addAction(cancleAction)
          deleteMenu.addAction(deleteAction)
          
          present(deleteMenu, animated: true, completion: nil)
      }
+    
+    private func deleteMemo() {
+        let indexPath = IndexPath(row: selectedMemo, section: 0)
+        
+        CoreDataSingleton.shared.delete(object: CoreDataSingleton.shared.memoData[indexPath.row])
+        
+        CoreDataSingleton.shared.memoData.remove(at: indexPath.row)
+        NotificationCenter.default.post(name: NSNotification.Name("deleteCell"), object: nil, userInfo: ["cellIndexNumber": selectedMemo])
+        selectedMemo = 0
+        
+//        let memoContentsView = MemoContentsViewController()
+        self.receiveText(memo: CoreDataSingleton.shared.memoData[0])
+        
+//        if UITraitCollection.current.horizontalSizeClass == .regular {
+//            self.splitViewController?.showDetailViewController(memoContentsView, sender: nil)
+//        }
+    }
 }
 
 // MARK: UITextViewDelegate

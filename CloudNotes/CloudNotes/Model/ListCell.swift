@@ -36,13 +36,13 @@ class ListCell: UITableViewCell {
     }
     
     required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: aDecoder)
     }
     
     func updateCell(info: Memo) {
         titleLabel.text = info.title
         contentsLabel.text = info.contents
-        dateLabel.text = info.dateToString
+        dateLabel.text = info.lastModifiedDateToString
     }
     
     private func addSubview() {
@@ -58,13 +58,16 @@ class ListCell: UITableViewCell {
             titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: margin),
             titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: margin),
             titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -margin),
+            titleLabel.heightAnchor.constraint(equalToConstant: 25),
         
             dateLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: margin),
             dateLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: margin),
             dateLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -margin),
+            dateLabel.widthAnchor.constraint(equalToConstant: 100),
             
             contentsLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -margin),
-            contentsLabel.leadingAnchor.constraint(equalTo: dateLabel.trailingAnchor, constant: margin * 5)
+            contentsLabel.leadingAnchor.constraint(equalTo: dateLabel.trailingAnchor, constant: margin * 5),
+            contentsLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -margin)
         ])
     }
     

@@ -20,7 +20,7 @@ struct Memo: Decodable {
 }
 
 extension Memo {
-    var dateToString: String {
+    var lastModifiedDateToString: String {
         let date = Date(timeIntervalSince1970: lastModified)
         let dateFormatter = DateFormatter()
         dateFormatter.timeZone = .autoupdatingCurrent

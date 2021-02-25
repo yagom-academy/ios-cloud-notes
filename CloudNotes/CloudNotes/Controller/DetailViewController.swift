@@ -11,7 +11,7 @@ class DetailViewController: UIViewController {
     
     var memo: Memo?
     
-    private let memoTextView: UITextView = {
+    var memoTextView: UITextView = {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.font = UIFont.systemFont(ofSize: 17)
@@ -38,18 +38,8 @@ class DetailViewController: UIViewController {
 
     private func setTextView() {
         memoTextView.delegate = self
-        setPropertyStyle()
         addSubview()
         setAutoLayout()
-    }
-    
-    private func setPropertyStyle() {
-        memoTextView.text = memo?.title
-        guard let contentText: String = memo?.contents else {
-            return
-        }
-        memoTextView.text += "\n\n\(contentText)"
-        memoTextView.text += "\n 010-1234-1234 \n www.naver.com \n"
     }
 
     private func addSubview() {
@@ -83,7 +73,7 @@ extension DetailViewController {
     }
     
     @objc private func didTappedTextView(_ gestrue: UITapGestureRecognizer) {
-        if memoTextView.isEditable {
+        guard memoTextView.isEditable == false else {
             return
         }
         

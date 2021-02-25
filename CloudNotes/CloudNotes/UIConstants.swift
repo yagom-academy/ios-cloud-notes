@@ -27,5 +27,7 @@ enum UIConstants {
     
     enum strings {
         static let noteViewControllerNavigationBarTitle: String = "메모"
+        static let emptyNoteTitleText: String = "제목 없음"
+        static let textInitalizing: String = ""
     }
 }

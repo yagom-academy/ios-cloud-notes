@@ -55,7 +55,7 @@ extension MemoListTableViewController {
         let memoContentsNavigationViewController = UINavigationController(rootViewController: memoContentsViewController)
         
         isCellSelected = true
-        memoContentsViewController.receiveText(memo: memoList[indexPath.row])
+        memoContentsViewController.receiveText(memo: CoreDataSingleton.shared.memoData[indexPath.row])
         self.splitViewController?.showDetailViewController(memoContentsNavigationViewController, sender: nil)
     }
 }

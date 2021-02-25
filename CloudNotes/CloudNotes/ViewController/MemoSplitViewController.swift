@@ -10,7 +10,7 @@ class MemoSplitViewController: UISplitViewController {
         self.delegate = self
         let memoListNavigationController = UINavigationController(rootViewController: memoListTableViewController)
         let memoContentsNavigationViewController = UINavigationController(rootViewController: memoContentsViewController)
-        memoContentsViewController.receiveText(memo: memoListTableViewController.memoList[0])
+//        memoContentsViewController.receiveText(memo: CoreDataSingleton.shared.memoData[0])
 
         self.viewControllers = [memoListNavigationController, memoContentsNavigationViewController]
         self.preferredPrimaryColumnWidthFraction = 1/3

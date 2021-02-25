@@ -24,7 +24,7 @@ class CoreDataSingleton {
         return result
     }
     
-    func save(title: String, body: String, lastModified: String) {
+    func save(title: String, body: String) {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             return
             // 에러 핸들링 필요
@@ -35,7 +35,7 @@ class CoreDataSingleton {
         let object = NSEntityDescription.insertNewObject(forEntityName: "Memo", into: managedContext)
         object.setValue(title, forKey: "title")
         object.setValue(body, forKey: "body")
-        object.setValue(lastModified, forKey: "lastModified")
+        object.setValue(Date(), forKey: "lastModified")
         
         do {
             try managedContext.save()

@@ -1,4 +1,5 @@
 import UIKit
+import CoreData
 
 class MemoContentsViewController: UIViewController {
     let disclosureButton = UIButton()
@@ -60,9 +61,13 @@ class MemoContentsViewController: UIViewController {
         ])
     }
     
-    func receiveText(memo: Memo) {
-        let title = memo.title
-        let body = "\n" + "\n" + "010-2222-4444 " + memo.body + "\n" + "https://www.google.com"
+    func receiveText(memo: NSManagedObject) {
+        guard let title: String = memo.value(forKey: "title") as? String else {
+            return
+        }
+        guard let body: String = "\n" + "\n" + "010-2222-4444 " + (memo.value(forKey: "body") as?i String) + "\n" + "https://www.google.com" else {
+            return
+        }
         let titleFontSize = UIFont.preferredFont(forTextStyle: .largeTitle)
         let bodyFontSize = UIFont.preferredFont(forTextStyle: .body)
         

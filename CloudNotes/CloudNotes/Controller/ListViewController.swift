@@ -6,9 +6,14 @@
 
 import UIKit
 
+protocol SendMemoDelegate: AnyObject {
+    func didTapListCell(memo: Memo?)
+}
+
 class ListViewController: UIViewController {
     
     private var memoList: [Memo]?
+    weak var delegate: SendMemoDelegate?
     
     private let tableView: UITableView = {
         let tableView = UITableView()
@@ -70,13 +75,12 @@ class ListViewController: UIViewController {
 
 extension ListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: false)
         guard let memoList = memoList else {
             return
         }
         let memo = memoList[indexPath.row]
-        let detailView = DetailViewController()
-        detailView.memo = memo
-        splitViewController?.showDetailViewController(detailView, sender: nil)
+        delegate?.didTapListCell(memo: memo)
     }
 }
 

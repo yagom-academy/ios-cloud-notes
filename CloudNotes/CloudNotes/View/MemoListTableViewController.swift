@@ -1,28 +1,17 @@
 import UIKit
 
 class MemoListTableViewController: UITableViewController {
-    var memoList = [Memo]()
     private let enrollButton = UIButton()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         configureNavigationBar()
-        
         UserDefaults.standard.set(false, forKey: UserDefaultsKeys.isCellSelected.rawValue)
         tableView.register(MemoListTableViewCell.self, forCellReuseIdentifier: "MemoCell")
         
         NotificationCenter.default.addObserver(self, selector: #selector(changeIsCellSelected), name: NSNotification.Name(NotificationName.showTableView.rawValue), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(deleteCell), name: NSNotification.Name(rawValue: NotificationName.deleteCell.rawValue), object: nil)
-    }
-    
-    override init(style: UITableView.Style = .plain) {
-        super.init(style: style)
-        decodeJSONToMemoList(fileName: "sample")
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
     
     @objc func changeIsCellSelected() {
@@ -55,7 +44,7 @@ class MemoListTableViewController: UITableViewController {
     }
     
     @objc func createMemo(sender: UIButton) {
-        CoreDataSingleton.shared.save(title: "green", body: "red")
+        CoreDataSingleton.shared.save(title: "", body: "")
         
         let memoContentsView = MemoContentsViewController()
         memoContentsView.receiveText(memo: CoreDataSingleton.shared.memoData[0])
@@ -83,22 +72,6 @@ extension MemoListTableViewController {
         
         memoContentsViewController.receiveText(memo: CoreDataSingleton.shared.memoData[indexPath.row])
         self.splitViewController?.showDetailViewController(memoContentsNavigationViewController, sender: nil)
-    }
-}
-
-// MARK: JSONDecoding
-extension MemoListTableViewController {
-    private func decodeJSONToMemoList(fileName: String) {
-        guard let dataAsset: NSDataAsset = NSDataAsset.init(name: fileName) else {
-            return
-        }
-        let jsonDecoder: JSONDecoder = JSONDecoder()
-        do {
-            let decodeData = try jsonDecoder.decode([Memo].self, from: dataAsset.data)
-            memoList = decodeData
-        } catch {
-            showAlertMessage(MemoAppError.system.message)
-        }
     }
 }
 

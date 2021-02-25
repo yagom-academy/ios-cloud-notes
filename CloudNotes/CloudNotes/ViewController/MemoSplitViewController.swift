@@ -1,7 +1,7 @@
 import UIKit
 
 class MemoSplitViewController: UISplitViewController {
-    private let memoListTableViewController = MemoListTableViewController(style: .plain)
+    private let memoListTableViewController = MemoListTableViewController()
     private let memoContentsViewController = MemoContentsViewController()
 
     override func viewDidLoad() {

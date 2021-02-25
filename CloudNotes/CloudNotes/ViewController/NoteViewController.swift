@@ -18,9 +18,11 @@ class NoteViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         configureTableView()
         self.view.backgroundColor = .white
         configureNavigationItem()
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadTableView), name: DetailNoteViewController.memoDidSave, object: nil)
     }
         
     private func configureTableView() {
@@ -68,11 +70,10 @@ extension NoteViewController: UITableViewDataSource {
             cell.lastModifiedDateLabel.text = dateFormatter.string(from: lastModifiedDate)
         }
         
-        
         return cell
     }
     
-    func reloadTableView() {
+    @objc private func reloadTableView() {
         tableView.reloadData()
     }
 }

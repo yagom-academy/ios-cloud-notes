@@ -8,12 +8,15 @@
 import UIKit
 
 class DetailNoteViewController: UIViewController {
+    static let memoDidSave = Notification.Name(rawValue: "memoDidSave")
+    
     var fetchedNoteData: Note?
     let detailNoteTextView = UITextView()
     let completeButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.done, target: self, action: #selector(touchUpCompleteButton))
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         self.view.backgroundColor = .white
         configureTextView()
         setFetchedNoteDate()
@@ -45,9 +48,7 @@ class DetailNoteViewController: UIViewController {
     
     @objc func touchUpCompleteButton() {
         detailNoteTextView.isEditable = false
-        
         saveNoteDate()
-        
         if let _ = navigationController?.presentingViewController {
             self.navigationController?.popViewController(animated: true)
         }
@@ -79,10 +80,7 @@ class DetailNoteViewController: UIViewController {
             NoteData.shared.noteLists.append(note)
         }
         
-        if let navi = splitViewController?.viewControllers.first as? UINavigationController,
-           let noteViewController = navi.viewControllers.first as? NoteViewController {
-            noteViewController.reloadTableView()
-        }
+        NotificationCenter.default.post(name: DetailNoteViewController.memoDidSave, object: nil)
     }
     
     private func checkTextView(text: [String.SubSequence], count: Int) -> Note {

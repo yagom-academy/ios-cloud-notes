@@ -11,6 +11,7 @@ class NoteSplitViewController: UISplitViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         self.view.backgroundColor = .white
         let noteViewController = NoteViewController()
         let masterViewController = UINavigationController(rootViewController: noteViewController)

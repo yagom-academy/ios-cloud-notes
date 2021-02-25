@@ -46,10 +46,11 @@ class MemoListTableViewController: UITableViewController {
     @objc func createMemo(sender: UIButton) {
         CoreDataSingleton.shared.save(title: "", body: "")
         
-        let memoContentsView = MemoContentsViewController()
-        memoContentsView.receiveText(memo: CoreDataSingleton.shared.memoData[0])
+        let memoContentsViewController = MemoContentsViewController()
+        let memoContentsNavigationViewController = UINavigationController(rootViewController: memoContentsViewController)
+        memoContentsViewController.receiveText(memo: CoreDataSingleton.shared.memoData[0])
         tableView.reloadData()
-        self.splitViewController?.showDetailViewController(memoContentsView, sender: nil)
+        self.splitViewController?.showDetailViewController(memoContentsNavigationViewController, sender: nil)
         
         UserDefaults.standard.set(true, forKey: UserDefaultsKeys.isCellSelected.rawValue)
     }

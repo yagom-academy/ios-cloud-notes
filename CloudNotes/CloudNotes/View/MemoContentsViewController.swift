@@ -30,7 +30,7 @@ class MemoContentsViewController: UIViewController {
         NotificationCenter.default.post(name: NSNotification.Name("ShowTableView"), object: nil)
     }
     
-    func configureDisclosureButton() {
+    private func configureDisclosureButton() {
         disclosureButton.translatesAutoresizingMaskIntoConstraints = false
         disclosureButton.setImage(UIImage(systemName: "ellipsis.circle"), for: .normal)
         disclosureButton.addTarget(self, action: #selector(showActionSheet(_:)), for: .touchUpInside)
@@ -86,7 +86,9 @@ class MemoContentsViewController: UIViewController {
     
     @objc func showActionSheet(_ sender: UIButton) {
         let actionSheet = UIAlertController(title: nil, message: "Choose Option", preferredStyle: .actionSheet)
-        let shareAction = UIAlertAction(title: "Share", style: .default, handler: nil)
+        let shareAction = UIAlertAction(title: "Share", style: .default) { _ in
+            self.showActivityView(memo: CoreDataSingleton.shared.memoData[0])
+        }
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: {
             (action: UIAlertAction) in self.showDeleteMessage()
@@ -182,5 +184,21 @@ extension MemoContentsViewController {
 extension MemoContentsViewController: UIGestureRecognizerDelegate {
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
+    }
+}
+
+// MARK: UIActivityViewController
+extension MemoContentsViewController {
+    private func showActivityView(memo: NSManagedObject) {
+        guard let title: String = memo.value(forKey: "title") as? String else {
+            return
+        }
+        guard let body: String = memo.value(forKey: "body") as? String else {
+            return
+        }
+        let memoToShare = [title, body]
+        let activityViewController = UIActivityViewController(activityItems: memoToShare, applicationActivities: nil)
+
+        self.present(activityViewController, animated: true, completion: nil)
     }
 }

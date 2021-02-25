@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		34155C7725E73C6C00696F9F /* CoreDataSingleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34155C7625E73C6C00696F9F /* CoreDataSingleton.swift */; };
+		34155C7C25E7ACF000696F9F /* UserDefaultsKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34155C7B25E7ACF000696F9F /* UserDefaultsKeys.swift */; };
 		34622ABA25DAA2B4006B0A97 /* Date + toStringWithDot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34622AB925DAA2B4006B0A97 /* Date + toStringWithDot.swift */; };
 		9AB95B2025DA79E4004F7826 /* MemoListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB95B1F25DA79E4004F7826 /* MemoListTableViewCell.swift */; };
 		9AB95B2825DA7A60004F7826 /* Memo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB95B2725DA7A60004F7826 /* Memo.swift */; };
@@ -43,6 +44,7 @@
 
 /* Begin PBXFileReference section */
 		34155C7625E73C6C00696F9F /* CoreDataSingleton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataSingleton.swift; sourceTree = "<group>"; };
+		34155C7B25E7ACF000696F9F /* UserDefaultsKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsKeys.swift; sourceTree = "<group>"; };
 		34622AB925DAA2B4006B0A97 /* Date + toStringWithDot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date + toStringWithDot.swift"; sourceTree = "<group>"; };
 		9AB95B1F25DA79E4004F7826 /* MemoListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoListTableViewCell.swift; sourceTree = "<group>"; };
 		9AB95B2725DA7A60004F7826 /* Memo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memo.swift; sourceTree = "<group>"; };
@@ -183,6 +185,7 @@
 				9AB95B4925DA82C9004F7826 /* Error */,
 				9AB95B3D25DA8087004F7826 /* Supporting Files */,
 				34155C7625E73C6C00696F9F /* CoreDataSingleton.swift */,
+				34155C7B25E7ACF000696F9F /* UserDefaultsKeys.swift */,
 			);
 			path = CloudNotes;
 			sourceTree = "<group>";
@@ -338,6 +341,7 @@
 				34622ABA25DAA2B4006B0A97 /* Date + toStringWithDot.swift in Sources */,
 				C7481C7225BBCF3900B9CA55 /* MemoSplitViewController.swift in Sources */,
 				34155C7725E73C6C00696F9F /* CoreDataSingleton.swift in Sources */,
+				34155C7C25E7ACF000696F9F /* UserDefaultsKeys.swift in Sources */,
 				C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */,
 				9AB95B4525DA82BF004F7826 /* MemoAppError.swift in Sources */,
 				9AB95B2825DA7A60004F7826 /* Memo.swift in Sources */,

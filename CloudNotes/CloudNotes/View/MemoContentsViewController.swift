@@ -2,7 +2,6 @@ import UIKit
 import CoreData
 
 class MemoContentsViewController: UIViewController {
-    private var selectedMemo: Int = 0
     let disclosureButton = UIButton()
     
 //    private let disclosureButton = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: #selector(showActionSheet))
@@ -118,13 +117,13 @@ class MemoContentsViewController: UIViewController {
      }
     
     private func deleteMemo() {
-        let indexPath = IndexPath(row: selectedMemo, section: 0)
+        let selectedMemoIndexPathRow = UserDefaults.standard.integer(forKey: UserDefaultsKeys.selectedMemoIndexPathRow.rawValue)
         
-        CoreDataSingleton.shared.delete(object: CoreDataSingleton.shared.memoData[indexPath.row])
+        CoreDataSingleton.shared.delete(object: CoreDataSingleton.shared.memoData[selectedMemoIndexPathRow])
         
-        CoreDataSingleton.shared.memoData.remove(at: indexPath.row)
-        NotificationCenter.default.post(name: NSNotification.Name("deleteCell"), object: nil, userInfo: ["cellIndexNumber": selectedMemo])
-        selectedMemo = 0
+        CoreDataSingleton.shared.memoData.remove(at: selectedMemoIndexPathRow)
+        UserDefaults.standard.set(0, forKey: UserDefaultsKeys.selectedMemoIndexPathRow.rawValue)
+        NotificationCenter.default.post(name: NSNotification.Name("deleteCell"), object: nil)
         
 //        let memoContentsView = MemoContentsViewController()
         self.receiveText(memo: CoreDataSingleton.shared.memoData[0])

@@ -8,6 +8,7 @@ class MemoListTableViewController: UITableViewController {
         super.viewDidLoad()
         
         configureNavigationBar()
+        UserDefaults.standard.set(false, forKey: UserDefaultsKeys.isCellSelected.rawValue)
         tableView.register(MemoListTableViewCell.self, forCellReuseIdentifier: "MemoCell")
         
         NotificationCenter.default.addObserver(self, selector: #selector(changeIsCellSelected), name: NSNotification.Name("ShowTableView"), object: nil)
@@ -24,7 +25,7 @@ class MemoListTableViewController: UITableViewController {
     }
     
     @objc func changeIsCellSelected() {
-        UserDefaults.standard.set(false, forKey: "isCellSelected")
+        UserDefaults.standard.set(false, forKey: UserDefaultsKeys.isCellSelected.rawValue)
     }
     
     private func configureNavigationBar() {
@@ -60,14 +61,12 @@ class MemoListTableViewController: UITableViewController {
         tableView.reloadData()
         self.splitViewController?.showDetailViewController(memoContentsView, sender: nil)
         
-        UserDefaults.standard.set(true, forKey: "isCellSelected")
+        UserDefaults.standard.set(true, forKey: UserDefaultsKeys.isCellSelected.rawValue)
     }
     
-    @objc func deleteCell(_ noti: Notification) {
-        guard let index =  noti.userInfo?["cellIndexNumber"] as? Int else {
-            return
-        }
-        let indexPath = IndexPath(row: index, section: 0)
+    @objc func deleteCell() {
+        let selectedMemoIndexPathRow = UserDefaults.standard.integer(forKey: UserDefaultsKeys.selectedMemoIndexPathRow.rawValue)
+        let indexPath = IndexPath(row: selectedMemoIndexPathRow, section: 0)
         self.tableView.deleteRows(at: [indexPath], with: .fade)
     }
 }
@@ -78,7 +77,9 @@ extension MemoListTableViewController {
         let memoContentsViewController = MemoContentsViewController()
         let memoContentsNavigationViewController = UINavigationController(rootViewController: memoContentsViewController)
         
-        UserDefaults.standard.set(true, forKey: "isCellSelected")
+        UserDefaults.standard.set(true, forKey: UserDefaultsKeys.isCellSelected.rawValue)
+        UserDefaults.standard.set(indexPath.row, forKey: UserDefaultsKeys.selectedMemoIndexPathRow.rawValue)
+        
         memoContentsViewController.receiveText(memo: CoreDataSingleton.shared.memoData[indexPath.row])
         self.splitViewController?.showDetailViewController(memoContentsNavigationViewController, sender: nil)
     }

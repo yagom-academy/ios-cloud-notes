@@ -24,7 +24,7 @@ class MemoContentsViewController: UIViewController {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        updateMemo()
+        NotificationCenter.default.post(name: Notification.Name(NotificationName.showTableView.rawValue), object: nil)
     }
     
     private func configureDisclosureButton() {

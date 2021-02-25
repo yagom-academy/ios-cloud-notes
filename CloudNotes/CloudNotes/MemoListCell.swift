@@ -61,9 +61,8 @@ class MemoListCell: UITableViewCell {
             titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
             titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             
-            dateLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 5),
+            dateLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
             dateLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
-            dateLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
             
             predescriptionLabel.centerYAnchor.constraint(equalTo: dateLabel.centerYAnchor),
             predescriptionLabel.leadingAnchor.constraint(equalTo: dateLabel.trailingAnchor, constant: 50),

@@ -45,6 +45,8 @@ class ListViewController: UITableViewController {
     
     private func setUpTableView() {
         tableView.register(MemoListCell.self, forCellReuseIdentifier: MemoListCell.identifier)
+        tableView.estimatedRowHeight = 50
+        tableView.rowHeight = UITableView.automaticDimension
     }
     
     private func setUpNavigationBar() {

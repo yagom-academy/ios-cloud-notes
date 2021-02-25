@@ -42,7 +42,7 @@ class ListCell: UITableViewCell {
     func updateCell(info: Memo) {
         titleLabel.text = info.title
         contentsLabel.text = info.contents
-        dateLabel.text = info.dateToString
+        dateLabel.text = info.lastModifiedDateToString
     }
     
     private func addSubview() {

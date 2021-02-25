@@ -83,7 +83,7 @@ extension DetailViewController {
     }
     
     @objc private func didTappedTextView(_ gestrue: UITapGestureRecognizer) {
-        if memoTextView.isEditable {
+        guard memoTextView.isEditable == false else {
             return
         }
         

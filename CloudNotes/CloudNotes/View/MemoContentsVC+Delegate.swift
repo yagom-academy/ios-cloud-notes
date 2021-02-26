@@ -4,7 +4,6 @@ import UIKit
 // MARK: UITextViewDelegate
 extension MemoContentsViewController: UITextViewDelegate {
     func textViewDidEndEditing(_ textView: UITextView) {
-        updateMemo()
         memoTextView.isEditable = false
     }
     

@@ -34,7 +34,7 @@ class MemoListTableViewController: UITableViewController {
     }
 
     @objc func createMemo(sender: UIButton) {
-        if CoreDataSingleton.shared.save(title: "lll", body: "ooo") {
+        if CoreDataSingleton.shared.save(title: "", body: "") {
             let memoContentsViewController = MemoContentsViewController()
             let memoContentsNavigationViewController = UINavigationController(rootViewController: memoContentsViewController)
             memoContentsViewController.receiveText(memo: CoreDataSingleton.shared.memoData[0])

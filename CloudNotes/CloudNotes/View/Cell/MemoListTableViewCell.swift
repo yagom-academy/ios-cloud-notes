@@ -42,11 +42,12 @@ class MemoListTableViewCell: UITableViewCell {
             contentsContainerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             contentsContainerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
             contentsContainerView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            contentsContainerView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.9),
+            contentsContainerView.heightAnchor.constraint(greaterThanOrEqualToConstant: 44 * 0.9 / 2),
             
             listTitleLabel.leadingAnchor.constraint(equalTo: contentsContainerView.leadingAnchor),
             listTitleLabel.trailingAnchor.constraint(equalTo: contentsContainerView.trailingAnchor),
             listTitleLabel.topAnchor.constraint(equalTo: contentsContainerView.topAnchor),
+            listTitleLabel.heightAnchor.constraint(equalTo: contentsContainerView.heightAnchor, multiplier: 0.5),
             
             listLastModifiedDateLabel.leadingAnchor.constraint(equalTo: listTitleLabel.leadingAnchor),
             listLastModifiedDateLabel.topAnchor.constraint(equalTo: listTitleLabel.bottomAnchor),
@@ -56,7 +57,8 @@ class MemoListTableViewCell: UITableViewCell {
             listShortBodyLabel.leadingAnchor.constraint(greaterThanOrEqualTo: listLastModifiedDateLabel.trailingAnchor, constant: 40),
             listShortBodyLabel.trailingAnchor.constraint(equalTo: contentsContainerView.trailingAnchor),
             listShortBodyLabel.bottomAnchor.constraint(equalTo: contentsContainerView.bottomAnchor),
-            listShortBodyLabel.topAnchor.constraint(equalTo: listTitleLabel.bottomAnchor)
+            listShortBodyLabel.topAnchor.constraint(equalTo: listTitleLabel.bottomAnchor),
+            listShortBodyLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 44 * 0.9 / 2)
         ])
     }
     

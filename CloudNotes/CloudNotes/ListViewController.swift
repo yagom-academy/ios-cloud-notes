@@ -16,25 +16,8 @@ final class ListViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.register(MemoTableViewCell.self, forCellReuseIdentifier: "MemoTableViewCell")
-        decodeMemoData()
-        setUpDefaultMemo()
+        MemoModel.shared.fetch()
         setUpNavigationBar()
-    }
-    
-    private func decodeMemoData() {
-        guard let dataAsset: NSDataAsset = NSDataAsset(name: "sample") else {
-            return
-        }
-        do {
-            MemoData.shared.list = try JSONDecoder().decode([Memo].self, from: dataAsset.data)
-        } catch {
-            print(error)
-        }
-    }
-    
-    private func setUpDefaultMemo() {
-        let index = UserDefaults.standard.integer(forKey: "lastMemoIndex")
-        delegate?.memoSelected(MemoData.shared.list[index])
     }
     
     private func setUpNavigationBar() {
@@ -43,9 +26,6 @@ final class ListViewController: UITableViewController {
     }
     
     @objc private func moveToPostViewController() {
-        //📍 CRUD Create 부분
-        let emptyMemo = Memo.init(title: "", body: "", modifiedDate: 0)
-        delegate?.memoSelected(emptyMemo)
         if let detailViewController = delegate as? DetailViewController,
            (traitCollection.horizontalSizeClass == .compact && traitCollection.userInterfaceIdiom == .phone) {
             let detailViewNavigationController = UINavigationController(rootViewController: detailViewController)
@@ -57,7 +37,7 @@ final class ListViewController: UITableViewController {
 // MARK: - extension TableView
 extension ListViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return MemoData.shared.list.count
+        return MemoModel.shared.list.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -65,7 +45,7 @@ extension ListViewController {
             return UITableViewCell()
         }
         memoCell.accessoryType = .disclosureIndicator
-        memoCell.setUpMemoCell(MemoData.shared.list[indexPath.row])
+        memoCell.setUpMemoCell(MemoModel.shared.list[indexPath.row])
         return memoCell
     }
     

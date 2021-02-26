@@ -161,6 +161,24 @@ final class DetailViewController: UIViewController {
     @objc func doneButtonClicked(_ sender: Any) {
         self.memoBodyTextView.endEditing(true)
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        guard let contexts = self.memoBodyTextView.text, !contexts.isEmpty else {
+            return
+        }
+        let lines = contexts.split(separator: "\n", maxSplits: 1)
+        var title = ""
+        var body = ""
+        if lines.count > 0 {
+            title = String(lines[0])
+            body = String(lines[1])
+        }
+        
+        MemoModel.shared.save(title: title, body: body)
+        memoBodyTextView.text = nil
+    }
 }
 
 //MARK: extension UITextViewDelegate

@@ -26,4 +26,25 @@ class MemoModel {
             print(error.localizedDescription)
         }
     }
+    
+    func save(title: String, body: String) {
+        guard let context = appDelegate?.persistentContainer.viewContext else {
+            return
+        }
+
+        let object = NSEntityDescription.insertNewObject(forEntityName: "Memo", into: context)
+        object.setValue(title, forKey: "title")
+        object.setValue(body, forKey: "body")
+        object.setValue(Date(), forKey: "registerDate")
+        guard let memoObject = object as? Memo else {
+            return
+        }
+        
+        do {
+            try context.save()
+            self.list.insert(memoObject, at: self.list.startIndex)
+        } catch  {
+            context.rollback()
+        }
+    }
 }

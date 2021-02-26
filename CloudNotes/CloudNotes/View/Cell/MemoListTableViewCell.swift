@@ -1,4 +1,5 @@
 import UIKit
+import CoreData
 
 class MemoListTableViewCell: UITableViewCell {
     let listTitleLabel: UILabel = makeLabel(textStyle: .body)
@@ -59,9 +60,21 @@ class MemoListTableViewCell: UITableViewCell {
         ])
     }
     
-    func receiveLabelsText(memo: Memo) {
-        listTitleLabel.text = memo.title
-        listShortBodyLabel.text = memo.body
-        listLastModifiedDateLabel.text = memo.lastModifiedDateString
+    func receiveLabelsText(memo: NSManagedObject) {
+        let title = memo.value(forKey: "title") as? String ?? ""
+        let body = memo.value(forKey: "body") as? String ?? ""
+        let lastModified = memo.value(forKey: "lastModified")
+        var lastModifiedDateToString: String {
+            guard let date: Date = lastModified as? Date else {
+                return "No Data"
+            }
+            
+            let dateStr = date.convertToString()
+            return dateStr
+        }
+        
+        listTitleLabel.text = title
+        listShortBodyLabel.text = body
+        listLastModifiedDateLabel.text = lastModifiedDateToString
     }
 }

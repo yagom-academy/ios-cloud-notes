@@ -31,16 +31,12 @@ class MemoListTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let memo = CoreDataSingleton.shared.memoData[indexPath.row]
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "MemoCell") as? MemoListTableViewCell else {
             return UITableViewCell()
         }
         
-        let record = CoreDataSingleton.shared.memoData[indexPath.row]
-        
-        cell.listTitleLabel.text = record.value(forKey: "title") as? String
-        cell.listShortBodyLabel.text = record.value(forKey: "body") as? String
-//        cell.listLastModifiedDateLabel.text = record.value(forKey: "lastModified") as? Date
-        
+        cell.receiveLabelsText(memo: memo)
         return cell
     }
     

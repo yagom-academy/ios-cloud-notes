@@ -122,12 +122,12 @@ class MemoContentsViewController: UIViewController {
             UserDefaults.standard.set(0, forKey: UserDefaultsKeys.selectedMemoIndexPathRow.rawValue)
             NotificationCenter.default.post(name: NSNotification.Name(NotificationName.deleteCell.rawValue), object: nil)
             
-            //        let memoContentsView = MemoContentsViewController()
+//            let memoContentsViewController = MemoContentsViewController()
             self.receiveText(memo: CoreDataSingleton.shared.memoData[0])
             
-            //        if UITraitCollection.current.horizontalSizeClass == .regular {
-            //            self.splitViewController?.showDetailViewController(memoContentsView, sender: nil)
-            //        }
+//            if UITraitCollection.current.horizontalSizeClass == .regular {
+//                self.splitViewController?.showDetailViewController(memoContentsViewController, sender: nil)
+//            }
         } else {
             showAlertMessage("메모를 삭제에 실패했습니다.")
         }

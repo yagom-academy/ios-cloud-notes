@@ -46,9 +46,9 @@ class DetailNoteViewController: UIViewController {
         detailNoteTextView.text = "\(noteData.title)\n\(noteData.body)"
     }
     
-    @objc func touchUpCompleteButton() {
+    @objc private func touchUpCompleteButton() {
         detailNoteTextView.isEditable = false
-        saveNoteDate()
+        saveNote()
         if let _ = navigationController?.presentingViewController {
             self.navigationController?.popViewController(animated: true)
         }
@@ -61,12 +61,12 @@ class DetailNoteViewController: UIViewController {
         detailNoteTextView.addGestureRecognizer(tapGesture)
     }
     
-    @objc func changeTextViewEditableState() {
+    @objc private func changeTextViewEditableState() {
         detailNoteTextView.isEditable.toggle()
         if detailNoteTextView.isEditable {
             detailNoteTextView.becomeFirstResponder()
         } else {
-            saveNoteDate()
+            saveNote()
         }
     }
     

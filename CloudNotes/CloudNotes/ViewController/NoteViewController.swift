@@ -47,7 +47,7 @@ class NoteViewController: UIViewController {
         self.navigationItem.rightBarButtonItem = addButton
     }
     
-    @objc func touchUpAddButton() {
+    @objc private func touchUpAddButton() {
         let detailNoteViewController = DetailNoteViewController()
         splitViewController?.showDetailViewController(detailNoteViewController, sender: nil)
     }

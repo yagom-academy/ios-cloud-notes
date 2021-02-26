@@ -181,10 +181,16 @@ final class DetailViewController: UIViewController {
     @objc func doneButtonClicked(_ sender: Any) {
         self.memoBodyTextView.endEditing(true)
     }
+}
+
+//MARK: extension UITextViewDelegate
+extension DetailViewController: UITextViewDelegate {
+    func textViewDidEndEditing(_ textView: UITextView) {
+        textView.isEditable = false
+        textView.dataDetectorTypes = [.link, .phoneNumber, .calendarEvent]
+    }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
+    func textViewDidChange(_ textView: UITextView) {
         guard let contexts = self.memoBodyTextView.text, !contexts.isEmpty, !isMemoDeleted else {
             self.memoBodyTextView.text = nil
             self.isMemoDeleted = false
@@ -193,27 +199,29 @@ final class DetailViewController: UIViewController {
         let lines = contexts.split(separator: "\n", maxSplits: 1)
         var title = ""
         var body = ""
-        if lines.count > 0 {
+        if lines.count > 1 {
             title = String(lines[0])
             body = String(lines[1])
+        }
+        else {
+            title = String(lines[0])
         }
         
         if let memoIndex = memoIndex,
            let originalTitle = MemoModel.shared.list[memoIndex].title,
            let originalBody = MemoModel.shared.list[memoIndex].body {
-            if !contexts.elementsEqual(originalTitle + "\n"  + originalBody)  {
+            if !contexts.elementsEqual(originalTitle + "\n" + originalBody)  {
                 MemoModel.shared.update(index: memoIndex, title: title, body: body)
                 delegate?.updateMemo(memoIndex)
-                memoBodyTextView.text = nil
+                self.memoIndex = 0
             }
             else {
                 return
             }
         }
         else {
-            MemoModel.shared.save(title: title, body: body)
-            delegate?.saveMemo(0)
-            memoBodyTextView.text = nil
+            MemoModel.shared.update(index: 0, title: title, body: body)
+            delegate?.updateMemo(0)
         }
     }
 }

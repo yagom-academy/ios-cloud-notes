@@ -8,7 +8,6 @@
 import UIKit
 
 class ContentViewController: UIViewController {
-    private let doneText = "완료"
     private let headLinefont = UIFont.boldSystemFont(ofSize: 24)
     private let bodyLinefont = UIFont.systemFont(ofSize: 15)
     
@@ -28,14 +27,15 @@ class ContentViewController: UIViewController {
         contentView.dataDetectorTypes = .all
         return contentView
     }()
-    private lazy var doneButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(title: doneText, style: .done, target: self, action: #selector(didTapDoneButton(_:)))
+    
+    private lazy var optionButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(didTapOptionButton(_:)))
         return button
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.rightBarButtonItem = doneButton
+        navigationItem.rightBarButtonItem = optionButton
         setUpConstraints()
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
@@ -104,9 +104,40 @@ extension ContentViewController {
         scrollView.scrollIndicatorInsets = contentInset
     }
     
-    @objc private func didTapDoneButton(_ sender: Any) {
+    @objc private func didTapOptionButton(_ sender: UIBarButtonItem) {
         contentView.endEditing(true)
-        contentView.isEditable = false
+        
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        let shareAction = UIAlertAction(title: "Share...", style: .default, handler: { (alert: UIAlertAction!) -> Void in
+            print("공유 관련 액션 수행")
+        })
+        let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: { (alert: UIAlertAction!) -> Void in
+            let alertController = UIAlertController(title: "진짜요?", message: "진짜로 삭제하시겠습니까?", preferredStyle: .alert)
+            
+            let cancelAction = UIAlertAction(title: "취소", style: .default, handler: nil)
+            let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { (alert: UIAlertAction!) -> Void in
+                print("삭제관련액션수행")
+            }
+            
+            alertController.addAction(cancelAction)
+            alertController.addAction(deleteAction)
+            
+            self.present(alertController, animated: true, completion: nil)
+        })
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        alertController.addAction(shareAction)
+        alertController.addAction(deleteAction)
+        alertController.addAction(cancelAction)
+        
+        if let popoverController = alertController.popoverPresentationController {
+            popoverController.sourceView = self.view
+            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.maxY, width: 0, height: 0)
+            popoverController.permittedArrowDirections = []
+        }
+        
+        self.present(alertController, animated: true, completion: nil)
     }
 }
 

@@ -13,6 +13,10 @@ class DetailNoteViewController: UIViewController {
     var fetchedNote: Note?
     let detailNoteTextView = UITextView()
     let completeButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.done, target: self, action: #selector(touchUpCompleteButton))
+    let moreButton: UIBarButtonItem = {
+        let item = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: #selector(touchUpCompleteButton))
+        return item
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,6 +63,10 @@ class DetailNoteViewController: UIViewController {
         if let _ = navigationController?.presentingViewController {
             self.navigationController?.popViewController(animated: true)
         }
+    }
+    
+    @objc private func touchUpMoreButton() {
+        // 다음 스텝에서 구현
     }
     
     private func addTapGestureRecognizerToTextView() {
@@ -112,10 +120,10 @@ class DetailNoteViewController: UIViewController {
 
 extension DetailNoteViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
-        self.navigationItem.rightBarButtonItem = completeButton
+        navigationItem.setRightBarButton(completeButton, animated: true)
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
-        self.navigationItem.rightBarButtonItem = nil
+        navigationItem.setRightBarButton(moreButton, animated: true)
     }
 }

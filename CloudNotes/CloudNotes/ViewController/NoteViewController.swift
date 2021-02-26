@@ -49,7 +49,8 @@ class NoteViewController: UIViewController {
     
     @objc private func touchUpAddButton() {
         let detailNoteViewController = DetailNoteViewController()
-        splitViewController?.showDetailViewController(detailNoteViewController, sender: nil)
+        let navigationController = UINavigationController(rootViewController: detailNoteViewController)
+        splitViewController?.showDetailViewController(navigationController, sender: nil)
     }
 }
 
@@ -83,6 +84,7 @@ extension NoteViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let detailNoteViewController = DetailNoteViewController()
         detailNoteViewController.fetchedNote = NoteData.shared.noteLists[indexPath.row]
-        splitViewController?.showDetailViewController(detailNoteViewController, sender: nil)
+        let navigationController = UINavigationController(rootViewController: detailNoteViewController)
+        splitViewController?.showDetailViewController(navigationController, sender: nil)
     }
 }

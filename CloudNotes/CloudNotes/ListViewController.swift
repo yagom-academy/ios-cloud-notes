@@ -23,11 +23,15 @@ final class ListViewController: UITableViewController {
     
     private func setUpNavigationBar() {
         navigationItem.title = "메모"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(moveToPostViewController))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(createNewMemo))
     }
     
-    @objc private func moveToPostViewController() {
+    @objc private func createNewMemo() {
         delegate?.memoSelected(nil)
+        setupDetailViewNavigationBar()
+    }
+    
+    private func setupDetailViewNavigationBar() {
         if let detailViewController = delegate as? DetailViewController,
            (traitCollection.horizontalSizeClass == .compact && traitCollection.userInterfaceIdiom == .phone) {
             let detailViewNavigationController = UINavigationController(rootViewController: detailViewController)
@@ -53,14 +57,8 @@ extension ListViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        
         delegate?.memoSelected(indexPath.row)
-        
-        if let detailViewController = delegate as? DetailViewController,
-           (traitCollection.horizontalSizeClass == .compact && traitCollection.userInterfaceIdiom == .phone) {
-            let detailViewNavigationController = UINavigationController(rootViewController: detailViewController)
-            splitViewController?.showDetailViewController(detailViewNavigationController, sender: nil)
-        }
+        setupDetailViewNavigationBar()
     }
     
     //MARK: tableView editingStyle delete

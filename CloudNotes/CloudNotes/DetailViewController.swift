@@ -77,12 +77,17 @@ final class DetailViewController: UIViewController {
     private func showAlert() {
         let alert = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
         let delete = UIAlertAction(title: "삭제", style: .destructive) { _ in
+            self.isMemoDeleted = true
             if let memoIndex = self.memoIndex {
-                self.isMemoDeleted = true
                 MemoModel.shared.delete(index: memoIndex)
                 self.delegate?.deleteMemo(memoIndex)
-                self.navigationController?.navigationController?.popViewController(animated: true)
             }
+            else {
+                MemoModel.shared.delete(index: 0)
+                self.delegate?.deleteMemo(0)
+            }
+            self.memoBodyTextView.text = nil
+            self.navigationController?.navigationController?.popViewController(animated: true)
         }
         let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
         

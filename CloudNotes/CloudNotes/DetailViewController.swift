@@ -30,11 +30,6 @@ final class DetailViewController: UIViewController {
         setupKeyboardDoneButton()
     }
     
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        super.viewWillTransition(to: size, with: coordinator)
-        setupNavigationBar()
-    }
-    
     private func setupNavigationBar() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: #selector(showActionSheet))
     }
@@ -152,7 +147,6 @@ final class DetailViewController: UIViewController {
         
         memoBodyTextView.attributedText = content
     }
-    
     
     private func setupKeyboardDoneButton() {
         let toolBarKeyboard = UIToolbar(frame: CGRect(x: 0, y: 0, width: 100, height: 100))

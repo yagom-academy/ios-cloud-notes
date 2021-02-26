@@ -43,15 +43,23 @@ final class DetailViewController: UIViewController {
         guard let memoIndex = memoIndex,
               let title = MemoModel.shared.list[memoIndex].title ,
               let body =  MemoModel.shared.list[memoIndex].body else {
-            MemoModel.shared.save(title: "새로운메모", body: "아직 내용없음")
-            memoBodyTextView.text = ""
-            delegate?.saveMemo(0)
+            setDefaultMemo()
             return
         }
+        memoBodyTextView.attributedText = applyFontStyle(title: title, body: body)
+    }
+    
+    private func setDefaultMemo() {
+        MemoModel.shared.save(title: "새로운메모", body: "아직 내용없음")
+        memoBodyTextView.text = ""
+        delegate?.saveMemo(0)
+    }
+    
+    private func applyFontStyle(title: String, body: String) -> NSAttributedString {
         let content = NSMutableAttributedString(string: title, attributes: [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .title1)])
         content.append(NSAttributedString(string: "\n" + body, attributes: [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .body)]))
         
-        memoBodyTextView.attributedText = content
+        return content
     }
 
     //MARK: setup keyboard

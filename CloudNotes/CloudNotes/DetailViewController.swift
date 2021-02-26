@@ -226,17 +226,12 @@ extension DetailViewController: UITextViewDelegate {
     }
 }
 
-//MARK: extension UITextViewDelegate
-extension DetailViewController: UITextViewDelegate {
-    func textViewDidEndEditing(_ textView: UITextView) {
-        textView.isEditable = false
-        textView.dataDetectorTypes = [.link, .phoneNumber, .calendarEvent]
-    }
-}
-
-extension DetailViewController: MemoSelectionDelegate {
+extension DetailViewController: MemoUpdateDelegate {
     func memoSelected(_ memoIndex: Int?) {
         setupMemo(memoIndex)
+    }
+    func memoDeleted() {
+        self.memoBodyTextView.text = nil
     }
 }
 

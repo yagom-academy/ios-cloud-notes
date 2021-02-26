@@ -6,12 +6,13 @@
 
 import UIKit
 
-protocol MemoSelectionDelegate: class {
+protocol MemoUpdateDelegate: class {
     func memoSelected(_ memoIndex: Int?)
+    func memoDeleted()
 }
 
 final class ListViewController: UITableViewController {
-    weak var delegate: MemoSelectionDelegate?
+    weak var delegate: MemoUpdateDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -71,6 +72,7 @@ extension ListViewController {
         
         MemoModel.shared.delete(index: indexPath.row)
         self.tableView.deleteRows(at: [indexPath], with: .fade)
+        self.delegate?.memoDeleted()
     }
 }
 
@@ -82,7 +84,7 @@ extension ListViewController: MemoListUpdateDelegate {
     
     func updateMemo(_ memoIndex: Int) {
         self.tableView.moveRow(at: IndexPath(row: memoIndex, section: 0), to: IndexPath(row: 0, section: 0))
-        self.tableView.reloadRows(at: [IndexPath(row: memoIndex, section: 0), IndexPath(row: 0, section: 0)], with: .automatic)
+        self.tableView.reloadRows(at: [IndexPath(row: memoIndex, section: 0), IndexPath(row: 0, section: 0)], with: .none)
     }
     
     func saveMemo(_ memoIndex: Int) {

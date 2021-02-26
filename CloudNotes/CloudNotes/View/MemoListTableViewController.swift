@@ -40,7 +40,7 @@ class MemoListTableViewController: UITableViewController {
             memoContentsViewController.receiveText(memo: CoreDataSingleton.shared.memoData[0])
             tableView.reloadData()
             self.splitViewController?.showDetailViewController(memoContentsNavigationViewController, sender: nil)
-            
+
             UserDefaults.standard.set(true, forKey: UserDefaultsKeys.isCellSelected.rawValue)
         } else {
             showAlertMessage("메모 생성에 실패했습니다!")

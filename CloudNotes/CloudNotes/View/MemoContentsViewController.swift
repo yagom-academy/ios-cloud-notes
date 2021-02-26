@@ -67,12 +67,12 @@ class MemoContentsViewController: UIViewController {
         guard let memoBody: String = memo.value(forKey: "body") as? String else {
             return
         }
-//        let body: String = "\n" + "\n" + "010-2222-4444 " + memoBody + "\n" + "https://www.google.com"
+        let body: String = "\n" + "\n" + memoBody
         let titleFontSize = UIFont.preferredFont(forTextStyle: .largeTitle)
         let bodyFontSize = UIFont.preferredFont(forTextStyle: .body)
         
         let attributedText = NSMutableAttributedString(string: title, attributes: [.font: titleFontSize])
-        attributedText.append(NSAttributedString(string: memoBody, attributes: [.font: bodyFontSize]))
+        attributedText.append(NSAttributedString(string: body, attributes: [.font: bodyFontSize]))
         
         memoTextView.attributedText = attributedText
     }
@@ -107,20 +107,41 @@ class MemoContentsViewController: UIViewController {
                     self.splitViewController?.viewControllers.removeLast()
                 }
             }
-            
         } else {
             showAlertMessage("메모를 삭제에 실패했습니다.")
         }
     }
     
     func updateMemo() {
+        let splitText = splitString()
         let selectedMemoIndexPathRow = UserDefaults.standard.integer(forKey: UserDefaultsKeys.selectedMemoIndexPathRow.rawValue)
-        if CoreDataSingleton.shared.update(object: CoreDataSingleton.shared.memoData[selectedMemoIndexPathRow], title: "blue", body: self.memoTextView.text) {
-            // title, body에 들어갈 값 필요
+        if CoreDataSingleton.shared.update(object: CoreDataSingleton.shared.memoData[selectedMemoIndexPathRow], title: splitText.0, body: splitText.1) {
             NotificationCenter.default.post(name: Notification.Name(NotificationName.updateTableViewList.rawValue), object: nil)
         } else {
             showAlertMessage("메모 편집에 실패했습니다!")
         }
+    }
+    
+    func splitString() -> (String, String) {
+        var titleText: String = ""
+        var bodyText: String = ""
+        
+        let arr = memoTextView.text.split(separator: "\n").map { (value) -> String in
+            return String(value) }
+        
+        switch arr.count {
+        case 0:
+            titleText = ""
+            bodyText = ""
+        case 1:
+            titleText = arr[0]
+        default:
+            titleText = arr[0]
+            for i in 1...(arr.count - 1) {
+                bodyText += (arr[i] + "\n")
+            }
+        }
+        return (titleText, bodyText)
     }
 }
 

@@ -14,7 +14,6 @@ protocol MemoListUpdateDelegate: class {
 }
 
 final class DetailViewController: UIViewController {
-    private var isMemoDeleted: Bool = false
     weak var delegate: MemoListUpdateDelegate?
     private var memoIndex: Int?
     private var memoBodyTextView: UITextView = {
@@ -144,12 +143,12 @@ extension DetailViewController {
     
     @objc private func showActionSheet(_ sender: UIBarButtonItem) {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let share = UIAlertAction(title: "Share", style: .default) { _ in
-            self.shareMemo()
+        let share = UIAlertAction(title: "Share", style: .default) { [weak self] _ in
+            self?.shareMemo()
         }
         let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        let delete = UIAlertAction(title: "Delete", style: .destructive) { _ in
-            self.showAlert()
+        let delete = UIAlertAction(title: "Delete", style: .destructive) { [weak self] _ in
+            self?.showAlert()
         }
         
         alert.addAction(share)
@@ -188,7 +187,6 @@ extension DetailViewController {
     }
     
     private func deleteMemo() {
-        self.isMemoDeleted = true
         if let memoIndex = self.memoIndex {
             MemoModel.shared.delete(index: memoIndex)
             self.delegate?.deleteMemo(memoIndex)
@@ -209,38 +207,40 @@ extension DetailViewController: UITextViewDelegate {
         textView.dataDetectorTypes = [.link, .phoneNumber, .calendarEvent]
     }
     
-    func textViewDidChange(_ textView: UITextView) {
-        guard let contexts = self.memoBodyTextView.text, !contexts.isEmpty, !isMemoDeleted else {
-            self.memoBodyTextView.text = nil
-            self.isMemoDeleted = false
-            return
-        }
-        let lines = contexts.split(separator: "\n", maxSplits: 1)
-        var title = ""
+    private func splitLine(_ content: String) -> (String, String) {
+        let lines = content.split(separator: "\n", maxSplits: 1)
+        let title = String(lines[0])
         var body = ""
+        
         if lines.count > 1 {
-            title = String(lines[0])
             body = String(lines[1])
         }
-        else {
-            title = String(lines[0])
-        }
         
-        if let memoIndex = memoIndex,
-           let originalTitle = MemoModel.shared.list[memoIndex].title,
-           let originalBody = MemoModel.shared.list[memoIndex].body {
-            if !contexts.elementsEqual(originalTitle + "\n" + originalBody)  {
-                MemoModel.shared.update(index: memoIndex, title: title, body: body)
-                delegate?.updateMemo(memoIndex)
-                self.memoIndex = 0
-            }
-            else {
-                return
-            }
+        return (title, body)
+    }
+    
+    func textViewDidChange(_ textView: UITextView) {
+        guard let content = self.memoBodyTextView.text, !content.isEmpty else {
+            return
         }
-        else {
+        let (title, body) = splitLine(content)
+        
+        guard let memoIndex = memoIndex else {
             MemoModel.shared.update(index: 0, title: title, body: body)
             delegate?.updateMemo(0)
+            return
+        }
+           
+        guard let originalTitle = MemoModel.shared.list[memoIndex].title,
+              let originalBody = MemoModel.shared.list[memoIndex].body else {
+            return
+        }
+        
+        let originalContent = originalTitle + "\n" + originalBody
+        if !content.elementsEqual(originalContent) {
+            MemoModel.shared.update(index: memoIndex, title: title, body: body)
+            delegate?.updateMemo(memoIndex)
+            self.memoIndex = 0
         }
     }
 }

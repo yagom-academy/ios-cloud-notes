@@ -105,6 +105,16 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		17B1915925E936C90022D47A /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				C7481C7125BBCF3900B9CA55 /* ListViewController.swift */,
+				26BFB7DB25DBA6E70082AA1C /* DetailViewController.swift */,
+				17673E8525DE10E0001FCF9E /* SplitViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
 		2680E2BB25DF6649008D8D41 /* Utility */ = {
 			isa = PBXGroup;
 			children = (
@@ -162,14 +172,12 @@
 		C7481C6C25BBCF3900B9CA55 /* CloudNotes */ = {
 			isa = PBXGroup;
 			children = (
-				2680E2BB25DF6649008D8D41 /* Utility */,
 				17673E6B25DDC3D6001FCF9E /* Supporting Files */,
-				26BFB7C325DAD4510082AA1C /* Extension */,
-				26BFB7C225DAD44D0082AA1C /* Model */,
+				17B1915925E936C90022D47A /* Controller */,
 				26BFB7D725DB870F0082AA1C /* Cell */,
-				C7481C7125BBCF3900B9CA55 /* ListViewController.swift */,
-				26BFB7DB25DBA6E70082AA1C /* DetailViewController.swift */,
-				17673E8525DE10E0001FCF9E /* SplitViewController.swift */,
+				26BFB7C225DAD44D0082AA1C /* Model */,
+				2680E2BB25DF6649008D8D41 /* Utility */,
+				26BFB7C325DAD4510082AA1C /* Extension */,
 			);
 			path = CloudNotes;
 			sourceTree = "<group>";

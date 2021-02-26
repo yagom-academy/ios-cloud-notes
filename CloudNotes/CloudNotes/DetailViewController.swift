@@ -153,6 +153,9 @@ final class DetailViewController: UIViewController {
         guard let memoIndex = memoIndex,
               let title = MemoModel.shared.list[memoIndex].title ,
               let body =  MemoModel.shared.list[memoIndex].body else {
+            memoBodyTextView.text = ""
+            MemoModel.shared.save(title: "새로운메모", body: "아직 내용없음")
+            delegate?.saveMemo(0)
             return
         }
         let content = NSMutableAttributedString(string: title, attributes: [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .title1)])
@@ -220,7 +223,7 @@ extension DetailViewController: UITextViewDelegate {
 }
 
 extension DetailViewController: MemoSelectionDelegate {
-    func memoSelected(_ memoIndex: Int) {
+    func memoSelected(_ memoIndex: Int?) {
         self.memoIndex = memoIndex
     }
 }

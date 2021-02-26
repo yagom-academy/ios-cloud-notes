@@ -7,7 +7,7 @@
 import UIKit
 
 protocol MemoSelectionDelegate: class {
-    func memoSelected(_ memoIndex: Int)
+    func memoSelected(_ memoIndex: Int?)
 }
 
 final class ListViewController: UITableViewController {
@@ -26,6 +26,7 @@ final class ListViewController: UITableViewController {
     }
     
     @objc private func moveToPostViewController() {
+        delegate?.memoSelected(nil)
         if let detailViewController = delegate as? DetailViewController,
            (traitCollection.horizontalSizeClass == .compact && traitCollection.userInterfaceIdiom == .phone) {
             let detailViewNavigationController = UINavigationController(rootViewController: detailViewController)
@@ -59,8 +60,6 @@ extension ListViewController {
             let detailViewNavigationController = UINavigationController(rootViewController: detailViewController)
             splitViewController?.showDetailViewController(detailViewNavigationController, sender: nil)
         }
-        
-        UserDefaults.standard.set(indexPath.row, forKey: "lastMemoIndex")
     }
     
     //MARK: tableView editingStyle delete

@@ -62,5 +62,26 @@ extension ListViewController {
         
         UserDefaults.standard.set(indexPath.row, forKey: "lastMemoIndex")
     }
+    
+    //MARK: tableView editingStyle delete
+    override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        return .delete
+    }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        
+        MemoModel.shared.delete(index: indexPath.row)
+        self.tableView.deleteRows(at: [indexPath], with: .fade)
+    }
 }
 
+//MARK: MemoListUpdateDelegate
+extension ListViewController: MemoListUpdateDelegate {
+    func deleteMemo(_ memoIndex: Int) {
+        self.tableView.deleteRows(at: [IndexPath(row: memoIndex, section: 0)], with: .automatic)
+    }
+    
+    func saveMemo(_ memoIndex: Int) {
+        self.tableView.insertRows(at: [IndexPath(row: memoIndex, section: 0)], with: .automatic)
+    }
+}

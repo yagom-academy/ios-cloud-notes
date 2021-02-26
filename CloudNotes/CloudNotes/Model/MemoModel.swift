@@ -47,4 +47,18 @@ class MemoModel {
             context.rollback()
         }
     }
+    
+    func delete(index: Int) {
+        guard let context = appDelegate?.persistentContainer.viewContext else {
+            return
+        }
+        context.delete(list[index])
+        
+        do {
+            try context.save()
+            self.list.remove(at: index)
+        } catch {
+            context.rollback()
+        }
+    }
 }

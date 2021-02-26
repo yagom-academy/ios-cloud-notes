@@ -7,7 +7,14 @@
 
 import UIKit
 
+protocol MemoListUpdateDelegate: class {
+    func deleteMemo(_ memoIndex: Int)
+    func saveMemo(_ memoIndex: Int)
+}
+
 final class DetailViewController: UIViewController {
+    private var isMemoDeleted: Bool = false
+    weak var delegate: MemoListUpdateDelegate?
     private var memoIndex: Int? {
         didSet {
             refreshUI()
@@ -70,7 +77,12 @@ final class DetailViewController: UIViewController {
     private func showAlert() {
         let alert = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
         let delete = UIAlertAction(title: "삭제", style: .destructive) { _ in
-            // CRUD 중에서 Delete 부분 코드
+            if let memoIndex = self.memoIndex {
+                self.isMemoDeleted = true
+                MemoModel.shared.delete(index: memoIndex)
+                self.delegate?.deleteMemo(memoIndex)
+                self.navigationController?.navigationController?.popViewController(animated: true)
+            }
         }
         let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
         
@@ -165,7 +177,9 @@ final class DetailViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-        guard let contexts = self.memoBodyTextView.text, !contexts.isEmpty else {
+        guard let contexts = self.memoBodyTextView.text, !contexts.isEmpty, !isMemoDeleted else {
+            self.memoBodyTextView.text = nil
+            self.isMemoDeleted = false
             return
         }
         let lines = contexts.split(separator: "\n", maxSplits: 1)

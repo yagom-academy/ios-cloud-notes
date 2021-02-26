@@ -216,6 +216,9 @@ extension MemoContentsViewController {
         }
         let memoToShare = [title, body]
         let activityViewController = UIActivityViewController(activityItems: memoToShare, applicationActivities: nil)
+        
+        activityViewController.popoverPresentationController?.sourceView = disclosureButton
+        activityViewController.popoverPresentationController?.sourceRect = disclosureButton.bounds
 
         self.present(activityViewController, animated: true, completion: nil)
     }

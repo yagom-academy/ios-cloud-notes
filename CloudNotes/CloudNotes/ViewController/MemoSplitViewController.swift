@@ -13,7 +13,14 @@ class MemoSplitViewController: UISplitViewController {
         let memoContentsViewController = MemoContentsViewController()
         let memoListNavigationController = UINavigationController(rootViewController: memoListTableViewController)
         let memoContentsNavigationViewController = UINavigationController(rootViewController: memoContentsViewController)
-//        memoContentsViewController.receiveText(memo: CoreDataSingleton.shared.memoData[0])
+        
+        if CoreDataSingleton.shared.memoData.count != 0 {
+            memoContentsViewController.receiveText(memo: CoreDataSingleton.shared.memoData[0])
+        } else {
+            self.viewControllers = [memoListNavigationController]
+            self.view.backgroundColor = .white
+            return
+        }
         
         self.viewControllers = [memoListNavigationController, memoContentsNavigationViewController]
     }

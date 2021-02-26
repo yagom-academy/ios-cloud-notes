@@ -86,17 +86,28 @@ class MemoContentsViewController: UIViewController {
     private func deleteMemo() {
         let selectedMemoIndexPathRow = UserDefaults.standard.integer(forKey: UserDefaultsKeys.selectedMemoIndexPathRow.rawValue)
         
+        if CoreDataSingleton.shared.memoData.count == 0 {
+            return
+        }
+        
         if CoreDataSingleton.shared.delete(object: CoreDataSingleton.shared.memoData[selectedMemoIndexPathRow]) {
             CoreDataSingleton.shared.memoData.remove(at: selectedMemoIndexPathRow)
             UserDefaults.standard.set(0, forKey: UserDefaultsKeys.selectedMemoIndexPathRow.rawValue)
             NotificationCenter.default.post(name: NSNotification.Name(NotificationName.deleteCell.rawValue), object: nil)
             
-//            let memoContentsViewController = MemoContentsViewController()
-            self.receiveText(memo: CoreDataSingleton.shared.memoData[0])
+            switch traitCollection.horizontalSizeClass {
+            case .compact:
+                if let navController = splitViewController?.viewControllers[0] as? UINavigationController {
+                    navController.popViewController(animated: true)
+                }
+            default:
+                if CoreDataSingleton.shared.memoData.count != 0 {
+                    self.receiveText(memo: CoreDataSingleton.shared.memoData[0])
+                } else {
+                    self.splitViewController?.viewControllers.removeLast()
+                }
+            }
             
-//            if UITraitCollection.current.horizontalSizeClass == .regular {
-//                self.splitViewController?.showDetailViewController(memoContentsViewController, sender: nil)
-//            }
         } else {
             showAlertMessage("메모를 삭제에 실패했습니다.")
         }

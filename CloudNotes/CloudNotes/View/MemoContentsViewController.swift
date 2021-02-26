@@ -182,7 +182,7 @@ extension MemoContentsViewController {
     }
 }
 
-// MARK: Alert
+// MARK: Alert & ActivityVC
 extension MemoContentsViewController {
     private func showAlertMessage(_ message: String) {
         let alert = UIAlertController(title: nil, message: message, preferredStyle: UIAlertController.Style.alert)
@@ -224,10 +224,7 @@ extension MemoContentsViewController {
         
         self.present(actionSheet, animated: true, completion: nil)
     }
-}
-
-// MARK: UIActivityViewController
-extension MemoContentsViewController {
+    
     private func showActivityView(memo: NSManagedObject) {
         guard let title: String = memo.value(forKey: "title") as? String else {
             return

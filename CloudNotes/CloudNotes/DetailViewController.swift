@@ -32,71 +32,46 @@ final class DetailViewController: UIViewController {
         setupKeyboardDoneButton()
     }
     
+    //MARK: setup memo
     private func setupMemo(_ index: Int?) {
         memoIndex = index
         refreshUI()
     }
     
-    private func setupNavigationBar() {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: #selector(showActionSheet))
+    private func refreshUI() {
+        loadViewIfNeeded()
+        guard let memoIndex = memoIndex,
+              let title = MemoModel.shared.list[memoIndex].title ,
+              let body =  MemoModel.shared.list[memoIndex].body else {
+            MemoModel.shared.save(title: "새로운메모", body: "아직 내용없음")
+            memoBodyTextView.text = ""
+            delegate?.saveMemo(0)
+            return
+        }
+        let content = NSMutableAttributedString(string: title, attributes: [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .title1)])
+        content.append(NSAttributedString(string: "\n" + body, attributes: [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .body)]))
+        
+        memoBodyTextView.attributedText = content
+    }
+
+    //MARK: setup keyboard
+    private func setupKeyboardDoneButton() {
+        let toolBarKeyboard = UIToolbar(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
+        toolBarKeyboard.sizeToFit()
+        let btnDoneBar = UIBarButtonItem(title: "완료", style: .done, target: self, action: #selector(self.doneButtonClicked))
+        toolBarKeyboard.items = [btnDoneBar]
+        toolBarKeyboard.tintColor = .systemBlue
+        
+        memoBodyTextView.inputAccessoryView = toolBarKeyboard
     }
     
-    @objc private func showActionSheet(_ sender: UIBarButtonItem) {
-        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let share = UIAlertAction(title: "Share", style: .default) { _ in
-            self.shareMemo()
-        }
-        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        let delete = UIAlertAction(title: "Delete", style: .destructive) { _ in
-            self.showAlert()
-        }
-        
-        alert.addAction(share)
-        alert.addAction(delete)
-        alert.addAction(cancel)
-        
-        if traitCollection.userInterfaceIdiom == .phone {
-            self.present(alert, animated: true, completion: nil)
-        }
-        else {
-            alert.popoverPresentationController?.barButtonItem = sender
-            self.present(alert, animated: true, completion: nil)
-        }
+    @objc func doneButtonClicked(_ sender: Any) {
+        self.memoBodyTextView.endEditing(true)
     }
-    
-    private func shareMemo() {
-        var memoToShare = [String]()
-        if let text = self.memoBodyTextView.text {
-            memoToShare.append(text)
-        }
-        let activityViewController = UIActivityViewController(activityItems: memoToShare, applicationActivities: nil)
-        activityViewController.popoverPresentationController?.sourceView = self.view
-        self.present(activityViewController, animated: true, completion: nil)
-    }
-    
-    private func showAlert() {
-        let alert = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
-        let delete = UIAlertAction(title: "삭제", style: .destructive) { _ in
-            self.isMemoDeleted = true
-            if let memoIndex = self.memoIndex {
-                MemoModel.shared.delete(index: memoIndex)
-                self.delegate?.deleteMemo(memoIndex)
-            }
-            else {
-                MemoModel.shared.delete(index: 0)
-                self.delegate?.deleteMemo(0)
-            }
-            self.memoBodyTextView.text = nil
-            self.navigationController?.navigationController?.popViewController(animated: true)
-        }
-        let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
-        
-        alert.addAction(delete)
-        alert.addAction(cancel)
-        
-        self.present(alert, animated: true, completion: nil)
-    }
-    
+}
+
+//MARK: setup text view
+extension DetailViewController {
     private func setupTextView() {
         setTapGesture()
         memoBodyTextView.delegate = self
@@ -151,35 +126,71 @@ final class DetailViewController: UIViewController {
             }
         }
     }
+}
+
+//MARK: setup navigation bar & action sheet
+extension DetailViewController {
+    private func setupNavigationBar() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: #selector(showActionSheet))
+    }
     
-    private func refreshUI() {
-        loadViewIfNeeded()
-        guard let memoIndex = memoIndex,
-              let title = MemoModel.shared.list[memoIndex].title ,
-              let body =  MemoModel.shared.list[memoIndex].body else {
-            MemoModel.shared.save(title: "새로운메모", body: "아직 내용없음")
-            memoBodyTextView.text = ""
-            delegate?.saveMemo(0)
-            return
+    @objc private func showActionSheet(_ sender: UIBarButtonItem) {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let share = UIAlertAction(title: "Share", style: .default) { _ in
+            self.shareMemo()
         }
-        let content = NSMutableAttributedString(string: title, attributes: [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .title1)])
-        content.append(NSAttributedString(string: "\n" + body, attributes: [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .body)]))
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let delete = UIAlertAction(title: "Delete", style: .destructive) { _ in
+            self.showAlert()
+        }
         
-        memoBodyTextView.attributedText = content
+        alert.addAction(share)
+        alert.addAction(delete)
+        alert.addAction(cancel)
+        
+        if traitCollection.userInterfaceIdiom == .phone {
+            self.present(alert, animated: true, completion: nil)
+        }
+        else {
+            alert.popoverPresentationController?.barButtonItem = sender
+            self.present(alert, animated: true, completion: nil)
+        }
     }
     
-    private func setupKeyboardDoneButton() {
-        let toolBarKeyboard = UIToolbar(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
-        toolBarKeyboard.sizeToFit()
-        let btnDoneBar = UIBarButtonItem(title: "완료", style: .done, target: self, action: #selector(self.doneButtonClicked))
-        toolBarKeyboard.items = [btnDoneBar]
-        toolBarKeyboard.tintColor = .systemBlue
-        
-        memoBodyTextView.inputAccessoryView = toolBarKeyboard
+    private func shareMemo() {
+        var memoToShare = [String]()
+        if let text = self.memoBodyTextView.text {
+            memoToShare.append(text)
+        }
+        let activityViewController = UIActivityViewController(activityItems: memoToShare, applicationActivities: nil)
+        activityViewController.popoverPresentationController?.sourceView = self.view
+        self.present(activityViewController, animated: true, completion: nil)
     }
     
-    @objc func doneButtonClicked(_ sender: Any) {
-        self.memoBodyTextView.endEditing(true)
+    private func showAlert() {
+        let alert = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
+        let delete = UIAlertAction(title: "삭제", style: .destructive) { [weak self] _ in
+            self?.deleteMemo()
+        }
+        let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        
+        alert.addAction(delete)
+        alert.addAction(cancel)
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    private func deleteMemo() {
+        self.isMemoDeleted = true
+        if let memoIndex = self.memoIndex {
+            MemoModel.shared.delete(index: memoIndex)
+            self.delegate?.deleteMemo(memoIndex)
+        }
+        else {
+            MemoModel.shared.delete(index: 0)
+            self.delegate?.deleteMemo(0)
+        }
+        self.memoBodyTextView.text = nil
+        self.navigationController?.navigationController?.popViewController(animated: true)
     }
 }
 

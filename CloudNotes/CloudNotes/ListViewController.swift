@@ -81,6 +81,11 @@ extension ListViewController: MemoListUpdateDelegate {
         self.tableView.deleteRows(at: [IndexPath(row: memoIndex, section: 0)], with: .automatic)
     }
     
+    func updateMemo(_ memoIndex: Int) {
+        self.tableView.moveRow(at: IndexPath(row: memoIndex, section: 0), to: IndexPath(row: 0, section: 0))
+        self.tableView.reloadRows(at: [IndexPath(row: memoIndex, section: 0), IndexPath(row: 0, section: 0)], with: .automatic)
+    }
+    
     func saveMemo(_ memoIndex: Int) {
         self.tableView.insertRows(at: [IndexPath(row: memoIndex, section: 0)], with: .automatic)
     }

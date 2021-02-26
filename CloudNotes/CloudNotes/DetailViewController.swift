@@ -8,6 +8,7 @@
 import UIKit
 
 protocol MemoListUpdateDelegate: class {
+    func updateMemo(_ memoIndex: Int)
     func deleteMemo(_ memoIndex: Int)
     func saveMemo(_ memoIndex: Int)
 }
@@ -190,8 +191,23 @@ final class DetailViewController: UIViewController {
             body = String(lines[1])
         }
         
-        MemoModel.shared.save(title: title, body: body)
-        memoBodyTextView.text = nil
+        if let memoIndex = memoIndex,
+           let originalTitle = MemoModel.shared.list[memoIndex].title,
+           let originalBody = MemoModel.shared.list[memoIndex].body {
+            if !contexts.elementsEqual(originalTitle + "\n"  + originalBody)  {
+                MemoModel.shared.update(index: memoIndex, title: title, body: body)
+                delegate?.updateMemo(memoIndex)
+                memoBodyTextView.text = nil
+            }
+            else {
+                return
+            }
+        }
+        else {
+            MemoModel.shared.save(title: title, body: body)
+            delegate?.saveMemo(0)
+            memoBodyTextView.text = nil
+        }
     }
 }
 

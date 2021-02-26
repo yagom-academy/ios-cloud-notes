@@ -48,6 +48,25 @@ class MemoModel {
         }
     }
     
+    func update(index: Int, title: String, body: String) {
+        guard let context = appDelegate?.persistentContainer.viewContext else {
+            return
+        }
+        
+        let object = list[index]
+        object.setValue(title, forKey: "title")
+        object.setValue(body, forKey: "body")
+        object.setValue(Date(), forKey: "registerDate")
+        
+        do {
+            try context.save()
+            self.list.remove(at: index)
+            self.list.insert(object, at: self.list.startIndex)
+        } catch {
+            context.rollback()
+        }
+    }
+    
     func delete(index: Int) {
         guard let context = appDelegate?.persistentContainer.viewContext else {
             return

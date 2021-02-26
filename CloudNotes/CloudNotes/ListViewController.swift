@@ -7,7 +7,7 @@
 import UIKit
 
 protocol MemoSelectionDelegate: class {
-    func memoSelected(_ memo: Memo)
+    func memoSelected(_ memoIndex: Int)
 }
 
 final class ListViewController: UITableViewController {
@@ -72,8 +72,7 @@ extension ListViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        let selectedMemo = MemoData.shared.list[indexPath.row]
-        delegate?.memoSelected(selectedMemo)
+        delegate?.memoSelected(indexPath.row)
         
         if let detailViewController = delegate as? DetailViewController,
            (traitCollection.horizontalSizeClass == .compact && traitCollection.userInterfaceIdiom == .phone) {

@@ -8,7 +8,7 @@
 import UIKit
 
 final class DetailViewController: UIViewController {
-    private var memo: Memo? {
+    private var memoIndex: Int? {
         didSet {
             refreshUI()
             memoBodyTextView.isEditable = false
@@ -19,7 +19,6 @@ final class DetailViewController: UIViewController {
         let textView = UITextView()
         textView.adjustsFontForContentSizeCategory = true
         textView.dataDetectorTypes = [.link, .phoneNumber, .calendarEvent]
-        textView.isEditable = false
         return textView
     }()
     
@@ -139,12 +138,14 @@ final class DetailViewController: UIViewController {
     
     private func refreshUI() {
         loadViewIfNeeded()
-        guard let memo = memo else {
+        guard let memoIndex = memoIndex,
+              let title = MemoModel.shared.list[memoIndex].title ,
+              let body =  MemoModel.shared.list[memoIndex].body else {
             return
         }
-        let content = NSMutableAttributedString(string: memo.title, attributes: [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .title1)])
-        content.append(NSAttributedString(string: "\n\n" + memo.body, attributes: [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .body)]))
-
+        let content = NSMutableAttributedString(string: title, attributes: [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .title1)])
+        content.append(NSAttributedString(string: "\n" + body, attributes: [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .body)]))
+        
         memoBodyTextView.attributedText = content
     }
     
@@ -173,8 +174,8 @@ extension DetailViewController: UITextViewDelegate {
 }
 
 extension DetailViewController: MemoSelectionDelegate {
-    func memoSelected(_ memo: Memo) {
-        self.memo = memo
+    func memoSelected(_ memoIndex: Int) {
+        self.memoIndex = memoIndex
     }
 }
 

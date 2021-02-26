@@ -16,13 +16,7 @@ protocol MemoListUpdateDelegate: class {
 final class DetailViewController: UIViewController {
     private var isMemoDeleted: Bool = false
     weak var delegate: MemoListUpdateDelegate?
-    private var memoIndex: Int? {
-        didSet {
-            refreshUI()
-            memoBodyTextView.isEditable = false
-        }
-    }
-    
+    private var memoIndex: Int?
     private var memoBodyTextView: UITextView = {
         let textView = UITextView()
         textView.adjustsFontForContentSizeCategory = true
@@ -36,6 +30,11 @@ final class DetailViewController: UIViewController {
         setupTextView()
         setupNavigationBar()
         setupKeyboardDoneButton()
+    }
+    
+    private func setupMemo(_ index: Int?) {
+        memoIndex = index
+        refreshUI()
     }
     
     private func setupNavigationBar() {
@@ -224,7 +223,7 @@ extension DetailViewController: UITextViewDelegate {
 
 extension DetailViewController: MemoSelectionDelegate {
     func memoSelected(_ memoIndex: Int?) {
-        self.memoIndex = memoIndex
+        setupMemo(memoIndex)
     }
 }
 

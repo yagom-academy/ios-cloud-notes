@@ -25,6 +25,8 @@ class DetailNoteViewController: UIViewController {
     private func configureTextView() {
         addTapGestureRecognizerToTextView()
         detailNoteTextView.delegate = self
+        detailNoteTextView.isEditable = false
+        detailNoteTextView.dataDetectorTypes = .all
         detailNoteTextView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(detailNoteTextView)
         detailNoteTextView.font = .preferredFont(forTextStyle: .body)
@@ -56,8 +58,6 @@ class DetailNoteViewController: UIViewController {
     
     private func addTapGestureRecognizerToTextView() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(changeTextViewEditableState))
-        detailNoteTextView.isEditable = false
-        detailNoteTextView.dataDetectorTypes = .all
         detailNoteTextView.addGestureRecognizer(tapGesture)
     }
     

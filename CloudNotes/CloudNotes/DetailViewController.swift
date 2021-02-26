@@ -7,8 +7,16 @@
 
 import UIKit
 
+protocol MemoListUpdateDelegate: class {
+    func updateMemo(_ memoIndex: Int)
+    func deleteMemo(_ memoIndex: Int)
+    func saveMemo(_ memoIndex: Int)
+}
+
 final class DetailViewController: UIViewController {
-    private var memo: Memo? {
+    private var isMemoDeleted: Bool = false
+    weak var delegate: MemoListUpdateDelegate?
+    private var memoIndex: Int? {
         didSet {
             refreshUI()
             memoBodyTextView.isEditable = false
@@ -19,7 +27,6 @@ final class DetailViewController: UIViewController {
         let textView = UITextView()
         textView.adjustsFontForContentSizeCategory = true
         textView.dataDetectorTypes = [.link, .phoneNumber, .calendarEvent]
-        textView.isEditable = false
         return textView
     }()
     
@@ -29,11 +36,6 @@ final class DetailViewController: UIViewController {
         setupTextView()
         setupNavigationBar()
         setupKeyboardDoneButton()
-    }
-    
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        super.viewWillTransition(to: size, with: coordinator)
-        setupNavigationBar()
     }
     
     private func setupNavigationBar() {
@@ -76,7 +78,12 @@ final class DetailViewController: UIViewController {
     private func showAlert() {
         let alert = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
         let delete = UIAlertAction(title: "삭제", style: .destructive) { _ in
-            // CRUD 중에서 Delete 부분 코드
+            if let memoIndex = self.memoIndex {
+                self.isMemoDeleted = true
+                MemoModel.shared.delete(index: memoIndex)
+                self.delegate?.deleteMemo(memoIndex)
+                self.navigationController?.navigationController?.popViewController(animated: true)
+            }
         }
         let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
         
@@ -117,6 +124,10 @@ final class DetailViewController: UIViewController {
         let tappedLocation = gesture.location(in: textView)
         let glyphIndex = textView.layoutManager.glyphIndex(for: tappedLocation, in: textView.textContainer)
         
+        if glyphIndex >= textView.textStorage.length {
+            memoBodyTextView.isEditable = true
+        }
+        
         if glyphIndex < textView.textStorage.length,
            textView.textStorage.attribute(NSAttributedString.Key.link, at: glyphIndex, effectiveRange: nil) == nil {
             memoBodyTextView.isEditable = true
@@ -139,28 +150,64 @@ final class DetailViewController: UIViewController {
     
     private func refreshUI() {
         loadViewIfNeeded()
-        guard let memo = memo else {
+        guard let memoIndex = memoIndex,
+              let title = MemoModel.shared.list[memoIndex].title ,
+              let body =  MemoModel.shared.list[memoIndex].body else {
             return
         }
-        let content = NSMutableAttributedString(string: memo.title, attributes: [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .title1)])
-        content.append(NSAttributedString(string: "\n\n" + memo.body, attributes: [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .body)]))
-
+        let content = NSMutableAttributedString(string: title, attributes: [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .title1)])
+        content.append(NSAttributedString(string: "\n" + body, attributes: [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .body)]))
+        
         memoBodyTextView.attributedText = content
     }
     
-    
     private func setupKeyboardDoneButton() {
-        let toolBarKeyboard = UIToolbar()
+        let toolBarKeyboard = UIToolbar(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
         toolBarKeyboard.sizeToFit()
         let btnDoneBar = UIBarButtonItem(title: "완료", style: .done, target: self, action: #selector(self.doneButtonClicked))
         toolBarKeyboard.items = [btnDoneBar]
-        toolBarKeyboard.tintColor = #colorLiteral(red: 0.2745098174, green: 0.4862745106, blue: 0.1411764771, alpha: 1)
+        toolBarKeyboard.tintColor = .systemBlue
         
         memoBodyTextView.inputAccessoryView = toolBarKeyboard
     }
     
     @objc func doneButtonClicked(_ sender: Any) {
         self.memoBodyTextView.endEditing(true)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        guard let contexts = self.memoBodyTextView.text, !contexts.isEmpty, !isMemoDeleted else {
+            self.memoBodyTextView.text = nil
+            self.isMemoDeleted = false
+            return
+        }
+        let lines = contexts.split(separator: "\n", maxSplits: 1)
+        var title = ""
+        var body = ""
+        if lines.count > 0 {
+            title = String(lines[0])
+            body = String(lines[1])
+        }
+        
+        if let memoIndex = memoIndex,
+           let originalTitle = MemoModel.shared.list[memoIndex].title,
+           let originalBody = MemoModel.shared.list[memoIndex].body {
+            if !contexts.elementsEqual(originalTitle + "\n"  + originalBody)  {
+                MemoModel.shared.update(index: memoIndex, title: title, body: body)
+                delegate?.updateMemo(memoIndex)
+                memoBodyTextView.text = nil
+            }
+            else {
+                return
+            }
+        }
+        else {
+            MemoModel.shared.save(title: title, body: body)
+            delegate?.saveMemo(0)
+            memoBodyTextView.text = nil
+        }
     }
 }
 
@@ -173,8 +220,8 @@ extension DetailViewController: UITextViewDelegate {
 }
 
 extension DetailViewController: MemoSelectionDelegate {
-    func memoSelected(_ memo: Memo) {
-        self.memo = memo
+    func memoSelected(_ memoIndex: Int) {
+        self.memoIndex = memoIndex
     }
 }
 

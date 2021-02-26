@@ -72,7 +72,7 @@ final class MemoTableViewCell: UITableViewCell {
     func setUpMemoCell(_ memo: Memo) {
         memoTitleLabel.text = memo.title
         memoDescriptionLabel.text = memo.body
-        memoModifiedDateLabel.text = memo.modifiedDate.stringFromUTC
+        memoModifiedDateLabel.text = memo.registerDate.stringFromDate
     }
     
     override func prepareForReuse() {

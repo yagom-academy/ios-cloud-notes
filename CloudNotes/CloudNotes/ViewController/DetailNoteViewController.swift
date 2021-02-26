@@ -25,7 +25,12 @@ class DetailNoteViewController: UIViewController {
     private func configureTextView() {
         addTapGestureRecognizerToTextView()
         detailNoteTextView.delegate = self
-        detailNoteTextView.isEditable = false
+        if let _ = fetchedNote {
+            detailNoteTextView.isEditable = false
+        } else {
+            detailNoteTextView.isEditable = true
+            detailNoteTextView.becomeFirstResponder()
+        }
         detailNoteTextView.dataDetectorTypes = .all
         detailNoteTextView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(detailNoteTextView)

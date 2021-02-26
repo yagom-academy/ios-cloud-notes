@@ -116,6 +116,10 @@ final class DetailViewController: UIViewController {
         let tappedLocation = gesture.location(in: textView)
         let glyphIndex = textView.layoutManager.glyphIndex(for: tappedLocation, in: textView.textContainer)
         
+        if glyphIndex >= textView.textStorage.length {
+            memoBodyTextView.isEditable = true
+        }
+        
         if glyphIndex < textView.textStorage.length,
            textView.textStorage.attribute(NSAttributedString.Key.link, at: glyphIndex, effectiveRange: nil) == nil {
             memoBodyTextView.isEditable = true
@@ -151,11 +155,11 @@ final class DetailViewController: UIViewController {
     
     
     private func setupKeyboardDoneButton() {
-        let toolBarKeyboard = UIToolbar()
+        let toolBarKeyboard = UIToolbar(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
         toolBarKeyboard.sizeToFit()
         let btnDoneBar = UIBarButtonItem(title: "완료", style: .done, target: self, action: #selector(self.doneButtonClicked))
         toolBarKeyboard.items = [btnDoneBar]
-        toolBarKeyboard.tintColor = #colorLiteral(red: 0.2745098174, green: 0.4862745106, blue: 0.1411764771, alpha: 1)
+        toolBarKeyboard.tintColor = .systemBlue
         
         memoBodyTextView.inputAccessoryView = toolBarKeyboard
     }

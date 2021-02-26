@@ -7,18 +7,11 @@ class MemoListTableViewController: UITableViewController {
         super.viewDidLoad()
         
         configureNavigationBar()
+        setUpNotification()
         UserDefaults.standard.set(false, forKey: UserDefaultsKeys.isCellSelected.rawValue)
         tableView.register(MemoListTableViewCell.self, forCellReuseIdentifier: "MemoCell")
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(updateTableViewList), name: NSNotification.Name(NotificationName.updateTableViewList.rawValue), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(deleteCell), name: NSNotification.Name(rawValue: NotificationName.deleteCell.rawValue), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(moveCellToTop), name: NSNotification.Name(rawValue: NotificationName.moveCellToTop.rawValue), object: nil)
     }
-    
-    @objc func updateTableViewList() {
-        tableView.reloadData()
-    }
-    
+
     private func configureNavigationBar() {
         navigationItem.title = "메모"
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: enrollButton)
@@ -39,7 +32,7 @@ class MemoListTableViewController: UITableViewController {
         cell.receiveLabelsText(memo: memo)
         return cell
     }
-    
+
     @objc func createMemo(sender: UIButton) {
         if CoreDataSingleton.shared.save(title: "lll", body: "ooo") {
             let memoContentsViewController = MemoContentsViewController()
@@ -52,7 +45,33 @@ class MemoListTableViewController: UITableViewController {
         } else {
             showAlertMessage("메모 생성에 실패했습니다!")
         }
+    }
+}
+
+// MARK: UITableViewDelegate
+extension MemoListTableViewController {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let memoContentsViewController = MemoContentsViewController()
+        let memoContentsNavigationViewController = UINavigationController(rootViewController: memoContentsViewController)
         
+        UserDefaults.standard.set(true, forKey: UserDefaultsKeys.isCellSelected.rawValue)
+        UserDefaults.standard.set(indexPath.row, forKey: UserDefaultsKeys.selectedMemoIndexPathRow.rawValue)
+        
+        memoContentsViewController.receiveText(memo: CoreDataSingleton.shared.memoData[indexPath.row])
+        self.splitViewController?.showDetailViewController(memoContentsNavigationViewController, sender: nil)
+    }
+}
+
+// MARK: Notification
+extension MemoListTableViewController {
+    private func setUpNotification() {
+        NotificationCenter.default.addObserver(self, selector: #selector(updateTableViewList), name: NSNotification.Name(NotificationName.updateTableViewList.rawValue), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(deleteCell), name: NSNotification.Name(rawValue: NotificationName.deleteCell.rawValue), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(moveCellToTop), name: NSNotification.Name(rawValue: NotificationName.moveCellToTop.rawValue), object: nil)
+    }
+    
+    @objc func updateTableViewList() {
+        tableView.reloadData()
     }
     
     @objc func deleteCell() {
@@ -69,20 +88,6 @@ class MemoListTableViewController: UITableViewController {
                         self.tableView.moveRow(at: indexPath, to: firstIndexPath)
         
         UserDefaults.standard.set(0, forKey: UserDefaultsKeys.selectedMemoIndexPathRow.rawValue)
-    }
-}
-
-// MARK: UITableViewDelegate
-extension MemoListTableViewController {
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let memoContentsViewController = MemoContentsViewController()
-        let memoContentsNavigationViewController = UINavigationController(rootViewController: memoContentsViewController)
-        
-        UserDefaults.standard.set(true, forKey: UserDefaultsKeys.isCellSelected.rawValue)
-        UserDefaults.standard.set(indexPath.row, forKey: UserDefaultsKeys.selectedMemoIndexPathRow.rawValue)
-        
-        memoContentsViewController.receiveText(memo: CoreDataSingleton.shared.memoData[indexPath.row])
-        self.splitViewController?.showDetailViewController(memoContentsNavigationViewController, sender: nil)
     }
 }
 

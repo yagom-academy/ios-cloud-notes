@@ -6,7 +6,7 @@ class MemoContentsViewController: UIViewController {
 //    private let disclosureButton = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: #selector(showActionSheet))
     private let finishButton = UIBarButtonItem(title: "완료", style: .plain, target: self, action: #selector(endEditing))
     
-    private var memoTextView: UITextView = {
+    var memoTextView: UITextView = {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.adjustsFontForContentSizeCategory = true
@@ -27,6 +27,7 @@ class MemoContentsViewController: UIViewController {
         UserDefaults.standard.set(false, forKey: UserDefaultsKeys.isCellSelected.rawValue)
     }
     
+    // MARK: Configure UI
     private func configureDisclosureButton() {
         disclosureButton.setImage(UIImage(systemName: "ellipsis.circle"), for: .normal)
         disclosureButton.addTarget(self, action: #selector(showActionSheet(_:)), for: .touchUpInside)
@@ -58,6 +59,7 @@ class MemoContentsViewController: UIViewController {
         ])
     }
     
+    // MARK: Feature
     func receiveText(memo: NSManagedObject) {
         guard let title: String = memo.value(forKey: "title") as? String else {
             return
@@ -80,40 +82,7 @@ class MemoContentsViewController: UIViewController {
         navigationItem.rightBarButtonItems?.removeFirst()
         updateMemo()
     }
-    
-    @objc func showActionSheet(_ sender: UIButton) {
-        let actionSheet = UIAlertController(title: nil, message: "Choose Option", preferredStyle: .actionSheet)
-        let shareAction = UIAlertAction(title: "Share", style: .default) { _ in
-            self.showActivityView(memo: CoreDataSingleton.shared.memoData[0])
-        }
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        let deleteAction = UIAlertAction(title: "Delete", style: .destructive) {
-            _ in self.showDeleteMessage()
-        }
-         
-        actionSheet.addAction(shareAction)
-        actionSheet.addAction(deleteAction)
-        actionSheet.addAction(cancelAction)
-        
-        actionSheet.popoverPresentationController?.sourceView = disclosureButton
-        actionSheet.popoverPresentationController?.sourceRect = disclosureButton.bounds
-        
-        self.present(actionSheet, animated: true, completion: nil)
-    }
-    
-    private func showDeleteMessage() {
-         let deleteMenu = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: UIAlertController.Style.alert)
-         
-         let cancleAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
-        let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
-            self.deleteMemo()
-        }
-         deleteMenu.addAction(cancleAction)
-         deleteMenu.addAction(deleteAction)
-         
-         present(deleteMenu, animated: true, completion: nil)
-     }
-    
+
     private func deleteMemo() {
         let selectedMemoIndexPathRow = UserDefaults.standard.integer(forKey: UserDefaultsKeys.selectedMemoIndexPathRow.rawValue)
         
@@ -141,22 +110,6 @@ class MemoContentsViewController: UIViewController {
         } else {
             showAlertMessage("메모 편집에 실패했습니다!")
         }
-    }
-}
-
-// MARK: UITextViewDelegate
-extension MemoContentsViewController: UITextViewDelegate {
-    func textViewDidEndEditing(_ textView: UITextView) {
-        updateMemo()
-        memoTextView.isEditable = false
-    }
-    
-    func textViewDidChange(_ textView: UITextView) {
-        updateMemo()
-    }
-    
-    func textViewDidBeginEditing(_ textView: UITextView) {
-        NotificationCenter.default.post(name: NSNotification.Name(NotificationName.moveCellToTop.rawValue), object: nil)
     }
 }
 
@@ -197,10 +150,47 @@ extension MemoContentsViewController {
     }
 }
 
-// MARK: UIGestureRecognizerDelegate
-extension MemoContentsViewController: UIGestureRecognizerDelegate {
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        return true
+// MARK: Alert
+extension MemoContentsViewController {
+    private func showAlertMessage(_ message: String) {
+        let alert = UIAlertController(title: nil, message: message, preferredStyle: UIAlertController.Style.alert)
+        let okAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+        
+        alert.addAction(okAction)
+        present(alert, animated: true, completion: nil)
+    }
+    
+    private func showDeleteMessage() {
+         let deleteMenu = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: UIAlertController.Style.alert)
+         
+         let cancleAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
+            self.deleteMemo()
+        }
+         deleteMenu.addAction(cancleAction)
+         deleteMenu.addAction(deleteAction)
+         
+         present(deleteMenu, animated: true, completion: nil)
+     }
+    
+    @objc func showActionSheet(_ sender: UIButton) {
+        let actionSheet = UIAlertController(title: nil, message: "Choose Option", preferredStyle: .actionSheet)
+        let shareAction = UIAlertAction(title: "Share", style: .default) { _ in
+            self.showActivityView(memo: CoreDataSingleton.shared.memoData[0])
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let deleteAction = UIAlertAction(title: "Delete", style: .destructive) {
+            _ in self.showDeleteMessage()
+        }
+         
+        actionSheet.addAction(shareAction)
+        actionSheet.addAction(deleteAction)
+        actionSheet.addAction(cancelAction)
+        
+        actionSheet.popoverPresentationController?.sourceView = disclosureButton
+        actionSheet.popoverPresentationController?.sourceRect = disclosureButton.bounds
+        
+        self.present(actionSheet, animated: true, completion: nil)
     }
 }
 
@@ -217,16 +207,5 @@ extension MemoContentsViewController {
         let activityViewController = UIActivityViewController(activityItems: memoToShare, applicationActivities: nil)
 
         self.present(activityViewController, animated: true, completion: nil)
-    }
-}
-
-// MARK: Alert
-extension MemoContentsViewController {
-    private func showAlertMessage(_ message: String) {
-        let alert = UIAlertController(title: nil, message: message, preferredStyle: UIAlertController.Style.alert)
-        let okAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-        
-        alert.addAction(okAction)
-        present(alert, animated: true, completion: nil)
     }
 }

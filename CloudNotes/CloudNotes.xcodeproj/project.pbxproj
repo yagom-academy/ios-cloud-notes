@@ -9,7 +9,8 @@
 /* Begin PBXBuildFile section */
 		34155C7725E73C6C00696F9F /* CoreDataSingleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34155C7625E73C6C00696F9F /* CoreDataSingleton.swift */; };
 		34155C7C25E7ACF000696F9F /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34155C7B25E7ACF000696F9F /* Strings.swift */; };
-		34622ABA25DAA2B4006B0A97 /* Date + toStringWithDot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34622AB925DAA2B4006B0A97 /* Date + toStringWithDot.swift */; };
+		34155C8425E8864F00696F9F /* MemoContentsVC+Delegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34155C8325E8864F00696F9F /* MemoContentsVC+Delegate.swift */; };
+		34622ABA25DAA2B4006B0A97 /* Date+toStringWithDot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34622AB925DAA2B4006B0A97 /* Date+toStringWithDot.swift */; };
 		9AB95B2025DA79E4004F7826 /* MemoListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB95B1F25DA79E4004F7826 /* MemoListTableViewCell.swift */; };
 		9AB95B2825DA7A60004F7826 /* Memo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB95B2725DA7A60004F7826 /* Memo.swift */; };
 		9AB95B3025DA7E29004F7826 /* MemoListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB95B2F25DA7E29004F7826 /* MemoListTableViewController.swift */; };
@@ -45,7 +46,8 @@
 /* Begin PBXFileReference section */
 		34155C7625E73C6C00696F9F /* CoreDataSingleton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataSingleton.swift; sourceTree = "<group>"; };
 		34155C7B25E7ACF000696F9F /* Strings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
-		34622AB925DAA2B4006B0A97 /* Date + toStringWithDot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date + toStringWithDot.swift"; sourceTree = "<group>"; };
+		34155C8325E8864F00696F9F /* MemoContentsVC+Delegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MemoContentsVC+Delegate.swift"; sourceTree = "<group>"; };
+		34622AB925DAA2B4006B0A97 /* Date+toStringWithDot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+toStringWithDot.swift"; sourceTree = "<group>"; };
 		9AB95B1F25DA79E4004F7826 /* MemoListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoListTableViewCell.swift; sourceTree = "<group>"; };
 		9AB95B2725DA7A60004F7826 /* Memo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memo.swift; sourceTree = "<group>"; };
 		9AB95B2F25DA7E29004F7826 /* MemoListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoListTableViewController.swift; sourceTree = "<group>"; };
@@ -95,7 +97,7 @@
 		34622ABE25DAA2CB006B0A97 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
-				34622AB925DAA2B4006B0A97 /* Date + toStringWithDot.swift */,
+				34622AB925DAA2B4006B0A97 /* Date+toStringWithDot.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -113,6 +115,7 @@
 			children = (
 				9AB95B2F25DA7E29004F7826 /* MemoListTableViewController.swift */,
 				9AB95B3425DA7ED3004F7826 /* MemoContentsViewController.swift */,
+				34155C8325E8864F00696F9F /* MemoContentsVC+Delegate.swift */,
 				9AB95B3B25DA802B004F7826 /* Cell */,
 			);
 			path = View;
@@ -338,8 +341,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				9AB95B2025DA79E4004F7826 /* MemoListTableViewCell.swift in Sources */,
-				34622ABA25DAA2B4006B0A97 /* Date + toStringWithDot.swift in Sources */,
+				34622ABA25DAA2B4006B0A97 /* Date+toStringWithDot.swift in Sources */,
 				C7481C7225BBCF3900B9CA55 /* MemoSplitViewController.swift in Sources */,
+				34155C8425E8864F00696F9F /* MemoContentsVC+Delegate.swift in Sources */,
 				34155C7725E73C6C00696F9F /* CoreDataSingleton.swift in Sources */,
 				34155C7C25E7ACF000696F9F /* Strings.swift in Sources */,
 				C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */,

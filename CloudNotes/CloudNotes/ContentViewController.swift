@@ -29,7 +29,7 @@ class ContentViewController: UIViewController {
     }()
     
     private lazy var optionButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(didTapOptionButton(_:)))
+        let button = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action:  #selector(didTapOptionButton(_:)))
         return button
     }()
     

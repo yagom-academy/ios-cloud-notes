@@ -19,6 +19,9 @@ class CoreDataSingleton {
         let managedContext =
             appDelegate.persistentContainer.viewContext
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Memo")
+        let sort = NSSortDescriptor(key: "lastModified", ascending: false)
+        fetchRequest.sortDescriptors = [sort]
+        
         let result = try! managedContext.fetch(fetchRequest)
         return result
     }

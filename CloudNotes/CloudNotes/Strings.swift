@@ -6,8 +6,9 @@ enum UserDefaultsKeys: String {
 }
 
 enum NotificationName: String {
-    case showTableView = "showTableView"
+    case updateTableViewList = "updateTableViewList"
     case deleteCell = "deleteCell"
+    case moveCellToTop = "moveCellToTop"
 }
 
 

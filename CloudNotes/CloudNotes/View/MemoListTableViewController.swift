@@ -10,12 +10,12 @@ class MemoListTableViewController: UITableViewController {
         UserDefaults.standard.set(false, forKey: UserDefaultsKeys.isCellSelected.rawValue)
         tableView.register(MemoListTableViewCell.self, forCellReuseIdentifier: "MemoCell")
         
-        NotificationCenter.default.addObserver(self, selector: #selector(changeIsCellSelected), name: NSNotification.Name(NotificationName.showTableView.rawValue), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateTableViewList), name: NSNotification.Name(NotificationName.updateTableViewList.rawValue), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(deleteCell), name: NSNotification.Name(rawValue: NotificationName.deleteCell.rawValue), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(moveCellToTop), name: NSNotification.Name(rawValue: NotificationName.moveCellToTop.rawValue), object: nil)
     }
     
-    @objc func changeIsCellSelected() {
-        UserDefaults.standard.set(false, forKey: UserDefaultsKeys.isCellSelected.rawValue)
+    @objc func updateTableViewList() {
         tableView.reloadData()
     }
     
@@ -64,6 +64,15 @@ class MemoListTableViewController: UITableViewController {
         let indexPath = IndexPath(row: selectedMemoIndexPathRow, section: 0)
         tableView.deleteRows(at: [indexPath], with: .fade)
         tableView.reloadData()
+    }
+    
+    @objc func moveCellToTop() {
+        let selectedMemoIndexPathRow = UserDefaults.standard.integer(forKey: UserDefaultsKeys.selectedMemoIndexPathRow.rawValue)
+        let indexPath = IndexPath(row: selectedMemoIndexPathRow, section: 0)
+        let firstIndexPath = IndexPath(item: 0, section: 0)
+                        self.tableView.moveRow(at: indexPath, to: firstIndexPath)
+        
+        UserDefaults.standard.set(0, forKey: UserDefaultsKeys.selectedMemoIndexPathRow.rawValue)
     }
 }
 

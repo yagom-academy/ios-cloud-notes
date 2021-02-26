@@ -24,7 +24,7 @@ class MemoContentsViewController: UIViewController {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        NotificationCenter.default.post(name: Notification.Name(NotificationName.showTableView.rawValue), object: nil)
+        UserDefaults.standard.set(false, forKey: UserDefaultsKeys.isCellSelected.rawValue)
     }
     
     private func configureDisclosureButton() {
@@ -87,9 +87,9 @@ class MemoContentsViewController: UIViewController {
             self.showActivityView(memo: CoreDataSingleton.shared.memoData[0])
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: {
-            (action: UIAlertAction) in self.showDeleteMessage()
-        })
+        let deleteAction = UIAlertAction(title: "Delete", style: .destructive) {
+            _ in self.showDeleteMessage()
+        }
          
         actionSheet.addAction(shareAction)
         actionSheet.addAction(deleteAction)
@@ -137,7 +137,7 @@ class MemoContentsViewController: UIViewController {
         let selectedMemoIndexPathRow = UserDefaults.standard.integer(forKey: UserDefaultsKeys.selectedMemoIndexPathRow.rawValue)
         if CoreDataSingleton.shared.update(object: CoreDataSingleton.shared.memoData[selectedMemoIndexPathRow], title: "blue", body: self.memoTextView.text) {
             // title, body에 들어갈 값 필요
-            NotificationCenter.default.post(name: Notification.Name(NotificationName.showTableView.rawValue), object: nil)
+            NotificationCenter.default.post(name: Notification.Name(NotificationName.updateTableViewList.rawValue), object: nil)
         } else {
             showAlertMessage("메모 편집에 실패했습니다!")
         }
@@ -147,11 +147,16 @@ class MemoContentsViewController: UIViewController {
 // MARK: UITextViewDelegate
 extension MemoContentsViewController: UITextViewDelegate {
     func textViewDidEndEditing(_ textView: UITextView) {
+        updateMemo()
         memoTextView.isEditable = false
     }
     
     func textViewDidChange(_ textView: UITextView) {
         updateMemo()
+    }
+    
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        NotificationCenter.default.post(name: NSNotification.Name(NotificationName.moveCellToTop.rawValue), object: nil)
     }
 }
 

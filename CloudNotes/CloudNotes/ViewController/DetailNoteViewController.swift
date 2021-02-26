@@ -8,20 +8,30 @@
 import UIKit
 
 class DetailNoteViewController: UIViewController {
-    var fetchedNoteData: Note?
+    static let memoDidSave = Notification.Name(rawValue: "memoDidSave")
+    
+    var fetchedNote: Note?
     let detailNoteTextView = UITextView()
     let completeButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.done, target: self, action: #selector(touchUpCompleteButton))
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         self.view.backgroundColor = .white
         configureTextView()
-        setFetchedNoteDate()
+        setTextViewFromFetchedNote()
     }
     
     private func configureTextView() {
         addTapGestureRecognizerToTextView()
         detailNoteTextView.delegate = self
+        if let _ = fetchedNote {
+            detailNoteTextView.isEditable = false
+        } else {
+            detailNoteTextView.isEditable = true
+            detailNoteTextView.becomeFirstResponder()
+        }
+        detailNoteTextView.dataDetectorTypes = .all
         detailNoteTextView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(detailNoteTextView)
         detailNoteTextView.font = .preferredFont(forTextStyle: .body)
@@ -35,19 +45,17 @@ class DetailNoteViewController: UIViewController {
         ])
     }
     
-    private func setFetchedNoteDate() {
-        guard let noteData = fetchedNoteData else {
+    private func setTextViewFromFetchedNote() {
+        guard let noteData = fetchedNote else {
             return
         }
         
         detailNoteTextView.text = "\(noteData.title)\n\(noteData.body)"
     }
     
-    @objc func touchUpCompleteButton() {
+    @objc private func touchUpCompleteButton() {
         detailNoteTextView.isEditable = false
-        
-        saveNoteDate()
-        
+        saveNote()
         if let _ = navigationController?.presentingViewController {
             self.navigationController?.popViewController(animated: true)
         }
@@ -55,38 +63,41 @@ class DetailNoteViewController: UIViewController {
     
     private func addTapGestureRecognizerToTextView() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(changeTextViewEditableState))
-        detailNoteTextView.isEditable = false
-        detailNoteTextView.dataDetectorTypes = .all
         detailNoteTextView.addGestureRecognizer(tapGesture)
     }
     
-    @objc func changeTextViewEditableState() {
+    @objc private func changeTextViewEditableState() {
         detailNoteTextView.isEditable.toggle()
         if detailNoteTextView.isEditable {
             detailNoteTextView.becomeFirstResponder()
         } else {
-            saveNoteDate()
+            saveNote()
         }
     }
     
-    func saveNoteDate() {
-        if let textViewText = detailNoteTextView.text, textViewText == UIConstants.strings.textInitalizing {
-            let note = Note(title: UIConstants.strings.emptyNoteTitleText, body: UIConstants.strings.textInitalizing)
-            NoteData.shared.noteLists.append(note)
+    private func saveNote() {
+        let note: Note
+        if detailNoteTextView.text == UIConstants.strings.textInitalizing {
+            note = Note(title: UIConstants.strings.emptyNoteTitleText, body: UIConstants.strings.textInitalizing)
         } else {
             let textViewText = detailNoteTextView.text.split(separator: "\n", maxSplits: 1, omittingEmptySubsequences: true)
-            let note = checkTextView(text: textViewText, count: textViewText.count)
-            NoteData.shared.noteLists.append(note)
+            note = checkTextView(text: textViewText)
         }
         
-        if let navi = splitViewController?.viewControllers.first as? UINavigationController,
-           let noteViewController = navi.viewControllers.first as? NoteViewController {
-            noteViewController.reloadTableView()
+        if let fetchedNote = self.fetchedNote {
+            fetchedNote.title = note.title
+            fetchedNote.body = note.body
+            fetchedNote.lastModifiedDate = note.lastModifiedDate
+        } else {
+            NoteData.shared.noteLists.append(note)
+            self.fetchedNote = note
         }
+        
+        NotificationCenter.default.post(name: DetailNoteViewController.memoDidSave, object: nil)
     }
     
-    private func checkTextView(text: [String.SubSequence], count: Int) -> Note {
-        if count == 1 {
+    private func checkTextView(text: [String.SubSequence]) -> Note {
+        if text.count == 1 {
             let titleText = String(text[0])
             let note = Note(title: titleText, body: UIConstants.strings.textInitalizing)
             return note

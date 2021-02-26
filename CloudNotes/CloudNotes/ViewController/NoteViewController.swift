@@ -8,12 +8,21 @@ import UIKit
 
 class NoteViewController: UIViewController {
     private let tableView = UITableView()
+    private let dateFormatter: DateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .medium
+        dateFormatter.timeStyle = .none
+        dateFormatter.locale = Locale.current
+        return dateFormatter
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         configureTableView()
         self.view.backgroundColor = .white
         configureNavigationItem()
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadTableView), name: DetailNoteViewController.memoDidSave, object: nil)
     }
         
     private func configureTableView() {
@@ -38,7 +47,7 @@ class NoteViewController: UIViewController {
         self.navigationItem.rightBarButtonItem = addButton
     }
     
-    @objc func touchUpAddButton() {
+    @objc private func touchUpAddButton() {
         let detailNoteViewController = DetailNoteViewController()
         splitViewController?.showDetailViewController(detailNoteViewController, sender: nil)
     }
@@ -57,12 +66,14 @@ extension NoteViewController: UITableViewDataSource {
         
         cell.titleLabel.text = NoteData.shared.title(index: indexPath.row)
         cell.bodyLabel.text = NoteData.shared.body(index: indexPath.row)
-        cell.lastModifiedDateLabel.text = NoteData.shared.lastModifiedDate(index: indexPath.row)
+        if let lastModifiedDate = NoteData.shared.lastModifiedDate(index: indexPath.row) {
+            cell.lastModifiedDateLabel.text = dateFormatter.string(from: lastModifiedDate)
+        }
         
         return cell
     }
     
-    func reloadTableView() {
+    @objc private func reloadTableView() {
         tableView.reloadData()
     }
 }
@@ -71,7 +82,7 @@ extension NoteViewController: UITableViewDataSource {
 extension NoteViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let detailNoteViewController = DetailNoteViewController()
-        detailNoteViewController.fetchedNoteData = NoteData.shared.noteLists[indexPath.row]
+        detailNoteViewController.fetchedNote = NoteData.shared.noteLists[indexPath.row]
         splitViewController?.showDetailViewController(detailNoteViewController, sender: nil)
     }
 }

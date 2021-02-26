@@ -70,9 +70,14 @@ class DetailNoteViewController: UIViewController {
         }
     }
     
-    func saveNoteDate() {
-        let textViewText = detailNoteTextView.text.split(separator: "\n", maxSplits: 1, omittingEmptySubsequences: true)
-        let note = checkTextView(text: textViewText)
+    private func saveNote() {
+        let note: Note
+        if detailNoteTextView.text == UIConstants.strings.textInitalizing {
+            note = Note(title: UIConstants.strings.emptyNoteTitleText, body: UIConstants.strings.textInitalizing)
+        } else {
+            let textViewText = detailNoteTextView.text.split(separator: "\n", maxSplits: 1, omittingEmptySubsequences: true)
+            note = checkTextView(text: textViewText)
+        }
         
         if let fetchedNote = self.fetchedNote {
             fetchedNote.title = note.title
@@ -87,10 +92,6 @@ class DetailNoteViewController: UIViewController {
     }
     
     private func checkTextView(text: [String.SubSequence]) -> Note {
-        if detailNoteTextView.text == UIConstants.strings.textInitalizing {
-            return Note(title: UIConstants.strings.emptyNoteTitleText, body: UIConstants.strings.textInitalizing)
-        }
-        
         if text.count == 1 {
             let titleText = String(text[0])
             let note = Note(title: titleText, body: UIConstants.strings.textInitalizing)

@@ -16,13 +16,14 @@ class MemoContentsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        NotificationCenter.default.addObserver(self, selector: #selector(resignTextViewFirstResponder), name: Notification.Name(NotificationName.resignFirstResponder.rawValue), object: nil)
         
         configureMemoContentsView()
         configureAutoLayout()
         configureNavigationBar()
         configureDisclosureButton()
     }
-    
+
     override func viewWillDisappear(_ animated: Bool) {
         UserDefaults.standard.set(false, forKey: UserDefaultsKeys.isCellSelected.rawValue)
     }
@@ -142,6 +143,10 @@ class MemoContentsViewController: UIViewController {
             }
         }
         return (titleText, bodyText)
+    }
+    
+    @objc func resignTextViewFirstResponder() {
+        memoTextView.resignFirstResponder()
     }
 }
 

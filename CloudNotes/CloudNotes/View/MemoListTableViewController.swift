@@ -51,6 +51,8 @@ class MemoListTableViewController: UITableViewController {
 // MARK: UITableViewDelegate
 extension MemoListTableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        NotificationCenter.default.post(name: Notification.Name(NotificationName.resignFirstResponder.rawValue), object: nil)
+        
         let memoContentsViewController = MemoContentsViewController()
         let memoContentsNavigationViewController = UINavigationController(rootViewController: memoContentsViewController)
         
@@ -85,8 +87,11 @@ extension MemoListTableViewController {
         let selectedMemoIndexPathRow = UserDefaults.standard.integer(forKey: UserDefaultsKeys.selectedMemoIndexPathRow.rawValue)
         let indexPath = IndexPath(row: selectedMemoIndexPathRow, section: 0)
         let firstIndexPath = IndexPath(item: 0, section: 0)
-                        self.tableView.moveRow(at: indexPath, to: firstIndexPath)
         
+        let memo = CoreDataSingleton.shared.memoData.remove(at: selectedMemoIndexPathRow)
+        CoreDataSingleton.shared.memoData.insert(memo, at: 0)
+        
+        self.tableView.moveRow(at: indexPath, to: firstIndexPath)
         UserDefaults.standard.set(0, forKey: UserDefaultsKeys.selectedMemoIndexPathRow.rawValue)
     }
 }

@@ -9,9 +9,24 @@ import Foundation
 
 class NoteData {
     static let shared = NoteData()
-    var noteLists: [Note] = []
+    private var noteLists: [Note] = []
+    var count: Int {
+        return noteLists.count
+    }
     
     private init() {}
+    
+    func note(index: Int) -> Note? {
+        guard noteLists.count > index, index >= 0 else {
+            return nil
+        }
+        
+        return noteLists[index]
+    }
+    
+    func add(note: Note) {
+        noteLists.append(note)
+    }
     
     func title(index: Int) -> String? {
         if noteLists.count > index {

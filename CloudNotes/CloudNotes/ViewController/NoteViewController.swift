@@ -57,7 +57,7 @@ class NoteViewController: UIViewController {
 // MARK: - TableView DataSource
 extension NoteViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return NoteData.shared.noteLists.count
+        return NoteData.shared.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -83,7 +83,7 @@ extension NoteViewController: UITableViewDataSource {
 extension NoteViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let detailNoteViewController = DetailNoteViewController()
-        detailNoteViewController.fetchedNote = NoteData.shared.noteLists[indexPath.row]
+        detailNoteViewController.fetchedNote = NoteData.shared.note(index: indexPath.row)
         let navigationController = UINavigationController(rootViewController: detailNoteViewController)
         splitViewController?.showDetailViewController(navigationController, sender: nil)
     }

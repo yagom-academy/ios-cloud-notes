@@ -10,7 +10,7 @@ protocol SendMemoDelegate: AnyObject {
     func didTapListCell(memo: Memo?)
 }
 
-class ListViewController: UIViewController {
+final class ListViewController: UIViewController {
     
     private var memoList: [Memo]?
     weak var delegate: SendMemoDelegate?

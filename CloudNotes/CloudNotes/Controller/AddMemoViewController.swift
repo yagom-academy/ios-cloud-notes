@@ -7,7 +7,7 @@
 
 import UIKit
 
-class AddMemoViewController: UIViewController {
+final class AddMemoViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
     }

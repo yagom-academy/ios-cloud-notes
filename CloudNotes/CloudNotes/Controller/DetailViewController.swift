@@ -40,25 +40,39 @@ final class DetailViewController: UIViewController {
     private func refreshUI() {
         loadViewIfNeeded()
         guard let memoIndex = memoIndex,
-              let title = MemoModel.shared.list[memoIndex].title ,
-              let body =  MemoModel.shared.list[memoIndex].body else {
+              let content =  MemoModel.shared.list[memoIndex].content else {
             setDefaultMemo()
             return
         }
-        memoBodyTextView.attributedText = applyFontStyle(title: title, body: body)
+        memoBodyTextView.attributedText = applyFontStyle(content: content)
     }
     
     private func setDefaultMemo() {
-        MemoModel.shared.save(title: "새로운메모", body: "아직 내용없음")
+        MemoModel.shared.save(content: "새로운메모\n아직 내용없음")
         memoBodyTextView.text = ""
         delegate?.saveMemo(0)
     }
     
-    private func applyFontStyle(title: String, body: String) -> NSAttributedString {
-        let content = NSMutableAttributedString(string: title, attributes: [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .title1)])
-        content.append(NSAttributedString(string: "\n" + body, attributes: [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .body)]))
+    private func applyFontStyle(content: String) -> NSAttributedString {
+        let lines = content.split(separator: "\n")
+        guard let title = lines.first else {
+            return NSAttributedString(string: "")
+        }
+        let newLineCount = countNewLine(from: content)
+
+        let finalContent = NSMutableAttributedString(string: content)
+        finalContent.addAttributes([NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .title1)], range: NSMakeRange(0, title.count + newLineCount))
+        finalContent.addAttributes([NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .body)], range: NSMakeRange(title.count + newLineCount, content.count - title.count - newLineCount))
         
-        return content
+        return finalContent
+    }
+    
+    private func countNewLine(from content: String) -> Int {
+        var count = 0
+        while content[String.Index(utf16Offset: count, in: content)] == "\n" {
+            count += 1
+        }
+        return count
     }
 
     //MARK: setup keyboard
@@ -207,38 +221,23 @@ extension DetailViewController: UITextViewDelegate {
         textView.dataDetectorTypes = [.link, .phoneNumber, .calendarEvent]
     }
     
-    private func splitLine(_ content: String) -> (String, String) {
-        let lines = content.split(separator: "\n", maxSplits: 1)
-        let title = String(lines[0])
-        var body = ""
-        
-        if lines.count > 1 {
-            body = String(lines[1])
-        }
-        
-        return (title, body)
-    }
-    
     func textViewDidChange(_ textView: UITextView) {
         guard let content = self.memoBodyTextView.text, !content.isEmpty else {
             return
         }
-        let (title, body) = splitLine(content)
         
         guard let memoIndex = memoIndex else {
-            MemoModel.shared.update(index: 0, title: title, body: body)
+            MemoModel.shared.update(index: 0, content: content)
             delegate?.updateMemo(0)
             return
         }
            
-        guard let originalTitle = MemoModel.shared.list[memoIndex].title,
-              let originalBody = MemoModel.shared.list[memoIndex].body else {
+        guard let originalContent = MemoModel.shared.list[memoIndex].content else {
             return
         }
         
-        let originalContent = originalTitle + "\n" + originalBody
         if !content.elementsEqual(originalContent) {
-            MemoModel.shared.update(index: memoIndex, title: title, body: body)
+            MemoModel.shared.update(index: memoIndex, content: content)
             delegate?.updateMemo(memoIndex)
             self.memoIndex = 0
         }

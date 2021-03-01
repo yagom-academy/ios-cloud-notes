@@ -89,7 +89,7 @@ extension ListViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         let memoListInfo = memoList[indexPath.row]
-        cell.updateCell(info: memoListInfo)
+        cell.update(info: memoListInfo)
         return cell
     }
 }

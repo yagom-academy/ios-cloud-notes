@@ -12,7 +12,7 @@ extension MemoContentsViewController: UITextViewDelegate {
     }
     
     func textViewDidBeginEditing(_ textView: UITextView) {
-        NotificationCenter.default.post(name: NSNotification.Name(NotificationName.moveCellToTop.rawValue), object: nil)
+        delegate?.moveCellToTop()
     }
 }
 

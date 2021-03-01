@@ -2,6 +2,8 @@ import UIKit
 import CoreData
 
 class MemoContentsViewController: UIViewController {
+    weak var delegate: TableViewListManagable?
+    
     let disclosureButton = UIButton()
 //    private let disclosureButton = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: #selector(showActionSheet))
     private let finishButton = UIBarButtonItem(title: "완료", style: .plain, target: self, action: #selector(endEditing))
@@ -17,7 +19,7 @@ class MemoContentsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         NotificationCenter.default.addObserver(self, selector: #selector(resignTextViewFirstResponder), name: Notification.Name(NotificationName.resignFirstResponder.rawValue), object: nil)
-        
+
         configureMemoContentsView()
         configureAutoLayout()
         configureNavigationBar()
@@ -94,7 +96,7 @@ class MemoContentsViewController: UIViewController {
         if CoreDataSingleton.shared.delete(object: CoreDataSingleton.shared.memoData[selectedMemoIndexPathRow]) {
             CoreDataSingleton.shared.memoData.remove(at: selectedMemoIndexPathRow)
             UserDefaults.standard.set(0, forKey: UserDefaultsKeys.selectedMemoIndexPathRow.rawValue)
-            NotificationCenter.default.post(name: NSNotification.Name(NotificationName.deleteCell.rawValue), object: nil)
+            delegate?.deleteCell()
             
             switch traitCollection.horizontalSizeClass {
             case .compact:
@@ -117,7 +119,7 @@ class MemoContentsViewController: UIViewController {
         let splitText = splitString()
         let selectedMemoIndexPathRow = UserDefaults.standard.integer(forKey: UserDefaultsKeys.selectedMemoIndexPathRow.rawValue)
         if CoreDataSingleton.shared.update(object: CoreDataSingleton.shared.memoData[selectedMemoIndexPathRow], title: splitText.0, body: splitText.1) {
-            NotificationCenter.default.post(name: Notification.Name(NotificationName.updateTableViewList.rawValue), object: nil)
+            delegate?.updateTableViewList()
         } else {
             showAlertMessage("메모 편집에 실패했습니다!")
         }

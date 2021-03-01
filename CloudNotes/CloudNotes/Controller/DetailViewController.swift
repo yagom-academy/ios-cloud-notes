@@ -48,12 +48,12 @@ class DetailViewController: UIViewController {
 
     private func setAutoLayout() {
         let magin: CGFloat = 10
-        let guide = view.safeAreaLayoutGuide
+        let safeArea = view.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
-            memoTextView.topAnchor.constraint(equalTo: guide.topAnchor, constant: magin),
-            memoTextView.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: magin),
-            memoTextView.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -magin),
-            memoTextView.bottomAnchor.constraint(equalTo: guide.bottomAnchor, constant: -magin)
+            memoTextView.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: magin),
+            memoTextView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: magin),
+            memoTextView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -magin),
+            memoTextView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -magin)
         ])
     }
 }

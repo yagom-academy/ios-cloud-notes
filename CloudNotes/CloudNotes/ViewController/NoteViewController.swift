@@ -15,6 +15,13 @@ class NoteViewController: UIViewController {
         dateFormatter.locale = Locale.current
         return dateFormatter
     }()
+    private var memoDidSaveToken: NSObjectProtocol?
+    
+    deinit {
+        if let token = memoDidSaveToken {
+            NotificationCenter.default.removeObserver(token)
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,7 +29,7 @@ class NoteViewController: UIViewController {
         configureTableView()
         self.view.backgroundColor = .white
         configureNavigationItem()
-        NotificationCenter.default.addObserver(self, selector: #selector(reloadTableView), name: DetailNoteViewController.memoDidSave, object: nil)
+        addNotificatonObserver()
     }
         
     private func configureTableView() {
@@ -52,6 +59,12 @@ class NoteViewController: UIViewController {
         let navigationController = UINavigationController(rootViewController: detailNoteViewController)
         splitViewController?.showDetailViewController(navigationController, sender: nil)
     }
+    
+    private func addNotificatonObserver() {
+        memoDidSaveToken = NotificationCenter.default.addObserver(forName: DetailNoteViewController.memoDidSave, object: nil, queue: OperationQueue.main) { [weak self] notification in
+            self?.tableView.reloadData()
+        }
+    }
 }
 
 // MARK: - TableView DataSource
@@ -73,10 +86,6 @@ extension NoteViewController: UITableViewDataSource {
         }
         
         return cell
-    }
-    
-    @objc private func reloadTableView() {
-        tableView.reloadData()
     }
 }
 

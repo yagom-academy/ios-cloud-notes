@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		56A3702D25E521D200BD9CB2 /* UIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56A3702C25E521D200BD9CB2 /* UIConstants.swift */; };
+		56FFE6AF25ED34BB0047A52B /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56FFE6AE25ED34BB0047A52B /* CoreDataManager.swift */; };
+		56FFE6BB25ED568D0047A52B /* Note+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56FFE6B925ED568D0047A52B /* Note+CoreDataClass.swift */; };
+		56FFE6BC25ED568D0047A52B /* Note+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56FFE6BA25ED568D0047A52B /* Note+CoreDataProperties.swift */; };
 		C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */; };
 		C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */; };
 		C7481C7225BBCF3900B9CA55 /* NoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C7125BBCF3900B9CA55 /* NoteViewController.swift */; };
@@ -45,6 +48,9 @@
 
 /* Begin PBXFileReference section */
 		56A3702C25E521D200BD9CB2 /* UIConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIConstants.swift; sourceTree = "<group>"; };
+		56FFE6AE25ED34BB0047A52B /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
+		56FFE6B925ED568D0047A52B /* Note+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Note+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
+		56FFE6BA25ED568D0047A52B /* Note+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Note+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
 		C7481C6A25BBCF3900B9CA55 /* CloudNotes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CloudNotes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -94,6 +100,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		56FFE6AD25ED34A20047A52B /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				56FFE6AE25ED34BB0047A52B /* CoreDataManager.swift */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
 		C7481C6125BBCF3900B9CA55 = {
 			isa = PBXGroup;
 			children = (
@@ -117,6 +131,7 @@
 		C7481C6C25BBCF3900B9CA55 /* CloudNotes */ = {
 			isa = PBXGroup;
 			children = (
+				56FFE6AD25ED34A20047A52B /* Managers */,
 				E2B0F1D225DB4D210027AFE6 /* Model */,
 				E2B0F1BC25DAAAE40027AFE6 /* ViewController */,
 				E2B0F1F325DBA96B0027AFE6 /* Error */,
@@ -171,6 +186,8 @@
 		E2B0F1D225DB4D210027AFE6 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				56FFE6B925ED568D0047A52B /* Note+CoreDataClass.swift */,
+				56FFE6BA25ED568D0047A52B /* Note+CoreDataProperties.swift */,
 				E2B0F1D325DB4E5E0027AFE6 /* SampleData.swift */,
 				E2B0F22725DD62EF0027AFE6 /* SampleDataJSONDecoder.swift */,
 				E2B0F21C25DD5E5A0027AFE6 /* NoteData.swift */,
@@ -325,9 +342,12 @@
 				E2B0F23525DE798D0027AFE6 /* DetailNoteViewController.swift in Sources */,
 				C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */,
 				E2B0F1CB25DAB0F60027AFE6 /* NotesTableViewCell.swift in Sources */,
+				56FFE6BC25ED568D0047A52B /* Note+CoreDataProperties.swift in Sources */,
 				E2B0F23025DE74ED0027AFE6 /* Note.swift in Sources */,
 				E2B0F23A25DF828D0027AFE6 /* NoteSplitViewController.swift in Sources */,
 				C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */,
+				56FFE6BB25ED568D0047A52B /* Note+CoreDataClass.swift in Sources */,
+				56FFE6AF25ED34BB0047A52B /* CoreDataManager.swift in Sources */,
 				C7481C7825BBCF3900B9CA55 /* CloudNotes.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

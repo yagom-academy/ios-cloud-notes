@@ -50,11 +50,11 @@ class DetailNoteViewController: UIViewController {
     }
     
     private func setTextViewFromFetchedNote() {
-        guard let noteData = fetchedNote else {
+        guard let note = fetchedNote, let title = note.title, let body = note.body else {
             return
         }
         
-        detailNoteTextView.text = "\(noteData.title)\n\(noteData.body)"
+        detailNoteTextView.text = "\(title)\n\(body)"
     }
     
     @objc private func touchUpCompleteButton() {
@@ -84,37 +84,44 @@ class DetailNoteViewController: UIViewController {
     }
     
     private func saveNote() {
-        let note: Note
+        //let note: Note
+        let title: String
+        let body: String
         if detailNoteTextView.text == UIConstants.strings.textInitalizing {
-            note = Note(title: UIConstants.strings.emptyNoteTitleText, body: UIConstants.strings.textInitalizing)
+            title = UIConstants.strings.emptyNoteTitleText
+            body = UIConstants.strings.textInitalizing
         } else {
             let textViewText = detailNoteTextView.text.split(separator: "\n", maxSplits: 1, omittingEmptySubsequences: true)
-            note = checkTextView(text: textViewText)
+            (title, body) = checkTextView(text: textViewText)
         }
         
+        CoreDataManager.shared.createNote(title: title, body: body)
+        
         if let fetchedNote = self.fetchedNote {
-            fetchedNote.title = note.title
-            fetchedNote.body = note.body
-            fetchedNote.lastModifiedDate = note.lastModifiedDate
+            fetchedNote.title = title
+            fetchedNote.body = body
+            fetchedNote.lastModifiedDate = Date()
         } else {
-            NoteData.shared.add(note: note)
-            self.fetchedNote = note
+//            NoteData.shared.add(note: note)
+//            self.fetchedNote = note
         }
         
         NotificationCenter.default.post(name: DetailNoteViewController.memoDidSave, object: nil)
     }
     
-    private func checkTextView(text: [String.SubSequence]) -> Note {
+    private func checkTextView(text: [String.SubSequence]) -> (String, String) {
+        let title: String
+        let body: String
+        
         if text.count == 1 {
-            let titleText = String(text[0])
-            let note = Note(title: titleText, body: UIConstants.strings.textInitalizing)
-            return note
+            title = String(text[0])
+            body = UIConstants.strings.textInitalizing
         } else {
-            let titleText = String(text[0])
-            let bodyText = String(text[1])
-            let note = Note(title: titleText, body: bodyText)
-            return note
+            title = String(text[0])
+            body = String(text[1])
         }
+        
+        return (title, body)
     }
 }
 

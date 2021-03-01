@@ -28,13 +28,21 @@ final class ListViewController: UITableViewController {
     
     @objc private func createNewMemo() {
         delegate?.memoSelected(nil)
-        setupDetailViewNavigationBar()
+        showDetailView()
     }
     
-    private func setupDetailViewNavigationBar() {
-        if let detailViewController = delegate as? DetailViewController,
-           (traitCollection.horizontalSizeClass == .compact && traitCollection.userInterfaceIdiom == .phone) {
-            let detailViewNavigationController = UINavigationController(rootViewController: detailViewController)
+    private func showDetailView() {
+        guard let detailViewController = delegate as? DetailViewController else {
+            return
+        }
+        
+        if UITraitCollection.current.horizontalSizeClass == .compact && traitCollection.userInterfaceIdiom == .phone {
+            splitViewController?.showDetailViewController(detailViewController, sender: nil)
+        }
+        else {
+            guard let detailViewNavigationController = detailViewController.navigationController else {
+                return
+            }
             splitViewController?.showDetailViewController(detailViewNavigationController, sender: nil)
         }
     }
@@ -58,7 +66,7 @@ extension ListViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         delegate?.memoSelected(indexPath.row)
-        setupDetailViewNavigationBar()
+        showDetailView()
     }
     
     //MARK: tableView editingStyle delete
@@ -74,7 +82,7 @@ extension ListViewController {
     }
 }
 
-//MARK: - MemoListUpdateDelegate
+//MARK: MemoListUpdateDelegate
 extension ListViewController: MemoListUpdateDelegate {
     func deleteMemo(_ memoIndex: Int) {
         self.tableView.deleteRows(at: [IndexPath(row: memoIndex, section: 0)], with: .automatic)

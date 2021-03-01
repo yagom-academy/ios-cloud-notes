@@ -2,6 +2,7 @@ import UIKit
 
 class MemoListTableViewController: UITableViewController {
     private let enrollButton = UIButton()
+    let memoContentsView = MemoContentsViewController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -11,7 +12,7 @@ class MemoListTableViewController: UITableViewController {
         UserDefaults.standard.set(false, forKey: UserDefaultsKeys.isCellSelected.rawValue)
         tableView.register(MemoListTableViewCell.self, forCellReuseIdentifier: "MemoCell")
     }
-
+    
     private func configureNavigationBar() {
         navigationItem.title = "메모"
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: enrollButton)
@@ -32,7 +33,7 @@ class MemoListTableViewController: UITableViewController {
         cell.receiveLabelsText(memo: memo)
         return cell
     }
-
+    
     @objc func createMemo(sender: UIButton) {
         if CoreDataSingleton.shared.save(title: "", body: "") {
             let memoContentsViewController = MemoContentsViewController()
@@ -40,7 +41,7 @@ class MemoListTableViewController: UITableViewController {
             memoContentsViewController.receiveText(memo: CoreDataSingleton.shared.memoData[0])
             tableView.reloadData()
             self.splitViewController?.showDetailViewController(memoContentsNavigationViewController, sender: nil)
-
+            
             UserDefaults.standard.set(true, forKey: UserDefaultsKeys.isCellSelected.rawValue)
         } else {
             showAlertMessage("메모 생성에 실패했습니다!")
@@ -61,6 +62,24 @@ extension MemoListTableViewController {
         
         memoContentsViewController.receiveText(memo: CoreDataSingleton.shared.memoData[indexPath.row])
         self.splitViewController?.showDetailViewController(memoContentsNavigationViewController, sender: nil)
+    }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let selectedMemoIndexPathRow = UserDefaults.standard.integer(forKey: UserDefaultsKeys.selectedMemoIndexPathRow.rawValue)
+            
+            if CoreDataSingleton.shared.delete(object: CoreDataSingleton.shared.memoData[selectedMemoIndexPathRow]) {
+                CoreDataSingleton.shared.memoData.remove(at: selectedMemoIndexPathRow)
+                UserDefaults.standard.set(0, forKey: UserDefaultsKeys.selectedMemoIndexPathRow.rawValue)
+                tableView.deleteRows(at: [indexPath], with: .fade)
+                
+                memoContentsView.receiveText(memo: CoreDataSingleton.shared.memoData[0])
+                
+                self.splitViewController?.showDetailViewController(memoContentsView, sender: nil)
+            } else {
+                showAlertMessage("메모를 삭제에 실패했습니다.")
+            }
+        }
     }
 }
 

@@ -11,5 +11,3 @@ enum NotificationName: String {
     case moveCellToTop = "moveCellToTop"
     case resignFirstResponder = "resignFirstResponder"
 }
-
-

@@ -84,7 +84,7 @@ class MemoContentsViewController: UIViewController {
         updateMemo()
     }
 
-    private func deleteMemo() {
+    func deleteMemo() {
         let selectedMemoIndexPathRow = UserDefaults.standard.integer(forKey: UserDefaultsKeys.selectedMemoIndexPathRow.rawValue)
         
         if CoreDataSingleton.shared.memoData.count == 0 {

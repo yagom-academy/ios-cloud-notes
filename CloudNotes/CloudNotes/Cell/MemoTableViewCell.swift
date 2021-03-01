@@ -70,9 +70,23 @@ final class MemoTableViewCell: UITableViewCell {
     }
     
     func setUpMemoCell(_ memo: Memo) {
-        memoTitleLabel.text = memo.title
-        memoDescriptionLabel.text = memo.body
+        let (title, body) = splitContent(memo)
+        memoTitleLabel.text = title
+        memoDescriptionLabel.text = body
         memoModifiedDateLabel.text = memo.registerDate.stringFromDate
+    }
+    
+    private func splitContent(_ memo: Memo) -> (String, String) {
+        var lines = memo.content?.split(separator: "\n")
+        guard let title = lines?.first else {
+            return ("", "")
+        }
+        lines?.removeFirst()
+
+        guard let body = lines?.first else {
+            return (String(title), "")
+        }
+        return (String(title), String(body))
     }
     
     override func prepareForReuse() {

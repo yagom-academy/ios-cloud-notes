@@ -18,7 +18,10 @@ class CoreDataManager {
         return persistentContainer.viewContext
     }
     
-    var notes = [Note]()
+    private var noteList = [Note]()
+    var noteCount: Int {
+        return noteList.count
+    }
     
     func fetchNotes() {
         let request: NSFetchRequest<Note> = Note.fetchRequest()
@@ -26,7 +29,7 @@ class CoreDataManager {
         request.sortDescriptors = [sortByDateDesc]
         
         do {
-            notes = try mainContext.fetch(request)
+            noteList = try mainContext.fetch(request)
         } catch {
             print(error)
         }
@@ -38,8 +41,27 @@ class CoreDataManager {
         note.body = body
         note.lastModifiedDate = Date()
         
-        notes.append(note)
+        noteList.append(note)
         saveContext()
+    }
+    
+    func note(index: Int) -> Note? {
+        guard noteList.count > index, index >= 0 else {
+            return nil
+        }
+    
+        return noteList[index]
+    }
+    
+    func deleteNote(index: Int) {
+        guard noteList.count > index, index >= 0 else {
+            return
+        }
+        
+        let note = noteList[index]
+        mainContext.delete(note)
+        saveContext()
+        noteList.remove(at: index)
     }
     
     // MARK: - Core Data stack

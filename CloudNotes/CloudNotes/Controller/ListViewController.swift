@@ -42,20 +42,9 @@ class ListViewController: UIViewController {
     private func setTableView() {
         tableView.dataSource = self
         tableView.delegate = self
-        decodeMemo()
+        memoList = Parser.decodeMemo()
         addSubview()
         setAutoLayout()
-    }
-    
-    private func decodeMemo() {
-        let jsonDecoder = JSONDecoder()
-        guard let assetData: NSDataAsset = NSDataAsset(name: "sample") else {
-            return
-        }
-        guard let memo = try? jsonDecoder.decode([Memo].self, from: assetData.data) else {
-            return
-        }
-        memoList = memo
     }
 
     private func addSubview() {

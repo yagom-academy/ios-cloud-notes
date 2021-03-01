@@ -11,9 +11,9 @@ class DetailNoteViewController: UIViewController {
     static let memoDidSave = Notification.Name(rawValue: "memoDidSave")
     
     var fetchedNote: Note?
-    let detailNoteTextView = UITextView()
-    let completeButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.done, target: self, action: #selector(touchUpCompleteButton))
-    let moreButton: UIBarButtonItem = {
+    private let detailNoteTextView = UITextView()
+    private let completeButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.done, target: self, action: #selector(touchUpCompleteButton))
+    private let moreButton: UIBarButtonItem = {
         let item = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: #selector(touchUpCompleteButton))
         return item
     }()

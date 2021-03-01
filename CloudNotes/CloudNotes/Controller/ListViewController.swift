@@ -32,21 +32,10 @@ final class ListViewController: UITableViewController {
     }
     
     private func showDetailView() {
-        guard let detailViewController = delegate as? DetailViewController else {
-            return
-        }
-        
-        if UITraitCollection.current.horizontalSizeClass == .compact && traitCollection.userInterfaceIdiom == .phone {
-            splitViewController?.showDetailViewController(detailViewController, sender: nil)
-        }
-        else {
-            if let detailViewNavigationController = detailViewController.navigationController {
-                splitViewController?.showDetailViewController(detailViewNavigationController, sender: nil)
-            }
-            else {
-                let newDetailViewNavigationController = UINavigationController(rootViewController: detailViewController)
-                splitViewController?.showDetailViewController(newDetailViewNavigationController, sender: nil)
-            }
+        if let detailViewController = delegate as? DetailViewController,
+           (traitCollection.horizontalSizeClass == .compact && traitCollection.userInterfaceIdiom == .phone) {
+            let detailViewNavigationController = UINavigationController(rootViewController: detailViewController)
+            splitViewController?.showDetailViewController(detailViewNavigationController, sender: nil)
         }
     }
 }

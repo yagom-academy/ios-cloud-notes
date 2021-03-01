@@ -67,6 +67,7 @@ extension NoteViewController: UITableViewDataSource {
         
         cell.titleLabel.text = NoteData.shared.title(index: indexPath.row)
         cell.bodyLabel.text = NoteData.shared.body(index: indexPath.row)
+        cell.bodyLabel.textColor = .gray
         if let lastModifiedDate = NoteData.shared.lastModifiedDate(index: indexPath.row) {
             cell.lastModifiedDateLabel.text = dateFormatter.string(from: lastModifiedDate)
         }

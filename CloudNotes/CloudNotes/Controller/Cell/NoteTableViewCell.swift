@@ -6,38 +6,67 @@
 //
 
 import UIKit
+import CoreData
 
-class NoteTableViewCell: UITableViewCell {
+final class NoteTableViewCell: UITableViewCell {
+    // MARK: - Property
+    
     static var identifier: String {
         return "\(self)"
     }
-    let titleLabel: UILabel = {
-        let titleLabel = UILabel()
-        titleLabel.adjustsFontForContentSizeCategory = true
-        titleLabel.font = .preferredFont(forTextStyle: .title1)
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        return titleLabel
+    
+    // MARK: - Outlet
+    
+    private let titleLabel: UILabel = {
+        let label = makeLabel(textStyle: .title1)
+        return label
     }()
-    let lastModifiedDateLabel: UILabel = {
-        let lastModifiedDateLabel = UILabel()
-        lastModifiedDateLabel.adjustsFontForContentSizeCategory = true
-        lastModifiedDateLabel.font = .preferredFont(forTextStyle: .body)
-        lastModifiedDateLabel.translatesAutoresizingMaskIntoConstraints = false
-        return lastModifiedDateLabel
+    private let lastModifiedDateLabel: UILabel = {
+        let label = makeLabel()
+        return label
     }()
-    let detailLabel: UILabel = {
-        let detailLabel = UILabel()
-        detailLabel.textColor = .gray
-        detailLabel.adjustsFontForContentSizeCategory = true
-        detailLabel.font = .preferredFont(forTextStyle: .body)
-        detailLabel.translatesAutoresizingMaskIntoConstraints = false
-        detailLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
-        return detailLabel
+    private let detailLabel: UILabel = {
+        let label = makeLabel(textColor: .gray)
+        label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        return label
     }()
+    
+    // MARK: - init
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setUpConstraints()
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        setUpConstraints()
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        titleLabel.text = nil
+        lastModifiedDateLabel.text = nil
+        detailLabel.text = nil
+    }
+    
+    func configure(_ note: NSManagedObject) {
+        let lastModified = DateFormatter.convertToUserLocaleString(date: note.value(forKey: EntityString.lastModified) as! Date)
+        accessoryType = .disclosureIndicator
+        titleLabel.text = note.value(forKey: EntityString.title) as? String
+        detailLabel.text = note.value(forKey: EntityString.body) as? String
+        lastModifiedDateLabel.text = lastModified
+    }
+    
+    // MARK: - UI
+    
+    static private func makeLabel(textStyle: UIFont.TextStyle = .body, textColor: UIColor = .black) -> UILabel {
+        let label = UILabel()
+        label.textColor = textColor
+        label.adjustsFontForContentSizeCategory = true
+        label.font = .preferredFont(forTextStyle: textStyle)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
     }
     
     private func setUpConstraints() {
@@ -56,17 +85,7 @@ class NoteTableViewCell: UITableViewCell {
             
             detailLabel.leadingAnchor.constraint(equalTo: lastModifiedDateLabel.trailingAnchor, constant: 40),
             detailLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
-            detailLabel.centerYAnchor.constraint(equalTo: lastModifiedDateLabel.centerYAnchor)
+            detailLabel.bottomAnchor.constraint(equalTo: lastModifiedDateLabel.bottomAnchor)
         ])
-    }
-    
-    override func prepareForReuse() {
-        titleLabel.text = nil
-        lastModifiedDateLabel.text = nil
-        detailLabel.text = nil
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 }

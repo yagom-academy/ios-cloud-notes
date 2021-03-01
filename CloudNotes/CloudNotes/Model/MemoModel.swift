@@ -27,14 +27,13 @@ class MemoModel {
         }
     }
     
-    func save(title: String, body: String) {
+    func save(content: String) {
         guard let context = appDelegate?.persistentContainer.viewContext else {
             return
         }
 
         let object = NSEntityDescription.insertNewObject(forEntityName: "Memo", into: context)
-        object.setValue(title, forKey: "title")
-        object.setValue(body, forKey: "body")
+        object.setValue(content, forKey: "content")
         object.setValue(Date(), forKey: "registerDate")
         guard let memoObject = object as? Memo else {
             return
@@ -48,14 +47,13 @@ class MemoModel {
         }
     }
     
-    func update(index: Int, title: String, body: String) {
+    func update(index: Int, content: String) {
         guard let context = appDelegate?.persistentContainer.viewContext else {
             return
         }
         
         let object = list[index]
-        object.setValue(title, forKey: "title")
-        object.setValue(body, forKey: "body")
+        object.setValue(content, forKey: "content")
         object.setValue(Date(), forKey: "registerDate")
         
         do {

@@ -77,7 +77,7 @@ final class DetailViewController: UIViewController {
     }
 }
 
-//MARK: setup text view
+//MARK: - setup text view
 extension DetailViewController {
     private func setupTextView() {
         setTapGesture()
@@ -135,7 +135,7 @@ extension DetailViewController {
     }
 }
 
-//MARK: setup navigation bar & action sheet
+//MARK: - setup navigation bar & action sheet
 extension DetailViewController {
     private func setupNavigationBar() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: #selector(showActionSheet))
@@ -200,7 +200,7 @@ extension DetailViewController {
     }
 }
 
-//MARK: extension UITextViewDelegate
+//MARK: - extension UITextViewDelegate
 extension DetailViewController: UITextViewDelegate {
     func textViewDidEndEditing(_ textView: UITextView) {
         textView.isEditable = false

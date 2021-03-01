@@ -74,7 +74,7 @@ extension ListViewController {
     }
 }
 
-//MARK: MemoListUpdateDelegate
+//MARK: - MemoListUpdateDelegate
 extension ListViewController: MemoListUpdateDelegate {
     func deleteMemo(_ memoIndex: Int) {
         self.tableView.deleteRows(at: [IndexPath(row: memoIndex, section: 0)], with: .automatic)

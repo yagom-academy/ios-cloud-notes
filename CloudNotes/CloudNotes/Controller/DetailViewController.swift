@@ -143,11 +143,11 @@ extension DetailViewController {
     
     @objc private func showActionSheet(_ sender: UIBarButtonItem) {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let share = UIAlertAction(title: "Share", style: .default) { [weak self] _ in
+        let share = UIAlertAction(title: "공유", style: .default) { [weak self] _ in
             self?.shareMemo()
         }
-        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        let delete = UIAlertAction(title: "Delete", style: .destructive) { [weak self] _ in
+        let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        let delete = UIAlertAction(title: "삭제", style: .destructive) { [weak self] _ in
             self?.showAlert()
         }
         

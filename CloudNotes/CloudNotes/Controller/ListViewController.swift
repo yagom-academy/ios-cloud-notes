@@ -40,10 +40,13 @@ final class ListViewController: UITableViewController {
             splitViewController?.showDetailViewController(detailViewController, sender: nil)
         }
         else {
-            guard let detailViewNavigationController = detailViewController.navigationController else {
-                return
+            if let detailViewNavigationController = detailViewController.navigationController {
+                splitViewController?.showDetailViewController(detailViewNavigationController, sender: nil)
             }
-            splitViewController?.showDetailViewController(detailViewNavigationController, sender: nil)
+            else {
+                let newDetailViewNavigationController = UINavigationController(rootViewController: detailViewController)
+                splitViewController?.showDetailViewController(newDetailViewNavigationController, sender: nil)
+            }
         }
     }
 }

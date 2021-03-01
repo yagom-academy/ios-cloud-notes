@@ -12,6 +12,8 @@ class CoreDataSingleton {
     }()
     
     func fetch() -> [NSManagedObject] {
+        var fetchData: [NSManagedObject] = [NSManagedObject]()
+        
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             return [NSManagedObject]()
             // 에러 핸들링 필요
@@ -22,8 +24,14 @@ class CoreDataSingleton {
         let sort = NSSortDescriptor(key: "lastModified", ascending: false)
         fetchRequest.sortDescriptors = [sort]
         
-        let result = try! managedContext.fetch(fetchRequest)
-        return result
+        do {
+            if let result: [NSManagedObject] = try managedContext.fetch(fetchRequest) as? [NSManagedObject] {
+                fetchData = result
+            }
+        } catch {
+            print(MemoAppError.system.message)
+        }
+        return fetchData
     }
     
     func save(title: String, body: String) -> Bool {

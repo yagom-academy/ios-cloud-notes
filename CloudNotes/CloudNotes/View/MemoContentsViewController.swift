@@ -219,7 +219,7 @@ extension MemoContentsViewController {
         let deleteAction = UIAlertAction(title: "Delete", style: .destructive) {
             _ in self.showDeleteMessage()
         }
-         
+        
         actionSheet.addAction(shareAction)
         actionSheet.addAction(deleteAction)
         actionSheet.addAction(cancelAction)

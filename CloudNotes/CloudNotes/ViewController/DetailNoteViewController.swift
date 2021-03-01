@@ -120,10 +120,10 @@ class DetailNoteViewController: UIViewController {
 
 extension DetailNoteViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
-        navigationItem.setRightBarButton(completeButton, animated: true)
+        navigationItem.setRightBarButton(completeButton, animated: false)
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
-        navigationItem.setRightBarButton(moreButton, animated: true)
+        navigationItem.setRightBarButton(moreButton, animated: false)
     }
 }

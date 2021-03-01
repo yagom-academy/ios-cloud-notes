@@ -97,7 +97,7 @@ class DetailNoteViewController: UIViewController {
             fetchedNote.body = note.body
             fetchedNote.lastModifiedDate = note.lastModifiedDate
         } else {
-            NoteData.shared.noteLists.append(note)
+            NoteData.shared.add(note: note)
             self.fetchedNote = note
         }
         

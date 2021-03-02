@@ -39,7 +39,7 @@ class ListCell: UITableViewCell {
         super.init(coder: aDecoder)
     }
     
-    func update(info: Memo) {
+    func update(info: TestMemo) {
         titleLabel.text = info.title
         contentsLabel.text = info.contents
         dateLabel.text = info.lastModifiedDateToString

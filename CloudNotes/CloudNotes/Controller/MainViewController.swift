@@ -35,7 +35,7 @@ extension MainViewController: UISplitViewControllerDelegate {
 }
 
 extension MainViewController: SendMemoDelegate {
-    func didTapListCell(memo: Memo?) {
+    func didTapListCell(memo: TestMemo?) {
         (self.viewControllers.last as? UINavigationController)?.popToRootViewController(animated: false)
         
         let detailView = DetailViewController()

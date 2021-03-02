@@ -7,12 +7,12 @@
 import UIKit
 
 protocol SendMemoDelegate: AnyObject {
-    func didTapListCell(memo: Memo?)
+    func didTapListCell(memo: TestMemo?)
 }
 
 final class ListViewController: UIViewController {
     
-    private var memoList: [Memo]?
+    private var memoList: [TestMemo]?
     weak var delegate: SendMemoDelegate?
     
     private let tableView: UITableView = {

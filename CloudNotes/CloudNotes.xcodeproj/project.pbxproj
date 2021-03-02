@@ -21,7 +21,7 @@
 		EAFA074E25DFEFF5004A91E1 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAFA074D25DFEFF5004A91E1 /* MainViewController.swift */; };
 		EAFA075625DFF607004A91E1 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAFA075525DFF607004A91E1 /* DetailViewController.swift */; };
 		FD64A83F25DB97270098C7D7 /* AddMemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD64A83E25DB97270098C7D7 /* AddMemoViewController.swift */; };
-		FD64A85D25DC08B80098C7D7 /* Memo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD64A85C25DC08B80098C7D7 /* Memo.swift */; };
+		FD64A85D25DC08B80098C7D7 /* TestMemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD64A85C25DC08B80098C7D7 /* TestMemo.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,7 +62,7 @@
 		EAFA074D25DFEFF5004A91E1 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		EAFA075525DFF607004A91E1 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		FD64A83E25DB97270098C7D7 /* AddMemoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMemoViewController.swift; sourceTree = "<group>"; };
-		FD64A85C25DC08B80098C7D7 /* Memo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memo.swift; sourceTree = "<group>"; };
+		FD64A85C25DC08B80098C7D7 /* TestMemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestMemo.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -154,7 +154,7 @@
 		FD5DBA8325DD8966005459A9 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				FD64A85C25DC08B80098C7D7 /* Memo.swift */,
+				FD64A85C25DC08B80098C7D7 /* TestMemo.swift */,
 				EA952B1A25DBA89500D3D921 /* ListCell.swift */,
 				EA6A814825ECCE3B000CB5E5 /* Parser.swift */,
 			);
@@ -311,7 +311,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FD64A85D25DC08B80098C7D7 /* Memo.swift in Sources */,
+				FD64A85D25DC08B80098C7D7 /* TestMemo.swift in Sources */,
 				C7481C7225BBCF3900B9CA55 /* ListViewController.swift in Sources */,
 				EA6A814925ECCE3B000CB5E5 /* Parser.swift in Sources */,
 				FD64A83F25DB97270098C7D7 /* AddMemoViewController.swift in Sources */,

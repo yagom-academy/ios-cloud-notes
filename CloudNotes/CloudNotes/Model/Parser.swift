@@ -8,12 +8,12 @@
 import UIKit
 
 struct Parser {
-    static func decodeMemo() -> [Memo]? {
+    static func decodeMemo() -> [TestMemo]? {
         let jsonDecoder = JSONDecoder()
         guard let assetData: NSDataAsset = NSDataAsset(name: "sample") else {
             return nil
         }
-        guard let memoList = try? jsonDecoder.decode([Memo].self, from: assetData.data) else {
+        guard let memoList = try? jsonDecoder.decode([TestMemo].self, from: assetData.data) else {
             return nil
         }
         return memoList

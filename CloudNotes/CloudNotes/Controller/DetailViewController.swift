@@ -9,7 +9,7 @@ import UIKit
 
 final class DetailViewController: UIViewController {
     
-    var memo: Memo?
+    var memo: TestMemo?
     
     var memoTextView: UITextView = {
         let textView = UITextView()

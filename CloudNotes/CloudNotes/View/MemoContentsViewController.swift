@@ -110,7 +110,7 @@ class MemoContentsViewController: UIViewController {
                 }
             }
         } catch {
-            print(MemoAppError.system.message)
+            showAlertMessage("메모 삭제에 실패했습니다.")
         }
     }
     
@@ -121,7 +121,7 @@ class MemoContentsViewController: UIViewController {
             try CoreDataSingleton.shared.update(object: CoreDataSingleton.shared.memoData[selectedMemoIndexPathRow], title: splitText.0, body: splitText.1)
             delegate?.updateTableViewList()
         } catch {
-            print(MemoAppError.system.message)
+            showAlertMessage("메모 편집에 실패했습니다.")
         }
     }
     

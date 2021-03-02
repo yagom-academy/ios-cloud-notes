@@ -17,6 +17,8 @@
 		C7481C8825BBCF3A00B9CA55 /* CloudNotesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C8725BBCF3A00B9CA55 /* CloudNotesTests.swift */; };
 		C7481C9325BBCF3A00B9CA55 /* CloudNotesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C9225BBCF3A00B9CA55 /* CloudNotesUITests.swift */; };
 		EA6A814925ECCE3B000CB5E5 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA6A814825ECCE3B000CB5E5 /* Parser.swift */; };
+		EA6A81DA25EEA21F000CB5E5 /* Memo+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA6A81D825EEA21F000CB5E5 /* Memo+CoreDataClass.swift */; };
+		EA6A81DB25EEA21F000CB5E5 /* Memo+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA6A81D925EEA21F000CB5E5 /* Memo+CoreDataProperties.swift */; };
 		EA952B1B25DBA89500D3D921 /* ListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA952B1A25DBA89500D3D921 /* ListCell.swift */; };
 		EAFA074E25DFEFF5004A91E1 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAFA074D25DFEFF5004A91E1 /* MainViewController.swift */; };
 		EAFA075625DFF607004A91E1 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAFA075525DFF607004A91E1 /* DetailViewController.swift */; };
@@ -58,6 +60,8 @@
 		C7481C9225BBCF3A00B9CA55 /* CloudNotesUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudNotesUITests.swift; sourceTree = "<group>"; };
 		C7481C9425BBCF3A00B9CA55 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EA6A814825ECCE3B000CB5E5 /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
+		EA6A81D825EEA21F000CB5E5 /* Memo+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Memo+CoreDataClass.swift"; sourceTree = "<group>"; };
+		EA6A81D925EEA21F000CB5E5 /* Memo+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Memo+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		EA952B1A25DBA89500D3D921 /* ListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCell.swift; sourceTree = "<group>"; };
 		EAFA074D25DFEFF5004A91E1 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		EAFA075525DFF607004A91E1 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
@@ -113,6 +117,7 @@
 		C7481C6C25BBCF3900B9CA55 /* CloudNotes */ = {
 			isa = PBXGroup;
 			children = (
+				EA6A81E225EEA229000CB5E5 /* CoreData */,
 				C7481C7E25BBCF3A00B9CA55 /* Info.plist */,
 				FD5DBA8625DD89E0005459A9 /* SupportingFiles */,
 				FD5DBA8325DD8966005459A9 /* Model */,
@@ -138,6 +143,15 @@
 				C7481C9425BBCF3A00B9CA55 /* Info.plist */,
 			);
 			path = CloudNotesUITests;
+			sourceTree = "<group>";
+		};
+		EA6A81E225EEA229000CB5E5 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				EA6A81D825EEA21F000CB5E5 /* Memo+CoreDataClass.swift */,
+				EA6A81D925EEA21F000CB5E5 /* Memo+CoreDataProperties.swift */,
+			);
+			path = CoreData;
 			sourceTree = "<group>";
 		};
 		FD5DBA8225DD8902005459A9 /* Controller */ = {
@@ -316,9 +330,11 @@
 				EA6A814925ECCE3B000CB5E5 /* Parser.swift in Sources */,
 				FD64A83F25DB97270098C7D7 /* AddMemoViewController.swift in Sources */,
 				C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */,
+				EA6A81DA25EEA21F000CB5E5 /* Memo+CoreDataClass.swift in Sources */,
 				EA952B1B25DBA89500D3D921 /* ListCell.swift in Sources */,
 				EAFA074E25DFEFF5004A91E1 /* MainViewController.swift in Sources */,
 				EAFA075625DFF607004A91E1 /* DetailViewController.swift in Sources */,
+				EA6A81DB25EEA21F000CB5E5 /* Memo+CoreDataProperties.swift in Sources */,
 				C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */,
 				C7481C7825BBCF3900B9CA55 /* CloudNotes.xcdatamodeld in Sources */,
 			);

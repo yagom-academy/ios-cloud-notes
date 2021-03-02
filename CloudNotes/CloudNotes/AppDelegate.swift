@@ -28,11 +28,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             fatalError("persistentContainer load error!")
         }
         alert.addAction(okButton)
-        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-              let sceneDelegate = windowScene.delegate as? SceneDelegate else {
-            return
+        
+        if #available(iOS 13.0, *) {
+            guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+                  let sceneDelegate = windowScene.delegate as? SceneDelegate else {
+                return
+            }
+            sceneDelegate.window?.rootViewController?.present(alert, animated: true, completion: nil)
+        } else {
+            self.window?.rootViewController?.present(alert, animated: true, completion: nil)
         }
-        sceneDelegate.window?.rootViewController?.present(alert, animated: true, completion: nil)
     }
     
     // MARK: UISceneSession Lifecycle

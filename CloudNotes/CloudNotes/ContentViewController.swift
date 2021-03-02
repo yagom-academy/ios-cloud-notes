@@ -8,6 +8,8 @@
 import UIKit
 
 class ContentViewController: UIViewController {
+    private var contentVCMemo = Memo()
+    
     private let headLinefont = UIFont.boldSystemFont(ofSize: 24)
     private let bodyLinefont = UIFont.systemFont(ofSize: 15)
 
@@ -45,8 +47,9 @@ class ContentViewController: UIViewController {
     }
     
     func didTapMemoItem(with memo: Memo) {
-        updateUI(with: memo)
-        checkMemo(with: memo)
+        self.contentVCMemo = memo
+        updateUI(with: contentVCMemo)
+        checkMemo(with: contentVCMemo)
     }
 }
 
@@ -136,12 +139,12 @@ extension ContentViewController {
             let alertController = UIAlertController(title: "진짜요?", message: "진짜로 삭제하시겠습니까?", preferredStyle: .alert)
             
             let cancelAction = UIAlertAction(title: "취소", style: .default, handler: nil)
-            let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { (alert: UIAlertAction!) -> Void in
-                print("삭제관련액션수행")
-            }
+            let deleteCompleteAction = UIAlertAction(title: "삭제", style: .destructive, handler: { [weak self] _  in
+                self?.deleteItem(item: self!.contentVCMemo)
+            })
             
             alertController.addAction(cancelAction)
-            alertController.addAction(deleteAction)
+            alertController.addAction(deleteCompleteAction)
             
             self.present(alertController, animated: true, completion: nil)
         })
@@ -158,6 +161,19 @@ extension ContentViewController {
         }
         
         self.present(alertController, animated: true, completion: nil)
+    }
+    
+    private  func deleteItem(item: Memo) {
+        guard let context = self.context else { return }
+        
+        context.delete(item)
+        
+        do {
+            try context.save()
+            self.navigationController?.popViewController(animated: true)
+        } catch {
+            
+        }
     }
 }
 

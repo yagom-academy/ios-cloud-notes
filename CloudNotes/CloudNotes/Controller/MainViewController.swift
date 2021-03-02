@@ -38,14 +38,14 @@ extension MainViewController: UISplitViewControllerDelegate {
 }
 
 extension MainViewController: ListViewDelegate {
-    func didTapListCell(memo: TestMemo?) {
+    func didTapListCell(memo: Memo?) {
         (self.viewControllers.last as? UINavigationController)?.popToRootViewController(animated: false)
         
         let detailView = DetailViewController()
         detailView.view.backgroundColor = .white
         guard let memo = memo else { return }
-        detailView.memoTextView.text = "\(memo.title)\n\n"
-        detailView.memoTextView.text += memo.contents
+        detailView.memoTextView.text = memo.title
+        detailView.memoTextView.text += memo.contents ?? ""
         
         (self.viewControllers.last as? UINavigationController)?.pushViewController(detailView, animated: false)
     }

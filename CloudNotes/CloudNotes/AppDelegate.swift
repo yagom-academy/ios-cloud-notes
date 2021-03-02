@@ -24,10 +24,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     @objc func receiveNotification(_ notification: Notification) {
         let alert = UIAlertController(title: "에러가 발생했습니다.", message: "앱을 종료했다가 다시 켜주세요!", preferredStyle: .alert)
-        let okButton = UIAlertAction(title: "Ok", style: .cancel) { _ in
-            fatalError("persistentContainer load error!")
-        }
-        alert.addAction(okButton)
         
         if #available(iOS 13.0, *) {
             guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,

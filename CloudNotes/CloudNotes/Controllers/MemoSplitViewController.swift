@@ -30,6 +30,8 @@ class MemoSplitViewController: UISplitViewController {
         }
         if let memo = memo {
             memoViewController.setMemo(memo)
+        } else {
+            
         }
         showDetailViewController(detailViewController, sender: nil)
     }

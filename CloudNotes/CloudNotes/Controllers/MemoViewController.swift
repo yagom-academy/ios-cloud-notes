@@ -34,6 +34,12 @@ class MemoViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        exitEditMode()
+        memo = nil
+        memoTextView.text = nil
+    }
+    
+    func saveMemo() {
         if isDeleted {
             return
         }
@@ -65,9 +71,7 @@ class MemoViewController: UIViewController {
             }
         }
         
-        memo = nil
-        memoTextView.text = nil
-        exitEditMode()
+        
     }
     
     @objc func enterEditMode() {
@@ -80,6 +84,7 @@ class MemoViewController: UIViewController {
         memoTextView.isEditable = false
         tapGesture?.isEnabled = true
         memoTextView.resignFirstResponder()
+        saveMemo()
     }
     
     private func setupNavigationItem() {

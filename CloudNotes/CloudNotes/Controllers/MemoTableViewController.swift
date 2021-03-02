@@ -22,11 +22,12 @@ class MemoTableViewController: UIViewController {
             guard let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext else {
                 fatalError()
             }
-        
+            
             let fetchRequest: NSFetchRequest<Memo> = Memo.fetchRequest()
             let sort = NSSortDescriptor(key: #keyPath(Memo.date), ascending: false)
             fetchRequest.sortDescriptors = [sort]
             let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+            fetchedResultsController.delegate = self
             return fetchedResultsController
         }()
     
@@ -98,5 +99,20 @@ extension MemoTableViewController: UITableViewDelegate, UITableViewDataSource {
         if let memoSplitViewController = splitViewController as? MemoSplitViewController {
             memoSplitViewController.showMemoViewController(memo)
         }
+    }
+}
+
+extension MemoTableViewController: NSFetchedResultsControllerDelegate {
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        switch type {
+        case .delete, .insert, .update:
+            memoListTableView.reloadData()
+        default:
+            break
+        }
+    }
+    
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        memoListTableView.reloadData()
     }
 }

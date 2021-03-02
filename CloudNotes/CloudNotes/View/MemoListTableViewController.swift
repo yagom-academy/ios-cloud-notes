@@ -120,6 +120,10 @@ extension MemoListTableViewController: TableViewListManagable {
     }
     
     func moveCellToTop() {
+        if UserDefaults.standard.value(forKey: UserDefaultsKeys.selectedMemoIndexPathRow.rawValue) as? Int == 0 {
+            return
+        }
+        
         let selectedMemoIndexPathRow = UserDefaults.standard.integer(forKey: UserDefaultsKeys.selectedMemoIndexPathRow.rawValue)
         let indexPath = IndexPath(row: selectedMemoIndexPathRow, section: 0)
         let firstIndexPath = IndexPath(item: 0, section: 0)

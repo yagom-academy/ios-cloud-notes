@@ -9,9 +9,6 @@ extension MemoContentsViewController: UITextViewDelegate {
     
     func textViewDidChange(_ textView: UITextView) {
         updateMemo()
-    }
-    
-    func textViewDidBeginEditing(_ textView: UITextView) {
         delegate?.moveCellToTop()
     }
 }

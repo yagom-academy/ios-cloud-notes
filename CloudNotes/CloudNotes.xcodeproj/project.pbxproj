@@ -19,6 +19,7 @@
 		EA6A814925ECCE3B000CB5E5 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA6A814825ECCE3B000CB5E5 /* Parser.swift */; };
 		EA6A81DA25EEA21F000CB5E5 /* Memo+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA6A81D825EEA21F000CB5E5 /* Memo+CoreDataClass.swift */; };
 		EA6A81DB25EEA21F000CB5E5 /* Memo+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA6A81D925EEA21F000CB5E5 /* Memo+CoreDataProperties.swift */; };
+		EA6A81EA25EEAAB2000CB5E5 /* MemoData.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA6A81E925EEAAB2000CB5E5 /* MemoData.swift */; };
 		EA952B1B25DBA89500D3D921 /* ListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA952B1A25DBA89500D3D921 /* ListCell.swift */; };
 		EAFA074E25DFEFF5004A91E1 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAFA074D25DFEFF5004A91E1 /* MainViewController.swift */; };
 		EAFA075625DFF607004A91E1 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAFA075525DFF607004A91E1 /* DetailViewController.swift */; };
@@ -62,6 +63,7 @@
 		EA6A814825ECCE3B000CB5E5 /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
 		EA6A81D825EEA21F000CB5E5 /* Memo+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Memo+CoreDataClass.swift"; sourceTree = "<group>"; };
 		EA6A81D925EEA21F000CB5E5 /* Memo+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Memo+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		EA6A81E925EEAAB2000CB5E5 /* MemoData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoData.swift; sourceTree = "<group>"; };
 		EA952B1A25DBA89500D3D921 /* ListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCell.swift; sourceTree = "<group>"; };
 		EAFA074D25DFEFF5004A91E1 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		EAFA075525DFF607004A91E1 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
@@ -171,6 +173,7 @@
 				FD64A85C25DC08B80098C7D7 /* TestMemo.swift */,
 				EA952B1A25DBA89500D3D921 /* ListCell.swift */,
 				EA6A814825ECCE3B000CB5E5 /* Parser.swift */,
+				EA6A81E925EEAAB2000CB5E5 /* MemoData.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -332,6 +335,7 @@
 				C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */,
 				EA6A81DA25EEA21F000CB5E5 /* Memo+CoreDataClass.swift in Sources */,
 				EA952B1B25DBA89500D3D921 /* ListCell.swift in Sources */,
+				EA6A81EA25EEAAB2000CB5E5 /* MemoData.swift in Sources */,
 				EAFA074E25DFEFF5004A91E1 /* MainViewController.swift in Sources */,
 				EAFA075625DFF607004A91E1 /* DetailViewController.swift in Sources */,
 				EA6A81DB25EEA21F000CB5E5 /* Memo+CoreDataProperties.swift in Sources */,

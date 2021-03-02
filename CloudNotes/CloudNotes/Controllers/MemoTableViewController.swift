@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreData
 
 class MemoTableViewController: UIViewController {
     private let memoListTableView: UITableView = {
@@ -15,17 +16,43 @@ class MemoTableViewController: UIViewController {
         return tableView
     }()
 
-    private var memoModel: [Memo]?
+//    private var memos: [Memo]?
+    
+    lazy var fetchedResultsController: NSFetchedResultsController<Memo> = {
+            guard let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext else {
+                fatalError()
+            }
+        
+            let fetchRequest: NSFetchRequest<Memo> = Memo.fetchRequest()
+            let sort = NSSortDescriptor(key: #keyPath(Memo.date), ascending: false)
+            fetchRequest.sortDescriptors = [sort]
+            let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+            return fetchedResultsController
+        }()
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        do {
+            try fetchedResultsController.performFetch()
+        } catch {
+            
+        }
+        memoListTableView.reloadData()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        memoModel = MemoModel.getData()
         configureTableView()
         setupNavigationItem()
     }
     private func setupNavigationItem() {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: nil)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(touchUpAddBarButton))
         navigationItem.title = "메모"
+    }
+    @objc func touchUpAddBarButton() {
+        if let memoSplitViewController = splitViewController as? MemoSplitViewController {
+            memoSplitViewController.showMemoViewController(nil)
+        }
     }
 }
 
@@ -52,26 +79,24 @@ extension MemoTableViewController {
 //MARK: - UITableViewDelegate, UITableViewDataSource
 extension MemoTableViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return memoModel?.count ?? 0
+        guard let section = fetchedResultsController.sections?[section] else {
+            return 0
+        }
+        return section.numberOfObjects
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: MemoTableViewCell.reuseIdentifier, for: indexPath) as? MemoTableViewCell else {
             return UITableViewCell()
         }
-        cell.configure(with: memoModel?[indexPath.row])
+        cell.configure(with: fetchedResultsController.object(at: indexPath))
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let memoModel = self.memoModel else {
-            return
-        }
-        let memo = memoModel[indexPath.row].body
+        let memo = fetchedResultsController.object(at: indexPath)
         if let memoSplitViewController = splitViewController as? MemoSplitViewController {
-            let memoViewController = memoSplitViewController.memoViewController
-            memoViewController.setMemo(memo)
-            memoSplitViewController.showDetailViewController(memoViewController, sender: nil)
+            memoSplitViewController.showMemoViewController(memo)
         }
     }
 }

@@ -10,6 +10,8 @@ import UIKit
 class ContentViewController: UIViewController {
     private let headLinefont = UIFont.boldSystemFont(ofSize: 24)
     private let bodyLinefont = UIFont.systemFont(ofSize: 15)
+
+    private let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext
     
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -36,6 +38,7 @@ class ContentViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.rightBarButtonItem = optionButton
+        view.backgroundColor = .white
         setUpConstraints()
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
@@ -43,6 +46,7 @@ class ContentViewController: UIViewController {
     
     func didTapMemoItem(with memo: Memo) {
         updateUI(with: memo)
+        checkMemo(with: memo)
     }
 }
 
@@ -67,14 +71,20 @@ extension ContentViewController {
             contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
         ])
     }
-    
+
+    private func checkMemo(with memo: Memo) {
+        if memo.title == "새로운 메모" {
+            contentView.text = " "
+        }
+    }
+
     private func updateUI(with memo: Memo) {
-//        let memoAttributedString = NSMutableAttributedString(string: memo.title)
-//        let bodyAttributedString = NSMutableAttributedString(string: "\n\(memo.body)")
-//        memoAttributedString.addAttribute(.font, value: headLinefont, range: NSRange(location: 0, length: memo.title.count))
-//        bodyAttributedString.addAttribute(.font, value: bodyLinefont, range: NSRange(location: 0, length: memo.body.count))
-//        memoAttributedString.append(bodyAttributedString)
-//        contentView.attributedText = memoAttributedString
+        let memoAttributedString = NSMutableAttributedString(string: memo.title ?? "")
+        let bodyAttributedString = NSMutableAttributedString(string: "\n\(memo.body ?? "")")
+        memoAttributedString.addAttribute(.font, value: headLinefont, range: NSRange(location: 0, length: memo.title?.count ?? 0))
+        bodyAttributedString.addAttribute(.font, value: bodyLinefont, range: NSRange(location: 0, length: memo.body?.count ?? 0))
+        memoAttributedString.append(bodyAttributedString)
+        contentView.attributedText = memoAttributedString
         updateTextViewSize()
     }
     

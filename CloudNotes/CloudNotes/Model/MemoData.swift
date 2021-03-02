@@ -13,4 +13,12 @@ final class MemoData {
     private init() {}
     
     var list: [Memo] = []
+    
+    func read() {
+        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        do {
+            self.list = try context.fetch(Memo.fetchRequest())
+        }
+        catch {}
+    }
 }

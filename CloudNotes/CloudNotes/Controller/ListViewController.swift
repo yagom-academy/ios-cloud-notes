@@ -28,6 +28,7 @@ final class ListViewController: UITableViewController {
     }
     
     @objc private func createNewMemo() {
+        navigationItem.rightBarButtonItem?.isEnabled = false
         delegate?.memoSelected(nil)
         showDetailView()
     }
@@ -44,6 +45,8 @@ final class ListViewController: UITableViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(createMemo(_:)), name: .createMemo, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updateMemo(_:)), name: .updateMemo, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(deleteMemo(_:)), name: .deleteMemo, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(enableAddButton), name: .enableAddButton, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(disableAddButton), name: .disableAddButton, object: nil)
     }
 }
 
@@ -79,6 +82,7 @@ extension ListViewController {
     }
 }
 
+// MARK:- notification selector method
 extension ListViewController {
     @objc private func createMemo(_ notification: Notification) {
         if let data = notification.userInfo as? [String: Int],
@@ -101,10 +105,20 @@ extension ListViewController {
             self.tableView.deleteRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
         }
     }
+    
+    @objc private func enableAddButton() {
+        navigationItem.rightBarButtonItem?.isEnabled = true
+    }
+    
+    @objc private func disableAddButton() {
+        navigationItem.rightBarButtonItem?.isEnabled = false
+    }
 }
 
 extension Notification.Name {
     static let createMemo = Notification.Name("createMemo")
     static let deleteMemo = Notification.Name("deleteMemo")
     static let updateMemo = Notification.Name("updateMemo")
+    static let enableAddButton = Notification.Name("enableAddButton")
+    static let disableAddButton = Notification.Name("disableAddButton")
 }

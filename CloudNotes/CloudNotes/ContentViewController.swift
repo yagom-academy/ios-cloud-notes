@@ -69,12 +69,12 @@ extension ContentViewController {
     }
     
     private func updateUI(with memo: Memo) {
-        let memoAttributedString = NSMutableAttributedString(string: memo.title)
-        let bodyAttributedString = NSMutableAttributedString(string: "\n\(memo.body)")
-        memoAttributedString.addAttribute(.font, value: headLinefont, range: NSRange(location: 0, length: memo.title.count))
-        bodyAttributedString.addAttribute(.font, value: bodyLinefont, range: NSRange(location: 0, length: memo.body.count))
-        memoAttributedString.append(bodyAttributedString)
-        contentView.attributedText = memoAttributedString
+//        let memoAttributedString = NSMutableAttributedString(string: memo.title)
+//        let bodyAttributedString = NSMutableAttributedString(string: "\n\(memo.body)")
+//        memoAttributedString.addAttribute(.font, value: headLinefont, range: NSRange(location: 0, length: memo.title.count))
+//        bodyAttributedString.addAttribute(.font, value: bodyLinefont, range: NSRange(location: 0, length: memo.body.count))
+//        memoAttributedString.append(bodyAttributedString)
+//        contentView.attributedText = memoAttributedString
         updateTextViewSize()
     }
     

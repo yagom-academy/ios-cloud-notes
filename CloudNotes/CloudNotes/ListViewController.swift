@@ -17,7 +17,6 @@ class ListViewController: UITableViewController {
         super.viewDidLoad()
         setUpTableView()
         setUpNavigationBar()
-        decodeMemoList()
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -31,7 +30,7 @@ class ListViewController: UITableViewController {
         
         cell.titleLabel.text = memoList[indexPath.row].title
         cell.predescriptionLabel.text = memoList[indexPath.row].body
-        cell.dateLabel.text = memoList[indexPath.row].lastModified.convertToDate()
+//        cell.dateLabel.text = memoList[indexPath.row].lastModified.convertToDate()
         return cell
     }
     
@@ -53,19 +52,6 @@ class ListViewController: UITableViewController {
     private func setUpNavigationBar() {
         navigationItem.title = "메모"
         navigationItem.rightBarButtonItem = addMemoButton
-    }
-    
-    private func decodeMemoList() {
-        let assetFile: String = "sample"
-        guard let asset = NSDataAsset(name: assetFile) else {
-            fatalError("Can not found data asset.")
-        }
-        
-        do {
-            memoList = try JSONDecoder().decode([Memo].self, from: asset.data)
-        } catch {
-            print("error: \(error)")
-        }
     }
     
     @objc private func addButtonTapped(_ sender: Any) {

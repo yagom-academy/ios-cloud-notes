@@ -8,14 +8,6 @@
 import UIKit
 
 class MemoTextView: UITextView {
-    override init(frame: CGRect, textContainer: NSTextContainer?) {
-        super.init(frame: frame, textContainer: textContainer)
-    }
-    
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        preconditionFailure("init(coder:) has not been implemented")
-    }
     
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         let glyphIndex: Int? = layoutManager.glyphIndex(for: point, in: textContainer, fractionOfDistanceThroughGlyph: nil)

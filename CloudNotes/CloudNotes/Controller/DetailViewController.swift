@@ -27,45 +27,55 @@ final class DetailViewController: UIViewController {
     
     //MARK: setup memo
     private func setupMemo(_ index: Int?) {
-        memoIndex = index
+        self.memoIndex = index
         refreshUI()
     }
     
     private func refreshUI() {
         loadViewIfNeeded()
-        guard let memoIndex = memoIndex,
-              let content =  MemoModel.shared.list[memoIndex].content else {
+        guard let memoIndex = memoIndex else {
             setDefaultMemo()
             return
         }
-        memoBodyTextView.attributedText = applyFontStyle(content: content)
+        
+        if let content =  MemoModel.shared.list[memoIndex].content {
+            self.memoBodyTextView.attributedText = applyTextStyle(content: content)
+        }
     }
     
     private func setDefaultMemo() {
-        MemoModel.shared.create(content: "새로운메모\n아직 내용없음")
-        memoBodyTextView.text = ""
+        MemoModel.shared.create(content: nil)
+        self.memoIndex = 0
+        self.memoBodyTextView.text = ""
     }
     
-    private func applyFontStyle(content: String) -> NSAttributedString {
-        let lines = content.split(separator: "\n")
-        guard let title = lines.first else {
-            return NSAttributedString(string: "")
-        }
-        let newLineCount = countNewLine(from: content)
-
-        let finalContent = NSMutableAttributedString(string: content)
-        finalContent.addAttributes([NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .title1)], range: NSMakeRange(0, title.count + newLineCount))
-        finalContent.addAttributes([NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .body)], range: NSMakeRange(title.count + newLineCount, content.count - title.count - newLineCount))
-        
-        return finalContent
-    }
-    
+    //MARK: apply text style
     private func countNewLine(from content: String) -> Int {
         var count = 0
         while content[String.Index(utf16Offset: count, in: content)] == "\n" {
             count += 1
         }
         return count
+    }
+    
+    private func applyTextStyle(content: String) -> NSAttributedString {
+        let lines = content.split(separator: "\n")
+        let finalContent = NSMutableAttributedString(string: content)
+        guard let title = lines.first else {
+            setFontInRange(finalContent, range: NSMakeRange(0, content.count), style: .title1)
+            return finalContent
+        }
+        let newLineCount = countNewLine(from: content)
+        let titleCount = title.count + newLineCount
+        let bodyCount = content.count - titleCount
+        setFontInRange(finalContent, range: NSMakeRange(0, titleCount), style: .title1)
+        setFontInRange(finalContent, range: NSMakeRange(titleCount, bodyCount), style: .body)
+        
+        return finalContent
+    }
+    
+    private func setFontInRange(_ content: NSMutableAttributedString, range: NSRange, style: UIFont.TextStyle) {
+        content.addAttributes([NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: style)], range: range)
     }
 
     //MARK: setup keyboard
@@ -209,31 +219,29 @@ extension DetailViewController {
 extension DetailViewController: UITextViewDelegate {
     func textViewDidEndEditing(_ textView: UITextView) {
         textView.isEditable = false
-        textView.dataDetectorTypes = [.link, .phoneNumber, .calendarEvent]
     }
     
     func textViewDidChange(_ textView: UITextView) {
-        guard let content = self.memoBodyTextView.text, !content.isEmpty else {
+        guard let memoIndex = memoIndex,
+              let content = textView.text else {
             return
         }
         
-        guard let memoIndex = memoIndex else {
-            MemoModel.shared.update(index: 0, content: content)
-            return
-        }
-           
-        guard let originalContent = MemoModel.shared.list[memoIndex].content else {
+        if let originalContent = MemoModel.shared.list[memoIndex].content,
+           content.elementsEqual(originalContent) {
             return
         }
         
-        if !content.elementsEqual(originalContent) {
+        if content.isEmpty {
+            MemoModel.shared.update(index: memoIndex, content: nil)
+        } else {
             MemoModel.shared.update(index: memoIndex, content: content)
             self.memoIndex = 0
         }
     }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        textView.attributedText = applyFontStyle(content: textView.text)
+        textView.attributedText = applyTextStyle(content: textView.text)
         textView.selectedRange = range
         return true
     }

@@ -12,7 +12,11 @@ class MemoModel {
     static let shared = MemoModel()
     private init() {}
     let appDelegate = UIApplication.shared.delegate as? AppDelegate
-    var list: [Memo] = []
+    var list: [Memo] = [] {
+        didSet {
+            toggleAddButton()
+        }
+    }
     
     func fetch() {
         let context = appDelegate?.persistentContainer.viewContext
@@ -48,7 +52,7 @@ class MemoModel {
         }
     }
     
-    func update(index: Int, content: String) {
+    func update(index: Int, content: String?) {
         guard let context = appDelegate?.persistentContainer.viewContext else {
             return
         }
@@ -79,6 +83,18 @@ class MemoModel {
             NotificationCenter.default.post(name: .deleteMemo, object: self, userInfo: ["index": index])
         } catch {
             context.rollback()
+        }
+    }
+    
+    private func toggleAddButton() {
+        if let newMemo = self.list.first {
+            if let _ = newMemo.content {
+                NotificationCenter.default.post(name: .enableAddButton, object: self)
+            } else {
+                NotificationCenter.default.post(name: .disableAddButton, object: self)
+            }
+        } else {
+            NotificationCenter.default.post(name: .enableAddButton, object: self)
         }
     }
 }

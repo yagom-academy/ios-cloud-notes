@@ -77,14 +77,21 @@ final class MemoTableViewCell: UITableViewCell {
     }
     
     private func splitContent(_ memo: Memo) -> (String, String) {
-        var lines = memo.content?.split(separator: "\n")
-        guard let title = lines?.first else {
-            return ("", "")
+        let defaultTitle = "새로운 메모"
+        let defaultBody = "추가 텍스트 없음"
+        
+        guard let content = memo.content else {
+            return (defaultTitle, defaultBody)
         }
-        lines?.removeFirst()
+        
+        var lines = content.split(separator: "\n")
+        guard let title = lines.first else {
+            return (defaultTitle, defaultBody)
+        }
+        lines.removeFirst()
 
-        guard let body = lines?.first else {
-            return (String(title), "")
+        guard let body = lines.first else {
+            return (String(title), defaultBody)
         }
         return (String(title), String(body))
     }

@@ -7,7 +7,13 @@
 
 import UIKit
 
+protocol AddViewDelegate: AnyObject {
+    func didCreateMemo()
+}
+
 final class AddViewController: UIViewController {
+    
+    weak var addViewDelegate: AddViewDelegate?
     
     var memoTextView: UITextView = {
         let textView = UITextView()
@@ -28,7 +34,6 @@ final class AddViewController: UIViewController {
     }
     
     @objc private func didTapOKButton() {
-        
     }
 
     private func setTextView() {

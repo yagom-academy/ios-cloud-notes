@@ -18,8 +18,7 @@ class MemoContentsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        NotificationCenter.default.addObserver(self, selector: #selector(resignTextViewFirstResponder), name: Notification.Name(NotificationName.resignFirstResponder.rawValue), object: nil)
-
+        
         configureMemoContentsView()
         configureAutoLayout()
         configureNavigationBar()
@@ -100,11 +99,11 @@ class MemoContentsViewController: UIViewController {
             
             switch traitCollection.horizontalSizeClass {
             case .compact:
-                if let navController = splitViewController?.viewControllers[0] as? UINavigationController {
-                    navController.popViewController(animated: true)
+                if let naviController = splitViewController?.viewControllers[0] as? UINavigationController {
+                    naviController.popViewController(animated: true)
                 }
             default:
-                if CoreDataSingleton.shared.memoData.count != 0 {
+                if CoreDataSingleton.shared.memoData.isEmpty {
                     self.receiveText(memo: CoreDataSingleton.shared.memoData[0])
                 } else {
                     self.splitViewController?.viewControllers.removeLast()
@@ -145,10 +144,6 @@ class MemoContentsViewController: UIViewController {
             }
         }
         return (titleText, bodyText)
-    }
-    
-    @objc func resignTextViewFirstResponder() {
-        memoTextView.resignFirstResponder()
     }
 }
 

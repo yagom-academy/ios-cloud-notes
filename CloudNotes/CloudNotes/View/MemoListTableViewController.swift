@@ -33,7 +33,7 @@ class MemoListTableViewController: UITableViewController {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "MemoCell") as? MemoListTableViewCell else {
             return UITableViewCell()
         }
-        
+    
         cell.receiveLabelsText(memo: memo)
         return cell
     }
@@ -43,6 +43,7 @@ class MemoListTableViewController: UITableViewController {
             let memoContentsViewController = MemoContentsViewController()
             let memoContentsNavigationViewController = UINavigationController(rootViewController: memoContentsViewController)
             memoContentsViewController.receiveText(memo: CoreDataSingleton.shared.memoData[0])
+            
             tableView.reloadData()
             self.splitViewController?.showDetailViewController(memoContentsNavigationViewController, sender: nil)
 
@@ -56,8 +57,6 @@ class MemoListTableViewController: UITableViewController {
 // MARK: UITableViewDelegate
 extension MemoListTableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        NotificationCenter.default.post(name: Notification.Name(NotificationName.resignFirstResponder.rawValue), object: nil)
-        
         let memoContentsViewController = MemoContentsViewController()
         let memoContentsNavigationViewController = UINavigationController(rootViewController: memoContentsViewController)
         memoContentsViewController.delegate = self

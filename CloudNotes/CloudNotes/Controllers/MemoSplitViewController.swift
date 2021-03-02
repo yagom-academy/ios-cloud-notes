@@ -8,12 +8,12 @@
 import UIKit
 
 class MemoSplitViewController: UISplitViewController {
-    let memoTableViewController = MemoTableViewController()
-    let memoViewController = MemoViewController()
+    
+    private let detailViewController = UINavigationController(rootViewController: MemoViewController())
+    private let masterViewController = UINavigationController(rootViewController: MemoTableViewController())
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let masterViewController = UINavigationController(rootViewController: memoTableViewController)
         self.viewControllers = [masterViewController]
         self.preferredPrimaryColumnWidthFraction = 1/3
         self.preferredDisplayMode = .oneBesideSecondary
@@ -21,6 +21,20 @@ class MemoSplitViewController: UISplitViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        self.viewControllers.append(memoViewController)
+        self.viewControllers.append(detailViewController)
+    }
+    
+    func showMemoViewController(_ memo: Memo?) {
+        guard let memoViewController = detailViewController.topViewController as? MemoViewController else {
+            return
+        }
+        if let memo = memo {
+            memoViewController.setMemo(memo)
+        }
+        showDetailViewController(detailViewController, sender: nil)
+    }
+    
+    func popMemoViewController() {
+        masterViewController.popViewController(animated: true)
     }
 }

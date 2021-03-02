@@ -39,7 +39,8 @@ class MemoListTableViewController: UITableViewController {
     }
     
     @objc func createMemo(sender: UIButton) {
-        if CoreDataSingleton.shared.save(title: "", body: "") {
+        do {
+            try CoreDataSingleton.shared.save(title: "", body: "")
             let memoContentsViewController = MemoContentsViewController()
             let memoContentsNavigationViewController = UINavigationController(rootViewController: memoContentsViewController)
             memoContentsViewController.receiveText(memo: CoreDataSingleton.shared.memoData[0])
@@ -49,8 +50,8 @@ class MemoListTableViewController: UITableViewController {
             self.splitViewController?.showDetailViewController(memoContentsNavigationViewController, sender: nil)
             
             UserDefaults.standard.set(true, forKey: UserDefaultsKeys.isCellSelected.rawValue)
-        } else {
-            showAlertMessage("메모 생성에 실패했습니다!")
+        } catch {
+            print(MemoAppError.system.message)
         }
     }
 }
@@ -73,18 +74,23 @@ extension MemoListTableViewController {
         if editingStyle == .delete {
             let selectedMemoIndexPathRow = UserDefaults.standard.integer(forKey: UserDefaultsKeys.selectedMemoIndexPathRow.rawValue)
             
-            if CoreDataSingleton.shared.delete(object: CoreDataSingleton.shared.memoData[selectedMemoIndexPathRow]) {
+            do {
+                try CoreDataSingleton.shared.delete(object: CoreDataSingleton.shared.memoData[selectedMemoIndexPathRow])
                 CoreDataSingleton.shared.memoData.remove(at: selectedMemoIndexPathRow)
                 UserDefaults.standard.set(0, forKey: UserDefaultsKeys.selectedMemoIndexPathRow.rawValue)
                 tableView.deleteRows(at: [indexPath], with: .fade)
                 
-                memoContentsView.receiveText(memo: CoreDataSingleton.shared.memoData[0])
-                
                 if splitViewController?.traitCollection.horizontalSizeClass == .regular {
-                    self.splitViewController?.showDetailViewController(memoContentsView, sender: nil)
+                    switch CoreDataSingleton.shared.memoData.isEmpty {
+                    case false:
+                        memoContentsView.receiveText(memo: CoreDataSingleton.shared.memoData[0])
+                        self.splitViewController?.showDetailViewController(memoContentsView, sender: nil)
+                    case true:
+                        splitViewController?.viewControllers.removeLast()
+                    }
                 }
-            } else {
-                showAlertMessage("메모를 삭제에 실패했습니다.")
+            } catch {
+                print(MemoAppError.system.message)
             }
         }
     }

@@ -1,4 +1,3 @@
-
 import UIKit
 import CoreData
 
@@ -16,7 +15,6 @@ class CoreDataSingleton {
         
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             return [NSManagedObject]()
-            // 에러 핸들링 필요
         }
         let managedContext =
             appDelegate.persistentContainer.viewContext
@@ -34,9 +32,9 @@ class CoreDataSingleton {
         return fetchData
     }
     
-    func save(title: String, body: String) -> Bool {
+    func save(title: String, body: String) throws {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            return false
+            throw MemoAppError.system
         }
         let managedContext =
             appDelegate.persistentContainer.viewContext
@@ -49,16 +47,14 @@ class CoreDataSingleton {
         do {
             try managedContext.save()
             self.memoData.insert(object, at: 0)
-            return true
         } catch {
             managedContext.rollback()
-            return false
         }
     }
     
-    func delete(object: NSManagedObject) -> Bool {
+    func delete(object: NSManagedObject) throws {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            return false
+            throw MemoAppError.system
         }
         let managedContext =
             appDelegate.persistentContainer.viewContext
@@ -67,16 +63,14 @@ class CoreDataSingleton {
         
         do {
             try managedContext.save()
-            return true
         } catch {
             managedContext.rollback()
-            return false
         }
     }
     
-    func update(object: NSManagedObject, title: String, body: String) -> Bool {
+    func update(object: NSManagedObject, title: String, body: String) throws {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            return false
+            throw MemoAppError.system
         }
         let managedContext =
             appDelegate.persistentContainer.viewContext
@@ -87,10 +81,8 @@ class CoreDataSingleton {
         
         do {
             try managedContext.save()
-            return true
         } catch {
             managedContext.rollback()
-            return false
         }
     }
 }

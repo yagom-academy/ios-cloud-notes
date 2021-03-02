@@ -14,7 +14,7 @@ class MemoContentsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         configureMemoContentsView()
         configureAutoLayout()
         configureNavigationBar()
@@ -78,7 +78,8 @@ class MemoContentsViewController: UIViewController {
     func deleteMemo() {
         let selectedMemoIndexPathRow = UserDefaults.standard.integer(forKey: UserDefaultsKeys.selectedMemoIndexPathRow.rawValue)
         
-        if CoreDataSingleton.shared.delete(object: CoreDataSingleton.shared.memoData[selectedMemoIndexPathRow]) {
+        do {
+            try CoreDataSingleton.shared.delete(object: CoreDataSingleton.shared.memoData[selectedMemoIndexPathRow])
             CoreDataSingleton.shared.memoData.remove(at: selectedMemoIndexPathRow)
             UserDefaults.standard.set(0, forKey: UserDefaultsKeys.selectedMemoIndexPathRow.rawValue)
             delegate?.deleteCell()
@@ -89,24 +90,26 @@ class MemoContentsViewController: UIViewController {
                     naviController.popViewController(animated: true)
                 }
             default:
-                if !CoreDataSingleton.shared.memoData.isEmpty {
+                if !(CoreDataSingleton.shared.memoData.isEmpty) {
                     self.receiveText(memo: CoreDataSingleton.shared.memoData[0])
                 } else {
                     self.splitViewController?.viewControllers.removeLast()
                 }
             }
-        } else {
-            showAlertMessage("메모를 삭제에 실패했습니다.")
+        } catch {
+            showAlertMessage("메모 삭제에 실패했습니다.")
         }
     }
+    
     
     func updateMemo() {
         let splitText = splitString()
         let selectedMemoIndexPathRow = UserDefaults.standard.integer(forKey: UserDefaultsKeys.selectedMemoIndexPathRow.rawValue)
-        if CoreDataSingleton.shared.update(object: CoreDataSingleton.shared.memoData[selectedMemoIndexPathRow], title: splitText.0, body: splitText.1) {
+        do {
+            try CoreDataSingleton.shared.update(object: CoreDataSingleton.shared.memoData[selectedMemoIndexPathRow], title: splitText.0, body: splitText.1)
             delegate?.updateTableViewList()
-        } else {
-            showAlertMessage("메모 편집에 실패했습니다!")
+        } catch {
+            showAlertMessage("메모 편집에 실패했습니다.")
         }
     }
     
@@ -132,6 +135,8 @@ class MemoContentsViewController: UIViewController {
         return (titleText, bodyText)
     }
 }
+
+
 
 // MARK: dataDetectorTypes & isEditable
 extension MemoContentsViewController {

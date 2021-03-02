@@ -94,7 +94,7 @@ class MemoContentsViewController: UIViewController {
             UserDefaults.standard.set(0, forKey: UserDefaultsKeys.selectedMemoIndexPathRow.rawValue)
             NotificationCenter.default.post(name: NSNotification.Name(NotificationName.deleteCell.rawValue), object: nil)
             
-            switch traitCollection.horizontalSizeClass {
+            switch splitViewController?.traitCollection.horizontalSizeClass {
             case .compact:
                 if let navController = splitViewController?.viewControllers[0] as? UINavigationController {
                     navController.popViewController(animated: true)

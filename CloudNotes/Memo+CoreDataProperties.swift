@@ -6,7 +6,7 @@
 //
 //
 
-import Foundation
+import UIKit
 import CoreData
 
 
@@ -24,4 +24,55 @@ extension Memo {
 
 extension Memo : Identifiable {
 
+}
+
+extension Memo {
+    class func create(_ title: String, _ body: String?, _ date: Int) throws {
+        guard let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext else {
+            return
+        }
+        let memo = self.init(context: context)
+        memo.title = title
+        memo.body = body
+        memo.date = Int64(date)
+        try context.save()
+    }
+    
+    class func read() throws -> [Memo]? {
+        guard let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext else {
+            return nil
+        }
+        if let memos = try context.fetch(self.fetchRequest()) as? [Memo] {
+            return memos
+        }
+        return nil
+    }
+    
+    class func update(memo: Memo, _ title: String, _ body: String?, _ date: Int) throws {
+        guard let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext else {
+            return
+        }
+        var isEdited = false
+        if memo.title != title {
+            memo.title = title
+            isEdited = true
+        }
+        if memo.body != body {
+            memo.body = body
+            isEdited = true
+        }
+        if isEdited == false {
+            return
+        }
+        memo.date = Int64(date)
+        try context.save()
+    }
+    
+    class func delete(memo: Memo) throws {
+        guard let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext else {
+            return
+        }
+        context.delete(memo)
+        try context.save()
+    }
 }

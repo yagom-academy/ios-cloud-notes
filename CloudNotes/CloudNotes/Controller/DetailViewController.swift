@@ -39,7 +39,7 @@ final class DetailViewController: UIViewController {
         }
         
         if let content =  MemoModel.shared.list[memoIndex].content {
-            self.memoBodyTextView.attributedText = applyFontStyle(content: content)
+            self.memoBodyTextView.attributedText = applyTextStyle(content: content)
         }
     }
     
@@ -49,26 +49,33 @@ final class DetailViewController: UIViewController {
         self.memoBodyTextView.text = ""
     }
     
-    private func applyFontStyle(content: String) -> NSAttributedString {
-        let lines = content.split(separator: "\n")
-        guard let title = lines.first else {
-            return NSAttributedString(string: "")
-        }
-        let newLineCount = countNewLine(from: content)
-
-        let finalContent = NSMutableAttributedString(string: content)
-        finalContent.addAttributes([NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .title1)], range: NSMakeRange(0, title.count + newLineCount))
-        finalContent.addAttributes([NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .body)], range: NSMakeRange(title.count + newLineCount, content.count - title.count - newLineCount))
-        
-        return finalContent
-    }
-    
+    //MARK: apply text style
     private func countNewLine(from content: String) -> Int {
         var count = 0
         while content[String.Index(utf16Offset: count, in: content)] == "\n" {
             count += 1
         }
         return count
+    }
+    
+    private func applyTextStyle(content: String) -> NSAttributedString {
+        let lines = content.split(separator: "\n")
+        let finalContent = NSMutableAttributedString(string: content)
+        guard let title = lines.first else {
+            setFontInRange(finalContent, range: NSMakeRange(0, content.count), style: .title1)
+            return finalContent
+        }
+        let newLineCount = countNewLine(from: content)
+        let titleCount = title.count + newLineCount
+        let bodyCount = content.count - titleCount
+        setFontInRange(finalContent, range: NSMakeRange(0, titleCount), style: .title1)
+        setFontInRange(finalContent, range: NSMakeRange(titleCount, bodyCount), style: .body)
+        
+        return finalContent
+    }
+    
+    private func setFontInRange(_ content: NSMutableAttributedString, range: NSRange, style: UIFont.TextStyle) {
+        content.addAttributes([NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: style)], range: range)
     }
 
     //MARK: setup keyboard
@@ -234,7 +241,7 @@ extension DetailViewController: UITextViewDelegate {
     }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        textView.attributedText = applyFontStyle(content: textView.text)
+        textView.attributedText = applyTextStyle(content: textView.text)
         textView.selectedRange = range
         return true
     }

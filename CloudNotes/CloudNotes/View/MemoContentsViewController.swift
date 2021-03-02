@@ -87,9 +87,9 @@ class MemoContentsViewController: UIViewController {
     func deleteMemo() {
         let selectedMemoIndexPathRow = UserDefaults.standard.integer(forKey: UserDefaultsKeys.selectedMemoIndexPathRow.rawValue)
         
-        if CoreDataSingleton.shared.memoData.count == 0 {
-            return
-        }
+//        if CoreDataSingleton.shared.memoData.count == 0 {
+//            return
+//        }
         
         do {
             try CoreDataSingleton.shared.delete(object: CoreDataSingleton.shared.memoData[selectedMemoIndexPathRow])
@@ -103,7 +103,7 @@ class MemoContentsViewController: UIViewController {
                     naviController.popViewController(animated: true)
                 }
             default:
-                if CoreDataSingleton.shared.memoData.isEmpty {
+                if !(CoreDataSingleton.shared.memoData.isEmpty) {
                     self.receiveText(memo: CoreDataSingleton.shared.memoData[0])
                 } else {
                     self.splitViewController?.viewControllers.removeLast()

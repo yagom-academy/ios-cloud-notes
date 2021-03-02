@@ -80,10 +80,14 @@ extension MemoListTableViewController {
                 UserDefaults.standard.set(0, forKey: UserDefaultsKeys.selectedMemoIndexPathRow.rawValue)
                 tableView.deleteRows(at: [indexPath], with: .fade)
                 
-                memoContentsView.receiveText(memo: CoreDataSingleton.shared.memoData[0])
-                
                 if splitViewController?.traitCollection.horizontalSizeClass == .regular {
-                    self.splitViewController?.showDetailViewController(memoContentsView, sender: nil)
+                    switch CoreDataSingleton.shared.memoData.isEmpty {
+                    case false:
+                        memoContentsView.receiveText(memo: CoreDataSingleton.shared.memoData[0])
+                        self.splitViewController?.showDetailViewController(memoContentsView, sender: nil)
+                    case true:
+                        splitViewController?.viewControllers.removeLast()
+                    }
                 }
             } catch {
                 print(MemoAppError.system.message)

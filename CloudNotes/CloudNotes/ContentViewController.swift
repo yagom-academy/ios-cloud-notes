@@ -31,7 +31,7 @@ class ContentViewController: UIViewController {
     }()
     
     private lazy var optionButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(didTapOptionButton(_:)))
+        let button = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action:  #selector(didTapOptionButton(_:)))
         return button
     }()
     
@@ -116,11 +116,21 @@ extension ContentViewController {
     
     @objc private func didTapOptionButton(_ sender: UIBarButtonItem) {
         contentView.endEditing(true)
+        guard let sharingMessage = self.contentView.text else {
+            return
+        }
         
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
         let shareAction = UIAlertAction(title: "Share...", style: .default, handler: { (alert: UIAlertAction!) -> Void in
-            print("공유 관련 액션 수행")
+            
+            let activityViewController = UIActivityViewController(activityItems: [sharingMessage], applicationActivities: nil)
+            if let popoverPresentationController = activityViewController.popoverPresentationController {
+                popoverPresentationController.sourceView = self.view
+                popoverPresentationController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+                popoverPresentationController.permittedArrowDirections = []
+            }
+            self.present(activityViewController, animated: true, completion: nil)
         })
         let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: { (alert: UIAlertAction!) -> Void in
             let alertController = UIAlertController(title: "진짜요?", message: "진짜로 삭제하시겠습니까?", preferredStyle: .alert)
@@ -143,7 +153,7 @@ extension ContentViewController {
         
         if let popoverController = alertController.popoverPresentationController {
             popoverController.sourceView = self.view
-            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.maxY, width: 0, height: 0)
+            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
             popoverController.permittedArrowDirections = []
         }
         

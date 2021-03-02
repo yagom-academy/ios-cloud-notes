@@ -18,10 +18,11 @@ final class ListViewController: UITableViewController {
         super.viewDidLoad()
         self.tableView.register(MemoTableViewCell.self, forCellReuseIdentifier: "MemoTableViewCell")
         MemoModel.shared.fetch()
-        setUpNavigationBar()
+        setupNavigationBar()
+        setupNotification()
     }
     
-    private func setUpNavigationBar() {
+    private func setupNavigationBar() {
         navigationItem.title = "메모"
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(createNewMemo))
     }
@@ -37,6 +38,12 @@ final class ListViewController: UITableViewController {
             let detailViewNavigationController = UINavigationController(rootViewController: detailViewController)
             splitViewController?.showDetailViewController(detailViewNavigationController, sender: nil)
         }
+    }
+    
+    private func setupNotification() {
+        NotificationCenter.default.addObserver(self, selector: #selector(createMemo(_:)), name: .createMemo, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateMemo(_:)), name: .updateMemo, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(deleteMemo(_:)), name: .deleteMemo, object: nil)
     }
 }
 
@@ -67,25 +74,37 @@ extension ListViewController {
     }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        
         MemoModel.shared.delete(index: indexPath.row)
-        self.tableView.deleteRows(at: [indexPath], with: .fade)
         self.delegate?.memoDeleted()
     }
 }
 
-//MARK: MemoListUpdateDelegate
-extension ListViewController: MemoListUpdateDelegate {
-    func deleteMemo(_ memoIndex: Int) {
-        self.tableView.deleteRows(at: [IndexPath(row: memoIndex, section: 0)], with: .automatic)
+extension ListViewController {
+    @objc private func createMemo(_ notification: Notification) {
+        if let data = notification.userInfo as? [String: Int],
+           let index = data["index"] {
+            self.tableView.insertRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
+        }
     }
     
-    func updateMemo(_ memoIndex: Int) {
-        self.tableView.moveRow(at: IndexPath(row: memoIndex, section: 0), to: IndexPath(row: 0, section: 0))
-        self.tableView.reloadRows(at: [IndexPath(row: memoIndex, section: 0), IndexPath(row: 0, section: 0)], with: .none)
+    @objc private func updateMemo(_ notification: Notification) {
+        if let data = notification.userInfo as? [String: Int],
+           let index = data["index"] {
+            self.tableView.moveRow(at: IndexPath(row: index, section: 0), to: IndexPath(row: 0, section: 0))
+            self.tableView.reloadRows(at: [IndexPath(row: index, section: 0), IndexPath(row: 0, section: 0)], with: .none)
+        }
     }
     
-    func saveMemo(_ memoIndex: Int) {
-        self.tableView.insertRows(at: [IndexPath(row: memoIndex, section: 0)], with: .automatic)
+    @objc private func deleteMemo(_ notification: Notification) {
+        if let data = notification.userInfo as? [String: Int],
+           let index = data["index"] {
+            self.tableView.deleteRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
+        }
     }
+}
+
+extension Notification.Name {
+    static let createMemo = Notification.Name("createMemo")
+    static let deleteMemo = Notification.Name("deleteMemo")
+    static let updateMemo = Notification.Name("updateMemo")
 }

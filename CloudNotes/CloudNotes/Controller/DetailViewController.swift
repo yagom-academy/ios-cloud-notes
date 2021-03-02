@@ -7,17 +7,11 @@
 
 import UIKit
 
-protocol MemoListUpdateDelegate: class {
-    func updateMemo(_ memoIndex: Int)
-    func deleteMemo(_ memoIndex: Int)
-    func saveMemo(_ memoIndex: Int)
-}
-
 final class DetailViewController: UIViewController {
-    weak var delegate: MemoListUpdateDelegate?
     private var memoIndex: Int?
     private var memoBodyTextView: UITextView = {
         let textView = UITextView()
+        textView.autocorrectionType = .no
         textView.adjustsFontForContentSizeCategory = true
         textView.dataDetectorTypes = [.link, .phoneNumber, .calendarEvent]
         return textView
@@ -48,9 +42,8 @@ final class DetailViewController: UIViewController {
     }
     
     private func setDefaultMemo() {
-        MemoModel.shared.save(content: "새로운메모\n아직 내용없음")
+        MemoModel.shared.create(content: "새로운메모\n아직 내용없음")
         memoBodyTextView.text = ""
-        delegate?.saveMemo(0)
     }
     
     private func applyFontStyle(content: String) -> NSAttributedString {
@@ -203,11 +196,9 @@ extension DetailViewController {
     private func deleteMemo() {
         if let memoIndex = self.memoIndex {
             MemoModel.shared.delete(index: memoIndex)
-            self.delegate?.deleteMemo(memoIndex)
         }
         else {
             MemoModel.shared.delete(index: 0)
-            self.delegate?.deleteMemo(0)
         }
         self.memoBodyTextView.text = nil
         self.navigationController?.navigationController?.popViewController(animated: true)
@@ -228,7 +219,6 @@ extension DetailViewController: UITextViewDelegate {
         
         guard let memoIndex = memoIndex else {
             MemoModel.shared.update(index: 0, content: content)
-            delegate?.updateMemo(0)
             return
         }
            
@@ -238,7 +228,6 @@ extension DetailViewController: UITextViewDelegate {
         
         if !content.elementsEqual(originalContent) {
             MemoModel.shared.update(index: memoIndex, content: content)
-            delegate?.updateMemo(memoIndex)
             self.memoIndex = 0
         }
     }

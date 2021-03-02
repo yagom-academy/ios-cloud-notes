@@ -24,7 +24,6 @@ final class SplitViewController: UISplitViewController, UISplitViewControllerDel
         self.preferredDisplayMode = .oneBesideSecondary
         
         listViewController.delegate = detailViewController
-        detailViewController.delegate = listViewController
     }
     
     func splitViewController(_ splitViewController: UISplitViewController, collapseSecondary secondaryViewController: UIViewController, onto primaryViewController: UIViewController) -> Bool {

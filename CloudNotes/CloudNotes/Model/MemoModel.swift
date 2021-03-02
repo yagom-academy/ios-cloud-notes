@@ -27,7 +27,7 @@ class MemoModel {
         }
     }
     
-    func save(content: String) {
+    func create(content: String?) {
         guard let context = appDelegate?.persistentContainer.viewContext else {
             return
         }
@@ -42,6 +42,7 @@ class MemoModel {
         do {
             try context.save()
             self.list.insert(memoObject, at: self.list.startIndex)
+            NotificationCenter.default.post(name: .createMemo, object: self, userInfo: ["index": 0])
         } catch  {
             context.rollback()
         }
@@ -60,6 +61,7 @@ class MemoModel {
             try context.save()
             self.list.remove(at: index)
             self.list.insert(object, at: self.list.startIndex)
+            NotificationCenter.default.post(name: .updateMemo, object: self, userInfo: ["index": index])
         } catch {
             context.rollback()
         }
@@ -74,6 +76,7 @@ class MemoModel {
         do {
             try context.save()
             self.list.remove(at: index)
+            NotificationCenter.default.post(name: .deleteMemo, object: self, userInfo: ["index": index])
         } catch {
             context.rollback()
         }

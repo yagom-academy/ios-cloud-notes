@@ -231,6 +231,12 @@ extension DetailViewController: UITextViewDelegate {
             self.memoIndex = 0
         }
     }
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        textView.attributedText = applyFontStyle(content: textView.text)
+        textView.selectedRange = range
+        return true
+    }
 }
 
 extension DetailViewController: MemoUpdateDelegate {

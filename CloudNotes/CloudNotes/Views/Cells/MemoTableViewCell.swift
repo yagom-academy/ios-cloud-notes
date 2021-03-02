@@ -72,9 +72,15 @@ class MemoTableViewCell: UITableViewCell, Reusable {
         setupConstraints()
     }
     
+    override func prepareForReuse() {
+        titleLabel.text = nil
+        dateLabel.text = nil
+        describingLabel.text = nil
+    }
+    
     func configure(with model: Memo?) {
         titleLabel.text = model?.title
-        if let lastModified = model?.lastModified {
+        if let lastModified = model?.date {
             let timeInterval = TimeInterval(lastModified)
             let dateFormatter = DateFormatter().makeLocaleDateFormatter()
             let date = dateFormatter.string(from: Date(timeIntervalSince1970: timeInterval))

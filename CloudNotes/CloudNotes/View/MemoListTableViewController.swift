@@ -52,7 +52,6 @@ class MemoListTableViewController: UITableViewController {
 // MARK: UITableViewDelegate
 extension MemoListTableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        NotificationCenter.default.post(name: Notification.Name(NotificationName.resignFirstResponder.rawValue), object: nil)
         
         let memoContentsViewController = MemoContentsViewController()
         let memoContentsNavigationViewController = UINavigationController(rootViewController: memoContentsViewController)
@@ -75,7 +74,9 @@ extension MemoListTableViewController {
                 
                 memoContentsView.receiveText(memo: CoreDataSingleton.shared.memoData[0])
                 
-                self.splitViewController?.showDetailViewController(memoContentsView, sender: nil)
+                if splitViewController?.traitCollection.horizontalSizeClass == .regular {
+                    self.splitViewController?.showDetailViewController(memoContentsView, sender: nil)
+                }
             } else {
                 showAlertMessage("메모를 삭제에 실패했습니다.")
             }

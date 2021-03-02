@@ -3,7 +3,6 @@ import CoreData
 
 class MemoContentsViewController: UIViewController {
     let disclosureButton = UIButton()
-//    private let disclosureButton = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: #selector(showActionSheet))
     private let finishButton = UIBarButtonItem(title: "완료", style: .plain, target: self, action: #selector(endEditing))
     
     var memoTextView: UITextView = {
@@ -16,7 +15,6 @@ class MemoContentsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        NotificationCenter.default.addObserver(self, selector: #selector(resignTextViewFirstResponder), name: Notification.Name(NotificationName.resignFirstResponder.rawValue), object: nil)
         
         configureMemoContentsView()
         configureAutoLayout()

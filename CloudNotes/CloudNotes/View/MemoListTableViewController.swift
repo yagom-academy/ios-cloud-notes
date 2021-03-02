@@ -62,10 +62,10 @@ class MemoListTableViewController: UITableViewController {
 // MARK: UITableViewDelegate
 extension MemoListTableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        showContentsViewController(index: indexPath.row)
+        
         UserDefaults.standard.set(true, forKey: UserDefaultsKeys.isCellSelected.rawValue)
         UserDefaults.standard.set(indexPath.row, forKey: UserDefaultsKeys.selectedMemoIndexPathRow.rawValue)
-        
-        showContentsViewController(index: indexPath.row)
     }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
@@ -115,8 +115,10 @@ extension MemoListTableViewController: TableViewListManagable {
     func deleteCell() {
         let selectedMemoIndexPathRow = UserDefaults.standard.integer(forKey: UserDefaultsKeys.selectedMemoIndexPathRow.rawValue)
         let indexPath = IndexPath(row: selectedMemoIndexPathRow, section: 0)
+        
         tableView.deleteRows(at: [indexPath], with: .fade)
         tableView.reloadData()
+        UserDefaults.standard.set(0, forKey: UserDefaultsKeys.selectedMemoIndexPathRow.rawValue)
     }
     
     func moveCellToTop() {

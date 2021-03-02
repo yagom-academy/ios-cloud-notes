@@ -81,7 +81,6 @@ class MemoContentsViewController: UIViewController {
         do {
             try CoreDataSingleton.shared.delete(object: CoreDataSingleton.shared.memoData[selectedMemoIndexPathRow])
             CoreDataSingleton.shared.memoData.remove(at: selectedMemoIndexPathRow)
-            UserDefaults.standard.set(0, forKey: UserDefaultsKeys.selectedMemoIndexPathRow.rawValue)
             delegate?.deleteCell()
             
             switch splitViewController?.traitCollection.horizontalSizeClass {
@@ -104,6 +103,7 @@ class MemoContentsViewController: UIViewController {
     func updateMemo() {
         let splitText = splitString()
         let selectedMemoIndexPathRow = UserDefaults.standard.integer(forKey: UserDefaultsKeys.selectedMemoIndexPathRow.rawValue)
+        
         do {
             try CoreDataSingleton.shared.update(object: CoreDataSingleton.shared.memoData[selectedMemoIndexPathRow], title: splitText.0, body: splitText.1)
             delegate?.updateTableViewList()

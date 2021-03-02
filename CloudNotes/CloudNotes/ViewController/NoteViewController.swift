@@ -26,7 +26,7 @@ class NoteViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        CoreDataManager.shared.fetchNotes()
+        CoreDataManager.shared.fetchNoteList()
         configureTableView()
         self.view.backgroundColor = .white
         configureNavigationItem()

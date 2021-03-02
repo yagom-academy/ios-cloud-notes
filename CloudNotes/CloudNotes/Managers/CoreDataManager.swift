@@ -23,10 +23,10 @@ class CoreDataManager {
         return noteList.count
     }
     
-    func fetchNotes() {
+    func fetchNoteList() {
         let request: NSFetchRequest<Note> = Note.fetchRequest()
-        let sortByDateDesc = NSSortDescriptor(key: "lastModifiedDate", ascending: false)
-        request.sortDescriptors = [sortByDateDesc]
+        let sortByDate = NSSortDescriptor(key: "lastModifiedDate", ascending: true)
+        request.sortDescriptors = [sortByDate]
         
         do {
             noteList = try mainContext.fetch(request)
@@ -35,7 +35,7 @@ class CoreDataManager {
         }
     }
     
-    func createNote(title: String?, body: String?) {
+    func createNote(title: String?, body: String?) -> Note {
         let note = Note(context: mainContext)
         note.title = title
         note.body = body
@@ -43,6 +43,8 @@ class CoreDataManager {
         
         noteList.append(note)
         saveContext()
+        
+        return note
     }
     
     func note(index: Int) -> Note? {

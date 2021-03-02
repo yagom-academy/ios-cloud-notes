@@ -84,44 +84,43 @@ class DetailNoteViewController: UIViewController {
     }
     
     private func saveNote() {
-        //let note: Note
-        let title: String
-        let body: String
-        if detailNoteTextView.text == UIConstants.strings.textInitalizing {
-            title = UIConstants.strings.emptyNoteTitleText
-            body = UIConstants.strings.textInitalizing
-        } else {
-            let textViewText = detailNoteTextView.text.split(separator: "\n", maxSplits: 1, omittingEmptySubsequences: true)
-            (title, body) = checkTextView(text: textViewText)
-        }
-        
-        CoreDataManager.shared.createNote(title: title, body: body)
+        let note: (title: String, body: String)
+        note = divdeTextForNote(text: detailNoteTextView.text)
         
         if let fetchedNote = self.fetchedNote {
-            fetchedNote.title = title
-            fetchedNote.body = body
-            fetchedNote.lastModifiedDate = Date()
+            if (fetchedNote.title != note.title)
+                || (fetchedNote.body != note.body) {
+                fetchedNote.title = note.title
+                fetchedNote.body = note.body
+                fetchedNote.lastModifiedDate = Date()
+                CoreDataManager.shared.saveContext()
+            }
         } else {
-//            NoteData.shared.add(note: note)
-//            self.fetchedNote = note
+            self.fetchedNote = CoreDataManager.shared.createNote(title: note.title, body: note.body)
         }
         
         NotificationCenter.default.post(name: DetailNoteViewController.memoDidSave, object: nil)
     }
     
-    private func checkTextView(text: [String.SubSequence]) -> (String, String) {
-        let title: String
-        let body: String
+    private func divdeTextForNote(text: String) -> (title: String, body: String) {
+        let note: (title: String, body: String)
         
-        if text.count == 1 {
-            title = String(text[0])
-            body = UIConstants.strings.textInitalizing
-        } else {
-            title = String(text[0])
-            body = String(text[1])
+        guard text != UIConstants.strings.textInitalizing else {
+            note.title = UIConstants.strings.emptyNoteTitleText
+            note.body = UIConstants.strings.textInitalizing
+            return note
         }
         
-        return (title, body)
+        let splitedText = detailNoteTextView.text.split(separator: "\n", maxSplits: 1, omittingEmptySubsequences: true)
+        if splitedText.count == 1 {
+            note.title = String(splitedText[0])
+            note.body = UIConstants.strings.textInitalizing
+        } else {
+            note.title = String(splitedText[0])
+            note.body = String(splitedText[1])
+        }
+        
+        return note
     }
 }
 

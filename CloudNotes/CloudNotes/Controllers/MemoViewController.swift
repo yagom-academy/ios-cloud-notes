@@ -18,6 +18,8 @@ class MemoViewController: UIViewController {
     }()
     
     private var tapGesture: UITapGestureRecognizer?
+    private var memo: Memo?
+    private var isDeleted = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,10 +29,44 @@ class MemoViewController: UIViewController {
         configureConstraints()
         registerKeyboardNotifications()
         configureGesture()
+        setupNavigationItem()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        if isDeleted {
+            return
+        }
+        
+        var title: String = ""
+        var body: String = ""
+        let date: Int = Int(Date().timeIntervalSince1970)
+        
+        if let firstIndex =
+            memoTextView.text.firstIndex(of: "\n") {
+            title = String(memoTextView.text[memoTextView.text.startIndex..<firstIndex])
+            let nextIndex = memoTextView.text.index(after: firstIndex)
+            body = String(memoTextView.text[nextIndex..<memoTextView.text.endIndex])
+        } else {
+            title = memoTextView.text
+        }
+        
+        if let memo = self.memo {
+            do {
+                try Memo.update(memo: memo, title, body, date)
+            } catch {
+                
+            }
+        } else {
+            do {
+                try Memo.create(title, body, date)
+            } catch {
+                
+            }
+        }
+        
+        memo = nil
+        memoTextView.text = nil
         exitEditMode()
     }
     
@@ -45,7 +81,48 @@ class MemoViewController: UIViewController {
         tapGesture?.isEnabled = true
         memoTextView.resignFirstResponder()
     }
-
+    
+    private func setupNavigationItem() {
+        navigationItem.rightBarButtonItem =
+            UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: #selector(touchUpMoreBarButton))
+    }
+    
+    @objc func touchUpMoreBarButton() {
+        let menu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        let shareAction = UIAlertAction(title: "Share...", style: .default, handler: share(_:))
+        let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: delete(_:))
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        menu.addAction(shareAction)
+        menu.addAction(deleteAction)
+        menu.addAction(cancelAction)
+        
+        present(menu, animated: true, completion: nil)
+    }
+    
+    func share(_ alertAction: UIAlertAction) {
+        guard let memoText = memoTextView.text else {
+            return
+        }
+        let activityViewController = UIActivityViewController(activityItems: [memoText], applicationActivities: [])
+        present(activityViewController, animated: true, completion: nil)
+    }
+    
+    func delete(_ alertAction: UIAlertAction) {
+        if let memo = self.memo {
+            do {
+                try Memo.delete(memo: memo)
+                self.memo = nil
+                isDeleted = true
+                if let memoSplitViewController = self.splitViewController as? MemoSplitViewController {
+                    memoSplitViewController.popMemoViewController()
+                }
+            } catch {
+                
+            }
+        }
+    }
 }
 
 // MARK:- Configure
@@ -67,8 +144,9 @@ extension MemoViewController {
         swipeDownGesture.direction = UISwipeGestureRecognizer.Direction.down
         memoTextView.addGestureRecognizer(swipeDownGesture)
     }
-    func setMemo(_ memo: String) {
-        memoTextView.text = memo
+    func setMemo(_ memo: Memo) {
+        self.memo = memo
+        memoTextView.text = (memo.title ?? "") + "\n" + (memo.body ?? "")
     }
 }
 

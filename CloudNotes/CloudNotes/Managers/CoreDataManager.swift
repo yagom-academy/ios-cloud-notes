@@ -55,6 +55,14 @@ class CoreDataManager {
         return noteList[index]
     }
     
+    func updateNote(note: Note, title: String?, body: String?) {
+        note.title = title
+        note.body = body
+        note.lastModifiedDate = Date()
+        
+        CoreDataManager.shared.saveContext()
+    }
+    
     func deleteNote(index: Int) {
         guard noteList.count > index, index >= 0 else {
             return

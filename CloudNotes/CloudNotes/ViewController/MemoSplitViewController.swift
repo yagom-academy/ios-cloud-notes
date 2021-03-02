@@ -14,7 +14,7 @@ class MemoSplitViewController: UISplitViewController {
         let memoListNavigationController = UINavigationController(rootViewController: memoListTableViewController)
         let memoContentsNavigationViewController = UINavigationController(rootViewController: memoContentsViewController)
         
-        if CoreDataSingleton.shared.memoData.count != 0 {
+        if !(CoreDataSingleton.shared.memoData.isEmpty) {
             memoContentsViewController.receiveText(memo: CoreDataSingleton.shared.memoData[0])
         } else {
             self.viewControllers = [memoListNavigationController]

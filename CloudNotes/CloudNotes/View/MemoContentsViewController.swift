@@ -5,7 +5,6 @@ class MemoContentsViewController: UIViewController {
     weak var delegate: TableViewListManagable?
     
     let disclosureButton = UIButton()
-//    private let disclosureButton = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: #selector(showActionSheet))
     private let finishButton = UIBarButtonItem(title: "완료", style: .plain, target: self, action: #selector(endEditing))
     
     var memoTextView: UITextView = {
@@ -24,7 +23,7 @@ class MemoContentsViewController: UIViewController {
         configureNavigationBar()
         configureDisclosureButton()
     }
-
+    
     override func viewWillDisappear(_ animated: Bool) {
         UserDefaults.standard.set(false, forKey: UserDefaultsKeys.isCellSelected.rawValue)
     }
@@ -84,8 +83,8 @@ class MemoContentsViewController: UIViewController {
         navigationItem.rightBarButtonItems?.removeFirst()
         updateMemo()
     }
-
-    private func deleteMemo() {
+    
+    func deleteMemo() {
         let selectedMemoIndexPathRow = UserDefaults.standard.integer(forKey: UserDefaultsKeys.selectedMemoIndexPathRow.rawValue)
         
         if CoreDataSingleton.shared.memoData.count == 0 {
@@ -97,7 +96,7 @@ class MemoContentsViewController: UIViewController {
             UserDefaults.standard.set(0, forKey: UserDefaultsKeys.selectedMemoIndexPathRow.rawValue)
             delegate?.deleteCell()
             
-            switch traitCollection.horizontalSizeClass {
+            switch splitViewController?.traitCollection.horizontalSizeClass {
             case .compact:
                 if let naviController = splitViewController?.viewControllers[0] as? UINavigationController {
                     naviController.popViewController(animated: true)
@@ -195,17 +194,17 @@ extension MemoContentsViewController {
     }
     
     private func showDeleteMessage() {
-         let deleteMenu = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: UIAlertController.Style.alert)
-         
-         let cancleAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        let deleteMenu = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: UIAlertController.Style.alert)
+        
+        let cancleAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
         let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
             self.deleteMemo()
         }
-         deleteMenu.addAction(cancleAction)
-         deleteMenu.addAction(deleteAction)
-         
-         present(deleteMenu, animated: true, completion: nil)
-     }
+        deleteMenu.addAction(cancleAction)
+        deleteMenu.addAction(deleteAction)
+        
+        present(deleteMenu, animated: true, completion: nil)
+    }
     
     @objc func showActionSheet(_ sender: UIButton) {
         let actionSheet = UIAlertController(title: nil, message: "Choose Option", preferredStyle: .actionSheet)
@@ -216,7 +215,7 @@ extension MemoContentsViewController {
         let deleteAction = UIAlertAction(title: "Delete", style: .destructive) {
             _ in self.showDeleteMessage()
         }
-         
+        
         actionSheet.addAction(shareAction)
         actionSheet.addAction(deleteAction)
         actionSheet.addAction(cancelAction)
@@ -239,7 +238,7 @@ extension MemoContentsViewController {
         
         activityViewController.popoverPresentationController?.sourceView = disclosureButton
         activityViewController.popoverPresentationController?.sourceRect = disclosureButton.bounds
-
+        
         self.present(activityViewController, animated: true, completion: nil)
     }
 }

@@ -41,33 +41,31 @@ class MemoListTableViewController: UITableViewController {
     @objc func createMemo(sender: UIButton) {
         do {
             try CoreDataSingleton.shared.save(title: "", body: "")
-            let memoContentsViewController = MemoContentsViewController()
-            let memoContentsNavigationViewController = UINavigationController(rootViewController: memoContentsViewController)
-            memoContentsViewController.receiveText(memo: CoreDataSingleton.shared.memoData[0])
-            memoContentsViewController.delegate = self
-            
+            showContentsViewController(index: 0)
             tableView.reloadData()
-            self.splitViewController?.showDetailViewController(memoContentsNavigationViewController, sender: nil)
-            
             UserDefaults.standard.set(true, forKey: UserDefaultsKeys.isCellSelected.rawValue)
         } catch {
             print(MemoAppError.system.message)
         }
+    }
+    
+    private func showContentsViewController(index: Int) {
+        let memoContentsViewController = MemoContentsViewController()
+        let memoContentsNavigationViewController = UINavigationController(rootViewController: memoContentsViewController)
+        memoContentsViewController.receiveText(memo: CoreDataSingleton.shared.memoData[index])
+        memoContentsViewController.delegate = self
+        
+        self.splitViewController?.showDetailViewController(memoContentsNavigationViewController, sender: nil)
     }
 }
 
 // MARK: UITableViewDelegate
 extension MemoListTableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let memoContentsViewController = MemoContentsViewController()
-        let memoContentsNavigationViewController = UINavigationController(rootViewController: memoContentsViewController)
-        memoContentsViewController.delegate = self
-        
         UserDefaults.standard.set(true, forKey: UserDefaultsKeys.isCellSelected.rawValue)
         UserDefaults.standard.set(indexPath.row, forKey: UserDefaultsKeys.selectedMemoIndexPathRow.rawValue)
         
-        memoContentsViewController.receiveText(memo: CoreDataSingleton.shared.memoData[indexPath.row])
-        self.splitViewController?.showDetailViewController(memoContentsNavigationViewController, sender: nil)
+        showContentsViewController(index: indexPath.row)
     }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {

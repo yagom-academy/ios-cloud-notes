@@ -116,19 +116,19 @@ class MemoContentsViewController: UIViewController {
         var titleText: String = ""
         var bodyText: String = ""
         
-        let arr = memoTextView.text.split(separator: "\n").map { (value) -> String in
+        let fullText = memoTextView.text.split(separator: "\n").map { (value) -> String in
             return String(value) }
         
-        switch arr.count {
+        switch fullText.count {
         case 0:
             titleText = ""
             bodyText = ""
         case 1:
-            titleText = arr[0]
+            titleText = fullText[0]
         default:
-            titleText = arr[0]
-            for i in 1...(arr.count - 1) {
-                bodyText += (arr[i] + "\n")
+            titleText = fullText[0]
+            for i in 1...(fullText.count - 1) {
+                bodyText += (fullText[i] + "\n")
             }
         }
         return (titleText, bodyText)

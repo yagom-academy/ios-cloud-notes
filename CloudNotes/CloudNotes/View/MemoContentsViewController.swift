@@ -4,9 +4,6 @@ import CoreData
 class MemoContentsViewController: UIViewController {
     weak var delegate: TableViewListManagable?
     
-    let disclosureButton = UIButton()
-    private let finishButton = UIBarButtonItem(title: "완료", style: .plain, target: self, action: #selector(endEditing))
-    
     var memoTextView: UITextView = {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
@@ -17,11 +14,10 @@ class MemoContentsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         configureMemoContentsView()
         configureAutoLayout()
         configureNavigationBar()
-        configureDisclosureButton()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -29,13 +25,8 @@ class MemoContentsViewController: UIViewController {
     }
     
     // MARK: Configure UI
-    private func configureDisclosureButton() {
-        disclosureButton.setImage(UIImage(systemName: "ellipsis.circle"), for: .normal)
-        disclosureButton.addTarget(self, action: #selector(showActionSheet(_:)), for: .touchUpInside)
-    }
-    
     private func configureNavigationBar() {
-        let disclosureBarButton = UIBarButtonItem(customView: disclosureButton)
+        let disclosureBarButton = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: #selector(showActionSheet))
         navigationItem.rightBarButtonItems = [disclosureBarButton]
     }
     
@@ -87,10 +78,6 @@ class MemoContentsViewController: UIViewController {
     func deleteMemo() {
         let selectedMemoIndexPathRow = UserDefaults.standard.integer(forKey: UserDefaultsKeys.selectedMemoIndexPathRow.rawValue)
         
-        if CoreDataSingleton.shared.memoData.count == 0 {
-            return
-        }
-        
         if CoreDataSingleton.shared.delete(object: CoreDataSingleton.shared.memoData[selectedMemoIndexPathRow]) {
             CoreDataSingleton.shared.memoData.remove(at: selectedMemoIndexPathRow)
             UserDefaults.standard.set(0, forKey: UserDefaultsKeys.selectedMemoIndexPathRow.rawValue)
@@ -102,7 +89,7 @@ class MemoContentsViewController: UIViewController {
                     naviController.popViewController(animated: true)
                 }
             default:
-                if CoreDataSingleton.shared.memoData.isEmpty {
+                if !CoreDataSingleton.shared.memoData.isEmpty {
                     self.receiveText(memo: CoreDataSingleton.shared.memoData[0])
                 } else {
                     self.splitViewController?.viewControllers.removeLast()
@@ -161,6 +148,8 @@ extension MemoContentsViewController {
            textView.textStorage.attribute(NSAttributedString.Key.link, at: glyphIndex, effectiveRange: nil) == nil {
             placeCursor(textView, tappedLocation)
             makeTextViewEditable()
+            
+            let finishButton = UIBarButtonItem(title: "완료", style: .plain, target: self, action: #selector(endEditing))
             navigationItem.rightBarButtonItems?.insert(finishButton, at: 0)
         }
     }
@@ -206,7 +195,7 @@ extension MemoContentsViewController {
         present(deleteMenu, animated: true, completion: nil)
     }
     
-    @objc func showActionSheet(_ sender: UIButton) {
+    @objc func showActionSheet(_ sender: UIBarButtonItem) {
         let actionSheet = UIAlertController(title: nil, message: "Choose Option", preferredStyle: .actionSheet)
         let shareAction = UIAlertAction(title: "Share", style: .default) { _ in
             self.showActivityView(memo: CoreDataSingleton.shared.memoData[0])
@@ -220,9 +209,7 @@ extension MemoContentsViewController {
         actionSheet.addAction(deleteAction)
         actionSheet.addAction(cancelAction)
         
-        actionSheet.popoverPresentationController?.sourceView = disclosureButton
-        actionSheet.popoverPresentationController?.sourceRect = disclosureButton.bounds
-        
+        actionSheet.popoverPresentationController?.barButtonItem = sender
         self.present(actionSheet, animated: true, completion: nil)
     }
     
@@ -236,9 +223,7 @@ extension MemoContentsViewController {
         let memoToShare = [title, body]
         let activityViewController = UIActivityViewController(activityItems: memoToShare, applicationActivities: nil)
         
-        activityViewController.popoverPresentationController?.sourceView = disclosureButton
-        activityViewController.popoverPresentationController?.sourceRect = disclosureButton.bounds
-        
+        activityViewController.popoverPresentationController?.barButtonItem = navigationItem.rightBarButtonItems?.first
         self.present(activityViewController, animated: true, completion: nil)
     }
 }

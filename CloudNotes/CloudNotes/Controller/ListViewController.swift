@@ -15,7 +15,7 @@ final class ListViewController: UIViewController {
     
     weak var listViewDelegate: ListViewDelegate?
     
-    private let tableView: UITableView = {
+    let tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.register(ListCell.self, forCellReuseIdentifier: ListCell.identifier)
@@ -32,10 +32,10 @@ final class ListViewController: UIViewController {
     private func setNavigation() {
         self.title = "메모"
         self.view.backgroundColor = .white
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: #selector(goToAddMemoVeiwController))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: #selector(goToAddVeiwController))
     }
     
-    @objc private func goToAddMemoVeiwController() {
+    @objc private func goToAddVeiwController() {
         listViewDelegate?.didTapAddButton()
     }
     

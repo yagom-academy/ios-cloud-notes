@@ -54,7 +54,14 @@ extension MainViewController: ListViewDelegate {
         (self.viewControllers.last as? UINavigationController)?.popToRootViewController(animated: false)
         
         let addView = AddViewController()
+        addView.addViewDelegate = self
         
         (self.viewControllers.last as? UINavigationController)?.pushViewController(addView, animated: false)
+    }
+}
+
+extension MainViewController: AddViewDelegate {
+    func didCreateMemo() {
+        listViewController.tableView.reloadData()
     }
 }

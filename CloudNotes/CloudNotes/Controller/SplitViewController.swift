@@ -14,6 +14,11 @@ final class SplitViewController: UISplitViewController, UISplitViewControllerDel
         setUpViewControllers()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        NotificationCenter.default.post(name: NSNotification.Name("loadPersistentStoresError"), object: nil)
+    }
+    
     private func setUpViewControllers() {
         let listViewController = ListViewController()
         let detailViewController = DetailViewController()

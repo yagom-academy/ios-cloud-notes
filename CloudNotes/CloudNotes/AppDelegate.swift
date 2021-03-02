@@ -19,7 +19,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         return true
     }
-
+    
+    @objc func receiveNotification(_ notification: Notification) {
+        let alert = UIAlertController(title: "에러가 발생했습니다.", message: "앱을 종료했다가 다시 켜주세요!", preferredStyle: .alert)
+        let okButton = UIAlertAction(title: "Ok", style: .cancel) { _ in
+            fatalError("persistentContainer load error!")
+        }
+        alert.addAction(okButton)
+        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+              let sceneDelegate = windowScene.delegate as? SceneDelegate else {
+            return
+        }
+        sceneDelegate.window?.rootViewController?.present(alert, animated: true, completion: nil)
+    }
+    
     // MARK: UISceneSession Lifecycle
     @available(iOS 13.0, *)
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
@@ -32,24 +45,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let container = NSPersistentCloudKitContainer(name: "CloudNotes")
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
-                fatalError("Unresolved error \(error), \(error.userInfo)")
+                NotificationCenter.default.addObserver(self, selector: #selector(self.receiveNotification(_:)), name: Notification.Name("loadPersistentStoresError"), object: nil)
             }
         })
         return container
     }()
-
-    // MARK: - Core Data Saving support
-    @available(iOS 13.0, *)
-    func saveContext () {
-        let context = persistentContainer.viewContext
-        if context.hasChanges {
-            do {
-                try context.save()
-            } catch {
-                let nserror = error as NSError
-                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
-            }
-        }
-    }
 }
 

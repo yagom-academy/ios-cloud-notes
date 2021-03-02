@@ -21,7 +21,7 @@ class MemoContentsViewController: UIViewController {
         configureNavigationBar()
         configureDisclosureButton()
     }
-
+    
     override func viewWillDisappear(_ animated: Bool) {
         UserDefaults.standard.set(false, forKey: UserDefaultsKeys.isCellSelected.rawValue)
     }
@@ -81,7 +81,7 @@ class MemoContentsViewController: UIViewController {
         navigationItem.rightBarButtonItems?.removeFirst()
         updateMemo()
     }
-
+    
     func deleteMemo() {
         let selectedMemoIndexPathRow = UserDefaults.standard.integer(forKey: UserDefaultsKeys.selectedMemoIndexPathRow.rawValue)
         
@@ -196,17 +196,17 @@ extension MemoContentsViewController {
     }
     
     private func showDeleteMessage() {
-         let deleteMenu = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: UIAlertController.Style.alert)
-         
-         let cancleAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        let deleteMenu = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: UIAlertController.Style.alert)
+        
+        let cancleAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
         let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
             self.deleteMemo()
         }
-         deleteMenu.addAction(cancleAction)
-         deleteMenu.addAction(deleteAction)
-         
-         present(deleteMenu, animated: true, completion: nil)
-     }
+        deleteMenu.addAction(cancleAction)
+        deleteMenu.addAction(deleteAction)
+        
+        present(deleteMenu, animated: true, completion: nil)
+    }
     
     @objc func showActionSheet(_ sender: UIButton) {
         let actionSheet = UIAlertController(title: nil, message: "Choose Option", preferredStyle: .actionSheet)
@@ -240,7 +240,7 @@ extension MemoContentsViewController {
         
         activityViewController.popoverPresentationController?.sourceView = disclosureButton
         activityViewController.popoverPresentationController?.sourceRect = disclosureButton.bounds
-
+        
         self.present(activityViewController, animated: true, completion: nil)
     }
 }

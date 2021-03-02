@@ -67,7 +67,20 @@ extension ListViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        delegate?.memoSelected(indexPath.row)
+        if indexPath.row == 0 {
+            delegate?.memoSelected(indexPath.row)
+            showDetailView()
+            return
+        }
+        
+        if let newMemo = MemoModel.shared.list.first,
+           let _ = newMemo.content {
+            delegate?.memoSelected(indexPath.row)
+        } else {
+            MemoModel.shared.delete(index: 0)
+            delegate?.memoSelected(indexPath.row - 1)
+        }
+        
         showDetailView()
     }
     

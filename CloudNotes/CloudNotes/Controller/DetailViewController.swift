@@ -27,23 +27,26 @@ final class DetailViewController: UIViewController {
     
     //MARK: setup memo
     private func setupMemo(_ index: Int?) {
-        memoIndex = index
+        self.memoIndex = index
         refreshUI()
     }
     
     private func refreshUI() {
         loadViewIfNeeded()
-        guard let memoIndex = memoIndex,
-              let content =  MemoModel.shared.list[memoIndex].content else {
+        guard let memoIndex = memoIndex else {
             setDefaultMemo()
             return
         }
-        memoBodyTextView.attributedText = applyFontStyle(content: content)
+        
+        if let content =  MemoModel.shared.list[memoIndex].content {
+            self.memoBodyTextView.attributedText = applyFontStyle(content: content)
+        }
     }
     
     private func setDefaultMemo() {
-        MemoModel.shared.create(content: "새로운메모\n아직 내용없음")
-        memoBodyTextView.text = ""
+        MemoModel.shared.create(content: nil)
+        self.memoIndex = 0
+        self.memoBodyTextView.text = ""
     }
     
     private func applyFontStyle(content: String) -> NSAttributedString {
@@ -209,24 +212,22 @@ extension DetailViewController {
 extension DetailViewController: UITextViewDelegate {
     func textViewDidEndEditing(_ textView: UITextView) {
         textView.isEditable = false
-        textView.dataDetectorTypes = [.link, .phoneNumber, .calendarEvent]
     }
     
     func textViewDidChange(_ textView: UITextView) {
-        guard let content = self.memoBodyTextView.text, !content.isEmpty else {
+        guard let memoIndex = memoIndex,
+              let content = textView.text else {
             return
         }
         
-        guard let memoIndex = memoIndex else {
-            MemoModel.shared.update(index: 0, content: content)
-            return
-        }
-           
-        guard let originalContent = MemoModel.shared.list[memoIndex].content else {
+        if let originalContent = MemoModel.shared.list[memoIndex].content,
+           content.elementsEqual(originalContent) {
             return
         }
         
-        if !content.elementsEqual(originalContent) {
+        if content.isEmpty {
+            MemoModel.shared.update(index: memoIndex, content: nil)
+        } else {
             MemoModel.shared.update(index: memoIndex, content: content)
             self.memoIndex = 0
         }

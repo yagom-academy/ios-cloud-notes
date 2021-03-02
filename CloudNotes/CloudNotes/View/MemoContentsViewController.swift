@@ -91,7 +91,8 @@ class MemoContentsViewController: UIViewController {
             return
         }
         
-        if CoreDataSingleton.shared.delete(object: CoreDataSingleton.shared.memoData[selectedMemoIndexPathRow]) {
+        do {
+            try CoreDataSingleton.shared.delete(object: CoreDataSingleton.shared.memoData[selectedMemoIndexPathRow])
             CoreDataSingleton.shared.memoData.remove(at: selectedMemoIndexPathRow)
             UserDefaults.standard.set(0, forKey: UserDefaultsKeys.selectedMemoIndexPathRow.rawValue)
             delegate?.deleteCell()
@@ -108,18 +109,19 @@ class MemoContentsViewController: UIViewController {
                     self.splitViewController?.viewControllers.removeLast()
                 }
             }
-        } else {
-            showAlertMessage("메모를 삭제에 실패했습니다.")
+        } catch {
+            print(MemoAppError.system.message)
         }
     }
     
     func updateMemo() {
         let splitText = splitString()
         let selectedMemoIndexPathRow = UserDefaults.standard.integer(forKey: UserDefaultsKeys.selectedMemoIndexPathRow.rawValue)
-        if CoreDataSingleton.shared.update(object: CoreDataSingleton.shared.memoData[selectedMemoIndexPathRow], title: splitText.0, body: splitText.1) {
+        do {
+            try CoreDataSingleton.shared.update(object: CoreDataSingleton.shared.memoData[selectedMemoIndexPathRow], title: splitText.0, body: splitText.1)
             delegate?.updateTableViewList()
-        } else {
-            showAlertMessage("메모 편집에 실패했습니다!")
+        } catch {
+            print(MemoAppError.system.message)
         }
     }
     

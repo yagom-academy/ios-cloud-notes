@@ -8,6 +8,10 @@
 import UIKit
 
 final class MainViewController: UISplitViewController {
+    
+    let listViewController = ListViewController()
+    let detailViewController = DetailViewController()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setMainViewController()
@@ -16,9 +20,8 @@ final class MainViewController: UISplitViewController {
     private func setMainViewController() {
         self.delegate = self
         
-        let listViewController = ListViewController()
-        listViewController.delegate = self
-        let detailViewController = DetailViewController()
+        listViewController.listViewDelegate = self
+        
         let listViewNavigationController = UINavigationController(rootViewController: listViewController)
         let detailViewNavigationController = UINavigationController(rootViewController: detailViewController)
 
@@ -34,7 +37,7 @@ extension MainViewController: UISplitViewControllerDelegate {
     }
 }
 
-extension MainViewController: SendMemoDelegate {
+extension MainViewController: ListViewDelegate {
     func didTapListCell(memo: TestMemo?) {
         (self.viewControllers.last as? UINavigationController)?.popToRootViewController(animated: false)
         
@@ -45,5 +48,13 @@ extension MainViewController: SendMemoDelegate {
         detailView.memoTextView.text += memo.contents
         
         (self.viewControllers.last as? UINavigationController)?.pushViewController(detailView, animated: false)
+    }
+    
+    func didTapAddButton() {
+        (self.viewControllers.last as? UINavigationController)?.popToRootViewController(animated: false)
+        
+        let addView = AddViewController()
+        
+        (self.viewControllers.last as? UINavigationController)?.pushViewController(addView, animated: false)
     }
 }

@@ -6,14 +6,15 @@
 
 import UIKit
 
-protocol SendMemoDelegate: AnyObject {
+protocol ListViewDelegate: AnyObject {
     func didTapListCell(memo: TestMemo?)
+    func didTapAddButton()
 }
 
 final class ListViewController: UIViewController {
     
     private var memoList: [TestMemo]?
-    weak var delegate: SendMemoDelegate?
+    weak var listViewDelegate: ListViewDelegate?
     
     private let tableView: UITableView = {
         let tableView = UITableView()
@@ -35,8 +36,7 @@ final class ListViewController: UIViewController {
     }
     
     @objc private func goToAddMemoVeiwController() {
-       let addMemoViewController = AddMemoViewController()
-        self.navigationController?.pushViewController(addMemoViewController, animated: false)
+        listViewDelegate?.didTapAddButton()
     }
     
     private func setTableView() {
@@ -69,7 +69,7 @@ extension ListViewController: UITableViewDelegate {
             return
         }
         let memo = memoList[indexPath.row]
-        delegate?.didTapListCell(memo: memo)
+        listViewDelegate?.didTapListCell(memo: memo)
     }
 }
 

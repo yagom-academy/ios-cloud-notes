@@ -31,6 +31,7 @@ class DetailNoteViewController: UIViewController {
         detailNoteTextView.delegate = self
         if let _ = fetchedNote {
             detailNoteTextView.isEditable = false
+            navigationItem.setRightBarButton(moreButton, animated: false)
         } else {
             detailNoteTextView.isEditable = true
             detailNoteTextView.becomeFirstResponder()

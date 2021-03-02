@@ -149,9 +149,13 @@ extension MemoViewController {
         swipeDownGesture.direction = UISwipeGestureRecognizer.Direction.down
         memoTextView.addGestureRecognizer(swipeDownGesture)
     }
-    func setMemo(_ memo: Memo) {
-        self.memo = memo
-        memoTextView.text = (memo.title ?? "") + "\n" + (memo.body ?? "")
+    func setMemo(_ memo: Memo?) {
+        if let memo = memo {
+            self.memo = memo
+            memoTextView.text = (memo.title ?? "") + "\n" + (memo.body ?? "")
+        } else {
+            memoTextView.text = nil
+        }
     }
 }
 

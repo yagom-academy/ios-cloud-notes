@@ -28,11 +28,7 @@ class MemoSplitViewController: UISplitViewController {
         guard let memoViewController = detailViewController.topViewController as? MemoViewController else {
             return
         }
-        if let memo = memo {
-            memoViewController.setMemo(memo)
-        } else {
-            
-        }
+        memoViewController.setMemo(memo)
         showDetailViewController(detailViewController, sender: nil)
     }
     

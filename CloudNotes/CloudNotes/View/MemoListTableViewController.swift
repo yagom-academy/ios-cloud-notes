@@ -33,7 +33,7 @@ class MemoListTableViewController: UITableViewController {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "MemoCell") as? MemoListTableViewCell else {
             return UITableViewCell()
         }
-    
+
         cell.receiveLabelsText(memo: memo)
         return cell
     }
@@ -61,6 +61,7 @@ extension MemoListTableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let memoContentsViewController = MemoContentsViewController()
         let memoContentsNavigationViewController = UINavigationController(rootViewController: memoContentsViewController)
+        memoContentsViewController.delegate = self
         
         UserDefaults.standard.set(true, forKey: UserDefaultsKeys.isCellSelected.rawValue)
         UserDefaults.standard.set(indexPath.row, forKey: UserDefaultsKeys.selectedMemoIndexPathRow.rawValue)

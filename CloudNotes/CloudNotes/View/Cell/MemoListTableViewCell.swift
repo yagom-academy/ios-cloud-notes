@@ -42,7 +42,6 @@ class MemoListTableViewCell: UITableViewCell {
             contentsContainerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             contentsContainerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
             contentsContainerView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            contentsContainerView.heightAnchor.constraint(greaterThanOrEqualToConstant: 44 * 0.9 / 2),
             
             listTitleLabel.leadingAnchor.constraint(equalTo: contentsContainerView.leadingAnchor),
             listTitleLabel.trailingAnchor.constraint(equalTo: contentsContainerView.trailingAnchor),
@@ -57,8 +56,7 @@ class MemoListTableViewCell: UITableViewCell {
             listShortBodyLabel.leadingAnchor.constraint(greaterThanOrEqualTo: listLastModifiedDateLabel.trailingAnchor, constant: 40),
             listShortBodyLabel.trailingAnchor.constraint(equalTo: contentsContainerView.trailingAnchor),
             listShortBodyLabel.bottomAnchor.constraint(equalTo: contentsContainerView.bottomAnchor),
-            listShortBodyLabel.topAnchor.constraint(equalTo: listTitleLabel.bottomAnchor),
-            listShortBodyLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 44 * 0.9 / 2)
+            listShortBodyLabel.topAnchor.constraint(equalTo: listTitleLabel.bottomAnchor)
         ])
     }
     
@@ -75,8 +73,20 @@ class MemoListTableViewCell: UITableViewCell {
             return dateStr
         }
         
-        listTitleLabel.text = title
-        listShortBodyLabel.text = body
+        switch title {
+        case "":
+            listTitleLabel.text = "새로운 메모"
+        default:
+            listTitleLabel.text = title
+        }
+
+        switch body {
+        case "":
+            listShortBodyLabel.text = "텍스트 없음"
+        default:
+            listShortBodyLabel.text = body
+        }
+        
         listLastModifiedDateLabel.text = lastModifiedDateToString
     }
 }

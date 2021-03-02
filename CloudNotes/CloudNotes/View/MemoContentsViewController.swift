@@ -101,7 +101,6 @@ class MemoContentsViewController: UIViewController {
         }
     }
     
-    
     func updateMemo() {
         let splitText = splitString()
         let selectedMemoIndexPathRow = UserDefaults.standard.integer(forKey: UserDefaultsKeys.selectedMemoIndexPathRow.rawValue)
@@ -135,8 +134,6 @@ class MemoContentsViewController: UIViewController {
         return (titleText, bodyText)
     }
 }
-
-
 
 // MARK: dataDetectorTypes & isEditable
 extension MemoContentsViewController {

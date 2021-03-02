@@ -23,6 +23,7 @@ class MemoSplitViewController: UISplitViewController {
         }
         
         self.viewControllers = [memoListNavigationController, memoContentsNavigationViewController]
+        memoContentsViewController.delegate = memoListTableViewController
     }
     
     private func configureSplitViewController() {

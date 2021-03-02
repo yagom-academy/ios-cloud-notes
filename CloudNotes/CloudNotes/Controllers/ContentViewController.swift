@@ -8,12 +8,9 @@
 import UIKit
 
 class ContentViewController: UIViewController {
-    private var contentVCMemo = Memo()
-    
     private let headLinefont = UIFont.boldSystemFont(ofSize: 24)
     private let bodyLinefont = UIFont.systemFont(ofSize: 15)
-
-    private let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext
+//    var delegate: SendInformationDelegate?
     
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -47,9 +44,72 @@ class ContentViewController: UIViewController {
     }
     
     func didTapMemoItem(with memo: Memo) {
-        self.contentVCMemo = memo
-        updateUI(with: contentVCMemo)
-        checkMemo(with: contentVCMemo)
+        updateUI(with: memo)
+    }
+}
+extension ContentViewController {
+    @objc private func keyboardWillShow(_ sender: Notification) {
+        guard let userInfo = sender.userInfo,
+              let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else {
+            return
+        }
+        
+        scrollView.contentInset.bottom = keyboardFrame.size.height
+    }
+    
+    @objc private func keyboardWillHide(_ sender: Notification) {
+        let contentInset = UIEdgeInsets.zero
+        scrollView.contentInset = contentInset
+        scrollView.scrollIndicatorInsets = contentInset
+    }
+    
+    @objc private func didTapOptionButton(_ sender: UIBarButtonItem) {
+        contentView.endEditing(true)
+        
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        let shareAction = UIAlertAction(title: "Share...", style: .default, handler: { (alert: UIAlertAction!) -> Void in
+            guard let sharingMessage = self.contentView.text else {
+                return
+            }
+            
+            let activityViewController = UIActivityViewController(activityItems: [sharingMessage], applicationActivities: nil)
+            if let popoverPresentationController = activityViewController.popoverPresentationController {
+                popoverPresentationController.sourceView = self.view
+                popoverPresentationController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+                popoverPresentationController.permittedArrowDirections = []
+            }
+            self.present(activityViewController, animated: true, completion: nil)
+        })
+        
+        let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: { (alert: UIAlertAction!) -> Void in
+            let alertController = UIAlertController(title: "진짜요?", message: "진짜로 삭제하시겠습니까?", preferredStyle: .alert)
+            
+            let deleteCancelAction = UIAlertAction(title: "취소", style: .default, handler: nil)
+            let deleteCompleteAction = UIAlertAction(title: "삭제", style: .destructive, handler: { [weak self] _  in
+//                self?.delegate = self?.splitViewController?.viewControllers.first as? ListViewController
+//                self?.delegate!.send(text: "test")
+            })
+            
+            alertController.addAction(deleteCancelAction)
+            alertController.addAction(deleteCompleteAction)
+            
+            self.present(alertController, animated: true, completion: nil)
+        })
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        alertController.addAction(shareAction)
+        alertController.addAction(deleteAction)
+        alertController.addAction(cancelAction)
+        
+        if let popoverController = alertController.popoverPresentationController {
+            popoverController.sourceView = self.view
+            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+            popoverController.permittedArrowDirections = []
+        }
+        
+        self.present(alertController, animated: true, completion: nil)
     }
 }
 
@@ -75,12 +135,6 @@ extension ContentViewController {
         ])
     }
 
-    private func checkMemo(with memo: Memo) {
-        if memo.title == "새로운 메모" {
-            contentView.text = " "
-        }
-    }
-
     private func updateUI(with memo: Memo) {
         let memoAttributedString = NSMutableAttributedString(string: memo.title ?? "")
         let bodyAttributedString = NSMutableAttributedString(string: "\n\(memo.body ?? "")")
@@ -102,79 +156,18 @@ extension ContentViewController {
         }
     }
     
-    @objc private func keyboardWillShow(_ sender: Notification) {
-        guard let userInfo = sender.userInfo,
-              let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else {
-            return
-        }
-        
-        scrollView.contentInset.bottom = keyboardFrame.size.height
-    }
-    
-    @objc private func keyboardWillHide(_ sender: Notification) {
-        let contentInset = UIEdgeInsets.zero
-        scrollView.contentInset = contentInset
-        scrollView.scrollIndicatorInsets = contentInset
-    }
-    
-    @objc private func didTapOptionButton(_ sender: UIBarButtonItem) {
-        contentView.endEditing(true)
-        guard let sharingMessage = self.contentView.text else {
-            return
-        }
-        
-        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        
-        let shareAction = UIAlertAction(title: "Share...", style: .default, handler: { (alert: UIAlertAction!) -> Void in
-            
-            let activityViewController = UIActivityViewController(activityItems: [sharingMessage], applicationActivities: nil)
-            if let popoverPresentationController = activityViewController.popoverPresentationController {
-                popoverPresentationController.sourceView = self.view
-                popoverPresentationController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
-                popoverPresentationController.permittedArrowDirections = []
-            }
-            self.present(activityViewController, animated: true, completion: nil)
-        })
-        let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: { (alert: UIAlertAction!) -> Void in
-            let alertController = UIAlertController(title: "진짜요?", message: "진짜로 삭제하시겠습니까?", preferredStyle: .alert)
-            
-            let cancelAction = UIAlertAction(title: "취소", style: .default, handler: nil)
-            let deleteCompleteAction = UIAlertAction(title: "삭제", style: .destructive, handler: { [weak self] _  in
-                self?.deleteItem(item: self!.contentVCMemo)
-            })
-            
-            alertController.addAction(cancelAction)
-            alertController.addAction(deleteCompleteAction)
-            
-            self.present(alertController, animated: true, completion: nil)
-        })
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        
-        alertController.addAction(shareAction)
-        alertController.addAction(deleteAction)
-        alertController.addAction(cancelAction)
-        
-        if let popoverController = alertController.popoverPresentationController {
-            popoverController.sourceView = self.view
-            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
-            popoverController.permittedArrowDirections = []
-        }
-        
-        self.present(alertController, animated: true, completion: nil)
-    }
-    
-    private  func deleteItem(item: Memo) {
-        guard let context = self.context else { return }
-        
-        context.delete(item)
-        
-        do {
-            try context.save()
-            self.navigationController?.popViewController(animated: true)
-        } catch {
-            
-        }
-    }
+//    private  func deleteItem(item: Memo) {
+//        guard let context = self.context else { return }
+//
+//        context.delete(item)
+//
+//        do {
+//            try context.save()
+//            self.navigationController?.popViewController(animated: true)
+//        } catch {
+//
+//        }
+//    }
 }
 
 extension ContentViewController: UITextViewDelegate {
@@ -188,7 +181,6 @@ extension ContentViewController: UITextViewDelegate {
         let textAsNSString: NSString = contentView.text as NSString
         let replaced: NSString = textAsNSString.replacingCharacters(in: range, with: text) as NSString
         let boldRange: NSRange = replaced.range(of: "\n")
-        
         if boldRange.location <= range.location {
             contentView.typingAttributes = bodyAttributes
         } else {

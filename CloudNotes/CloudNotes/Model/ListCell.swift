@@ -42,7 +42,8 @@ class ListCell: UITableViewCell {
     func update(info: Memo) {
         titleLabel.text = info.title
         contentsLabel.text = info.contents
-        dateLabel.text = info.lastModifiedDateToString
+//        dateLabel.text = info.lastModifiedDateToString
+//        -> Date 타입 String 타입으로 바꿔줘야함
     }
     
     private func addSubview() {

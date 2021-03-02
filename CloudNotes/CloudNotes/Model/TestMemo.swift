@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Memo: Decodable {
+struct TestMemo: Decodable {
     let title: String
     let contents: String
     private let lastModified: Double
@@ -19,7 +19,7 @@ struct Memo: Decodable {
     }
 }
 
-extension Memo {
+extension TestMemo {
     var lastModifiedDateToString: String {
         let date = Date(timeIntervalSince1970: lastModified)
         let dateFormatter = DateFormatter()

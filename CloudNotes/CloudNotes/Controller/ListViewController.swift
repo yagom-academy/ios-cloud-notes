@@ -6,16 +6,16 @@
 
 import UIKit
 
-protocol SendMemoDelegate: AnyObject {
+protocol ListViewDelegate: AnyObject {
     func didTapListCell(memo: Memo?)
+    func didTapAddButton()
 }
 
 final class ListViewController: UIViewController {
     
-    private var memoList: [Memo]?
-    weak var delegate: SendMemoDelegate?
+    weak var listViewDelegate: ListViewDelegate?
     
-    private let tableView: UITableView = {
+    let tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.register(ListCell.self, forCellReuseIdentifier: ListCell.identifier)
@@ -24,6 +24,7 @@ final class ListViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        MemoData.shared.read()
         setNavigation()
         setTableView()
     }
@@ -31,18 +32,16 @@ final class ListViewController: UIViewController {
     private func setNavigation() {
         self.title = "메모"
         self.view.backgroundColor = .white
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: #selector(goToAddMemoVeiwController))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: #selector(goToAddVeiwController))
     }
     
-    @objc private func goToAddMemoVeiwController() {
-       let addMemoViewController = AddMemoViewController()
-        self.navigationController?.pushViewController(addMemoViewController, animated: false)
+    @objc private func goToAddVeiwController() {
+        listViewDelegate?.didTapAddButton()
     }
     
     private func setTableView() {
         tableView.dataSource = self
         tableView.delegate = self
-        memoList = Parser.decodeMemo()
         addSubview()
         setAutoLayout()
     }
@@ -65,19 +64,14 @@ final class ListViewController: UIViewController {
 extension ListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)
-        guard let memoList = memoList else {
-            return
-        }
-        let memo = memoList[indexPath.row]
-        delegate?.didTapListCell(memo: memo)
+        let memo = MemoData.shared.list[indexPath.row]
+        listViewDelegate?.didTapListCell(memo: memo)
     }
 }
 
 extension ListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let memoList = memoList else {
-            return 0
-        }
+        let memoList = MemoData.shared.list
         return memoList.count
     }
     
@@ -85,9 +79,7 @@ extension ListViewController: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: ListCell.identifier, for: indexPath) as? ListCell else {
             return UITableViewCell()
         }
-        guard let memoList = memoList else {
-            return UITableViewCell()
-        }
+        let memoList = MemoData.shared.list
         let memoListInfo = memoList[indexPath.row]
         cell.update(info: memoListInfo)
         return cell

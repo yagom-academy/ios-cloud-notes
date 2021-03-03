@@ -6,7 +6,7 @@
 
 import UIKit
 
-protocol MemoStatusDelegate {
+protocol MemoDelegate {
     func updateMemo(memo: Memo)
     func deleteMemo(memo: Memo)
 }
@@ -27,11 +27,6 @@ class ListViewController: UITableViewController {
         fetchMemo()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-
-    }
-    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return memoList.count
     }
@@ -41,8 +36,8 @@ class ListViewController: UITableViewController {
             return UITableViewCell()
         }
         
-        if memoList[indexPath.row].title == " ",
-           memoList[indexPath.row].body == " " {
+        if memoList[indexPath.row].title == "",
+           memoList[indexPath.row].body == "" {
             cell.titleLabel.text = "새로운 메모"
             cell.predescriptionLabel.text = "추가 텍스트 없음"
         } else {
@@ -68,16 +63,13 @@ extension ListViewController {
     //MARK: CREATE
     private func createNewMemo() {
         let newMemo = Memo(context: context)
-        newMemo.title = " "
-        newMemo.body = " "
+        newMemo.title = ""
+        newMemo.body = ""
         newMemo.lastModified = Date()
         
         do {
             try context.save()
             fetchMemo()
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
         } catch(let error) {
             #if DEBUG
             print(error)
@@ -100,16 +92,17 @@ extension ListViewController {
     }
     
     //MARK: UPDATE
-    private func updateItem(_ memo: Memo) { // title, body, date 변경 모두 포함된 메모
-        do {
-            try context.save() // 데이터 반영
-            fetchMemo()
-        } catch {
-            #if DEBUG
-            print(error)
-            #endif
+    private func updateItem(memo: Memo) {
+        if context.hasChanges {
+            do {
+                try context.save()
+                fetchMemo()
+            } catch {
+                #if DEBUG
+                print(error)
+                #endif
+            }
         }
-        
     }
     
     //MARK: DELETE
@@ -119,6 +112,9 @@ extension ListViewController {
             try context.save()
             fetchMemo()
         } catch {
+            #if DEBUG
+            print(error)
+            #endif
             
         }
     }
@@ -149,9 +145,9 @@ extension ListViewController {
         (splitViewController?.viewControllers.last as? UINavigationController)?.pushViewController(contentVC, animated: true)
     }
 }
-extension ListViewController: MemoStatusDelegate {
+extension ListViewController: MemoDelegate {
     func updateMemo(memo: Memo) {
-        self.updateItem(memo)
+        self.updateItem(memo: memo)
     }
 
     func deleteMemo(memo: Memo) {

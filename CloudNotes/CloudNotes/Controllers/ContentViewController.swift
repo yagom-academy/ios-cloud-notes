@@ -11,7 +11,7 @@ class ContentViewController: UIViewController {
     private let headLinefont = UIFont.boldSystemFont(ofSize: 24)
     private let bodyLinefont = UIFont.systemFont(ofSize: 15)
     private var currentMemo: Memo?
-    var delegate: MemoStatusDelegate?
+    var delegate: MemoDelegate?
     
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -106,7 +106,6 @@ extension ContentViewController {
                     
                     self.delegate?.deleteMemo(memo: currentMemo)
                     self.navigationController?.popToRootViewController(animated: false)
-//                    self.navigationController?.popViewController(animated: true)
                 }
             })
             

@@ -7,6 +7,7 @@
 import UIKit
 
 protocol MemoStatusDelegate {
+    func updateMemo(title: String?, body: String?, date: Date?)
     func deleteMemo(memo: Memo)
 }
 
@@ -97,6 +98,17 @@ extension ListViewController {
     }
     
     //MARK: UPDATE
+    private func updateItem(title: String?, body: String?, date: Date?) {
+        if context.hasChanges {
+            do {
+                try context.save()
+            } catch {
+                #if DEBUG
+                print(error)
+                #endif
+            }
+        }
+    }
     
     //MARK: DELETE
     private func deleteItem(memo: Memo) {
@@ -135,6 +147,10 @@ extension ListViewController {
     }
 }
 extension ListViewController: MemoStatusDelegate {
+    func updateMemo(title: String?, body: String?, date: Date?) {
+        self.updateItem(title: title, body: body, date: date)
+    }
+
     func deleteMemo(memo: Memo) {
         self.deleteItem(memo: memo)
     }

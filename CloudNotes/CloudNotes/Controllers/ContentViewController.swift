@@ -43,6 +43,13 @@ class ContentViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        guard let currentMemo = self.currentMemo else { return }
+        let result = updateContents(memo: currentMemo)
+        delegate?.updateMemo(title: result.title, body: result.body, date: result.date)
+    }
     
     func didTapMemoItem(with memo: Memo) {
         self.currentMemo = memo
@@ -162,6 +169,19 @@ extension ContentViewController {
                 constraint.constant = rearrangedSize.height
             }
         }
+    }
+
+    private func updateContents(memo: Memo) -> (title: String?, body: String?, date: Date?) {
+        let startIndex: String.Index = contentView.text.startIndex
+        guard let endInex: String.Index = contentView.text.firstIndex(of: "\n") else { return (nil, nil, nil) }
+        let title: Substring = contentView.text[startIndex...endInex]
+        let body: Substring = contentView.text[endInex...]
+
+        memo.title = String(title)
+        memo.body = String(body)
+        memo.lastModified = Date()
+
+        return (memo.title, memo.body, memo.lastModified)
     }
 }
 

@@ -67,8 +67,8 @@ class DetailNoteViewController: UIViewController {
     
     @objc private func touchUpMoreButton(_ sender: UIBarButtonItem) {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let shareAction = UIAlertAction(title: "Share", style: .default, handler: { action in
-            self.touchUpShareAction(sender)
+        let shareAction = UIAlertAction(title: "Share", style: .default, handler: { [weak self] action in
+            self?.touchUpShareAction(sender)
         })
         let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: { action in
             print("delete")

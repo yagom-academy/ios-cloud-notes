@@ -65,16 +65,38 @@ class DetailNoteViewController: UIViewController {
         }
     }
     
-    @objc private func touchUpMoreButton() {
+    @objc private func touchUpMoreButton(_ sender: UIBarButtonItem) {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let shareAction = UIAlertAction(title: "Share", style: .default, handler: nil)
-        let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: nil)
+        let shareAction = UIAlertAction(title: "Share", style: .default, handler: { action in
+            self.touchUpShareAction(sender)
+        })
+        let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: { action in
+            print("delete")
+        })
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         alertController.addAction(shareAction)
         alertController.addAction(deleteAction)
         alertController.addAction(cancelAction)
         
+        // popover로 presentation될 경우(iPad)에 띄어질 위치를 현재 버튼으로 지정
+        if let popover = alertController.popoverPresentationController {
+            popover.barButtonItem = sender
+        }
+        
         present(alertController, animated: true, completion: nil)
+    }
+    
+    private func touchUpShareAction(_ sender: UIBarButtonItem) {
+        guard let noteTexts = detailNoteTextView.text else { return }
+        
+        let activityViewController = UIActivityViewController(activityItems: [noteTexts], applicationActivities: nil)
+        
+        // popover로 presentation될 경우(iPad)에 띄어질 위치를 현재 버튼으로 지정
+        if let popover = activityViewController.popoverPresentationController {
+            popover.barButtonItem = sender
+        }
+        
+        present(activityViewController, animated: true, completion: nil)
     }
     
     private func addTapGestureRecognizerToTextView() {

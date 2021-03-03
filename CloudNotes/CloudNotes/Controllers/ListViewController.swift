@@ -21,6 +21,7 @@ class ListViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        splitViewController?.viewControllers.append(UINavigationController(rootViewController: UIViewController()))
         setUpTableView()
         setUpNavigationBar()
         fetchMemo()
@@ -143,7 +144,8 @@ extension ListViewController {
             guard let recentlyCreatedMemo = memoList.last else { return }
             contentVC.didTapMemoItem(with: recentlyCreatedMemo)
         }
-        splitViewController?.viewControllers.append(UINavigationController())
+
+        (splitViewController?.viewControllers.last as? UINavigationController)?.popToRootViewController(animated: false)
         (splitViewController?.viewControllers.last as? UINavigationController)?.pushViewController(contentVC, animated: true)
     }
 }

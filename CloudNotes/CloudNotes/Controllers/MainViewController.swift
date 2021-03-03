@@ -9,7 +9,6 @@ import UIKit
 
 class MainViewController: UISplitViewController, UISplitViewControllerDelegate {
     let masterViewController = ListViewController()
-    let detailViewController = ContentViewController()
     
     override func viewDidLoad() {
         super.viewDidLoad()

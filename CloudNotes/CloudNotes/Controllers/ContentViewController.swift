@@ -105,7 +105,8 @@ extension ContentViewController {
                     self.delegate = masterVC
                     
                     self.delegate?.deleteMemo(memo: currentMemo)
-                    self.navigationController?.popViewController(animated: true)
+                    self.navigationController?.popToRootViewController(animated: false)
+//                    self.navigationController?.popViewController(animated: true)
                 }
             })
             

@@ -74,6 +74,12 @@ class CoreDataManager {
         noteList.remove(at: index)
     }
     
+    func deleteNote(note: Note) {
+        if let index = noteList.firstIndex(of: note) {
+            deleteNote(index: index)
+        }
+    }
+    
     // MARK: - Core Data stack
 
     lazy var persistentContainer: NSPersistentCloudKitContainer = {

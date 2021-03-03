@@ -31,6 +31,7 @@ class DetailNoteViewController: UIViewController {
         detailNoteTextView.delegate = self
         if let _ = fetchedNote {
             detailNoteTextView.isEditable = false
+            navigationItem.setRightBarButton(moreButton, animated: false)
         } else {
             detailNoteTextView.isEditable = true
             detailNoteTextView.becomeFirstResponder()
@@ -50,11 +51,11 @@ class DetailNoteViewController: UIViewController {
     }
     
     private func setTextViewFromFetchedNote() {
-        guard let noteData = fetchedNote else {
+        guard let note = fetchedNote, let title = note.title, let body = note.body else {
             return
         }
         
-        detailNoteTextView.text = "\(noteData.title)\n\(noteData.body)"
+        detailNoteTextView.text = "\(title)\n\(body)"
     }
     
     @objc private func touchUpCompleteButton() {
@@ -84,37 +85,39 @@ class DetailNoteViewController: UIViewController {
     }
     
     private func saveNote() {
-        let note: Note
-        if detailNoteTextView.text == UIConstants.strings.textInitalizing {
-            note = Note(title: UIConstants.strings.emptyNoteTitleText, body: UIConstants.strings.textInitalizing)
-        } else {
-            let textViewText = detailNoteTextView.text.split(separator: "\n", maxSplits: 1, omittingEmptySubsequences: true)
-            note = checkTextView(text: textViewText)
-        }
+        let noteTexts: (title: String, body: String)
+        noteTexts = divdeTextForNote(text: detailNoteTextView.text)
         
         if let fetchedNote = self.fetchedNote {
-            fetchedNote.title = note.title
-            fetchedNote.body = note.body
-            fetchedNote.lastModifiedDate = note.lastModifiedDate
+            if (fetchedNote.title != noteTexts.title) || (fetchedNote.body != noteTexts.body) {
+                CoreDataManager.shared.updateNote(note: fetchedNote, title: noteTexts.title, body: noteTexts.body)
+            }
         } else {
-            NoteData.shared.add(note: note)
-            self.fetchedNote = note
+            self.fetchedNote = CoreDataManager.shared.createNote(title: noteTexts.title, body: noteTexts.body)
         }
         
         NotificationCenter.default.post(name: DetailNoteViewController.memoDidSave, object: nil)
     }
     
-    private func checkTextView(text: [String.SubSequence]) -> Note {
-        if text.count == 1 {
-            let titleText = String(text[0])
-            let note = Note(title: titleText, body: UIConstants.strings.textInitalizing)
-            return note
-        } else {
-            let titleText = String(text[0])
-            let bodyText = String(text[1])
-            let note = Note(title: titleText, body: bodyText)
-            return note
+    private func divdeTextForNote(text: String) -> (title: String, body: String) {
+        let noteTexts: (title: String, body: String)
+        
+        guard text != UIConstants.strings.textInitalizing else {
+            noteTexts.title = UIConstants.strings.emptyNoteTitleText
+            noteTexts.body = UIConstants.strings.textInitalizing
+            return noteTexts
         }
+        
+        let splitedText = detailNoteTextView.text.split(separator: "\n", maxSplits: 1, omittingEmptySubsequences: true)
+        if splitedText.count == 1 {
+            noteTexts.title = String(splitedText[0])
+            noteTexts.body = UIConstants.strings.textInitalizing
+        } else {
+            noteTexts.title = String(splitedText[0])
+            noteTexts.body = String(splitedText[1])
+        }
+        
+        return noteTexts
     }
 }
 

@@ -26,6 +26,7 @@ class NoteViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        CoreDataManager.shared.fetchNoteList()
         configureTableView()
         self.view.backgroundColor = .white
         configureNavigationItem()
@@ -70,7 +71,7 @@ class NoteViewController: UIViewController {
 // MARK: - TableView DataSource
 extension NoteViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return NoteData.shared.count
+        return CoreDataManager.shared.noteCount
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -78,14 +79,23 @@ extension NoteViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        cell.titleLabel.text = NoteData.shared.title(index: indexPath.row)
-        cell.bodyLabel.text = NoteData.shared.body(index: indexPath.row)
+        let note = CoreDataManager.shared.note(index: indexPath.row)
+        
+        cell.titleLabel.text = note?.title
+        cell.bodyLabel.text = note?.body
         cell.bodyLabel.textColor = .gray
-        if let lastModifiedDate = NoteData.shared.lastModifiedDate(index: indexPath.row) {
+        if let lastModifiedDate = note?.lastModifiedDate {
             cell.lastModifiedDateLabel.text = dateFormatter.string(from: lastModifiedDate)
         }
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            CoreDataManager.shared.deleteNote(index: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        }
     }
 }
 
@@ -93,7 +103,7 @@ extension NoteViewController: UITableViewDataSource {
 extension NoteViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let detailNoteViewController = DetailNoteViewController()
-        detailNoteViewController.fetchedNote = NoteData.shared.note(index: indexPath.row)
+        detailNoteViewController.fetchedNote = CoreDataManager.shared.note(index: indexPath.row)
         let navigationController = UINavigationController(rootViewController: detailNoteViewController)
         splitViewController?.showDetailViewController(navigationController, sender: nil)
     }

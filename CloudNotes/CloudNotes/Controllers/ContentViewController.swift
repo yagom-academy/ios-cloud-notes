@@ -46,9 +46,12 @@ class ContentViewController: UIViewController {
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        guard let currentMemo = self.currentMemo else { return }
-        let result = updateContents(memo: currentMemo)
-        delegate?.updateMemo(title: result.title, body: result.body, date: result.date)
+            if let mainVC = self.splitViewController as? MainViewController,
+               let modifiedContents = modifyContents() {
+                let masterVC = mainVC.masterViewController
+                self.delegate = masterVC
+                delegate?.updateMemo(memo: modifiedContents)
+        }
     }
     
     func didTapMemoItem(with memo: Memo) {
@@ -171,17 +174,20 @@ extension ContentViewController {
         }
     }
 
-    private func updateContents(memo: Memo) -> (title: String?, body: String?, date: Date?) {
+    private func modifyContents() -> Memo?  {
         let startIndex: String.Index = contentView.text.startIndex
-        guard let endInex: String.Index = contentView.text.firstIndex(of: "\n") else { return (nil, nil, nil) }
-        let title: Substring = contentView.text[startIndex...endInex]
-        let body: Substring = contentView.text[endInex...]
+        guard let endIndex: String.Index = contentView.text.firstIndex(of: "\n") else { return Memo() }
+        let afterEndIndex: String.Index = contentView.text.index(after: endIndex)
 
-        memo.title = String(title)
-        memo.body = String(body)
-        memo.lastModified = Date()
-
-        return (memo.title, memo.body, memo.lastModified)
+        let title: Substring = contentView.text[startIndex..<endIndex]
+        let body: Substring = contentView.text[afterEndIndex...]
+        if let currentMemo = self.currentMemo {
+            currentMemo.title = String(title)
+            currentMemo.body = String(body)
+            currentMemo.lastModified = Date()
+            return currentMemo
+        }
+        return currentMemo
     }
 }
 

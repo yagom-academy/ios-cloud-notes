@@ -10,7 +10,8 @@ import UIKit
 class ContentViewController: UIViewController {
     private let headLinefont = UIFont.boldSystemFont(ofSize: 24)
     private let bodyLinefont = UIFont.systemFont(ofSize: 15)
-//    var delegate: SendInformationDelegate?
+    private var temporaryMemo = Memo()
+    var delegate: MemoStatusDelegate?
     
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -44,6 +45,7 @@ class ContentViewController: UIViewController {
     }
     
     func didTapMemoItem(with memo: Memo) {
+        self.temporaryMemo = memo
         updateUI(with: memo)
     }
 }
@@ -86,9 +88,13 @@ extension ContentViewController {
             let alertController = UIAlertController(title: "진짜요?", message: "진짜로 삭제하시겠습니까?", preferredStyle: .alert)
             
             let deleteCancelAction = UIAlertAction(title: "취소", style: .default, handler: nil)
-            let deleteCompleteAction = UIAlertAction(title: "삭제", style: .destructive, handler: { [weak self] _  in
-//                self?.delegate = self?.splitViewController?.viewControllers.first as? ListViewController
-//                self?.delegate!.send(text: "test")
+            let deleteCompleteAction = UIAlertAction(title: "삭제", style: .destructive, handler: { _  in
+                if let mainVC = self.splitViewController as? MainViewController {
+                    let masterVC = mainVC.masterViewController
+                    self.delegate = masterVC
+                    self.delegate?.deleteMemo(memo: self.temporaryMemo)
+                    self.navigationController?.popViewController(animated: true)
+                }
             })
             
             alertController.addAction(deleteCancelAction)
@@ -155,19 +161,6 @@ extension ContentViewController {
             }
         }
     }
-    
-//    private  func deleteItem(item: Memo) {
-//        guard let context = self.context else { return }
-//
-//        context.delete(item)
-//
-//        do {
-//            try context.save()
-//            self.navigationController?.popViewController(animated: true)
-//        } catch {
-//
-//        }
-//    }
 }
 
 extension ContentViewController: UITextViewDelegate {

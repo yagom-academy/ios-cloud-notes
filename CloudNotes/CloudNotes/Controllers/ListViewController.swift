@@ -6,13 +6,12 @@
 
 import UIKit
 
-//protocol SendInformationDelegate {
-//    func send(text: String)
-//}
-
+protocol MemoStatusDelegate {
+    func deleteMemo(memo: Memo)
+}
 
 class ListViewController: UITableViewController {
-    private let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext
+    private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     private var memoList = [Memo]()
     private lazy var addMemoButton: UIBarButtonItem = {
         let button =  UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonTapped(_:)))
@@ -24,7 +23,7 @@ class ListViewController: UITableViewController {
         setUpTableView()
         setUpNavigationBar()
     }
-
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         fetchMemo()
@@ -65,10 +64,6 @@ class ListViewController: UITableViewController {
 extension ListViewController {
     //MARK: CREATE
     private func createNewMemo() {
-        guard let context = self.context else {
-            return
-        }
-        
         let newMemo = Memo(context: context)
         newMemo.title = " "
         newMemo.body = " "
@@ -89,7 +84,6 @@ extension ListViewController {
     
     //MARK: READ
     private func fetchMemo() {
-        guard let context = self.context else { return }
         do {
             memoList = try context.fetch(Memo.fetchRequest())
             DispatchQueue.main.async {
@@ -105,6 +99,15 @@ extension ListViewController {
     //MARK: UPDATE
     
     //MARK: DELETE
+    private func deleteItem(memo: Memo) {
+        context.delete(memo)
+        do {
+            try context.save()
+            fetchMemo()
+        } catch {
+            
+        }
+    }
 }
 
 extension ListViewController {
@@ -113,7 +116,7 @@ extension ListViewController {
         tableView.estimatedRowHeight = 50
         tableView.rowHeight = UITableView.automaticDimension
     }
-
+    
     private func setUpNavigationBar() {
         navigationItem.title = "메모"
         navigationItem.rightBarButtonItem = addMemoButton
@@ -131,24 +134,8 @@ extension ListViewController {
         (splitViewController?.viewControllers.last as? UINavigationController)?.pushViewController(contentVC, animated: true)
     }
 }
-//extension ListViewController: SendInformationDelegate {
-//    func send(text: String) {
-//        guard let deletingMemoIndexPath = tableView.indexPathForSelectedRow else {
-//            return
-//        }
-//
-//        let test = memoList[deletingMemoIndexPath.row]
-//        guard let context = self.context else {
-//            return
-//        }
-//
-//        context.delete(test)
-//
-//        do {
-//            try context.save()
-//            fetchMemo()
-//        } catch {
-//
-//        }
-//    }
-//}
+extension ListViewController: MemoStatusDelegate {
+    func deleteMemo(memo: Memo) {
+        self.deleteItem(memo: memo)
+    }
+}

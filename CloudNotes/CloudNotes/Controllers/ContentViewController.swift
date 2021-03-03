@@ -10,7 +10,7 @@ import UIKit
 class ContentViewController: UIViewController {
     private let headLinefont = UIFont.boldSystemFont(ofSize: 24)
     private let bodyLinefont = UIFont.systemFont(ofSize: 15)
-    private var temporaryMemo = Memo()
+    private var currentMemo: Memo?
     var delegate: MemoStatusDelegate?
     
     private lazy var scrollView: UIScrollView = {
@@ -45,7 +45,7 @@ class ContentViewController: UIViewController {
     }
     
     func didTapMemoItem(with memo: Memo) {
-        self.temporaryMemo = memo
+        self.currentMemo = memo
         updateUI(with: memo)
     }
 }
@@ -89,10 +89,12 @@ extension ContentViewController {
             
             let deleteCancelAction = UIAlertAction(title: "취소", style: .default, handler: nil)
             let deleteCompleteAction = UIAlertAction(title: "삭제", style: .destructive, handler: { _  in
-                if let mainVC = self.splitViewController as? MainViewController {
+                if let mainVC = self.splitViewController as? MainViewController,
+                   let currentMemo = self.currentMemo {
                     let masterVC = mainVC.masterViewController
                     self.delegate = masterVC
-                    self.delegate?.deleteMemo(memo: self.temporaryMemo)
+                    
+                    self.delegate?.deleteMemo(memo: currentMemo)
                     self.navigationController?.popViewController(animated: true)
                 }
             })
@@ -140,7 +142,7 @@ extension ContentViewController {
             contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
         ])
     }
-
+    
     private func updateUI(with memo: Memo) {
         let memoAttributedString = NSMutableAttributedString(string: memo.title ?? "")
         let bodyAttributedString = NSMutableAttributedString(string: "\n\(memo.body ?? "")")

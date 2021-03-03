@@ -44,6 +44,7 @@ class CoreDataManager {
         
         noteList.insert(note, at: 0)
         saveContext()
+        NotificationCenter.default.post(name: CoreDataManager.noteDataDidChange, object: nil)
         
         return note
     }
@@ -61,7 +62,9 @@ class CoreDataManager {
         note.body = body
         note.lastModifiedDate = Date()
         
-        CoreDataManager.shared.saveContext()
+        saveContext()
+        fetchNoteList()
+        NotificationCenter.default.post(name: CoreDataManager.noteDataDidChange, object: nil)
     }
     
     func deleteNote(index: Int) {
@@ -72,7 +75,8 @@ class CoreDataManager {
         let note = noteList[index]
         mainContext.delete(note)
         saveContext()
-        noteList.remove(at: index)
+        fetchNoteList()
+        NotificationCenter.default.post(name: CoreDataManager.noteDataDidChange, object: nil)
     }
     
     func deleteNote(note: Note) {
@@ -100,7 +104,6 @@ class CoreDataManager {
         if context.hasChanges {
             do {
                 try context.save()
-                NotificationCenter.default.post(name: CoreDataManager.noteDataDidChange, object: nil)
             } catch {
                 let nserror = error as NSError
                 fatalError("Unresolved error \(nserror), \(nserror.userInfo)")

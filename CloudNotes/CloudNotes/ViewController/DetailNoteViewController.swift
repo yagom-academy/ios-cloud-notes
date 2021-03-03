@@ -138,8 +138,6 @@ class DetailNoteViewController: UIViewController {
         } else {
             self.fetchedNote = CoreDataManager.shared.createNote(title: noteTexts.title, body: noteTexts.body)
         }
-        
-//        NotificationCenter.default.post(name: DetailNoteViewController.memoDidSave, object: nil)
     }
     
     private func divdeTextForNote(text: String) -> (title: String, body: String) {

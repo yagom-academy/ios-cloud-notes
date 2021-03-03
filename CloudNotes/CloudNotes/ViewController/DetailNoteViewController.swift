@@ -8,8 +8,6 @@
 import UIKit
 
 class DetailNoteViewController: UIViewController {
-    static let memoDidSave = Notification.Name(rawValue: "memoDidSave")
-    
     var fetchedNote: Note?
     private let detailNoteTextView = UITextView()
     private let completeButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.done, target: self, action: #selector(touchUpCompleteButton))
@@ -70,8 +68,8 @@ class DetailNoteViewController: UIViewController {
         let shareAction = UIAlertAction(title: "Share", style: .default, handler: { [weak self] action in
             self?.touchUpShareAction(sender)
         })
-        let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: { action in
-            print("delete")
+        let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: { [weak self] action in
+            self?.touchUpDeleteAction(sender)
         })
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         alertController.addAction(shareAction)
@@ -99,6 +97,23 @@ class DetailNoteViewController: UIViewController {
         present(activityViewController, animated: true, completion: nil)
     }
     
+    private func touchUpDeleteAction(_ sender: UIBarButtonItem) {
+        let alert = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "삭제", style: .destructive) { [weak self] action in
+            if let note = self?.fetchedNote{
+                CoreDataManager.shared.deleteNote(note: note)
+                self?.navigationController?.navigationController?.popToRootViewController(animated: true)
+            }
+            
+        }
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        
+        alert.addAction(okAction)
+        alert.addAction(cancelAction)
+        
+        present(alert, animated: true, completion: nil)
+    }
+    
     private func addTapGestureRecognizerToTextView() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(changeTextViewEditableState))
         detailNoteTextView.addGestureRecognizer(tapGesture)
@@ -124,7 +139,7 @@ class DetailNoteViewController: UIViewController {
             self.fetchedNote = CoreDataManager.shared.createNote(title: noteTexts.title, body: noteTexts.body)
         }
         
-        NotificationCenter.default.post(name: DetailNoteViewController.memoDidSave, object: nil)
+//        NotificationCenter.default.post(name: DetailNoteViewController.memoDidSave, object: nil)
     }
     
     private func divdeTextForNote(text: String) -> (title: String, body: String) {

@@ -15,10 +15,10 @@ class NoteViewController: UIViewController {
         dateFormatter.locale = Locale.current
         return dateFormatter
     }()
-    private var memoDidSaveToken: NSObjectProtocol?
+    private var noteDataDidChangeToken: NSObjectProtocol?
     
     deinit {
-        if let token = memoDidSaveToken {
+        if let token = noteDataDidChangeToken {
             NotificationCenter.default.removeObserver(token)
         }
     }
@@ -62,7 +62,7 @@ class NoteViewController: UIViewController {
     }
     
     private func addNotificatonObserver() {
-        memoDidSaveToken = NotificationCenter.default.addObserver(forName: DetailNoteViewController.memoDidSave, object: nil, queue: OperationQueue.main) { [weak self] notification in
+        noteDataDidChangeToken = NotificationCenter.default.addObserver(forName: CoreDataManager.noteDataDidChange, object: nil, queue: OperationQueue.main) { [weak self] notification in
             self?.tableView.reloadData()
         }
     }

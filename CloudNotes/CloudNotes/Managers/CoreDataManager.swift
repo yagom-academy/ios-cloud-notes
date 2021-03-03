@@ -10,6 +10,7 @@ import CoreData
 
 class CoreDataManager {
     static let shared = CoreDataManager()
+    static let noteDataDidChange = Notification.Name(rawValue: "noteDataDidChange")
     
     private init() {
     }
@@ -99,6 +100,7 @@ class CoreDataManager {
         if context.hasChanges {
             do {
                 try context.save()
+                NotificationCenter.default.post(name: CoreDataManager.noteDataDidChange, object: nil)
             } catch {
                 let nserror = error as NSError
                 fatalError("Unresolved error \(nserror), \(nserror.userInfo)")

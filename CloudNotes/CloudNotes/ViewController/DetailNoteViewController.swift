@@ -13,10 +13,7 @@ class DetailNoteViewController: UIViewController {
     var fetchedNote: Note?
     private let detailNoteTextView = UITextView()
     private let completeButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.done, target: self, action: #selector(touchUpCompleteButton))
-    private let moreButton: UIBarButtonItem = {
-        let item = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: #selector(touchUpCompleteButton))
-        return item
-    }()
+    private let moreButton = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: #selector(touchUpMoreButton))
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,8 +31,9 @@ class DetailNoteViewController: UIViewController {
             navigationItem.setRightBarButton(moreButton, animated: false)
         } else {
             detailNoteTextView.isEditable = true
-            detailNoteTextView.becomeFirstResponder()
         }
+        detailNoteTextView.becomeFirstResponder()
+        
         detailNoteTextView.dataDetectorTypes = .all
         detailNoteTextView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(detailNoteTextView)
@@ -60,6 +58,7 @@ class DetailNoteViewController: UIViewController {
     
     @objc private func touchUpCompleteButton() {
         detailNoteTextView.isEditable = false
+        detailNoteTextView.becomeFirstResponder()
         saveNote()
         if let _ = navigationController?.presentingViewController {
             self.navigationController?.popViewController(animated: true)
@@ -67,7 +66,15 @@ class DetailNoteViewController: UIViewController {
     }
     
     @objc private func touchUpMoreButton() {
-        // 다음 스텝에서 구현
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let shareAction = UIAlertAction(title: "Share", style: .default, handler: nil)
+        let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: nil)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        alertController.addAction(shareAction)
+        alertController.addAction(deleteAction)
+        alertController.addAction(cancelAction)
+        
+        present(alertController, animated: true, completion: nil)
     }
     
     private func addTapGestureRecognizerToTextView() {
@@ -77,11 +84,10 @@ class DetailNoteViewController: UIViewController {
     
     @objc private func changeTextViewEditableState() {
         detailNoteTextView.isEditable.toggle()
-        if detailNoteTextView.isEditable {
-            detailNoteTextView.becomeFirstResponder()
-        } else {
+        if detailNoteTextView.isEditable == false {
             saveNote()
         }
+        detailNoteTextView.becomeFirstResponder()
     }
     
     private func saveNote() {

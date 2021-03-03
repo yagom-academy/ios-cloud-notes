@@ -7,6 +7,7 @@
 import UIKit
 
 protocol MemoStatusDelegate {
+    func updateMemo(memo: Memo)
     func deleteMemo(memo: Memo)
 }
 
@@ -22,11 +23,12 @@ class ListViewController: UITableViewController {
         super.viewDidLoad()
         setUpTableView()
         setUpNavigationBar()
+        fetchMemo()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        fetchMemo()
+
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -97,6 +99,17 @@ extension ListViewController {
     }
     
     //MARK: UPDATE
+    private func updateItem(_ memo: Memo) { // title, body, date 변경 모두 포함된 메모
+        do {
+            try context.save() // 데이터 반영
+            fetchMemo()
+        } catch {
+            #if DEBUG
+            print(error)
+            #endif
+        }
+        
+    }
     
     //MARK: DELETE
     private func deleteItem(memo: Memo) {
@@ -135,6 +148,10 @@ extension ListViewController {
     }
 }
 extension ListViewController: MemoStatusDelegate {
+    func updateMemo(memo: Memo) {
+        self.updateItem(memo)
+    }
+
     func deleteMemo(memo: Memo) {
         self.deleteItem(memo: memo)
     }

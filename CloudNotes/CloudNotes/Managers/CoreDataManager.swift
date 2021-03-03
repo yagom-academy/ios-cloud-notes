@@ -26,7 +26,7 @@ class CoreDataManager {
     
     func fetchNoteList() {
         let request: NSFetchRequest<Note> = Note.fetchRequest()
-        let sortByDate = NSSortDescriptor(key: "lastModifiedDate", ascending: true)
+        let sortByDate = NSSortDescriptor(key: "lastModifiedDate", ascending: false)
         request.sortDescriptors = [sortByDate]
         
         do {
@@ -42,7 +42,7 @@ class CoreDataManager {
         note.body = body
         note.lastModifiedDate = Date()
         
-        noteList.append(note)
+        noteList.insert(note, at: 0)
         saveContext()
         
         return note

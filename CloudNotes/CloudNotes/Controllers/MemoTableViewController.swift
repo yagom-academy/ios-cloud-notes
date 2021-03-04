@@ -15,8 +15,6 @@ class MemoTableViewController: UIViewController {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
-
-//    private var memos: [Memo]?
     
     lazy var fetchedResultsController: NSFetchedResultsController<Memo> = {
             guard let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext else {
@@ -46,10 +44,12 @@ class MemoTableViewController: UIViewController {
         configureTableView()
         setupNavigationItem()
     }
+    
     private func setupNavigationItem() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(touchUpAddBarButton))
         navigationItem.title = "메모"
     }
+    
     @objc func touchUpAddBarButton() {
         if let memoSplitViewController = splitViewController as? MemoSplitViewController {
             memoSplitViewController.showMemoViewController(nil)

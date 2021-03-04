@@ -138,6 +138,10 @@ extension MemoContentsViewController {
             let finishButton = UIBarButtonItem(title: "완료", style: .plain, target: self, action: #selector(endEditing))
             navigationItem.rightBarButtonItems?.insert(finishButton, at: 0)
         }
+        
+        if glyphIndex >= textView.textStorage.length {
+            makeTextViewEditable()
+        }
     }
     
     private func placeCursor(_ myTextView: UITextView, _ location: CGPoint) {

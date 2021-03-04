@@ -7,9 +7,14 @@
 
 import UIKit
 
+protocol DetailViewDelegate: AnyObject {
+    func didDeleteMemo()
+}
+
 final class DetailViewController: UIViewController {
     
     var index: Int?
+    weak var detailViewDelegate: DetailViewDelegate?
     
     var memoTextView: UITextView = {
         let textView = UITextView()
@@ -64,6 +69,7 @@ final class DetailViewController: UIViewController {
         let memo = MemoData.shared.list[index]
         MemoData.shared.delete(memo: memo)
         self.navigationController?.popViewController(animated: false)
+        self.detailViewDelegate?.didDeleteMemo()
     }
 
     private func setTextView() {

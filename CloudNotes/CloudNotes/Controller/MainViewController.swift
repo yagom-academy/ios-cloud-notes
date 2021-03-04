@@ -42,6 +42,7 @@ extension MainViewController: ListViewDelegate {
         (self.viewControllers.last as? UINavigationController)?.popToRootViewController(animated: false)
         
         let detailView = DetailViewController()
+        detailView.detailViewDelegate = self
         detailView.view.backgroundColor = .white
         guard let memo = memo else { return }
         detailView.index = selectedIndex
@@ -63,6 +64,12 @@ extension MainViewController: ListViewDelegate {
 
 extension MainViewController: AddViewDelegate {
     func didCreateMemo() {
+        listViewController.tableView.reloadData()
+    }
+}
+
+extension MainViewController: DetailViewDelegate {
+    func didDeleteMemo() {
         listViewController.tableView.reloadData()
     }
 }

@@ -32,7 +32,7 @@ class CoreDataSingleton {
         return fetchData
     }
     
-    func save(title: String, body: String) throws {
+    func save(content: String) throws {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             throw MemoAppError.system
         }
@@ -40,8 +40,7 @@ class CoreDataSingleton {
             appDelegate.persistentContainer.viewContext
         
         let object = NSEntityDescription.insertNewObject(forEntityName: "Memo", into: managedContext)
-        object.setValue(title, forKey: "title")
-        object.setValue(body, forKey: "body")
+        object.setValue(content, forKey: "content")
         object.setValue(Date(), forKey: "lastModified")
         
         do {
@@ -68,15 +67,14 @@ class CoreDataSingleton {
         }
     }
     
-    func update(object: NSManagedObject, title: String, body: String) throws {
+    func update(object: NSManagedObject, content: String) throws {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             throw MemoAppError.system
         }
         let managedContext =
             appDelegate.persistentContainer.viewContext
         
-        object.setValue(title, forKey: "title")
-        object.setValue(body, forKey: "body")
+        object.setValue(content, forKey: "content")
         object.setValue(Date(), forKey: "lastModified")
         
         do {

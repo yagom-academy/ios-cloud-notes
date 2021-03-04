@@ -1,5 +1,6 @@
 import UIKit
 import CoreData
+import Foundation
 
 class MemoContentsViewController: UIViewController {
     weak var delegate: TableViewListManagable?
@@ -9,6 +10,7 @@ class MemoContentsViewController: UIViewController {
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.adjustsFontForContentSizeCategory = true
         textView.dataDetectorTypes = .all
+        textView.font = UIFont.preferredFont(forTextStyle: .largeTitle)
         return textView
     }()
     
@@ -53,20 +55,7 @@ class MemoContentsViewController: UIViewController {
     
     // MARK: Feature
     func receiveText(memo: NSManagedObject) {
-        guard let title: String = memo.value(forKey: "title") as? String else {
-            return
-        }
-        guard let memoBody: String = memo.value(forKey: "body") as? String else {
-            return
-        }
-        let body: String = "\n" + "\n" + memoBody
-        let titleFontSize = UIFont.preferredFont(forTextStyle: .largeTitle)
-        let bodyFontSize = UIFont.preferredFont(forTextStyle: .body)
-        
-        let attributedText = NSMutableAttributedString(string: title, attributes: [.font: titleFontSize])
-        attributedText.append(NSAttributedString(string: body, attributes: [.font: bodyFontSize]))
-        
-        memoTextView.attributedText = attributedText
+        memoTextView.text = memo.value(forKey: "content") as? String ?? ""
     }
     
     @objc func endEditing(_ sender: UIButton) {
@@ -101,37 +90,32 @@ class MemoContentsViewController: UIViewController {
     }
     
     func updateMemo() {
-        let splitText = splitString()
+        let text = memoTextView.text ?? ""
         let selectedMemoIndexPathRow = UserDefaults.standard.integer(forKey: UserDefaultsKeys.selectedMemoIndexPathRow.rawValue)
         
         do {
-            try CoreDataSingleton.shared.update(object: CoreDataSingleton.shared.memoData[selectedMemoIndexPathRow], title: splitText.0, body: splitText.1)
+            try CoreDataSingleton.shared.update(object: CoreDataSingleton.shared.memoData[selectedMemoIndexPathRow], content: text)
             delegate?.updateTableViewList()
         } catch {
             showAlertMessage("메모 편집에 실패했습니다.")
         }
     }
     
-    func splitString() -> (String, String) {
-        var titleText: String = ""
-        var bodyText: String = ""
+    func makeAttributedString(text: String)  -> NSAttributedString  {
+        let attributedText = NSMutableAttributedString(string: text)
+        let splitedString = text.split(separator: "\n")
+        let titleFontSize = UIFont.preferredFont(forTextStyle: .largeTitle)
+        let bodyFontSize = UIFont.preferredFont(forTextStyle: .body)
         
-        let fullText = memoTextView.text.split(separator: "\n").map { (value) -> String in
-            return String(value) }
-        
-        switch fullText.count {
-        case 0:
-            titleText = ""
-            bodyText = ""
-        case 1:
-            titleText = fullText[0]
-        default:
-            titleText = fullText[0]
-            for i in 1...(fullText.count - 1) {
-                bodyText += (fullText[i] + "\n")
-            }
+        guard let title = splitedString.first else {
+            attributedText.addAttributes([.font: titleFontSize], range: NSRange(location: 0, length: text.count))
+            return attributedText
         }
-        return (titleText, bodyText)
+        
+        attributedText.addAttributes([.font: titleFontSize], range: NSRange(location: 0, length: title.count))
+        attributedText.addAttributes([.font: bodyFontSize], range: NSRange(location: title.count, length: text.count - title.count))
+        
+        return attributedText
     }
 }
 
@@ -216,13 +200,10 @@ extension MemoContentsViewController {
     }
     
     private func showActivityView(memo: NSManagedObject) {
-        guard let title: String = memo.value(forKey: "title") as? String else {
+        guard let content: String = memo.value(forKey: "content") as? String else {
             return
         }
-        guard let body: String = memo.value(forKey: "body") as? String else {
-            return
-        }
-        let memoToShare = [title, body]
+        let memoToShare = [content]
         let activityViewController = UIActivityViewController(activityItems: memoToShare, applicationActivities: nil)
         
         activityViewController.popoverPresentationController?.barButtonItem = navigationItem.rightBarButtonItems?.first

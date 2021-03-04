@@ -40,7 +40,7 @@ class MemoListTableViewController: UITableViewController {
     
     @objc func createMemo(sender: UIButton) {
         do {
-            try CoreDataSingleton.shared.save(title: "", body: "")
+            try CoreDataSingleton.shared.save(content: "")
             showContentsViewController(index: 0)
             tableView.reloadData()
             UserDefaults.standard.set(true, forKey: UserDefaultsKeys.isCellSelected.rawValue)

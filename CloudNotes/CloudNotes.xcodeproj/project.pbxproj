@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		17673E8625DE10E0001FCF9E /* SplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17673E8525DE10E0001FCF9E /* SplitViewController.swift */; };
+		17EB9B5525F11D4000A891B0 /* DarkModeColorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EB9B5425F11D4000A891B0 /* DarkModeColorManager.swift */; };
 		2680E2A325DF59B5008D8D41 /* CustomDateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2680E2A225DF59B5008D8D41 /* CustomDateFormatter.swift */; };
 		26BFB7B325DAAD850082AA1C /* MemoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26BFB7B225DAAD850082AA1C /* MemoModel.swift */; };
 		26BFB7BE25DACD7D0082AA1C /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26BFB7BD25DACD7D0082AA1C /* DateExtension.swift */; };
@@ -44,6 +45,7 @@
 
 /* Begin PBXFileReference section */
 		17673E8525DE10E0001FCF9E /* SplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitViewController.swift; sourceTree = "<group>"; };
+		17EB9B5425F11D4000A891B0 /* DarkModeColorManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarkModeColorManager.swift; sourceTree = "<group>"; };
 		2680E2A225DF59B5008D8D41 /* CustomDateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDateFormatter.swift; sourceTree = "<group>"; };
 		26BFB7B225DAAD850082AA1C /* MemoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoModel.swift; sourceTree = "<group>"; };
 		26BFB7BD25DACD7D0082AA1C /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
@@ -119,6 +121,7 @@
 			isa = PBXGroup;
 			children = (
 				2680E2A225DF59B5008D8D41 /* CustomDateFormatter.swift */,
+				17EB9B5425F11D4000A891B0 /* DarkModeColorManager.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -333,6 +336,7 @@
 				C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */,
 				26F17F1B25E66F440095B4ED /* Memo+CoreDataProperties.swift in Sources */,
 				C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */,
+				17EB9B5525F11D4000A891B0 /* DarkModeColorManager.swift in Sources */,
 				26BFB7D025DB72D50082AA1C /* MemoTableViewCell.swift in Sources */,
 				2680E2A325DF59B5008D8D41 /* CustomDateFormatter.swift in Sources */,
 				C7481C7825BBCF3900B9CA55 /* CloudNotes.xcdatamodeld in Sources */,

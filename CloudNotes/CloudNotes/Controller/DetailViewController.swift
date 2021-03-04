@@ -75,7 +75,7 @@ final class DetailViewController: UIViewController {
     }
     
     private func setFontInRange(_ content: NSMutableAttributedString, range: NSRange, style: UIFont.TextStyle) {
-        content.addAttributes([NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: style)], range: range)
+        content.addAttributes([NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: style), NSAttributedString.Key.foregroundColor: DarkModeColorManager.dynamicColor], range: range)
     }
 
     //MARK: setup keyboard

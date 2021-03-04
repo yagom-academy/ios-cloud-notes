@@ -12,7 +12,7 @@ final class MemoTableViewCell: UITableViewCell {
     private var memoTitleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = UIColor.black
+        label.textColor = DarkModeColorManager.dynamicColor
         label.font = .preferredFont(forTextStyle: .title3)
         label.adjustsFontForContentSizeCategory = true
         return label
@@ -30,7 +30,7 @@ final class MemoTableViewCell: UITableViewCell {
     private var memoModifiedDateLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = UIColor.black
+        label.textColor = DarkModeColorManager.dynamicColor
         label.font = .preferredFont(forTextStyle: .body)
         label.setContentHuggingPriority(.defaultLow, for: .horizontal)
         label.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)

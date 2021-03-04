@@ -109,6 +109,8 @@ extension DetailViewController {
     }
     
     @objc private func didTappedTextView(_ gestrue: UITapGestureRecognizer) {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "확인", style: .plain, target: self, action: #selector(didTapCompleteButton))
+        
         guard memoTextView.isEditable == false else {
             return
         }
@@ -126,6 +128,15 @@ extension DetailViewController {
             placeCursor(textView, tappedLocation)
             memoTextView.becomeFirstResponder()
         }
+    }
+    
+    @objc private func didTapCompleteButton() {
+        memoTextView.isEditable = false
+        guard let index = index else { return }
+        let memo = MemoData.shared.list[index]
+        let text = memoTextView.text
+        MemoData.shared.update(memo: memo, text: text)
+        navigationController?.popViewController(animated: false)
     }
     
     private func placeCursor(_ textView: UITextView, _ tappedLocation: CGPoint) {

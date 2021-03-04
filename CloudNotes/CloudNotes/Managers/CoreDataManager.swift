@@ -10,6 +10,7 @@ import CoreData
 
 class CoreDataManager {
     static let shared = CoreDataManager()
+    static let noteDataDidChange = Notification.Name(rawValue: "noteDataDidChange")
     
     private init() {
     }
@@ -25,7 +26,7 @@ class CoreDataManager {
     
     func fetchNoteList() {
         let request: NSFetchRequest<Note> = Note.fetchRequest()
-        let sortByDate = NSSortDescriptor(key: "lastModifiedDate", ascending: true)
+        let sortByDate = NSSortDescriptor(key: "lastModifiedDate", ascending: false)
         request.sortDescriptors = [sortByDate]
         
         do {
@@ -41,8 +42,9 @@ class CoreDataManager {
         note.body = body
         note.lastModifiedDate = Date()
         
-        noteList.append(note)
+        noteList.insert(note, at: 0)
         saveContext()
+        NotificationCenter.default.post(name: CoreDataManager.noteDataDidChange, object: nil)
         
         return note
     }
@@ -60,7 +62,9 @@ class CoreDataManager {
         note.body = body
         note.lastModifiedDate = Date()
         
-        CoreDataManager.shared.saveContext()
+        saveContext()
+        fetchNoteList()
+        NotificationCenter.default.post(name: CoreDataManager.noteDataDidChange, object: nil)
     }
     
     func deleteNote(index: Int) {
@@ -71,7 +75,14 @@ class CoreDataManager {
         let note = noteList[index]
         mainContext.delete(note)
         saveContext()
-        noteList.remove(at: index)
+        fetchNoteList()
+        NotificationCenter.default.post(name: CoreDataManager.noteDataDidChange, object: nil)
+    }
+    
+    func deleteNote(note: Note) {
+        if let index = noteList.firstIndex(of: note) {
+            deleteNote(index: index)
+        }
     }
     
     // MARK: - Core Data stack

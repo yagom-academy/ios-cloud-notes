@@ -36,10 +36,10 @@ class ListViewController: UITableViewController {
             return UITableViewCell()
         }
         
-        if memoList[indexPath.row].title == "",
-           memoList[indexPath.row].body == "" {
-            cell.titleLabel.text = "새로운 메모"
-            cell.predescriptionLabel.text = "추가 텍스트 없음"
+        if memoList[indexPath.row].title == String(),
+           memoList[indexPath.row].body == String() {
+            cell.titleLabel.text = CellDefaultString.title.rawValue
+            cell.predescriptionLabel.text = CellDefaultString.body.rawValue
         } else {
             cell.titleLabel.text = memoList[indexPath.row].title
             cell.predescriptionLabel.text = memoList[indexPath.row].body
@@ -63,8 +63,8 @@ extension ListViewController {
     //MARK: CREATE
     private func createNewMemo() {
         let newMemo = Memo(context: context)
-        newMemo.title = ""
-        newMemo.body = ""
+        newMemo.title = String()
+        newMemo.body = String()
         newMemo.lastModified = Date()
         
         do {
@@ -129,7 +129,7 @@ extension ListViewController {
     }
     
     private func setUpNavigationBar() {
-        navigationItem.title = "메모"
+        navigationItem.title = ListVCLiteral.navigationTitle
         navigationItem.rightBarButtonItem = addMemoButton
     }
     
@@ -148,7 +148,7 @@ extension ListViewController {
 }
 extension ListViewController: MemoDelegate {
     func updateMemo(memo: Memo) {
-        guard memo.title != "", memo.body != "" else {
+        guard memo.title != String(), memo.body != String() else {
             self.deleteItem(memo: memo)
             return
         }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8BE1DB6C25F0BA4D0045FAB1 /* StringCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE1DB6B25F0BA4D0045FAB1 /* StringCollection.swift */; };
 		8BF38FED25E8F37500F3A219 /* Memo+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BF38FEB25E8F37500F3A219 /* Memo+CoreDataClass.swift */; };
 		8BF38FEE25E8F37500F3A219 /* Memo+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BF38FEC25E8F37500F3A219 /* Memo+CoreDataProperties.swift */; };
 		C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */; };
@@ -42,6 +43,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8BE1DB6B25F0BA4D0045FAB1 /* StringCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringCollection.swift; sourceTree = "<group>"; };
 		8BF38FEB25E8F37500F3A219 /* Memo+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Memo+CoreDataClass.swift"; sourceTree = "<group>"; };
 		8BF38FEC25E8F37500F3A219 /* Memo+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Memo+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		C7481C6A25BBCF3900B9CA55 /* CloudNotes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CloudNotes.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -125,6 +127,7 @@
 			children = (
 				C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */,
 				C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */,
+				8BE1DB6B25F0BA4D0045FAB1 /* StringCollection.swift */,
 				C7481C7925BBCF3A00B9CA55 /* Assets.xcassets */,
 				C7481C7B25BBCF3A00B9CA55 /* LaunchScreen.storyboard */,
 				D9FED21A25EE2F4E00395A82 /* Cells */,
@@ -321,6 +324,7 @@
 				C7481C7225BBCF3900B9CA55 /* ListViewController.swift in Sources */,
 				C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */,
 				D97BCBB125DB5AFC00CB551A /* MemoListCell.swift in Sources */,
+				8BE1DB6C25F0BA4D0045FAB1 /* StringCollection.swift in Sources */,
 				8BF38FEE25E8F37500F3A219 /* Memo+CoreDataProperties.swift in Sources */,
 				D9FED20E25EE270200395A82 /* DateExtension.swift in Sources */,
 				8BF38FED25E8F37500F3A219 /* Memo+CoreDataClass.swift in Sources */,

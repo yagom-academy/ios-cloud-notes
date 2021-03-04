@@ -151,6 +151,49 @@ extension ContentViewController {
     @objc private func didTapOptionButton(_ sender: UIBarButtonItem) {
         contentView.endEditing(true)
         
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        let shareAction = UIAlertAction(title: MoreActionSheet.share.rawValue, style: .default, handler: { (alert: UIAlertAction!) -> Void in
+            guard let sharingMessage = self.contentView.text else {
+                return
+            }
+            
+            let activityViewController = UIActivityViewController(activityItems: [sharingMessage], applicationActivities: nil)
+            if let popoverPresentationController = activityViewController.popoverPresentationController {
+                popoverPresentationController.sourceView = self.view
+                popoverPresentationController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+                popoverPresentationController.permittedArrowDirections = []
+            }
+            self.present(activityViewController, animated: true, completion: nil)
+        })
+        
+        let deleteAction = UIAlertAction(title: MoreActionSheet.delete.rawValue, style: .destructive, handler: { (alert: UIAlertAction!) -> Void in
+            let alertController = UIAlertController(title: MemoDeleteAlert.title.rawValue, message: MemoDeleteAlert.message.rawValue, preferredStyle: .alert)
+            
+            let deleteCancelAction = UIAlertAction(title: MemoDeleteAlert.cancelAction.rawValue, style: .default, handler: nil)
+            let deleteCompleteAction = UIAlertAction(title: MemoDeleteAlert.deleteAction.rawValue, style: .destructive, handler: { _  in
+                if let mainVC = self.splitViewController as? MainViewController,
+                   let currentMemo = self.currentMemo {
+                    let masterVC = mainVC.masterViewController
+                    self.delegate = masterVC
+                    
+                    self.delegate?.deleteMemo(memo: currentMemo)
+                    self.navigationController?.popToRootViewController(animated: false)
+                }
+            })
+            
+            alertController.addAction(deleteCancelAction)
+            alertController.addAction(deleteCompleteAction)
+            
+            self.present(alertController, animated: true, completion: nil)
+        })
+        
+        let cancelAction = UIAlertAction(title: MoreActionSheet.cancel.rawValue, style: .cancel, handler: nil)
+        
+        alertController.addAction(shareAction)
+        alertController.addAction(deleteAction)
+        alertController.addAction(cancelAction)
+
         if let popoverController = alertController.popoverPresentationController {
             popoverController.sourceView = self.view
             popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
@@ -184,8 +227,8 @@ extension ContentViewController {
     }
     
     private func updateUI(with memo: Memo) {
-        let memoAttributedString = NSMutableAttributedString(string: memo.title ?? "")
-        let bodyAttributedString = NSMutableAttributedString(string: "\n\(memo.body ?? "")")
+        let memoAttributedString = NSMutableAttributedString(string: memo.title ?? String())
+        let bodyAttributedString = NSMutableAttributedString(string: "\n\(memo.body ?? String())")
         memoAttributedString.addAttribute(.font, value: headLinefont, range: NSRange(location: 0, length: memo.title?.count ?? 0))
         bodyAttributedString.addAttribute(.font, value: bodyLinefont, range: NSRange(location: 0, length: memo.body?.count ?? 0))
         memoAttributedString.append(bodyAttributedString)

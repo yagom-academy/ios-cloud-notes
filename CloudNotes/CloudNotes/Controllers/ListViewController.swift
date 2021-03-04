@@ -93,8 +93,9 @@ extension ListViewController {
     
     //MARK: UPDATE
     private func updateItem(memo: Memo) {
-        if context.hasChanges {
+        if !(memo.changedValues().isEmpty) {
             do {
+                memo.lastModified = Date()
                 try context.save()
                 fetchMemo()
             } catch {

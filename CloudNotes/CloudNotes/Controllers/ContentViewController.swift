@@ -184,7 +184,6 @@ extension ContentViewController {
         if let currentMemo = self.currentMemo {
             currentMemo.title = String(title)
             currentMemo.body = String(body)
-            currentMemo.lastModified = Date()
             return currentMemo
         }
         return currentMemo

@@ -36,15 +36,25 @@ final class DetailViewController: UIViewController {
         let sheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         sheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         sheet.addAction(UIAlertAction(title: "Share...", style: .default, handler: { _ in
-                self.didTapShareButton()
+            self.didTapShareButton()
         }))
         sheet.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
-            self.didTapDeleteButton()
+            self.didTapCheckDeleteButton()
         }))
+        self.present(sheet, animated: true )
     }
     
     private func didTapShareButton() {
         
+    }
+    
+    private func didTapCheckDeleteButton() {
+        let alret = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
+        alret.addAction(UIAlertAction(title: "취소", style: .cancel, handler: nil))
+        alret.addAction(UIAlertAction(title: "삭제", style: .destructive, handler: { _ in
+            self.didTapDeleteButton()
+        }))
+        self.present(alret, animated: true)
     }
     
     private func didTapDeleteButton() {

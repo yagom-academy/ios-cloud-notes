@@ -61,7 +61,7 @@ class MemoTableViewCell: UITableViewCell {
     
     private func setupDateLabel() {
         self.contentView.addSubview(dateLabel)
-        dateLabel.widthAnchor.constraint(equalToConstant: 150).isActive = true
+        dateLabel.widthAnchor.constraint(equalToConstant: 100).isActive = true
         dateLabel.topAnchor.constraint(equalTo: self.titleLabel.bottomAnchor, constant: 5).isActive = true
         dateLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 20).isActive = true
         dateLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -10).isActive = true
@@ -82,9 +82,20 @@ class MemoTableViewCell: UITableViewCell {
     }
     
     // MARK: - display cell method
-    func setupMemoCell(with item: MemoModel) {
-        titleLabel.text = item.title
-        dateLabel.text = item.dateTimeToString
-        bodyLabel.text = item.body
+    func setupMemoCell(with item: Memo) {
+        if let titleText = item.title,
+           titleText.isNotBlank {
+            titleLabel.text = titleText
+        } else {
+            titleLabel.text = "새로운 메모"
+        }
+        if let bodyText = item.body,
+           bodyText.isNotBlank {
+            bodyLabel.text = bodyText
+        } else {
+            bodyLabel.text = "추가 텍스트 없음"
+        }
+           
+        dateLabel.text = item.dateToString()
     }
 }

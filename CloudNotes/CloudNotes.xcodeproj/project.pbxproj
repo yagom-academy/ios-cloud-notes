@@ -7,12 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		28046DD025DBB54500E127FF /* Memo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28046DCF25DBB54500E127FF /* Memo.swift */; };
 		28046DD625DBB9A600E127FF /* MemoError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28046DD525DBB9A600E127FF /* MemoError.swift */; };
 		28046DE225DBBAF200E127FF /* ViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28046DE125DBBAF200E127FF /* ViewControllerExtension.swift */; };
 		283FA8AB25DE570700902F3A /* MemoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 283FA8AA25DE570700902F3A /* MemoDetailViewController.swift */; };
 		283FA8B325DE601A00902F3A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 283FA8B225DE601A00902F3A /* Main.storyboard */; };
 		283FA8B825DE650C00902F3A /* UITextViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 283FA8B725DE650C00902F3A /* UITextViewExtension.swift */; };
+		2855E86725E65CD700DB4F7D /* Memo+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2855E86525E65CD700DB4F7D /* Memo+CoreDataClass.swift */; };
+		2855E86825E65CD700DB4F7D /* Memo+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2855E86625E65CD700DB4F7D /* Memo+CoreDataProperties.swift */; };
+		2855E87F25E6AE6E00DB4F7D /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2855E87E25E6AE6E00DB4F7D /* StringExtension.swift */; };
 		28F0B7D425DF95DD00916219 /* MainSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F0B7D325DF95DD00916219 /* MainSplitViewController.swift */; };
 		28F0B7E225DF965100916219 /* MemoListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F0B7E125DF965100916219 /* MemoListTableViewController.swift */; };
 		28F0B7EA25DF99A600916219 /* MemoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F0B7E925DF99A600916219 /* MemoModel.swift */; };
@@ -44,12 +46,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		28046DCF25DBB54500E127FF /* Memo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memo.swift; sourceTree = "<group>"; };
 		28046DD525DBB9A600E127FF /* MemoError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoError.swift; sourceTree = "<group>"; };
 		28046DE125DBBAF200E127FF /* ViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerExtension.swift; sourceTree = "<group>"; };
 		283FA8AA25DE570700902F3A /* MemoDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoDetailViewController.swift; sourceTree = "<group>"; };
 		283FA8B225DE601A00902F3A /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		283FA8B725DE650C00902F3A /* UITextViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextViewExtension.swift; sourceTree = "<group>"; };
+		2855E86525E65CD700DB4F7D /* Memo+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Memo+CoreDataClass.swift"; sourceTree = "<group>"; };
+		2855E86625E65CD700DB4F7D /* Memo+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Memo+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		2855E87E25E6AE6E00DB4F7D /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		28F0B7D325DF95DD00916219 /* MainSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSplitViewController.swift; sourceTree = "<group>"; };
 		28F0B7E125DF965100916219 /* MemoListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoListTableViewController.swift; sourceTree = "<group>"; };
 		28F0B7E925DF99A600916219 /* MemoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoModel.swift; sourceTree = "<group>"; };
@@ -97,7 +101,6 @@
 		28046DCE25DBB53400E127FF /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				28046DCF25DBB54500E127FF /* Memo.swift */,
 				28F0B7E925DF99A600916219 /* MemoModel.swift */,
 			);
 			path = Model;
@@ -116,6 +119,7 @@
 			children = (
 				28046DE125DBBAF200E127FF /* ViewControllerExtension.swift */,
 				283FA8B725DE650C00902F3A /* UITextViewExtension.swift */,
+				2855E87E25E6AE6E00DB4F7D /* StringExtension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -134,6 +138,8 @@
 		C7481C6125BBCF3900B9CA55 = {
 			isa = PBXGroup;
 			children = (
+				2855E86525E65CD700DB4F7D /* Memo+CoreDataClass.swift */,
+				2855E86625E65CD700DB4F7D /* Memo+CoreDataProperties.swift */,
 				C7481C6C25BBCF3900B9CA55 /* CloudNotes */,
 				C7481C8625BBCF3A00B9CA55 /* CloudNotesTests */,
 				C7481C9125BBCF3A00B9CA55 /* CloudNotesUITests */,
@@ -319,15 +325,17 @@
 			files = (
 				28F0B80025DFA0AE00916219 /* MemoTableViewCell.swift in Sources */,
 				28046DD625DBB9A600E127FF /* MemoError.swift in Sources */,
+				2855E87F25E6AE6E00DB4F7D /* StringExtension.swift in Sources */,
 				283FA8AB25DE570700902F3A /* MemoDetailViewController.swift in Sources */,
 				C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */,
 				28F0B7EA25DF99A600916219 /* MemoModel.swift in Sources */,
+				2855E86825E65CD700DB4F7D /* Memo+CoreDataProperties.swift in Sources */,
 				28F0B7D425DF95DD00916219 /* MainSplitViewController.swift in Sources */,
 				C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */,
 				28046DE225DBBAF200E127FF /* ViewControllerExtension.swift in Sources */,
-				28046DD025DBB54500E127FF /* Memo.swift in Sources */,
 				283FA8B825DE650C00902F3A /* UITextViewExtension.swift in Sources */,
 				C7481C7825BBCF3900B9CA55 /* CloudNotes.xcdatamodeld in Sources */,
+				2855E86725E65CD700DB4F7D /* Memo+CoreDataClass.swift in Sources */,
 				28F0B7E225DF965100916219 /* MemoListTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

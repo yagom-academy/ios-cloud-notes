@@ -80,7 +80,7 @@ extension ContentViewController {
         
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
-        let shareAction = UIAlertAction(title: "Share...", style: .default, handler: { (alert: UIAlertAction!) -> Void in
+        let shareAction = UIAlertAction(title: MoreActionSheet.share.rawValue, style: .default, handler: { (alert: UIAlertAction!) -> Void in
             guard let sharingMessage = self.contentView.text else {
                 return
             }
@@ -94,11 +94,11 @@ extension ContentViewController {
             self.present(activityViewController, animated: true, completion: nil)
         })
         
-        let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: { (alert: UIAlertAction!) -> Void in
-            let alertController = UIAlertController(title: "진짜요?", message: "진짜로 삭제하시겠습니까?", preferredStyle: .alert)
+        let deleteAction = UIAlertAction(title: MoreActionSheet.delete.rawValue, style: .destructive, handler: { (alert: UIAlertAction!) -> Void in
+            let alertController = UIAlertController(title: MemoDeleteAlert.title.rawValue, message: MemoDeleteAlert.message.rawValue, preferredStyle: .alert)
             
-            let deleteCancelAction = UIAlertAction(title: "취소", style: .default, handler: nil)
-            let deleteCompleteAction = UIAlertAction(title: "삭제", style: .destructive, handler: { _  in
+            let deleteCancelAction = UIAlertAction(title: MemoDeleteAlert.cancelAction.rawValue, style: .default, handler: nil)
+            let deleteCompleteAction = UIAlertAction(title: MemoDeleteAlert.deleteAction.rawValue, style: .destructive, handler: { _  in
                 if let mainVC = self.splitViewController as? MainViewController,
                    let currentMemo = self.currentMemo {
                     let masterVC = mainVC.masterViewController
@@ -115,7 +115,7 @@ extension ContentViewController {
             self.present(alertController, animated: true, completion: nil)
         })
         
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let cancelAction = UIAlertAction(title: MoreActionSheet.cancel.rawValue, style: .cancel, handler: nil)
         
         alertController.addAction(shareAction)
         alertController.addAction(deleteAction)
@@ -154,8 +154,8 @@ extension ContentViewController {
     }
     
     private func updateUI(with memo: Memo) {
-        let memoAttributedString = NSMutableAttributedString(string: memo.title ?? "")
-        let bodyAttributedString = NSMutableAttributedString(string: "\n\(memo.body ?? "")")
+        let memoAttributedString = NSMutableAttributedString(string: memo.title ?? String())
+        let bodyAttributedString = NSMutableAttributedString(string: "\n\(memo.body ?? String())")
         memoAttributedString.addAttribute(.font, value: headLinefont, range: NSRange(location: 0, length: memo.title?.count ?? 0))
         bodyAttributedString.addAttribute(.font, value: bodyLinefont, range: NSRange(location: 0, length: memo.body?.count ?? 0))
         memoAttributedString.append(bodyAttributedString)

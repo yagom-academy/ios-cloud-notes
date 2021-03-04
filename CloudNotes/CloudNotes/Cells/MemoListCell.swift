@@ -48,9 +48,9 @@ class MemoListCell: UITableViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        titleLabel.text = ""
-        dateLabel.text = ""
-        predescriptionLabel.text = ""
+        titleLabel.text = String()
+        dateLabel.text = String()
+        predescriptionLabel.text = String()
     }
     
     private func setUpConstraints() {

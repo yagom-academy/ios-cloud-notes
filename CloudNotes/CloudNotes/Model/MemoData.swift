@@ -13,10 +13,9 @@ final class MemoData {
     private init() {}
     
     var list: [Memo] = []
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     func read() {
-        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-        
         do {
             self.list = try context.fetch(Memo.fetchRequest())
         }
@@ -24,11 +23,21 @@ final class MemoData {
     }
     
     func create(title: String?, contents: String?) {
-        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         let newMemo = Memo(context: context)
         newMemo.title = title
         newMemo.contents = contents
         newMemo.lastModifiedDate = Date()
+        
+        do {
+            try context.save()
+            read()
+        }
+        catch {}
+    }
+    
+    func delete(memo: Memo?) {
+        guard let memo = memo else { return }
+        context.delete(memo)
         
         do {
             try context.save()

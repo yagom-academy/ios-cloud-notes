@@ -8,13 +8,6 @@ import UIKit
 
 class NoteViewController: UIViewController {
     private let tableView = UITableView()
-    private let dateFormatter: DateFormatter = {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .medium
-        dateFormatter.timeStyle = .none
-        dateFormatter.locale = Locale.current
-        return dateFormatter
-    }()
     private var noteDataDidChangeToken: NSObjectProtocol?
     
     deinit {
@@ -78,16 +71,8 @@ extension NoteViewController: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: NotesTableViewCell.identifier, for: indexPath) as? NotesTableViewCell else {
             return UITableViewCell()
         }
-        
-        let note = CoreDataManager.shared.note(index: indexPath.row)
-        
-        cell.titleLabel.text = note?.title
-        cell.bodyLabel.text = note?.body
-        cell.bodyLabel.textColor = .gray
-        if let lastModifiedDate = note?.lastModifiedDate {
-            cell.lastModifiedDateLabel.text = dateFormatter.string(from: lastModifiedDate)
-        }
-        
+
+        cell.configureCell(index: indexPath.row)
         return cell
     }
     

@@ -25,12 +25,29 @@ final class DetailViewController: UIViewController {
         setNavigation()
     }
     
+    // MARK: - Set Navigation
     private func setNavigation() {
         self.view.backgroundColor = .white
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: #selector(didTapEllipsisButton))
     }
-    
+
+    // MARK: - ActionSheet
     @objc private func didTapEllipsisButton() {
+        let sheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        sheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        sheet.addAction(UIAlertAction(title: "Share...", style: .default, handler: { _ in
+                self.didTapShareButton()
+        }))
+        sheet.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
+            self.didTapDeleteButton()
+        }))
+    }
+    
+    private func didTapShareButton() {
+        
+    }
+    
+    private func didTapDeleteButton() {
         
     }
 
@@ -62,7 +79,7 @@ extension DetailViewController: UITextViewDelegate {
     }
 }
 
-// MARK: GestureRecognizer
+// MARK: - GestureRecognizer
 extension DetailViewController {
     private func setTapGesture() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTappedTextView(_:)))

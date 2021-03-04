@@ -109,7 +109,7 @@ extension DetailViewController {
     }
     
     @objc private func didTappedTextView(_ gestrue: UITapGestureRecognizer) {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "확인", style: .plain, target: self, action: #selector(didTapCompleteButton))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "확인", style: .plain, target: self, action: #selector(didTapCompletionOfEditingButton))
         
         guard memoTextView.isEditable == false else {
             return
@@ -130,7 +130,7 @@ extension DetailViewController {
         }
     }
     
-    @objc private func didTapCompleteButton() {
+    @objc private func didTapCompletionOfEditingButton() {
         memoTextView.isEditable = false
         guard let index = index else { return }
         let memo = MemoData.shared.list[index]

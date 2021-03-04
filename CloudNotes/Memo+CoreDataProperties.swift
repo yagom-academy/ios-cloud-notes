@@ -27,10 +27,9 @@ extension Memo : Identifiable {
 }
 
 extension Memo {
+    
     class func create(_ title: String, _ body: String?, _ date: Int) throws {
-        guard let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext else {
-            return
-        }
+        let context = coreDataStack.persistentContainer.viewContext
         let memo = self.init(context: context)
         memo.title = title
         memo.body = body
@@ -39,9 +38,7 @@ extension Memo {
     }
     
     class func read() throws -> [Memo]? {
-        guard let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext else {
-            return nil
-        }
+        let context = coreDataStack.persistentContainer.viewContext
         if let memos = try context.fetch(self.fetchRequest()) as? [Memo] {
             return memos
         }
@@ -49,9 +46,7 @@ extension Memo {
     }
     
     class func update(memo: Memo, _ title: String, _ body: String?, _ date: Int) throws {
-        guard let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext else {
-            return
-        }
+        let context = coreDataStack.persistentContainer.viewContext
         var isEdited = false
         if memo.title != title {
             memo.title = title
@@ -69,9 +64,7 @@ extension Memo {
     }
     
     class func delete(memo: Memo) throws {
-        guard let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext else {
-            return
-        }
+        let context = coreDataStack.persistentContainer.viewContext
         context.delete(memo)
         try context.save()
     }

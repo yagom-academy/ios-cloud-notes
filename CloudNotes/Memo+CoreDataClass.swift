@@ -11,5 +11,5 @@ import CoreData
 
 @objc(Memo)
 public class Memo: NSManagedObject {
-
+    static let coreDataStack = CoreDataStack(modelName: "CloudNotes")
 }

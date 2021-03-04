@@ -16,11 +16,11 @@ class MemoTableViewController: UIViewController {
         return tableView
     }()
     
+    let coreDataStack = CoreDataStack(modelName: "CloudNotes")
+    
     lazy var fetchedResultsController: NSFetchedResultsController<Memo> = {
-        guard let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext else {
-            fatalError()
-        }
-        
+        let context = coreDataStack.persistentContainer.viewContext
+
         let fetchRequest: NSFetchRequest<Memo> = Memo.fetchRequest()
         let sort = NSSortDescriptor(key: #keyPath(Memo.date), ascending: false)
         fetchRequest.sortDescriptors = [sort]
@@ -34,7 +34,7 @@ class MemoTableViewController: UIViewController {
         do {
             try fetchedResultsController.performFetch()
         } catch {
-            
+            showErrorAlert(viewController: self, message: "데이터를 읽어오는데 실패했어요!")
         }
         memoListTableView.reloadData()
     }

@@ -61,13 +61,13 @@ class MemoViewController: UIViewController {
             do {
                 try Memo.update(memo: memo, title, body, date)
             } catch {
-                
+                showErrorAlert(viewController: self, message: "메모를 업데이트하지 못했어요!")
             }
         } else {
             do {
                 try Memo.create(title, body, date)
             } catch {
-                
+                showErrorAlert(viewController: self, message: "메모를 생성하지 못했어요!")
             }
         }
     }

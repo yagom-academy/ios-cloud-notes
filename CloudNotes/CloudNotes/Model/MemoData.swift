@@ -38,6 +38,23 @@ final class MemoData {
         catch {}
     }
     
+    func update(memo: Memo?, text: String?) {
+        guard let memo = memo else { return }
+        guard let text = text else { return }
+        let updatedTitle = spiltText(text: text).title
+        let updatedContents = spiltText(text: text).contents
+        
+        memo.title = updatedTitle
+        memo.contents = updatedContents
+        memo.lastModifiedDate = Date()
+        
+        do {
+            try context.save()
+            read()
+        }
+        catch {}
+    }
+    
     func delete(memo: Memo?) {
         guard let memo = memo else { return }
         context.delete(memo)

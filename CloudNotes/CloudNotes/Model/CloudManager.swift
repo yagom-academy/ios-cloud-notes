@@ -13,7 +13,7 @@ struct CloudManager {
     }
     
     static private func authorizeDropbox(viewController: UIViewController) {
-        if DropboxClientsManager.authorizedClient == nil && DropboxClientsManager.authorizedTeamClient == nil {
+        if DropboxClientsManager.authorizedClient == nil {
             let scopeRequest = ScopeRequest(scopeType: .user, scopes: CloudString.requiredScope, includeGrantedScopes: false)
             DropboxClientsManager.authorizeFromControllerV2(UIApplication.shared, controller: viewController, loadingStatusDelegate: nil, openURL: { (url: URL) -> Void in UIApplication.shared.open(url, options: [:], completionHandler: nil) }, scopeRequest: scopeRequest)
         }

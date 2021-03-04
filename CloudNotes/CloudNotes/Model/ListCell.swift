@@ -42,8 +42,7 @@ class ListCell: UITableViewCell {
     func update(info: Memo) {
         titleLabel.text = info.title
         contentsLabel.text = info.contents
-//        dateLabel.text = info.lastModifiedDateToString
-//        -> Date 타입 String 타입으로 바꿔줘야함
+        dateLabel.text = info.lastModifiedDate?.toString
     }
     
     private func addSubview() {
@@ -77,5 +76,15 @@ class ListCell: UITableViewCell {
         titleLabel.text = nil
         contentsLabel.text = nil
         dateLabel.text = nil
+    }
+}
+
+// MARK: - DateToString
+extension Date {
+    var toString: String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.timeZone = .autoupdatingCurrent
+        dateFormatter.dateFormat = "yyyy. MM. dd."
+        return dateFormatter.string(from: self)
     }
 }

@@ -7,7 +7,15 @@
 
 import UIKit
 
+protocol DetailViewDelegate: AnyObject {
+    func didDeleteMemo()
+    func didUpdateMemo()
+}
+
 final class DetailViewController: UIViewController {
+    
+    var index: Int?
+    weak var detailViewDelegate: DetailViewDelegate?
     
     var memoTextView: UITextView = {
         let textView = UITextView()
@@ -25,13 +33,44 @@ final class DetailViewController: UIViewController {
         setNavigation()
     }
     
+    // MARK: - Set Navigation
     private func setNavigation() {
         self.view.backgroundColor = .white
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: #selector(didTapEllipsisButton))
     }
-    
+
+    // MARK: - ActionSheet
     @objc private func didTapEllipsisButton() {
+        let sheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        sheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        sheet.addAction(UIAlertAction(title: "Share...", style: .default, handler: { _ in
+            self.didTapShareButton()
+        }))
+        sheet.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
+            self.didTapCheckDeleteButton()
+        }))
+        self.present(sheet, animated: true )
+    }
+    
+    private func didTapShareButton() {
         
+    }
+    
+    private func didTapCheckDeleteButton() {
+        let alret = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
+        alret.addAction(UIAlertAction(title: "취소", style: .cancel, handler: nil))
+        alret.addAction(UIAlertAction(title: "삭제", style: .destructive, handler: { _ in
+            self.didTapDeleteButton()
+        }))
+        self.present(alret, animated: true)
+    }
+    
+    private func didTapDeleteButton() {
+        guard let index = index else { return }
+        let memo = MemoData.shared.list[index]
+        MemoData.shared.delete(memo: memo)
+        self.navigationController?.popViewController(animated: false)
+        self.detailViewDelegate?.didDeleteMemo()
     }
 
     private func setTextView() {
@@ -62,7 +101,7 @@ extension DetailViewController: UITextViewDelegate {
     }
 }
 
-// MARK: GestureRecognizer
+// MARK: - GestureRecognizer
 extension DetailViewController {
     private func setTapGesture() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTappedTextView(_:)))
@@ -71,6 +110,8 @@ extension DetailViewController {
     }
     
     @objc private func didTappedTextView(_ gestrue: UITapGestureRecognizer) {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "확인", style: .plain, target: self, action: #selector(didTapCompletionOfEditingButton))
+        
         guard memoTextView.isEditable == false else {
             return
         }
@@ -88,6 +129,16 @@ extension DetailViewController {
             placeCursor(textView, tappedLocation)
             memoTextView.becomeFirstResponder()
         }
+    }
+    
+    @objc private func didTapCompletionOfEditingButton() {
+        memoTextView.isEditable = false
+        guard let index = index else { return }
+        let memo = MemoData.shared.list[index]
+        let text = memoTextView.text
+        MemoData.shared.update(memo: memo, text: text)
+        navigationController?.popViewController(animated: false)
+        self.detailViewDelegate?.didUpdateMemo()
     }
     
     private func placeCursor(_ textView: UITextView, _ tappedLocation: CGPoint) {

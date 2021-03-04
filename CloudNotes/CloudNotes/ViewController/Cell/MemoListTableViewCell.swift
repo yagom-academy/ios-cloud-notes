@@ -73,20 +73,8 @@ class MemoListTableViewCell: UITableViewCell {
             return dateStr
         }
         
-        switch title {
-        case "":
-            listTitleLabel.text = "새로운 메모"
-        default:
-            listTitleLabel.text = title
-        }
-
-        switch body {
-        case "":
-            listShortBodyLabel.text = "텍스트 없음"
-        default:
-            listShortBodyLabel.text = body
-        }
-        
+        listTitleLabel.text = (title == "") ? "새로운 메모": title
+        listShortBodyLabel.text = (body == "") ? "텍스트 없음": body
         listLastModifiedDateLabel.text = lastModifiedDateToString
     }
 }

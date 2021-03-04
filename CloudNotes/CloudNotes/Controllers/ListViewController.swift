@@ -147,6 +147,11 @@ extension ListViewController {
 }
 extension ListViewController: MemoDelegate {
     func updateMemo(memo: Memo) {
+        guard memo.title != "", memo.body != "" else {
+            self.deleteItem(memo: memo)
+            return
+        }
+        
         self.updateItem(memo: memo)
     }
 

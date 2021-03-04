@@ -17,17 +17,17 @@ class MemoTableViewController: UIViewController {
     }()
     
     lazy var fetchedResultsController: NSFetchedResultsController<Memo> = {
-            guard let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext else {
-                fatalError()
-            }
-            
-            let fetchRequest: NSFetchRequest<Memo> = Memo.fetchRequest()
-            let sort = NSSortDescriptor(key: #keyPath(Memo.date), ascending: false)
-            fetchRequest.sortDescriptors = [sort]
-            let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
-            fetchedResultsController.delegate = self
-            return fetchedResultsController
-        }()
+        guard let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext else {
+            fatalError()
+        }
+        
+        let fetchRequest: NSFetchRequest<Memo> = Memo.fetchRequest()
+        let sort = NSSortDescriptor(key: #keyPath(Memo.date), ascending: false)
+        fetchRequest.sortDescriptors = [sort]
+        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+        fetchedResultsController.delegate = self
+        return fetchedResultsController
+    }()
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)

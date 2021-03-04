@@ -8,7 +8,6 @@
 import UIKit
 
 class MemoSplitViewController: UISplitViewController {
-    
     private let detailViewController = UINavigationController(rootViewController: MemoViewController())
     private let masterViewController = UINavigationController(rootViewController: MemoTableViewController())
     

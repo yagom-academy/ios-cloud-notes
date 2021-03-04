@@ -70,8 +70,6 @@ class MemoViewController: UIViewController {
                 
             }
         }
-        
-        
     }
     
     @objc func enterEditMode() {

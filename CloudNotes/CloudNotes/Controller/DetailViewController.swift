@@ -60,7 +60,10 @@ final class DetailViewController: UIViewController {
     }
     
     private func didTapDeleteButton() {
-        
+        guard let index = index else { return }
+        let memo = MemoData.shared.list[index]
+        MemoData.shared.delete(memo: memo)
+        self.navigationController?.popViewController(animated: false)
     }
 
     private func setTextView() {

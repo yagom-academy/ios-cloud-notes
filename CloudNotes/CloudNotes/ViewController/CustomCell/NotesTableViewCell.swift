@@ -11,24 +11,31 @@ class NotesTableViewCell: UITableViewCell {
     static var identifier: String {
         return "\(self)"
     }
-    let titleLabel: UILabel = {
+    private let titleLabel: UILabel = {
         let titleLabel = UILabel()
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.font = .preferredFont(forTextStyle: .headline)
         return titleLabel
     }()
-    let lastModifiedDateLabel: UILabel = {
+    private let lastModifiedDateLabel: UILabel = {
         let lastModifiedDateLabel = UILabel()
         lastModifiedDateLabel.translatesAutoresizingMaskIntoConstraints = false
         lastModifiedDateLabel.font = .preferredFont(forTextStyle: .caption1)
         return lastModifiedDateLabel
     }()
-    let bodyLabel: UILabel = {
+    private let bodyLabel: UILabel = {
         let bodyLabel = UILabel()
         bodyLabel.translatesAutoresizingMaskIntoConstraints = false
         bodyLabel.font = .preferredFont(forTextStyle: .caption1)
         bodyLabel.textColor = .gray
         return bodyLabel
+    }()
+    private let dateFormatter: DateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .medium
+        dateFormatter.timeStyle = .none
+        dateFormatter.locale = Locale.current
+        return dateFormatter
     }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -69,6 +76,18 @@ class NotesTableViewCell: UITableViewCell {
         lastModifiedDateLabel.text = UIConstants.strings.textInitalizing
         bodyLabel.text = UIConstants.strings.textInitalizing
         bodyLabel.textColor = .black
+    }
+    
+    func configureCell(index: Int) {
+        guard let note = CoreDataManager.shared.note(index: index) else {
+            return
+        }
+        titleLabel.text = note.title
+        bodyLabel.text = note.body
+        bodyLabel.textColor = .gray
+        if let lastModifiedDate = note.lastModifiedDate {
+            lastModifiedDateLabel.text = dateFormatter.string(from: lastModifiedDate)
+        }
     }
     
     required init?(coder: NSCoder) {

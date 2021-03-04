@@ -70,8 +70,6 @@ class MemoViewController: UIViewController {
                 
             }
         }
-        
-        
     }
     
     @objc func enterEditMode() {
@@ -140,6 +138,7 @@ extension MemoViewController {
             memoTextView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
         ])
     }
+    
     private func configureGesture() {
         tapGesture = UITapGestureRecognizer(target: self, action: #selector(enterEditMode))
         if let tapGesture = self.tapGesture {
@@ -149,6 +148,7 @@ extension MemoViewController {
         swipeDownGesture.direction = UISwipeGestureRecognizer.Direction.down
         memoTextView.addGestureRecognizer(swipeDownGesture)
     }
+    
     func setMemo(_ memo: Memo?) {
         if let memo = memo {
             self.memo = memo

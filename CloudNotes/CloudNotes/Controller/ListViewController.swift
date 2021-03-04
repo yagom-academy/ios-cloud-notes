@@ -7,7 +7,7 @@
 import UIKit
 
 protocol ListViewDelegate: AnyObject {
-    func didTapListCell(memo: Memo?)
+    func didTapListCell(memo: Memo?, selectedIndex: Int)
     func didTapAddButton()
 }
 
@@ -65,7 +65,7 @@ extension ListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)
         let memo = MemoData.shared.list[indexPath.row]
-        listViewDelegate?.didTapListCell(memo: memo)
+        listViewDelegate?.didTapListCell(memo: memo, selectedIndex: indexPath.row)
     }
 }
 

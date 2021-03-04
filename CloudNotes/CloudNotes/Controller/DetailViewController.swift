@@ -9,6 +9,8 @@ import UIKit
 
 final class DetailViewController: UIViewController {
     
+    var index: Int?
+    
     var memoTextView: UITextView = {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false

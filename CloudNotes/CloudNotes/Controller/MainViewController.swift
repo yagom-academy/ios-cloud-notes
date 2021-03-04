@@ -81,4 +81,7 @@ extension MainViewController: DetailViewDelegate {
     func didDeleteMemo() {
         listViewController.tableView.reloadData()
     }
+    func didUpdateMemo() {
+        listViewController.tableView.reloadData()
+    }
 }

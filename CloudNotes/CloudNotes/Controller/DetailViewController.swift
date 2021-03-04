@@ -9,6 +9,7 @@ import UIKit
 
 protocol DetailViewDelegate: AnyObject {
     func didDeleteMemo()
+    func didUpdateMemo()
 }
 
 final class DetailViewController: UIViewController {
@@ -137,6 +138,7 @@ extension DetailViewController {
         let text = memoTextView.text
         MemoData.shared.update(memo: memo, text: text)
         navigationController?.popViewController(animated: false)
+        self.detailViewDelegate?.didUpdateMemo()
     }
     
     private func placeCursor(_ textView: UITextView, _ tappedLocation: CGPoint) {

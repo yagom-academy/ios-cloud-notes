@@ -8,9 +8,6 @@
 import SwiftyDropbox
 
 struct CloudManager {
-    static let coreDataFile = "/CloudNotes.sqlite-wal"
-    static let coreDataFile2 = "/CloudNotes.sqlite-shm"
-    static let coreDataFile3 = "/CloudNotes.sqlite"
     static var client: DropboxClient? {
         return DropboxClientsManager.authorizedClient
     }
@@ -25,8 +22,7 @@ struct CloudManager {
     static func download(_ viewController: UIViewController) {
         authorizeDropbox(viewController: viewController)
         let directoryURL = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
-        let fileNames = [coreDataFile, coreDataFile2, coreDataFile3]
-        for file in fileNames {
+        for file in CloudString.fileNames {
             let destinationURL = directoryURL.appendingPathComponent(file)
             let destination: (URL, HTTPURLResponse) -> URL = { temporaryURL, response in
                 return destinationURL
@@ -47,10 +43,8 @@ struct CloudManager {
     static func upload(_ viewController: UIViewController) {
         authorizeDropbox(viewController: viewController)
         let paths = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)
-        let fileNames = [coreDataFile, coreDataFile2, coreDataFile3]
-        for file in fileNames {
+        for file in CloudString.fileNames {
             let documentsDirectory = paths[0].appendingPathComponent(file)
-            
             client?.files.upload(path: file, mode: .overwrite, autorename: false, clientModified: nil, mute: true, input: documentsDirectory).response { response, error in
                 if let error = error {
                     debugPrint(error)

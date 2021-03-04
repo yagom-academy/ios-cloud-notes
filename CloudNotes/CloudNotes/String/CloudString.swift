@@ -9,4 +9,5 @@ import Foundation
 
 enum CloudString {
     static let requiredScope = ["files.content.read", "files.content.write"]
+    static let fileNames = ["/CloudNotes.sqlite", "/CloudNotes.sqlite-wal", "/CloudNotes.sqlite-shm"]
 }

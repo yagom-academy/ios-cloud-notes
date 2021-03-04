@@ -12,6 +12,8 @@ class MemoModel {
     static let shared = MemoModel()
     private init() {}
     let appDelegate = UIApplication.shared.delegate as? AppDelegate
+    var filteredIndex: Int?
+    var filteredList: [Memo] = []
     var list: [Memo] = [] {
         didSet {
             toggleAddButton()
@@ -80,6 +82,9 @@ class MemoModel {
         do {
             try context.save()
             self.list.remove(at: index)
+            if let filteredIndex = self.filteredIndex {
+                self.filteredList.remove(at: filteredIndex)
+            }
             NotificationCenter.default.post(name: .deleteMemo, object: self, userInfo: ["index": index])
         } catch {
             context.rollback()

@@ -35,7 +35,7 @@ final class AddViewController: UIViewController {
     
     @objc private func didTapOKButton() {
         guard let text = memoTextView.text else { return }
-        MemoData.shared.create(title: text, contents: text)
+        MemoData.shared.create(text: text)
         addViewDelegate?.didCreateMemo()
         navigationController?.popViewController(animated: false)
     }

@@ -22,10 +22,13 @@ final class MemoData {
         catch {}
     }
     
-    func create(title: String?, contents: String?) {
+    func create(text: String?) {
+        guard let text = text else { return }
+        let newTitle = spiltText(text: text).title
+        let newContents = spiltText(text: text).contents
         let newMemo = Memo(context: context)
-        newMemo.title = title
-        newMemo.contents = contents
+        newMemo.title = newTitle
+        newMemo.contents = newContents
         newMemo.lastModifiedDate = Date()
         
         do {
@@ -44,5 +47,12 @@ final class MemoData {
             read()
         }
         catch {}
+    }
+    
+    private func spiltText(text: String) -> (title: String?, contents: String?) {
+        let dividedMemo = text.split(separator: "\n", maxSplits: 1).map(String.init)
+        let title = dividedMemo.first
+        let contents = dividedMemo.last
+        return (title, contents)
     }
 }

@@ -62,14 +62,14 @@ final class DetailViewController: UIViewController {
         let lines = content.split(separator: "\n")
         let finalContent = NSMutableAttributedString(string: content)
         guard let title = lines.first else {
-            setFontInRange(finalContent, range: NSMakeRange(0, content.count), style: .title1)
+            setFontInRange(finalContent, range: NSRange(location: 0, length: content.count), style: .title1)
             return finalContent
         }
         let newLineCount = countNewLine(from: content)
         let titleCount = title.count + newLineCount
         let bodyCount = content.count - titleCount
-        setFontInRange(finalContent, range: NSMakeRange(0, titleCount), style: .title1)
-        setFontInRange(finalContent, range: NSMakeRange(titleCount, bodyCount), style: .body)
+        setFontInRange(finalContent, range: NSRange(location: 0, length: titleCount), style: .title1)
+        setFontInRange(finalContent, range: NSRange(location: titleCount, length: bodyCount), style: .body)
         
         return finalContent
     }
@@ -146,7 +146,7 @@ extension DetailViewController {
             if let start = uiTextRange?.start, let end = uiTextRange?.end {
                 let loc = textView.offset(from: textView.beginningOfDocument, to: position)
                 let length = textView.offset(from: start, to: end)
-                textView.selectedRange = NSMakeRange(loc, length)
+                textView.selectedRange = NSRange(location: loc, length: length)
             }
         }
     }

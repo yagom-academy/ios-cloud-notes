@@ -4,6 +4,7 @@ protocol TableViewListManagable: class {
     func updateTableViewList()
     func deleteCell()
     func moveCellToTop()
+    func changeEnrollButtonStatus(textViewIsEmpty: Bool)
 }
 
 class MemoListTableViewController: UITableViewController {
@@ -46,6 +47,7 @@ class MemoListTableViewController: UITableViewController {
             showContentsViewController(index: 0)
             tableView.reloadData()
             UserDefaults.standard.set(true, forKey: UserDefaultsKeys.isCellSelected.rawValue)
+            sender.isEnabled = false
         } catch {
             print(MemoAppError.system.message)
         }
@@ -162,5 +164,9 @@ extension MemoListTableViewController: TableViewListManagable {
         
         self.tableView.moveRow(at: indexPath, to: firstIndexPath)
         UserDefaults.standard.set(0, forKey: UserDefaultsKeys.selectedMemoIndexPathRow.rawValue)
+    }
+    
+    func changeEnrollButtonStatus(textViewIsEmpty: Bool) {
+        enrollButton.isEnabled = !textViewIsEmpty
     }
 }

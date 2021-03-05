@@ -10,6 +10,7 @@ extension MemoContentsViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         updateMemo()
         delegate?.moveCellToTop()
+        delegate?.changeEnrollButtonStatus(textViewIsEmpty: textView.text.isEmpty)
     }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {

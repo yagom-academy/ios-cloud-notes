@@ -17,6 +17,10 @@ class MemoListTableViewController: UITableViewController {
         tableView.register(MemoListTableViewCell.self, forCellReuseIdentifier: "MemoCell")
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        deleteEmptyMemo()
+    }
+    
     private func configureNavigationBar() {
         navigationItem.title = "메모"
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: enrollButton)

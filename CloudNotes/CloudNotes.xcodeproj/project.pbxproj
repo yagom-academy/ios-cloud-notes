@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -16,6 +16,8 @@
 		26BFB7DC25DBA6E70082AA1C /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26BFB7DB25DBA6E70082AA1C /* DetailViewController.swift */; };
 		26F17F1A25E66F440095B4ED /* Memo+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F17F1825E66F440095B4ED /* Memo+CoreDataClass.swift */; };
 		26F17F1B25E66F440095B4ED /* Memo+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F17F1925E66F440095B4ED /* Memo+CoreDataProperties.swift */; };
+		26F7DAEB25F23CDF006DBD29 /* DropBoxManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F7DAEA25F23CDF006DBD29 /* DropBoxManager.swift */; };
+		2FB6070EFD3E41DCC35574B2 /* Pods_CloudNotes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 291AC30470999F28C87B5D06 /* Pods_CloudNotes.framework */; };
 		C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */; };
 		C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */; };
 		C7481C7225BBCF3900B9CA55 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C7125BBCF3900B9CA55 /* ListViewController.swift */; };
@@ -44,6 +46,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0BEDE7CDE374015302DD8B03 /* Pods-CloudNotes.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudNotes.debug.xcconfig"; path = "Target Support Files/Pods-CloudNotes/Pods-CloudNotes.debug.xcconfig"; sourceTree = "<group>"; };
 		17673E8525DE10E0001FCF9E /* SplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitViewController.swift; sourceTree = "<group>"; };
 		17EB9B5425F11D4000A891B0 /* DarkModeColorManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarkModeColorManager.swift; sourceTree = "<group>"; };
 		2680E2A225DF59B5008D8D41 /* CustomDateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDateFormatter.swift; sourceTree = "<group>"; };
@@ -53,6 +56,9 @@
 		26BFB7DB25DBA6E70082AA1C /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		26F17F1825E66F440095B4ED /* Memo+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Memo+CoreDataClass.swift"; path = "CloudNotes/Memo+CoreDataClass.swift"; sourceTree = "<group>"; };
 		26F17F1925E66F440095B4ED /* Memo+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Memo+CoreDataProperties.swift"; path = "CloudNotes/Memo+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		26F7DAEA25F23CDF006DBD29 /* DropBoxManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropBoxManager.swift; sourceTree = "<group>"; };
+		291AC30470999F28C87B5D06 /* Pods_CloudNotes.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CloudNotes.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B97E98D823E22406864E6EFB /* Pods-CloudNotes.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudNotes.release.xcconfig"; path = "Target Support Files/Pods-CloudNotes/Pods-CloudNotes.release.xcconfig"; sourceTree = "<group>"; };
 		C7481C6A25BBCF3900B9CA55 /* CloudNotes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CloudNotes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -74,6 +80,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2FB6070EFD3E41DCC35574B2 /* Pods_CloudNotes.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -150,6 +157,23 @@
 			path = Cell;
 			sourceTree = "<group>";
 		};
+		AAAC4B40DCC8806F1AE41C45 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				291AC30470999F28C87B5D06 /* Pods_CloudNotes.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		BD7FB11EAD299CA1377499B0 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				0BEDE7CDE374015302DD8B03 /* Pods-CloudNotes.debug.xcconfig */,
+				B97E98D823E22406864E6EFB /* Pods-CloudNotes.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		C7481C6125BBCF3900B9CA55 = {
 			isa = PBXGroup;
 			children = (
@@ -159,6 +183,8 @@
 				C7481C8625BBCF3A00B9CA55 /* CloudNotesTests */,
 				C7481C9125BBCF3A00B9CA55 /* CloudNotesUITests */,
 				C7481C6B25BBCF3900B9CA55 /* Products */,
+				BD7FB11EAD299CA1377499B0 /* Pods */,
+				AAAC4B40DCC8806F1AE41C45 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -181,6 +207,7 @@
 				26BFB7C225DAD44D0082AA1C /* Model */,
 				2680E2BB25DF6649008D8D41 /* Utility */,
 				26BFB7C325DAD4510082AA1C /* Extension */,
+				26F7DAEA25F23CDF006DBD29 /* DropBoxManager.swift */,
 			);
 			path = CloudNotes;
 			sourceTree = "<group>";
@@ -210,9 +237,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C7481C9725BBCF3A00B9CA55 /* Build configuration list for PBXNativeTarget "CloudNotes" */;
 			buildPhases = (
+				AF7B3B96E3D9F848BC2A8E1A /* [CP] Check Pods Manifest.lock */,
 				C7481C6625BBCF3900B9CA55 /* Sources */,
 				C7481C6725BBCF3900B9CA55 /* Frameworks */,
 				C7481C6825BBCF3900B9CA55 /* Resources */,
+				930A25CFBF660DB31E0D61C2 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -327,6 +356,48 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		930A25CFBF660DB31E0D61C2 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CloudNotes/Pods-CloudNotes-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CloudNotes/Pods-CloudNotes-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CloudNotes/Pods-CloudNotes-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		AF7B3B96E3D9F848BC2A8E1A /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-CloudNotes-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		C7481C6625BBCF3900B9CA55 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -336,6 +407,7 @@
 				C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */,
 				26F17F1B25E66F440095B4ED /* Memo+CoreDataProperties.swift in Sources */,
 				C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */,
+				26F7DAEB25F23CDF006DBD29 /* DropBoxManager.swift in Sources */,
 				17EB9B5525F11D4000A891B0 /* DarkModeColorManager.swift in Sources */,
 				26BFB7D025DB72D50082AA1C /* MemoTableViewCell.swift in Sources */,
 				2680E2A325DF59B5008D8D41 /* CustomDateFormatter.swift in Sources */,
@@ -509,18 +581,19 @@
 		};
 		C7481C9825BBCF3A00B9CA55 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0BEDE7CDE374015302DD8B03 /* Pods-CloudNotes.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 3FKJ8N3MK7;
 				INFOPLIST_FILE = CloudNotes/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = net.yagom.CloudNotes;
+				PRODUCT_BUNDLE_IDENTIFIER = net.jake.CloudNotes;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -529,18 +602,19 @@
 		};
 		C7481C9925BBCF3A00B9CA55 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B97E98D823E22406864E6EFB /* Pods-CloudNotes.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 3FKJ8N3MK7;
 				INFOPLIST_FILE = CloudNotes/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = net.yagom.CloudNotes;
+				PRODUCT_BUNDLE_IDENTIFIER = net.jake.CloudNotes;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

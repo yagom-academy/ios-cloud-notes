@@ -7,7 +7,7 @@ protocol TableViewListManagable: class {
 }
 
 class MemoListTableViewController: UITableViewController {
-    private let enrollButton = UIButton()
+    lazy var enrollButton = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: #selector(createMemo))
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,9 +23,7 @@ class MemoListTableViewController: UITableViewController {
     
     private func configureNavigationBar() {
         navigationItem.title = "메모"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: enrollButton)
-        enrollButton.setImage(UIImage(systemName: "plus"), for: .normal)
-        enrollButton.addTarget(self, action: #selector(createMemo), for: .touchUpInside)
+        navigationItem.rightBarButtonItem = enrollButton
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

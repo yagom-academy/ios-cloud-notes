@@ -5,6 +5,7 @@
 //
 
 import UIKit
+import SwiftyDropbox
 
 protocol MemoUpdateDelegate: class {
     func memoSelected(_ memoIndex: Int?)
@@ -21,6 +22,10 @@ final class ListViewController: UITableViewController {
         setupSearchController()
         setupNavigationBar()
         setupNotification()
+        
+        DropboxManager.shared.delegate = self
+        DropboxManager.shared.getAuthorize(self)
+        DropboxManager.shared.download()
     }
     
     private func setupSearchController() {
@@ -156,6 +161,7 @@ extension ListViewController {
                 self.tableView.insertRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
             }
         }
+        DropboxManager.shared.upload()
     }
     
     @objc private func updateMemo(_ notification: Notification) {
@@ -171,6 +177,7 @@ extension ListViewController {
                 self.tableView.reloadRows(at: [IndexPath(row: index, section: 0), IndexPath(row: 0, section: 0)], with: .none)
             }
         }
+        DropboxManager.shared.upload()
     }
     
     @objc private func deleteMemo(_ notification: Notification) {
@@ -184,6 +191,7 @@ extension ListViewController {
                 self.tableView.deleteRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
             }
         }
+        DropboxManager.shared.upload()
     }
     
     @objc private func enableAddButton() {
@@ -201,4 +209,12 @@ extension Notification.Name {
     static let updateMemo = Notification.Name("updateMemo")
     static let enableAddButton = Notification.Name("enableAddButton")
     static let disableAddButton = Notification.Name("disableAddButton")
+}
+
+// MARK: - DropBoxDownloadDelegate
+extension ListViewController: DropboxDownloadDelegate {
+    func listViewUpdate() {
+        MemoModel.shared.fetch()
+        self.tableView.reloadData()
+    }
 }

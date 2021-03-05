@@ -16,7 +16,7 @@
 		26BFB7DC25DBA6E70082AA1C /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26BFB7DB25DBA6E70082AA1C /* DetailViewController.swift */; };
 		26F17F1A25E66F440095B4ED /* Memo+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F17F1825E66F440095B4ED /* Memo+CoreDataClass.swift */; };
 		26F17F1B25E66F440095B4ED /* Memo+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F17F1925E66F440095B4ED /* Memo+CoreDataProperties.swift */; };
-		26F7DAEB25F23CDF006DBD29 /* DropBoxManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F7DAEA25F23CDF006DBD29 /* DropBoxManager.swift */; };
+		26F7DAEB25F23CDF006DBD29 /* DropboxManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F7DAEA25F23CDF006DBD29 /* DropboxManager.swift */; };
 		2FB6070EFD3E41DCC35574B2 /* Pods_CloudNotes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 291AC30470999F28C87B5D06 /* Pods_CloudNotes.framework */; };
 		C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */; };
 		C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */; };
@@ -56,7 +56,7 @@
 		26BFB7DB25DBA6E70082AA1C /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		26F17F1825E66F440095B4ED /* Memo+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Memo+CoreDataClass.swift"; path = "CloudNotes/Memo+CoreDataClass.swift"; sourceTree = "<group>"; };
 		26F17F1925E66F440095B4ED /* Memo+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Memo+CoreDataProperties.swift"; path = "CloudNotes/Memo+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		26F7DAEA25F23CDF006DBD29 /* DropBoxManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropBoxManager.swift; sourceTree = "<group>"; };
+		26F7DAEA25F23CDF006DBD29 /* DropboxManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropboxManager.swift; sourceTree = "<group>"; };
 		291AC30470999F28C87B5D06 /* Pods_CloudNotes.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CloudNotes.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B97E98D823E22406864E6EFB /* Pods-CloudNotes.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudNotes.release.xcconfig"; path = "Target Support Files/Pods-CloudNotes/Pods-CloudNotes.release.xcconfig"; sourceTree = "<group>"; };
 		C7481C6A25BBCF3900B9CA55 /* CloudNotes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CloudNotes.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -129,6 +129,7 @@
 			children = (
 				2680E2A225DF59B5008D8D41 /* CustomDateFormatter.swift */,
 				17EB9B5425F11D4000A891B0 /* DarkModeColorManager.swift */,
+				26F7DAEA25F23CDF006DBD29 /* DropboxManager.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -207,7 +208,6 @@
 				26BFB7C225DAD44D0082AA1C /* Model */,
 				2680E2BB25DF6649008D8D41 /* Utility */,
 				26BFB7C325DAD4510082AA1C /* Extension */,
-				26F7DAEA25F23CDF006DBD29 /* DropBoxManager.swift */,
 			);
 			path = CloudNotes;
 			sourceTree = "<group>";
@@ -407,7 +407,7 @@
 				C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */,
 				26F17F1B25E66F440095B4ED /* Memo+CoreDataProperties.swift in Sources */,
 				C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */,
-				26F7DAEB25F23CDF006DBD29 /* DropBoxManager.swift in Sources */,
+				26F7DAEB25F23CDF006DBD29 /* DropboxManager.swift in Sources */,
 				17EB9B5525F11D4000A891B0 /* DarkModeColorManager.swift in Sources */,
 				26BFB7D025DB72D50082AA1C /* MemoTableViewCell.swift in Sources */,
 				2680E2A325DF59B5008D8D41 /* CustomDateFormatter.swift in Sources */,

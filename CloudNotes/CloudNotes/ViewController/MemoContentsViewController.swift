@@ -10,7 +10,7 @@ class MemoContentsViewController: UIViewController {
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.adjustsFontForContentSizeCategory = true
         textView.dataDetectorTypes = .all
-        textView.font = UIFont.preferredFont(forTextStyle: .largeTitle)
+        textView.font = UIFont.preferredFont(forTextStyle: .body)
         return textView
     }()
     
@@ -55,7 +55,8 @@ class MemoContentsViewController: UIViewController {
     
     // MARK: Feature
     func receiveText(memo: NSManagedObject) {
-        memoTextView.text = memo.value(forKey: "content") as? String ?? ""
+        let content = memo.value(forKey: "content") as? String ?? ""
+        memoTextView.attributedText = makeAttributedString(text: content)
     }
     
     @objc func endEditing(_ sender: UIButton) {
@@ -101,19 +102,37 @@ class MemoContentsViewController: UIViewController {
         }
     }
     
+    func countEnter(text: String) -> Int {
+        var enterCount = 0
+        let stringArray = text.map { String($0) }
+        for i in 0...stringArray.count - 1 {
+            if stringArray[i] == "\n" {
+                enterCount += 1
+            } else {
+                break
+            }
+        }
+
+        return enterCount
+    }
+    
     func makeAttributedString(text: String)  -> NSAttributedString  {
         let attributedText = NSMutableAttributedString(string: text)
         let splitedString = text.split(separator: "\n")
         let titleFontSize = UIFont.preferredFont(forTextStyle: .largeTitle)
         let bodyFontSize = UIFont.preferredFont(forTextStyle: .body)
+        let enterCount = countEnter(text: text)
         
         guard let title = splitedString.first else {
             attributedText.addAttributes([.font: titleFontSize], range: NSRange(location: 0, length: text.count))
             return attributedText
         }
         
-        attributedText.addAttributes([.font: titleFontSize], range: NSRange(location: 0, length: title.count))
-        attributedText.addAttributes([.font: bodyFontSize], range: NSRange(location: title.count, length: text.count - title.count))
+        let titleCount = title.count + enterCount
+        let bodyCount = text.count - titleCount
+        
+        attributedText.addAttributes([.font: titleFontSize], range: NSRange(location: 0, length: titleCount))
+        attributedText.addAttributes([.font: bodyFontSize], range: NSRange(location: titleCount, length: bodyCount))
         
         return attributedText
     }

@@ -6,16 +6,25 @@
 //
 
 import UIKit
+//import SwiftyDropbox
 
 class MemoListTableViewController: UITableViewController {
     weak var delegate: MemoListSelectDelegate?
-
+    var dropboxController = DropboxController()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        dropboxController.delegate = self
         
         setupNavigationBar()
         setupTableView()
         fetchMemo()
+        dropboxController.authorize(self)
+        dropboxController.DownloadBackupMemoData()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
     }
     
     private func setupNavigationBar() {
@@ -26,7 +35,7 @@ class MemoListTableViewController: UITableViewController {
     private func setupTableView() {
         self.tableView.register(MemoTableViewCell.self, forCellReuseIdentifier: "memoCell")
     }
-
+    
     @objc func addMemo() {
         /*
          * 가로 모드에서 메모 추가 버튼 클릭시
@@ -128,6 +137,7 @@ extension MemoListTableViewController {
 extension MemoListTableViewController: MemoDetailDelegate {
     func insertNewMemo() {
         self.saveMemo()
+        dropboxController.uploadBackupMemoData()
     }
     
     func insertFirstCell() {
@@ -137,16 +147,25 @@ extension MemoListTableViewController: MemoDetailDelegate {
     func deleteMemo(indexRow: Int) {
         self.tableView.deleteRows(at: [IndexPath(row: indexRow, section: 0)], with: .automatic)
         self.delegate?.memoCellDelete(indexRow)
+        dropboxController.uploadBackupMemoData()
     }
     
     func updateMemo(indexRow: Int) {
         self.tableView.moveRow(at: IndexPath(row: indexRow, section: 0), to: IndexPath(row: 0, section: 0))
         self.tableView.reloadRows(at: [IndexPath(row: indexRow, section: 0), IndexPath(row: 0, section: 0)], with: .automatic)
+        dropboxController.uploadBackupMemoData()
     }
     
+    // 뭐지?
     func addEmptyMemo() {
         self.tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
         
+    }
+}
+
+extension MemoListTableViewController: DownloadCompleteDelegate {
+    func tableViewUpdate() {
+        fetchMemo()
     }
 }
 

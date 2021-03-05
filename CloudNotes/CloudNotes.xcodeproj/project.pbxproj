@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -19,6 +19,8 @@
 		28F0B7E225DF965100916219 /* MemoListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F0B7E125DF965100916219 /* MemoListTableViewController.swift */; };
 		28F0B7EA25DF99A600916219 /* MemoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F0B7E925DF99A600916219 /* MemoModel.swift */; };
 		28F0B80025DFA0AE00916219 /* MemoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F0B7FF25DFA0AE00916219 /* MemoTableViewCell.swift */; };
+		413EE70E25F0FD7E0084327F /* SwiftyDropbox in Frameworks */ = {isa = PBXBuildFile; productRef = 413EE70D25F0FD7E0084327F /* SwiftyDropbox */; };
+		413EE73725F11D9C0084327F /* DropboxController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413EE73625F11D9C0084327F /* DropboxController.swift */; };
 		C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */; };
 		C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */; };
 		C7481C7825BBCF3900B9CA55 /* CloudNotes.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C7481C7625BBCF3900B9CA55 /* CloudNotes.xcdatamodeld */; };
@@ -58,6 +60,7 @@
 		28F0B7E125DF965100916219 /* MemoListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoListTableViewController.swift; sourceTree = "<group>"; };
 		28F0B7E925DF99A600916219 /* MemoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoModel.swift; sourceTree = "<group>"; };
 		28F0B7FF25DFA0AE00916219 /* MemoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoTableViewCell.swift; sourceTree = "<group>"; };
+		413EE73625F11D9C0084327F /* DropboxController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropboxController.swift; sourceTree = "<group>"; };
 		C7481C6A25BBCF3900B9CA55 /* CloudNotes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CloudNotes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -78,6 +81,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				413EE70E25F0FD7E0084327F /* SwiftyDropbox in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -164,6 +168,7 @@
 				28046DE025DBBAE700E127FF /* Extension */,
 				28046DD425DBB99D00E127FF /* Error */,
 				28046DCE25DBB53400E127FF /* Model */,
+				413EE73625F11D9C0084327F /* DropboxController.swift */,
 				C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */,
 				283FA8B225DE601A00902F3A /* Main.storyboard */,
 				C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */,
@@ -209,6 +214,9 @@
 			dependencies = (
 			);
 			name = CloudNotes;
+			packageProductDependencies = (
+				413EE70D25F0FD7E0084327F /* SwiftyDropbox */,
+			);
 			productName = CloudNotes;
 			productReference = C7481C6A25BBCF3900B9CA55 /* CloudNotes.app */;
 			productType = "com.apple.product-type.application";
@@ -280,6 +288,9 @@
 				Base,
 			);
 			mainGroup = C7481C6125BBCF3900B9CA55;
+			packageReferences = (
+				413EE70C25F0FD7E0084327F /* XCRemoteSwiftPackageReference "SwiftyDropbox" */,
+			);
 			productRefGroup = C7481C6B25BBCF3900B9CA55 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -335,6 +346,7 @@
 				28046DE225DBBAF200E127FF /* ViewControllerExtension.swift in Sources */,
 				283FA8B825DE650C00902F3A /* UITextViewExtension.swift in Sources */,
 				C7481C7825BBCF3900B9CA55 /* CloudNotes.xcdatamodeld in Sources */,
+				413EE73725F11D9C0084327F /* DropboxController.swift in Sources */,
 				2855E86725E65CD700DB4F7D /* Memo+CoreDataClass.swift in Sources */,
 				28F0B7E225DF965100916219 /* MemoListTableViewController.swift in Sources */,
 			);
@@ -657,6 +669,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		413EE70C25F0FD7E0084327F /* XCRemoteSwiftPackageReference "SwiftyDropbox" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/dropbox/SwiftyDropbox.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.0.3;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		413EE70D25F0FD7E0084327F /* SwiftyDropbox */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 413EE70C25F0FD7E0084327F /* XCRemoteSwiftPackageReference "SwiftyDropbox" */;
+			productName = SwiftyDropbox;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		C7481C7625BBCF3900B9CA55 /* CloudNotes.xcdatamodeld */ = {

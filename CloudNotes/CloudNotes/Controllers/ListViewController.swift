@@ -12,6 +12,7 @@ protocol MemoDelegate {
 }
 
 class ListViewController: UITableViewController {
+    private let navigationTitle: String = "메모"
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     private var memoList = [Memo]()
     private lazy var addMemoButton: UIBarButtonItem = {
@@ -38,8 +39,8 @@ class ListViewController: UITableViewController {
         
         if memoList[indexPath.row].title == String(),
            memoList[indexPath.row].body == String() {
-            cell.titleLabel.text = CellDefaultString.title.rawValue
-            cell.predescriptionLabel.text = CellDefaultString.body.rawValue
+            cell.titleLabel.text = CellDefaultString.title
+            cell.predescriptionLabel.text = CellDefaultString.body
         } else {
             cell.titleLabel.text = memoList[indexPath.row].title
             cell.predescriptionLabel.text = memoList[indexPath.row].body
@@ -129,7 +130,7 @@ extension ListViewController {
     }
     
     private func setUpNavigationBar() {
-        navigationItem.title = ListVCLiteral.navigationTitle
+        navigationItem.title = navigationTitle
         navigationItem.rightBarButtonItem = addMemoButton
     }
     

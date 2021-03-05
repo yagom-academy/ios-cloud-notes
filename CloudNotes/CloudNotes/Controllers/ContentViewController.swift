@@ -17,7 +17,7 @@ class ContentViewController: UIViewController {
     private var activityViewController: UIActivityViewController?
     private lazy var alertController: UIAlertController = {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let alertActions = [shareAction, deleteAction, UIAlertAction(title: "Cancel", style: .cancel, handler: nil)]
+        let alertActions = [shareAction, deleteAction, UIAlertAction(title: AlertController.MoreActionSheet.cancel, style: .cancel, handler: nil)]
         
         for action in alertActions {
             alertController.addAction(action)
@@ -27,7 +27,7 @@ class ContentViewController: UIViewController {
     }()
     
     private lazy var shareAction: UIAlertAction = {
-        let shareAction = UIAlertAction(title: "Share...", style: .default, handler: { (alert: UIAlertAction!) -> Void in
+        let shareAction = UIAlertAction(title: AlertController.MoreActionSheet.share, style: .default, handler: { (alert: UIAlertAction!) -> Void in
             guard let sharingMessage = self.contentView.text else {
                 return
             }
@@ -50,11 +50,11 @@ class ContentViewController: UIViewController {
     }()
     
     private lazy var deleteAction: UIAlertAction = {
-        let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: { (alert: UIAlertAction!) -> Void in
-            let alertController = UIAlertController(title: "진짜요?", message: "진짜로 삭제하시겠습니까?", preferredStyle: .alert)
+        let deleteAction = UIAlertAction(title: AlertController.MoreActionSheet.delete, style: .destructive, handler: { (alert: UIAlertAction!) -> Void in
+            let alertController = UIAlertController(title: AlertController.MemoDeleteAlert.title, message: AlertController.MemoDeleteAlert.message, preferredStyle: .alert)
             
-            let deleteCancelAction = UIAlertAction(title: "취소", style: .default, handler: nil)
-            let deleteCompleteAction = UIAlertAction(title: "삭제", style: .destructive, handler: { _  in
+            let deleteCancelAction = UIAlertAction(title: AlertController.MemoDeleteAlert.cancelAction, style: .cancel, handler: nil)
+            let deleteCompleteAction = UIAlertAction(title: AlertController.MemoDeleteAlert.deleteAction, style: .destructive, handler: { _  in
                 if let mainVC = self.splitViewController as? MainViewController,
                    let currentMemo = self.currentMemo {
                     let masterVC = mainVC.masterViewController
@@ -185,10 +185,10 @@ extension ContentViewController {
     }
     
     private func updateUI(with memo: Memo) {
-        let memoAttributedString = NSMutableAttributedString(string: memo.title ?? "")
-        let bodyAttributedString = NSMutableAttributedString(string: "\n\(memo.body ?? "")")
-        memoAttributedString.addAttribute(.font, value: headLinefont, range: NSRange(location: 0, length: memo.title?.count ?? 0))
-        bodyAttributedString.addAttribute(.font, value: bodyLinefont, range: NSRange(location: 0, length: memo.body?.count ?? 0))
+        let memoAttributedString = NSMutableAttributedString(string: memo.title ?? .empty)
+        let bodyAttributedString = NSMutableAttributedString(string: "\(String.EscapeSequence.newLine)\(memo.body ?? .empty)")
+        memoAttributedString.addAttribute(.font, value: headLinefont, range: NSRange(location: 0, length: memo.title?.count ?? .zero))
+        bodyAttributedString.addAttribute(.font, value: bodyLinefont, range: NSRange(location: 0, length: memo.body?.count ?? .zero))
         memoAttributedString.append(bodyAttributedString)
         contentView.attributedText = memoAttributedString
         updateTextViewSize()
@@ -208,7 +208,7 @@ extension ContentViewController {
     
     private func modifyContents() -> Memo?  {
         let startIndex: String.Index = contentView.text.startIndex
-        guard let endIndex: String.Index = contentView.text.firstIndex(of: "\n") else { return Memo() }
+        guard let endIndex: String.Index = contentView.text.firstIndex(of: Character(String.EscapeSequence.newLine)) else { return Memo() }
         let afterEndIndex: String.Index = contentView.text.index(after: endIndex)
         
         
@@ -232,7 +232,7 @@ extension ContentViewController: UITextViewDelegate {
         let bodyAttributes: [NSAttributedString.Key: UIFont] = [.font : .systemFont(ofSize: 15)]
         let textAsNSString: NSString = contentView.text as NSString
         let replaced: NSString = textAsNSString.replacingCharacters(in: range, with: text) as NSString
-        let boldRange: NSRange = replaced.range(of: "\n")
+        let boldRange: NSRange = replaced.range(of: String.EscapeSequence.newLine)
         if boldRange.location <= range.location {
             contentView.typingAttributes = bodyAttributes
         } else {

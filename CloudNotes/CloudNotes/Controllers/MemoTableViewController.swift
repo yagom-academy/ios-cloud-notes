@@ -16,7 +16,7 @@ class MemoTableViewController: UIViewController {
         return tableView
     }()
     
-    let coreDataStack = CoreDataStack(modelName: "CloudNotes")
+    let coreDataStack = CoreDataStack.shared
     
     lazy var fetchedResultsController: NSFetchedResultsController<Memo> = {
         let context = coreDataStack.persistentContainer.viewContext

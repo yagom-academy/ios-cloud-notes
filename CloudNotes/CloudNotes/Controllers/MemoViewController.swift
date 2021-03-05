@@ -18,8 +18,8 @@ class MemoViewController: UIViewController {
     }()
     
     private var tapGesture: UITapGestureRecognizer?
+    let coreDataStack = CoreDataStack.shared
     private var memo: Memo?
-    private var isDeleted = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,10 +40,6 @@ class MemoViewController: UIViewController {
     }
     
     func saveMemo() {
-        if isDeleted {
-            return
-        }
-        
         var title: String = ""
         var body: String = ""
         let date: Int = Int(Date().timeIntervalSince1970)
@@ -59,13 +55,13 @@ class MemoViewController: UIViewController {
         
         if let memo = self.memo {
             do {
-                try Memo.update(memo: memo, title, body, date)
+                try coreDataStack.update(memo: memo, title, body, date)
             } catch {
                 showErrorAlert(viewController: self, message: "메모를 업데이트하지 못했어요!")
             }
         } else {
             do {
-                try Memo.create(title, body, date)
+                try coreDataStack.create(title, body, date)
             } catch {
                 showErrorAlert(viewController: self, message: "메모를 생성하지 못했어요!")
             }
@@ -82,7 +78,6 @@ class MemoViewController: UIViewController {
         memoTextView.isEditable = false
         tapGesture?.isEnabled = true
         memoTextView.resignFirstResponder()
-        saveMemo()
     }
     
     private func setupNavigationItem() {
@@ -115,11 +110,12 @@ class MemoViewController: UIViewController {
     func delete(_ alertAction: UIAlertAction) {
         if let memo = self.memo {
             do {
-                try Memo.delete(memo: memo)
+                try coreDataStack.delete(memo: memo)
                 self.memo = nil
-                isDeleted = true
+                self.memoTextView.text = nil
                 if let memoSplitViewController = self.splitViewController as? MemoSplitViewController {
                     memoSplitViewController.popMemoViewController()
+                    navigationController?.dismiss(animated: true, completion: nil)
                 }
             } catch {
                 
@@ -187,5 +183,9 @@ extension MemoViewController: UITextViewDelegate {
     
     func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
         return true
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        saveMemo()
     }
 }

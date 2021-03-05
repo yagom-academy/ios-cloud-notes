@@ -20,18 +20,21 @@ class MemoSplitViewController: UISplitViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        self.viewControllers.append(detailViewController)
     }
     
     func showMemoViewController(_ memo: Memo?) {
         guard let memoViewController = detailViewController.topViewController as? MemoViewController else {
             return
         }
+        memoViewController.exitEditMode()
         memoViewController.setMemo(memo)
         showDetailViewController(detailViewController, sender: nil)
     }
     
     func popMemoViewController() {
         masterViewController.popViewController(animated: true)
+        if viewControllers.last == detailViewController {
+            viewControllers.removeLast()
+        }
     }
 }

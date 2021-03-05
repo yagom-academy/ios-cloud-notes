@@ -18,8 +18,9 @@ class MemoViewController: UIViewController {
     }()
     
     private var tapGesture: UITapGestureRecognizer?
-    let coreDataStack = CoreDataStack.shared
     private var memo: Memo?
+    let coreDataStack = CoreDataStack.shared
+    var isAppear = false // 메모 선택되어 있지 않을때, 화면회전하면 아무것도 안나타나게 하려는 목적으로 필요.
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,9 +38,10 @@ class MemoViewController: UIViewController {
         exitEditMode()
         memo = nil
         memoTextView.text = nil
+        isAppear = false
     }
-    
-    func saveMemo() {
+
+    private func saveMemo() {
         var title: String = ""
         var body: String = ""
         let date: Int = Int(Date().timeIntervalSince1970)
@@ -99,7 +101,7 @@ class MemoViewController: UIViewController {
         present(menu, animated: true, completion: nil)
     }
     
-    func share(_ alertAction: UIAlertAction) {
+    private func share(_ alertAction: UIAlertAction) {
         guard let memoText = memoTextView.text else {
             return
         }
@@ -107,7 +109,7 @@ class MemoViewController: UIViewController {
         present(activityViewController, animated: true, completion: nil)
     }
     
-    func delete(_ alertAction: UIAlertAction) {
+    private func delete(_ alertAction: UIAlertAction) {
         if let memo = self.memo {
             do {
                 try coreDataStack.delete(memo: memo)

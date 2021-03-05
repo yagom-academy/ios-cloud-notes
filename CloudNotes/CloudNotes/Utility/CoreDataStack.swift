@@ -34,6 +34,7 @@ class CoreDataStack {
         memo.date = Int64(date)
         try context.save()
     }
+    
     func update(memo: Memo, _ title: String, _ body: String?, _ date: Int) throws {
         let context = self.persistentContainer.viewContext
         var isEdited = false

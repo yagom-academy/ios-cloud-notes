@@ -90,6 +90,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		36BAB4E725F2725500A6085B /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				36EFB50025E947F800DBAF58 /* Memo+CoreDataClass.swift */,
+				36EFB50125E947F800DBAF58 /* Memo+CoreDataProperties.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		B479F2D025DF789B00A7253C /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -103,6 +112,7 @@
 		B479F2D225DF78E000A7253C /* Utility */ = {
 			isa = PBXGroup;
 			children = (
+				B429624D25F11E0300566185 /* CoreDataStack.swift */,
 				B45CA67625DBF797004CEAC5 /* Extensions.swift */,
 			);
 			path = Utility;
@@ -127,8 +137,6 @@
 		C7481C6125BBCF3900B9CA55 = {
 			isa = PBXGroup;
 			children = (
-				36EFB50025E947F800DBAF58 /* Memo+CoreDataClass.swift */,
-				36EFB50125E947F800DBAF58 /* Memo+CoreDataProperties.swift */,
 				C7481C6C25BBCF3900B9CA55 /* CloudNotes */,
 				C7481C8625BBCF3A00B9CA55 /* CloudNotesTests */,
 				C7481C9125BBCF3A00B9CA55 /* CloudNotesUITests */,
@@ -149,6 +157,7 @@
 		C7481C6C25BBCF3900B9CA55 /* CloudNotes */ = {
 			isa = PBXGroup;
 			children = (
+				36BAB4E725F2725500A6085B /* Models */,
 				B479F2D325DF78FC00A7253C /* Views */,
 				B479F2D225DF78E000A7253C /* Utility */,
 				B479F2D025DF789B00A7253C /* Controllers */,
@@ -158,7 +167,6 @@
 				C7481C7B25BBCF3A00B9CA55 /* LaunchScreen.storyboard */,
 				C7481C7E25BBCF3A00B9CA55 /* Info.plist */,
 				C7481C7625BBCF3900B9CA55 /* CloudNotes.xcdatamodeld */,
-				B429624D25F11E0300566185 /* CoreDataStack.swift */,
 			);
 			path = CloudNotes;
 			sourceTree = "<group>";

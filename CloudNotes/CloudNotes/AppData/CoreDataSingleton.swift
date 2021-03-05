@@ -27,14 +27,14 @@ class CoreDataSingleton {
                 fetchData = result
             }
         } catch {
-            print(MemoAppError.system.message)
+            print(MemoAppSystemError.unkowned)
         }
         return fetchData
     }
     
     func save(content: String) throws {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            throw MemoAppError.system
+            throw MemoAppSystemError.unkowned
         }
         let managedContext =
             appDelegate.persistentContainer.viewContext
@@ -48,12 +48,13 @@ class CoreDataSingleton {
             self.memoData.insert(object, at: 0)
         } catch {
             managedContext.rollback()
+            throw MemoAppSystemError.saveFailed
         }
     }
     
     func delete(object: NSManagedObject) throws {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            throw MemoAppError.system
+            throw MemoAppSystemError.unkowned
         }
         let managedContext =
             appDelegate.persistentContainer.viewContext
@@ -64,12 +65,13 @@ class CoreDataSingleton {
             try managedContext.save()
         } catch {
             managedContext.rollback()
+            throw MemoAppSystemError.deleteFailed
         }
     }
     
     func update(object: NSManagedObject, content: String) throws {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            throw MemoAppError.system
+            throw MemoAppSystemError.unkowned
         }
         let managedContext =
             appDelegate.persistentContainer.viewContext
@@ -81,6 +83,7 @@ class CoreDataSingleton {
             try managedContext.save()
         } catch {
             managedContext.rollback()
+            throw MemoAppSystemError.updateFailed
         }
     }
 }

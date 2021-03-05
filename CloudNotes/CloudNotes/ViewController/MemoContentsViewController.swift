@@ -4,6 +4,8 @@ import Foundation
 
 class MemoContentsViewController: UIViewController {
     weak var delegate: TableViewListManagable?
+    lazy var disclosureBarButton = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: #selector(showActionSheet))
+    lazy var finishButton = UIBarButtonItem(title: "완료", style: .plain, target: self, action: #selector(endEditing))
     
     var memoTextView: UITextView = {
         let textView = UITextView()
@@ -28,7 +30,6 @@ class MemoContentsViewController: UIViewController {
     
     // MARK: Configure UI
     private func configureNavigationBar() {
-        let disclosureBarButton = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: #selector(showActionSheet))
         navigationItem.rightBarButtonItems = [disclosureBarButton]
     }
     
@@ -105,8 +106,8 @@ class MemoContentsViewController: UIViewController {
     func countEnter(text: String) -> Int {
         var enterCount = 0
         let stringArray = text.map { String($0) }
-        for i in 0...stringArray.count - 1 {
-            if stringArray[i] == "\n" {
+        for charactor in stringArray {
+            if charactor == "\n" {
                 enterCount += 1
             } else {
                 break
@@ -154,7 +155,6 @@ extension MemoContentsViewController {
             placeCursor(textView, tappedLocation)
             makeTextViewEditable()
             
-            let finishButton = UIBarButtonItem(title: "완료", style: .plain, target: self, action: #selector(endEditing))
             navigationItem.rightBarButtonItems?.insert(finishButton, at: 0)
         }
         

@@ -57,15 +57,40 @@ class MemoListTableViewController: UITableViewController {
         
         self.splitViewController?.showDetailViewController(memoContentsNavigationViewController, sender: nil)
     }
+    
+    private func deleteEmptyMemo() -> Bool {
+        let firstMemo = CoreDataSingleton.shared.memoData[0]
+        let firstIndexPath = IndexPath(row: 0, section: 0)
+        
+        if firstMemo.value(forKey: "content") as? String == "" {
+            do  {
+                try CoreDataSingleton.shared.delete(object: firstMemo)
+                CoreDataSingleton.shared.memoData.remove(at: 0)
+                tableView.deleteRows(at: [firstIndexPath], with: .fade)
+            } catch {
+                print(MemoAppError.system.message)
+                return false
+            }
+        }
+        
+        return true
+    }
 }
 
 // MARK: UITableViewDelegate
 extension MemoListTableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        showContentsViewController(index: indexPath.row)
+        var indexPathRow = indexPath.row
         
+        if indexPath.row != 0 {
+            if deleteEmptyMemo() {
+                indexPathRow = indexPath.row - 1
+            }
+        }
+        
+        showContentsViewController(index: indexPathRow)
+        UserDefaults.standard.set(indexPathRow, forKey: UserDefaultsKeys.selectedMemoIndexPathRow.rawValue)
         UserDefaults.standard.set(true, forKey: UserDefaultsKeys.isCellSelected.rawValue)
-        UserDefaults.standard.set(indexPath.row, forKey: UserDefaultsKeys.selectedMemoIndexPathRow.rawValue)
     }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {

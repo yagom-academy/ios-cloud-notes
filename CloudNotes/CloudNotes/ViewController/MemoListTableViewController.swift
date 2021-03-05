@@ -49,7 +49,7 @@ class MemoListTableViewController: UITableViewController {
             UserDefaults.standard.set(true, forKey: UserDefaultsKeys.isCellSelected.rawValue)
             sender.isEnabled = false
         } catch {
-            print(MemoAppSystemError.system.message)
+            print(MemoAppSystemError.saveFailed.message)
         }
     }
     
@@ -72,7 +72,7 @@ class MemoListTableViewController: UITableViewController {
                 CoreDataSingleton.shared.memoData.remove(at: 0)
                 tableView.deleteRows(at: [firstIndexPath], with: .fade)
             } catch {
-                print(MemoAppSystemError.system.message)
+                print(MemoAppSystemError.deleteFailed.message)
                 return false
             }
         }
@@ -118,7 +118,7 @@ extension MemoListTableViewController {
                     }
                 }
             } catch {
-                print(MemoAppSystemError.system.message)
+                print(MemoAppSystemError.deleteFailed.message)
             }
         }
     }

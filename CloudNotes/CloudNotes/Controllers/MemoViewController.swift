@@ -120,7 +120,7 @@ class MemoViewController: UIViewController {
                     navigationController?.dismiss(animated: true, completion: nil)
                 }
             } catch {
-                
+                showErrorAlert(viewController: self, message: "메모를 삭제하지 못했어요!")
             }
         }
     }

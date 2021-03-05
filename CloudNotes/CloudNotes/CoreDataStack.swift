@@ -3,6 +3,7 @@ import Foundation
 
 class CoreDataStack {
     static var shared: CoreDataStack = CoreDataStack()
+    
     lazy var persistentContainer: NSPersistentCloudKitContainer = {
         let container = NSPersistentCloudKitContainer(name: "CloudNotes")
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in

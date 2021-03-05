@@ -16,9 +16,9 @@ class MemoTableViewController: UIViewController {
         return tableView
     }()
     
-    let coreDataStack = CoreDataStack.shared
+    private let coreDataStack = CoreDataStack.shared
     
-    lazy var fetchedResultsController: NSFetchedResultsController<Memo> = {
+    private lazy var fetchedResultsController: NSFetchedResultsController<Memo> = {
         let context = coreDataStack.persistentContainer.viewContext
 
         let fetchRequest: NSFetchRequest<Memo> = Memo.fetchRequest()
@@ -59,7 +59,7 @@ class MemoTableViewController: UIViewController {
 
 //MARK: - TableView
 extension MemoTableViewController {
-    func configureTableView() {
+    private func configureTableView() {
         memoListTableView.delegate = self
         memoListTableView.dataSource = self
         memoListTableView.frame = view.frame

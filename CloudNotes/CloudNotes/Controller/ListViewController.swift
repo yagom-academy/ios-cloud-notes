@@ -28,6 +28,13 @@ final class ListViewController: UITableViewController {
         DropboxManager.shared.download()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if let newMemo = MemoModel.shared.list.first, newMemo.content == nil {
+            MemoModel.shared.delete(index: 0)
+        }
+    }
+    
     private func setupSearchController() {
         let searchController = UISearchController(searchResultsController: nil)
         searchController.searchResultsUpdater = self

@@ -19,7 +19,7 @@ class MemoViewController: UIViewController {
     
     private var tapGesture: UITapGestureRecognizer?
     private var memo: Memo?
-    let coreDataStack = CoreDataStack.shared
+    private let coreDataStack = CoreDataStack.shared
     var isAppear = false // 메모 선택되어 있지 않을때, 화면회전하면 아무것도 안나타나게 하려는 목적으로 필요.
     
     override func viewDidLoad() {
@@ -125,7 +125,7 @@ class MemoViewController: UIViewController {
                     navigationController?.dismiss(animated: true, completion: nil)
                 }
             } catch {
-                showErrorAlert(viewController: self, message: "메모를 삭제하지 못했어요!")
+                showErrorAlert(viewController: self, message: "삭제에 실패했습니다.")
             }
         }
     }
@@ -157,6 +157,7 @@ extension MemoViewController {
             self.memo = memo
             memoTextView.text = (memo.title ?? "") + "\n" + (memo.body ?? "")
         } else {
+            self.memo = nil
             memoTextView.text = nil
         }
     }
@@ -193,6 +194,8 @@ extension MemoViewController: UITextViewDelegate {
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
-        saveMemo()
+        if memo != nil && memoTextView.text != nil {
+            saveMemo()
+        }
     }
 }

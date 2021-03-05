@@ -3,6 +3,7 @@ import Foundation
 
 class CoreDataStack {
     static var shared: CoreDataStack = CoreDataStack()
+    
     lazy var persistentContainer: NSPersistentCloudKitContainer = {
         let container = NSPersistentCloudKitContainer(name: "CloudNotes")
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
@@ -28,7 +29,6 @@ class CoreDataStack {
     func create(_ title: String, _ body: String?, _ date: Int) throws {
         let context = self.persistentContainer.viewContext
         let memo = Memo(context: context)
-        print("Create")
         memo.title = title
         memo.body = body
         memo.date = Int64(date)

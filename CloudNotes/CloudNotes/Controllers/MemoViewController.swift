@@ -40,8 +40,8 @@ class MemoViewController: UIViewController {
         memoTextView.text = nil
         isAppear = false
     }
-
-    private func saveMemo() {
+    
+    private func extractMemoData() -> (title: String, body: String, date: Int) {
         var title: String = ""
         var body: String = ""
         let date: Int = Int(Date().timeIntervalSince1970)
@@ -54,16 +54,21 @@ class MemoViewController: UIViewController {
         } else {
             title = memoTextView.text
         }
+        return (title, body, date)
+    }
+
+    private func saveMemo() {
+        let memoData = extractMemoData()
         
         if let memo = self.memo {
             do {
-                try coreDataStack.update(memo: memo, title, body, date)
+                try coreDataStack.update(memo: memo, memoData.title, memoData.body, memoData.date)
             } catch {
                 showErrorAlert(viewController: self, message: "메모를 업데이트하지 못했어요!")
             }
         } else {
             do {
-                try coreDataStack.create(title, body, date)
+                try coreDataStack.create(memoData.title, memoData.body, memoData.date)
             } catch {
                 showErrorAlert(viewController: self, message: "메모를 생성하지 못했어요!")
             }

@@ -152,6 +152,7 @@ extension MemoViewController {
             self.memo = memo
             memoTextView.text = (memo.title ?? "") + "\n" + (memo.body ?? "")
         } else {
+            self.memo = nil
             memoTextView.text = nil
         }
     }

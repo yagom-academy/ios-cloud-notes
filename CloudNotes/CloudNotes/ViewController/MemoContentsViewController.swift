@@ -70,9 +70,7 @@ class MemoContentsViewController: UIViewController {
         let selectedMemoIndexPathRow = UserDefaults.standard.integer(forKey: UserDefaultsKeys.selectedMemoIndexPathRow.rawValue)
         
         do {
-            try CoreDataSingleton.shared.delete(object: CoreDataSingleton.shared.memoData[selectedMemoIndexPathRow])
-            CoreDataSingleton.shared.memoData.remove(at: selectedMemoIndexPathRow)
-            delegate?.deleteCell()
+            try delegate?.deleteCell(at: selectedMemoIndexPathRow)
             
             switch splitViewController?.traitCollection.horizontalSizeClass {
             case .compact:

@@ -3,7 +3,7 @@ import CoreData.NSManagedObject
 
 protocol TableViewListManagable: class {
     func updateTableViewList()
-    func deleteCell()
+    func deleteCell(at indexPathRow: Int) throws
     func moveCellToTop()
     func changeEnrollButtonStatus(textViewIsEmpty: Bool)
 }
@@ -126,27 +126,20 @@ extension MemoListTableViewController {
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         let memoContentsView = MemoContentsViewController()
-        if editingStyle == .delete {
-            let selectedMemoIndexPathRow = UserDefaults.standard.integer(forKey: UserDefaultsKeys.selectedMemoIndexPathRow.rawValue)
+        do {
+            try deleteCell(at: indexPath.row)
             
-            do {
-                try CoreDataSingleton.shared.delete(object: CoreDataSingleton.shared.memoData[selectedMemoIndexPathRow])
-                CoreDataSingleton.shared.memoData.remove(at: selectedMemoIndexPathRow)
-                UserDefaults.standard.set(0, forKey: UserDefaultsKeys.selectedMemoIndexPathRow.rawValue)
-                tableView.deleteRows(at: [indexPath], with: .fade)
-                
-                if splitViewController?.traitCollection.horizontalSizeClass == .regular {
-                    switch CoreDataSingleton.shared.memoData.isEmpty {
-                    case false:
-                        memoContentsView.receiveText(memo: CoreDataSingleton.shared.memoData[0])
-                        self.splitViewController?.showDetailViewController(memoContentsView, sender: nil)
-                    case true:
-                        splitViewController?.viewControllers.removeLast()
-                    }
+            if splitViewController?.traitCollection.horizontalSizeClass == .regular {
+                switch CoreDataSingleton.shared.memoData.isEmpty {
+                case false:
+                    memoContentsView.receiveText(memo: CoreDataSingleton.shared.memoData[0])
+                    self.splitViewController?.showDetailViewController(memoContentsView, sender: nil)
+                case true:
+                    splitViewController?.viewControllers.removeLast()
                 }
-            } catch {
-                print(MemoAppSystemError.deleteFailed.message)
             }
+        } catch {
+            print(MemoAppSystemError.deleteFailed.message)
         }
     }
 }
@@ -168,11 +161,20 @@ extension MemoListTableViewController: TableViewListManagable {
         tableView.reloadData()
     }
     
-    func deleteCell() {
-        let selectedMemoIndexPathRow = UserDefaults.standard.integer(forKey: UserDefaultsKeys.selectedMemoIndexPathRow.rawValue)
-        let indexPath = IndexPath(row: selectedMemoIndexPathRow, section: 0)
+    func deleteCell(at indexPathRow: Int) throws {
+        let indexPathRowToDelete: Int
         
-        tableView.deleteRows(at: [indexPath], with: .fade)
+        switch searchController.searchBar.text == "" {
+        case true:
+            indexPathRowToDelete = indexPathRow
+        case false:
+            indexPathRowToDelete = try findSameMemoIndexInCoreData(currentIndex: indexPathRow)
+        }
+        
+        try CoreDataSingleton.shared.delete(object: CoreDataSingleton.shared.memoData[indexPathRowToDelete])
+        CoreDataSingleton.shared.memoData.remove(at: indexPathRowToDelete)
+        
+        searchList.remove(at: indexPathRow)
         tableView.reloadData()
         UserDefaults.standard.set(0, forKey: UserDefaultsKeys.selectedMemoIndexPathRow.rawValue)
     }
@@ -195,6 +197,18 @@ extension MemoListTableViewController: TableViewListManagable {
     
     func changeEnrollButtonStatus(textViewIsEmpty: Bool) {
         enrollButton.isEnabled = !textViewIsEmpty
+    }
+    
+    private func findSameMemoIndexInCoreData(currentIndex: Int) throws -> Int {
+        if CoreDataSingleton.shared.memoData.count > 0 {
+            for i in 0...CoreDataSingleton.shared.memoData.count {
+                if searchList[currentIndex] == CoreDataSingleton.shared.memoData[i] {
+                    return i
+                }
+            }
+        }
+        
+        throw MemoAppSystemError.unkowned
     }
 }
 

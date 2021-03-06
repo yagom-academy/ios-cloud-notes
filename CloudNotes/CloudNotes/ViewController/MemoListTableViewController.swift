@@ -1,4 +1,5 @@
 import UIKit
+import CoreData.NSManagedObject
 
 protocol TableViewListManagable: class {
     func updateTableViewList()
@@ -8,6 +9,8 @@ protocol TableViewListManagable: class {
 }
 
 class MemoListTableViewController: UITableViewController {
+    var searchList = [NSManagedObject]()
+    let searchController = UISearchController()
     lazy var enrollButton = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: #selector(createMemo))
     
     override func viewDidLoad() {
@@ -23,21 +26,36 @@ class MemoListTableViewController: UITableViewController {
     }
     
     private func configureNavigationBar() {
+        searchController.searchBar.delegate = self
+        
         navigationItem.title = "메모"
         navigationItem.rightBarButtonItem = enrollButton
+        navigationItem.searchController = searchController
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return CoreDataSingleton.shared.memoData.count
+        switch searchController.isActive {
+        case true:
+            return searchList.count
+        case false:
+            return CoreDataSingleton.shared.memoData.count
+        }
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let memo = CoreDataSingleton.shared.memoData[indexPath.row]
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "MemoCell") as? MemoListTableViewCell else {
             return UITableViewCell()
         }
+        
+        switch searchController.isActive {
+        case true:
+            let memo = searchList[indexPath.row]
+            cell.receiveLabelsText(memo: memo)
+        case false:
+            let memo = CoreDataSingleton.shared.memoData[indexPath.row]
+            cell.receiveLabelsText(memo: memo)
+        }
 
-        cell.receiveLabelsText(memo: memo)
         return cell
     }
     
@@ -56,8 +74,14 @@ class MemoListTableViewController: UITableViewController {
     private func showContentsViewController(index: Int) {
         let memoContentsViewController = MemoContentsViewController()
         let memoContentsNavigationViewController = UINavigationController(rootViewController: memoContentsViewController)
-        memoContentsViewController.receiveText(memo: CoreDataSingleton.shared.memoData[index])
         memoContentsViewController.delegate = self
+        
+        switch searchController.isActive {
+        case true:
+            memoContentsViewController.receiveText(memo: searchList[index])
+        case false:
+            memoContentsViewController.receiveText(memo: CoreDataSingleton.shared.memoData[index])
+        }
         
         self.splitViewController?.showDetailViewController(memoContentsNavigationViewController, sender: nil)
     }
@@ -168,5 +192,18 @@ extension MemoListTableViewController: TableViewListManagable {
     
     func changeEnrollButtonStatus(textViewIsEmpty: Bool) {
         enrollButton.isEnabled = !textViewIsEmpty
+    }
+}
+
+extension MemoListTableViewController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        let totalMemoList = CoreDataSingleton.shared.memoData
+        searchList = totalMemoList.filter({ memo -> Bool in
+            guard let memoText = (memo.value(forKey: "content") as? String) else {
+                return false
+            }
+            return memoText.contains(searchText)
+        })
+        tableView.reloadData()
     }
 }

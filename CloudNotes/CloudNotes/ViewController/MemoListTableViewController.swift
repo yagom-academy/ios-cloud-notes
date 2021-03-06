@@ -27,6 +27,7 @@ class MemoListTableViewController: UITableViewController {
     
     private func configureNavigationBar() {
         searchController.searchBar.delegate = self
+        searchController.obscuresBackgroundDuringPresentation = false
         
         navigationItem.title = "메모"
         navigationItem.rightBarButtonItem = enrollButton
@@ -34,11 +35,11 @@ class MemoListTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch searchController.isActive {
+        switch searchController.searchBar.text == "" {
         case true:
-            return searchList.count
-        case false:
             return CoreDataSingleton.shared.memoData.count
+        case false:
+            return searchList.count
         }
     }
     
@@ -47,12 +48,12 @@ class MemoListTableViewController: UITableViewController {
             return UITableViewCell()
         }
         
-        switch searchController.isActive {
+        switch searchController.searchBar.text == "" {
         case true:
-            let memo = searchList[indexPath.row]
+            let memo = CoreDataSingleton.shared.memoData[indexPath.row]
             cell.receiveLabelsText(memo: memo)
         case false:
-            let memo = CoreDataSingleton.shared.memoData[indexPath.row]
+            let memo = searchList[indexPath.row]
             cell.receiveLabelsText(memo: memo)
         }
 
@@ -95,13 +96,15 @@ class MemoListTableViewController: UITableViewController {
                 try CoreDataSingleton.shared.delete(object: firstMemo)
                 CoreDataSingleton.shared.memoData.remove(at: 0)
                 tableView.deleteRows(at: [firstIndexPath], with: .fade)
+                enrollButton.isEnabled = true
+                return true
             } catch {
                 print(MemoAppSystemError.deleteFailed.message)
                 return false
             }
         }
         
-        return true
+        return false
     }
 }
 
@@ -204,6 +207,11 @@ extension MemoListTableViewController: UISearchBarDelegate {
             }
             return memoText.contains(searchText)
         })
+        tableView.reloadData()
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchController.searchBar.text = ""
         tableView.reloadData()
     }
 }

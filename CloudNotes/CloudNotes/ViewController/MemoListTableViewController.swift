@@ -71,13 +71,14 @@ class MemoListTableViewController: UITableViewController {
                 try CoreDataSingleton.shared.delete(object: firstMemo)
                 CoreDataSingleton.shared.memoData.remove(at: 0)
                 tableView.deleteRows(at: [firstIndexPath], with: .fade)
+                enrollButton.isEnabled = true
             } catch {
                 print(MemoAppSystemError.deleteFailed.message)
                 return false
             }
         }
         
-        return true
+        return false
     }
 }
 

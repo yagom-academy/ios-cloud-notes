@@ -88,7 +88,9 @@ class MemoListTableViewController: UITableViewController {
     }
     
     private func deleteEmptyMemo() -> Bool {
-        let firstMemo = CoreDataSingleton.shared.memoData[0]
+        guard let firstMemo = CoreDataSingleton.shared.memoData.first else {
+            return false
+        }
         let firstIndexPath = IndexPath(row: 0, section: 0)
         
         if firstMemo.value(forKey: "content") as? String == "" {

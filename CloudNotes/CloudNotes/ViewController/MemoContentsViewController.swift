@@ -13,6 +13,7 @@ class MemoContentsViewController: UIViewController {
         textView.adjustsFontForContentSizeCategory = true
         textView.dataDetectorTypes = .all
         textView.font = UIFont.preferredFont(forTextStyle: .body)
+        textView.tintColor = UIColor(named: "TextColor")
         return textView
     }()
     
@@ -41,7 +42,7 @@ class MemoContentsViewController: UIViewController {
         memoTextView.isEditable = false
         memoTextView.addGestureRecognizer(tapGesture)
         
-        view.backgroundColor = .white
+        view.backgroundColor = UIColor(named: "BackgroundColor")
         view.addSubview(memoTextView)
     }
     
@@ -120,18 +121,19 @@ class MemoContentsViewController: UIViewController {
         let splitedString = text.split(separator: "\n")
         let titleFontSize = UIFont.preferredFont(forTextStyle: .largeTitle)
         let bodyFontSize = UIFont.preferredFont(forTextStyle: .body)
+        let textColor = UIColor(named: "TextColor") ?? .gray
         let enterCount = countEnter(text: text)
         
         guard let title = splitedString.first else {
-            attributedText.addAttributes([.font: titleFontSize], range: NSRange(location: 0, length: text.count))
+            attributedText.addAttributes([.font: titleFontSize, .foregroundColor: textColor], range: NSRange(location: 0, length: text.count))
             return attributedText
         }
         
         let titleCount = title.count + enterCount
         let bodyCount = text.count - titleCount
         
-        attributedText.addAttributes([.font: titleFontSize], range: NSRange(location: 0, length: titleCount))
-        attributedText.addAttributes([.font: bodyFontSize], range: NSRange(location: titleCount, length: bodyCount))
+        attributedText.addAttributes([.font: titleFontSize, .foregroundColor: textColor], range: NSRange(location: 0, length: titleCount))
+        attributedText.addAttributes([.font: bodyFontSize, .foregroundColor: textColor], range: NSRange(location: titleCount, length: bodyCount))
         
         return attributedText
     }

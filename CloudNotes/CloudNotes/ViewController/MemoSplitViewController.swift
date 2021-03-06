@@ -18,7 +18,7 @@ class MemoSplitViewController: UISplitViewController {
             memoContentsViewController.receiveText(memo: CoreDataSingleton.shared.memoData[0])
         } else {
             self.viewControllers = [memoListNavigationController]
-            self.view.backgroundColor = .white
+            self.view.backgroundColor = UIColor(named: "BackgroundColor")
             return
         }
         

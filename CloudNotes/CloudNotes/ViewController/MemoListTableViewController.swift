@@ -72,6 +72,7 @@ class MemoListTableViewController: UITableViewController {
                 CoreDataSingleton.shared.memoData.remove(at: 0)
                 tableView.deleteRows(at: [firstIndexPath], with: .fade)
                 enrollButton.isEnabled = true
+                return true
             } catch {
                 print(MemoAppSystemError.deleteFailed.message)
                 return false

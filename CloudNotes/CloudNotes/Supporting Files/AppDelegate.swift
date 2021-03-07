@@ -1,5 +1,6 @@
 import UIKit
 import CoreData
+import SwiftyDropbox
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -7,7 +8,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        let myKey = "vk2nimo5e3r6brm"
+        DropboxClientsManager.setupWithAppKey(myKey)
+        
         if #available(iOS 13.0, *) {
             // empty
         } else {
@@ -30,6 +33,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the user discards a scene session.
         // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
+    }
+    
+    // MARK: - Dropbox
+    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+        let oauthCompletion: DropboxOAuthCompletion = {
+          if let authResult = $0 {
+              switch authResult {
+              case .success:
+                  print("Success! User is logged into DropboxClientsManager.")
+              case .cancel:
+                  print("Authorization flow was manually canceled by user!")
+              case .error(_, let description):
+                  print("Error: \(String(describing: description))")
+              }
+          }
+        }
+        let canHandleUrl = DropboxClientsManager.handleRedirectURL(url, completion: oauthCompletion)
+        return canHandleUrl
     }
 
     // MARK: - Core Data stack

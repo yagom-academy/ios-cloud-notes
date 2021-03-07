@@ -19,7 +19,6 @@ class MemoListTableViewController: UITableViewController {
         UserDefaults.standard.set(false, forKey: UserDefaultsKeys.isCellSelected.rawValue)
         tableView.register(MemoListTableViewCell.self, forCellReuseIdentifier: "MemoCell")
         configureNavigationBar()
-//        showLoginDropboxAlert()
         DropboxManager.delegate = self
         DropboxManager.authorizeDropbox(viewController: self)
         DropboxManager.download()
@@ -158,19 +157,6 @@ extension MemoListTableViewController {
         let okAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
         
         alert.addAction(okAction)
-        present(alert, animated: true, completion: nil)
-    }
-    
-    private func showLoginDropboxAlert() {
-        let alert = UIAlertController(title: nil, message: "Dropbox와 동기화하시겠습니까?", preferredStyle: UIAlertController.Style.alert)
-        let okAction = UIAlertAction(title: "OK", style: .default) { _ in
-            DropboxManager.authorizeDropbox(viewController: self)
-            DropboxManager.download()
-        }
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        
-        alert.addAction(okAction)
-        alert.addAction(cancelAction)
         present(alert, animated: true, completion: nil)
     }
 }

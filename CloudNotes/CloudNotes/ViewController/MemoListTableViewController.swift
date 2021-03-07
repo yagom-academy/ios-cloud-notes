@@ -1,5 +1,6 @@
 import UIKit
 import CoreData.NSManagedObject
+import SwiftyDropbox
 
 protocol TableViewListManagable: class {
     func updateTableViewList()
@@ -15,10 +16,13 @@ class MemoListTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        configureNavigationBar()
         UserDefaults.standard.set(false, forKey: UserDefaultsKeys.isCellSelected.rawValue)
         tableView.register(MemoListTableViewCell.self, forCellReuseIdentifier: "MemoCell")
+        configureNavigationBar()
+//        showLoginDropboxAlert()
+        DropboxManager.delegate = self
+        DropboxManager.authorizeDropbox(viewController: self)
+        DropboxManager.download()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -67,6 +71,7 @@ class MemoListTableViewController: UITableViewController {
             tableView.reloadData()
             UserDefaults.standard.set(true, forKey: UserDefaultsKeys.isCellSelected.rawValue)
             sender.isEnabled = false
+            DropboxManager.upload()
         } catch {
             print(MemoAppSystemError.saveFailed.message)
         }
@@ -155,6 +160,19 @@ extension MemoListTableViewController {
         alert.addAction(okAction)
         present(alert, animated: true, completion: nil)
     }
+    
+    private func showLoginDropboxAlert() {
+        let alert = UIAlertController(title: nil, message: "Dropbox와 동기화하시겠습니까?", preferredStyle: UIAlertController.Style.alert)
+        let okAction = UIAlertAction(title: "OK", style: .default) { _ in
+            DropboxManager.authorizeDropbox(viewController: self)
+            DropboxManager.download()
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        alert.addAction(okAction)
+        alert.addAction(cancelAction)
+        present(alert, animated: true, completion: nil)
+    }
 }
 
 // MARK: TableViewListManagable
@@ -229,5 +247,12 @@ extension MemoListTableViewController: UISearchBarDelegate {
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchController.searchBar.text = ""
         tableView.reloadData()
+    }
+}
+
+extension MemoListTableViewController: DropboxDownloadDelegate {
+    func fetchTableViewList() {
+        CoreDataSingleton.shared.fetch()
+        self.tableView.reloadData()
     }
 }

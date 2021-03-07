@@ -11,7 +11,11 @@
 	<array>
 		<dict>
 			<key>CFBundleURLName</key>
-			<string>db-vk2nimo5e3r6brm</string>
+			<string></string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>db-vk2nimo5e3r6brm</string>
+			</array>
 		</dict>
 	</array>
 	<key>CFBundleDevelopmentRegion</key>

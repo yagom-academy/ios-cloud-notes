@@ -1,4 +1,5 @@
 import UIKit
+import CoreData
 
 class MemoListTableViewCell: UITableViewCell {
     let listTitleLabel: UILabel = makeLabel(textStyle: .body)
@@ -41,15 +42,16 @@ class MemoListTableViewCell: UITableViewCell {
             contentsContainerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             contentsContainerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
             contentsContainerView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            contentsContainerView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.9),
             
             listTitleLabel.leadingAnchor.constraint(equalTo: contentsContainerView.leadingAnchor),
             listTitleLabel.trailingAnchor.constraint(equalTo: contentsContainerView.trailingAnchor),
             listTitleLabel.topAnchor.constraint(equalTo: contentsContainerView.topAnchor),
+            listTitleLabel.heightAnchor.constraint(equalTo: contentsContainerView.heightAnchor, multiplier: 0.5),
             
             listLastModifiedDateLabel.leadingAnchor.constraint(equalTo: listTitleLabel.leadingAnchor),
             listLastModifiedDateLabel.topAnchor.constraint(equalTo: listTitleLabel.bottomAnchor),
             listLastModifiedDateLabel.bottomAnchor.constraint(equalTo: contentsContainerView.bottomAnchor),
+            listLastModifiedDateLabel.widthAnchor.constraint(equalTo: contentsContainerView.widthAnchor, multiplier: 0.4),
             
             listShortBodyLabel.leadingAnchor.constraint(greaterThanOrEqualTo: listLastModifiedDateLabel.trailingAnchor, constant: 40),
             listShortBodyLabel.trailingAnchor.constraint(equalTo: contentsContainerView.trailingAnchor),
@@ -58,9 +60,45 @@ class MemoListTableViewCell: UITableViewCell {
         ])
     }
     
-    func receiveLabelsText(memo: Memo) {
-        listTitleLabel.text = memo.title
-        listShortBodyLabel.text = memo.body
-        listLastModifiedDateLabel.text = memo.lastModifiedDateString
+    func receiveLabelsText(memo: NSManagedObject) {
+        let text = memo.value(forKey: "content") as? String ?? ""
+        let splitedString = splitString(of: text)
+        let title = splitedString.0
+        let body = splitedString.1
+        let lastModified = memo.value(forKey: "lastModified")
+        var lastModifiedDateToString: String {
+            guard let date: Date = lastModified as? Date else {
+                return "No Data"
+            }
+            
+            let dateStr = date.convertToString()
+            return dateStr
+        }
+        
+        listTitleLabel.text = (title == "") ? "새로운 메모": title
+        listShortBodyLabel.text = (body == "") ? "텍스트 없음": body
+        listLastModifiedDateLabel.text = lastModifiedDateToString
+    }
+    
+    func splitString(of text: String) -> (String, String) {
+        var titleText: String = ""
+        var bodyText: String = ""
+
+        let fullText = text.split(separator: "\n").map { (value) -> String in
+            return String(value) }
+
+        switch fullText.count {
+        case 0:
+            titleText = ""
+            bodyText = ""
+        case 1:
+            titleText = fullText[0]
+        default:
+            titleText = fullText[0]
+            for i in 1...(fullText.count - 1) {
+                bodyText += (fullText[i] + "\n")
+            }
+        }
+        return (titleText, bodyText)
     }
 }

@@ -13,25 +13,23 @@ class MainSplitViewController: UISplitViewController {
         super.viewDidLoad()
         
         let navigationEmbeddedListTableViewController = UINavigationController(rootViewController: ListTableViewController())
+        
         let navigationEmbeddedTextViewController = UINavigationController(rootViewController: TextViewController())
         
         self.viewControllers = [navigationEmbeddedListTableViewController, navigationEmbeddedTextViewController]
         
+//        self.preferredDisplayMode = .oneBesideSecondary
+        
+        self.delegate = self
         // 테이블뷰의 비율
 //        self.preferredPrimaryColumnWidthFraction = 1/3
         view.backgroundColor = .blue
-        // Do any additional setup after loading the view.
     }
-    
 
-    /*
-    // MARK: - Navigation
+}
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+extension MainSplitViewController: UISplitViewControllerDelegate {
+    func splitViewController(_ splitViewController: UISplitViewController, collapseSecondary secondaryViewController: UIViewController, onto primaryViewController: UIViewController) -> Bool {
+        return true
     }
-    */
-
 }

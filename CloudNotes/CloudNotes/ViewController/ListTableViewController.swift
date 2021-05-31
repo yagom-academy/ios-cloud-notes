@@ -11,12 +11,12 @@ class ListTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        view.backgroundColor = .cyan
+        
+        // 아이패드에서는 잘 나오는데 아이폰에서는 안나옴.
+//        self.navigationController?.navigationBar.topItem?.title = "메모"
+        self.navigationItem.title = "메모"
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: nil)
     }
 
     // MARK: - Table view data source

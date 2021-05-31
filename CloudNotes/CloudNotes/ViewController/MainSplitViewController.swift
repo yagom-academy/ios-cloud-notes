@@ -12,6 +12,13 @@ class MainSplitViewController: UISplitViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let navigationEmbeddedListTableViewController = UINavigationController(rootViewController: ListTableViewController())
+        let navigationEmbeddedTextViewController = UINavigationController(rootViewController: TextViewController())
+        
+        self.viewControllers = [navigationEmbeddedListTableViewController, navigationEmbeddedTextViewController]
+        
+        // 테이블뷰의 비율
+//        self.preferredPrimaryColumnWidthFraction = 1/3
         view.backgroundColor = .blue
         // Do any additional setup after loading the view.
     }

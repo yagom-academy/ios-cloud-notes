@@ -51,7 +51,7 @@ class MemoListTableViewCell: UITableViewCell {
             writedDate.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 5),
             writedDate.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 10),
             writedDate.trailingAnchor.constraint(equalTo: preview.leadingAnchor, constant: 50),
-            writedDate.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: 5),
+            writedDate.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -5),
         ])
     }
     
@@ -61,13 +61,14 @@ class MemoListTableViewCell: UITableViewCell {
         NSLayoutConstraint.activate([
             preview.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 5),
             preview.leadingAnchor.constraint(equalTo: writedDate.trailingAnchor, constant: 50),
-            preview.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: 5),
-            preview.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: 5),
+            preview.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -5),
+            preview.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -5),
         ])
     }
     
     func configure(with: MemoListTableViewCellProperty) {
         setUpTableViewCell()
+        self.accessoryType = UITableViewCell.AccessoryType.disclosureIndicator
         title.text = "title"
         writedDate.text = "writedDate"
         preview.text = "preview"

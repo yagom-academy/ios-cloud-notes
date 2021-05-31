@@ -10,9 +10,23 @@ class MemoListViewController: UIViewController {
     
     let tableView = UITableView()
     
+    lazy var rightNvigationItem: UIButton = {
+        let button = UIButton()
+        button.setTitle("+", for: .normal)
+        button.setTitleColor(UIColor.systemBlue, for: .normal)
+//        button.addTarget(self, action: #selector(movePostScreen), for: .touchDown)
+        return button
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setUpTableView()
+        setUpNavigationBar()
+    }
+    
+    private func setUpNavigationBar() {
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightNvigationItem)
+        self.navigationItem.title = "메모"
     }
     
     private func setUpTableView() {

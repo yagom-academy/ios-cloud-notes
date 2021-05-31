@@ -13,6 +13,7 @@ class TextViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .red
         
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: nil)
         // Do any additional setup after loading the view.
     }
     

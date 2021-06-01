@@ -77,26 +77,24 @@ extension MemoListViewController: UITableViewDataSource {
 
 extension MemoListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        guard let cell = cell as? MemoPreviewCell else {
-            return
-        }
-        let title = sampleMemos[indexPath.row].title
-        let date = sampleMemos[indexPath.row].lastModifiedDate
-        let description = sampleMemos[indexPath.row].description
+        guard let cell = cell as? MemoPreviewCell else { return }
+        let sampleData = sampleMemos[indexPath.row]
+        let title = sampleData.title
+        let date = sampleData.lastModifiedDate
+        let description = sampleData.description
 
         cell.setTextValues(title: title, date: date, description: description)
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let memoDetailViewController = MemoDetailViewController(title: sampleMemos[indexPath.row].title)
-        memoDetailViewController.setDescriptionTextView(text: sampleMemos[indexPath.row].description)
+        let sampleData = sampleMemos[indexPath.row]
+        let memoDetailViewController = MemoDetailViewController()
+        memoDetailViewController.setDescriptionTextView(text: sampleData.description)
 
-        guard let splitViewController = splitViewController?.viewControllers.last as? UINavigationController else {
-            navigationController?.pushViewController(memoDetailViewController, animated: true)
-            return
-        }
+        guard let splitViewController = splitViewController?.viewControllers.last as? UINavigationController else { return }
 
         splitViewController.popToRootViewController(animated: false)
-        splitViewController.pushViewController(memoDetailViewController, animated: false)
+        let shouldAnimate = UIScreen.main.traitCollection.horizontalSizeClass == .compact ? true : false
+        splitViewController.pushViewController(memoDetailViewController, animated: shouldAnimate)
     }
 }

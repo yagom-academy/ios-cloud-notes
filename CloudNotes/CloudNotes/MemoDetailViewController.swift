@@ -8,7 +8,6 @@
 import UIKit
 
 class MemoDetailViewController: UIViewController {
-    private var navigationItemTitle: String = ""
 
     private let descriptionTextView: UITextView = {
         let textView = UITextView()
@@ -17,19 +16,15 @@ class MemoDetailViewController: UIViewController {
         return textView
     }()
 
-    init(title: String = "") {
-        navigationItemTitle = title
-        super.init(nibName: nil, bundle: nil)
-    }
-
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
+    override func viewDidLayoutSubviews() {
+        descriptionTextView.contentOffset = .zero
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        navigationItem.title = navigationItemTitle
+        let shouldHideBackButton = traitCollection.horizontalSizeClass == .regular ? true : false
+        navigationItem.hidesBackButton = shouldHideBackButton
         addSubviews()
         addConstraints()
     }
@@ -46,8 +41,8 @@ class MemoDetailViewController: UIViewController {
         NSLayoutConstraint.activate([
             descriptionTextView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             descriptionTextView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            descriptionTextView.topAnchor.constraint(equalTo: view.topAnchor),
-            descriptionTextView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            descriptionTextView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            descriptionTextView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
 }

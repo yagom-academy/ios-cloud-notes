@@ -13,17 +13,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         let window = UIWindow(windowScene: windowScene)
 
-        if UITraitCollection.current.horizontalSizeClass == .compact {
-            window.rootViewController = UINavigationController(rootViewController: MemoListViewController())
-        } else {
-            let rootViewController = UISplitViewController(style: .doubleColumn)
-            rootViewController.viewControllers = [
-                UINavigationController(rootViewController: MemoListViewController()),
-                UINavigationController(rootViewController: MemoDetailViewController())
-                ]
-            window.rootViewController = rootViewController
-        }
-
+        let rootViewController = SplitViewController()
+        window.rootViewController = rootViewController
         window.makeKeyAndVisible()
         self.window = window
     }

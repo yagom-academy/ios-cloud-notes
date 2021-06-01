@@ -20,34 +20,29 @@ class MemoListViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        viewSetting()
+        MemoListViewConfigure()
         navigationItemSetting()
         
-        configure()
         addSubView()
-        autoLayout()
+        MemoListViewAutoLayout()
     }
     
-    func viewSetting() {
+    func MemoListViewConfigure() {
+        self.tableView.dataSource = self
+        self.tableView.delegate = self
+        
         self.view.backgroundColor = .white
     }
     
     func navigationItemSetting() {
         self.navigationItem.title = "메모"
     }
-
-    func configure() {
-//        tableView.dataSource = self
-//        tableView.rowHeight = 100
-        self.tableView.dataSource = self
-        self.tableView.delegate = self
-    }
     
     func addSubView() {
         view.addSubview(tableView)
     }
     
-    func autoLayout() {
+    func MemoListViewAutoLayout() {
         let guide = view.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: guide.topAnchor),
@@ -73,10 +68,10 @@ extension MemoListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: MemoListTableViewCell.identifier, for: indexPath)
         
+        
         return cell
     }
-    
-    
+
     
 }
 

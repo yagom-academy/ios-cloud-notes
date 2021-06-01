@@ -8,12 +8,11 @@ import UIKit
 
 class MemoListViewController: UIViewController {
     
-    let memoDataManager: MemoListViewControllModel = MemoListViewControllModel()
+    let memoModel: MemoListViewControllModel = MemoListViewControllModel()
     
     private var tableView: UITableView = {
         let tableView = UITableView()
         
-    
         return tableView
     }()
 
@@ -24,7 +23,7 @@ class MemoListViewController: UIViewController {
         MemoListViewConfigure()
         tableViewAutoLayout()
         
-        memoDataManager.loadSampleData()
+        memoModel.loadSampleData()
     }
     
     func MemoListViewConfigure() {
@@ -57,7 +56,7 @@ class MemoListViewController: UIViewController {
 
 extension MemoListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.memoDataManager.countMemo()
+        return self.memoModel.countMemo()
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -65,7 +64,7 @@ extension MemoListViewController: UITableViewDelegate, UITableViewDataSource {
             return UITableViewCell()
         }
         
-        cell.configureCell(data: memoDataManager.readMemo(index: indexPath.row))
+        cell.configureCell(data: memoModel.readMemo(index: indexPath.row))
         
         return cell
     }

@@ -21,6 +21,10 @@ class ListTableViewController: UITableViewController {
 //        self.tableView.estimatedRowHeight = 70
         self.tableView.register(ListTableViewCell.self, forCellReuseIdentifier: ListTableViewCell.identifier)
     }
+
+}
+
+extension ListTableViewController {
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 65
@@ -44,4 +48,5 @@ class ListTableViewController: UITableViewController {
         cell.accessoryType = .disclosureIndicator
         return cell
     }
+    
 }

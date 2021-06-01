@@ -95,7 +95,7 @@ extension MemoListViewController: UITableViewDelegate {
         guard let splitViewController = splitViewController?.viewControllers.last as? UINavigationController else { return }
 
         splitViewController.popToRootViewController(animated: false)
-        let shouldAnimate = UIScreen.main.traitCollection.horizontalSizeClass == .compact ? true : false
+        let shouldAnimate = UITraitCollection.current.horizontalSizeClass == .compact ? true : false
         splitViewController.pushViewController(memoDetailViewController, animated: shouldAnimate)
     }
 }

@@ -8,7 +8,7 @@
 import UIKit
 
 class MemoDetailViewController: UIViewController {
-    private lazy var isHorizontalSizeClassRegular = traitCollection.horizontalSizeClass == .regular ? true : false
+    private lazy var isHorizontalSizeClassRegular = UITraitCollection.current.horizontalSizeClass == .regular ? true : false
 
     private let descriptionTextView: UITextView = {
         let textView = UITextView()

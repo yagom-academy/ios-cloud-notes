@@ -16,7 +16,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(windowScene: windowScene)
         window?.windowScene = windowScene
         
-        let rootViewController = MemoListViewController()
+        let rootViewController = MemoListVC()
         let navigationController = UINavigationController(rootViewController: rootViewController)
         
         window?.rootViewController = navigationController // RootViewController를 연결

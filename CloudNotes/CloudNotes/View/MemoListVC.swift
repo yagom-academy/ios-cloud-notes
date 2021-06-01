@@ -1,14 +1,14 @@
 //
-//  CloudNotes - MemoListViewController.swift
+//  CloudNotes - MemoListVC.swift
 //  Created by yagom.
 //  Copyright © yagom. All rights reserved.
 //
 
 import UIKit
 
-class MemoListViewController: UIViewController {
+class MemoListVC: UIViewController {
     
-    let memoModel: MemoListViewControllModel = MemoListViewControllModel()
+    let memoModel: MemoListVCModel = MemoListVCModel()
     
     private var tableView: UITableView = {
         let tableView = UITableView()
@@ -30,7 +30,7 @@ class MemoListViewController: UIViewController {
         self.tableView.dataSource = self
         self.tableView.delegate = self
         
-        tableView.register(MemoListTableViewCell.self, forCellReuseIdentifier: MemoListTableViewCell.identifier)
+        tableView.register(MemoListCell.self, forCellReuseIdentifier: MemoListCell.identifier)
         self.view.backgroundColor = .white
         self.navigationItem.title = "메모"
     }
@@ -54,13 +54,13 @@ class MemoListViewController: UIViewController {
     
 }
 
-extension MemoListViewController: UITableViewDelegate, UITableViewDataSource {
+extension MemoListVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.memoModel.countMemo()
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: MemoListTableViewCell.identifier) as? MemoListTableViewCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: MemoListCell.identifier) as? MemoListCell else {
             return UITableViewCell()
         }
         

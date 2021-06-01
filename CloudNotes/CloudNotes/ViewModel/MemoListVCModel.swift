@@ -1,5 +1,5 @@
 //
-//  MemoDataManager.swift
+//  MemoListVCModel.swift
 //  CloudNotes
 //
 //  Created by 기원우 on 2021/06/01.
@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class MemoListViewControllModel {
+class MemoListVCModel {
     var memo: [Memo] = []
     
     func loadSampleData() {

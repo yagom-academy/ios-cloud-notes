@@ -8,7 +8,6 @@
 import UIKit
 
 class NoteSplitViewController: UISplitViewController {
-
     override func viewDidLoad() {
         super.viewDidLoad()
         self.delegate = self
@@ -23,7 +22,6 @@ class NoteSplitViewController: UISplitViewController {
         first.view.backgroundColor = .green
         viewControllers = [first, second]
     }
-
 }
 
 extension NoteSplitViewController: UISplitViewControllerDelegate {

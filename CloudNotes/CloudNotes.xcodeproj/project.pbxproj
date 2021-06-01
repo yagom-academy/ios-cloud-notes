@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B017346826665C44005054F6 /* Memo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B017346726665C44005054F6 /* Memo.swift */; };
 		B051DF122664F27500186844 /* MainSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B051DF112664F27500186844 /* MainSplitViewController.swift */; };
 		B051DF1B2664FF1200186844 /* ListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B051DF1A2664FF1200186844 /* ListTableViewController.swift */; };
 		B051DF232664FF5E00186844 /* TextViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B051DF222664FF5E00186844 /* TextViewController.swift */; };
@@ -38,6 +39,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B017346726665C44005054F6 /* Memo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memo.swift; sourceTree = "<group>"; };
 		B051DF112664F27500186844 /* MainSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSplitViewController.swift; sourceTree = "<group>"; };
 		B051DF1A2664FF1200186844 /* ListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableViewController.swift; sourceTree = "<group>"; };
 		B051DF222664FF5E00186844 /* TextViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewController.swift; sourceTree = "<group>"; };
@@ -82,6 +84,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B017346526665773005054F6 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				B017346726665C44005054F6 /* Memo.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		B051DF192664FEE000186844 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -123,6 +133,7 @@
 		C7481C6C25BBCF3900B9CA55 /* CloudNotes */ = {
 			isa = PBXGroup;
 			children = (
+				B017346526665773005054F6 /* Model */,
 				B0C086AE2665A1D600F2116F /* Cell */,
 				B051DF192664FEE000186844 /* ViewController */,
 				C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */,
@@ -285,6 +296,7 @@
 				B0C086B02665A1EB00F2116F /* ListTableViewCell.swift in Sources */,
 				B051DF122664F27500186844 /* MainSplitViewController.swift in Sources */,
 				C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */,
+				B017346826665C44005054F6 /* Memo.swift in Sources */,
 				C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */,
 				B051DF1B2664FF1200186844 /* ListTableViewController.swift in Sources */,
 				C7481C7825BBCF3900B9CA55 /* CloudNotes.xcdatamodeld in Sources */,

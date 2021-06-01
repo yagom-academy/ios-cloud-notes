@@ -11,6 +11,7 @@ class NoteSplitViewController: UISplitViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.delegate = self
         let first = ViewController1()
         let second = ViewController2()
 
@@ -23,6 +24,12 @@ class NoteSplitViewController: UISplitViewController {
         viewControllers = [first, second]
     }
 
+}
+
+extension NoteSplitViewController: UISplitViewControllerDelegate {
+    func splitViewController(_ svc: UISplitViewController, topColumnForCollapsingToProposedTopColumn proposedTopColumn: UISplitViewController.Column) -> UISplitViewController.Column {
+        return .primary
+    }
 }
 
 class ViewController1: UIViewController {

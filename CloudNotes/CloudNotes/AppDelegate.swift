@@ -14,6 +14,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        let horizontalCompactTrait = UITraitCollection(horizontalSizeClass:  .compact)
+        let horizontalCompactAppearance = UINavigationBar.appearance(for: horizontalCompactTrait)//.forTraitCollection(verticalCompactTrait)
+        horizontalCompactAppearance.setBackgroundImage(nil, for: .default)
+        
+        let horizontalRegularTrait = UITraitCollection(horizontalSizeClass: .regular)
+        let horizontalRegularAppearance = UINavigationBar.appearance(for: horizontalRegularTrait)//.forTraitCollection(verticalCompactTrait)
+        horizontalRegularAppearance.setBackgroundImage(UIImage(systemName: "pencil.circle"), for: .default)
+        
         return true
     }
 

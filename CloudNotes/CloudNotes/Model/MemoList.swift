@@ -7,6 +7,8 @@
 
 import Foundation
 
-struct MemoListTableViewCellProperty {
-    
+struct Memo {
+    var title: String
+    var writedDate: String
+    var main: String
 }

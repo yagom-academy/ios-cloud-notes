@@ -35,6 +35,7 @@ class MemoListViewController: UIViewController {
 
     private func configureView() {
         view.backgroundColor = .systemBackground
+        navigationItem.title = "메모"
     }
 
     private func fetchSampleData() {
@@ -83,8 +84,19 @@ extension MemoListViewController: UITableViewDelegate {
         let date = sampleMemos[indexPath.row].lastModifiedDate
         let description = sampleMemos[indexPath.row].description
 
-        cell.setTextValues(title: title,
-                           date: date,
-                           description: description)
+        cell.setTextValues(title: title, date: date, description: description)
+    }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let memoDetailViewController = MemoDetailViewController(title: sampleMemos[indexPath.row].title)
+        memoDetailViewController.setDescriptionTextView(text: sampleMemos[indexPath.row].description)
+
+        guard let splitViewController = splitViewController?.viewControllers.last as? UINavigationController else {
+            navigationController?.pushViewController(memoDetailViewController, animated: true)
+            return
+        }
+
+        splitViewController.popToRootViewController(animated: false)
+        splitViewController.pushViewController(memoDetailViewController, animated: false)
     }
 }

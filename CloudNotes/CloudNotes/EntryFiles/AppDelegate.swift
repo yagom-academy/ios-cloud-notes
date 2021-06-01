@@ -14,7 +14,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         let window = UIWindow()
-        window.rootViewController = UINavigationController(rootViewController: MemoListViewController())
+
+        if UITraitCollection.current.horizontalSizeClass == .compact {
+            window.rootViewController = UINavigationController(rootViewController: MemoListViewController())
+        } else {
+            let rootViewController = UISplitViewController(style: .doubleColumn)
+            rootViewController.viewControllers = [
+                UINavigationController(rootViewController: MemoListViewController()),
+                UINavigationController(rootViewController: MemoDetailViewController())
+                ]
+            window.rootViewController = rootViewController
+        }
+        
         window.makeKeyAndVisible()
         self.window = window
         return true

@@ -8,8 +8,8 @@
 import Foundation
 import UIKit
 
-class MemoDataManager {
-    var memos: [Memo] = []
+class MemoListViewControllModel {
+    var memo: [Memo] = []
     
     func loadSampleData() {
         guard let assetData: NSDataAsset = NSDataAsset(name: "sample") else {
@@ -22,7 +22,15 @@ class MemoDataManager {
             return
         }
         
-        self.memos = memoData
+        self.memo = memoData
+    }
+    
+    func readMemo(index: Int) -> Memo {
+        return self.memo[index]
+    }
+    
+    func countMemo() -> Int {
+        return self.memo.count
     }
     
 }

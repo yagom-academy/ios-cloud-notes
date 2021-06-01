@@ -10,16 +10,7 @@ import UIKit
 class MemoListTableViewCell: UITableViewCell {
     static let identifier = "MemoListTableViewCell"
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: .default, reuseIdentifier: MemoListTableViewCell.identifier)
-        self.constraintsSetup()
-    }
-    
-    required init?(coder: NSCoder) {
-        super.init(style: .default, reuseIdentifier: MemoListTableViewCell.identifier)
-    }
-    
-    let title: UILabel = {
+    lazy var title: UILabel = {
         let title = UILabel()
         title.text = "title Text"
         title.translatesAutoresizingMaskIntoConstraints = false
@@ -28,7 +19,7 @@ class MemoListTableViewCell: UITableViewCell {
         return title
     }()
     
-    let body: UILabel = {
+    lazy var body: UILabel = {
         let body = UILabel()
         body.text = "body Text"
         body.translatesAutoresizingMaskIntoConstraints = false
@@ -39,7 +30,7 @@ class MemoListTableViewCell: UITableViewCell {
     }()
     
     
-    let lastModified: UILabel = {
+    lazy var lastModified: UILabel = {
         let lastModified = UILabel()
         lastModified.text = "lastModified Text"
         lastModified.translatesAutoresizingMaskIntoConstraints = false
@@ -48,12 +39,14 @@ class MemoListTableViewCell: UITableViewCell {
         return lastModified
     }()
     
+    let testLabel = UILabel()
+    
     func constraintsSetup() {
-        let margins = self.layoutMarginsGuide
+        let margins = contentView.layoutMarginsGuide
         
-        self.addSubview(title)
-        self.addSubview(body)
-        self.addSubview(lastModified)
+        contentView.addSubview(title)
+        contentView.addSubview(body)
+        contentView.addSubview(lastModified)
         
         NSLayoutConstraint.activate([
             title.topAnchor.constraint(equalTo: margins.topAnchor),
@@ -67,6 +60,21 @@ class MemoListTableViewCell: UITableViewCell {
             body.bottomAnchor.constraint(equalTo: margins.bottomAnchor),
             body.trailingAnchor.constraint(equalTo: margins.trailingAnchor, constant: -20)
         ])
+    }
+    
+    func configureCell(data: Memo) {
+        title.text = data.title
+        body.text = data.body
+        lastModified.text = "\(data.lastModified)"
+    }
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: .default , reuseIdentifier: MemoListTableViewCell.identifier)
+        self.constraintsSetup()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been impl")
     }
     
     

@@ -8,13 +8,12 @@ import UIKit
 
 class MemoListViewController: UIViewController {
     
-    let memoDataManager: MemoDataManager = MemoDataManager()
+    let memoDataManager: MemoListViewControllModel = MemoListViewControllModel()
     
-    private let tableView: UITableView = {
+    private var tableView: UITableView = {
         let tableView = UITableView()
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.register(MemoListTableViewCell.self, forCellReuseIdentifier: MemoListTableViewCell.identifier)
         
+    
         return tableView
     }()
 
@@ -23,10 +22,7 @@ class MemoListViewController: UIViewController {
         // Do any additional setup after loading the view.
         
         MemoListViewConfigure()
-        navigationItemSetting()
-        
-        addSubView()
-        MemoListViewAutoLayout()
+        tableViewAutoLayout()
         
         memoDataManager.loadSampleData()
     }
@@ -35,19 +31,19 @@ class MemoListViewController: UIViewController {
         self.tableView.dataSource = self
         self.tableView.delegate = self
         
+        tableView.register(MemoListTableViewCell.self, forCellReuseIdentifier: MemoListTableViewCell.identifier)
         self.view.backgroundColor = .white
-    }
-    
-    func navigationItemSetting() {
         self.navigationItem.title = "메모"
     }
-    
-    func addSubView() {
-        view.addSubview(tableView)
-    }
-    
-    func MemoListViewAutoLayout() {
+ 
+    func tableViewAutoLayout() {
         let guide = view.safeAreaLayoutGuide
+        
+        self.view.addSubview(tableView)
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = UITableView.automaticDimension
+        
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: guide.topAnchor),
             tableView.bottomAnchor.constraint(equalTo: guide.bottomAnchor),
@@ -59,19 +55,17 @@ class MemoListViewController: UIViewController {
     
 }
 
-extension MemoListViewController: UITableViewDelegate {
-    
-    
-}
-
-extension MemoListViewController: UITableViewDataSource {
+extension MemoListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return self.memoDataManager.countMemo()
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: MemoListTableViewCell.identifier, for: indexPath)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: MemoListTableViewCell.identifier) as? MemoListTableViewCell else {
+            return UITableViewCell()
+        }
         
+        cell.configureCell(data: memoDataManager.readMemo(index: indexPath.row))
         
         return cell
     }

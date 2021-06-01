@@ -8,6 +8,8 @@ import UIKit
 
 class MemoListViewController: UIViewController {
     
+    let memoDataManager: MemoDataManager = MemoDataManager()
+    
     private let tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -25,6 +27,8 @@ class MemoListViewController: UIViewController {
         
         addSubView()
         MemoListViewAutoLayout()
+        
+        memoDataManager.loadSampleData()
     }
     
     func MemoListViewConfigure() {

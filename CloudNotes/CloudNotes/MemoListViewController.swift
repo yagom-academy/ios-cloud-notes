@@ -9,11 +9,12 @@ import UIKit
 class MemoListViewController: UIViewController {
     struct SampleMemo: Decodable {
         let title: String
-        let body: String
-        let lastModifiedDate: Int
+        let description: String
+        let lastModifiedDate: Double
 
         enum CodingKeys: String, CodingKey {
-            case title, body
+            case title
+            case description = "body"
             case lastModifiedDate = "last_modified"
         }
     }
@@ -22,7 +23,6 @@ class MemoListViewController: UIViewController {
     private let memoListTableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
-
         return tableView
     }()
 
@@ -49,7 +49,7 @@ class MemoListViewController: UIViewController {
 
         memoListTableView.dataSource = self
         memoListTableView.delegate = self
-        memoListTableView.register(UITableViewCell.self, forCellReuseIdentifier: "temporarilyCell")
+        memoListTableView.register(MemoPreviewCell.self, forCellReuseIdentifier: MemoPreviewCell.reusableIdentifier)
         memoListTableView.backgroundColor = .systemBackground
 
         NSLayoutConstraint.activate([
@@ -67,7 +67,7 @@ extension MemoListViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "temporarilyCell") else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: MemoPreviewCell.reusableIdentifier) as? MemoPreviewCell else {
             return UITableViewCell()
         }
         return cell
@@ -76,6 +76,15 @@ extension MemoListViewController: UITableViewDataSource {
 
 extension MemoListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        cell.textLabel?.text = sampleMemos[indexPath.row].title
+        guard let cell = cell as? MemoPreviewCell else {
+            return
+        }
+        let title = sampleMemos[indexPath.row].title
+        let date = sampleMemos[indexPath.row].lastModifiedDate
+        let description = sampleMemos[indexPath.row].description
+
+        cell.setTextValues(title: title,
+                           date: date,
+                           description: description)
     }
 }

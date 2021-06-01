@@ -8,16 +8,53 @@
 import UIKit
 
 class ListTableViewCell: UITableViewCell {
-
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+    static let identifier = "ListTableViewCell"
+    
+    let titleLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.preferredFont(forTextStyle: .title1)
+        return label
+    }()
+    
+    let dateLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.preferredFont(forTextStyle: .body)
+        return label
+    }()
+    
+    let bodyLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.preferredFont(forTextStyle: .body)
+        label.textColor = .systemGray
+        return label
+    }()
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
+        self.contentView.addSubview(titleLabel)
+        self.contentView.addSubview(dateLabel)
+        self.contentView.addSubview(bodyLabel)
+        
+        NSLayoutConstraint.activate([
+            titleLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 5),
+            titleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 5),
+            titleLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -5),
+            dateLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 5),
+            dateLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 5),
+            dateLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -5),
+            bodyLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 5),
+            bodyLabel.leadingAnchor.constraint(equalTo: dateLabel.trailingAnchor, constant: 40),
+            bodyLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -5),
+            bodyLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -5)
+        ])
     }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
-
+    
 }

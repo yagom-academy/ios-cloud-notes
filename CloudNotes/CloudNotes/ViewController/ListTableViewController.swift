@@ -11,35 +11,39 @@ class ListTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .cyan
         
         // 아이패드에서는 잘 나오는데 아이폰에서는 안나옴.
 //        self.navigationController?.navigationBar.topItem?.title = "메모"
         self.navigationItem.title = "메모"
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: nil)
+
+//        self.tableView.rowHeight = UITableView.automaticDimension
+//        self.tableView.estimatedRowHeight = 70
+        self.tableView.register(ListTableViewCell.self, forCellReuseIdentifier: ListTableViewCell.identifier)
     }
-
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 65
+    }
+//
     // MARK: - Table view data source
-
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
+        return 40
     }
-
-    /*
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
-
+        let cell = self.tableView.dequeueReusableCell(withIdentifier: ListTableViewCell.identifier, for: indexPath) as! ListTableViewCell
+        cell.titleLabel.text = "HelloWorld!123123123123121241231312312"
+        cell.dateLabel.text = "2021. 05. 31."
+        cell.bodyLabel.text = "This is What I want to do!!!!!!!!!!123124123"
+        cell.accessoryType = .disclosureIndicator
         return cell
     }
-    */
 
     /*
     // Override to support conditional editing of the table view.

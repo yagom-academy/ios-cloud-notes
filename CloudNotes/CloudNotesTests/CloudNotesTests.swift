@@ -25,4 +25,10 @@ class CloudNotesTests: XCTestCase {
         
         XCTAssertEqual(memoList.count, 15)
     }
+    
+    func test_Date_변환() {
+        let second = 1608651333
+        let date = Date(timeIntervalSince1970: TimeInterval(second))
+        XCTAssertNil(date)
+    }
 }

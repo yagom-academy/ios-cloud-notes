@@ -64,7 +64,7 @@ extension ListTableViewController {
         let cell = self.tableView.dequeueReusableCell(withIdentifier: ListTableViewCell.identifier, for: indexPath) as! ListTableViewCell
         let memoItem = memoList[indexPath.row]
         cell.titleLabel.text = memoItem.title
-        cell.dateLabel.text = String(memoItem.lastModified)
+        cell.dateLabel.text = memoItem.lastModifiedDate
         cell.bodyLabel.text = memoItem.body
         cell.accessoryType = .disclosureIndicator
         return cell

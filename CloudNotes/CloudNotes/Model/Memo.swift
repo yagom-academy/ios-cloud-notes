@@ -11,4 +11,10 @@ struct Memo: Codable {
     let title: String
     let body: String
     let lastModified: Int
+    var lastModifiedDate: String {
+        let formatter = DateFormatter()
+        let date = Date(timeIntervalSince1970: TimeInterval(lastModified))
+        formatter.dateFormat = "yyyy. MM. dd"
+        return formatter.string(from: date)
+    }
 }

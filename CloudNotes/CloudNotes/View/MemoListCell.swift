@@ -10,6 +10,8 @@ import UIKit
 class MemoListCell: UITableViewCell {
     static let identifier = "MemoListTableViewCell"
     
+    var memoListCellModel = MemoListCellModel()
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .default , reuseIdentifier: MemoListCell.identifier)
         self.constraintsSetup()
@@ -74,7 +76,7 @@ class MemoListCell: UITableViewCell {
     func configureCell(data: Memo) {
         title.text = data.title
         body.text = data.body
-        lastModified.text = "\(data.lastModified)"
+        lastModified.text = memoListCellModel.convertDate(date: data.lastModified)
     }
     
     

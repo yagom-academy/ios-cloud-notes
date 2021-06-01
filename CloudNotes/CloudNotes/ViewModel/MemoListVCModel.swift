@@ -8,10 +8,10 @@
 import Foundation
 import UIKit
 
-class MemoListVCModel {
+struct MemoListVCModel {
     var memo: [Memo] = []
     
-    func loadSampleData() {
+    mutating func loadSampleData() {
         guard let assetData: NSDataAsset = NSDataAsset(name: "sample") else {
             print("에셋에서 데이터 읽기 실패")
             return

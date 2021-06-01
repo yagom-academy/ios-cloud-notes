@@ -8,7 +8,7 @@ import UIKit
 
 class MemoListVC: UIViewController {
     
-    let memoModel: MemoListVCModel = MemoListVCModel()
+    var memoModel: MemoListVCModel = MemoListVCModel()
     
     private var tableView: UITableView = {
         let tableView = UITableView()

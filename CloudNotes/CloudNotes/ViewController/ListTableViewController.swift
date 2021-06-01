@@ -8,10 +8,13 @@
 import UIKit
 
 class ListTableViewController: UITableViewController {
-
+    
+    var memoList: [Memo] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        parseSampleData()
         // 아이패드에서는 잘 나오는데 아이폰에서는 안나옴.
 //        self.navigationController?.navigationBar.topItem?.title = "메모"
         self.navigationItem.title = "메모"
@@ -21,6 +24,19 @@ class ListTableViewController: UITableViewController {
 //        self.tableView.estimatedRowHeight = 70
         self.tableView.register(ListTableViewCell.self, forCellReuseIdentifier: ListTableViewCell.identifier)
     }
+    
+    func parseSampleData() {
+        let jsonDecoder = JSONDecoder()
+        jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
+        guard let jsonData = NSDataAsset(name: "sample") else {
+            return
+        }
+        guard let memoList = try? jsonDecoder.decode([Memo].self, from: jsonData.data) else {
+            return
+        }
+        self.memoList = memoList
+    }
+     
     @objc func addBarButtonTouched(_ sender: UIBarButtonItem) {
         self.splitViewController?.showDetailViewController(TextViewController(), sender: nil)
         print("done!")
@@ -41,14 +57,15 @@ extension ListTableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 40
+        return memoList.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = self.tableView.dequeueReusableCell(withIdentifier: ListTableViewCell.identifier, for: indexPath) as! ListTableViewCell
-        cell.titleLabel.text = "HelloWorld!123123123123121241231312312"
-        cell.dateLabel.text = "2021. 05. 31."
-        cell.bodyLabel.text = "This is What I want to do!!!!!!!!!!123124123"
+        let memoItem = memoList[indexPath.row]
+        cell.titleLabel.text = memoItem.title
+        cell.dateLabel.text = String(memoItem.lastModified)
+        cell.bodyLabel.text = memoItem.body
         cell.accessoryType = .disclosureIndicator
         return cell
     }

@@ -15,13 +15,17 @@ class ListTableViewController: UITableViewController {
         // 아이패드에서는 잘 나오는데 아이폰에서는 안나옴.
 //        self.navigationController?.navigationBar.topItem?.title = "메모"
         self.navigationItem.title = "메모"
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: nil)
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addBarButtonTouched(_:)))
 
 //        self.tableView.rowHeight = UITableView.automaticDimension
 //        self.tableView.estimatedRowHeight = 70
         self.tableView.register(ListTableViewCell.self, forCellReuseIdentifier: ListTableViewCell.identifier)
     }
-
+    @objc func addBarButtonTouched(_ sender: UIBarButtonItem) {
+        self.splitViewController?.showDetailViewController(TextViewController(), sender: nil)
+        print("done!")
+        
+    }
 }
 
 extension ListTableViewController {

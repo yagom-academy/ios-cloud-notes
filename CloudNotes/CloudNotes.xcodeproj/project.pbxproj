@@ -84,22 +84,42 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		1C555A682664B498004C5F73 /* SupportingFiles */ = {
+		1C555A682664B498004C5F73 /* Supporting File */ = {
 			isa = PBXGroup;
 			children = (
 				C7481C7E25BBCF3A00B9CA55 /* Info.plist */,
 				C7481C7625BBCF3900B9CA55 /* CloudNotes.xcdatamodeld */,
 			);
-			path = SupportingFiles;
+			path = "Supporting File";
 			sourceTree = "<group>";
 		};
-		1C555A6F2664B4F8004C5F73 /* EntryFiles */ = {
+		1C555A6F2664B4F8004C5F73 /* Entry */ = {
 			isa = PBXGroup;
 			children = (
 				C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */,
 				C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */,
 			);
-			path = EntryFiles;
+			path = Entry;
+			sourceTree = "<group>";
+		};
+		1CD98AA4266659C0004C3136 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				1CF5EDC3266635E6003B5349 /* SplitViewController.swift */,
+				C7481C7125BBCF3900B9CA55 /* MemoListViewController.swift */,
+				1CF5EDBC26660554003B5349 /* MemoDetailViewController.swift */,
+				1C555AB32665114E004C5F73 /* MemoPreviewCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		1CD98AAE26665A37004C3136 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				C7481C7B25BBCF3A00B9CA55 /* LaunchScreen.storyboard */,
+				C7481C7925BBCF3A00B9CA55 /* Assets.xcassets */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		C7481C6125BBCF3900B9CA55 = {
@@ -126,14 +146,10 @@
 		C7481C6C25BBCF3900B9CA55 /* CloudNotes */ = {
 			isa = PBXGroup;
 			children = (
-				1C555A6F2664B4F8004C5F73 /* EntryFiles */,
-				1C555A682664B498004C5F73 /* SupportingFiles */,
-				C7481C7B25BBCF3A00B9CA55 /* LaunchScreen.storyboard */,
-				1CF5EDC3266635E6003B5349 /* SplitViewController.swift */,
-				C7481C7125BBCF3900B9CA55 /* MemoListViewController.swift */,
-				1CF5EDBC26660554003B5349 /* MemoDetailViewController.swift */,
-				1C555AB32665114E004C5F73 /* MemoPreviewCell.swift */,
-				C7481C7925BBCF3A00B9CA55 /* Assets.xcassets */,
+				1CD98AA4266659C0004C3136 /* View */,
+				1CD98AAE26665A37004C3136 /* Resources */,
+				1C555A6F2664B4F8004C5F73 /* Entry */,
+				1C555A682664B498004C5F73 /* Supporting File */,
 			);
 			path = CloudNotes;
 			sourceTree = "<group>";
@@ -482,7 +498,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = CloudNotes/SupportingFiles/Info.plist;
+				INFOPLIST_FILE = "CloudNotes/Supporting File/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -500,7 +516,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = CloudNotes/SupportingFiles/Info.plist;
+				INFOPLIST_FILE = "CloudNotes/Supporting File/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

@@ -22,15 +22,20 @@ class MemoDetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemBackground
-        let shouldHideBackButton = traitCollection.horizontalSizeClass == .regular ? true : false
-        navigationItem.hidesBackButton = shouldHideBackButton
+        configureView()
         addSubviews()
         addConstraints()
     }
 
     func setDescriptionTextView(text: String) {
         descriptionTextView.text = text
+    }
+
+    private func configureView() {
+        view.backgroundColor = .systemBackground
+        let shouldHideBackButton = traitCollection.horizontalSizeClass == .regular ? true : false
+        navigationItem.hidesBackButton = shouldHideBackButton
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: nil)
     }
 
     private func addSubviews() {

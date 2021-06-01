@@ -8,7 +8,6 @@
 import UIKit
 
 class SplitViewController: UISplitViewController {
-
     override func viewDidLoad() {
         super.viewDidLoad()
         setViewControllers()
@@ -21,10 +20,7 @@ class SplitViewController: UISplitViewController {
         let memoListViewController = UINavigationController(rootViewController: MemoListViewController())
         let memoDetailViewController = UINavigationController(rootViewController: MemoDetailViewController())
 
-        viewControllers = [
-            memoListViewController,
-            memoDetailViewController
-        ]
+        viewControllers = [ memoListViewController, memoDetailViewController ]
     }
 }
 

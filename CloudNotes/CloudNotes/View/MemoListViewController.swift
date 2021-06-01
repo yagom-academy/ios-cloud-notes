@@ -20,6 +20,7 @@ class MemoListViewController: UIViewController {
     }
 
     private var sampleMemos: [SampleMemo]!
+
     private let memoListTableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -36,12 +37,12 @@ class MemoListViewController: UIViewController {
     private func configureView() {
         view.backgroundColor = .systemBackground
         navigationItem.title = "메모"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: nil)
     }
 
     private func fetchSampleData() {
         guard let data = NSDataAsset(name: "sample")?.data,
               let jsonData = try? JSONDecoder().decode([SampleMemo].self, from: data) else { return }
-
         sampleMemos = jsonData
     }
 
@@ -68,9 +69,8 @@ extension MemoListViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: MemoPreviewCell.reusableIdentifier) as? MemoPreviewCell else {
-            return UITableViewCell()
-        }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: MemoPreviewCell.reusableIdentifier) as? MemoPreviewCell else { return UITableViewCell() }
+
         return cell
     }
 }
@@ -78,6 +78,7 @@ extension MemoListViewController: UITableViewDataSource {
 extension MemoListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         guard let cell = cell as? MemoPreviewCell else { return }
+
         let sampleData = sampleMemos[indexPath.row]
         let title = sampleData.title
         let date = sampleData.lastModifiedDate

@@ -60,7 +60,7 @@ class MemoListCell: UITableViewCell {
         NSLayoutConstraint.activate([
             title.topAnchor.constraint(equalTo: margins.topAnchor),
             title.leadingAnchor.constraint(equalTo: margins.leadingAnchor, constant: 3),
-            title.trailingAnchor.constraint(equalTo: margins.trailingAnchor, constant: -20),
+            title.trailingAnchor.constraint(equalTo: margins.trailingAnchor, constant: 0),
             
             lastModified.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 0),
             lastModified.bottomAnchor.constraint(equalTo: margins.bottomAnchor),
@@ -69,7 +69,7 @@ class MemoListCell: UITableViewCell {
             body.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 0),
             body.bottomAnchor.constraint(equalTo: margins.bottomAnchor),
             body.leadingAnchor.constraint(equalTo: lastModified.trailingAnchor, constant: 20),
-            body.trailingAnchor.constraint(equalTo: margins.trailingAnchor, constant: -20)
+            body.trailingAnchor.constraint(equalTo: margins.trailingAnchor, constant: 0)
         ])
     }
     

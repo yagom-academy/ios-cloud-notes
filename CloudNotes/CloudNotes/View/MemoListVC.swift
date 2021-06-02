@@ -65,6 +65,7 @@ extension MemoListVC: UITableViewDelegate, UITableViewDataSource {
         }
         
         cell.configureCell(data: memoModel.readMemo(index: indexPath.row))
+        cell.accessoryType = .disclosureIndicator
         
         return cell
     }

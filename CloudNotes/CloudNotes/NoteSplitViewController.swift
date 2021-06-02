@@ -32,6 +32,7 @@ extension NoteSplitViewController: UISplitViewControllerDelegate {
 }
 
 class ViewController1: UIViewController, UITableViewDelegate, UITableViewDataSource {
+    var noteDatas: [NoteData] = []
     private let tableView: UITableView = {
         let tableview = UITableView()
         return tableview
@@ -39,13 +40,24 @@ class ViewController1: UIViewController, UITableViewDelegate, UITableViewDataSou
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        noteData()
+        self.navigationItem.title = "메모"
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNote))
         tableView.delegate = self
         tableView.dataSource = self
         
         tableView.register(NoteTableCell.self, forCellReuseIdentifier: "NoteCell")
         setConstraint()
-        
+    }
+    
+    @objc private func addNote() {
+        // TODO: - 메모 추가
+    }
+    
+    private func noteData() {
+        guard let jsonData = NSDataAsset(name: "sample") else { return }
+        guard let data = try? JSONDecoder().decode([NoteData].self, from: jsonData.data) else { return }
+        noteDatas = data
     }
     
     private func setConstraint() {
@@ -60,6 +72,13 @@ class ViewController1: UIViewController, UITableViewDelegate, UITableViewDataSou
         ])
     }
     
+    private func convertUIntToDate(_ noteDate: UInt) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy.MM.dd"
+        let date = Date(timeIntervalSince1970: TimeInterval(noteDate))
+        return dateFormatter.string(from: date)
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 10
     }
@@ -69,6 +88,10 @@ class ViewController1: UIViewController, UITableViewDelegate, UITableViewDataSou
             return UITableViewCell()
         }
         cell.accessoryType = .disclosureIndicator
+        cell.titleLabel.text = noteDatas[indexPath.row].title
+        cell.dateLabel.text = convertUIntToDate(noteDatas[indexPath.row].lastModify ?? 0)
+        cell.descriptionLabel.text = noteDatas[indexPath.row].description
+        
         return cell
     }
     

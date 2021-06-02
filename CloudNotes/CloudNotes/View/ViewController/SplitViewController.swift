@@ -14,8 +14,9 @@ class MemoSplitViewController: UISplitViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        Cache.shared.decodedJsonData = setUpData(fileName: "sample.json", model: Memo.self)
+        setUpData()
         self.delegate = self
+        master.horizontalSizeClass = UITraitCollection.current.horizontalSizeClass
         master.memoSplitViewController = self
         self.viewControllers = [UINavigationController(rootViewController: master), UINavigationController(rootViewController: detail)]
         self.preferredDisplayMode = .oneBesideSecondary
@@ -26,6 +27,16 @@ class MemoSplitViewController: UISplitViewController {
             master.horizontalSizeClass = .compact
         } else {
             master.horizontalSizeClass = .regular
+        }
+    }
+    
+    private func setUpData() {
+        let resultOfFetch = setUpData(fileName: "sample", model: [Memo].self)
+        switch resultOfFetch {
+        case .success(let data):
+            Cache.shared.decodedJsonData = data
+        case .failure(let error):
+            print(error.localizedDescription)
         }
     }
 }

@@ -10,7 +10,7 @@ class MemoListViewController: UIViewController {
     
     let tableView = UITableView()
     var memoSplitViewController: MemoSplitViewController?
-    var horizontalSizeClass: SizeClass?
+    var horizontalSizeClass: UIUserInterfaceSizeClass?
     lazy var rightNvigationItem: UIButton = {
         let button = UIButton()
         button.setTitle("+", for: .normal)
@@ -54,14 +54,14 @@ class MemoListViewController: UIViewController {
 
 extension MemoListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 100
+        return Cache.shared.decodedJsonData.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier : MemoListTableViewCell.identifier) as? MemoListTableViewCell else {
             return UITableViewCell()
         }
-        cell.configure(with: Memo(title: "", body: "", lastModified: 0))
+        cell.configure(with: Cache.shared.decodedJsonData[indexPath.row])
         return cell
     }
 }
@@ -69,8 +69,10 @@ extension MemoListViewController: UITableViewDataSource {
 extension MemoListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let memoSplitViewController = memoSplitViewController else { return }
-        memoSplitViewController.detail.configure(with: Memo(title: "바뀜1", body: "", lastModified: 0))
+        memoSplitViewController.detail.configure(with: Cache.shared.decodedJsonData[indexPath.row])
         guard horizontalSizeClass == .compact else { return }
-        navigationController?.pushViewController(memoSplitViewController.detail, animated: true)
+        let detailMemoViewController = DetailMemoViewController()
+        detailMemoViewController.configure(with: Cache.shared.decodedJsonData[indexPath.row])
+        navigationController?.pushViewController(detailMemoViewController, animated: true)
     }
 }

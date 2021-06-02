@@ -7,92 +7,50 @@
 
 import UIKit
 
-class DetailMemoViewController: UIViewController {
+class DetailMemoViewController: UIViewController, UITextViewDelegate {
     
     var scrollView = UIScrollView()
     var contentView = UIView()
-    var memoTitle = UILabel()
-    var memoMain = UILabel()
-
+    var memoTextView = UITextView()
+    var memoMain = UITextView()
+    
+    lazy var rightNvigationItem: UIButton = {
+        let button = UIButton()
+        button.setTitleColor(UIColor.systemBlue, for: .normal)
+        button.setBackgroundImage(UIImage(systemName: "ellipsis.circle"), for: .normal)
+//        button.addTarget(self, action: #selector(movePostScreen), for: .touchDown)
+        return button
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUI()
+        memoTextView.delegate = self
+        memoTextView.contentInsetAdjustmentBehavior = .automatic
+        memoTextView.textAlignment = NSTextAlignment.justified
     }
     
     private func setUpUI() {
         self.view.backgroundColor = .white
-        addSubviewInView()
-        setUpScrollView()
-        setUpContentView()
-        setUpMemoTitleLabel()
-        setUpMemoMainLabel()
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightNvigationItem)
+        self.view.addSubview(memoTextView)
+        setUpMemoTextView()
     }
-    
-    private func addSubviewInView() {
-        self.view.addSubview(scrollView)
-        addSubviewInScrollView()
-    }
-    
-    private func addSubviewInScrollView() {
-        self.scrollView.addSubview(contentView)
-        addSubviewInContentView()
-    }
-    
-    private func addSubviewInContentView() {
-        self.contentView.addSubview(memoTitle)
-        self.contentView.addSubview(memoMain)
-    }
-    
-    private func setUpScrollView() {
+        
+    private func setUpMemoTextView() {
         let safeArea = self.view.safeAreaLayoutGuide
-        self.scrollView.translatesAutoresizingMaskIntoConstraints = false
+        self.memoTextView.translatesAutoresizingMaskIntoConstraints = false
+        self.memoTextView.font = self.memoTextView.font?.withSize(20)
         NSLayoutConstraint.activate([
-            self.scrollView.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 0),
-            self.scrollView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 0),
-            self.scrollView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: 0),
-            self.scrollView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: 0),
+            self.memoTextView.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 0),
+            self.memoTextView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 10),
+            self.memoTextView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -10),
+            self.memoTextView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -10),
         ])
     }
-    
-    private func setUpContentView() {
-        let safeArea = self.view.safeAreaLayoutGuide
-        self.contentView.translatesAutoresizingMaskIntoConstraints = false
-        contentView.backgroundColor = .white
-        NSLayoutConstraint.activate([
-            self.contentView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 0),
-            self.contentView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 0),
-            self.contentView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: 0),
-            self.contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: 0),
-        ])
-    }
-    
-    private func setUpMemoTitleLabel() {
-        self.memoTitle.numberOfLines = 0
-        self.memoTitle.translatesAutoresizingMaskIntoConstraints = false
-        memoTitle.font = memoTitle.font.withSize(25)
-        memoTitle.textColor = .black
-        NSLayoutConstraint.activate([
-            self.memoTitle.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
-            self.memoTitle.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
-            self.memoTitle.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
-            self.memoTitle.bottomAnchor.constraint(equalTo: memoMain.topAnchor, constant: -10),
-        ])
-    }
-    
-    private func setUpMemoMainLabel() {
-        self.memoMain.numberOfLines = 0
-        self.memoMain.translatesAutoresizingMaskIntoConstraints = false
-        memoMain.textColor = .black
-        NSLayoutConstraint.activate([
-            self.memoMain.topAnchor.constraint(equalTo: memoTitle.bottomAnchor, constant: 10),
-            self.memoMain.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
-            self.memoMain.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
-            self.memoMain.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
-        ])
-    }
+
     
     func configure(with memo: Memo) {
-        memoTitle.text = memo.title
-        memoMain.text = memo.body
+        memoTextView.text = "\n\n" + memo.title + "\n\n" + memo.body
     }
 }

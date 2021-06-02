@@ -61,7 +61,7 @@ extension MemoListViewController: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier : MemoListTableViewCell.identifier) as? MemoListTableViewCell else {
             return UITableViewCell()
         }
-        cell.configure(with: Memo(title: "", body: "", lastModified: ""))
+        cell.configure(with: Memo(title: "", body: "", lastModified: 0))
         return cell
     }
 }
@@ -69,7 +69,7 @@ extension MemoListViewController: UITableViewDataSource {
 extension MemoListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let memoSplitViewController = memoSplitViewController else { return }
-        memoSplitViewController.detail.configure(with: Memo(title: "바뀜1", body: "", lastModified: "바뀜1"))
+        memoSplitViewController.detail.configure(with: Memo(title: "바뀜1", body: "", lastModified: 0))
         guard horizontalSizeClass == .compact else { return }
         navigationController?.pushViewController(memoSplitViewController.detail, animated: true)
     }

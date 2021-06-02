@@ -9,5 +9,5 @@ import Foundation
 
 struct Cache {
     static var shared = Cache()
-    let decodedJsonData: [Memo] = []
+    var decodedJsonData: [Memo] = []
 }

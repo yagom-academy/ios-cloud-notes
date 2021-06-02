@@ -61,6 +61,14 @@ final class MemoCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
+    // MARK: Prepare
+
+    override func prepareForReuse() {
+        titleLabel.text = nil
+        lastModifiedDateLabel.text = nil
+        oneLineBodyLabel.text = nil
+    }
+
     // MARK: Configure
 
     func configure(memo: Memo) {

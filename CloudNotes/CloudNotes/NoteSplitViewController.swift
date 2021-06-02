@@ -95,8 +95,14 @@ class ViewController1: UIViewController, UITableViewDelegate, UITableViewDataSou
         return cell
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return CGFloat(self.view.frame.height * 1/12)
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let secondView = splitViewController?.viewController(for: .secondary) as? ViewController2 else { return }
+        secondView.textView.text = ""
+        secondView.textView.insertText(noteDatas[indexPath.row].title ?? "")
+        secondView.textView.insertText("\n\n")
+        secondView.textView.insertText(noteDatas[indexPath.row].description ?? "")
+        
+        self.splitViewController?.showDetailViewController(secondView, sender: self)
     }
 }
 

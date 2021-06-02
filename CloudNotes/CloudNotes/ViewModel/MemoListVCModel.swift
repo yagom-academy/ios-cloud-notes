@@ -5,7 +5,6 @@
 //  Created by 기원우 on 2021/06/01.
 //
 
-import Foundation
 import UIKit
 
 class MemoListVCModel {

@@ -36,11 +36,5 @@ class TextViewController: UIViewController {
         textView.contentOffset = .zero
         print("viewwillappear")
     }
-    
-//    override func viewDidLayoutSubviews() {
-//        super.viewDidLayoutSubviews()
-//        textView.contentOffset = .zero
-//
-//        print("textView viewDidLayoutSubviews")
-//    }
+
 }

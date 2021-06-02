@@ -7,7 +7,7 @@
 import UIKit
 
 class MemoListVC: UIViewController {
-    
+    var splitView: SplitVC?
     var memoModel: MemoListVCModel = MemoListVCModel()
     
     private var tableView: UITableView = {
@@ -70,6 +70,16 @@ extension MemoListVC: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
 
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let detailView: DetailMemoVC = splitView?.detail as? DetailMemoVC else {
+            return
+        }
+        
+        self.navigationController?.pushViewController(detailView, animated: false)
+        
+        detailView.configureDetail(data: memoModel.readMemo(index: indexPath.row))
+    }
+    
     
 }
 

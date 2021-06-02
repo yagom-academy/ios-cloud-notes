@@ -9,7 +9,6 @@ import UIKit
 
 class MemoListCell: UITableViewCell {
     static let identifier = "MemoListTableViewCell"
-    
     var memoListCellModel = MemoListCellModel()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {

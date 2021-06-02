@@ -33,4 +33,5 @@ struct MemoListVCModel {
         return self.memo.count
     }
     
+    
 }

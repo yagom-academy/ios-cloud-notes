@@ -16,13 +16,22 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(windowScene: windowScene)
         window?.windowScene = windowScene
         
-        let memoListVC = MemoListVC()
-        let navigationController = UINavigationController(rootViewController: memoListVC)
+        let root = MemoListVC()
+        let detail = DetailMemoVC()
+        let splitView = SplitVC()
         
-        let splitView = UISplitViewController()
-        splitView.viewControllers = [navigationController]
+        splitView.root = root
+        splitView.detail = detail
+        root.splitView = splitView
+        detail.splitView = splitView
         
-        window?.rootViewController = splitView // RootViewController를 연결
+        let rootNavi = UINavigationController(rootViewController: root)
+        let detailNavi = UINavigationController(rootViewController: detail)
+        
+        splitView.viewControllers = [rootNavi, detailNavi]
+        splitView.preferredPrimaryColumnWidthFraction = 1/3
+        
+        window?.rootViewController = splitView
         window?.makeKeyAndVisible()
     }
 

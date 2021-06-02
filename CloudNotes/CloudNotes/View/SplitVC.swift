@@ -1,0 +1,21 @@
+//
+//  SplitVC.swift
+//  CloudNotes
+//
+//  Created by 기원우 on 2021/06/02.
+//
+
+import UIKit
+
+class SplitVC: UISplitViewController, UISplitViewControllerDelegate {
+    var root: UIViewController?
+    var detail: UIViewController?
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        self.delegate = self
+    }
+    
+
+}

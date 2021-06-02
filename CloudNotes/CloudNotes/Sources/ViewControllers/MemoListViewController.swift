@@ -9,18 +9,28 @@ import UIKit
 
 final class MemoListViewController: UIViewController {
 
-    private let tableView = UITableView()
+    // MARK: Property
+
     private var memos = [Memo]()
+
+    // MARK: UI
+
+    private let tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.register(MemoCell.self, forCellReuseIdentifier: "memoCell")
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        return tableView
+    }()
+
+    // MARK: View Life Cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        memos.append(contentsOf: JSONDecoder().decodeSampleMemos())
+        memos = JSONDecoder().decodeSampleMemos()
         configureTableView()
     }
 
     private func configureTableView() {
-        tableView.register(MemoCell.self, forCellReuseIdentifier: "memoCell")
-        tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.dataSource = self
 
         view.addSubview(tableView)
@@ -33,6 +43,8 @@ final class MemoListViewController: UIViewController {
     }
 
 }
+
+// MARK: - UITableViewDataSource
 
 extension MemoListViewController: UITableViewDataSource {
 
@@ -49,6 +61,8 @@ extension MemoListViewController: UITableViewDataSource {
     }
 
 }
+
+// MARK: - JSONDecoder
 
 extension JSONDecoder {
 

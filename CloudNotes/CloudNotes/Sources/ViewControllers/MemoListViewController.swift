@@ -14,6 +14,7 @@ final class MemoListViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        memos.append(contentsOf: JSONDecoder().decodeSampleMemos())
         configureTableView()
     }
 
@@ -40,12 +41,22 @@ extension MemoListViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let memoCell =  tableView.dequeueReusableCell(withIdentifier: "memoCell", for: indexPath) as? MemoCell else {
-            return MemoCell()
-        }
-
+        guard let memoCell = tableView.dequeueReusableCell(withIdentifier: "memoCell",
+                                                           for: indexPath) as? MemoCell else { return MemoCell() }
         memoCell.configure(memo: memos[indexPath.row])
+
         return memoCell
+    }
+
+}
+
+extension JSONDecoder {
+
+    fileprivate func decodeSampleMemos() -> [Memo] {
+        guard let data = NSDataAsset(name: "sampleMemos")?.data,
+              let memos = try? self.decode([Memo].self, from: data) else { return [] }
+
+        return memos
     }
 
 }

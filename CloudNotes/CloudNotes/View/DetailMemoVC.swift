@@ -23,6 +23,10 @@ class DetailMemoVC: UIViewController, UITextViewDelegate {
         
     }
     
+    override func viewDidLayoutSubviews() {
+        textView.contentOffset = .zero
+    }
+    
     private func configureView() {
         view.backgroundColor = .white
         

@@ -23,12 +23,12 @@ class MemoListVC: UIViewController {
         MemoListViewConfigure()
         tableViewAutoLayout()
         
-        memoModel.loadSampleData()
     }
     
     func MemoListViewConfigure() {
         self.tableView.dataSource = self
         self.tableView.delegate = self
+        self.memoModel.loadSampleData()
         
         tableView.register(MemoListCell.self, forCellReuseIdentifier: MemoListCell.identifier)
         self.view.backgroundColor = .white
@@ -75,7 +75,12 @@ extension MemoListVC: UITableViewDelegate, UITableViewDataSource {
             return
         }
         
-        self.navigationController?.pushViewController(detailView, animated: false)
+        if UITraitCollection.current.horizontalSizeClass == .compact {
+            self.navigationController?.pushViewController(detailView, animated: false)
+        } else {
+            guard let detailVC = self.splitView?.detail else { return }
+            self.splitView?.showDetailViewController(detailVC, sender: nil)
+        }
         
         detailView.configureDetail(data: memoModel.readMemo(index: indexPath.row))
     }

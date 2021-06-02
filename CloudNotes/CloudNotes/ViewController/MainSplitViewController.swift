@@ -18,7 +18,7 @@ class MainSplitViewController: UISplitViewController {
         
         self.viewControllers = [navigationEmbeddedListTableViewController, navigationEmbeddedTextViewController]
         
-//        self.preferredDisplayMode = .oneBesideSecondary
+        self.preferredDisplayMode = .oneBesideSecondary
         
         self.delegate = self
         // 테이블뷰의 비율

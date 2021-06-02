@@ -70,4 +70,29 @@ extension ListTableViewController {
         return cell
     }
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        guard let navigationVC = splitViewController?.viewControllers.last as? UINavigationController else {
+//            return
+//        }
+//        guard let detailVC = navigationVC.topViewController as? TextViewController else {
+//            return
+//        }
+//        detailVC.textView.text = memoList[indexPath.row].body
+        
+        if let detailNavigationController = self.splitViewController?.viewControllers.last as? UINavigationController,
+           let textViewController = detailNavigationController.topViewController as? TextViewController {
+            textViewController.textView.text = memoList[indexPath.row].body
+        } else {
+            let textViewController = TextViewController()
+            self.splitViewController?.showDetailViewController(textViewController, sender: nil)
+            textViewController.textView.text = memoList[indexPath.row].body
+        }
+//        
+//        let VC = TextViewController()
+//        splitViewController?.showDetailViewController(VC, sender: nil)
+//        VC.textView.text = memoList[indexPath.row].body
+//        
+//        print(self.splitViewController?.viewControllers)
+//        print(self.splitViewController?.isCollapsed)
+    }
 }

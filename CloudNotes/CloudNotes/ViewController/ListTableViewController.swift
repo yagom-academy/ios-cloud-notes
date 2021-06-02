@@ -36,7 +36,12 @@ class ListTableViewController: UITableViewController {
     }
      
     @objc func addBarButtonTouched(_ sender: UIBarButtonItem) {
-        self.splitViewController?.showDetailViewController(TextViewController(), sender: nil)
+        if let detailNavigationController = self.splitViewController?.viewControllers.last as? UINavigationController,
+           let textViewController = detailNavigationController.topViewController as? TextViewController {
+            textViewController.textView.text = ""
+        } else {
+            self.splitViewController?.showDetailViewController(TextViewController(), sender: nil)
+        }
     }
     
 }

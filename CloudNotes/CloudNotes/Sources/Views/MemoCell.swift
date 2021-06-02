@@ -48,4 +48,37 @@ final class MemoCell: UITableViewCell {
         return stackView
     }()
 
+    // MARK: Initializer
+
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        accessoryType = .disclosureIndicator
+        configureContentView()
+        configureContentStackView()
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    // MARK: Configure
+
+    private func configureContentView() {
+        contentView.addSubview(contentStackView)
+
+        NSLayoutConstraint.activate([
+            contentStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
+            contentStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: separatorInset.left),
+            contentStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -separatorInset.left),
+            contentStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5)
+        ])
+    }
+
+    private func configureContentStackView() {
+        contentStackView.addArrangedSubview(titleLabel)
+        contentStackView.addArrangedSubview(footStackView)
+        footStackView.addArrangedSubview(lastModifiedDateLabel)
+        footStackView.addArrangedSubview(oneLineBodyLabel)
+    }
+
 }

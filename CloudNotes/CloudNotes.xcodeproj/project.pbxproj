@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BA07A6E7266662FC00C75937 /* Notedata.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA07A6E6266662FC00C75937 /* Notedata.swift */; };
 		BAE527CC266617D600C3F447 /* NoteSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE527CB266617D600C3F447 /* NoteSplitViewController.swift */; };
 		C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */; };
 		C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */; };
@@ -35,6 +36,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		BA07A6E6266662FC00C75937 /* Notedata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notedata.swift; sourceTree = "<group>"; };
 		BAE527CB266617D600C3F447 /* NoteSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteSplitViewController.swift; sourceTree = "<group>"; };
 		C7481C6A25BBCF3900B9CA55 /* CloudNotes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CloudNotes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -106,6 +108,7 @@
 				C7481C7E25BBCF3A00B9CA55 /* Info.plist */,
 				C7481C7625BBCF3900B9CA55 /* CloudNotes.xcdatamodeld */,
 				BAE527CB266617D600C3F447 /* NoteSplitViewController.swift */,
+				BA07A6E6266662FC00C75937 /* Notedata.swift */,
 			);
 			path = CloudNotes;
 			sourceTree = "<group>";
@@ -257,6 +260,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BA07A6E7266662FC00C75937 /* Notedata.swift in Sources */,
 				C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */,
 				BAE527CC266617D600C3F447 /* NoteSplitViewController.swift in Sources */,
 				C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */,

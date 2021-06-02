@@ -8,18 +8,19 @@
 import UIKit
 
 class NoteSplitViewController: UISplitViewController {
+    var first: ViewController1!
+    var second: ViewController2!
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.delegate = self
-        let first = ViewController1()
-        let second = ViewController2()
+        first = ViewController1()
+        second = ViewController2()
 
         self.presentsWithGesture = false
         self.preferredSplitBehavior = .tile
         self.preferredDisplayMode = .oneBesideSecondary
-
-        second.view.backgroundColor = .purple
-        first.view.backgroundColor = .green
+        
         viewControllers = [first, second]
     }
 }

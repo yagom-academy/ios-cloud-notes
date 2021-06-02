@@ -18,7 +18,9 @@ class DetailMemoVC: UIViewController, UITextViewDelegate {
         super.viewDidLoad()
         
         configureView()
-        configureTextView()
+        configureTextViewConstraints()
+        forRegularPlaceHolder()
+        
     }
     
     private func configureView() {
@@ -28,14 +30,10 @@ class DetailMemoVC: UIViewController, UITextViewDelegate {
         self.navigationItem.rightBarButtonItem = naviButton
     }
     
-    private func configureTextView() {
+    private func configureTextViewConstraints() {
         let margins = view.safeAreaLayoutGuide
         
         view.addSubview(textView)
-        
-        guard let root = self.splitView?.root as? MemoListVC else { return }
-        root.memoModel.loadSampleData()
-        self.configureDetail(data: root.memoModel.readMemo(index: 0))
         
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.font = UIFont.systemFont(ofSize: 20)
@@ -46,6 +44,14 @@ class DetailMemoVC: UIViewController, UITextViewDelegate {
             textView.trailingAnchor.constraint(equalTo: margins.trailingAnchor, constant: -10),
             textView.heightAnchor.constraint(equalTo: margins.heightAnchor),
         ])
+    }
+    
+    func forRegularPlaceHolder() {
+        if UITraitCollection.current.horizontalSizeClass == .regular {
+            guard let root = self.splitView?.root as? MemoListVC else { return }
+            root.memoModel.loadSampleData()
+            self.configureDetail(data: root.memoModel.readMemo(index: 0))
+        }
     }
     
     func configureDetail(data: Memo) {

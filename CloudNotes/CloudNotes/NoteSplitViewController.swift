@@ -45,7 +45,7 @@ class ViewController1: UIViewController, UITableViewDelegate, UITableViewDataSou
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNote))
         tableView.delegate = self
         tableView.dataSource = self
-        
+        tableView.showsVerticalScrollIndicator = false
         tableView.register(NoteTableCell.self, forCellReuseIdentifier: "NoteCell")
         setConstraint()
     }
@@ -80,7 +80,7 @@ class ViewController1: UIViewController, UITableViewDelegate, UITableViewDataSou
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return noteDatas.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

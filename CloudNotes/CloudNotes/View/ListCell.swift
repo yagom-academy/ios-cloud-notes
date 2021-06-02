@@ -74,6 +74,7 @@ class ListCell: UITableViewCell {
   
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
+    //    contentView.backgroundColor = .orange
     
     stackView3.addArrangedSubview(dateLabel)
     stackView3.addArrangedSubview(summaryLabel)

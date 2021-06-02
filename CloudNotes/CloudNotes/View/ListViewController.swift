@@ -21,10 +21,10 @@ class ListViewController: UIViewController {
     super.viewDidLoad()
     
     tableView.dataSource = self
+    tableView.delegate = self
     view.addSubview(tableView)
     
     configureNavigationBar()
-    
   }
   
   override func viewDidLayoutSubviews() {
@@ -40,6 +40,15 @@ class ListViewController: UIViewController {
     navigationItem.rightBarButtonItem = add
   }
   
+}
+
+extension ListViewController: UITableViewDelegate {
+  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    let memoInfo = viewModel.memoInfo(at: indexPath.row)
+    let vc = MemoViewController()
+    vc.viewModel.update(model: memoInfo)
+    navigationController?.pushViewController(vc, animated: true)
+  }
 }
 
 extension ListViewController: UITableViewDataSource {
@@ -60,26 +69,5 @@ extension ListViewController: UITableViewDataSource {
     cell.update(info: memoInfo)
     
     return cell
-  }
-}
- 
-// MARK: - for canvas
-import SwiftUI
-
-struct ViewControllerRepresentable: UIViewControllerRepresentable {
-  typealias UIViewControllerType = ListViewController
-  
-  func makeUIViewController(context: Context) -> ListViewController {
-    return ListViewController()
-  }
-  
-  func updateUIViewController(_ uiViewController: ListViewController, context: Context) {
-  }
-}
-
-@available(iOS 13.0.0, *)
-struct ViewPreview: PreviewProvider {
-  static var previews: some View {
-    ViewControllerRepresentable()
   }
 }

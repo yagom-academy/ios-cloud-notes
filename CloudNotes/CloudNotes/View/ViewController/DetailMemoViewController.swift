@@ -39,8 +39,8 @@ class DetailMemoViewController: UIViewController {
     }
     
     private func addSubviewInContentView() {
-        self.scrollView.addSubview(memoTitle)
-        self.scrollView.addSubview(memoMain)
+        self.contentView.addSubview(memoTitle)
+        self.contentView.addSubview(memoMain)
     }
     
     private func setUpScrollView() {
@@ -65,7 +65,6 @@ class DetailMemoViewController: UIViewController {
             self.contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: 0),
         ])
     }
-    
     
     private func setUpMemoTitleLabel() {
         self.memoTitle.numberOfLines = 0
@@ -94,6 +93,6 @@ class DetailMemoViewController: UIViewController {
     
     func configure(with memo: Memo) {
         memoTitle.text = memo.title
-        memoMain.text = memo.main
+        memoMain.text = memo.body
     }
 }

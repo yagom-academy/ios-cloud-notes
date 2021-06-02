@@ -19,13 +19,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         self.window = UIWindow(windowScene: scene)
         
-        let splitViewController = UISplitViewController()
-      
-        let rootViewController = UINavigationController(rootViewController: MemoListViewController())
-        
-
-        
-        window?.rootViewController = rootViewController
+//        window?.rootViewController = rootViewController
+        window?.rootViewController = MemoSplitViewController()
         window?.makeKeyAndVisible()
     }
 

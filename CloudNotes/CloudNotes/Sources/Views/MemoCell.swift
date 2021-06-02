@@ -73,7 +73,7 @@ final class MemoCell: UITableViewCell {
 
     func configure(memo: Memo) {
         self.titleLabel.text = memo.title
-        self.lastModifiedDateLabel.text = memo.lastModified.description
+        self.lastModifiedDateLabel.text = DateFormatter().currentLocaleString(from: memo.lastModified)
         self.oneLineBodyLabel.text = memo.body
     }
 
@@ -93,6 +93,19 @@ final class MemoCell: UITableViewCell {
         contentStackView.addArrangedSubview(footStackView)
         footStackView.addArrangedSubview(lastModifiedDateLabel)
         footStackView.addArrangedSubview(oneLineBodyLabel)
+    }
+
+}
+
+// MARK: - DateFormatter
+
+extension DateFormatter {
+
+    fileprivate func currentLocaleString(from timeInterval: TimeInterval) -> String {
+        self.dateStyle = .short
+        self.timeStyle = .none
+        self.locale = Locale.current
+        return string(from: Date(timeIntervalSince1970: timeInterval))
     }
 
 }

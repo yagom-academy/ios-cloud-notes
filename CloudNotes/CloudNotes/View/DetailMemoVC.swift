@@ -10,7 +10,9 @@ import UIKit
 class DetailMemoVC: UIViewController, UITextViewDelegate {
     static let identifier: String = "DetailMemoVC"
     var splitView: SplitVC?
-    private var textView = UITextView(frame: CGRect(x: 0, y: 0, width: 200, height: 100))
+    private var textView = UITextView()
+    
+    private var naviButton = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: nil)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,6 +25,7 @@ class DetailMemoVC: UIViewController, UITextViewDelegate {
         view.backgroundColor = .white
         
         textView.delegate = self
+        self.navigationItem.rightBarButtonItem = naviButton
     }
     
     private func configureTextView() {
@@ -32,8 +35,9 @@ class DetailMemoVC: UIViewController, UITextViewDelegate {
         
         guard let root = self.splitView?.root as? MemoListVC else { return }
         root.memoModel.loadSampleData()
+        self.configureDetail(data: root.memoModel.readMemo(index: 0))
+        
         textView.translatesAutoresizingMaskIntoConstraints = false
-        self.configureDetail(data: root.memoModel.readMemo(index: 0)) 
         textView.font = UIFont.systemFont(ofSize: 20)
         
         NSLayoutConstraint.activate([

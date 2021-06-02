@@ -13,15 +13,8 @@ class ListTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         parseSampleData()
-        // 아이패드에서는 잘 나오는데 아이폰에서는 안나옴.
-//        self.navigationController?.navigationBar.topItem?.title = "메모"
-        self.navigationItem.title = "메모"
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addBarButtonTouched(_:)))
-
-//        self.tableView.rowHeight = UITableView.automaticDimension
-//        self.tableView.estimatedRowHeight = 70
+        setNavigationItem()
         self.tableView.register(ListTableViewCell.self, forCellReuseIdentifier: ListTableViewCell.identifier)
     }
     
@@ -36,12 +29,16 @@ class ListTableViewController: UITableViewController {
         }
         self.memoList = memoList
     }
+    
+    func setNavigationItem() {
+        self.navigationItem.title = "메모"
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addBarButtonTouched(_:)))
+    }
      
     @objc func addBarButtonTouched(_ sender: UIBarButtonItem) {
         self.splitViewController?.showDetailViewController(TextViewController(), sender: nil)
-        print("done!")
-        
     }
+    
 }
 
 extension ListTableViewController {
@@ -49,10 +46,9 @@ extension ListTableViewController {
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 65
     }
-//
+
     // MARK: - Table view data source
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 1
     }
     
@@ -70,6 +66,7 @@ extension ListTableViewController {
         return cell
     }
     
+    // MARK: - Table view delegate
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let detailNavigationController = self.splitViewController?.viewControllers.last as? UINavigationController,
            let textViewController = detailNavigationController.topViewController as? TextViewController {
@@ -80,4 +77,5 @@ extension ListTableViewController {
             textViewController.textView.text = memoList[indexPath.row].body
         }
     }
+    
 }

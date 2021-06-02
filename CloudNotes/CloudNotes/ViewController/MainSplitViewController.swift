@@ -21,8 +21,6 @@ class MainSplitViewController: UISplitViewController {
         self.preferredDisplayMode = .oneBesideSecondary
         
         self.delegate = self
-        // 테이블뷰의 비율
-//        self.preferredPrimaryColumnWidthFraction = 1/3
     }
 
 }

@@ -30,5 +30,17 @@ class TextViewController: UIViewController {
             textView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
-
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        textView.contentOffset = .zero
+        print("viewwillappear")
+    }
+    
+//    override func viewDidLayoutSubviews() {
+//        super.viewDidLayoutSubviews()
+//        textView.contentOffset = .zero
+//
+//        print("textView viewDidLayoutSubviews")
+//    }
 }

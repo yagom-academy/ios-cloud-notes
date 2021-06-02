@@ -9,18 +9,19 @@ import UIKit
 
 class MemoListCell: UITableViewCell {
     static let identifier = "MemoListTableViewCell"
-    var memoListCellModel = MemoListCellModel()
+    private var memoListCellModel = MemoListCellModel()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .default , reuseIdentifier: MemoListCell.identifier)
-        self.constraintsSetup()
+        
+        self.configureCellConstraints()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been impl")
     }
     
-    var title: UILabel = {
+    private var title: UILabel = {
         let title = UILabel()
         title.text = "title Text"
         title.translatesAutoresizingMaskIntoConstraints = false
@@ -29,7 +30,7 @@ class MemoListCell: UITableViewCell {
         return title
     }()
     
-    var body: UILabel = {
+    private var body: UILabel = {
         let body = UILabel()
         body.text = "body Text"
         body.translatesAutoresizingMaskIntoConstraints = false
@@ -40,7 +41,7 @@ class MemoListCell: UITableViewCell {
     }()
     
     
-    var lastModified: UILabel = {
+    private var lastModified: UILabel = {
         let lastModified = UILabel()
         lastModified.text = "lastModified Text"
         lastModified.translatesAutoresizingMaskIntoConstraints = false
@@ -49,7 +50,7 @@ class MemoListCell: UITableViewCell {
         return lastModified
     }()
     
-    func constraintsSetup() {
+    private func configureCellConstraints() {
         let margins = contentView.layoutMarginsGuide
         
         contentView.addSubview(title)

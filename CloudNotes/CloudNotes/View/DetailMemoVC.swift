@@ -10,7 +10,7 @@ import UIKit
 class DetailMemoVC: UIViewController, UITextViewDelegate {
     static let identifier: String = "DetailMemoVC"
     var splitView: SplitVC?
-    var textView = UITextView(frame: CGRect(x: 0, y: 0, width: 200, height: 100))
+    private var textView = UITextView(frame: CGRect(x: 0, y: 0, width: 200, height: 100))
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,13 +19,13 @@ class DetailMemoVC: UIViewController, UITextViewDelegate {
         configureTextView()
     }
     
-    func configureView() {
+    private func configureView() {
         view.backgroundColor = .white
         
         textView.delegate = self
     }
     
-    func configureTextView() {
+    private func configureTextView() {
         let margins = view.safeAreaLayoutGuide
         
         view.addSubview(textView)

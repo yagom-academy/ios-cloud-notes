@@ -15,17 +15,24 @@ class MemoListVC: UIViewController {
         
         return tableView
     }()
+    
+    private var plusMemo: UIBarButtonItem = {
+        let plusMemo = UIBarButtonItem()
+        plusMemo.title = "+"
+        
+        return plusMemo
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        MemoListViewConfigure()
+        ConfigureMemoListView()
         tableViewAutoLayout()
         
     }
     
-    func MemoListViewConfigure() {
+    private func ConfigureMemoListView() {
         self.tableView.dataSource = self
         self.tableView.delegate = self
         self.memoModel.loadSampleData()
@@ -33,9 +40,10 @@ class MemoListVC: UIViewController {
         tableView.register(MemoListCell.self, forCellReuseIdentifier: MemoListCell.identifier)
         self.view.backgroundColor = .white
         self.navigationItem.title = "메모"
+        self.navigationItem.rightBarButtonItem = plusMemo
     }
  
-    func tableViewAutoLayout() {
+    private func tableViewAutoLayout() {
         let guide = view.safeAreaLayoutGuide
         
         self.view.addSubview(tableView)
@@ -77,10 +85,7 @@ extension MemoListVC: UITableViewDelegate, UITableViewDataSource {
         
         if UITraitCollection.current.horizontalSizeClass == .compact {
             guard let detailVC = self.splitView?.detail else { return }
-            self.navigationController?.pushViewController(detailVC, animated: false)
-        } else {
-            guard let detailVC = self.splitView?.detail else { return }
-            self.splitView?.showDetailViewController(detailVC, sender: nil)
+            self.navigationController?.pushViewController(detailVC, animated: true)
         }
         
         detailView.configureDetail(data: memoModel.readMemo(index: indexPath.row))

@@ -70,12 +70,13 @@ extension ListTableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let detailNavigationController = self.splitViewController?.viewControllers.last as? UINavigationController,
            let textViewController = detailNavigationController.topViewController as? TextViewController {
+            textViewController.textView.isEditable = false
             textViewController.textView.text = memoList[indexPath.row].body
+            textViewController.textView.isEditable = true
         } else {
             let textViewController = TextViewController()
             self.splitViewController?.showDetailViewController(textViewController, sender: nil)
             textViewController.textView.text = memoList[indexPath.row].body
         }
     }
-    
 }

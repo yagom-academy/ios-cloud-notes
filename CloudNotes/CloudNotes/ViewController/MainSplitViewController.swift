@@ -23,7 +23,6 @@ class MainSplitViewController: UISplitViewController {
         self.delegate = self
         // 테이블뷰의 비율
 //        self.preferredPrimaryColumnWidthFraction = 1/3
-        view.backgroundColor = .blue
     }
 
 }

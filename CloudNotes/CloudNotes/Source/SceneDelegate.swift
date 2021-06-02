@@ -31,6 +31,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         splitView.viewControllers = [rootNavi, detailNavi]
         splitView.preferredPrimaryColumnWidthFraction = 1/3
         
+        
         window?.rootViewController = splitView
         window?.makeKeyAndVisible()
     }

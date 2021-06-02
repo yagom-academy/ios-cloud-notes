@@ -15,6 +15,7 @@ class SplitVC: UISplitViewController, UISplitViewControllerDelegate {
         super.viewDidLoad()
 
         self.delegate = self
+        
     }
     
 

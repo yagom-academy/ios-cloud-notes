@@ -63,6 +63,12 @@ final class MemoCell: UITableViewCell {
 
     // MARK: Configure
 
+    func configure(memo: Memo) {
+        self.titleLabel.text = memo.title
+        self.lastModifiedDateLabel.text = memo.lastModified.description
+        self.oneLineBodyLabel.text = memo.body
+    }
+
     private func configureContentView() {
         contentView.addSubview(contentStackView)
 

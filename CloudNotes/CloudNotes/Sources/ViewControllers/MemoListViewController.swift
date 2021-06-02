@@ -40,7 +40,12 @@ extension MemoListViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return tableView.dequeueReusableCell(withIdentifier: "memoCell", for: indexPath)
+        guard let memoCell =  tableView.dequeueReusableCell(withIdentifier: "memoCell", for: indexPath) as? MemoCell else {
+            return MemoCell()
+        }
+
+        memoCell.configure(memo: memos[indexPath.row])
+        return memoCell
     }
 
 }

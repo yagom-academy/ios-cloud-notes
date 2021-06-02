@@ -35,7 +35,7 @@ class DetailMemoVC: UIViewController, UITextViewDelegate {
     }
     
     private func configureTextViewConstraints() {
-        let margins = view.safeAreaLayoutGuide
+        let safeArea = view.safeAreaLayoutGuide
         
         view.addSubview(textView)
         
@@ -43,10 +43,10 @@ class DetailMemoVC: UIViewController, UITextViewDelegate {
         textView.font = UIFont.systemFont(ofSize: 20)
         
         NSLayoutConstraint.activate([
-            textView.topAnchor.constraint(equalTo: margins.topAnchor, constant: 0),
-            textView.leadingAnchor.constraint(equalTo: margins.leadingAnchor, constant: 10),
-            textView.trailingAnchor.constraint(equalTo: margins.trailingAnchor, constant: -10),
-            textView.heightAnchor.constraint(equalTo: margins.heightAnchor),
+            textView.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 0),
+            textView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 10),
+            textView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -10),
+            textView.heightAnchor.constraint(equalTo: safeArea.heightAnchor),
         ])
     }
     
@@ -59,7 +59,7 @@ class DetailMemoVC: UIViewController, UITextViewDelegate {
     }
     
     func configureDetail(data: Memo) {
-        let text = data.title + "\n" + data.body
+        let text = data.title + "\n\n\n" + data.body
         textView.text = text
     }
     

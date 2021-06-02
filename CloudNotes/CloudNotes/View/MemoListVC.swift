@@ -16,12 +16,7 @@ class MemoListVC: UIViewController {
         return tableView
     }()
     
-    private var plusMemo: UIBarButtonItem = {
-        let plusMemo = UIBarButtonItem()
-        plusMemo.title = "+"
-        
-        return plusMemo
-    }()
+    private let plusMemo = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: nil)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,7 +39,7 @@ class MemoListVC: UIViewController {
     }
  
     private func tableViewAutoLayout() {
-        let guide = view.safeAreaLayoutGuide
+        let safeArea = view.safeAreaLayoutGuide
         
         self.view.addSubview(tableView)
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -52,10 +47,10 @@ class MemoListVC: UIViewController {
         tableView.estimatedRowHeight = UITableView.automaticDimension
         
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: guide.topAnchor),
-            tableView.bottomAnchor.constraint(equalTo: guide.bottomAnchor),
-            tableView.leadingAnchor.constraint(equalTo: guide.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: guide.trailingAnchor),
+            tableView.topAnchor.constraint(equalTo: safeArea.topAnchor),
+            tableView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
+            tableView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
         ])
     }
     

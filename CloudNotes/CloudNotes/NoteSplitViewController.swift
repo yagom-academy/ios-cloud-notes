@@ -101,23 +101,26 @@ class ViewController1: UIViewController, UITableViewDelegate, UITableViewDataSou
 }
 
 class NoteTableCell: UITableViewCell {
-    private let titleLabel: UILabel = {
+    lazy var titleLabel: UILabel = {
         let title = UILabel()
-        title.text = "FezzTitle"
+        title.lineBreakStrategy = .hangulWordPriority
+        title.numberOfLines = 1
+        title.font = UIFont.preferredFont(forTextStyle: .title2)
         return title
     }()
     
-    private let dateLabel: UILabel = {
-        let title = UILabel()
-        title.text = "2021. 06. 01"
-        return title
+    lazy var dateLabel: UILabel = {
+        let date = UILabel()
+        date.font = UIFont.preferredFont(forTextStyle: .headline)
+        return date
     }()
     
-    private let descriptionLabel: UILabel = {
-        let title = UILabel()
-        title.text = "note note note note"
-        title.textColor = UIColor.lightGray
-        return title
+    lazy var descriptionLabel: UILabel = {
+        let description = UILabel()
+        description.textColor = UIColor.lightGray
+        description.font = UIFont.preferredFont(forTextStyle: .subheadline)
+        
+        return description
     }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -137,16 +140,20 @@ class NoteTableCell: UITableViewCell {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         dateLabel.translatesAutoresizingMaskIntoConstraints = false
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
+        dateLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
         
         NSLayoutConstraint.activate([
             titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
             titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
-            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15),
+            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5),
+            
+            dateLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 5),
             dateLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
             dateLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -15),
-            dateLabel.trailingAnchor.constraint(lessThanOrEqualTo: descriptionLabel.leadingAnchor),
+            dateLabel.trailingAnchor.constraint(equalTo: descriptionLabel.leadingAnchor, constant: -10),
+            
             descriptionLabel.centerYAnchor.constraint(equalTo: dateLabel.centerYAnchor),
-            descriptionLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15)
+            descriptionLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5)
         ])
     }
 }

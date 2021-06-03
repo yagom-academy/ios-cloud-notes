@@ -29,7 +29,6 @@ class ListCell: UITableViewCell {
     let label = UILabel()
     label.textColor = .gray
     label.font = .systemFont(ofSize: 14, weight: .regular)
-    label.text = "Summary"
     return label
   }()
   
@@ -74,7 +73,6 @@ class ListCell: UITableViewCell {
   
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
-    //    contentView.backgroundColor = .orange
     
     stackView3.addArrangedSubview(dateLabel)
     stackView3.addArrangedSubview(summaryLabel)
@@ -105,6 +103,15 @@ class ListCell: UITableViewCell {
   
   func update(info: MemoInfo) {
     titleLabel.text = info.title
-    dateLabel.text = "\(info.date)"
+    
+    let doubleDate = info.lastModified
+    let date = Date(timeIntervalSince1970: doubleDate)
+    let dateFormatter = DateFormatter()
+    dateFormatter.locale = Locale(identifier: Locale.current.identifier)
+    dateFormatter.dateFormat = "yyyy-MM-dd"
+    dateLabel.text = dateFormatter.string(from: date)
+    
+    let summary = info.body.components(separatedBy: ".").first
+    summaryLabel.text = summary
   }
 }

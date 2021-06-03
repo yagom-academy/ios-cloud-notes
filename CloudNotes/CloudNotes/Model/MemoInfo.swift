@@ -7,16 +7,19 @@
 
 import Foundation
 
-struct MemoInfo {
+struct MemoInfo: Decodable {
   let title: String
-  let date: String
-  let memo: String
-  let summary: String
+  let lastModified: Double
+  let body: String
   
-  init(title: String, date: String, memo: String) {
+  private enum CodingKeys: String, CodingKey {
+    case title, body
+    case lastModified = "last_modified"
+  }
+  
+  init(title: String, lastModified: Double, body: String) {
     self.title = title
-    self.date = date
-    self.memo = memo
-    self.summary = memo
+    self.lastModified = lastModified
+    self.body = body
   }
 }

@@ -33,11 +33,17 @@ class MemoViewController: UIViewController {
   
   func updateUI() {
     if let memoInfo = self.viewModel.memoInfo {
-      textView.text = memoInfo.memo
+      let text = """
+        \(memoInfo.title)
+        \n
+        \(memoInfo.body)
+        """
+      textView.text = text
     }
   }
   
   func configureNavigationBar() {
+    // action -> #selector(addTapped)
     let ellipsisImage = UIImage(systemName: "ellipsis.circle")
     let ellipsis = UIBarButtonItem(image: ellipsisImage, style: .plain, target: self, action: nil)
     navigationItem.rightBarButtonItem = ellipsis

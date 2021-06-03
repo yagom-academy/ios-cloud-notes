@@ -8,18 +8,19 @@
 import Foundation
 
 class ListViewModel {
-  private let memoInfoList: [MemoInfo] = [
-    MemoInfo(title: "Title 1", date: "2021.06.02", memo: "testmemo"),
-    MemoInfo(title: "Title 2", date: "2021.06.03", memo: "testmemomemo"),
-    MemoInfo(title: "Title 3", date: "2021.06.04", memo: "testmemomemomemo"),
-    MemoInfo(title: "Title 4", date: "2021.06.05", memo: "testmemo"),
-    MemoInfo(title: "Title 5", date: "2021.06.06", memo: "testmemomemo"),
-    MemoInfo(title: "Title 6", date: "2021.06.07", memo: "testmemomemomemo"),
-    MemoInfo(title: "Title 7", date: "2021.06.08", memo: "testmemo"),
-    MemoInfo(title: "Title 8", date: "2021.06.09", memo: "testmemo"),
-    MemoInfo(title: "Title 9", date: "2021.06.10", memo: "test"),
-    MemoInfo(title: "Title 10", date: "2021.06.11", memo: "test")
-  ]
+  private var memoInfoList: [MemoInfo] = []
+  
+  init() {
+    do {
+      // 임시 Data
+      let filePath = Bundle.main.path(forResource: "sample", ofType: "json")!
+      let data = try String(contentsOfFile: filePath).data(using: .utf8)!
+      memoInfoList = try JSONDecoder().decode([MemoInfo].self, from: data)
+    } catch {
+      print(error)
+    }
+
+  }
   
   var numOfMemoInfoList: Int {
     return memoInfoList.count

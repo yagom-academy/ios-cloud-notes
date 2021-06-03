@@ -1,0 +1,10 @@
+disabled_rules:
+  - trailing_whitespace
+  - identifier_name
+  
+included:
+
+excluded:
+  - Pods
+  - CloudNotes/Application/AppDelegate.swift
+  - CloudNotesUITests/CloudNotesUITests.swift

@@ -11,7 +11,11 @@ final class MemoListViewController: UIViewController {
 
     // MARK: Property
 
-    private var memos = [Memo]()
+    private var memos = [Memo]() {
+        didSet {
+            memos.sort { $0.lastModified > $1.lastModified }
+        }
+    }
 
     // MARK: UI
 

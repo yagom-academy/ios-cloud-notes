@@ -19,7 +19,7 @@ final class MemoListViewController: UIViewController {
 
     // MARK: UI
 
-    private lazy var memoAddButton: UIBarButtonItem = UIBarButtonItem(systemItem: .add, primaryAction: UIAction(handler: memoAddAction), menu: nil)
+    private lazy var memoAddButton = UIBarButtonItem(systemItem: .add, primaryAction: UIAction(handler: memoAddAction), menu: nil)
 
     private let tableView: UITableView = {
         let tableView = UITableView()

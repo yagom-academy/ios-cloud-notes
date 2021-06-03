@@ -20,6 +20,8 @@ final class MemoViewController: UIViewController {
 
     // MARK: UI
 
+    private let moreActionButton = UIBarButtonItem(title: "more", image: UIImage(systemName: "ellipsis.circle") ?? UIImage(), primaryAction: nil, menu: nil)
+
     private let textView: UITextView = {
         let textView = UITextView()
         textView.font = UIFont.preferredFont(forTextStyle: .body)
@@ -27,6 +29,17 @@ final class MemoViewController: UIViewController {
         textView.translatesAutoresizingMaskIntoConstraints = false
         return textView
     }()
+
+    // MARK: Initializer
+
+    init() {
+        super.init(nibName: nil, bundle: nil)
+        navigationItem.setRightBarButton(moreActionButton, animated: true)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     // MARK: View Life Cycle
 

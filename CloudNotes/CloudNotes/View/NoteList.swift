@@ -63,12 +63,6 @@ extension NoteList: UITableViewDataSource {
 
 extension NoteList: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let secondView = splitViewController?.viewController(for: .secondary) as? NoteDetail else { return }
-        secondView.textView.text = ""
-        secondView.textView.insertText(noteDatas[indexPath.row].title ?? "")
-        secondView.textView.insertText("\n\n")
-        secondView.textView.insertText(noteDatas[indexPath.row].description ?? "")
-        
-        self.splitViewController?.showDetailViewController(secondView, sender: self)
+        noteDelegate?.deliverToDetail(noteListViewModel.dataAtIndex(indexPath.row))
     }
 }

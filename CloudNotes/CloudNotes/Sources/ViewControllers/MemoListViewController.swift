@@ -21,7 +21,7 @@ final class MemoListViewController: UIViewController {
 
     private lazy var memoAddButton: UIBarButtonItem = UIBarButtonItem(systemItem: .add, primaryAction: UIAction(handler: { [self] _ in
         memos.append(Memo(title: "새로운 메모", body: "추가 텍스트 없음", lastModified: Date().timeIntervalSince1970))
-        tableView.reloadData()
+        tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
     }), menu: nil)
 
     private let tableView: UITableView = {

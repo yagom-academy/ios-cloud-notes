@@ -28,7 +28,7 @@ class MemoListViewController: UIViewController {
         return tableView
     }()
 
-    init(splitViewDelegate: SplitViewDelegate = SplitViewController()) {
+    init(splitViewDelegate: SplitViewDelegate) {
         super.init(nibName: nil, bundle: nil)
         self.splitViewDelegate = splitViewDelegate
     }

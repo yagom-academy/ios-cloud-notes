@@ -28,22 +28,20 @@ class MemoDetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureView()
-        configureDescriptionTextView()
+        configureViews()
         addSubviews()
+        addConstraints()
     }
 
     func setDescriptionTextView(text: String) {
         descriptionTextView.text = text
     }
 
-    private func configureView() {
+    private func configureViews() {
         view.backgroundColor = isHorizontalSizeClassRegular ? .systemBackground : .systemGray3
         navigationItem.hidesBackButton = isHorizontalSizeClassRegular
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: nil)
-    }
 
-    private func configureDescriptionTextView() {
         descriptionTextView.backgroundColor = isHorizontalSizeClassRegular ? .systemBackground : .systemGray3
     }
 

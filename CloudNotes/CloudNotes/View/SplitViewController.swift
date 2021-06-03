@@ -17,7 +17,7 @@ class SplitViewController: UISplitViewController {
         delegate = self
         preferredDisplayMode = .oneBesideSecondary
 
-        let memoListViewController = UINavigationController(rootViewController: MemoListViewController())
+        let memoListViewController = UINavigationController(rootViewController: MemoListViewController(splitViewDelegate: self))
         let memoDetailViewController = UINavigationController(rootViewController: MemoDetailViewController())
 
         viewControllers = [ memoListViewController, memoDetailViewController ]

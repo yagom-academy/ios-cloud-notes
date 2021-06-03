@@ -47,7 +47,7 @@ extension MemoSplitViewController: UISplitViewControllerDelegate {
     }
 }
 
-extension UIViewController {
+extension MemoSplitViewController {
     func setUpData<T: Decodable>(fileName: String, model: T.Type) -> Result<T, DataError> {
         switch loadData(name: fileName) {
         case .success(let data):

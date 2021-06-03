@@ -32,6 +32,7 @@ final class MemoViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .systemBackground
         configureTextView()
     }
 
@@ -43,7 +44,7 @@ final class MemoViewController: UIViewController {
     // MARK: Configure
 
     func configure(memo: Memo?) {
-           self.memo = memo
+        self.memo = memo
     }
 
     private func configureTextView() {

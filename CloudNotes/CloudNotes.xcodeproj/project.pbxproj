@@ -117,8 +117,8 @@
 		026DA91D2664D971001C4DB2 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				0273B39B26675C3800128F3F /* MemoViewController.swift */,
 				0273B39926675C2F00128F3F /* MemoListViewController.swift */,
+				0273B39B26675C3800128F3F /* MemoViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";

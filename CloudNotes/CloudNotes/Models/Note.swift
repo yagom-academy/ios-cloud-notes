@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Note: Decodable {
+struct Note: Decodable, Hashable {
     let title: String
     let body: String
     let lastModified: Date

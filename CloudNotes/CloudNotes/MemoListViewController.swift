@@ -12,12 +12,16 @@ class MemoListViewController: UITableViewController {
         super.viewDidLoad()
         
         view.backgroundColor = .systemBackground
+        self.title = "메모"
         self.tableView.register(MemoListCell.self, forCellReuseIdentifier: "MemoListCell")
+        
+        setupNavigationBarButton()
     }
     
-//    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        return 50
-//    }
+    func setupNavigationBarButton() {
+        let addToMemo = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: nil)
+        navigationItem.rightBarButtonItem = addToMemo
+    }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 10

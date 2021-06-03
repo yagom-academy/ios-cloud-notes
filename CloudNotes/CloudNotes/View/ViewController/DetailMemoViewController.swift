@@ -18,7 +18,6 @@ class DetailMemoViewController: UIViewController, UITextViewDelegate {
         let button = UIButton()
         button.setTitleColor(UIColor.systemBlue, for: .normal)
         button.setBackgroundImage(UIImage(systemName: "ellipsis.circle"), for: .normal)
-//        button.addTarget(self, action: #selector(movePostScreen), for: .touchDown)
         return button
     }()
     

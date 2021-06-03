@@ -15,7 +15,6 @@ class MemoListViewController: UIViewController {
         let button = UIButton()
         button.setTitle("+", for: .normal)
         button.setTitleColor(UIColor.systemBlue, for: .normal)
-//        button.addTarget(self, action: #selector(), for: .touchDown)
         return button
     }()
     
@@ -68,9 +67,13 @@ extension MemoListViewController: UITableViewDataSource {
 
 extension MemoListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let memoSplitViewController = memoSplitViewController else { return }
+        guard let memoSplitViewController = memoSplitViewController else {
+            return
+        }
         memoSplitViewController.detail.configure(with: Cache.shared.decodedJsonData[indexPath.row])
-        guard horizontalSizeClass == .compact else { return }
+        guard horizontalSizeClass == .compact else {
+            return
+        }
         let detailMemoViewController = DetailMemoViewController()
         detailMemoViewController.configure(with: Cache.shared.decodedJsonData[indexPath.row])
         navigationController?.pushViewController(detailMemoViewController, animated: true)

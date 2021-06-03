@@ -26,6 +26,7 @@ final class MemoViewController: UIViewController {
         let textView = UITextView()
         textView.font = UIFont.preferredFont(forTextStyle: .body)
         textView.isEditable = true
+        textView.textContainerInset = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
         textView.translatesAutoresizingMaskIntoConstraints = false
         return textView
     }()
@@ -58,6 +59,10 @@ final class MemoViewController: UIViewController {
 
     func configure(memo: Memo?) {
         self.memo = memo
+    }
+
+    func textViewResignFirstResponder() {
+        textView.resignFirstResponder()
     }
 
     private func configureTextView() {

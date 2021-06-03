@@ -36,6 +36,9 @@ final class MemoViewController: UIViewController {
     init() {
         super.init(nibName: nil, bundle: nil)
         navigationItem.setRightBarButton(moreActionButton, animated: true)
+
+        NotificationCenter.default.addObserver(self, selector: #selector(textViewMoveUp), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(textViewMoveDown), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
 
     required init?(coder: NSCoder) {
@@ -74,6 +77,23 @@ final class MemoViewController: UIViewController {
             textView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             textView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
+    }
+
+    // MARK: Keyboard observing
+
+    @objc func textViewMoveUp(_ notification: NSNotification) {
+        guard let userInfo = notification.userInfo,
+              let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
+
+        let contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardFrame.size.height, right: 0)
+        textView.contentInset = contentInset
+        textView.scrollIndicatorInsets = contentInset
+    }
+
+    @objc func textViewMoveDown(_ notification: NSNotification) {
+        let contentInset = UIEdgeInsets.zero
+        textView.contentInset = contentInset
+        textView.scrollIndicatorInsets = contentInset
     }
 
 }

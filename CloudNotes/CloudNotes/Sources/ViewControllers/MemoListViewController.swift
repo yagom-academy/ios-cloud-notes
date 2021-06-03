@@ -91,6 +91,9 @@ extension MemoListViewController: UITableViewDataSource {
 extension MemoListViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let memoViewController = (splitViewController?.viewController(for: .secondary) as? MemoViewController)
+
+        memoViewController?.configure(memo: memos[indexPath.row])
         splitViewController?.show(.secondary)
     }
 

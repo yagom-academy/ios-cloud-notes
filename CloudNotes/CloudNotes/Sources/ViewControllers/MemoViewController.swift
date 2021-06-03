@@ -9,6 +9,15 @@ import UIKit
 
 final class MemoViewController: UIViewController {
 
+    // MARK: Property
+
+     private var memo: Memo? {
+         didSet {
+             guard let memo = memo else { return textView.text = nil }
+             textView.text = "\(memo.title)\n\n\(memo.body)"
+         }
+     }
+
     // MARK: UI
 
     private let textView: UITextView = {
@@ -26,7 +35,16 @@ final class MemoViewController: UIViewController {
         configureTextView()
     }
 
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        memo = nil
+    }
+
     // MARK: Configure
+
+    func configure(memo: Memo?) {
+           self.memo = memo
+    }
 
     private func configureTextView() {
         view.addSubview(textView)

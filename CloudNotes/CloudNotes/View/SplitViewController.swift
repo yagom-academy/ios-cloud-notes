@@ -40,10 +40,6 @@ extension SplitViewController: SplitViewDelegate {
         let memoDetailViewController = MemoDetailViewController()
         memoDetailViewController.setDescriptionTextView(text: sampleData.description)
 
-        guard let splitViewController = viewControllers.last as? UINavigationController else { return }
-
-        splitViewController.popToRootViewController(animated: false)
-        let shouldAnimate = UITraitCollection.current.horizontalSizeClass == .compact
-        splitViewController.pushViewController(memoDetailViewController, animated: shouldAnimate)
+        showDetailViewController(UINavigationController(rootViewController: memoDetailViewController), sender: nil)
     }
 }

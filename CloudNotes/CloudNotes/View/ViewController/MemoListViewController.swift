@@ -53,14 +53,14 @@ class MemoListViewController: UIViewController {
 
 extension MemoListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return Cache.shared.decodedJsonData.count
+        return JsonDataCache.shared.decodedJsonData.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier : MemoListTableViewCell.identifier) as? MemoListTableViewCell else {
             return UITableViewCell()
         }
-        cell.configure(with: Cache.shared.decodedJsonData[indexPath.row])
+        cell.configure(with: JsonDataCache.shared.decodedJsonData[indexPath.row])
         return cell
     }
 }
@@ -70,12 +70,12 @@ extension MemoListViewController: UITableViewDelegate {
         guard let memoSplitViewController = memoSplitViewController else {
             return
         }
-        memoSplitViewController.detail.configure(with: Cache.shared.decodedJsonData[indexPath.row])
+        memoSplitViewController.detail.configure(with: JsonDataCache.shared.decodedJsonData[indexPath.row])
         guard horizontalSizeClass == .compact else {
             return
         }
         let detailMemoViewController = DetailMemoViewController()
-        detailMemoViewController.configure(with: Cache.shared.decodedJsonData[indexPath.row])
+        detailMemoViewController.configure(with: JsonDataCache.shared.decodedJsonData[indexPath.row])
         navigationController?.pushViewController(detailMemoViewController, animated: true)
     }
 }

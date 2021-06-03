@@ -34,7 +34,7 @@ class MemoSplitViewController: UISplitViewController {
         let resultOfFetch = setUpData(fileName: "sample", model: [Memo].self)
         switch resultOfFetch {
         case .success(let data):
-            Cache.shared.decodedJsonData = data
+            JsonDataCache.shared.decodedJsonData = data
         case .failure(let error):
             print(error.localizedDescription)
         }

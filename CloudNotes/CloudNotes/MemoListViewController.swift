@@ -52,7 +52,9 @@ class MemoListViewController: UIViewController {
 }
 
 extension MemoListViewController: UITableViewDelegate {
-    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+    }
 }
 
 extension MemoListViewController: UITableViewDataSource {

@@ -8,20 +8,23 @@
 import UIKit
 
 class NoteSplit: UISplitViewController {
-    var noteList: NoteList!
-    var noteDetail: NoteDetail!
-
     override func viewDidLoad() {
         super.viewDidLoad()
         self.delegate = self
-        noteList = NoteList()
-        noteDetail = NoteDetail()
-
+        setSplitViewController()
+        expendSplitView()
+    }
+    
+    private func setSplitViewController() {
         self.presentsWithGesture = false
         self.preferredSplitBehavior = .tile
         self.preferredDisplayMode = .oneBesideSecondary
-        
-        viewControllers = [noteList, noteDetail]
+    }
+    
+    private func expendSplitView() {
+        let primary = NoteList()
+        let secondary = NoteDetail()
+        self.viewControllers = [primary, secondary]
     }
 }
 

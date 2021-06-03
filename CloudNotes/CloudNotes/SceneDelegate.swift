@@ -10,17 +10,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
 
-
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-
         guard let windowScene = (scene as? UIWindowScene) else { return }
-        
         window = UIWindow(windowScene: windowScene)
-        let mainViewController = UISplitViewController()
-        let memoListViewController = UINavigationController(rootViewController: MemoListViewController())
-        let detailViewController = UINavigationController(rootViewController: DetailViewController())
-            
-        mainViewController.viewControllers = [memoListViewController, detailViewController]
+        let mainViewController = MemoSplitViewController(style: .doubleColumn)
         
         window?.backgroundColor = .systemBackground
         window?.rootViewController = mainViewController

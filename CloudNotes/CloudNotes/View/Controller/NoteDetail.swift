@@ -11,6 +11,8 @@ class NoteDetail: UIViewController {
     var noteData: NoteData? {
         didSet {
             guard let data = noteData else { return }
+            textView.contentOffset = .zero
+            textView.resignFirstResponder()
             textView.text = ""
             textView.insertText(data.title)
             textView.insertText("\n\n")
@@ -37,7 +39,6 @@ class NoteDetail: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         textView.contentOffset = .zero
-        textView.resignFirstResponder()
     }
     
     override func viewDidAppear(_ animated: Bool) {

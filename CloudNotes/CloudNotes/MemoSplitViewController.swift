@@ -16,6 +16,7 @@ class MemoSplitViewController: UISplitViewController, UISplitViewControllerDeleg
         setSplitView()
     }
     
+    
     func setSplitView() {
         let memoListView = MemoListViewController()
         let detailView = DetailViewController()

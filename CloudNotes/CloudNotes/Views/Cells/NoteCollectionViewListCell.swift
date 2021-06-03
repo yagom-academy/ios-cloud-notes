@@ -62,7 +62,7 @@ extension NoteCollectionViewListCell {
         
         titleLabel.text = note.title
         bodyLabel.text = note.body
-        lastModifiedDateLabel.text = "\(note.lastModified)"
+        lastModifiedDateLabel.text = note.lastModified.formatted
         accessories = [.disclosureIndicator()]
         
         NSLayoutConstraint.activate([

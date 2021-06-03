@@ -76,6 +76,6 @@ class MemoListTableViewCell: UITableViewCell {
         self.accessoryType = UITableViewCell.AccessoryType.disclosureIndicator
         title.text = memo.title
         body.text = memo.body
-        lastModifiedDate.text = memo.getLastModified()
+        lastModifiedDate.text = memo.formattedLastModifiedDate
     }
 }

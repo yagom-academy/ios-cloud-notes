@@ -38,11 +38,12 @@ class NoteDetail: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        textView.contentOffset = .zero
+//        textView.contentOffset = .zero
     }
     
     override func viewDidAppear(_ animated: Bool) {
         textView.isEditable = true
+        textView.contentOffset = .zero
     }
     
     override func viewWillDisappear(_ animated: Bool) {

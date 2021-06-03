@@ -103,6 +103,80 @@
 				8636E16ABC52144FF7B9C183 /* Pods_CloudNotesTests.framework */,
 			);
 			name = Frameworks;
+			path = ../..;
+			sourceTree = "<group>";
+		};
+		AAE063E62668D55F0051EF9C /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		AAE063E72668D5670051EF9C /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */,
+				C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
+		AAE063E82668D5750051EF9C /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				C7481C7625BBCF3900B9CA55 /* CloudNotes.xcdatamodeld */,
+			);
+			path = CoreData;
+			sourceTree = "<group>";
+		};
+		AAE063E92668D5830051EF9C /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				AAE063EE2668D63A0051EF9C /* Extensions */,
+				553700C6AFECF43797EF44EF /* Frameworks */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		AAE063EA2668D58E0051EF9C /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				C7481C7925BBCF3A00B9CA55 /* Assets.xcassets */,
+			);
+			path = Assets;
+			sourceTree = "<group>";
+		};
+		AAE063EB2668D5A00051EF9C /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				C7481C7125BBCF3900B9CA55 /* ViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		AAE063EC2668D5A80051EF9C /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				AAE063ED2668D5AF0051EF9C /* Cells */,
+				C7481C7325BBCF3900B9CA55 /* Main.storyboard */,
+				C7481C7B25BBCF3A00B9CA55 /* LaunchScreen.storyboard */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		AAE063ED2668D5AF0051EF9C /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		AAE063EE2668D63A0051EF9C /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		C7481C6125BBCF3900B9CA55 = {
@@ -114,7 +188,6 @@
 				C7481C9125BBCF3A00B9CA55 /* CloudNotesUITests */,
 				C7481C6B25BBCF3900B9CA55 /* Products */,
 				EE27865D484071C1A7017D8B /* Pods */,
-				553700C6AFECF43797EF44EF /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -131,14 +204,14 @@
 		C7481C6C25BBCF3900B9CA55 /* CloudNotes */ = {
 			isa = PBXGroup;
 			children = (
-				C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */,
-				C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */,
-				C7481C7125BBCF3900B9CA55 /* ViewController.swift */,
-				C7481C7325BBCF3900B9CA55 /* Main.storyboard */,
-				C7481C7925BBCF3A00B9CA55 /* Assets.xcassets */,
-				C7481C7B25BBCF3A00B9CA55 /* LaunchScreen.storyboard */,
 				C7481C7E25BBCF3A00B9CA55 /* Info.plist */,
-				C7481C7625BBCF3900B9CA55 /* CloudNotes.xcdatamodeld */,
+				AAE063E72668D5670051EF9C /* Application */,
+				AAE063E62668D55F0051EF9C /* Models */,
+				AAE063EC2668D5A80051EF9C /* Views */,
+				AAE063EB2668D5A00051EF9C /* Controllers */,
+				AAE063EA2668D58E0051EF9C /* Assets */,
+				AAE063E92668D5830051EF9C /* Helpers */,
+				AAE063E82668D5750051EF9C /* CoreData */,
 			);
 			path = CloudNotes;
 			sourceTree = "<group>";

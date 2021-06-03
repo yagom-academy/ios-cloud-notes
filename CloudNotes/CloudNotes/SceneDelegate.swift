@@ -16,7 +16,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         window = UIWindow(windowScene: windowScene)
-        let mainViewController = ViewController()
+        let mainViewController = UISplitViewController()
+        let memoListViewController = UINavigationController(rootViewController: MemoListViewController())
+        let detailViewController = UINavigationController(rootViewController: DetailViewController())
+            
+        mainViewController.viewControllers = [memoListViewController, detailViewController]
         
         window?.backgroundColor = .systemBackground
         window?.rootViewController = mainViewController

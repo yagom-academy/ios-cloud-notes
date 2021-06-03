@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		76A5A3C22668951000B21DF8 /* MemoListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A5A3C12668951000B21DF8 /* MemoListViewController.swift */; };
+		76A5A3C42668954C00B21DF8 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A5A3C32668954C00B21DF8 /* DetailViewController.swift */; };
 		76E894072664F700006ED838 /* MemoData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76E894062664F700006ED838 /* MemoData.swift */; };
 		C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */; };
 		C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */; };
@@ -36,6 +38,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		76A5A3C12668951000B21DF8 /* MemoListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoListViewController.swift; sourceTree = "<group>"; };
+		76A5A3C32668954C00B21DF8 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		76E894062664F700006ED838 /* MemoData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoData.swift; sourceTree = "<group>"; };
 		C7481C6A25BBCF3900B9CA55 /* CloudNotes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CloudNotes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -109,6 +113,8 @@
 				C7481C7E25BBCF3A00B9CA55 /* Info.plist */,
 				C7481C7625BBCF3900B9CA55 /* CloudNotes.xcdatamodeld */,
 				76E894062664F700006ED838 /* MemoData.swift */,
+				76A5A3C12668951000B21DF8 /* MemoListViewController.swift */,
+				76A5A3C32668954C00B21DF8 /* DetailViewController.swift */,
 			);
 			path = CloudNotes;
 			sourceTree = "<group>";
@@ -262,9 +268,11 @@
 			files = (
 				C7481C7225BBCF3900B9CA55 /* ViewController.swift in Sources */,
 				76E894072664F700006ED838 /* MemoData.swift in Sources */,
+				76A5A3C22668951000B21DF8 /* MemoListViewController.swift in Sources */,
 				C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */,
 				C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */,
 				C7481C7825BBCF3900B9CA55 /* CloudNotes.xcdatamodeld in Sources */,
+				76A5A3C42668954C00B21DF8 /* DetailViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

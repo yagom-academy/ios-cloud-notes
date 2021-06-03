@@ -4,5 +4,6 @@ included:
 
 excluded:
   - Pods
-  - CloudNotes/AppDelegate.swift
-  - CloudNotes/SceneDelegate.swift
+  - CloudNotes/Application/AppDelegate.swift
+  - CloudNotesTests/CloudNotesTests.swift
+  - CloudNotesUITests/CloudNotesUITests.swift

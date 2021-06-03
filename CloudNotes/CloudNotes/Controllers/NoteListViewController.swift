@@ -120,4 +120,9 @@ extension NoteListViewController {
     }
 }
 
-extension NoteListViewController: UICollectionViewDelegate { }
+// MARK: - Collection View Delegate
+extension NoteListViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
+    }
+}

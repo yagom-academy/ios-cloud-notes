@@ -9,54 +9,65 @@ import UIKit
 
 class MemoListCell: UITableViewCell {
     
+    let cellStackView = UIStackView()
+    let bottomStackView = UIStackView()
     let title = UILabel()
     let date = UILabel()
     let preview = UILabel()
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: .default, reuseIdentifier: "MemoListCell")
         
+        setCellStackViewAttribute()
         setLabelAttribute()
         setLabelConstraints()
     }
 
+    required init?(coder: NSCoder) {
+        super.init(style: .default, reuseIdentifier: "MemoListCell")
+        
+        setCellStackViewAttribute()
+        setLabelAttribute()
+        setLabelConstraints()
+    }
+    
+    func setCellStackViewAttribute() {
+        cellStackView.axis = .vertical
+        cellStackView.alignment = .leading
+        cellStackView.distribution = .fill
+        
+        bottomStackView.axis = .horizontal
+        bottomStackView.alignment = .center
+        bottomStackView.distribution = .fill
+    }
+    
     func setLabelAttribute() {
-        title.text = "title"
-        date.text = "2021. 06. 03"
-        preview.text = "preview"
+        title.font = UIFont.systemFont(ofSize: 18)
+        date.font = UIFont.systemFont(ofSize: 14)
+        preview.font = UIFont.systemFont(ofSize: 14)
+        preview.textColor = .systemGray
     }
     
     func setLabelConstraints() {
-        self.addSubview(title)
-        self.addSubview(date)
-        self.addSubview(preview)
+        self.addSubview(cellStackView)
+        cellStackView.addArrangedSubview(title)
+        cellStackView.addArrangedSubview(bottomStackView)
+        bottomStackView.addArrangedSubview(date)
+        bottomStackView.addArrangedSubview(preview)
         
-        title.translatesAutoresizingMaskIntoConstraints = false
+        cellStackView.translatesAutoresizingMaskIntoConstraints = false
         date.translatesAutoresizingMaskIntoConstraints = false
-        preview.translatesAutoresizingMaskIntoConstraints = false
         
-        let titleConstraints = ([
-            title.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
-            title.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor),
-            title.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor)
+        let cellStackViewConstraints = ([
+            cellStackView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 5),
+            cellStackView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: -5),
+            cellStackView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+            cellStackView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -50)
         ])
         
-        let dateConstraints = ([
-            date.topAnchor.constraint(equalTo: title.safeAreaLayoutGuide.bottomAnchor),
-            date.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor),
-            date.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor)
-        ])
+        date.widthAnchor.constraint(equalToConstant: self.frame.size.width / 3).isActive = true
         
-        let previewConstraints = ([
-            preview.topAnchor.constraint(equalTo: title.safeAreaLayoutGuide.bottomAnchor),
-            preview.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor),
-            preview.leadingAnchor.constraint(equalTo: date.safeAreaLayoutGuide.trailingAnchor),
-            preview.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor)
-        ])
-        
-        NSLayoutConstraint.activate(titleConstraints)
-        NSLayoutConstraint.activate(dateConstraints)
-        NSLayoutConstraint.activate(previewConstraints)
+        NSLayoutConstraint.activate(cellStackViewConstraints)
     }
 
 }

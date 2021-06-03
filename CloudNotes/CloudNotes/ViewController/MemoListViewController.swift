@@ -8,6 +8,7 @@
 import UIKit
 
 class MemoListViewController: UITableViewController {
+  private let reuseIdentifier = "memoReuseCell"
   private let titleString = "메모"
   private let tableViewModel: MemoListViewModel = MemoListViewModel()
   
@@ -30,6 +31,7 @@ class MemoListViewController: UITableViewController {
   private func configureTableView() {
     tableView.delegate = self
     tableView.dataSource = self
+    tableView.register(MemoListCell.self, forCellReuseIdentifier: reuseIdentifier)
   }
   
   // MARK: - Table view data source
@@ -39,12 +41,29 @@ class MemoListViewController: UITableViewController {
   }
   
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    return UITableViewCell()
+    guard let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier)
+            as? MemoListCell else {
+      return UITableViewCell()
+    }
+    
+    guard let viewModel = tableViewModel.getMemoViewModel(for: indexPath) else {
+      return UITableViewCell()
+    }
+    
+    cell.configure(with: viewModel)
+    return cell
   }
   
   // MARK: - Table view Delegate
   
   override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    let navigationController = UINavigationController(rootViewController: MemoDetailViewController())
+    guard let memoDetailVC = navigationController.viewControllers.first as? MemoDetailViewController else {
+      return
+    }
     
+    guard let memo = tableViewModel.getMemo(for: indexPath) else { return }
+    memoDetailVC.configure(with: memo)
+    showDetailViewController(navigationController, sender: self)
   }
 }

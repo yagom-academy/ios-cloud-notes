@@ -29,6 +29,14 @@ class MemoListViewModel {
     return memos.count
   }
   
+  func getMemoViewModel(for indexPath: IndexPath) -> MemoViewModel? {
+    guard let memos = memos else {
+      return nil
+    }
+    let memo = memos[indexPath.row]
+    return MemoViewModel(title: memo.title, date: memo.lastModifiedDate, content: memo.body)
+  }
+  
   func getMemo(for indexPath: IndexPath) -> Memo? {
     guard let memos = memos else {
       return nil

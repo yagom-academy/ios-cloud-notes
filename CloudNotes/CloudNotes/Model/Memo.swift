@@ -8,12 +8,30 @@
 import Foundation
 
 struct Memo: Decodable {
-    var title: String
-    var body: String
-    var lastModified: Int
+    private var title: String
+    private var body: String
+    private var lastModified: Int
     private enum CodingKeys: String, CodingKey {
         case title, body
         case lastModified = "last_modified"
+    }
+    
+    var computedTitle: String {
+        get {
+            return title
+        }
+        set {
+            title = newValue
+        }
+    }
+    
+    var computedBody: String {
+        get {
+            return body
+        }
+        set {
+            body = newValue
+        }
     }
     
     var formattedLastModifiedDate: String {

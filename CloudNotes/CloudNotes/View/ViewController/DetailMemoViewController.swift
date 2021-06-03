@@ -51,6 +51,6 @@ class DetailMemoViewController: UIViewController, UITextViewDelegate {
 
     
     func configure(with memo: Memo) {
-        memoTextView.text = "\n\n" + memo.title + "\n\n" + memo.body
+        memoTextView.text = "\n\n" + memo.computedTitle + "\n\n" + memo.computedBody
     }
 }

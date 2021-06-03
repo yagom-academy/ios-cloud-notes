@@ -74,8 +74,8 @@ class MemoListTableViewCell: UITableViewCell {
     func configure(with memo: Memo) {
         setUpUI()
         self.accessoryType = UITableViewCell.AccessoryType.disclosureIndicator
-        title.text = memo.title
-        body.text = memo.body
+        title.text = memo.computedTitle
+        body.text = memo.computedBody
         lastModifiedDate.text = memo.formattedLastModifiedDate
     }
 }

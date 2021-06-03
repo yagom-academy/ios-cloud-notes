@@ -45,7 +45,7 @@ final class NoteCollectionViewListCell: UICollectionViewListCell {
         static let leadingSpaceBetweenCellStackViewAndContentView: CGFloat = 20
         static let trailingSpaceBetweenCellStackViewAndContentView: CGFloat = -40
         static let topSpaceBetweenCellStackViewAndContentView: CGFloat = 10
-        static let bottomSpaceBetweenCellStackViewAndContentView: CGFloat = 10
+        static let bottomSpaceBetweenCellStackViewAndContentView: CGFloat = -10
     }
     
     // MARK: - Nib Life Cycles
@@ -63,6 +63,7 @@ extension NoteCollectionViewListCell {
         titleLabel.text = note.title
         bodyLabel.text = note.body
         lastModifiedDateLabel.text = "\(note.lastModified)"
+        accessories = [.disclosureIndicator()]
         
         NSLayoutConstraint.activate([
             cellStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,

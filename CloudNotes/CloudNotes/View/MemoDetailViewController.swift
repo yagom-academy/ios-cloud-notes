@@ -8,14 +8,19 @@
 import UIKit
 
 class MemoDetailViewController: UIViewController {
-    private lazy var isHorizontalSizeClassRegular = UITraitCollection.current.horizontalSizeClass == .regular ? true : false
+    private lazy var isHorizontalSizeClassRegular = UITraitCollection.current.horizontalSizeClass == .regular
 
     private let descriptionTextView: UITextView = {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.font = UIFont.preferredFont(forTextStyle: .body)
+        textView.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         return textView
     }()
+
+    override func viewWillLayoutSubviews() {
+        addConstraints()
+    }
 
     override func viewDidLayoutSubviews() {
         descriptionTextView.contentOffset = .zero
@@ -26,12 +31,10 @@ class MemoDetailViewController: UIViewController {
         configureView()
         configureDescriptionTextView()
         addSubviews()
-        addConstraints()
     }
 
     func setDescriptionTextView(text: String) {
         descriptionTextView.text = text
-        descriptionTextView.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
     }
 
     private func configureView() {

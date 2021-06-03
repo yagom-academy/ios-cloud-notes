@@ -29,3 +29,21 @@ extension SplitViewController: UISplitViewControllerDelegate {
                              collapseSecondary secondaryViewController: UIViewController,
                              onto primaryViewController: UIViewController) -> Bool { true }
 }
+
+protocol SplitViewDelegate: class {
+    func didSelectRow(data: SampleMemo)
+}
+
+extension SplitViewController: SplitViewDelegate {
+    func didSelectRow(data: SampleMemo) {
+        let sampleData = data
+        let memoDetailViewController = MemoDetailViewController()
+        memoDetailViewController.setDescriptionTextView(text: sampleData.description)
+
+        guard let splitViewController = viewControllers.last as? UINavigationController else { return }
+
+        splitViewController.popToRootViewController(animated: false)
+        let shouldAnimate = UITraitCollection.current.horizontalSizeClass == .compact
+        splitViewController.pushViewController(memoDetailViewController, animated: shouldAnimate)
+    }
+}

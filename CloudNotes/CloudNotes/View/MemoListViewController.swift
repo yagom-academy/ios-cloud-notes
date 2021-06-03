@@ -6,26 +6,36 @@
 
 import UIKit
 
-class MemoListViewController: UIViewController {
-    struct SampleMemo: Decodable {
-        let title: String
-        let description: String
-        let lastModifiedDate: Double
+struct SampleMemo: Decodable {
+    let title: String
+    let description: String
+    let lastModifiedDate: Double
 
-        enum CodingKeys: String, CodingKey {
-            case title
-            case description = "body"
-            case lastModifiedDate = "last_modified"
-        }
+    enum CodingKeys: String, CodingKey {
+        case title
+        case description = "body"
+        case lastModifiedDate = "last_modified"
     }
+}
 
-    private var sampleMemos: [SampleMemo]!
+class MemoListViewController: UIViewController {
+    private var sampleMemos: [SampleMemo] = []
+    private weak var splitViewDelegate: SplitViewDelegate?
 
     private let memoListTableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
+
+    init(splitViewDelegate: SplitViewDelegate = SplitViewController()) {
+        super.init(nibName: nil, bundle: nil)
+        self.splitViewDelegate = splitViewDelegate
+    }
+
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,7 +79,7 @@ extension MemoListViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: MemoPreviewCell.reusableIdentifier) as? MemoPreviewCell else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: MemoPreviewCell.reusableIdentifier) else { return UITableViewCell() }
 
         return cell
     }
@@ -88,14 +98,6 @@ extension MemoListViewController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let sampleData = sampleMemos[indexPath.row]
-        let memoDetailViewController = MemoDetailViewController()
-        memoDetailViewController.setDescriptionTextView(text: sampleData.description)
-
-        guard let splitViewController = splitViewController?.viewControllers.last as? UINavigationController else { return }
-
-        splitViewController.popToRootViewController(animated: false)
-        let shouldAnimate = UITraitCollection.current.horizontalSizeClass == .compact ? true : false
-        splitViewController.pushViewController(memoDetailViewController, animated: shouldAnimate)
+        splitViewDelegate?.didSelectRow(data: sampleMemos[indexPath.row])
     }
 }

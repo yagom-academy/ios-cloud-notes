@@ -107,13 +107,37 @@
 		BA88D0042667E6DF00B3B227 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				BA88D00F2667F03600B3B227 /* NoteSplit.swift */,
-				BA88D0112667F11E00B3B227 /* NoteList.swift */,
-				BA88D0152667F23000B3B227 /* NoteListCell.swift */,
-				BA88D0132667F12B00B3B227 /* NoteDetail.swift */,
-				BA88D0212668B47000B3B227 /* NoteDelegate.swift */,
+				BA88D0232668CCFC00B3B227 /* Protocol */,
+				BA88D0242668CD0A00B3B227 /* Controller */,
+				BA88D0252668CD2000B3B227 /* Cell */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		BA88D0232668CCFC00B3B227 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				BA88D0212668B47000B3B227 /* NoteDelegate.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
+		BA88D0242668CD0A00B3B227 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				BA88D0132667F12B00B3B227 /* NoteDetail.swift */,
+				BA88D0112667F11E00B3B227 /* NoteList.swift */,
+				BA88D00F2667F03600B3B227 /* NoteSplit.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		BA88D0252668CD2000B3B227 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				BA88D0152667F23000B3B227 /* NoteListCell.swift */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		C7481C6125BBCF3900B9CA55 = {

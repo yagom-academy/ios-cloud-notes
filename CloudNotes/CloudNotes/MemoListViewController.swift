@@ -11,6 +11,7 @@ import UIKit
 class MemoListViewController: UIViewController {
     let tableView = UITableView()
     let decoder = JSONDecoder()
+    var memoData: [MemoData] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,7 +19,7 @@ class MemoListViewController: UIViewController {
         self.tableView.dataSource = self
         self.tableView.delegate = self
         
-        self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "TableViewCell")
+        self.tableView.register(MemoListCell.self, forCellReuseIdentifier: MemoListCell.identifier)
         self.view.addSubview(self.tableView)
 
         self.tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -34,6 +35,7 @@ class MemoListViewController: UIViewController {
         self.view.addConstraint(NSLayoutConstraint(item: self.tableView,
                                                    attribute: .trailing, relatedBy: .equal, toItem: self.view,
                                                    attribute: .trailing, multiplier: 1.0, constant: 0))
+        memoData = decodeMemoData()!
     }
     
     func decodeMemoData() -> [MemoData]? {
@@ -56,18 +58,19 @@ extension MemoListViewController: UITableViewDelegate {
 extension MemoListViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let memoData = decodeMemoData()!
         
         return memoData.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "TableViewCell", for: indexPath) as UITableViewCell
-
-        let memoData = decodeMemoData()!
+        let cell = tableView.dequeueReusableCell(withIdentifier: MemoListCell.identifier, for: indexPath) as! MemoListCell
         
-        cell.textLabel?.text = memoData[indexPath.row].title
-
+        cell.memoTitle.text = memoData[indexPath.row].title
+        cell.memoPreview.text = memoData[indexPath.row].body
+        cell.memoDateCreate.text = memoData[indexPath.row].lastModifiedDate
+        
+        cell.accessoryType = .disclosureIndicator
+        
         return cell
     }
     

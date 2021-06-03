@@ -20,6 +20,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let masterViewController = MemoListViewController()
         let primaryViewController = MemoFormViewController()
         
+
         splitViewController.preferredDisplayMode = .automatic
         splitViewController.viewControllers = [masterViewController, primaryViewController]
         

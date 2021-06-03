@@ -12,9 +12,9 @@ class NoteDetail: UIViewController {
         didSet {
             guard let data = noteData else { return }
             textView.text = ""
-            textView.insertText(data.title ?? "")
+            textView.insertText(data.title)
             textView.insertText("\n\n")
-            textView.insertText(data.description ?? "")
+            textView.insertText(data.description)
         }
     }
     lazy var textView: UITextView = {

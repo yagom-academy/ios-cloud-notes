@@ -8,12 +8,13 @@
 import Foundation
 
 struct NoteData: Decodable {
-    let title: String?
-    let description: String?
-    let lastModify: UInt?
+    let title: String
+    let description: String
+    let lastModify: UInt
+    var date: String?
     
     enum CodingKeys: String, CodingKey {
-        case title
+        case title, date
         case description = "body"
         case lastModify = "last_modified"
     }

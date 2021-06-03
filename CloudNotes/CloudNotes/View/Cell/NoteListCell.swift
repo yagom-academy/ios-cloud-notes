@@ -52,16 +52,9 @@ class NoteListCell: UITableViewCell {
 
     private func displayData() {
         guard let data = noteData else { return }
-        titleLabel.text = data.title ?? ""
-        dateLabel.text = convertUIntToDate(data.lastModify ?? 0)
-        descriptionLabel.text = data.description ?? ""
-    }
-    
-    private func convertUIntToDate(_ noteDate: UInt) -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy.MM.dd"
-        let date = Date(timeIntervalSince1970: TimeInterval(noteDate))
-        return dateFormatter.string(from: date)
+        titleLabel.text = data.title
+        dateLabel.text = data.date
+        descriptionLabel.text = data.description
     }
     
     private func setConstraint() {

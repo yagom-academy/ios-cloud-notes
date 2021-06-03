@@ -125,9 +125,9 @@
 		BA88D0242668CD0A00B3B227 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				BA88D0132667F12B00B3B227 /* NoteDetail.swift */,
-				BA88D0112667F11E00B3B227 /* NoteList.swift */,
 				BA88D00F2667F03600B3B227 /* NoteSplit.swift */,
+				BA88D0112667F11E00B3B227 /* NoteList.swift */,
+				BA88D0132667F12B00B3B227 /* NoteDetail.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";

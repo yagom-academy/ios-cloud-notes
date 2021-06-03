@@ -22,6 +22,12 @@ struct NoteListViewModel {
     }
     
     func dataAtIndex(_ index: Int) -> NoteData {
-        return noteDatas[index]
+        var data = noteDatas[index]
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy.MM.dd"
+        let date = Date(timeIntervalSince1970: TimeInterval(noteDatas[index].lastModify))
+        data.date = dateFormatter.string(from: date)
+        
+        return data
     }
 }

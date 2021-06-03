@@ -1,5 +1,5 @@
 //
-//  MemoItem.swift
+//  NoteItem.swift
 //  CloudNotes
 //
 //  Created by 배은서 on 2021/06/01.

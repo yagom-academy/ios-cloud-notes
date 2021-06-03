@@ -40,7 +40,8 @@ class ListTableViewController: UITableViewController {
            let textViewController = detailNavigationController.topViewController as? TextViewController {
             textViewController.textView.text = ""
         } else {
-            self.splitViewController?.showDetailViewController(TextViewController(), sender: nil)
+            let VC = UINavigationController(rootViewController: TextViewController())
+            self.splitViewController?.showDetailViewController(VC, sender: nil)
         }
     }
     
@@ -81,7 +82,8 @@ extension ListTableViewController {
             textViewController.textView.isEditable = true
         } else {
             let textViewController = TextViewController()
-            self.splitViewController?.showDetailViewController(textViewController, sender: nil)
+            let navigationController = UINavigationController(rootViewController: textViewController)
+            self.splitViewController?.showDetailViewController(navigationController, sender: nil)
             textViewController.textView.text = memoList[indexPath.row].title + "\n\n"
             textViewController.textView.text.append(memoList[indexPath.row].body)
         }

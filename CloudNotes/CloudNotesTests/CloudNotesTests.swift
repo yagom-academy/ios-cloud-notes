@@ -8,25 +8,23 @@ import XCTest
 @testable import CloudNotes
 
 class CloudNotesTests: XCTestCase {
-
+    var noteListViewModel: NoteListViewModel!
+    var noteDatas: [NoteData] = []
+    
     override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        noteListViewModel = NoteListViewModel()
+        let jsonData = NSDataAsset(name: "sample")?.data
+        let data = try! JSONDecoder().decode([NoteData].self, from: jsonData!)
+        noteDatas = data
     }
 
     override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        noteListViewModel = nil
+        noteDatas = []
     }
 
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    func test_Convert_Date() {
+        let date = noteListViewModel.dataAtIndex(0)
+        XCTAssertEqual(date.date, "2020.12.23")
     }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
-    }
-
 }

@@ -18,19 +18,18 @@ class MemoDetailViewController: UIViewController {
         return textView
     }()
 
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        configureViews()
+        addSubviews()
+    }
+
     override func viewWillLayoutSubviews() {
         addConstraints()
     }
 
     override func viewDidLayoutSubviews() {
         descriptionTextView.contentOffset = .zero
-    }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        configureViews()
-        addSubviews()
-        addConstraints()
     }
 
     func setDescriptionTextView(text: String) {

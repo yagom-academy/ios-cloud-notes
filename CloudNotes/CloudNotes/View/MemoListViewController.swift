@@ -42,6 +42,11 @@ class MemoListViewController: UIViewController {
         fetchSampleData()
         configureView()
         configureTableView()
+        addSubviews()
+    }
+
+    override func viewWillLayoutSubviews() {
+        addConstraints()
     }
 
     private func configureView() {
@@ -57,13 +62,17 @@ class MemoListViewController: UIViewController {
     }
 
     private func configureTableView() {
-        view.addSubview(memoListTableView)
-
         memoListTableView.dataSource = self
         memoListTableView.delegate = self
         memoListTableView.register(MemoPreviewCell.self, forCellReuseIdentifier: MemoPreviewCell.reusableIdentifier)
         memoListTableView.backgroundColor = .systemBackground
+    }
 
+    private func addSubviews() {
+        view.addSubview(memoListTableView)
+    }
+
+    private func addConstraints() {
         NSLayoutConstraint.activate([
             memoListTableView.topAnchor.constraint(equalTo: view.topAnchor),
             memoListTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),

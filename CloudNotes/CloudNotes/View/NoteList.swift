@@ -22,7 +22,7 @@ class NoteList: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.showsVerticalScrollIndicator = false
-        tableView.register(NoteTableCell.self, forCellReuseIdentifier: "NoteCell")
+        tableView.register(NoteListCell.self, forCellReuseIdentifier: "NoteCell")
         setConstraint()
     }
     
@@ -54,10 +54,6 @@ class NoteList: UIViewController {
         let date = Date(timeIntervalSince1970: TimeInterval(noteDate))
         return dateFormatter.string(from: date)
     }
-    
-    
-    
-    
 }
 
 extension NoteList: UITableViewDataSource {
@@ -66,7 +62,7 @@ extension NoteList: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "NoteCell", for: indexPath) as? NoteTableCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "NoteCell", for: indexPath) as? NoteListCell else {
             return UITableViewCell()
         }
         cell.accessoryType = .disclosureIndicator
@@ -80,7 +76,7 @@ extension NoteList: UITableViewDataSource {
 
 extension NoteList: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let secondView = splitViewController?.viewController(for: .secondary) as? ViewController2 else { return }
+        guard let secondView = splitViewController?.viewController(for: .secondary) as? NoteDetail else { return }
         secondView.textView.text = ""
         secondView.textView.insertText(noteDatas[indexPath.row].title ?? "")
         secondView.textView.insertText("\n\n")

@@ -8,21 +8,18 @@
 import UIKit
 
 class NoteList: UIViewController {
-    var noteDatas: [NoteData] = []
+    private let noteListViewModel = NoteListViewModel()
+    var noteDelegate: NoteDelegate?
+    
     private let tableView: UITableView = {
         let tableview = UITableView()
+        tableview.showsVerticalScrollIndicator = false
         return tableview
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        noteData()
-        self.navigationItem.title = "메모"
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNote))
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.showsVerticalScrollIndicator = false
-        tableView.register(NoteListCell.self, forCellReuseIdentifier: "NoteCell")
+        setConfiguration()
         setConstraint()
     }
     
@@ -30,10 +27,12 @@ class NoteList: UIViewController {
         // TODO: - 메모 추가
     }
     
-    private func noteData() {
-        guard let jsonData = NSDataAsset(name: "sample") else { return }
-        guard let data = try? JSONDecoder().decode([NoteData].self, from: jsonData.data) else { return }
-        noteDatas = data
+    private func setConfiguration() {
+        self.navigationItem.title = "메모"
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNote))
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.register(NoteListCell.self, forCellReuseIdentifier: "NoteCell")
     }
     
     private func setConstraint() {
@@ -47,29 +46,17 @@ class NoteList: UIViewController {
             tableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor)
         ])
     }
-    
-    private func convertUIntToDate(_ noteDate: UInt) -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy.MM.dd"
-        let date = Date(timeIntervalSince1970: TimeInterval(noteDate))
-        return dateFormatter.string(from: date)
-    }
 }
 
 extension NoteList: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return noteDatas.count
+        return noteListViewModel.dataCount
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "NoteCell", for: indexPath) as? NoteListCell else {
-            return UITableViewCell()
-        }
-        cell.accessoryType = .disclosureIndicator
-        cell.titleLabel.text = noteDatas[indexPath.row].title
-        cell.dateLabel.text = convertUIntToDate(noteDatas[indexPath.row].lastModify ?? 0)
-        cell.descriptionLabel.text = noteDatas[indexPath.row].description
-        
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "NoteCell", for: indexPath) as? NoteListCell else { return UITableViewCell() }
+        cell.noteData = noteListViewModel.dataAtIndex(indexPath.row)
+
         return cell
     }
 }

@@ -19,12 +19,7 @@ final class MemoListViewController: UIViewController {
 
     // MARK: UI
 
-    private lazy var memoAddButton: UIBarButtonItem = UIBarButtonItem(systemItem: .add, primaryAction: UIAction(handler: { [self] _ in
-        memos.append(Memo(title: "새로운 메모", body: "추가 텍스트 없음", lastModified: Date().timeIntervalSince1970))
-        tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
-        memoAddButton.isEnabled = false
-        splitViewController?.show(.secondary)
-    }), menu: nil)
+    private lazy var memoAddButton: UIBarButtonItem = UIBarButtonItem(systemItem: .add, primaryAction: UIAction(handler: memoAddAction), menu: nil)
 
     private let tableView: UITableView = {
         let tableView = UITableView()
@@ -64,6 +59,15 @@ final class MemoListViewController: UIViewController {
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
+    }
+
+    // MARK: Action
+
+    private func memoAddAction(_ action: UIAction) {
+        memos.append(Memo(title: "새로운 메모", body: "추가 텍스트 없음", lastModified: Date().timeIntervalSince1970))
+        tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
+        memoAddButton.isEnabled = false
+        splitViewController?.show(.secondary)
     }
 
 }

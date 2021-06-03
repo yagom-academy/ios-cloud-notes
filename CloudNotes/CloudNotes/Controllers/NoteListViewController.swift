@@ -43,8 +43,7 @@ extension NoteListViewController {
             os_log(.error, log: .data, OSLog.objectCFormatSpecifier, DataError.cannotFindFile.localizedDescription)
             return .failure(DataError.cannotFindFile)
         }
-        let decoder = JSONDecoder(keyDecodingStrategy: .convertFromSnakeCase,
-                                  dateDecodingStrategy: .secondsSince1970)
+        let decoder = JSONDecoder(dateDecodingStrategy: .secondsSince1970)
         guard let decoded = try? decoder.decode([Note].self, from: noteData) else {
             os_log(.error, log: .data, OSLog.objectCFormatSpecifier, DataError.decodingFailed.localizedDescription)
             return .failure(DataError.decodingFailed)

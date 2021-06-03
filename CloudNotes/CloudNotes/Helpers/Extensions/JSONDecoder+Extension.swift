@@ -8,10 +8,8 @@
 import Foundation
 
 extension JSONDecoder {
-    convenience init(keyDecodingStrategy: KeyDecodingStrategy,
-                     dateDecodingStrategy: DateDecodingStrategy) {
+    convenience init(dateDecodingStrategy: DateDecodingStrategy) {
         self.init()
-        self.keyDecodingStrategy = .convertFromSnakeCase
         self.dateDecodingStrategy = .secondsSince1970
     }
 }

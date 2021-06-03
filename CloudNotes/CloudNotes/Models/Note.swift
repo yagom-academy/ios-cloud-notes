@@ -11,4 +11,10 @@ struct Note: Decodable, Hashable {
     let title: String
     let body: String
     let lastModified: Date
+    private var uuid = UUID()
+
+    private enum CodingKeys: String, CodingKey {
+        case title, body
+        case lastModified = "last_modified"
+    }
 }

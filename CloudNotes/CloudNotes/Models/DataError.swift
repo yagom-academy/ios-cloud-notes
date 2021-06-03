@@ -18,7 +18,7 @@ extension DataError: LocalizedError {
         case .cannotFindFile:
             return "Failed to decode. Please check if the file name is correct."
         case .decodingFailed:
-            return "Failed to decode. Please check if the file format is written in JSON"
+            return "Failed to decode. Please check if the file format is written in JSON and coding keys are available."
         }
     }
 }

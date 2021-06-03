@@ -15,12 +15,29 @@ final class MemoListViewController: UIViewController {
 
     // MARK: UI
 
+    private lazy var memoAddButton: UIBarButtonItem = UIBarButtonItem(systemItem: .add, primaryAction: UIAction(handler: { [self] _ in
+        memos.append(Memo(title: "새로운 메모", body: "추가 텍스트 없음", lastModified: Date().timeIntervalSince1970))
+        tableView.reloadData()
+    }), menu: nil)
+
     private let tableView: UITableView = {
         let tableView = UITableView()
         tableView.register(MemoCell.self, forCellReuseIdentifier: "memoCell")
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
+
+    // MARK: Initializer
+
+    init() {
+        super.init(nibName: nil, bundle: nil)
+        navigationItem.title = "메모"
+        navigationItem.setRightBarButton(memoAddButton, animated: true)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     // MARK: View Life Cycle
 

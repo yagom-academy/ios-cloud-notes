@@ -80,7 +80,8 @@ extension MemoListVC: UITableViewDelegate, UITableViewDataSource {
         
         if UITraitCollection.current.horizontalSizeClass == .compact {
             guard let detailVC = self.splitView?.detail else { return }
-            self.navigationController?.pushViewController(detailVC, animated: true)
+            let navigationVC = UINavigationController(rootViewController: detailVC)
+            showDetailViewController(navigationVC, sender: self)
         }
         
         detailView.configureDetail(data: memoModel.readMemo(index: indexPath.row))

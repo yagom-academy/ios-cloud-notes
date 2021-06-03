@@ -27,6 +27,7 @@ class DetailMemoViewController: UIViewController, UITextViewDelegate {
         memoTextView.delegate = self
         memoTextView.contentInsetAdjustmentBehavior = .automatic
         memoTextView.textAlignment = NSTextAlignment.justified
+        memoTextView.contentOffset = CGPoint(x: 0,y: 0)
     }
     
     private func setUpUI() {

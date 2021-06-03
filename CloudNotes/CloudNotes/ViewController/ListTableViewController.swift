@@ -40,8 +40,8 @@ class ListTableViewController: UITableViewController {
            let textViewController = detailNavigationController.topViewController as? TextViewController {
             textViewController.textView.text = ""
         } else {
-            let VC = UINavigationController(rootViewController: TextViewController())
-            self.splitViewController?.showDetailViewController(VC, sender: nil)
+            let navigationEmbeddTextViewController = UINavigationController(rootViewController: TextViewController())
+            self.splitViewController?.showDetailViewController(navigationEmbeddTextViewController, sender: nil)
         }
     }
     

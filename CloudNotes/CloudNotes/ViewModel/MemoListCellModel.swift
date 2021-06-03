@@ -13,7 +13,7 @@ struct MemoListCellModel {
         let result = Date(timeIntervalSince1970: date)
         let dateFormatter = DateFormatter()
         
-        dateFormatter.locale = Locale(identifier: "ko_kr")
+        dateFormatter.locale = Locale(identifier: Locale.current.identifier)
         dateFormatter.dateFormat = "yyyy-MM-dd"
         
         return dateFormatter.string(from: result)

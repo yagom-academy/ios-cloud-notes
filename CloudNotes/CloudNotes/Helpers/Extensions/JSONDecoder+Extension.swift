@@ -17,7 +17,7 @@ extension JSONDecoder {
     func decode<Decoded: Decodable>(to: Decoded.Type, from assetName: String)  -> Result<Decoded, DataError> {
         let decoder = JSONDecoder(dateDecodingStrategy: .secondsSince1970)
         guard let data = NSDataAsset(name: assetName)?.data else {
-            return .failure(DataError.cannotFindFile)
+            return .failure(DataError.cannotFindFile(assetName))
         }
         guard let decoded = try? decoder.decode(Decoded.self, from: data) else {
             return .failure(DataError.decodingFailed)

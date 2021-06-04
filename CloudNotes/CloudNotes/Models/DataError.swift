@@ -7,16 +7,16 @@
 
 import Foundation
 
-enum DataError: Error {
+enum DataError: Error, Equatable {
     case decodingFailed
-    case cannotFindFile
+    case cannotFindFile(String)
 }
 
 extension DataError: LocalizedError {
     var errorDescription: String? {
         switch self {
-        case .cannotFindFile:
-            return "Failed to decode. Please check if the file name is correct."
+        case .cannotFindFile(let fileName):
+            return "Failed to decode. Please check the file name is correct. The file name you entered is \(fileName)"
         case .decodingFailed:
             return "Failed to decode. Please check if the file format is written in JSON and coding keys are available."
         }

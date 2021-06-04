@@ -11,12 +11,12 @@ final class CloudNotesTests: XCTestCase {
     func testNoteModelDecodingWhenTestedWithSampleJSONReturnsDecodedResult() {
         let decoded = JSONDecoder().decode(to: [Note].self, from: NoteListViewController.NoteData.sampleFileName)
         
-        XCTAssertNotNil(decoded, "Failed to Decode")
+        XCTAssertNotNil(decoded, DataError.decodingFailed.localizedDescription)
     }
     
     func testNoteModelDecodingWhenTestedWithInvalidJSONReturnsFailureWithCannotFindFileError() {
         let decoded = JSONDecoder().decode(to: [Note].self, from: "some invalid file")
         
-        XCTAssertEqual(decoded, .failure(.cannotFindFile))
+        XCTAssertEqual(decoded, .failure(.cannotFindFile("some invalid file")))
     }
 }

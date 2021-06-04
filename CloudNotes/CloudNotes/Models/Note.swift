@@ -13,12 +13,6 @@ struct Note: Decodable, Hashable {
     let lastModified: Date
     private let uuid = UUID()
     
-    init(title: String, body: String, lastModified: Date) {
-        self.title = title
-        self.body = body
-        self.lastModified = lastModified
-    }
-
     private enum CodingKeys: String, CodingKey {
         case title, body
         case lastModified = "last_modified"

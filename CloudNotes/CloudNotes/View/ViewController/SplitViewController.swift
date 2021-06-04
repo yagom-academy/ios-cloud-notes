@@ -18,11 +18,13 @@ class MemoSplitViewController: UISplitViewController {
         self.delegate = self
         master.horizontalSizeClass = UITraitCollection.current.horizontalSizeClass
         master.memoSplitViewController = self
+        detail.memoListViewController = master
         self.viewControllers = [UINavigationController(rootViewController: master), UINavigationController(rootViewController: detail)]
         self.preferredDisplayMode = .oneBesideSecondary
     }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        print("1")
         master.horizontalSizeClass = UITraitCollection.current.horizontalSizeClass
     }
     

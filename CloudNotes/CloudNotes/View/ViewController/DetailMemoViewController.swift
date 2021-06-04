@@ -14,11 +14,13 @@ class DetailMemoViewController: UIViewController {
     var memoTextView = UITextView()
     var memoMain = UITextView()
     var indexPath: IndexPath?
+    var memoListViewController: MemoListViewController?
     
     lazy var rightNvigationItem: UIButton = {
         let button = UIButton()
         button.setTitleColor(UIColor.systemBlue, for: .normal)
         button.setBackgroundImage(UIImage(systemName: "ellipsis.circle"), for: .normal)
+        button.addTarget(self, action: #selector(showActionSheet), for: .touchDown)
         return button
     }()
     
@@ -29,6 +31,40 @@ class DetailMemoViewController: UIViewController {
         memoTextView.contentInsetAdjustmentBehavior = .automatic
         memoTextView.textAlignment = NSTextAlignment.justified
         memoTextView.contentOffset = CGPoint(x: 0,y: 0)
+    }
+    
+    private func presentAlertForActionSheet(
+                      isCancelActionIncluded: Bool = false,
+                      preferredStyle style: UIAlertController.Style = .actionSheet,
+                      with actions: UIAlertAction ...) {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: style)
+        actions.forEach { alert.addAction($0) }
+        if isCancelActionIncluded {
+            let actionCancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+            alert.addAction(actionCancel)
+        }
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    private func presentAlertForDelete() {
+        let alert = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "취소", style: .default) { action in
+        }
+        let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { action in
+        }
+        alert.addAction(cancelAction)
+        alert.addAction(deleteAction)
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    @objc private func showActionSheet(_ sender: Any) {
+        let editAction = UIAlertAction(title: "Share...", style: .default) { action in
+        }
+        let deleteAction = UIAlertAction(title: "Delete", style: .default) { action in
+            self.presentAlertForDelete()
+        }
+        deleteAction.setValue(UIColor.red, forKey: "titleTextColor")
+        presentAlertForActionSheet(isCancelActionIncluded: true, preferredStyle: .actionSheet, with: editAction,deleteAction)
     }
     
     private func setUpUI() {
@@ -50,8 +86,9 @@ class DetailMemoViewController: UIViewController {
         ])
     }
 
-    func configure(with memo: Memo) {
+    func configure(with memo: Memo, indexPath: IndexPath) {
         memoTextView.text = "\n\n" + memo.computedTitle + "\n\n" + memo.computedBody
+        self.indexPath = indexPath
     }
 }
 
@@ -66,26 +103,15 @@ extension DetailMemoViewController: UITextViewDelegate {
             return
         }
         var text = textView.text.components(separatedBy: "\n")
+        while text[0] == "" {
+            text.remove(at: 0)
+        }
         JsonDataCache.shared.decodedJsonData[indexPath.row].computedTitle = text.remove(at: 0)
         JsonDataCache.shared.decodedJsonData[indexPath.row].computedBody = text.joined()
         JsonDataCache.shared.decodedJsonData[indexPath.row].computedlastModifiedDate = Int(Date().timeIntervalSince1970)
+        memoListViewController?.tableView.reloadData()
     }
-    
-    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        if text == "\n" {
-            textView.resignFirstResponder()
-        }
-        return true
-    }
-    
-//    func setUpTextView() {
-//        if descriptions.text == "제품 상세 설명" {
-//            descriptions.text = ""
-//            descriptions.textColor = UIColor.black
-//        } else if descriptions.text == "" {
-//            descriptions.text = "제품 상세 설명"
-//            descriptions.textColor = UIColor.systemGray4
-//        }
-//    }
-    
+
 }
+
+

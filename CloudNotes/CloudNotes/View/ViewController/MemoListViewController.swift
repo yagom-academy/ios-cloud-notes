@@ -76,12 +76,8 @@ extension MemoListViewController: UITableViewDelegate {
         guard let memoSplitViewController = memoSplitViewController else {
             return
         }
-        memoSplitViewController.detail.configure(with: JsonDataCache.shared.decodedJsonData[indexPath.row])
-        guard horizontalSizeClass == .compact else {
-            return
-        }
-        let detailMemoViewController = DetailMemoViewController()
-        detailMemoViewController.configure(with: JsonDataCache.shared.decodedJsonData[indexPath.row])
-        navigationController?.pushViewController(detailMemoViewController, animated: true)
+        memoSplitViewController.detail.configure(with: JsonDataCache.shared.decodedJsonData[indexPath.row], indexPath: indexPath)
+        memoSplitViewController.showDetailViewController(UINavigationController(rootViewController: memoSplitViewController.detail), sender: nil)        
     }
 }
+

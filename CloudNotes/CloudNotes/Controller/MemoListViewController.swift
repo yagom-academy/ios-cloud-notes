@@ -87,12 +87,9 @@ extension MemoListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: MemoListCell.identifier, for: indexPath) as! MemoListCell
+        let currentMemoData = memoData[indexPath.row]
         
-        cell.memoTitle.text = memoData[indexPath.row].title
-        cell.memoPreview.text = memoData[indexPath.row].body
-        cell.memoDateCreate.text = memoData[indexPath.row].lastModifiedDate
-        cell.accessoryType = .disclosureIndicator
-        cell.selectionStyle = .none
+        cell.setCellData(title: currentMemoData.title, body: currentMemoData.body, dateCreate: currentMemoData.lastModifiedDate)
 
         return cell
     }

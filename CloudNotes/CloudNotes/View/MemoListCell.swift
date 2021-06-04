@@ -70,4 +70,12 @@ class MemoListCell: UITableViewCell {
         memoPreview.heightAnchor.constraint(equalTo: memoDateCreate.heightAnchor, multiplier: 1).isActive = true
     }
     
+    func setCellData(title: String, body: String, dateCreate: String) {
+        self.memoTitle.text = title
+        self.memoPreview.text = body
+        self.memoDateCreate.text = dateCreate
+        self.accessoryType = .disclosureIndicator
+        self.selectionStyle = .none
+    }
+    
 }

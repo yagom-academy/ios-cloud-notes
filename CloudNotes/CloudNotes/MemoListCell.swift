@@ -20,7 +20,6 @@ class MemoListCell: UITableViewCell {
         
         setCellStackViewAttribute()
         setLabelAttribute()
-        setLabelConstraints()
     }
 
     required init?(coder: NSCoder) {
@@ -28,7 +27,6 @@ class MemoListCell: UITableViewCell {
         
         setCellStackViewAttribute()
         setLabelAttribute()
-        setLabelConstraints()
     }
     
     private func setCellStackViewAttribute() {
@@ -46,6 +44,7 @@ class MemoListCell: UITableViewCell {
         date.font = UIFont.systemFont(ofSize: 14)
         preview.font = UIFont.systemFont(ofSize: 14)
         preview.textColor = .systemGray
+        setLabelConstraints()
     }
     
     private func setLabelConstraints() {

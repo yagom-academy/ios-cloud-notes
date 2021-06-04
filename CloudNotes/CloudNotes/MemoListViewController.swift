@@ -9,6 +9,8 @@ import UIKit
 
 class MemoListViewController: UITableViewController {
     
+    var memoList = [MemoData]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -17,11 +19,7 @@ class MemoListViewController: UITableViewController {
         self.tableView.register(MemoListCell.self, forCellReuseIdentifier: "MemoListCell")
         
         setNavigationBarButton()
-    }
-    
-    private func setNavigationBarButton() {
-        let newMemo = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addToMemo))
-        navigationItem.rightBarButtonItem = newMemo
+        parseMemoData()
     }
     
     @objc private func addToMemo() {
@@ -29,8 +27,28 @@ class MemoListViewController: UITableViewController {
         navigationController?.pushViewController(memoFormViewController, animated: true)
     }
     
+    private func setNavigationBarButton() {
+        let newMemo = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addToMemo))
+        navigationItem.rightBarButtonItem = newMemo
+    }
+    
+    private func parseMemoData() {
+        let decoder = JSONDecoder()
+        guard let dataAsset = NSDataAsset(name: "sample") else {
+            return
+        }
+        
+        let data = dataAsset.data
+        do {
+            let result = try decoder.decode([MemoData].self, from: data)
+            memoList = result
+        } catch {
+            print("parsing failed")
+        }
+    }
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return memoList.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -38,10 +56,11 @@ class MemoListViewController: UITableViewController {
             return MemoListCell()
         }
     
+        let memoData = memoList[indexPath.row]
         cell.accessoryType = .disclosureIndicator
-        cell.title.text = "Title"
-        cell.date.text = "2021. 06. 03"
-        cell.preview.text = "Preview"
+        cell.title.text = memoData.title
+        cell.date.text = "\(memoData.lastModified)"
+        cell.preview.text = memoData.body
         
         return cell
     }

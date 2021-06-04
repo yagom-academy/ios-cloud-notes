@@ -26,7 +26,7 @@ class MemoListViewController: UIViewController {
         setTableViewConstraint()
         decodeMemoData()
     }
-    
+
     @objc func addNote() {
         
     }
@@ -64,8 +64,11 @@ extension MemoListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         delegate?.sendData(data: memoData[indexPath.row])
-        if let memoDetailViewController = delegate as? DetailViewController {
-            splitViewController?.showDetailViewController(memoDetailViewController, sender: nil)
+        
+        if UITraitCollection.current.horizontalSizeClass == .compact {
+            if let memoDetailViewController = delegate as? DetailViewController {
+                splitViewController?.showDetailViewController(memoDetailViewController, sender: nil)
+            }
         }
     }
     

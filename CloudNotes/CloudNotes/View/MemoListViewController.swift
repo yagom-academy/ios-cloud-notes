@@ -88,24 +88,14 @@ extension MemoListViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: MemoPreviewCell.reusableIdentifier) else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: MemoPreviewCell.reusableIdentifier) as? MemoPreviewCell else { return UITableViewCell() }
+        cell.fetchData(sampleMemo: sampleMemos[indexPath.row])
 
         return cell
     }
 }
 
 extension MemoListViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        guard let cell = cell as? MemoPreviewCell else { return }
-
-        let sampleData = sampleMemos[indexPath.row]
-        let title = sampleData.title
-        let date = sampleData.lastModifiedDate
-        let description = sampleData.description
-
-        cell.setTextValues(title: title, date: date, description: description)
-    }
-
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         splitViewDelegate?.didSelectRow(data: sampleMemos[indexPath.row])
     }

@@ -7,9 +7,9 @@
 
 import UIKit
 
-class DetailMemoVC: UIViewController, UITextViewDelegate {
+class DetailMemoViewController: UIViewController, UITextViewDelegate {
     static let identifier: String = "DetailMemoVC"
-    var splitView: SplitVC?
+    var splitView: SplitViewController?
     private var textView = UITextView()
     
     private var naviButton = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: nil)
@@ -19,7 +19,7 @@ class DetailMemoVC: UIViewController, UITextViewDelegate {
         
         configureView()
         configureTextViewConstraints()
-        forRegularPlaceHolder()
+        addSizeCondition()
         
     }
     
@@ -50,18 +50,17 @@ class DetailMemoVC: UIViewController, UITextViewDelegate {
         ])
     }
     
-    func forRegularPlaceHolder() {
+    func addSizeCondition() {
         if UITraitCollection.current.horizontalSizeClass == .regular {
-            guard let root = self.splitView?.root as? MemoListVC else { return }
+            guard let root = self.splitView?.root as? MemoListViewController else { return }
             root.memoModel.loadSampleData()
-            self.configureDetail(data: root.memoModel.readMemo(index: 0))
+            self.configureDetailText(data: root.memoModel.readMemo(index: 0))
         }
     }
     
-    func configureDetail(data: Memo) {
+    func configureDetailText(data: Memo) {
         let text = data.title + "\n\n\n" + data.body
         textView.text = text
     }
-    
     
 }

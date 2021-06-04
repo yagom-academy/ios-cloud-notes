@@ -6,9 +6,9 @@
 
 import UIKit
 
-class MemoListVC: UIViewController {
-    var splitView: SplitVC?
-    var memoModel: MemoListVCModel = MemoListVCModel()
+class MemoListViewController: UIViewController {
+    var splitView: SplitViewController?
+    var memoModel: MemoListViewControllerModel = MemoListViewControllerModel()
     
     private var tableView: UITableView = {
         let tableView = UITableView()
@@ -22,12 +22,12 @@ class MemoListVC: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        ConfigureMemoListView()
+        configureMemoListView()
         tableViewAutoLayout()
         
     }
     
-    private func ConfigureMemoListView() {
+    private func configureMemoListView() {
         self.tableView.dataSource = self
         self.tableView.delegate = self
         self.memoModel.loadSampleData()
@@ -57,7 +57,7 @@ class MemoListVC: UIViewController {
     
 }
 
-extension MemoListVC: UITableViewDelegate, UITableViewDataSource {
+extension MemoListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.memoModel.countMemo()
     }
@@ -74,7 +74,7 @@ extension MemoListVC: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let detailView: DetailMemoVC = splitView?.detail as? DetailMemoVC else {
+        guard let detailView: DetailMemoViewController = splitView?.detail as? DetailMemoViewController else {
             return
         }
         
@@ -83,9 +83,7 @@ extension MemoListVC: UITableViewDelegate, UITableViewDataSource {
             showDetailViewController(navigationVC, sender: self)
         }
         
-        detailView.configureDetail(data: memoModel.readMemo(index: indexPath.row))
+        detailView.configureDetailText(data: memoModel.readMemo(index: indexPath.row))
     }
-    
-    
+        
 }
-

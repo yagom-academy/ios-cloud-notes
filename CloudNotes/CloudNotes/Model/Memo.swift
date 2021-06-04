@@ -17,5 +17,4 @@ struct Memo: Decodable {
         case lastModified = "last_modified"
     }
     
-    
 }

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MemoListVCModel {
+class MemoListViewControllerModel {
     var memo: [Memo] = []
     
     func loadSampleData() {
@@ -31,6 +31,5 @@ class MemoListVCModel {
     func countMemo() -> Int {
         return self.memo.count
     }
-    
     
 }

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SplitVC: UISplitViewController, UISplitViewControllerDelegate {
+class SplitViewController: UISplitViewController, UISplitViewControllerDelegate {
     var root: UIViewController?
     var detail: UIViewController?
     
@@ -23,5 +23,4 @@ class SplitVC: UISplitViewController, UISplitViewControllerDelegate {
         return true
     }
 
-    
 }

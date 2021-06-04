@@ -9,7 +9,7 @@ import UIKit
 
 class MemoListCell: UITableViewCell {
     static let identifier = "MemoListTableViewCell"
-    private var memoListCellModel = MemoListCellModel()
+    var dateConverter = DateConverter()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .default , reuseIdentifier: MemoListCell.identifier)
@@ -39,7 +39,6 @@ class MemoListCell: UITableViewCell {
         
         return body
     }()
-    
     
     private var lastModified: UILabel = {
         let lastModified = UILabel()
@@ -76,8 +75,7 @@ class MemoListCell: UITableViewCell {
     func configureCell(data: Memo) {
         title.text = data.title
         body.text = data.body
-        lastModified.text = memoListCellModel.convertDate(date: data.lastModified)
+        lastModified.text = dateConverter.convertDate(date: data.lastModified)
     }
-    
     
 }

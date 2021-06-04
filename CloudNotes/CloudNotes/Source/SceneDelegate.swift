@@ -16,9 +16,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(windowScene: windowScene)
         window?.windowScene = windowScene
         
-        let root = MemoListVC()
-        let detail = DetailMemoVC()
-        let splitView = SplitVC()
+        let root = MemoListViewController()
+        let detail = DetailMemoViewController()
+        let splitView = SplitViewController()
         
         splitView.root = root
         splitView.detail = detail
@@ -67,6 +67,4 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
     }
 
-
 }
-

@@ -7,8 +7,7 @@
 
 import Foundation
 
-struct MemoListCellModel {
-    
+struct DateConverter {
     mutating func convertDate(date: Double) -> String {
         let result = Date(timeIntervalSince1970: date)
         let dateFormatter = DateFormatter()
@@ -18,6 +17,5 @@ struct MemoListCellModel {
         
         return dateFormatter.string(from: result)
     }
-    
     
 }

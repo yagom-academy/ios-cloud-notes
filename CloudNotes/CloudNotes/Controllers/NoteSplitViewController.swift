@@ -11,15 +11,15 @@ final class NoteSplitViewController: UISplitViewController {
 
     override init(style: UISplitViewController.Style) {
         super.init(style: style)
-        commonInit()
+        setPreferredStyle()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        commonInit()
+        setPreferredStyle()
     }
     
-    private func commonInit() {
+    private func setPreferredStyle() {
         preferredDisplayMode = .oneBesideSecondary
         preferredSplitBehavior = .tile
         super.delegate = self

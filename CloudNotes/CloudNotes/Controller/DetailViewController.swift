@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class DetailViewController: UIViewController, SendDataDelegate, UITextViewDelegate {
+class DetailViewController: UIViewController, SendDataDelegate {
     
     var textView: UITextView = {
         let view = UITextView(frame: CGRect(x: 20.0, y: 90.0, width: 250.0, height: 100.0))

@@ -7,7 +7,6 @@
 
 import UIKit
 
-// custom cell
 class ListCell: UITableViewCell {
   static let identifier = "TableViewCell"
   
@@ -30,24 +29,6 @@ class ListCell: UITableViewCell {
     label.textColor = .gray
     label.font = .systemFont(ofSize: 14, weight: .regular)
     return label
-  }()
-  
-  private let button: UIButton = {
-    let button = UIButton()
-    let image = UIImage(systemName: "greaterthan")
-    button.setImage(image, for: .normal)
-    
-    return button
-  }()
-  
-  private let stackView1: UIStackView = {
-    let stackView = UIStackView()
-    stackView.axis = .horizontal
-    stackView.alignment = .fill
-    stackView.distribution = .fillProportionally
-    stackView.spacing = 0
-    
-    return stackView
   }()
   
   private let stackView2: UIStackView = {
@@ -80,10 +61,7 @@ class ListCell: UITableViewCell {
     stackView2.addArrangedSubview(titleLabel)
     stackView2.addArrangedSubview(stackView3)
     
-    stackView1.addArrangedSubview(stackView2)
-    stackView1.addArrangedSubview(button)
-    
-    contentView.addSubview(stackView1)
+    contentView.addSubview(stackView2)
   }
   
   required init?(coder: NSCoder) {
@@ -95,10 +73,6 @@ class ListCell: UITableViewCell {
     
     stackView3.frame = contentView.bounds
     stackView2.frame = contentView.bounds
-    stackView1.frame =
-      CGRect(x: 5, y: -5,
-             width: contentView.frame.size.width-10,
-             height: contentView.frame.size.height)
   }
   
   func update(info: MemoInfo) {
@@ -113,5 +87,7 @@ class ListCell: UITableViewCell {
     
     let summary = info.body.components(separatedBy: ".").first
     summaryLabel.text = summary
+    
+    self.accessoryType = .disclosureIndicator
   }
 }

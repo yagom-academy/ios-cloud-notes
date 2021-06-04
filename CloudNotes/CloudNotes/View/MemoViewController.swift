@@ -12,6 +12,8 @@ class MemoViewController: UIViewController {
   
   private let textView: UITextView = {
     let textView = UITextView()
+    textView.keyboardDismissMode = .onDrag
+    textView.isEditable = false
     
     return textView
   }()
@@ -19,10 +21,9 @@ class MemoViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
+    configureNavigationBar()
     updateUI()
     view.addSubview(textView)
-    
-    configureNavigationBar()
   }
   
   override func viewDidLayoutSubviews() {
@@ -39,6 +40,7 @@ class MemoViewController: UIViewController {
         \(memoInfo.body)
         """
       textView.text = text
+      textView.isEditable = true
     }
   }
   

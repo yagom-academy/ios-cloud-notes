@@ -8,6 +8,7 @@
 import UIKit
 
 class ListViewController: UIViewController {
+  weak var delegate: ListViewControllerDelegate?
   let viewModel = ListViewModel()
   
   private let tableView: UITableView = {
@@ -22,9 +23,9 @@ class ListViewController: UIViewController {
     
     tableView.dataSource = self
     tableView.delegate = self
-    view.addSubview(tableView)
     
     configureNavigationBar()
+    view.addSubview(tableView)
   }
   
   override func viewDidLayoutSubviews() {
@@ -34,20 +35,17 @@ class ListViewController: UIViewController {
   }
   
   func configureNavigationBar() {
-    self.navigationController?.navigationBar.topItem?.title = "메모"
-    
     let add = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: nil)
     navigationItem.rightBarButtonItem = add
   }
-  
 }
 
 extension ListViewController: UITableViewDelegate {
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     let memoInfo = viewModel.memoInfo(at: indexPath.row)
-    let vc = MemoViewController()
-    vc.viewModel.update(model: memoInfo)
-    navigationController?.pushViewController(vc, animated: true)
+    delegate?.didTapMenuItem(at: indexPath.row, model: memoInfo)
+    
+    tableView.deselectRow(at: indexPath, animated: true)
   }
 }
 

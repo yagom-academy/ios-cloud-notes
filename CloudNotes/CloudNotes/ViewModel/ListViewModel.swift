@@ -19,7 +19,6 @@ class ListViewModel {
     } catch {
       print(error)
     }
-
   }
   
   var numOfMemoInfoList: Int {

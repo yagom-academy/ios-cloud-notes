@@ -45,7 +45,6 @@ class MemoViewController: UIViewController {
   }
   
   func configureNavigationBar() {
-    // action -> #selector(addTapped)
     let ellipsisImage = UIImage(systemName: "ellipsis.circle")
     let ellipsis = UIBarButtonItem(image: ellipsisImage, style: .plain, target: self, action: nil)
     navigationItem.rightBarButtonItem = ellipsis

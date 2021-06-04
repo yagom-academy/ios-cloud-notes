@@ -47,8 +47,15 @@ class MemoListViewController: UITableViewController {
         }
     }
     
-    private func convertDateFormat() {
+    private func convertDateFormat(date: Int) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "ko_KR")
+        dateFormatter.dateFormat = "yyyy. MM. dd"
         
+        let convertDate = Date(timeIntervalSince1970: Double(date))
+        let result = dateFormatter.string(from: convertDate)
+        
+        return result
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -63,7 +70,7 @@ class MemoListViewController: UITableViewController {
         let memoData = memoList[indexPath.row]
         cell.accessoryType = .disclosureIndicator
         cell.title.text = memoData.title
-        cell.date.text = "\(memoData.lastModified)"
+        cell.date.text = convertDateFormat(date: memoData.lastModified)
         cell.preview.text = memoData.body
 
         return cell

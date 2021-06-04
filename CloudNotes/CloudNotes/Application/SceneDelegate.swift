@@ -5,6 +5,7 @@
 // 
 
 import UIKit
+import OSLog
 
 final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -13,10 +14,26 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene,
                willConnectTo session: UISceneSession,
                options connectionOptions: UIScene.ConnectionOptions) {
-        guard let windowScene = (scene as? UIWindowScene) else { return }
-        window = UIWindow(windowScene: windowScene)
+        guard let windowScene = (scene as? UIWindowScene) else {
+            os_log(
+                .fault,
+                log: .ui,
+                OSLog.objectCFormatSpecifier,
+                UIError.downcastingFailed("scene", #function).localizedDescription
+            )
+            return
+        }
+        window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
-        window?.rootViewController = NoteListViewController()
+        
+        let splitViewController = NoteSplitViewController(style: .doubleColumn)
+        let sideBarViewController = NoteListViewController(noteSplitViewDelegate: splitViewController)
+        let secondaryViewController = NoteDetailViewController()
+        
+        splitViewController.setViewController(sideBarViewController, for: .primary)
+        splitViewController.setViewController(secondaryViewController, for: .secondary)
+        
+        window?.rootViewController = splitViewController
         window?.makeKeyAndVisible()
     }
 

@@ -9,7 +9,7 @@ import Foundation
 
 enum CloudNoteError: Error {
     
-    case decodeError
-    case invalidError
+    case decode
+    case invalid
     
 }

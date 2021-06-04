@@ -5,14 +5,13 @@
 //  Created by sookim on 2021/06/03.
 //
 
-import Foundation
 import UIKit
 
 class MemoListCell: UITableViewCell {
     
     static let identifier = "memoListCell"
     
-    var memoTitle:UILabel = {
+    var memoTitle: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.boldSystemFont(ofSize: UIFont.labelFontSize)
@@ -20,7 +19,7 @@ class MemoListCell: UITableViewCell {
         return label
     }()
     
-    var memoDateCreate:UILabel = {
+    var memoDateCreate: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: UIFont.smallSystemFontSize)
@@ -28,7 +27,7 @@ class MemoListCell: UITableViewCell {
         return label
     }()
     
-    var memoPreview:UILabel = {
+    var memoPreview: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)

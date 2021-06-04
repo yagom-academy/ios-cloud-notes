@@ -5,7 +5,6 @@
 //  Created by sookim on 2021/06/03.
 //
 
-import Foundation
 import UIKit
 
 class MemoListViewController: UIViewController {

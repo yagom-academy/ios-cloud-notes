@@ -5,13 +5,12 @@
 //  Created by sookim on 2021/06/03.
 //
 
-import Foundation
 import UIKit
 
 class DetailViewController: UIViewController, SendDataDelegate {
     
-    var textView: UITextView = {
-        let view = UITextView(frame: CGRect(x: 20.0, y: 90.0, width: 250.0, height: 100.0))
+    var memoDetailtextView: UITextView = {
+        let view = UITextView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.textColor = UIColor.black
         view.text = "내용을 입력하세요"
@@ -23,7 +22,7 @@ class DetailViewController: UIViewController, SendDataDelegate {
         super.viewDidLoad()
         
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: #selector(editMemo))
-        self.view.addSubview(textView)
+        self.view.addSubview(memoDetailtextView)
         setTextViewConstraint()
     }
     
@@ -35,30 +34,30 @@ class DetailViewController: UIViewController, SendDataDelegate {
     }
     
     func sendData(data: MemoData) {
-        self.textView.text = "\(data.title)\n\n" + "\(data.body)"
+        self.memoDetailtextView.text = "\(data.title)\n\n" + "\(data.body)"
     }
     
     func isRegularTextViewColor(regular: Bool) {
         if regular {
-            self.textView.backgroundColor = UIColor.white
+            self.memoDetailtextView.backgroundColor = UIColor.white
             self.view.backgroundColor = UIColor.white
         }
     }
     
     private func setBackgroundColor() {
         if UITraitCollection.current.horizontalSizeClass == .compact {
-            self.textView.backgroundColor = UIColor.lightGray
+            self.memoDetailtextView.backgroundColor = UIColor.lightGray
         }
         else {
-            self.textView.backgroundColor = UIColor.white
+            self.memoDetailtextView.backgroundColor = UIColor.white
         }
     }
     
     private func setTextViewConstraint() {
-        self.textView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0).isActive = true
-        self.textView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 0).isActive = true
-        self.textView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0).isActive = true
-        self.textView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0).isActive = true
+        self.memoDetailtextView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0).isActive = true
+        self.memoDetailtextView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 0).isActive = true
+        self.memoDetailtextView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0).isActive = true
+        self.memoDetailtextView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0).isActive = true
     }
     
 }

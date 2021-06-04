@@ -87,6 +87,7 @@ extension MemoListViewController: UITableViewDataSource {
         cell.memoPreview.text = memoData[indexPath.row].body
         cell.memoDateCreate.text = memoData[indexPath.row].lastModifiedDate
         cell.accessoryType = .disclosureIndicator
+        cell.selectionStyle = .none
 
         return cell
     }

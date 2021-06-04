@@ -23,11 +23,7 @@ class MemoSplitViewController: UISplitViewController {
     }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        if previousTraitCollection?.horizontalSizeClass ==  .regular {
-            master.horizontalSizeClass = .compact
-        } else {
-            master.horizontalSizeClass = .regular
-        }
+        master.horizontalSizeClass = UITraitCollection.current.horizontalSizeClass
     }
     
     private func setUpData() {

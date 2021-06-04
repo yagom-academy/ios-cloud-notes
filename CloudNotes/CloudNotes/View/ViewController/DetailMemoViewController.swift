@@ -7,12 +7,13 @@
 
 import UIKit
 
-class DetailMemoViewController: UIViewController, UITextViewDelegate {
+class DetailMemoViewController: UIViewController {
     
     var scrollView = UIScrollView()
     var contentView = UIView()
     var memoTextView = UITextView()
     var memoMain = UITextView()
+    var indexPath: IndexPath?
     
     lazy var rightNvigationItem: UIButton = {
         let button = UIButton()
@@ -49,8 +50,42 @@ class DetailMemoViewController: UIViewController, UITextViewDelegate {
         ])
     }
 
-    
     func configure(with memo: Memo) {
         memoTextView.text = "\n\n" + memo.computedTitle + "\n\n" + memo.computedBody
     }
+}
+
+extension DetailMemoViewController: UITextViewDelegate {
+    
+    func textViewDidBeginEditing(_ textView: UITextView) {
+
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        guard let indexPath = self.indexPath else {
+            return
+        }
+        var text = textView.text.components(separatedBy: "\n")
+        JsonDataCache.shared.decodedJsonData[indexPath.row].computedTitle = text.remove(at: 0)
+        JsonDataCache.shared.decodedJsonData[indexPath.row].computedBody = text.joined()
+        JsonDataCache.shared.decodedJsonData[indexPath.row].computedlastModifiedDate = Int(Date().timeIntervalSince1970)
+    }
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if text == "\n" {
+            textView.resignFirstResponder()
+        }
+        return true
+    }
+    
+//    func setUpTextView() {
+//        if descriptions.text == "제품 상세 설명" {
+//            descriptions.text = ""
+//            descriptions.textColor = UIColor.black
+//        } else if descriptions.text == "" {
+//            descriptions.text = "제품 상세 설명"
+//            descriptions.textColor = UIColor.systemGray4
+//        }
+//    }
+    
 }

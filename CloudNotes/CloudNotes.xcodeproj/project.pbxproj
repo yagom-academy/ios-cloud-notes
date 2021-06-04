@@ -12,7 +12,10 @@
 		8A39C817266635EE00121C82 /* DetailMemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A39C816266635EE00121C82 /* DetailMemoViewController.swift */; };
 		8A39C8242666FDBA00121C82 /* SplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A39C8232666FDBA00121C82 /* SplitViewController.swift */; };
 		8A39C8322667429000121C82 /* DataError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A39C8312667429000121C82 /* DataError.swift */; };
-		8A39C83B266743B800121C82 /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A39C83A266743B800121C82 /* Cache.swift */; };
+		8A39C83B266743B800121C82 /* JsonDataCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A39C83A266743B800121C82 /* JsonDataCache.swift */; };
+		8A6977052669EBB1000AD4F5 /* MemoListItem+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A6977032669EBB1000AD4F5 /* MemoListItem+CoreDataClass.swift */; };
+		8A6977062669EBB1000AD4F5 /* MemoListItem+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A6977042669EBB1000AD4F5 /* MemoListItem+CoreDataProperties.swift */; };
+		8A69770C2669ED20000AD4F5 /* TutorialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A69770B2669ED20000AD4F5 /* TutorialViewController.swift */; };
 		C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */; };
 		C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */; };
 		C7481C7225BBCF3900B9CA55 /* MemoListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C7125BBCF3900B9CA55 /* MemoListViewController.swift */; };
@@ -47,7 +50,10 @@
 		8A39C816266635EE00121C82 /* DetailMemoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailMemoViewController.swift; sourceTree = "<group>"; };
 		8A39C8232666FDBA00121C82 /* SplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitViewController.swift; sourceTree = "<group>"; };
 		8A39C8312667429000121C82 /* DataError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataError.swift; sourceTree = "<group>"; };
-		8A39C83A266743B800121C82 /* Cache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cache.swift; sourceTree = "<group>"; };
+		8A39C83A266743B800121C82 /* JsonDataCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonDataCache.swift; sourceTree = "<group>"; };
+		8A6977032669EBB1000AD4F5 /* MemoListItem+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MemoListItem+CoreDataClass.swift"; sourceTree = "<group>"; };
+		8A6977042669EBB1000AD4F5 /* MemoListItem+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MemoListItem+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		8A69770B2669ED20000AD4F5 /* TutorialViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialViewController.swift; sourceTree = "<group>"; };
 		C7481C6A25BBCF3900B9CA55 /* CloudNotes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CloudNotes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -113,6 +119,7 @@
 				C7481C7125BBCF3900B9CA55 /* MemoListViewController.swift */,
 				8A39C816266635EE00121C82 /* DetailMemoViewController.swift */,
 				8A39C8232666FDBA00121C82 /* SplitViewController.swift */,
+				8A69770B2669ED20000AD4F5 /* TutorialViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -128,10 +135,19 @@
 		8A39C8302667427700121C82 /* Type */ = {
 			isa = PBXGroup;
 			children = (
-				8A39C83A266743B800121C82 /* Cache.swift */,
+				8A39C83A266743B800121C82 /* JsonDataCache.swift */,
 				8A39C8312667429000121C82 /* DataError.swift */,
 			);
 			path = Type;
+			sourceTree = "<group>";
+		};
+		8A69770A2669EBC8000AD4F5 /* MemoListItem */ = {
+			isa = PBXGroup;
+			children = (
+				8A6977032669EBB1000AD4F5 /* MemoListItem+CoreDataClass.swift */,
+				8A6977042669EBB1000AD4F5 /* MemoListItem+CoreDataProperties.swift */,
+			);
+			path = MemoListItem;
 			sourceTree = "<group>";
 		};
 		C7481C6125BBCF3900B9CA55 = {
@@ -157,6 +173,7 @@
 		C7481C6C25BBCF3900B9CA55 /* CloudNotes */ = {
 			isa = PBXGroup;
 			children = (
+				8A69770A2669EBC8000AD4F5 /* MemoListItem */,
 				8A39C8302667427700121C82 /* Type */,
 				8A39C80D2664EDA700121C82 /* Model */,
 				8A39C8042664ECDE00121C82 /* View */,
@@ -319,13 +336,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8A6977052669EBB1000AD4F5 /* MemoListItem+CoreDataClass.swift in Sources */,
 				8A39C8322667429000121C82 /* DataError.swift in Sources */,
 				8A39C817266635EE00121C82 /* DetailMemoViewController.swift in Sources */,
 				8A39C80F2664EE0800121C82 /* Memo.swift in Sources */,
-				8A39C83B266743B800121C82 /* Cache.swift in Sources */,
+				8A39C83B266743B800121C82 /* JsonDataCache.swift in Sources */,
 				8A39C8062664ED0B00121C82 /* MemoListTableViewCell.swift in Sources */,
+				8A69770C2669ED20000AD4F5 /* TutorialViewController.swift in Sources */,
 				C7481C7225BBCF3900B9CA55 /* MemoListViewController.swift in Sources */,
 				C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */,
+				8A6977062669EBB1000AD4F5 /* MemoListItem+CoreDataProperties.swift in Sources */,
 				C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */,
 				C7481C7825BBCF3900B9CA55 /* CloudNotes.xcdatamodeld in Sources */,
 				8A39C8242666FDBA00121C82 /* SplitViewController.swift in Sources */,

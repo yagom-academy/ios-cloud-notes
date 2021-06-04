@@ -15,6 +15,7 @@ class MemoListViewController: UIViewController {
         let button = UIButton()
         button.setTitle("+", for: .normal)
         button.setTitleColor(UIColor.systemBlue, for: .normal)
+        button.addTarget(self, action: #selector(addNewMemo), for: .touchDown)
         return button
     }()
     
@@ -23,6 +24,11 @@ class MemoListViewController: UIViewController {
         self.view.backgroundColor = .white
         self.setUpTableView()
         setUpNavigationBar()
+    }
+    
+    @objc private func addNewMemo() {
+        JsonDataCache.shared.decodedJsonData.insert(Memo(title: "", body: ""), at: 0)
+        tableView.reloadData()
     }
     
     private func setUpNavigationBar() {

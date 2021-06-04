@@ -15,7 +15,11 @@ struct Memo: Decodable {
         case title, body
         case lastModified = "last_modified"
     }
-    
+    init(title: String, body: String) {
+        self.title = title
+        self.body = body
+        self.lastModified = Int(Date().timeIntervalSince1970)
+    }
     var computedTitle: String {
         get {
             return title
@@ -24,7 +28,6 @@ struct Memo: Decodable {
             title = newValue
         }
     }
-    
     var computedBody: String {
         get {
             return body
@@ -33,7 +36,14 @@ struct Memo: Decodable {
             body = newValue
         }
     }
-    
+    var computedlastModifiedDate: Int {
+        get {
+            return lastModified
+        }
+        set {
+            lastModified = newValue
+        }
+    }
     var formattedLastModifiedDate: String {
         get {
             let currentLocale = Locale.current.collatorIdentifier ?? "ko_KR"

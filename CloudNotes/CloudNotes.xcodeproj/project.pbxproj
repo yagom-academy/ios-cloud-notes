@@ -16,6 +16,7 @@
 		C7481C9325BBCF3A00B9CA55 /* CloudNotesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C9225BBCF3A00B9CA55 /* CloudNotesUITests.swift */; };
 		FF5019C226662DA50093C47B /* MemoListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5019C126662DA50093C47B /* MemoListViewController.swift */; };
 		FF5019C726662DBF0093C47B /* MemoFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5019C626662DBF0093C47B /* MemoFormViewController.swift */; };
+		FF6C195D2669ED3600C5C714 /* MemoData.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF6C195C2669ED3600C5C714 /* MemoData.swift */; };
 		FF6CE0932668AAEE007B84CF /* MemoListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF6CE0922668AAEE007B84CF /* MemoListCell.swift */; };
 /* End PBXBuildFile section */
 
@@ -52,6 +53,7 @@
 		C7481C9425BBCF3A00B9CA55 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FF5019C126662DA50093C47B /* MemoListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoListViewController.swift; sourceTree = "<group>"; };
 		FF5019C626662DBF0093C47B /* MemoFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoFormViewController.swift; sourceTree = "<group>"; };
+		FF6C195C2669ED3600C5C714 /* MemoData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoData.swift; sourceTree = "<group>"; };
 		FF6CE0922668AAEE007B84CF /* MemoListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoListCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -106,6 +108,7 @@
 				C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */,
 				C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */,
 				C7481C7925BBCF3A00B9CA55 /* Assets.xcassets */,
+				FF6C195C2669ED3600C5C714 /* MemoData.swift */,
 				FF6CE0922668AAEE007B84CF /* MemoListCell.swift */,
 				FF5019C126662DA50093C47B /* MemoListViewController.swift */,
 				FF5019C626662DBF0093C47B /* MemoFormViewController.swift */,
@@ -266,6 +269,7 @@
 				FF5019C726662DBF0093C47B /* MemoFormViewController.swift in Sources */,
 				FF6CE0932668AAEE007B84CF /* MemoListCell.swift in Sources */,
 				FF5019C226662DA50093C47B /* MemoListViewController.swift in Sources */,
+				FF6C195D2669ED3600C5C714 /* MemoData.swift in Sources */,
 				C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */,
 				C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */,
 				C7481C7825BBCF3900B9CA55 /* CloudNotes.xcdatamodeld in Sources */,

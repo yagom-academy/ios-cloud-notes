@@ -17,7 +17,7 @@ extension UIError: LocalizedError {
         switch self {
         case .collectionViewNotSet:
             return "Collection view is not set."
-        case .downcastingFailed(let subject, let location):
+        case let .downcastingFailed(subject, location):
             return "\(subject) failed to downcast at \(location). "
         }
     }

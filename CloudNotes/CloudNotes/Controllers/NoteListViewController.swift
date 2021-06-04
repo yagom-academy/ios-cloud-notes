@@ -117,6 +117,16 @@ extension NoteListViewController {
 // MARK: - Collection View Delegate
 extension NoteListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        collectionView.deselectItem(at: indexPath, animated: true)
+        guard let noteDetailViewController = splitViewController?.viewController(
+                for: .secondary
+        ) as? NoteDetailViewController else {
+            return
+        }
+        
+        noteDetailViewController.setContent(with: notes[indexPath.item])
+        noteDetailViewController.updateUI()
+        noteDetailViewController.noteTextView.resignFirstResponder()
+        
+        splitViewController?.showDetailViewController(noteDetailViewController, sender: nil)
     }
 }

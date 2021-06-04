@@ -12,6 +12,17 @@ final class NoteListViewController: UIViewController {
     private var noteListCollectionView: UICollectionView?
     private var dataSource: UICollectionViewDiffableDataSource<Section, Note>?
     private var notes: [Note] = []
+    private weak var noteSplitViewControllerDelegate: NoteShowable?
+    
+    // MARK: - Initializers
+    init(noteSplitViewDelegate: NoteShowable) {
+        super.init(nibName: nil, bundle: nil)
+        self.noteSplitViewControllerDelegate = noteSplitViewDelegate
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
     
     // MARK: - Section for diffable data source
     private enum Section: CaseIterable {
@@ -61,8 +72,10 @@ extension NoteListViewController {
 extension NoteListViewController {
     private func registerCellNib() {
         let noteCellNib = UINib(nibName: NoteCollectionViewListCell.reuseIdentifier, bundle: .main)
-        noteListCollectionView?.register(noteCellNib,
-                                         forCellWithReuseIdentifier: NoteCollectionViewListCell.reuseIdentifier)
+        noteListCollectionView?.register(
+            noteCellNib,
+            forCellWithReuseIdentifier: NoteCollectionViewListCell.reuseIdentifier
+        )
     }
 }
 
@@ -80,10 +93,12 @@ extension NoteListViewController {
         noteListCollectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
         
         guard let noteListCollectionView = noteListCollectionView else {
-            os_log(.fault,
-                   log: .ui,
-                   OSLog.objectCFormatSpecifier,
-                   UIError.collectionViewNotSet.localizedDescription)
+            os_log(
+                .fault,
+                log: .ui,
+                OSLog.objectCFormatSpecifier,
+                UIError.collectionViewNotSet.localizedDescription
+            )
             return
         }
         
@@ -94,10 +109,12 @@ extension NoteListViewController {
     
     private func configureCollectionViewDataSource() {
         guard let noteListCollectionView = noteListCollectionView else {
-            os_log(.fault,
-                   log: .ui,
-                   OSLog.objectCFormatSpecifier,
-                   UIError.collectionViewNotSet.localizedDescription)
+            os_log(
+                .fault,
+                log: .ui,
+                OSLog.objectCFormatSpecifier,
+                UIError.collectionViewNotSet.localizedDescription
+            )
             return
         }
         
@@ -128,9 +145,11 @@ extension NoteListViewController {
     private func configureNavigationBar() {
         navigationItem.title = NavigationBarItems.title
         
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: NavigationBarItems.addButtonImage,
-                                                            target: self,
-                                                            action: #selector(addTapped))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: NavigationBarItems.addButtonImage,
+            target: self,
+            action: #selector(addTapped)
+        )
     }
     
     private func appendNewNote(to dataSource: UICollectionViewDiffableDataSource<Section, Note>) {
@@ -167,20 +186,6 @@ extension NoteListViewController {
 // MARK: - Collection View Delegate
 extension NoteListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let noteDetailViewController = splitViewController?.viewController(
-                for: .secondary
-        ) as? NoteDetailViewController else {
-            os_log(.error,
-                   log: .ui,
-                   OSLog.objectCFormatSpecifier,
-                   UIError.downcastingFailed("Secondary view controller", #function).localizedDescription)
-            return
-        }
-        
-        noteDetailViewController.setContent(with: notes[indexPath.item])
-        noteDetailViewController.updateUI()
-        noteDetailViewController.noteTextView.resignFirstResponder()
-        
-        splitViewController?.showDetailViewController(noteDetailViewController, sender: nil)
+        noteSplitViewControllerDelegate?.showNote(with: notes[indexPath.item])
     }
 }

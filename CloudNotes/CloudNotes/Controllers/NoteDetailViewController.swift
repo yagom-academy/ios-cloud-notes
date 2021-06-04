@@ -117,10 +117,12 @@ extension NoteDetailViewController {
 // MARK: - Configure Navigation Bar and Relevant Actions
 extension NoteDetailViewController {
     private func configureNavigationBar() {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: NavigationBarItems.rightButtonImage,
-                                                            style: .plain,
-                                                            target: self,
-                                                            action: #selector(elipsisTapped))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            image: NavigationBarItems.rightButtonImage,
+            style: .plain,
+            target: self,
+            action: #selector(elipsisTapped)
+        )
     }
 
     @objc private func elipsisTapped() { }

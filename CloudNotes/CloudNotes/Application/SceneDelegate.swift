@@ -15,19 +15,21 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                willConnectTo session: UISceneSession,
                options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else {
-            os_log(.fault,
-                   log: .ui,
-                   OSLog.objectCFormatSpecifier,
-                   UIError.downcastingFailed("scene", #function).localizedDescription)
+            os_log(
+                .fault,
+                log: .ui,
+                OSLog.objectCFormatSpecifier,
+                UIError.downcastingFailed("scene", #function).localizedDescription
+            )
             return
         }
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
         
-        let sideBarViewController = NoteListViewController()
+        let splitViewController = NoteSplitViewController(style: .doubleColumn)
+        let sideBarViewController = NoteListViewController(noteSplitViewDelegate: splitViewController)
         let secondaryViewController = NoteDetailViewController()
         
-        let splitViewController = NoteSplitViewController(style: .doubleColumn)
         splitViewController.setViewController(sideBarViewController, for: .primary)
         splitViewController.setViewController(secondaryViewController, for: .secondary)
         

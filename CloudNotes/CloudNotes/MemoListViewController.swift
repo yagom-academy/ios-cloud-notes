@@ -47,6 +47,10 @@ class MemoListViewController: UITableViewController {
         }
     }
     
+    private func convertDateFormat() {
+        
+    }
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return memoList.count
     }
@@ -61,7 +65,13 @@ class MemoListViewController: UITableViewController {
         cell.title.text = memoData.title
         cell.date.text = "\(memoData.lastModified)"
         cell.preview.text = memoData.body
-        
+
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let memoFormViewController = MemoFormViewController()
+        memoFormViewController.MemoTextView.text = memoList[indexPath.row].body
+        self.navigationController?.pushViewController(memoFormViewController, animated: true)
     }
 }

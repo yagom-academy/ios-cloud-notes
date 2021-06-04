@@ -42,10 +42,15 @@ final class NoteCollectionViewListCell: UICollectionViewListCell {
     private enum Layouts {
         static let spacingInSecondaryTextStackView: CGFloat = 15
         static let spacingInCellStackView: CGFloat = 3
-        static let leadingSpaceBetweenCellStackViewAndContentView: CGFloat = 20
-        static let trailingSpaceBetweenCellStackViewAndContentView: CGFloat = -40
-        static let topSpaceBetweenCellStackViewAndContentView: CGFloat = 10
-        static let bottomSpaceBetweenCellStackViewAndContentView: CGFloat = -10
+    }
+    
+    private enum Constraints {
+        enum CellStackView {
+            static let leading: CGFloat = 20
+            static let trailing: CGFloat = -40
+            static let top: CGFloat = 10
+            static let bottom: CGFloat = -10
+        }
     }
     
     // MARK: - Nib Life Cycles
@@ -66,14 +71,22 @@ extension NoteCollectionViewListCell {
         accessories = [.disclosureIndicator()]
         
         NSLayoutConstraint.activate([
-            cellStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,
-                                                   constant: Layouts.leadingSpaceBetweenCellStackViewAndContentView),
-            cellStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,
-                                                    constant: Layouts.trailingSpaceBetweenCellStackViewAndContentView),
-            cellStackView.topAnchor.constraint(equalTo: contentView.topAnchor,
-                                               constant: Layouts.topSpaceBetweenCellStackViewAndContentView),
-            cellStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,
-                                                  constant: Layouts.bottomSpaceBetweenCellStackViewAndContentView)
+            cellStackView.leadingAnchor.constraint(
+                equalTo: contentView.leadingAnchor,
+                constant: Constraints.CellStackView.leading
+            ),
+            cellStackView.trailingAnchor.constraint(
+                equalTo: contentView.trailingAnchor,
+                constant: Constraints.CellStackView.trailing
+            ),
+            cellStackView.topAnchor.constraint(
+                equalTo: contentView.topAnchor,
+                constant: Constraints.CellStackView.top
+            ),
+            cellStackView.bottomAnchor.constraint(
+                equalTo: contentView.bottomAnchor,
+                constant: Constraints.CellStackView.bottom
+            )
         ])
     }
     

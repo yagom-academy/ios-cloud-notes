@@ -120,6 +120,10 @@ extension NoteListViewController: UICollectionViewDelegate {
         guard let noteDetailViewController = splitViewController?.viewController(
                 for: .secondary
         ) as? NoteDetailViewController else {
+            os_log(.error,
+                   log: .ui,
+                   OSLog.objectCFormatSpecifier,
+                   UIError.downcastingFailed("Secondary view controller", #function).localizedDescription)
             return
         }
         

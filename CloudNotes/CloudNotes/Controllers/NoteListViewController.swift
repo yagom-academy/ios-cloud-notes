@@ -133,16 +133,34 @@ extension NoteListViewController {
                                                             action: #selector(addTapped))
     }
     
+    private func appendNewNote(to dataSource: UICollectionViewDiffableDataSource<Section, Note>) {
+        var snapshot = dataSource.snapshot()
+        snapshot.appendItems([NoteData.newNoteConfiguration])
+        notes.append(NoteData.newNoteConfiguration)
+        dataSource.apply(snapshot, animatingDifferences: true)
+    }
+    
+    private func insertNewNote(to dataSource: UICollectionViewDiffableDataSource<Section, Note>,
+                               before firstItemInSnapshot: Note) {
+        var snapshot = dataSource.snapshot()
+        snapshot.insertItems([NoteData.newNoteConfiguration], beforeItem: firstItemInSnapshot)
+        notes.insert(NoteData.newNoteConfiguration, at: notes.startIndex)
+        dataSource.apply(snapshot, animatingDifferences: true)
+    }
+    
     @objc private func addTapped() {
         guard let dataSource = dataSource else {
             os_log(.fault, log: .data, OSLog.objectCFormatSpecifier, DataError.dataSourceNotSet.localizedDescription)
             return
         }
         
-        var snapshot = dataSource.snapshot()
-        snapshot.insertItems([NoteData.newNoteConfiguration], beforeItem: snapshot.itemIdentifiers.first!)
-        notes.insert(NoteData.newNoteConfiguration, at: notes.startIndex)
-        dataSource.apply(snapshot, animatingDifferences: true)
+        let snapshot = dataSource.snapshot()
+        
+        if let firstItemInSnapshot = snapshot.itemIdentifiers.first {
+            insertNewNote(to: dataSource, before: firstItemInSnapshot)
+        } else {
+            appendNewNote(to: dataSource)
+        }
     }
 }
 

@@ -28,6 +28,10 @@ final class NoteDetailViewController: UIViewController {
         static let emptyString = ""
     }
     
+    private enum NavigationBarItems {
+        static let rightButtonImage = UIImage(systemName: "ellipsis.circle")
+    }
+    
     private enum Constraints {
         static let scrollIndicatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: -30)
         
@@ -43,8 +47,9 @@ final class NoteDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setBackgroundColor(to: .systemBackground)
+        configureNavigationBar()
         configureTextView()
+        setNoteBackgroundColor(to: .systemBackground)
         updateUI()
     }
 }
@@ -55,8 +60,9 @@ extension NoteDetailViewController {
         note = inputNote
     }
     
-    private func setBackgroundColor(to color: UIColor) {
+    private func setNoteBackgroundColor(to color: UIColor) {
         view.backgroundColor = color
+        noteTextView.backgroundColor = color
     }
     
     private func configureScrollIndicatorInsets(of textView: UITextView) {
@@ -106,4 +112,16 @@ extension NoteDetailViewController {
         
         setText(to: noteTextView, with: note)
     }
+}
+
+// MARK: - Configure Navigation Bar and Relevant Actions
+extension NoteDetailViewController {
+    func configureNavigationBar() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: NavigationBarItems.rightButtonImage,
+                                                            style: .plain,
+                                                            target: self,
+                                                            action: #selector(elipsisTapped))
+    }
+
+    @objc func elipsisTapped() { }
 }

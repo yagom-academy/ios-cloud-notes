@@ -19,8 +19,16 @@ final class NoteListViewController: UIViewController {
     }
     
     // MARK: - Namespaces
-    enum NoteData {
+    private enum NoteData {
         static let sampleFileName = "sample"
+        static var newNoteConfiguration: Note {
+            Note(title: "새 메모", body: "", lastModified: Date())
+        }
+    }
+    
+    private enum NavigationBarItems {
+        static let title = "메모"
+        static let addButtonImage: UIBarButtonItem.SystemItem = .add
     }
     
     // MARK: - View life cycle
@@ -28,9 +36,10 @@ final class NoteListViewController: UIViewController {
         super.viewDidLoad()
         
         loadNotes(from: NoteData.sampleFileName)
-        configureHierarchy()
+        configureNavigationBar()
+        configureCollectionViewHierarchy()
         registerCellNib()
-        configureDataSource()
+        configureCollectionViewDataSource()
         applyInitialSnapshot()
     }
 }
@@ -65,9 +74,9 @@ extension NoteListViewController {
     }
 }
 
-// MARK: - Configure Hierarchy and Data Source for Collection View
+// MARK: - Configure Hierarchy and Data Source of Collection View
 extension NoteListViewController {
-    private func configureHierarchy() {
+    private func configureCollectionViewHierarchy() {
         noteListCollectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
         
         guard let noteListCollectionView = noteListCollectionView else {
@@ -83,7 +92,7 @@ extension NoteListViewController {
         noteListCollectionView.delegate = self
     }
     
-    private func configureDataSource() {
+    private func configureCollectionViewDataSource() {
         guard let noteListCollectionView = noteListCollectionView else {
             os_log(.fault,
                    log: .ui,
@@ -111,6 +120,29 @@ extension NoteListViewController {
         snapshot.appendSections(sections)
         snapshot.appendItems(notes)
         dataSource?.apply(snapshot, animatingDifferences: false)
+    }
+}
+
+// MARK: - Configure Navigation Bar and Relevant Actions
+extension NoteListViewController {
+    private func configureNavigationBar() {
+        navigationItem.title = NavigationBarItems.title
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: NavigationBarItems.addButtonImage,
+                                                            target: self,
+                                                            action: #selector(addTapped))
+    }
+    
+    @objc private func addTapped() {
+        guard let dataSource = dataSource else {
+            os_log(.fault, log: .data, OSLog.objectCFormatSpecifier, DataError.dataSourceNotSet.localizedDescription)
+            return
+        }
+        
+        var snapshot = dataSource.snapshot()
+        snapshot.insertItems([NoteData.newNoteConfiguration], beforeItem: snapshot.itemIdentifiers.first!)
+        notes.insert(NoteData.newNoteConfiguration, at: notes.startIndex)
+        dataSource.apply(snapshot, animatingDifferences: true)
     }
 }
 

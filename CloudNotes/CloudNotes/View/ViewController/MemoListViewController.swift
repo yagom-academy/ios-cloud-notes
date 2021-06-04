@@ -10,7 +10,6 @@ class MemoListViewController: UIViewController {
     
     let tableView = UITableView()
     var memoSplitViewController: MemoSplitViewController?
-    var horizontalSizeClass: UIUserInterfaceSizeClass?
     lazy var rightNvigationItem: UIButton = {
         let button = UIButton()
         button.setTitle("+", for: .normal)
@@ -77,7 +76,7 @@ extension MemoListViewController: UITableViewDelegate {
             return
         }
         memoSplitViewController.detail.configure(with: JsonDataCache.shared.decodedJsonData[indexPath.row], indexPath: indexPath)
-        memoSplitViewController.showDetailViewController(UINavigationController(rootViewController: memoSplitViewController.detail), sender: nil)        
+        memoSplitViewController.showDetailViewController(UINavigationController(rootViewController: memoSplitViewController.detail), sender: nil)
     }
 }
 

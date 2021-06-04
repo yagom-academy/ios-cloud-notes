@@ -39,7 +39,7 @@ final class NoteCollectionViewListCell: UICollectionViewListCell {
     }()
     
     // MARK: - Namespaces
-    private enum Layout {
+    private enum Layouts {
         static let spacingInSecondaryTextStackView: CGFloat = 15
         static let spacingInCellStackView: CGFloat = 3
         static let leadingSpaceBetweenCellStackViewAndContentView: CGFloat = 20
@@ -67,13 +67,13 @@ extension NoteCollectionViewListCell {
         
         NSLayoutConstraint.activate([
             cellStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,
-                                                   constant: Layout.leadingSpaceBetweenCellStackViewAndContentView),
+                                                   constant: Layouts.leadingSpaceBetweenCellStackViewAndContentView),
             cellStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,
-                                                    constant: Layout.trailingSpaceBetweenCellStackViewAndContentView),
+                                                    constant: Layouts.trailingSpaceBetweenCellStackViewAndContentView),
             cellStackView.topAnchor.constraint(equalTo: contentView.topAnchor,
-                                               constant: Layout.topSpaceBetweenCellStackViewAndContentView),
+                                               constant: Layouts.topSpaceBetweenCellStackViewAndContentView),
             cellStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,
-                                                  constant: Layout.bottomSpaceBetweenCellStackViewAndContentView)
+                                                  constant: Layouts.bottomSpaceBetweenCellStackViewAndContentView)
         ])
     }
     
@@ -83,14 +83,14 @@ extension NoteCollectionViewListCell {
         secondaryTextStackView.axis = .horizontal
         secondaryTextStackView.alignment = .fill
         secondaryTextStackView.distribution = .fill
-        secondaryTextStackView.spacing = Layout.spacingInSecondaryTextStackView
+        secondaryTextStackView.spacing = Layouts.spacingInSecondaryTextStackView
         
         let cellStackView = UIStackView(arrangedSubviews: [titleLabel, secondaryTextStackView])
         cellStackView.translatesAutoresizingMaskIntoConstraints = false
         cellStackView.axis = .vertical
         cellStackView.alignment = .fill
         cellStackView.distribution = .fill
-        cellStackView.spacing = Layout.spacingInCellStackView
+        cellStackView.spacing = Layouts.spacingInCellStackView
         
         return cellStackView
     }

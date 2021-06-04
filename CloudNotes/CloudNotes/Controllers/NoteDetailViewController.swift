@@ -20,6 +20,14 @@ final class NoteDetailViewController: UIViewController {
         return noteTextView
     }()
     
+    // MARK: - Namespaces
+    private enum ViewContents {
+        /// shows when the screen first loaded with regular size class.
+        static let welcomeGreeting = "환영합니다!"
+        static let newLineString = "\n"
+        static let emptyString = ""
+    }
+    
     // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,12 +64,12 @@ extension NoteDetailViewController {
     
     func updateUI() {
         guard let note = note else {
-            noteTextView.text = "첫 페이지입니다"
+            noteTextView.text = ViewContents.welcomeGreeting
             return
         }
         
-        noteTextView.text = ""
-        noteTextView.insertText(note.title + "\n")
+        noteTextView.text = ViewContents.emptyString
+        noteTextView.insertText(note.title + ViewContents.newLineString)
         noteTextView.insertText(note.body)
     }
 }

@@ -8,6 +8,7 @@
 import UIKit
 
 class MemoListViewController: UITableViewController {
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -15,12 +16,17 @@ class MemoListViewController: UITableViewController {
         self.title = "메모"
         self.tableView.register(MemoListCell.self, forCellReuseIdentifier: "MemoListCell")
         
-        setupNavigationBarButton()
+        setNavigationBarButton()
     }
     
-    func setupNavigationBarButton() {
-        let addToMemo = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: nil)
-        navigationItem.rightBarButtonItem = addToMemo
+    private func setNavigationBarButton() {
+        let newMemo = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addToMemo))
+        navigationItem.rightBarButtonItem = newMemo
+    }
+    
+    @objc private func addToMemo() {
+        let memoFormViewController = MemoFormViewController()
+        navigationController?.pushViewController(memoFormViewController, animated: true)
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

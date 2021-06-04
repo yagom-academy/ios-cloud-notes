@@ -31,7 +31,7 @@ class MemoListCell: UITableViewCell {
         setLabelConstraints()
     }
     
-    func setCellStackViewAttribute() {
+    private func setCellStackViewAttribute() {
         cellStackView.axis = .vertical
         cellStackView.alignment = .leading
         cellStackView.distribution = .fill
@@ -41,14 +41,14 @@ class MemoListCell: UITableViewCell {
         bottomStackView.distribution = .fill
     }
     
-    func setLabelAttribute() {
+    private func setLabelAttribute() {
         title.font = UIFont.systemFont(ofSize: 18)
         date.font = UIFont.systemFont(ofSize: 14)
         preview.font = UIFont.systemFont(ofSize: 14)
         preview.textColor = .systemGray
     }
     
-    func setLabelConstraints() {
+    private func setLabelConstraints() {
         self.addSubview(cellStackView)
         cellStackView.addArrangedSubview(title)
         cellStackView.addArrangedSubview(bottomStackView)

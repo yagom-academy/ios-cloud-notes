@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 
 class MemoListCell: UITableViewCell {
+    
     static let identifier = "memoListCell"
     let memoTitle = UILabel()
     let memoDateCreate = UILabel()
@@ -29,11 +30,9 @@ class MemoListCell: UITableViewCell {
         memoTitle.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 0).isActive = true
         memoTitle.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: 0).isActive = true
          
-    
         memoDateCreate.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 0).isActive = true
         memoDateCreate.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: 0).isActive = true
        
-        
         memoPreview.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: 0).isActive = true
         memoPreview.widthAnchor.constraint(equalTo: memoDateCreate.widthAnchor, multiplier: 1).isActive = true
         memoPreview.heightAnchor.constraint(equalTo: memoTitle.heightAnchor, multiplier: 1).isActive = true

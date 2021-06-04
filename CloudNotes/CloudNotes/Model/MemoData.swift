@@ -11,18 +11,18 @@ struct MemoData: Decodable {
     
     let title: String
     let body: String
-    let lastModified: TimeInterval
+    private let lastModified: TimeInterval
     var lastModifiedDate: String {
         get {
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd"
-            let date = Date(timeIntervalSinceReferenceDate: lastModified)
+            let date = Date(timeIntervalSince1970: lastModified)
 
             return dateFormatter.string(from: date)
         }
     }
     
-    enum CodingKeys: String, CodingKey {
+    private enum CodingKeys: String, CodingKey {
         case title, body
         case lastModified = "last_modified"
     }

@@ -9,19 +9,29 @@ import Foundation
 import UIKit
 
 class MemoListViewController: UIViewController {
-    let tableView = UITableView()
-    let decoder = JSONDecoder()
-    var memoData: [MemoData] = []
+    
+    private let tableView = UITableView()
+    private let decoder = JSONDecoder()
+    private var memoData: [MemoData] = []
+    var delegate: SendDataDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.tableView.dataSource = self
         self.tableView.delegate = self
-        
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNote))
         self.tableView.register(MemoListCell.self, forCellReuseIdentifier: MemoListCell.identifier)
         self.view.addSubview(self.tableView)
-
+        setTableViewConstraint()
+        memoData = decodeMemoData()!
+    }
+    
+    @objc func addNote() {
+        
+    }
+    
+    private func setTableViewConstraint() {
         self.tableView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addConstraint(NSLayoutConstraint(item: self.tableView,
                                                    attribute: .top, relatedBy: .equal, toItem: self.view, attribute: .top,
@@ -35,7 +45,6 @@ class MemoListViewController: UIViewController {
         self.view.addConstraint(NSLayoutConstraint(item: self.tableView,
                                                    attribute: .trailing, relatedBy: .equal, toItem: self.view,
                                                    attribute: .trailing, multiplier: 1.0, constant: 0))
-        memoData = decodeMemoData()!
     }
     
     func decodeMemoData() -> [MemoData]? {
@@ -49,18 +58,25 @@ class MemoListViewController: UIViewController {
             return nil
         }
     }
+    
 }
 
 extension MemoListViewController: UITableViewDelegate {
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        delegate?.sendData(data: memoData[indexPath.row])
+        if UITraitCollection.current.horizontalSizeClass == .compact {
+            if let memoDetailViewController = delegate as? DetailViewController {
+                splitViewController?.showDetailViewController(memoDetailViewController, sender: nil)
+            }
+        }
     }
+    
 }
 
 extension MemoListViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
         return memoData.count
     }
     
@@ -70,9 +86,8 @@ extension MemoListViewController: UITableViewDataSource {
         cell.memoTitle.text = memoData[indexPath.row].title
         cell.memoPreview.text = memoData[indexPath.row].body
         cell.memoDateCreate.text = memoData[indexPath.row].lastModifiedDate
-        
         cell.accessoryType = .disclosureIndicator
-        
+
         return cell
     }
     

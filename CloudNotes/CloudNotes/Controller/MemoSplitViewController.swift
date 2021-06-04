@@ -16,11 +16,12 @@ class MemoSplitViewController: UISplitViewController, UISplitViewControllerDeleg
         setSplitView()
     }
     
-    
-    func setSplitView() {
+    private func setSplitView() {
         let memoListView = MemoListViewController()
         let detailView = DetailViewController()
         memoListView.title = "메모"
+        memoListView.delegate = detailView
+    
         let memoListViewController = UINavigationController(rootViewController: memoListView)
         let detailViewController = UINavigationController(rootViewController: detailView)
         self.preferredDisplayMode = .oneBesideSecondary

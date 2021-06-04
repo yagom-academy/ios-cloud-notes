@@ -51,16 +51,16 @@ class ListTableViewCell: UITableViewCell {
     
     func setConstraintBetweenViews() {
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 5),
-            titleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 5),
+            titleLabel.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 5),
+            titleLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 5),
             titleLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -5),
             dateLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 5),
-            dateLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 5),
-            dateLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -5),
+            dateLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 5),
+            dateLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -5),
             bodyLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 5),
             bodyLabel.leadingAnchor.constraint(equalTo: dateLabel.trailingAnchor, constant: 40),
             bodyLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -5),
-            bodyLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -5)
+            bodyLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -5)
         ])
     }
     

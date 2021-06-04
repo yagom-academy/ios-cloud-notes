@@ -10,6 +10,8 @@ import CoreData
 
 class MemoDetailViewController: UIViewController {
     private var memo: Memo?
+    private var indexPath: IndexPath?
+    private weak var memoListViewDelegate: MemoListViewDelegate?
 
     private lazy var isHorizontalSizeClassRegular = UITraitCollection.current.horizontalSizeClass == .regular
 
@@ -35,14 +37,30 @@ class MemoDetailViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         guard let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext,
               let memo = memo else { return }
-        memo.memoDescription = descriptionTextView.text
-        try? context.save()
+
+        if let indexPath = indexPath,
+            memo.memoDescription != descriptionTextView.text {
+            memo.memoDescription = descriptionTextView.text
+            try? context.save()
+            memoListViewDelegate?.updateCell(indexPath: indexPath)
+        }
     }
 
-    func fetchData(memo: Memo) {
+    init(memoListViewDelegate: MemoListViewDelegate) {
+        super.init(nibName: nil, bundle: nil)
+        self.memoListViewDelegate = memoListViewDelegate
+    }
+
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+
+    func fetchData(memo: Memo, indexPath: IndexPath? = nil) {
         self.memo = memo
         descriptionTextView.text = memo.memoDescription
         descriptionTextView.isEditable = true
+
+        self.indexPath = indexPath
     }
 
     private func setUpView() {

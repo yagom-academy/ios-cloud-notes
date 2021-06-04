@@ -7,18 +7,6 @@
 import UIKit
 import CoreData
 
-struct SampleMemo: Decodable {
-    let title: String
-    let description: String
-    let lastModifiedDate: Double
-
-    enum CodingKeys: String, CodingKey {
-        case title
-        case description = "body"
-        case lastModifiedDate = "last_modified"
-    }
-}
-
 class MemoListViewController: UIViewController {
     private var memos: [Memo]?
     private weak var splitViewDelegate: SplitViewDelegate?
@@ -105,6 +93,12 @@ extension MemoListViewController: UITableViewDataSource {
 extension MemoListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let memos = memos else { return }
-        splitViewDelegate?.didSelectRow(memo: memos[indexPath.row])
+        splitViewDelegate?.didSelectRow(memo: memos[indexPath.row], indexPath: indexPath, memoListViewDelegate: self)
+    }
+}
+
+extension MemoListViewController: MemoListViewDelegate {
+    func updateCell(indexPath: IndexPath) {
+        memoListTableView.reloadRows(at: [indexPath], with: .automatic)
     }
 }

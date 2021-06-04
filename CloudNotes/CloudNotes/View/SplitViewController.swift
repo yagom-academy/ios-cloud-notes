@@ -13,17 +13,20 @@ class SplitViewController: UISplitViewController {
         setViewControllers()
     }
 
-    func setViewControllers() {
+    private func setViewControllers() {
         delegate = self
         preferredDisplayMode = .oneBesideSecondary
 
-        let memoListViewController = UINavigationController(rootViewController: MemoListViewController(splitViewDelegate: self))
-        let memoDetailViewController = UINavigationController(rootViewController: MemoDetailViewController())
+        let memoListViewController = MemoListViewController(splitViewDelegate: self)
+        let memoDetailViewController = MemoDetailViewController(memoListViewDelegate: memoListViewController)
 
-        viewControllers = [ memoListViewController, memoDetailViewController ]
+        viewControllers = [
+            UINavigationController(rootViewController: memoListViewController),
+            UINavigationController(rootViewController: memoDetailViewController)
+        ]
     }
 
-    func createSomeItems() {
+    private func createSomeItems() {
         guard let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext else { return }
         for i in 1...10 {
             let newMemo = Memo(context: context)
@@ -33,11 +36,11 @@ class SplitViewController: UISplitViewController {
         }
     }
 
-    func deleteAllItems() {
+    private func deleteAllItems() {
         guard let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext,
               let memos: [Memo] = try? context.fetch(Memo.fetchRequest()) as [Memo] else { return }
         for memo in memos {
-            try? context.delete(memo)
+            context.delete(memo)
         }
         try? context.save()
     }
@@ -49,14 +52,10 @@ extension SplitViewController: UISplitViewControllerDelegate {
                              onto primaryViewController: UIViewController) -> Bool { true }
 }
 
-protocol SplitViewDelegate: class {
-    func didSelectRow(memo: Memo)
-}
-
 extension SplitViewController: SplitViewDelegate {
-    func didSelectRow(memo: Memo) {
-        let memoDetailViewController = MemoDetailViewController()
-        memoDetailViewController.fetchData(memo: memo)
+    func didSelectRow(memo: Memo, indexPath: IndexPath, memoListViewDelegate: MemoListViewDelegate) {
+        let memoDetailViewController = MemoDetailViewController(memoListViewDelegate: memoListViewDelegate)
+        memoDetailViewController.fetchData(memo: memo, indexPath: indexPath)
 
         showDetailViewController(UINavigationController(rootViewController: memoDetailViewController), sender: nil)
     }

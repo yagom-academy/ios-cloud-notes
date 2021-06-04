@@ -55,7 +55,7 @@ class MemoListViewController: UIViewController {
         ])
     }
     
-    func presentAlertForDelete(indexPath: IndexPath) {
+    private func presentAlertForDelete(indexPath: IndexPath) {
         let alert = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
         let cancelAction = UIAlertAction(title: "취소", style: .default) { [weak self] action in
         }
@@ -65,6 +65,13 @@ class MemoListViewController: UIViewController {
         alert.addAction(cancelAction)
         alert.addAction(deleteAction)
         self.present(alert, animated: true, completion: nil)
+    }
+    
+    private func shareMemo(indexPath: IndexPath) {
+        let memo = JsonDataCache.shared.decodedJsonData[indexPath.row]
+        let text = "\n" + memo.computedTitle + "\n\n" + memo.computedBody
+        let activity = UIActivityViewController(activityItems: [text], applicationActivities: nil)
+        self.present(activity, animated: true, completion: nil)
     }
     
 }
@@ -94,7 +101,7 @@ extension MemoListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let shareAction = UIContextualAction(style: .normal, title: "Share...") { [weak self] (action, view, completionhalder) in
-            self?.presentAlertForDelete(indexPath: indexPath)
+            self?.shareMemo(indexPath: indexPath)
             completionhalder(true)
         }
         let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [weak self] (action, view, completionhalder) in

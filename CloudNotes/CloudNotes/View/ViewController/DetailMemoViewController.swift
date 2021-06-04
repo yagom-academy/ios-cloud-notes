@@ -64,19 +64,19 @@ class DetailMemoViewController: UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
-    func shareMemo() {
+    private func shareMemo(indexPath: IndexPath) {
         let activity = UIActivityViewController(activityItems: [self.memoTextView.text], applicationActivities: nil)
         self.present(activity, animated: true, completion: nil)
     }
     
     @objc private func showActionSheet(_ sender: Any) {
+        guard let indexPath = self.indexPath else {
+            return
+        }
         let editAction = UIAlertAction(title: "Share...", style: .default) { [weak self] action in
-            self?.shareMemo()
+            self?.shareMemo(indexPath: indexPath)
         }
         let deleteAction = UIAlertAction(title: "Delete", style: .default) { [weak self] action in
-            guard let indexPath = self?.indexPath else {
-                return
-            }
             self?.presentAlertForDelete(indexPath: indexPath)
         }
         deleteAction.setValue(UIColor.red, forKey: "titleTextColor")
@@ -115,8 +115,6 @@ class DetailMemoViewController: UIViewController {
         self.indexPath = indexPath
         memoTextView.contentOffset = CGPoint(x: 0,y: 0)
     }
-    
-    
 }
 
 extension DetailMemoViewController: UITextViewDelegate {
@@ -134,7 +132,7 @@ extension DetailMemoViewController: UITextViewDelegate {
             text.remove(at: 0)
         }
         JsonDataCache.shared.decodedJsonData[indexPath.row].computedTitle = text.remove(at: 0)
-        JsonDataCache.shared.decodedJsonData[indexPath.row].computedBody = text.joined()
+        JsonDataCache.shared.decodedJsonData[indexPath.row].computedBody = text.joined(separator: "\n")
         JsonDataCache.shared.decodedJsonData[indexPath.row].computedlastModifiedDate = Int(Date().timeIntervalSince1970)
         memoListViewController?.tableView.reloadData()
     }

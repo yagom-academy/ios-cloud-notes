@@ -78,5 +78,17 @@ extension MemoListViewController: UITableViewDelegate {
         memoSplitViewController.detail.configure(with: JsonDataCache.shared.decodedJsonData[indexPath.row], indexPath: indexPath)
         memoSplitViewController.showDetailViewController(UINavigationController(rootViewController: memoSplitViewController.detail), sender: nil)
     }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let shareAction = UIContextualAction(style: .normal, title: "Share...") { [weak self] (action, view, completionhalder) in
+            self?.memoSplitViewController?.detail.shareMemo()
+            completionhalder(true)
+        }
+        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [weak self] (action, view, completionhalder) in
+            self?.memoSplitViewController?.detail.deleteMemo(indexPath: indexPath)
+            completionhalder(true)
+        }
+        return UISwipeActionsConfiguration(actions: [shareAction, deleteAction])
+    }
 }
 

@@ -70,10 +70,10 @@ extension MemoListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         delegate?.sendData(data: memoData[indexPath.row])
         
+        guard let memoDetailViewController = delegate as? DetailViewController else { return }
+        
         if UITraitCollection.current.horizontalSizeClass == .compact {
-            if let memoDetailViewController = delegate as? DetailViewController {
-                splitViewController?.showDetailViewController(UINavigationController(rootViewController: memoDetailViewController) , sender: nil)
-            }
+            splitViewController?.showDetailViewController(UINavigationController(rootViewController: memoDetailViewController) , sender: nil)
         }
     }
     

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17709" systemVersion="20D64" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
     <entity name="Memo" representedClassName="Memo" syncable="YES">
-        <attribute name="date" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="date" attributeType="Date" defaultDateTimeInterval="644499240" usesScalarValueType="NO"/>
         <attribute name="memoDescription" attributeType="String" defaultValueString=""/>
         <attribute name="title" attributeType="String" defaultValueString="&quot;&quot;"/>
     </entity>

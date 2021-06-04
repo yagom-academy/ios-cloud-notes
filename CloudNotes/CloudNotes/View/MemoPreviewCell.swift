@@ -85,9 +85,9 @@ class MemoPreviewCell: UITableViewCell {
         ])
     }
 
-    private func formatDate(date: Double) -> String {
+    private func formatDate(date: Date) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy. MM. dd"
-        return dateFormatter.string(from: Date(timeIntervalSince1970: date))
+        return dateFormatter.string(from: date)
     }
 }

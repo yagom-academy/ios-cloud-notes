@@ -41,13 +41,15 @@ class MemoListViewController: UIViewController {
     private func configureView() {
         view.backgroundColor = .systemBackground
         navigationItem.title = "메모"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: nil)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(createNewMemo))
     }
 
     private func fetchData() {
         let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext
         do {
-            memos = try context?.fetch(Memo.fetchRequest())
+            let request = Memo.fetchRequest() as NSFetchRequest<Memo>
+            request.sortDescriptors = [NSSortDescriptor(key: "date", ascending: false)]
+            memos = try context?.fetch(request)
         } catch {
             return
         }
@@ -71,6 +73,24 @@ class MemoListViewController: UIViewController {
             memoListTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             memoListTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
+    }
+
+    @objc private func createNewMemo() {
+        guard let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext else { return }
+
+        let newMemo = Memo(context: context)
+        newMemo.title = "\(Date())"
+        newMemo.date = Date()
+
+        try? context.save()
+        fetchData()
+
+        let newIndexPath = IndexPath(row: 0, section: 0)
+        memoListTableView.insertRows(at: [newIndexPath], with: .automatic)
+
+        let memoDetailViewController = MemoDetailViewController(memoListViewDelegate: self)
+        memoDetailViewController.fetchData(memo: newMemo, indexPath: newIndexPath)
+        showDetailViewController(UINavigationController(rootViewController: memoDetailViewController), sender: nil)
     }
 }
 
@@ -100,5 +120,10 @@ extension MemoListViewController: UITableViewDelegate {
 extension MemoListViewController: MemoListViewDelegate {
     func updateCell(indexPath: IndexPath) {
         memoListTableView.reloadRows(at: [indexPath], with: .automatic)
+    }
+
+    func deleteCell(indexPath: IndexPath) {
+        fetchData() // to refresh memos (delete deleted memo from local variable 'memos')
+        memoListTableView.deleteRows(at: [indexPath], with: .automatic)
     }
 }

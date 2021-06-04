@@ -8,4 +8,5 @@ import UIKit
 
 protocol MemoListViewDelegate: class {
     func updateCell(indexPath: IndexPath)
+    func deleteCell(indexPath: IndexPath)
 }

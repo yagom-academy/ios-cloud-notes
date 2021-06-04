@@ -17,7 +17,7 @@ extension Memo {
 
     @NSManaged public var title: String
     @NSManaged public var memoDescription: String
-    @NSManaged public var date: Double
+    @NSManaged public var date: Date
 
 }
 

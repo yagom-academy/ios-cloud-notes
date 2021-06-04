@@ -9,6 +9,7 @@ import UIKit
 class MemoListViewController: UIViewController {
     var splitView: SplitViewController?
     var memoModel: MemoListViewControllerModel = MemoListViewControllerModel()
+    let memoListViewNavigationBarTitle: String = "메모"
     
     private var tableView: UITableView = {
         let tableView = UITableView()
@@ -34,7 +35,7 @@ class MemoListViewController: UIViewController {
         
         tableView.register(MemoListCell.self, forCellReuseIdentifier: MemoListCell.identifier)
         self.view.backgroundColor = .white
-        self.navigationItem.title = "메모"
+        self.navigationItem.title = memoListViewNavigationBarTitle
         self.navigationItem.rightBarButtonItem = plusMemo
     }
  

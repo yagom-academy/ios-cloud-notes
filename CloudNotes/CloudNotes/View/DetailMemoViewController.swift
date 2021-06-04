@@ -10,8 +10,8 @@ import UIKit
 class DetailMemoViewController: UIViewController, UITextViewDelegate {
     static let identifier: String = "DetailMemoVC"
     var splitView: SplitViewController?
-    private var textView = UITextView()
     
+    private var textView = UITextView()
     private var naviButton = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: nil)
     
     override func viewDidLoad() {
@@ -23,14 +23,10 @@ class DetailMemoViewController: UIViewController, UITextViewDelegate {
         
     }
     
-    override func viewDidLayoutSubviews() {
-        textView.contentOffset = .zero
-    }
-    
     private func configureView() {
         view.backgroundColor = .white
-        
         textView.delegate = self
+        textView.contentOffset = .zero
         self.navigationItem.rightBarButtonItem = naviButton
     }
     

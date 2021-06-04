@@ -54,7 +54,7 @@ class DetailMemoViewController: UIViewController {
     
     private func presentAlertForDelete(indexPath: IndexPath) {
         let alert = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
-        let cancelAction = UIAlertAction(title: "취소", style: .default) { [weak self] action in
+        let cancelAction = UIAlertAction(title: "취소", style: .default) { action in
         }
         let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { [weak self] action in
             self?.deleteMemo(indexPath: indexPath)
@@ -118,11 +118,6 @@ class DetailMemoViewController: UIViewController {
 }
 
 extension DetailMemoViewController: UITextViewDelegate {
-    
-    func textViewDidBeginEditing(_ textView: UITextView) {
-
-    }
-    
     func textViewDidEndEditing(_ textView: UITextView) {
         guard let indexPath = self.indexPath else {
             return

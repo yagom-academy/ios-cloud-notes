@@ -10,5 +10,6 @@ import Foundation
 protocol SendDataDelegate {
 
     func sendData(data: MemoData)
-
+    func isRegularTextViewColor(regular: Bool)
+    
 }

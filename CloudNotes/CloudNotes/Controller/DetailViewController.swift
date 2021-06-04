@@ -35,7 +35,13 @@ class DetailViewController: UIViewController, SendDataDelegate {
     }
     
     func sendData(data: MemoData) {
-        self.textView.text = "\(data.title)\n" + "\(data.body)"
+        self.textView.text = "\(data.title)\n\n" + "\(data.body)"
+    }
+    
+    func isRegularTextViewColor(regular: Bool) {
+        if regular {
+            self.textView.backgroundColor = UIColor.white
+        }
     }
     
     private func setBackgroundColor() {

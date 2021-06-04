@@ -27,6 +27,12 @@ class MemoListViewController: UIViewController {
         decodeMemoData()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        if splitViewController?.traitCollection.horizontalSizeClass == .regular {
+            delegate?.isRegularTextViewColor(regular: true)
+        }
+    }
+    
     @objc func addNote() {
         
     }
@@ -67,7 +73,7 @@ extension MemoListViewController: UITableViewDelegate {
         
         if UITraitCollection.current.horizontalSizeClass == .compact {
             if let memoDetailViewController = delegate as? DetailViewController {
-                splitViewController?.showDetailViewController(memoDetailViewController, sender: nil)
+                splitViewController?.showDetailViewController(UINavigationController(rootViewController: memoDetailViewController) , sender: nil)
             }
         }
     }

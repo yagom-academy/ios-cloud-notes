@@ -5,6 +5,7 @@
 // 
 
 import UIKit
+import CoreData
 
 struct SampleMemo: Decodable {
     let title: String
@@ -19,7 +20,7 @@ struct SampleMemo: Decodable {
 }
 
 class MemoListViewController: UIViewController {
-    private var sampleMemos: [SampleMemo] = []
+    private var memos: [Memo]?
     private weak var splitViewDelegate: SplitViewDelegate?
 
     private let memoListTableView: UITableView = {
@@ -39,7 +40,7 @@ class MemoListViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        fetchSampleData()
+        fetchData()
         configureView()
         configureTableView()
         addSubviews()
@@ -55,10 +56,13 @@ class MemoListViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: nil)
     }
 
-    private func fetchSampleData() {
-        guard let data = NSDataAsset(name: "sample")?.data,
-              let jsonData = try? JSONDecoder().decode([SampleMemo].self, from: data) else { return }
-        sampleMemos = jsonData
+    private func fetchData() {
+        let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext
+        do {
+            memos = try context?.fetch(Memo.fetchRequest())
+        } catch {
+            return
+        }
     }
 
     private func configureTableView() {
@@ -84,12 +88,15 @@ class MemoListViewController: UIViewController {
 
 extension MemoListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        sampleMemos.count
+        guard let memos = memos else { return 0 }
+
+        return memos.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: MemoPreviewCell.reusableIdentifier) as? MemoPreviewCell else { return UITableViewCell() }
-        cell.fetchData(sampleMemo: sampleMemos[indexPath.row])
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: MemoPreviewCell.reusableIdentifier) as? MemoPreviewCell,
+              let memos = memos else { return UITableViewCell() }
+        cell.fetchData(memo: memos[indexPath.row])
 
         return cell
     }
@@ -97,6 +104,7 @@ extension MemoListViewController: UITableViewDataSource {
 
 extension MemoListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        splitViewDelegate?.didSelectRow(data: sampleMemos[indexPath.row])
+        guard let memos = memos else { return }
+        splitViewDelegate?.didSelectRow(memo: memos[indexPath.row])
     }
 }

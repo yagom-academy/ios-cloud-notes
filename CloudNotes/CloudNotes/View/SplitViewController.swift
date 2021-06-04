@@ -22,6 +22,25 @@ class SplitViewController: UISplitViewController {
 
         viewControllers = [ memoListViewController, memoDetailViewController ]
     }
+
+    func createSomeItems() {
+        guard let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext else { return }
+        for i in 1...10 {
+            let newMemo = Memo(context: context)
+            newMemo.title = "\(i) 글"
+            newMemo.memoDescription = "\(i)번째 글입니다."
+            try? context.save()
+        }
+    }
+
+    func deleteAllItems() {
+        guard let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext,
+              let memos: [Memo] = try? context.fetch(Memo.fetchRequest()) as [Memo] else { return }
+        for memo in memos {
+            try? context.delete(memo)
+        }
+        try? context.save()
+    }
 }
 
 extension SplitViewController: UISplitViewControllerDelegate {
@@ -31,14 +50,13 @@ extension SplitViewController: UISplitViewControllerDelegate {
 }
 
 protocol SplitViewDelegate: class {
-    func didSelectRow(data: SampleMemo)
+    func didSelectRow(memo: Memo)
 }
 
 extension SplitViewController: SplitViewDelegate {
-    func didSelectRow(data: SampleMemo) {
-        let sampleData = data
+    func didSelectRow(memo: Memo) {
         let memoDetailViewController = MemoDetailViewController()
-        memoDetailViewController.fetchData(text: sampleData.description)
+        memoDetailViewController.fetchData(memo: memo)
 
         showDetailViewController(UINavigationController(rootViewController: memoDetailViewController), sender: nil)
     }

@@ -49,10 +49,10 @@ class MemoPreviewCell: UITableViewCell {
         super.init(coder: coder)
     }
 
-    func fetchData(sampleMemo: SampleMemo) {
-        titleLabel.text = sampleMemo.title
-        dateLabel.text = formatDate(date: sampleMemo.lastModifiedDate)
-        previewDescriptionLabel.text = sampleMemo.description
+    func fetchData(memo: Memo) {
+        titleLabel.text = memo.title
+        dateLabel.text = formatDate(date: memo.date)
+        previewDescriptionLabel.text = memo.memoDescription
     }
 
     private func setUpTitleLabel() {

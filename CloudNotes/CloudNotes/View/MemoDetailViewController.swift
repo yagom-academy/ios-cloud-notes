@@ -6,8 +6,11 @@
 //
 
 import UIKit
+import CoreData
 
 class MemoDetailViewController: UIViewController {
+    private var memo: Memo?
+
     private lazy var isHorizontalSizeClassRegular = UITraitCollection.current.horizontalSizeClass == .regular
 
     private let descriptionTextView: UITextView = {
@@ -29,8 +32,16 @@ class MemoDetailViewController: UIViewController {
         descriptionTextView.contentOffset = .zero
     }
 
-    func fetchData(text: String) {
-        descriptionTextView.text = text
+    override func viewWillDisappear(_ animated: Bool) {
+        guard let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext,
+              let memo = memo else { return }
+        memo.memoDescription = descriptionTextView.text
+        try? context.save()
+    }
+
+    func fetchData(memo: Memo) {
+        self.memo = memo
+        descriptionTextView.text = memo.memoDescription
         descriptionTextView.isEditable = true
     }
 

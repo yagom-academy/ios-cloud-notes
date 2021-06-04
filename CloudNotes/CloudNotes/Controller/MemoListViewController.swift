@@ -12,7 +12,7 @@ class MemoListViewController: UIViewController {
     
     private let tableView = UITableView()
     private let decoder = JSONDecoder()
-    private var memoData: [MemoData] = []
+    var memoData: [MemoData] = []
     var delegate: SendDataDelegate?
 
     override func viewDidLoad() {
@@ -24,7 +24,7 @@ class MemoListViewController: UIViewController {
         self.tableView.register(MemoListCell.self, forCellReuseIdentifier: MemoListCell.identifier)
         self.view.addSubview(self.tableView)
         setTableViewConstraint()
-        memoData = decodeMemoData()!
+        decodeMemoData()
     }
     
     @objc func addNote() {
@@ -47,15 +47,14 @@ class MemoListViewController: UIViewController {
                                                    attribute: .trailing, multiplier: 1.0, constant: 0))
     }
     
-    func decodeMemoData() -> [MemoData]? {
-        guard let data = NSDataAsset(name: "sample") else { return nil }
+    func decodeMemoData() {
+        guard let data = NSDataAsset(name: "sample") else { return }
         
         do {
-            let result = try decoder.decode([MemoData].self, from: data.data)
-            return result
+            self.memoData = try decoder.decode([MemoData].self, from: data.data)
         }
         catch {
-            return nil
+            return
         }
     }
     

@@ -10,37 +10,48 @@ import UIKit
 
 class DetailViewController: UIViewController, SendDataDelegate, UITextViewDelegate {
     
-    let textView = UITextView(frame: CGRect(x: 20.0, y: 90.0, width: 250.0, height: 100.0))
+    var textView: UITextView = {
+        let view = UITextView(frame: CGRect(x: 20.0, y: 90.0, width: 250.0, height: 100.0))
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.textColor = UIColor.black
+        view.text = "내용을 입력하세요"
+        view.textContainerInset = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
+        return view
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: #selector(displayInfomation))
-        textView.textColor = UIColor.black
-
-        textView.text = "테스트"
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: #selector(editMemo))
         self.view.addSubview(textView)
-        textView.translatesAutoresizingMaskIntoConstraints = false
-
-        textView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 0).isActive = true
-        textView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 0).isActive = true
-        textView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: 0).isActive = true
-        textView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
+        setTextViewConstraint()
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        if UITraitCollection.current.horizontalSizeClass == .compact {
-            textView.backgroundColor = UIColor.lightGray
-        } else {
-            textView.backgroundColor = UIColor.white
-        }
+        setBackgroundColor()
     }
     
-    @objc func displayInfomation() {
+    @objc func editMemo() {
     }
     
     func sendData(data: MemoData) {
         self.textView.text = "\(data.title)\n" + "\(data.body)"
+    }
+    
+    private func setBackgroundColor() {
+        if UITraitCollection.current.horizontalSizeClass == .compact {
+            self.textView.backgroundColor = UIColor.lightGray
+        }
+        else {
+            self.textView.backgroundColor = UIColor.white
+        }
+    }
+    
+    private func setTextViewConstraint() {
+        self.textView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0).isActive = true
+        self.textView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 0).isActive = true
+        self.textView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0).isActive = true
+        self.textView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0).isActive = true
     }
     
 }

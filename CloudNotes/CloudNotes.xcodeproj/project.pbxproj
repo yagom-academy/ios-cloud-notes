@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		768952C62669E14B00AE4B6F /* CloudNoteError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768952C52669E14B00AE4B6F /* CloudNoteError.swift */; };
 		76A5A3C22668951000B21DF8 /* MemoListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A5A3C12668951000B21DF8 /* MemoListViewController.swift */; };
 		76A5A3C42668954C00B21DF8 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A5A3C32668954C00B21DF8 /* DetailViewController.swift */; };
 		76A5A3CE2669003C00B21DF8 /* MemoSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A5A3CD2669003C00B21DF8 /* MemoSplitViewController.swift */; };
@@ -40,6 +41,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		768952C52669E14B00AE4B6F /* CloudNoteError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudNoteError.swift; sourceTree = "<group>"; };
 		76A5A3C12668951000B21DF8 /* MemoListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoListViewController.swift; sourceTree = "<group>"; };
 		76A5A3C32668954C00B21DF8 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		76A5A3CD2669003C00B21DF8 /* MemoSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoSplitViewController.swift; sourceTree = "<group>"; };
@@ -120,6 +122,14 @@
 			path = Protocol;
 			sourceTree = "<group>";
 		};
+		768952C42669E13900AE4B6F /* Error */ = {
+			isa = PBXGroup;
+			children = (
+				768952C52669E14B00AE4B6F /* CloudNoteError.swift */,
+			);
+			path = Error;
+			sourceTree = "<group>";
+		};
 		C7481C6125BBCF3900B9CA55 = {
 			isa = PBXGroup;
 			children = (
@@ -143,6 +153,7 @@
 		C7481C6C25BBCF3900B9CA55 /* CloudNotes */ = {
 			isa = PBXGroup;
 			children = (
+				768952C42669E13900AE4B6F /* Error */,
 				768952C02669D54600AE4B6F /* Protocol */,
 				768952BF2669D54000AE4B6F /* Controller */,
 				768952BE2669D53600AE4B6F /* View */,
@@ -306,6 +317,7 @@
 			files = (
 				76A5A3D0266904CB00B21DF8 /* MemoListCell.swift in Sources */,
 				76A5A3CE2669003C00B21DF8 /* MemoSplitViewController.swift in Sources */,
+				768952C62669E14B00AE4B6F /* CloudNoteError.swift in Sources */,
 				76E894072664F700006ED838 /* MemoData.swift in Sources */,
 				76A5A3C22668951000B21DF8 /* MemoListViewController.swift in Sources */,
 				C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */,

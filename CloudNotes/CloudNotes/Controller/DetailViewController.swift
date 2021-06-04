@@ -41,6 +41,7 @@ class DetailViewController: UIViewController, SendDataDelegate {
     func isRegularTextViewColor(regular: Bool) {
         if regular {
             self.textView.backgroundColor = UIColor.white
+            self.view.backgroundColor = UIColor.white
         }
     }
     

@@ -38,7 +38,7 @@ extension SplitViewController: SplitViewDelegate {
     func didSelectRow(data: SampleMemo) {
         let sampleData = data
         let memoDetailViewController = MemoDetailViewController()
-        memoDetailViewController.setDescriptionTextView(text: sampleData.description)
+        memoDetailViewController.fetchData(text: sampleData.description)
 
         showDetailViewController(UINavigationController(rootViewController: memoDetailViewController), sender: nil)
     }

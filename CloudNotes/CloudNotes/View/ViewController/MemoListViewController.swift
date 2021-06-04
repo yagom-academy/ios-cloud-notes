@@ -54,6 +54,19 @@ class MemoListViewController: UIViewController {
             self.tableView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: 0),
         ])
     }
+    
+    func presentAlertForDelete(indexPath: IndexPath) {
+        let alert = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "취소", style: .default) { [weak self] action in
+        }
+        let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { [weak self] action in
+            self?.memoSplitViewController?.detail.deleteMemo(indexPath: indexPath)
+        }
+        alert.addAction(cancelAction)
+        alert.addAction(deleteAction)
+        self.present(alert, animated: true, completion: nil)
+    }
+    
 }
 
 extension MemoListViewController: UITableViewDataSource {
@@ -81,11 +94,11 @@ extension MemoListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let shareAction = UIContextualAction(style: .normal, title: "Share...") { [weak self] (action, view, completionhalder) in
-            self?.memoSplitViewController?.detail.shareMemo()
+            self?.presentAlertForDelete(indexPath: indexPath)
             completionhalder(true)
         }
         let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [weak self] (action, view, completionhalder) in
-            self?.memoSplitViewController?.detail.deleteMemo(indexPath: indexPath)
+            self?.presentAlertForDelete(indexPath: indexPath)
             completionhalder(true)
         }
         return UISwipeActionsConfiguration(actions: [shareAction, deleteAction])

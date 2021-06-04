@@ -49,19 +49,14 @@ class DetailMemoViewController: UIViewController {
     func deleteMemo(indexPath: IndexPath) {
         JsonDataCache.shared.decodedJsonData.remove(at: indexPath.row)
         self.memoListViewController?.tableView.reloadData()
-        if JsonDataCache.shared.decodedJsonData.count > 0 {
-            self.configure(with: nil, indexPath: nil)
-        }
+        self.configure(with: nil, indexPath: nil)
     }
     
-    private func presentAlertForDelete() {
+    private func presentAlertForDelete(indexPath: IndexPath) {
         let alert = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
         let cancelAction = UIAlertAction(title: "취소", style: .default) { [weak self] action in
         }
         let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { [weak self] action in
-            guard let indexPath = self?.indexPath else {
-                return
-            }
             self?.deleteMemo(indexPath: indexPath)
         }
         alert.addAction(cancelAction)
@@ -79,7 +74,10 @@ class DetailMemoViewController: UIViewController {
             self?.shareMemo()
         }
         let deleteAction = UIAlertAction(title: "Delete", style: .default) { [weak self] action in
-            self?.presentAlertForDelete()
+            guard let indexPath = self?.indexPath else {
+                return
+            }
+            self?.presentAlertForDelete(indexPath: indexPath)
         }
         deleteAction.setValue(UIColor.red, forKey: "titleTextColor")
         presentAlertForActionSheet(isCancelActionIncluded: true, preferredStyle: .actionSheet, with: editAction,deleteAction)

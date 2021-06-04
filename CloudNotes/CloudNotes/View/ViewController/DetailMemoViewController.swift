@@ -51,6 +51,14 @@ class DetailMemoViewController: UIViewController {
         let cancelAction = UIAlertAction(title: "취소", style: .default) { action in
         }
         let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { action in
+            guard let indexPath = self.indexPath else {
+                return
+            }
+            JsonDataCache.shared.decodedJsonData.remove(at: indexPath.row)
+            self.memoListViewController?.tableView.reloadData()
+            if JsonDataCache.shared.decodedJsonData.count>0{
+                self.configure(with: nil, indexPath: nil)
+            }
         }
         alert.addAction(cancelAction)
         alert.addAction(deleteAction)
@@ -59,6 +67,8 @@ class DetailMemoViewController: UIViewController {
     
     @objc private func showActionSheet(_ sender: Any) {
         let editAction = UIAlertAction(title: "Share...", style: .default) { action in
+            let activity = UIActivityViewController(activityItems: [self.memoTextView.text], applicationActivities: nil)
+            self.present(activity, animated: true, completion: nil)
         }
         let deleteAction = UIAlertAction(title: "Delete", style: .default) { action in
             self.presentAlertForDelete()
@@ -86,10 +96,18 @@ class DetailMemoViewController: UIViewController {
         ])
     }
 
-    func configure(with memo: Memo, indexPath: IndexPath) {
-        memoTextView.resignFirstResponder()
+    func configure(with memo: Memo?, indexPath: IndexPath?) {
+        memoTextView.contentOffset = CGPoint(x: 0,y: 0)
+        guard let memo = memo else {
+            memoTextView.text = ""
+            return
+        }
         memoTextView.text = "\n" + memo.computedTitle + "\n\n" + memo.computedBody
+        guard let indexPath = indexPath else {
+            return
+        }
         self.indexPath = indexPath
+        memoTextView.contentOffset = CGPoint(x: 0,y: 0)
     }
     
     

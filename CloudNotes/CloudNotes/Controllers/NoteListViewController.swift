@@ -60,7 +60,7 @@ extension NoteListViewController {
 // MARK: - Create Layout for Collection View
 extension NoteListViewController {
     private func createLayout() -> UICollectionViewLayout {
-        let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
+        let configuration = UICollectionLayoutListConfiguration(appearance: .sidebarPlain)
         return UICollectionViewCompositionalLayout.list(using: configuration)
     }
 }
@@ -110,7 +110,7 @@ extension NoteListViewController {
         var snapshot = NSDiffableDataSourceSnapshot<Section, Note>()
         snapshot.appendSections(sections)
         snapshot.appendItems(notes)
-        dataSource?.apply(snapshot, animatingDifferences: true)
+        dataSource?.apply(snapshot, animatingDifferences: false)
     }
 }
 

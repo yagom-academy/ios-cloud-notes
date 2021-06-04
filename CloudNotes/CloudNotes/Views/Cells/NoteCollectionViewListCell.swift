@@ -57,6 +57,7 @@ final class NoteCollectionViewListCell: UICollectionViewListCell {
 // MARK: - Configure cell
 extension NoteCollectionViewListCell {
     func configure(with note: Note) {
+        
         let cellStackView = createCellStackView()
         addSubview(cellStackView)
         
@@ -75,6 +76,7 @@ extension NoteCollectionViewListCell {
             cellStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,
                                                   constant: Layout.bottomSpaceBetweenCellStackViewAndContentView)
         ])
+        
     }
     
     private func createCellStackView() -> UIStackView {

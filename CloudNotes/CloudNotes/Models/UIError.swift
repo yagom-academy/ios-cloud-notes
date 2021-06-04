@@ -9,6 +9,7 @@ import Foundation
 
 enum UIError: Error {
     case collectionViewNotSet
+    case castToWindowSceneFailed
 }
 
 extension UIError: LocalizedError {
@@ -16,6 +17,8 @@ extension UIError: LocalizedError {
         switch self {
         case .collectionViewNotSet:
             return "Collection view is not set."
+        case .castToWindowSceneFailed:
+            return "Failed to downcast window to windowScene."
         }
     }
 }

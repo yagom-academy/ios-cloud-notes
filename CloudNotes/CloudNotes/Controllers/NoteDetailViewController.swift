@@ -121,9 +121,9 @@ extension NoteDetailViewController {
             image: NavigationBarItems.rightButtonImage,
             style: .plain,
             target: self,
-            action: #selector(elipsisTapped)
+            action: #selector(ellipsisTapped)
         )
     }
 
-    @objc private func elipsisTapped() { }
+    @objc private func ellipsisTapped() { }
 }

@@ -14,6 +14,7 @@ class MemoSplitViewController: UISplitViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        dismissKeyboardWhenTappedAround()
         setUpData()
         self.delegate = self
         master.memoSplitViewController = self
@@ -27,10 +28,12 @@ class MemoSplitViewController: UISplitViewController {
         switch resultOfFetch {
         case .success(let data):
             JsonDataCache.shared.decodedJsonData = data
+            detail.configure(with: JsonDataCache.shared.decodedJsonData[0], indexPath: IndexPath.init(index: 0))
         case .failure(let error):
             print(error.localizedDescription)
         }
     }
+    
 }
 
 extension MemoSplitViewController: UISplitViewControllerDelegate {
@@ -64,5 +67,18 @@ extension MemoSplitViewController {
         } catch {
             return .failure(DataError.decodeJSON)
         }
+    }
+}
+
+extension UIViewController {
+    func dismissKeyboardWhenTappedAround() {
+        let tap: UITapGestureRecognizer =
+            UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        self.view.addGestureRecognizer(tap)
+    }
+    
+    @objc func dismissKeyboard() {
+        self.view.endEditing(false)
     }
 }

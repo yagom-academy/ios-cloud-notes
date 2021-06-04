@@ -88,9 +88,11 @@ class DetailMemoViewController: UIViewController {
 
     func configure(with memo: Memo, indexPath: IndexPath) {
         memoTextView.resignFirstResponder()
-        memoTextView.text = "\n\n" + memo.computedTitle + "\n\n" + memo.computedBody
+        memoTextView.text = "\n" + memo.computedTitle + "\n\n" + memo.computedBody
         self.indexPath = indexPath
     }
+    
+    
 }
 
 extension DetailMemoViewController: UITextViewDelegate {
@@ -112,13 +114,5 @@ extension DetailMemoViewController: UITextViewDelegate {
         JsonDataCache.shared.decodedJsonData[indexPath.row].computedlastModifiedDate = Int(Date().timeIntervalSince1970)
         memoListViewController?.tableView.reloadData()
     }
-    
-    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        if text == "\n\n" {
-            textView.resignFirstResponder()
-        }
-        return true
-    }
 }
-
 

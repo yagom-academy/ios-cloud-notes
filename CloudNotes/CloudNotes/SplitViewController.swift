@@ -1,6 +1,6 @@
 //
 //  CloudNotes - SplitViewController.swift
-//  Created by Hailey.
+//  Created by 배은서.
 //  Copyright © yagom. All rights reserved.
 // 
 

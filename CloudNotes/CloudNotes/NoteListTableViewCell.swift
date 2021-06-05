@@ -7,17 +7,17 @@
 
 import UIKit
 
-class NoteListTableViewCell: UITableViewCell {
+final class NoteListTableViewCell: UITableViewCell {
     static let identifier = "NoteListTableViewCell"
     
-    let titleLabel: UILabel = {
+    private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .headline)
         label.textAlignment = .left
         return label
     }()
     
-    let dateLabel: UILabel = {
+    private let dateLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .subheadline)
         label.textAlignment = .left
@@ -25,7 +25,7 @@ class NoteListTableViewCell: UITableViewCell {
         return label
     }()
     
-    let previewBodyLabel: UILabel = {
+    private let previewBodyLabel: UILabel = {
         let label = UILabel()
         label.textColor = .systemGray
         label.font = UIFont.preferredFont(forTextStyle: .body)
@@ -33,7 +33,7 @@ class NoteListTableViewCell: UITableViewCell {
         return label
     }()
     
-    lazy var innerStackView: UIStackView = {
+    private lazy var innerStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [dateLabel, previewBodyLabel])
         stackView.distribution = .equalSpacing
         stackView.axis = .horizontal
@@ -41,7 +41,7 @@ class NoteListTableViewCell: UITableViewCell {
         return stackView
     }()
     
-    lazy var outerStackView: UIStackView = {
+    private lazy var outerStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [titleLabel, innerStackView])
         stackView.distribution = .equalSpacing
         stackView.axis = .vertical
@@ -59,7 +59,7 @@ class NoteListTableViewCell: UITableViewCell {
         super.init(coder: coder)
     }
     
-    func setConstraint() {
+    private func setConstraint() {
         outerStackView.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(outerStackView)
         

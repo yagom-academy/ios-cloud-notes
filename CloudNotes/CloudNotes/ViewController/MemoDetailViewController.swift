@@ -42,6 +42,14 @@ class MemoDetailViewController: UIViewController {
     configureConstraints()
   }
   
+  override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+    if previousTraitCollection?.horizontalSizeClass == .compact {
+      textView.backgroundColor = .white
+    } else if previousTraitCollection?.horizontalSizeClass == .regular {
+      textView.backgroundColor = .systemGray4
+    }
+  }
+  
   private func configureConstraints() {
     let safeArea = self.view.safeAreaLayoutGuide
     

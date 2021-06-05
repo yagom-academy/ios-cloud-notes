@@ -12,7 +12,7 @@ final class MemoDetailViewModel {
   private var title: String { return memo?.title ?? "" }
   private var body: String { return memo?.body ?? "" }
   
-  var date: String { return memo?.lastModifiedDate ?? "?" }
+  var date: Int { return memo?.lastModified ?? 0 }
   lazy var content: String = {
     return title + "\n\n" + body
   }()

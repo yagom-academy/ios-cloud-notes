@@ -10,14 +10,7 @@ import Foundation
 struct Memo: Decodable {
   let title: String
   let body: String
-  private let lastModified: Int
-  var lastModifiedDate: String {
-    let date = Date(timeIntervalSince1970: TimeInterval(lastModified))
-    let dateFormatter: DateFormatter = DateFormatter()
-    dateFormatter.locale = Locale(identifier: Locale.current.identifier)
-    dateFormatter.dateFormat = "yyyy. MM. dd"
-    return dateFormatter.string(from: date)
-  }
+  let lastModified: Int
 }
 
 extension Memo {

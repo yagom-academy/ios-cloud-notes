@@ -11,11 +11,29 @@ class MemoListViewModel {
   private var memoServiceAdapter = MemoProvider()
   private lazy var memos: [Memo]? = {
     do {
-      try memoServiceAdapter.setMockData()
-      return self.memoServiceAdapter.getMemo()
+      let memos = try memoServiceAdapter.getMockData()
+      return memos
     } catch {
       return nil
     }
+  }()
+  
+  private lazy var memoViewModels: [MemoViewModel]? = {
+    var memoViewModels: [MemoViewModel] = []
+    guard let memos = memos else {
+      return nil
+    }
+    let dateFormatter: DateFormatter = DateFormatter()
+
+    for memo in memos {
+      let date = Date(timeIntervalSince1970: TimeInterval(memo.lastModified))
+      dateFormatter.locale = Locale(identifier: Locale.current.identifier)
+      dateFormatter.setLocalizedDateFormatFromTemplate("yyyy. MM. d")
+      let dateString = dateFormatter.string(from: date)
+      memoViewModels.append(MemoViewModel(title: memo.title, date: dateString, content: memo.body))
+    }
+    
+    return memoViewModels
   }()
   
   func addMemo(_ memo: Memo) {
@@ -30,11 +48,11 @@ class MemoListViewModel {
   }
   
   func getMemoViewModel(for indexPath: IndexPath) -> MemoViewModel? {
-    guard let memos = memos else {
+    guard let memoViewModels = memoViewModels else {
       return nil
     }
-    let memo = memos[indexPath.row]
-    return MemoViewModel(title: memo.title, date: memo.lastModifiedDate, content: memo.body)
+    let memoViewModel = memoViewModels[indexPath.row]
+    return memoViewModel
   }
   
   func getMemo(for indexPath: IndexPath) -> Memo? {

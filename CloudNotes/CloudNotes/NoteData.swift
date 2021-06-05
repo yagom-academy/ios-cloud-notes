@@ -14,9 +14,8 @@ struct NoteData: Decodable {
     var formattedLastModified: String {
         let date = Date(timeIntervalSince1970: TimeInterval(lastModified))
         let dateFormatter = DateFormatter()
-        let locale = NSLocale.autoupdatingCurrent
-        dateFormatter.dateFormat = "yyyy. MM. dd."
-        dateFormatter.locale = locale
+        dateFormatter.locale = Locale.current
+        dateFormatter.dateStyle = .medium
         
         return dateFormatter.string(from: date)
     }

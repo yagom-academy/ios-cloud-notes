@@ -6,7 +6,7 @@
 
 import UIKit
 
-class MemoDetailViewController: UIViewController {
+final class MemoDetailViewController: UIViewController {
 
   private let viewModel = MemoDetailViewModel()
   

@@ -8,13 +8,16 @@
 import Foundation
 
 final class MemoDetailViewModel {
+  private let whiteSpace = ""
+  private let emptyParagraph = "\n\n"
+
   private var memo: Memo?
-  private var title: String { return memo?.title ?? "" }
-  private var body: String { return memo?.body ?? "" }
+  private var title: String { return memo?.title ?? whiteSpace }
+  private var body: String { return memo?.body ?? whiteSpace }
   
-  var date: Int { return memo?.lastModified ?? 0 }
+  var date: Int { return memo?.lastModified ?? .zero }
   lazy var content: String = {
-    return title + "\n\n" + body
+    return title + emptyParagraph + body
   }()
   
   func configure(with memo: Memo) {

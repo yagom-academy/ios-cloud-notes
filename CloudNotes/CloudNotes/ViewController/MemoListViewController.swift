@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MemoListViewController: UITableViewController {
+final class MemoListViewController: UITableViewController {
   private let reuseIdentifier = "memoReuseCell"
   private let titleString = "메모"
   private let tableViewModel: MemoListViewModel = MemoListViewModel()

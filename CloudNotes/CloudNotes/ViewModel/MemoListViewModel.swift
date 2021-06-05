@@ -7,7 +7,7 @@
 
 import Foundation
 
-class MemoListViewModel {
+final class MemoListViewModel {
   private var memoServiceAdapter = MemoProvider()
   private lazy var memos: [Memo]? = {
     do {

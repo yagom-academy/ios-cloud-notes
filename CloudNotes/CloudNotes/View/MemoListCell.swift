@@ -14,6 +14,7 @@ class MemoListCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .default , reuseIdentifier: MemoListCell.identifier)
         
+        self.accessoryType = .disclosureIndicator
         self.configureCellConstraints()
     }
     

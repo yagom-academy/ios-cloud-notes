@@ -7,22 +7,12 @@
 
 import UIKit
 
-enum MemoListViewControllerModelError: Error {
-    case failLoadAssetData
-    case failDecodeData
-}
-
 class MemoListViewControllerModel {
     var memo: [Memo] = []
     
-    func loadSampleData() throws {
-        guard let assetData: NSDataAsset = NSDataAsset(name: "sample") else {
-            throw MemoListViewControllerModelError.failLoadAssetData
-        }
-        
-        guard let memoData = try? JSONDecoder().decode([Memo].self, from: assetData.data) else {
-            throw MemoListViewControllerModelError.failDecodeData
-        }
+    func loadSampleData() {
+        guard let assetData: NSDataAsset = NSDataAsset(name: "sample") else { return }
+        guard let memoData = try? JSONDecoder().decode([Memo].self, from: assetData.data) else { return }
         
         self.memo = memoData
     }

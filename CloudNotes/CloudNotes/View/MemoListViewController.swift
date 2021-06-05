@@ -7,9 +7,19 @@
 import UIKit
 
 class MemoListViewController: UIViewController {
-    var splitView: SplitViewController?
     var memoModel: MemoListViewControllerModel = MemoListViewControllerModel()
     let memoListViewNavigationBarTitle: String = "메모"
+    var splitViewDelegate: SplitViewDelegate?
+    
+    init(splitViewDelegate: SplitViewDelegate) {
+        super.init(nibName: nil, bundle: nil)
+        
+        self.splitViewDelegate = splitViewDelegate
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been impl")
+    }
     
     private var tableView: UITableView = {
         let tableView = UITableView()
@@ -69,22 +79,13 @@ extension MemoListViewController: UITableViewDelegate, UITableViewDataSource {
         }
         
         cell.configureCell(data: memoModel.readMemo(index: indexPath.row))
-        cell.accessoryType = .disclosureIndicator
+        
         
         return cell
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let detailView: DetailMemoViewController = splitView?.detail as? DetailMemoViewController else {
-            return
-        }
-        
-        if UITraitCollection.current.horizontalSizeClass == .compact {
-            let navigationVC = UINavigationController(rootViewController: detailView)
-            showDetailViewController(navigationVC, sender: self)
-        }
-        
-        detailView.configureDetailText(data: memoModel.readMemo(index: indexPath.row))
+        self.splitViewDelegate?.didSelectRowAt(data: memoModel.readMemo(index: indexPath.row))
     }
         
 }

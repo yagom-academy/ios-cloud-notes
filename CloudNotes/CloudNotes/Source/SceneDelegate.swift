@@ -15,22 +15,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
         window?.windowScene = windowScene
-        
-        let root = MemoListViewController()
-        let detail = DetailMemoViewController()
+
         let splitView = SplitViewController()
-        
-        splitView.root = root
-        splitView.detail = detail
-        root.splitView = splitView
-        detail.splitView = splitView
-        
-        let rootNavi = UINavigationController(rootViewController: root)
-        let detailNavi = UINavigationController(rootViewController: detail)
-        
-        splitView.viewControllers = [rootNavi, detailNavi]
-        splitView.preferredPrimaryColumnWidthFraction = 1/3
-        
         
         window?.rootViewController = splitView
         window?.makeKeyAndVisible()

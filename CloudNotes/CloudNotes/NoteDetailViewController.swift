@@ -8,13 +8,11 @@
 import UIKit
 
 final class NoteDetailViewController: UIViewController {
-    private let detailNoteTextView: UITextView = {
+    private lazy var detailNoteTextView: UITextView = {
         let textView: UITextView = UITextView()
         textView.textAlignment = .left
         textView.font = UIFont.preferredFont(forTextStyle: .body)
-        textView.backgroundColor = .systemBackground
-        textView.isSelectable = true
-        textView.isEditable = true
+        setBackGroundColor(of: textView)
         textView.contentOffset = CGPoint(x: 0, y: -20)
         textView.contentInset = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
         return textView
@@ -25,6 +23,23 @@ final class NoteDetailViewController: UIViewController {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: nil)
         view.backgroundColor = .systemBackground
         setConstraint()
+    }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+        if self.traitCollection.horizontalSizeClass == .regular {
+            detailNoteTextView.backgroundColor = .systemBackground
+        }
+    }
+    
+    private func setBackGroundColor(of textView: UITextView) {
+        if UITraitCollection.current.horizontalSizeClass == .compact {
+            textView.backgroundColor = .systemGray3
+        }
+        else if UITraitCollection.current.horizontalSizeClass == .regular {
+            textView.backgroundColor = .systemBackground
+        }
     }
     
     private func setConstraint() {

@@ -90,7 +90,8 @@ class MemoListViewController: UIViewController {
 
         let memoDetailViewController = MemoDetailViewController(memoListViewDelegate: self)
         memoDetailViewController.fetchData(memo: newMemo, indexPath: newIndexPath)
-        showDetailViewController(UINavigationController(rootViewController: memoDetailViewController), sender: nil)
+        memoListTableView.selectRow(at: newIndexPath, animated: true, scrollPosition: .top)
+        splitViewDelegate?.didSelectRow(memo: newMemo, indexPath: newIndexPath, memoListViewDelegate: self)
     }
 }
 

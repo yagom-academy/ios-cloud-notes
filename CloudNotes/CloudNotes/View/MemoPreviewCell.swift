@@ -26,6 +26,7 @@ class MemoPreviewCell: UITableViewCell {
         label.font = UIFont.preferredFont(forTextStyle: .subheadline)
         label.text = "dateLabel"
         label.setContentCompressionResistancePriority(.required, for: .horizontal)
+        label.setContentHuggingPriority(.required, for: .horizontal)
         return label
     }()
 

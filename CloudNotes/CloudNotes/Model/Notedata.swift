@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Note: Decodable {
+struct NoteData: Decodable {
     let title: String
     let description: String
     let lastModify: UInt

@@ -7,9 +7,9 @@
 
 import UIKit
 
-class NoteSplitViewController: UISplitViewController {
-    private var primary = NoteListViewController()
-    private var secondary = NoteDetailViewController()
+class NoteSplit: UISplitViewController {
+    private var primary = NoteList()
+    private var secondary = NoteDetail()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,14 +26,14 @@ class NoteSplitViewController: UISplitViewController {
     }
 }
 
-extension NoteSplitViewController: UISplitViewControllerDelegate {
+extension NoteSplit: UISplitViewControllerDelegate {
     func splitViewController(_ svc: UISplitViewController, topColumnForCollapsingToProposedTopColumn proposedTopColumn: UISplitViewController.Column) -> UISplitViewController.Column {
         return .primary
     }
 }
 
-extension NoteSplitViewController: NoteDelegate {
-    func deliverToDetail(_ data: Note) {
+extension NoteSplit: NoteDelegate {
+    func deliverToDetail(_ data: NoteData) {
         secondary.noteData = data
         self.showDetailViewController(secondary, sender: self)
     }

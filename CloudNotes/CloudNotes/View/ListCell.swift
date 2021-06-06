@@ -62,6 +62,8 @@ class ListCell: UITableViewCell {
     stackView2.addArrangedSubview(stackView3)
     
     contentView.addSubview(stackView2)
+    
+    self.accessoryType = .disclosureIndicator
   }
   
   required init?(coder decoder: NSCoder) {
@@ -79,7 +81,5 @@ class ListCell: UITableViewCell {
     titleLabel.text = info.title
     dateLabel.text = DateConvertor(date: info.lastModified).result()
     summaryLabel.text = info.body.components(separatedBy: ".").first
-    
-    self.accessoryType = .disclosureIndicator
   }
 }

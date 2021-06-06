@@ -5,7 +5,6 @@
 //  Created by 윤재웅 on 2021/06/03.
 //
 
-import Foundation
 import UIKit
 
 struct NoteListViewModel {

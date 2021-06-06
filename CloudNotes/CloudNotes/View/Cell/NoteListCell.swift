@@ -8,7 +8,7 @@
 import UIKit
 
 class NoteListCell: UITableViewCell {
-    var noteData: NoteData? {
+    var noteData: Note? {
         didSet {
             displayData()
         }

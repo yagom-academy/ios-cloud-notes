@@ -8,6 +8,13 @@
 import UIKit
 
 class NoteListCell: UITableViewCell {
+    
+    private enum Style {
+        static let titleLableMargin: UIEdgeInsets = .init(top: 10, left: 15, bottom: 5, right: 5)
+        static let dateLableMargin: UIEdgeInsets = .init(top: 5, left: 10, bottom: 15, right: 10)
+        static let descriptionLabel: UIEdgeInsets = .init(top: 5, left: 10, bottom: 10, right: 5)
+    }
+    
     private lazy var titleLabel: UILabel = {
         let title = UILabel()
         title.translatesAutoresizingMaskIntoConstraints = false
@@ -56,21 +63,21 @@ class NoteListCell: UITableViewCell {
         contentView.addSubview(descriptionLabel)
  
         NSLayoutConstraint.activate([
-            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
-            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
-            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5),
+            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Style.titleLableMargin.left),
+            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Style.titleLableMargin.top),
+            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Style.titleLableMargin.right),
         ])
         
         NSLayoutConstraint.activate([
-            dateLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 5),
+            dateLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: Style.dateLableMargin.top),
             dateLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
-            dateLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -15),
-            dateLabel.trailingAnchor.constraint(equalTo: descriptionLabel.leadingAnchor, constant: -10),
+            dateLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -Style.dateLableMargin.bottom),
+            dateLabel.trailingAnchor.constraint(equalTo: descriptionLabel.leadingAnchor, constant: -Style.dateLableMargin.right),
         ])
         
         NSLayoutConstraint.activate([
             descriptionLabel.centerYAnchor.constraint(equalTo: dateLabel.centerYAnchor),
-            descriptionLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5)
+            descriptionLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Style.descriptionLabel.right)
         ])
     }
 }

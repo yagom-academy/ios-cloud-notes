@@ -34,7 +34,7 @@ extension NoteSplitViewController: UISplitViewControllerDelegate {
 
 extension NoteSplitViewController: NoteDelegate {
     func deliverToDetail(_ data: Note) {
-        secondary.noteData = data
+        secondary.displayData(data)
         self.showDetailViewController(secondary, sender: self)
     }
 }

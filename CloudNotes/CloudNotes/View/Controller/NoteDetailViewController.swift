@@ -8,19 +8,7 @@
 import UIKit
 
 class NoteDetailViewController: UIViewController {
-    var noteData: Note? {
-        didSet {
-            guard let data = noteData else { return }
-            textView.contentOffset = .zero
-            textView.resignFirstResponder()
-            textView.text = ""
-            textView.insertText(data.title)
-            textView.insertText("\n\n")
-            textView.insertText(data.description)
-        }
-    }
-    
-    lazy var textView: UITextView = {
+    private lazy var textView: UITextView = {
         let textview = UITextView()
         textview.translatesAutoresizingMaskIntoConstraints = false
         textview.allowsEditingTextAttributes = true
@@ -38,18 +26,23 @@ class NoteDetailViewController: UIViewController {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: #selector(displayInfomation))
         setConstraint()
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-//        textView.contentOffset = .zero
-    }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         textView.isEditable = true
-        textView.contentOffset = .zero
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         textView.isEditable = false
+    }
+    
+    
+    func displayData(_ data: Note) {
+        textView.resignFirstResponder()
+        textView.text = ""
+        textView.insertText(data.title)
+        textView.insertText("\n\n")
+        textView.insertText(data.description)
+        textView.contentOffset = .zero
     }
     
     @objc private func displayInfomation() {

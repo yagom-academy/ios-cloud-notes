@@ -93,6 +93,7 @@ class MemoDetailViewController: UIViewController {
         navigationItem.hidesBackButton = isHorizontalSizeClassRegular
         navigationItem.rightBarButtonItem = showMoreButton
 
+        titleTextView.backgroundColor = isHorizontalSizeClassRegular ? .systemBackground : .systemGray3
         descriptionTextView.backgroundColor = isHorizontalSizeClassRegular ? .systemBackground : .systemGray3
     }
 
@@ -109,7 +110,7 @@ class MemoDetailViewController: UIViewController {
             titleTextView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             titleTextView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             titleTextView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            titleTextView.heightAnchor.constraint(lessThanOrEqualToConstant: 50)
+            titleTextView.heightAnchor.constraint(lessThanOrEqualToConstant: 50) // TODO: 적절하게 교체 필요
         ])
     }
 

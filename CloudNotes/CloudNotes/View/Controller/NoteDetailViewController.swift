@@ -37,15 +37,15 @@ class NoteDetailViewController: UIViewController {
         textView.isEditable = false
     }
     
-    
     func displayData(_ data: Note) {
         textView.text = ""
         textView.insertText(data.title)
         textView.insertText("\n\n")
         textView.insertText(data.description)
-        textView.contentOffset = .zero
+        textView.resignFirstResponder()
+        textView.scrollRangeToVisible(NSMakeRange(0, 0))
     }
-    
+ 
     @objc private func displayInfomation() {
         // TODO: - Detail 정보 보여주기
     }

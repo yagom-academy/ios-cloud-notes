@@ -77,16 +77,8 @@ class ListCell: UITableViewCell {
   
   func update(info: MemoInfo) {
     titleLabel.text = info.title
-    
-    let doubleDate = info.lastModified
-    let date = Date(timeIntervalSince1970: doubleDate)
-    let dateFormatter = DateFormatter()
-    dateFormatter.locale = Locale(identifier: Locale.current.identifier)
-    dateFormatter.dateFormat = "yyyy-MM-dd"
-    dateLabel.text = dateFormatter.string(from: date)
-    
-    let summary = info.body.components(separatedBy: ".").first
-    summaryLabel.text = summary
+    dateLabel.text = DateConvertor(date: info.lastModified).result()
+    summaryLabel.text = info.body.components(separatedBy: ".").first
     
     self.accessoryType = .disclosureIndicator
   }

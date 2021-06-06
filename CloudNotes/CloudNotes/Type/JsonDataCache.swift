@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct JsonDataCache {
-    static var shared = JsonDataCache()
+struct MemoCache {
+    static var shared = MemoCache()
     var decodedJsonData: [Memo] = []
 }

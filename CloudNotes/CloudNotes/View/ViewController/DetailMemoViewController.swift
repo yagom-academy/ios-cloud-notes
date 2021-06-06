@@ -47,7 +47,7 @@ class DetailMemoViewController: UIViewController {
     }
     
     func deleteMemo(indexPath: IndexPath) {
-        JsonDataCache.shared.decodedJsonData.remove(at: indexPath.row)
+        MemoCache.shared.decodedJsonData.remove(at: indexPath.row)
         self.memoListViewController?.tableView.reloadData()
         self.configure(with: nil, indexPath: nil)
     }
@@ -126,9 +126,9 @@ extension DetailMemoViewController: UITextViewDelegate {
         while text[0] == "" {
             text.remove(at: 0)
         }
-        JsonDataCache.shared.decodedJsonData[indexPath.row].computedTitle = text.remove(at: 0)
-        JsonDataCache.shared.decodedJsonData[indexPath.row].computedBody = text.joined(separator: "\n")
-        JsonDataCache.shared.decodedJsonData[indexPath.row].computedlastModifiedDate = Int(Date().timeIntervalSince1970)
+        MemoCache.shared.decodedJsonData[indexPath.row].computedTitle = text.remove(at: 0)
+        MemoCache.shared.decodedJsonData[indexPath.row].computedBody = text.joined(separator: "\n")
+        MemoCache.shared.decodedJsonData[indexPath.row].computedlastModifiedDate = Int(Date().timeIntervalSince1970)
         memoListViewController?.tableView.reloadData()
     }
 }

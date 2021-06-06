@@ -26,7 +26,8 @@ class MemoListViewController: UIViewController {
     }
     
     @objc private func addNewMemo() {
-        JsonDataCache.shared.decodedJsonData.insert(Memo(title: "", body: ""), at: 0)
+        CoreData.shared.createItem(completion: { _ in })
+        MemoCache.shared.decodedJsonData.insert(Memo(title: "", body: ""), at: 0)
         tableView.reloadData()
     }
     
@@ -68,7 +69,7 @@ class MemoListViewController: UIViewController {
     }
     
     private func shareMemo(indexPath: IndexPath) {
-        let memo = JsonDataCache.shared.decodedJsonData[indexPath.row]
+        let memo = MemoCache.shared.decodedJsonData[indexPath.row]
         let text = "\n" + memo.computedTitle + "\n\n" + memo.computedBody
         let activity = UIActivityViewController(activityItems: [text], applicationActivities: nil)
         self.present(activity, animated: true, completion: nil)
@@ -78,14 +79,14 @@ class MemoListViewController: UIViewController {
 
 extension MemoListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return JsonDataCache.shared.decodedJsonData.count
+        return MemoCache.shared.decodedJsonData.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier : MemoListTableViewCell.identifier) as? MemoListTableViewCell else {
             return UITableViewCell()
         }
-        cell.configure(with: JsonDataCache.shared.decodedJsonData[indexPath.row])
+        cell.configure(with: MemoCache.shared.decodedJsonData[indexPath.row])
         return cell
     }
 }
@@ -95,7 +96,7 @@ extension MemoListViewController: UITableViewDelegate {
         guard let memoSplitViewController = memoSplitViewController else {
             return
         }
-        memoSplitViewController.detail.configure(with: JsonDataCache.shared.decodedJsonData[indexPath.row], indexPath: indexPath)
+        memoSplitViewController.detail.configure(with: MemoCache.shared.decodedJsonData[indexPath.row], indexPath: indexPath)
         memoSplitViewController.showDetailViewController(UINavigationController(rootViewController: memoSplitViewController.detail), sender: nil)
     }
     

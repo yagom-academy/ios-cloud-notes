@@ -14,6 +14,7 @@ class MemoSplitViewController: UISplitViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        CoreData.shared.getAllItems(completion: { _ in })
         dismissKeyboardWhenTappedAround()
         setUpData()
         self.delegate = self
@@ -27,8 +28,8 @@ class MemoSplitViewController: UISplitViewController {
         let resultOfFetch = setUpData(fileName: "sample", model: [Memo].self)
         switch resultOfFetch {
         case .success(let data):
-            JsonDataCache.shared.decodedJsonData = data
-            detail.configure(with: JsonDataCache.shared.decodedJsonData[0], indexPath: IndexPath.init(index: 0))
+            MemoCache.shared.decodedJsonData = data
+            detail.configure(with: MemoCache.shared.decodedJsonData[0], indexPath: IndexPath.init(index: 0))
         case .failure(let error):
             print(error.localizedDescription)
         }

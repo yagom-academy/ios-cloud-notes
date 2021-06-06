@@ -52,11 +52,6 @@ final class NoteCollectionViewListCell: UICollectionViewListCell {
             static let bottom: CGFloat = -10
         }
     }
-    
-    // MARK: - Nib Life Cycles
-    override func awakeFromNib() {
-        super.awakeFromNib()
-    }
 }
 
 // MARK: - Configure cell

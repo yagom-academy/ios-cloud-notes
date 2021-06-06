@@ -64,8 +64,8 @@ class ListCell: UITableViewCell {
     contentView.addSubview(stackView2)
   }
   
-  required init?(coder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
+  required init?(coder decoder: NSCoder) {
+      super.init(coder: decoder)
   }
   
   override func layoutSubviews() {

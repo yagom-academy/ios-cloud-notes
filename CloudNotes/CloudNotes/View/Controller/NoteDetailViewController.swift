@@ -37,7 +37,6 @@ class NoteDetailViewController: UIViewController {
     
     
     func displayData(_ data: Note) {
-        textView.resignFirstResponder()
         textView.text = ""
         textView.insertText(data.title)
         textView.insertText("\n\n")
@@ -57,7 +56,6 @@ class NoteDetailViewController: UIViewController {
             textView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             textView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             textView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-            
         ])
     }
 }

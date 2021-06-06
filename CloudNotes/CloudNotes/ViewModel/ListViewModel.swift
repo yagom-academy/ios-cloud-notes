@@ -13,8 +13,12 @@ class ListViewModel {
   init() {
     do {
       // 임시 Data
-      let filePath = Bundle.main.path(forResource: "sample", ofType: "json")!
-      let data = try String(contentsOfFile: filePath).data(using: .utf8)!
+      guard let filePath = Bundle.main.path(forResource: "sample", ofType: "json") else {
+        throw DecodingError.PathNotFound
+      }
+      guard let data = try String(contentsOfFile: filePath).data(using: .utf8) else {
+        throw DecodingError.DataConversionFailed
+      }
       memoInfoList = try JSONDecoder().decode([MemoInfo].self, from: data)
     } catch {
       print(error)

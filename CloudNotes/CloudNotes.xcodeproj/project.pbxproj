@@ -17,6 +17,7 @@
 		858A89DE2669D6360094FAD5 /* ListViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 858A89DD2669D6360094FAD5 /* ListViewControllerDelegate.swift */; };
 		858A89E02669E3930094FAD5 /* SplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 858A89DF2669E3930094FAD5 /* SplitViewController.swift */; };
 		85B677DA266CAE4E0071A4A4 /* DateConvertor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B677D9266CAE4E0071A4A4 /* DateConvertor.swift */; };
+		85B677DD266CB38B0071A4A4 /* DecodingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B677DC266CB38B0071A4A4 /* DecodingError.swift */; };
 		C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */; };
 		C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */; };
 		C7481C7825BBCF3900B9CA55 /* CloudNotes.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C7481C7625BBCF3900B9CA55 /* CloudNotes.xcdatamodeld */; };
@@ -54,6 +55,7 @@
 		858A89DD2669D6360094FAD5 /* ListViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewControllerDelegate.swift; sourceTree = "<group>"; };
 		858A89DF2669E3930094FAD5 /* SplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitViewController.swift; sourceTree = "<group>"; };
 		85B677D9266CAE4E0071A4A4 /* DateConvertor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateConvertor.swift; sourceTree = "<group>"; };
+		85B677DC266CB38B0071A4A4 /* DecodingError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodingError.swift; sourceTree = "<group>"; };
 		C7481C6A25BBCF3900B9CA55 /* CloudNotes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CloudNotes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -97,6 +99,7 @@
 		851B6A6326677C8A00A9EEB9 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				85B677DB266CB37D0071A4A4 /* Error */,
 				858A89DC2669D6250094FAD5 /* Protocol */,
 				851B6A6426677C9500A9EEB9 /* MemoInfo.swift */,
 				85B677D9266CAE4E0071A4A4 /* DateConvertor.swift */,
@@ -133,6 +136,14 @@
 				858A89DD2669D6360094FAD5 /* ListViewControllerDelegate.swift */,
 			);
 			path = Protocol;
+			sourceTree = "<group>";
+		};
+		85B677DB266CB37D0071A4A4 /* Error */ = {
+			isa = PBXGroup;
+			children = (
+				85B677DC266CB38B0071A4A4 /* DecodingError.swift */,
+			);
+			path = Error;
 			sourceTree = "<group>";
 		};
 		C7481C6125BBCF3900B9CA55 = {
@@ -328,6 +339,7 @@
 				858A89DE2669D6360094FAD5 /* ListViewControllerDelegate.swift in Sources */,
 				853D1F912664AFF40003E674 /* ListViewController.swift in Sources */,
 				85B677DA266CAE4E0071A4A4 /* DateConvertor.swift in Sources */,
+				85B677DD266CB38B0071A4A4 /* DecodingError.swift in Sources */,
 				C7481C7825BBCF3900B9CA55 /* CloudNotes.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

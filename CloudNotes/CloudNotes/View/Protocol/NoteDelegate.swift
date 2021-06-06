@@ -7,6 +7,6 @@
 
 import Foundation
 
-protocol NoteDelegate {
+protocol NoteDelegate: AnyObject {
     func deliverToDetail(_ data: Note)
 }

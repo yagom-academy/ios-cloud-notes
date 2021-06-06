@@ -9,7 +9,7 @@ import UIKit
 
 class NoteListViewController: UIViewController {
     private let noteListManager = NoteManager()
-    var noteDelegate: NoteDelegate?
+    weak var noteDelegate: NoteDelegate?
     
     private let tableView: UITableView = {
         let tableview = UITableView()

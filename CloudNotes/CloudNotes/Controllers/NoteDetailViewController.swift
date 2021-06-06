@@ -38,8 +38,8 @@ final class NoteDetailViewController: UIViewController {
         enum NoteTextView {
             static let leading: CGFloat = 30
             static let trailing: CGFloat = -30
-            static let top: CGFloat = 50
-            static let bottom: CGFloat = -50
+            static let top: CGFloat = 0
+            static let bottom: CGFloat = 0
         }
     }
     
@@ -50,7 +50,20 @@ final class NoteDetailViewController: UIViewController {
         configureNavigationBar()
         configureTextView()
         setNoteBackgroundColor(to: .systemBackground)
-        updateUI()
+        updateTextView()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        
+        noteTextView.setContentOffset(CGPoint(x: 0, y: -view.safeAreaInsets.top), animated: false)
+        noteTextView.isEditable = false
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        
+        noteTextView.isEditable = true
     }
 }
 
@@ -104,13 +117,12 @@ extension NoteDetailViewController {
         textView.insertText(note.body)
     }
     
-    func updateUI() {
-        guard let note = note else {
+    func updateTextView() {
+        if let note = note {
+            setText(to: noteTextView, with: note)
+        } else {
             setGreetingText(to: noteTextView)
-            return
         }
-        
-        setText(to: noteTextView, with: note)
     }
 }
 

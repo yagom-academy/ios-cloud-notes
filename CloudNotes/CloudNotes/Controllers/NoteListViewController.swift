@@ -30,7 +30,7 @@ final class NoteListViewController: UIViewController {
     }
     
     // MARK: - Namespaces
-    private enum NoteData {
+    enum NoteData {
         static let sampleFileName = "sample"
         static var newNoteConfiguration: Note {
             Note(title: "새 메모", body: "", lastModified: Date())
@@ -57,7 +57,7 @@ final class NoteListViewController: UIViewController {
 
 // MARK: - Load Notes from Sample JSON
 extension NoteListViewController {
-    func loadNotes(from assetName: String) {
+    private func loadNotes(from assetName: String) {
         let decodedResult = JSONDecoder().decode(to: [Note].self, from: assetName)
         switch decodedResult {
         case .success(let decodedNotes):
@@ -93,12 +93,7 @@ extension NoteListViewController {
         noteListCollectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
         
         guard let noteListCollectionView = noteListCollectionView else {
-            os_log(
-                .fault,
-                log: .ui,
-                OSLog.objectCFormatSpecifier,
-                UIError.collectionViewNotSet.localizedDescription
-            )
+            os_log(.fault, log: .ui, OSLog.objectCFormatSpecifier, UIError.collectionViewNotSet.localizedDescription)
             return
         }
         
@@ -109,12 +104,7 @@ extension NoteListViewController {
     
     private func configureCollectionViewDataSource() {
         guard let noteListCollectionView = noteListCollectionView else {
-            os_log(
-                .fault,
-                log: .ui,
-                OSLog.objectCFormatSpecifier,
-                UIError.collectionViewNotSet.localizedDescription
-            )
+            os_log(.fault, log: .ui, OSLog.objectCFormatSpecifier, UIError.collectionViewNotSet.localizedDescription)
             return
         }
         
@@ -144,7 +134,6 @@ extension NoteListViewController {
 extension NoteListViewController {
     private func configureNavigationBar() {
         navigationItem.title = NavigationBarItems.title
-        
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             barButtonSystemItem: NavigationBarItems.addButtonImage,
             target: self,

@@ -28,10 +28,7 @@ final class NoteSplitViewController: UISplitViewController {
 }
 
 extension NoteSplitViewController: UISplitViewControllerDelegate {
-    func splitViewController(
-        _ svc: UISplitViewController,
-        topColumnForCollapsingToProposedTopColumn proposedTopColumn: UISplitViewController.Column
-    ) -> UISplitViewController.Column {
+    func splitViewController(_ svc: UISplitViewController, topColumnForCollapsingToProposedTopColumn proposedTopColumn: UISplitViewController.Column) -> UISplitViewController.Column {
         return .primary
     }
 }
@@ -39,16 +36,11 @@ extension NoteSplitViewController: UISplitViewControllerDelegate {
 extension NoteSplitViewController: NoteShowable {
     func showNote(with note: Note) {
         guard let noteDetailViewController = self.viewController(for: .secondary) as? NoteDetailViewController else {
-            os_log(
-                .error,
-                log: .ui,
-                OSLog.objectCFormatSpecifier,
-                UIError.downcastingFailed("Secondary view controller", #function).localizedDescription
-            )
+            os_log(.error, log: .ui, OSLog.objectCFormatSpecifier, UIError.downcastingFailed("Secondary view controller", #function).localizedDescription)
             return
         }
         noteDetailViewController.setContent(with: note)
-        noteDetailViewController.updateUI()
+        noteDetailViewController.updateTextView()
         noteDetailViewController.noteTextView.resignFirstResponder()
         showDetailViewController(noteDetailViewController, sender: nil)
     }

@@ -47,7 +47,7 @@ class DetailMemoViewController: UIViewController {
     }
     
     func deleteMemo(indexPath: IndexPath) {
-        MemoCache.shared.decodedJsonData.remove(at: indexPath.row)
+        MemoCache.shared.memoData.remove(at: indexPath.row)
         self.memoListViewController?.tableView.reloadData()
         self.configure(with: nil, indexPath: nil)
     }
@@ -102,13 +102,13 @@ class DetailMemoViewController: UIViewController {
         ])
     }
 
-    func configure(with memo: Memo?, indexPath: IndexPath?) {
+    func configure(with memo: MemoListItem?, indexPath: IndexPath?) {
         memoTextView.contentOffset = CGPoint(x: 0,y: 0)
-        guard let memo = memo else {
+        guard let memo = memo, let title = memo.title, let body = memo.body else {
             memoTextView.text = ""
             return
         }
-        memoTextView.text = "\n" + memo.computedTitle + "\n\n" + memo.computedBody
+        memoTextView.text = "\n" + title + "\n\n" + body
         guard let indexPath = indexPath else {
             return
         }
@@ -126,9 +126,13 @@ extension DetailMemoViewController: UITextViewDelegate {
         while text[0] == "" {
             text.remove(at: 0)
         }
-        MemoCache.shared.decodedJsonData[indexPath.row].computedTitle = text.remove(at: 0)
-        MemoCache.shared.decodedJsonData[indexPath.row].computedBody = text.joined(separator: "\n")
-        MemoCache.shared.decodedJsonData[indexPath.row].computedlastModifiedDate = Int(Date().timeIntervalSince1970)
+        MemoCache.shared.memoData[indexPath.row].title = text.remove(at: 0)
+        while text[0] == "" {
+            text.remove(at: 0)
+        }
+        MemoCache.shared.memoData[indexPath.row].body = text.joined(separator: "\n")
+//        print("memo.body : ", MemoCache.shared.memoData[indexPath.row].body)
+        MemoCache.shared.memoData[indexPath.row].lastModifiedDate = Date()
         memoListViewController?.tableView.reloadData()
     }
 }

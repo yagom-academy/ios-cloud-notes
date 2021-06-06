@@ -9,5 +9,7 @@ import Foundation
 
 struct MemoCache {
     static var shared = MemoCache()
-    var decodedJsonData: [Memo] = []
+//    var decodedJsonData: [Memo] = []
+    var updatedFileNameList: [UpdatedFile] = []
+    var memoData: [MemoListItem] = []
 }

@@ -5,7 +5,11 @@
         <attribute name="lastModifiedDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="title" optional="YES" attributeType="String"/>
     </entity>
+    <entity name="UpdatedFile" representedClassName="UpdatedFile" syncable="YES">
+        <attribute name="name" optional="YES" attributeType="String"/>
+    </entity>
     <elements>
         <element name="MemoListItem" positionX="-63" positionY="-18" width="128" height="74"/>
+        <element name="UpdatedFile" positionX="-27" positionY="45" width="128" height="44"/>
     </elements>
 </model>

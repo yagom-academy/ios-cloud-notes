@@ -13,10 +13,9 @@ class MemoListTableViewCell: UITableViewCell {
     var title = UILabel()
     var lastModifiedDate = UILabel()
     var body = UILabel()
-      
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -38,7 +37,7 @@ class MemoListTableViewCell: UITableViewCell {
     }
     
     private func setUpTitleLabel(layoutGuide: UILayoutGuide) {
-        title.font = title.font.withSize(25)
+        title.font = title.font.withSize(15)
         title.textColor = .black
         title.translatesAutoresizingMaskIntoConstraints = false
         title.numberOfLines = 0
@@ -71,11 +70,24 @@ class MemoListTableViewCell: UITableViewCell {
         ])
     }
     
-    func configure(with memo: Memo) {
+    func configure(with memo: MemoListItem) {
         setUpUI()
         self.accessoryType = UITableViewCell.AccessoryType.disclosureIndicator
-        title.text = memo.computedTitle
-        body.text = memo.computedBody
-        lastModifiedDate.text = memo.formattedLastModifiedDate
+        guard let lastModified = memo.lastModifiedDate else {
+            return
+        }
+        title.text = memo.title
+        body.text = memo.body
+        lastModifiedDate.text = formattedLastModifiedDate(date: lastModified)
+    }
+    
+    private func formattedLastModifiedDate(date: Date) -> String {
+        let currentLocale = Locale.current.collatorIdentifier ?? "ko_KR"
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: currentLocale)
+        dateFormatter.setLocalizedDateFormatFromTemplate("yyyy. MM. dd.")
+        dateFormatter.timeZone = TimeZone.autoupdatingCurrent
+        
+        return dateFormatter.string(from: date)
     }
 }

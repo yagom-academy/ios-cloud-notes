@@ -14,27 +14,42 @@ class MemoSplitViewController: UISplitViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        CoreData.shared.getAllItems(completion: { _ in })
+        CoreData.shared.getUpdatedFileList(completion: { _ in })
+        CoreData.shared.getAllMemoListItems(completion: { _ in })
         dismissKeyboardWhenTappedAround()
-        setUpData()
+        updateJsonData(fileName: "sample")
         self.delegate = self
         master.memoSplitViewController = self
         detail.memoListViewController = master
         self.viewControllers = [UINavigationController(rootViewController: master), UINavigationController(rootViewController: detail)]
         self.preferredDisplayMode = .oneBesideSecondary
+//        CoreData.shared.resetUpdatedFileListItem(files: MemoCache.shared.updatedFileNameList ,completion: { _ in })
+//        CoreData.shared.resetMemoListItem(items: MemoCache.shared.memoData ,completion: { _ in })
     }
 
-    private func setUpData() {
-        let resultOfFetch = setUpData(fileName: "sample", model: [Memo].self)
+    private func updateJsonData(fileName: String) {
+        for fileNameInTheList in MemoCache.shared.updatedFileNameList {
+            guard fileName != fileNameInTheList.name else {
+                return
+            }
+        }
+        CoreData.shared.createUpdatedFileListItem(fileName: fileName, completion: { _ in })
+
+        let resultOfFetch = self.setUpData(fileName: fileName, model: [Memo].self)
         switch resultOfFetch {
         case .success(let data):
-            MemoCache.shared.decodedJsonData = data
-            detail.configure(with: MemoCache.shared.decodedJsonData[0], indexPath: IndexPath.init(index: 0))
+            print("First : \(MemoCache.shared.memoData.count)")
+            CoreData.shared.convertMemoTypeToMemoListItemType(memoList: data) { bool in
+                if bool {
+                    self.master.tableView.reloadData()
+                }
+                print("Last : \(MemoCache.shared.memoData.count)")
+            }
         case .failure(let error):
             print(error.localizedDescription)
         }
     }
-    
+
 }
 
 extension MemoSplitViewController: UISplitViewControllerDelegate {

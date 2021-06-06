@@ -44,17 +44,7 @@ struct Memo: Decodable {
             lastModified = newValue
         }
     }
-    var formattedLastModifiedDate: String {
-        get {
-            let currentLocale = Locale.current.collatorIdentifier ?? "ko_KR"
-            let dateFormatter = DateFormatter()
-                    
-            dateFormatter.locale = Locale(identifier: currentLocale)
-            dateFormatter.setLocalizedDateFormatFromTemplate("yyyy. MM. dd.")
-            dateFormatter.timeZone = TimeZone.autoupdatingCurrent
-            return dateFormatter.string(from: Date(timeIntervalSince1970: TimeInterval(lastModified)))
-        }
-    }
+    
 }
 
 

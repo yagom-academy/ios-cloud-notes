@@ -8,12 +8,6 @@
 import UIKit
 
 class NoteListCell: UITableViewCell {
-    var noteData: Note? {
-        didSet {
-            displayData()
-        }
-    }
-    
     lazy var titleLabel: UILabel = {
         let title = UILabel()
         title.translatesAutoresizingMaskIntoConstraints = false
@@ -50,8 +44,7 @@ class NoteListCell: UITableViewCell {
         super.init(coder: coder)
     }
 
-    private func displayData() {
-        guard let data = noteData else { return }
+    func displayData(_ data: Note) {
         titleLabel.text = data.title
         dateLabel.text = data.date
         descriptionLabel.text = data.description

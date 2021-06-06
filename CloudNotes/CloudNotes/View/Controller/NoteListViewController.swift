@@ -8,7 +8,7 @@
 import UIKit
 
 class NoteListViewController: UIViewController {
-    private let noteListViewModel = NoteManager()
+    private let noteListManager = NoteManager()
     var noteDelegate: NoteDelegate?
     
     private let tableView: UITableView = {
@@ -51,12 +51,12 @@ class NoteListViewController: UIViewController {
 
 extension NoteListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return noteListViewModel.dataCount
+        return noteListManager.dataCount
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "NoteCell", for: indexPath) as? NoteListCell else { return UITableViewCell() }
-        cell.noteData = noteListViewModel.dataAtIndex(indexPath.row)
+        cell.displayData(noteListManager.dataAtIndex(indexPath.row))
 
         return cell
     }
@@ -64,6 +64,6 @@ extension NoteListViewController: UITableViewDataSource {
 
 extension NoteListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        noteDelegate?.deliverToDetail(noteListViewModel.dataAtIndex(indexPath.row))
+        noteDelegate?.deliverToDetail(noteListManager.dataAtIndex(indexPath.row))
     }
 }

@@ -7,12 +7,12 @@
 
 import UIKit
 
-struct NoteListViewModel {
-    private var noteDatas: [NoteData] = []
+struct NoteManager {
+    private var noteDatas: [Note] = []
     
     init() {
         guard let jsonData = NSDataAsset(name: "sample") else { return }
-        guard let data = try? JSONDecoder().decode([NoteData].self, from: jsonData.data) else { return }
+        guard let data = try? JSONDecoder().decode([Note].self, from: jsonData.data) else { return }
         noteDatas = data
     }
     
@@ -20,7 +20,7 @@ struct NoteListViewModel {
         return noteDatas.count
     }
     
-    func dataAtIndex(_ index: Int) -> NoteData {
+    func dataAtIndex(_ index: Int) -> Note {
         var data = noteDatas[index]
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy.MM.dd"

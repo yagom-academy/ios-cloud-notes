@@ -7,8 +7,8 @@
 
 import UIKit
 
-class NoteDetail: UIViewController {
-    var noteData: NoteData? {
+class NoteDetailViewController: UIViewController {
+    var noteData: Note? {
         didSet {
             guard let data = noteData else { return }
             textView.contentOffset = .zero

@@ -22,21 +22,21 @@ extension DataError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .loadJSON:
-            return "Failed to load JSON data."
+            return "Error: Failed to load JSON data."
         case .decodeJSON:
-            return "Failed to decode JSON data."
+            return "Error: Failed to decode JSON data."
         case .createItem:
-            return "Failed to create item."
+            return "Error: Failed to create item."
         case .getItems:
-            return "Failed to get items."
+            return "Error: Failed to get items."
         case .updateItem:
-            return "Failed to update item."
+            return "Error: Failed to update item."
         case .deleteItem:
-            return "Failed to delete item."
+            return "Error: Failed to delete item."
         case .resetItems:
-            return "Failed to reset items."
+            return "Error: Failed to reset items."
         case .convertItem:
-            return "Failed to convert item."
+            return "Error: Failed to convert item."
         }
     }
 }

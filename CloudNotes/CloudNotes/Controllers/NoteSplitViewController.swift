@@ -39,9 +39,7 @@ extension NoteSplitViewController: NoteShowable {
             os_log(.error, log: .ui, OSLog.objectCFormatSpecifier, UIError.downcastingFailed("Secondary view controller", #function).localizedDescription)
             return
         }
-        noteDetailViewController.setContent(with: note)
-        noteDetailViewController.updateTextView()
-        noteDetailViewController.noteTextView.resignFirstResponder()
+        noteDetailViewController.showContent(with: note)
         showDetailViewController(noteDetailViewController, sender: nil)
     }
 }

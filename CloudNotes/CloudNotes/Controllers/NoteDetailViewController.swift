@@ -46,7 +46,6 @@ final class NoteDetailViewController: UIViewController {
     // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         configureNavigationBar()
         configureTextView()
         setNoteBackgroundColor(to: .systemBackground)
@@ -55,22 +54,22 @@ final class NoteDetailViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        
-        noteTextView.setContentOffset(CGPoint(x: 0, y: -view.safeAreaInsets.top), animated: false)
         noteTextView.isEditable = false
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
-        
         noteTextView.isEditable = true
     }
 }
 
 // MARK: - Configure Detail Note View
 extension NoteDetailViewController {
-    func setContent(with inputNote: Note) {
+    func showContent(with inputNote: Note) {
         note = inputNote
+        updateTextView()
+        moveTop(of: noteTextView)
+        removeActivatedKeyboard()
     }
     
     private func setNoteBackgroundColor(to color: UIColor) {
@@ -117,12 +116,20 @@ extension NoteDetailViewController {
         textView.insertText(note.body)
     }
     
-    func updateTextView() {
+    private func moveTop(of textView: UITextView) {
+        textView.setContentOffset(CGPoint(x: 0, y: -view.safeAreaInsets.top), animated: false)
+    }
+    
+    private func updateTextView() {
         if let note = note {
             setText(to: noteTextView, with: note)
         } else {
             setGreetingText(to: noteTextView)
         }
+    }
+    
+    private func removeActivatedKeyboard() {
+        noteTextView.resignFirstResponder()
     }
 }
 

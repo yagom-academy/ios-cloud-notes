@@ -45,7 +45,6 @@ final class NoteListViewController: UIViewController {
     // MARK: - View life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         loadNotes(from: NoteData.sampleFileName)
         configureNavigationBar()
         configureCollectionViewHierarchy()

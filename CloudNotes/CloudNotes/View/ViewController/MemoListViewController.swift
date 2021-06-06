@@ -76,7 +76,6 @@ class MemoListViewController: UIViewController {
         let activity = UIActivityViewController(activityItems: [text], applicationActivities: nil)
         self.present(activity, animated: true, completion: nil)
     }
-    
 }
 
 extension MemoListViewController: UITableViewDataSource {

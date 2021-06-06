@@ -38,18 +38,15 @@ class MemoSplitViewController: UISplitViewController {
         let resultOfFetch = self.setUpData(fileName: fileName, model: [Memo].self)
         switch resultOfFetch {
         case .success(let data):
-            print("First : \(MemoCache.shared.memoData.count)")
             CoreData.shared.convertMemoTypeToMemoListItemType(memoList: data) { bool in
                 if bool {
                     self.master.tableView.reloadData()
                 }
-                print("Last : \(MemoCache.shared.memoData.count)")
             }
         case .failure(let error):
             print(error.localizedDescription)
         }
     }
-
 }
 
 extension MemoSplitViewController: UISplitViewControllerDelegate {

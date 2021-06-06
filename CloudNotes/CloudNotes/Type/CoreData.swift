@@ -109,9 +109,8 @@ struct CoreData {
         }
     }
 
-    func updateMemoListItem(item: MemoListItem, newTitle: String, newBody: String, completion: (@escaping (Bool) -> (Void))) {
-        item.title = newTitle
-        item.body = newBody
+    func updateMemoListItem(item: MemoListItem, completion: (@escaping (Bool) -> (Void))) {
+  
         item.lastModifiedDate = Date()
         do {
             try context.save()

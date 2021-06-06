@@ -80,7 +80,7 @@ class DetailMemoViewController: UIViewController {
             self?.presentAlertForDelete(indexPath: indexPath)
         }
         deleteAction.setValue(UIColor.red, forKey: "titleTextColor")
-        presentAlertForActionSheet(isCancelActionIncluded: true, preferredStyle: .actionSheet, with: editAction,deleteAction)
+        presentAlertForActionSheet(isCancelActionIncluded: true, preferredStyle: .actionSheet, with: editAction, deleteAction)
     }
     
     private func setUpUI() {
@@ -93,7 +93,6 @@ class DetailMemoViewController: UIViewController {
     private func setUpMemoTextView() {
         let safeArea = self.view.safeAreaLayoutGuide
         self.memoTextView.translatesAutoresizingMaskIntoConstraints = false
-        self.memoTextView.font = self.memoTextView.font?.withSize(20)
         NSLayoutConstraint.activate([
             self.memoTextView.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 0),
             self.memoTextView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 10),
@@ -131,9 +130,9 @@ extension DetailMemoViewController: UITextViewDelegate {
             text.remove(at: 0)
         }
         MemoCache.shared.memoData[indexPath.row].body = text.joined(separator: "\n")
-//        print("memo.body : ", MemoCache.shared.memoData[indexPath.row].body)
         MemoCache.shared.memoData[indexPath.row].lastModifiedDate = Date()
         memoListViewController?.tableView.reloadData()
+        CoreData.shared.updateMemoListItem(item: MemoCache.shared.memoData[indexPath.row]) { _ in }
     }
 }
 

@@ -116,15 +116,36 @@ extension MemoListViewController: UITableViewDelegate {
         guard let memos = memos else { return }
         splitViewDelegate?.didSelectRow(memo: memos[indexPath.row], indexPath: indexPath, memoListViewDelegate: self)
     }
+
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let deleteAction = UIContextualAction(style: .destructive, title: "delete") { _, _, _ in
+            self.deleteMemo(indexPath: indexPath)
+        }
+        let shareAction = UIContextualAction(style: .normal, title: "share") { _, _, _ in
+            self.shareMemo(indexPath: indexPath)
+        }
+        return UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
+    }
 }
 
 extension MemoListViewController: MemoListViewDelegate {
-    func updateCell(indexPath: IndexPath) {
+    func updateMemo(indexPath: IndexPath) {
         memoListTableView.reloadRows(at: [indexPath], with: .automatic)
     }
 
-    func deleteCell(indexPath: IndexPath) {
+    func deleteMemo(indexPath: IndexPath) {
+        guard let memos = memos,
+              let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext else { return }
+        context.delete(memos[indexPath.row])
+        try? context.save
         fetchData() // to refresh memos (delete deleted memo from local variable 'memos')
         memoListTableView.deleteRows(at: [indexPath], with: .automatic)
+    }
+
+    // FIXME: share 이후에 sizeclass가 compact로 고정되는 문제 있음
+    func shareMemo(indexPath: IndexPath) {
+        guard let memos = memos else { return }
+        let activityView = UIActivityViewController(activityItems: [memos[indexPath.row].title], applicationActivities: nil)
+        present(activityView, animated: true)
     }
 }

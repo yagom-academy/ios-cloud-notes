@@ -66,7 +66,7 @@ class MemoDetailViewController: UIViewController {
         }
 
         try? context.save()
-        memoListViewDelegate?.updateCell(indexPath: indexPath)
+        memoListViewDelegate?.updateMemo(indexPath: indexPath)
     }
 
     init(memoListViewDelegate: MemoListViewDelegate) {
@@ -150,13 +150,8 @@ class MemoDetailViewController: UIViewController {
     }
 
     private func deleteActionCompletionHandler(alert: UIAlertAction) {
-        guard let memo = memo,
-              let indexPath = indexPath,
-              let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext else { return }
-
-        context.delete(memo)
-        try? context.save()
-        memoListViewDelegate?.deleteCell(indexPath: indexPath)
+        guard let indexPath = indexPath else { return }
+        memoListViewDelegate?.deleteMemo(indexPath: indexPath)
 
         self.memo = nil
         self.titleTextView.text.removeAll()

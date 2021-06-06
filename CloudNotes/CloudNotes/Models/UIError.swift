@@ -9,7 +9,7 @@ import Foundation
 
 enum UIError: Error {
     case collectionViewNotSet
-    case downcastingFailed(String, String)
+    case downcastingFailed(subject: String, location: String)
 }
 
 extension UIError: LocalizedError {

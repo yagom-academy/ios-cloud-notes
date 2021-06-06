@@ -9,7 +9,7 @@ import Foundation
 
 enum DataError: Error, Equatable {
     case decodingFailed
-    case cannotFindFile(String)
+    case cannotFindFile(fileName: String)
     case dataSourceNotSet
 }
 

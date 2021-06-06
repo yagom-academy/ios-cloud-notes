@@ -36,7 +36,7 @@ extension NoteSplitViewController: UISplitViewControllerDelegate {
 extension NoteSplitViewController: NoteShowable {
     func showNote(with note: Note) {
         guard let noteDetailViewController = self.viewController(for: .secondary) as? NoteDetailViewController else {
-            os_log(.error, log: .ui, OSLog.objectCFormatSpecifier, UIError.downcastingFailed("Secondary view controller", #function).localizedDescription)
+            os_log(.error, log: .ui, OSLog.objectCFormatSpecifier, UIError.downcastingFailed(subject: "Secondary view controller", location: #function).localizedDescription)
             return
         }
         noteDetailViewController.showContent(with: note)

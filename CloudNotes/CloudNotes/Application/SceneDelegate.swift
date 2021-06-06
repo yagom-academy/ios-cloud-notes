@@ -13,7 +13,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else {
-            os_log(.fault, log: .ui, OSLog.objectCFormatSpecifier, UIError.downcastingFailed("scene", #function).localizedDescription)
+            os_log(.fault, log: .ui, OSLog.objectCFormatSpecifier, UIError.downcastingFailed(subject: "scene", location: #function).localizedDescription)
             return
         }
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)

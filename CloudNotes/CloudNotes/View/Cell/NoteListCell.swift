@@ -8,7 +8,7 @@
 import UIKit
 
 class NoteListCell: UITableViewCell {
-    lazy var titleLabel: UILabel = {
+    private lazy var titleLabel: UILabel = {
         let title = UILabel()
         title.translatesAutoresizingMaskIntoConstraints = false
         title.lineBreakStrategy = .hangulWordPriority
@@ -17,7 +17,7 @@ class NoteListCell: UITableViewCell {
         return title
     }()
     
-    lazy var dateLabel: UILabel = {
+    private lazy var dateLabel: UILabel = {
         let date = UILabel()
         date.translatesAutoresizingMaskIntoConstraints = false
         date.setContentCompressionResistancePriority(.required, for: .horizontal)
@@ -25,7 +25,7 @@ class NoteListCell: UITableViewCell {
         return date
     }()
     
-    lazy var descriptionLabel: UILabel = {
+    private lazy var descriptionLabel: UILabel = {
         let description = UILabel()
         description.translatesAutoresizingMaskIntoConstraints = false
         description.textColor = UIColor.lightGray

@@ -8,5 +8,5 @@
 import Foundation
 
 protocol NoteDelegate {
-    func deliverToDetail(_ data: NoteData)
+    func deliverToDetail(_ data: Note)
 }

@@ -9,7 +9,6 @@ import UIKit
 
 class DetailMemoViewController: UIViewController, UITextViewDelegate {
     static let identifier: String = "DetailMemoVC"
-    
     private var textView = UITextView()
     private var naviButton = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: nil)
     
@@ -20,17 +19,20 @@ class DetailMemoViewController: UIViewController, UITextViewDelegate {
         configureTextViewConstraints()
     }
     
+    override func viewDidLayoutSubviews() {
+        textView.contentOffset = .zero
+    }
+    
     private func configureView() {
         view.backgroundColor = .white
+        view.addSubview(textView)
         textView.delegate = self
-        textView.contentOffset = .zero
+        
         self.navigationItem.rightBarButtonItem = naviButton
     }
     
     private func configureTextViewConstraints() {
         let safeArea = view.safeAreaLayoutGuide
-        
-        view.addSubview(textView)
         
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.font = UIFont.systemFont(ofSize: 20)
@@ -42,9 +44,7 @@ class DetailMemoViewController: UIViewController, UITextViewDelegate {
             textView.heightAnchor.constraint(equalTo: safeArea.heightAnchor),
         ])
     }
-    
 
-    
     func configureDetailText(data: Memo) {
         let text = data.title + "\n\n\n" + data.body
         textView.text = text

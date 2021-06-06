@@ -9,7 +9,7 @@ import UIKit
 
 class MemoListCell: UITableViewCell {
     static let identifier = "MemoListTableViewCell"
-    var dateConverter = DateConverter()
+    private var dateConverter = DateConverter()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .default , reuseIdentifier: MemoListCell.identifier)

@@ -7,8 +7,8 @@
 
 import UIKit
 
-class MemoListViewControllerModel {
-    var memo: [Memo] = []
+final class MemoListViewControllerModel {
+    private var memo: [Memo] = [] 
     
     func loadSampleData() {
         guard let assetData: NSDataAsset = NSDataAsset(name: "sample") else { return }

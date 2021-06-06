@@ -11,25 +11,24 @@ class SplitViewController: UISplitViewController, UISplitViewControllerDelegate 
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        self.delegate = self
-        self.preferredDisplayMode = .allVisible
         
         configureSplitViewController()
     }
     
-    func configureSplitViewController() {
+    private func configureSplitViewController() {
         let memoListViewController = UINavigationController(rootViewController: MemoListViewController(splitViewDelegate: self))
         let detailMemoViewController = UINavigationController(rootViewController: DetailMemoViewController())
         
+        self.delegate = self
+        self.preferredDisplayMode = .allVisible
         self.viewControllers = [memoListViewController, detailMemoViewController]
         self.preferredPrimaryColumnWidthFraction = 1/3
     }
     
     func splitViewController(_ splitViewController: UISplitViewController, collapseSecondary secondaryViewController: UIViewController, onto primaryViewController: UIViewController) -> Bool {
-
         return true
     }
+    
 }
 
 protocol SplitViewDelegate {

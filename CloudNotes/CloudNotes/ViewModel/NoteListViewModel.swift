@@ -5,14 +5,15 @@
 //  Created by 윤재웅 on 2021/06/03.
 //
 
+import Foundation
 import UIKit
 
-struct NoteManager {
-    private var noteDatas: [Note] = []
+struct NoteListViewModel {
+    private var noteDatas: [NoteData] = []
     
     init() {
         guard let jsonData = NSDataAsset(name: "sample") else { return }
-        guard let data = try? JSONDecoder().decode([Note].self, from: jsonData.data) else { return }
+        guard let data = try? JSONDecoder().decode([NoteData].self, from: jsonData.data) else { return }
         noteDatas = data
     }
     
@@ -20,7 +21,7 @@ struct NoteManager {
         return noteDatas.count
     }
     
-    func dataAtIndex(_ index: Int) -> Note {
+    func dataAtIndex(_ index: Int) -> NoteData {
         var data = noteDatas[index]
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy.MM.dd"

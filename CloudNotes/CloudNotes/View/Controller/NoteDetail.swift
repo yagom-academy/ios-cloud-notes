@@ -7,8 +7,8 @@
 
 import UIKit
 
-class NoteDetailViewController: UIViewController {
-    var noteData: Note? {
+class NoteDetail: UIViewController {
+    var noteData: NoteData? {
         didSet {
             guard let data = noteData else { return }
             textView.contentOffset = .zero
@@ -19,7 +19,6 @@ class NoteDetailViewController: UIViewController {
             textView.insertText(data.description)
         }
     }
-    
     lazy var textView: UITextView = {
         let textview = UITextView()
         textview.allowsEditingTextAttributes = true
@@ -40,7 +39,6 @@ class NoteDetailViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
 //        textView.contentOffset = .zero
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {

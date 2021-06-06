@@ -8,13 +8,13 @@ import XCTest
 @testable import CloudNotes
 
 class CloudNotesTests: XCTestCase {
-    var noteListViewModel: NoteManager!
-    var noteDatas: [Note] = []
+    var noteListViewModel: NoteListViewModel!
+    var noteDatas: [NoteData] = []
     
     override func setUpWithError() throws {
-        noteListViewModel = NoteManager()
+        noteListViewModel = NoteListViewModel()
         let jsonData = NSDataAsset(name: "sample")?.data
-        let data = try! JSONDecoder().decode([Note].self, from: jsonData!)
+        let data = try! JSONDecoder().decode([NoteData].self, from: jsonData!)
         noteDatas = data
     }
 

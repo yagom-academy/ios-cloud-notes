@@ -14,57 +14,59 @@ struct CoreData {
     
     // Mark: Function For UpdatedFile
     
-    func getUpdatedFileList(completion: (@escaping (Bool) -> (Void))) {
+    func getUpdatedFileList(completion: (@escaping (Bool) -> (Void))) -> Result<Void?, DataError> {
         do {
             MemoCache.shared.updatedFileNameList = try context.fetch(UpdatedFile.fetchRequest())
-            print("success getUpdatedFileList")
             completion(true)
+            return .success(nil)
         } catch {
-            print("error getUpdatedFileList")
             completion(false)
+            return .failure(DataError.getItems)
         }
     }
     
-    func createUpdatedFileListItem(fileName: String, completion: (@escaping (Bool) -> (Void))) {
+    func createUpdatedFileListItem(fileName: String, completion: (@escaping (Bool) -> (Void))) -> Result<Void?, DataError> {
         let newItem = UpdatedFile(context: context)
         newItem.name = fileName
         do {
             try context.save()
             getUpdatedFileList(completion: { _ in })
-            print("success createUpdatedFileListItem")
             completion(true)
+            return .success(nil)
         } catch {
-            print("error createUpdatedFileListItem")
             completion(false)
+            return .failure(DataError.createItem)
         }
     }
 
-    func deleteUpdatedFileListItem(item: UpdatedFile, completion: (@escaping (Bool) -> (Void))) {
+    func deleteUpdatedFileListItem(item: UpdatedFile, completion: (@escaping (Bool) -> (Void))) -> Result<Void?, DataError> {
         context.delete(item)
         do {
             try context.save()
             getUpdatedFileList(completion: { _ in })
-            print("success deleteUpdatedFileListItem")
             completion(true)
+            return .success(nil)
         } catch {
-            print("error deleteUpdatedFileListItem")
             completion(false)
+            return .failure(DataError.deleteItem)
         }
     }
     
-    func resetUpdatedFileListItem(files: [UpdatedFile], completion: (@escaping (Bool) -> (Void))) {
+    func resetUpdatedFileListItem(files: [UpdatedFile], completion: (@escaping (Bool) -> (Void))) -> Result<Void?, DataError> {
         for file in files {
             context.delete(file)
         }
         do {
             try context.save()
             completion(true)
+            return .success(nil)
         } catch {
             completion(false)
+            return .failure(DataError.resetItems)
         }
     }
     
-    func convertMemoTypeToMemoListItemType(memoList: [Memo], completion: (@escaping (Bool) -> (Void))) {
+    func convertMemoTypeToMemoListItemType(memoList: [Memo], completion: (@escaping (Bool) -> (Void))) -> Result<Void?, DataError> {
         for memo in memoList {
             let newItem = MemoListItem(context: context)
             newItem.title = memo.computedTitle
@@ -75,25 +77,28 @@ struct CoreData {
             try context.save()
             getAllMemoListItems(completion: { _ in })
             completion(true)
+            return .success(nil)
         } catch {
+            completion(false)
+            return .failure(DataError.convertItem)
         }
     }
     
     // Mark: Function For MemoListItem
     
-    func getAllMemoListItems(completion: (@escaping (Bool) -> (Void))) {
+    func getAllMemoListItems(completion: (@escaping (Bool) -> (Void))) -> Result<Void?, DataError> {
         do {
             MemoCache.shared.memoData = try context.fetch(MemoListItem.fetchRequest())
             MemoCache.shared.memoData.reverse()
-            print("success")
             completion(true)
+            return .success(nil)
         } catch {
-            print("error")
             completion(false)
+            return .failure(DataError.getItems)
         }
     }
     
-    func createMemoListItem(completion: (@escaping (Bool) -> (Void))) {
+    func createMemoListItem(completion: (@escaping (Bool) -> (Void))) -> Result<Void?, DataError> {
         let newItem = MemoListItem(context: context)
         newItem.title = ""
         newItem.body = ""
@@ -101,52 +106,52 @@ struct CoreData {
         do {
             try context.save()
             getAllMemoListItems(completion: { _ in })
-            print("success")
             completion(true)
+            return .success(nil)
         } catch {
-            print("error")
             completion(false)
+            return .failure(DataError.createItem)
         }
     }
 
-    func updateMemoListItem(item: MemoListItem, completion: (@escaping (Bool) -> (Void))) {
+    func updateMemoListItem(item: MemoListItem, completion: (@escaping (Bool) -> (Void))) -> Result<Void?, DataError> {
   
         item.lastModifiedDate = Date()
         do {
             try context.save()
             getAllMemoListItems(completion: { _ in })
-            print("success")
             completion(true)
+            return .success(nil)
         } catch {
-            print("error")
             completion(false)
+            return .failure(DataError.updateItem)
         }
     }
 
-    func deleteMemoListItem(item: MemoListItem, completion: (@escaping (Bool) -> (Void))) {
+    func deleteMemoListItem(item: MemoListItem, completion: (@escaping (Bool) -> (Void))) -> Result<Void?, DataError> {
         context.delete(item)
         do {
             try context.save()
             getAllMemoListItems(completion: { _ in })
-            print("success")
             completion(true)
+            return .success(nil)
         } catch {
-            print("error")
             completion(false)
+            return .failure(DataError.deleteItem)
         }
     }
     
-    func resetMemoListItem(items: [MemoListItem], completion: (@escaping (Bool) -> (Void))) {
+    func resetMemoListItem(items: [MemoListItem], completion: (@escaping (Bool) -> (Void))) -> Result<Void?, DataError> {
         for item in items {
             context.delete(item)
         }
         do {
             try context.save()
-            print("success")
             completion(true)
+            return .success(nil)
         } catch {
-            print("error")
             completion(false)
+            return .failure(DataError.resetItems)
         }
     }
     

@@ -39,7 +39,6 @@ class NoteListViewController: UIViewController {
     private func setConstraint() {
         self.view.addSubview(tableView)
         
-        
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: self.view.topAnchor),
             tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),

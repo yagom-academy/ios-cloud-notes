@@ -15,6 +15,17 @@ class MemoDetailViewController: UIViewController {
 
     private lazy var isHorizontalSizeClassRegular = UITraitCollection.current.horizontalSizeClass == .regular
 
+    private let titleTextView: UITextView = {
+        let textView = UITextView()
+        textView.isEditable = false
+        textView.isScrollEnabled = false
+        textView.translatesAutoresizingMaskIntoConstraints = false
+        textView.font = UIFont.preferredFont(forTextStyle: .title1)
+        textView.textContainer.maximumNumberOfLines = 1
+        textView.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        return textView
+    }()
+
     private let descriptionTextView: UITextView = {
         let textView = UITextView()
         textView.isEditable = false
@@ -31,6 +42,7 @@ class MemoDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpView()
+        setUpTitleTextView()
         setUpDescriptionTextView()
     }
 
@@ -39,15 +51,22 @@ class MemoDetailViewController: UIViewController {
     }
 
     override func viewWillDisappear(_ animated: Bool) {
-        guard let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext,
-              let memo = memo else { return }
+        guard let memo = memo,
+              let indexPath = indexPath,
+              let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext else { return }
+        titleTextView.isEditable = false
+        descriptionTextView.isEditable = false
 
-        if let indexPath = indexPath,
-            memo.memoDescription != descriptionTextView.text {
-            memo.memoDescription = descriptionTextView.text
-            try? context.save()
-            memoListViewDelegate?.updateCell(indexPath: indexPath)
+        if memo.title != titleTextView.text {
+            memo.title = titleTextView.text
         }
+
+        if memo.memoDescription != descriptionTextView.text {
+            memo.memoDescription = descriptionTextView.text
+        }
+
+        try? context.save()
+        memoListViewDelegate?.updateCell(indexPath: indexPath)
     }
 
     init(memoListViewDelegate: MemoListViewDelegate) {
@@ -61,7 +80,9 @@ class MemoDetailViewController: UIViewController {
 
     func fetchData(memo: Memo, indexPath: IndexPath) {
         self.memo = memo
+        titleTextView.text = memo.title
         descriptionTextView.text = memo.memoDescription
+        titleTextView.isEditable = true
         descriptionTextView.isEditable = true
 
         self.indexPath = indexPath
@@ -75,18 +96,41 @@ class MemoDetailViewController: UIViewController {
         descriptionTextView.backgroundColor = isHorizontalSizeClassRegular ? .systemBackground : .systemGray3
     }
 
+    private func setUpTitleTextView() {
+        view.addSubview(titleTextView)
+        titleTextView.delegate = self
+
+        if let memo = memo {
+            let text = memo.title
+            titleTextView.text = text
+        }
+
+        NSLayoutConstraint.activate([
+            titleTextView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            titleTextView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            titleTextView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            titleTextView.heightAnchor.constraint(lessThanOrEqualToConstant: 50)
+        ])
+    }
+
     private func setUpDescriptionTextView() {
         view.addSubview(descriptionTextView)
+        descriptionTextView.delegate = self
+
+        if let memo = memo {
+            descriptionTextView.text = memo.memoDescription
+        }
 
         NSLayoutConstraint.activate([
             descriptionTextView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             descriptionTextView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            descriptionTextView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            descriptionTextView.topAnchor.constraint(equalTo: titleTextView.bottomAnchor),
             descriptionTextView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
 
     @objc private func showMoreButtonDidTouched() {
+        // FIXME: iPad에서는 actionSheet 띄울 때 error 발생중 대응 해야함
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let shareAction = UIAlertAction(title: "Share", style: .default, handler: shareActionCompletionHandler)
         let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: deleteActionCompletionHandler)
@@ -108,10 +152,29 @@ class MemoDetailViewController: UIViewController {
         guard let memo = memo,
               let indexPath = indexPath,
               let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext else { return }
+
         context.delete(memo)
         try? context.save()
         memoListViewDelegate?.deleteCell(indexPath: indexPath)
 
-        // TODO: delete 이후에 어떻게 처리할건지 정해야 함
+        self.memo = nil
+        self.titleTextView.text.removeAll()
+        self.titleTextView.isEditable = false
+        self.descriptionTextView.text.removeAll()
+        self.descriptionTextView.isEditable = false
+
+        navigationController?.popViewController(animated: true)
+    }
+}
+
+extension MemoDetailViewController: UITextViewDelegate {
+    func textViewDidChange(_ textView: UITextView) {
+        if titleTextView.isFirstResponder {
+            let latestText = titleTextView.text.last
+            if latestText == "\n" || latestText == "\t" {
+                titleTextView.text.removeLast()
+                descriptionTextView.becomeFirstResponder()
+            }
+        }
     }
 }

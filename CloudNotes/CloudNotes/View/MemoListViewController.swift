@@ -79,7 +79,7 @@ class MemoListViewController: UIViewController {
         guard let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext else { return }
 
         let newMemo = Memo(context: context)
-        newMemo.title = "\(Date())"
+        newMemo.title = "새로운 메모"
         newMemo.date = Date()
 
         try? context.save()

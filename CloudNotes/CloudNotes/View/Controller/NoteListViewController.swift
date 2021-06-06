@@ -14,6 +14,7 @@ class NoteListViewController: UIViewController {
     private let tableView: UITableView = {
         let tableview = UITableView()
         tableview.showsVerticalScrollIndicator = false
+        tableview.translatesAutoresizingMaskIntoConstraints = false
         return tableview
     }()
     
@@ -37,7 +38,7 @@ class NoteListViewController: UIViewController {
     
     private func setConstraint() {
         self.view.addSubview(tableView)
-        tableView.translatesAutoresizingMaskIntoConstraints = false
+        
         
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: self.view.topAnchor),

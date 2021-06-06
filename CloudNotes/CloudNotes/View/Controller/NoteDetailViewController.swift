@@ -22,6 +22,7 @@ class NoteDetailViewController: UIViewController {
     
     lazy var textView: UITextView = {
         let textview = UITextView()
+        textview.translatesAutoresizingMaskIntoConstraints = false
         textview.allowsEditingTextAttributes = true
         textview.showsVerticalScrollIndicator = false
         textview.textAlignment = .justified
@@ -57,7 +58,6 @@ class NoteDetailViewController: UIViewController {
 
     private func setConstraint() {
         view.addSubview(textView)
-        textView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             textView.leadingAnchor.constraint(equalTo: view.leadingAnchor),

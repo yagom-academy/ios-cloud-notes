@@ -9,7 +9,6 @@ import UIKit
 
 final class NoteListViewController: UIViewController {
     private let noteTableView: UITableView = UITableView()
-//    private var notes: [NoteData] = []
     private var noteListViewModel: NoteListViewModel = NoteListViewModel()
     static weak var noteDelegate: NoteDelegate?
     
@@ -47,13 +46,6 @@ final class NoteListViewController: UIViewController {
             noteTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
     }
-    
-    //    private func fetchSampleNote() {
-    //        guard let notesData = NSDataAsset(name: "sample")?.data,
-    //              let notes = try? JSONDecoder().decode([NoteData].self, from: notesData) else { return }
-    //
-    //        self.notes = notes
-    //    }
 }
 
 extension NoteListViewController: UITableViewDataSource {

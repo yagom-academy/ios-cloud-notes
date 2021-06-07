@@ -23,8 +23,6 @@ class MemoSplitViewController: UISplitViewController {
         detail.memoListViewController = master
         self.viewControllers = [UINavigationController(rootViewController: master), UINavigationController(rootViewController: detail)]
         self.preferredDisplayMode = .oneBesideSecondary
-//        CoreData.shared.resetUpdatedFileListItem(files: MemoCache.shared.updatedFileNameList ,completion: { _ in })
-//        CoreData.shared.resetMemoListItem(items: MemoCache.shared.memoData ,completion: { _ in })
     }
 
     private func updateJsonData(fileName: String) {

@@ -40,7 +40,7 @@ class MemoListViewController: UIViewController {
         self.view.addSubview(tableView)
         self.tableView.delegate = self
         self.tableView.dataSource = self
-        self.tableView.register(MemoListTableViewCell.classForCoder(),forCellReuseIdentifier:MemoListTableViewCell.identifier)
+        self.tableView.register(MemoListTableViewCell.classForCoder(),forCellReuseIdentifier: MemoListTableViewCell.identifier)
         self.setTableViewLayout()
     }
     
@@ -57,7 +57,7 @@ class MemoListViewController: UIViewController {
     
     private func presentAlertForDelete(indexPath: IndexPath) {
         let alert = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
-        let cancelAction = UIAlertAction(title: "취소", style: .default) { [weak self] action in
+        let cancelAction = UIAlertAction(title: "취소", style: .default) { action in
         }
         let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { [weak self] action in
             self?.memoSplitViewController?.detail.deleteMemo(indexPath: indexPath)

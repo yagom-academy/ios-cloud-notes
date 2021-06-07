@@ -7,7 +7,7 @@
 import UIKit
 
 class MemoListViewController: UIViewController {
-    var memoModel: MemoListViewModel = MemoListViewModel()
+    var memoListViewModel: MemoListViewModel = MemoListViewModel()
     let memoListViewNavigationBarTitle: String = "메모"
     var splitViewDelegate: SplitViewDelegate?
     
@@ -37,7 +37,7 @@ class MemoListViewController: UIViewController {
     private func configureMemoListView() {
         self.tableView.dataSource = self
         self.tableView.delegate = self
-        self.memoModel.loadSampleData()
+        self.memoListViewModel.loadSampleData()
         
         tableView.register(MemoListCell.self, forCellReuseIdentifier: MemoListCell.identifier)
         self.view.backgroundColor = .white
@@ -65,7 +65,7 @@ class MemoListViewController: UIViewController {
 
 extension MemoListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.memoModel.countMemo()
+        return self.memoListViewModel.countMemo()
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -73,14 +73,14 @@ extension MemoListViewController: UITableViewDelegate, UITableViewDataSource {
             return UITableViewCell()
         }
         
-        cell.configureCell(data: memoModel.readMemo(index: indexPath.row))
+        cell.configureCell(data: memoListViewModel.readMemo(index: indexPath.row))
         
         
         return cell
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.splitViewDelegate?.didSelectRowAt(data: memoModel.readMemo(index: indexPath.row))
+        self.splitViewDelegate?.didSelectRowAt(data: memoListViewModel.readMemo(index: indexPath.row))
     }
         
 }

@@ -60,6 +60,7 @@ struct CoreData {
             newItem.title = memo.computedTitle
             newItem.body = memo.computedBody
             newItem.lastModifiedDate = Date(timeIntervalSince1970: TimeInterval(memo.computedlastModifiedDate))
+            newItem.allText = memo.computedTitle + "\n" + memo.computedBody
         }
         do {
             try context.save()
@@ -85,6 +86,7 @@ struct CoreData {
         newItem.title = ""
         newItem.body = ""
         newItem.lastModifiedDate = Date()
+        newItem.allText = ""
         do {
             try context.save()
             getAllMemoListItems()

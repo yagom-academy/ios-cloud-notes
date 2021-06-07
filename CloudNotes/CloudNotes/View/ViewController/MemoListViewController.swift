@@ -69,10 +69,10 @@ class MemoListViewController: UIViewController {
     
     private func shareMemo(indexPath: IndexPath) {
         let memo = MemoCache.shared.memoData[indexPath.row]
-        guard let title = memo.title, let body = memo.body else {
+        guard let allText = memo.allText else {
             return
         }
-        let text = "\n" + title + "\n\n" + body
+        let text = allText
         let activity = UIActivityViewController(activityItems: [text], applicationActivities: nil)
         self.present(activity, animated: true, completion: nil)
     }

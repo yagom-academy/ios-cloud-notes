@@ -102,15 +102,16 @@ class DetailMemoViewController: UIViewController {
     }
 
     func configure(with memo: MemoListItem?, indexPath: IndexPath?) {
+        
         memoTextView.contentOffset = CGPoint(x: 0,y: 0)
-        guard let memo = memo, let title = memo.title, let body = memo.body else {
+        guard let memo = memo, let allText = memo.allText else {
             memoTextView.text = ""
             return
         }
-        memoTextView.text = title + "\n" + body
         guard let indexPath = indexPath else {
             return
         }
+        memoTextView.text = allText
         self.indexPath = indexPath
         memoTextView.contentOffset = CGPoint(x: 0,y: 0)
     }
@@ -118,20 +119,24 @@ class DetailMemoViewController: UIViewController {
 
 extension DetailMemoViewController: UITextViewDelegate {
     func textViewDidEndEditing(_ textView: UITextView) {
+        
         var title = ""
         var body = ""
         guard let indexPath = self.indexPath else {
             return
         }
+        guard let allText = textView.text else {
+            return
+        }
         var text = textView.text.components(separatedBy: "\n")
         guard text.count > 0 else {
-            updateMemoData(indexPath: indexPath, title: "", body: "")
+            updateMemoData(indexPath: indexPath, title: "", body: "", allText: allText)
             return
         }
         while text[0] == "" {
             text.remove(at: 0)
             if text.count == 0 {
-                updateMemoData(indexPath: indexPath, title: "", body: "")
+                updateMemoData(indexPath: indexPath, title: "", body: "", allText: allText)
                 return
             }
         }
@@ -139,18 +144,20 @@ extension DetailMemoViewController: UITextViewDelegate {
         while text.count > 0, text[0] == "" {
             text.remove(at: 0)
             if text.count == 0 {
-                updateMemoData(indexPath: indexPath, title: title, body: "")
+                updateMemoData(indexPath: indexPath, title: title, body: "", allText: allText)
                 return
             }
         }
         body = text.joined(separator: "\n")
-        updateMemoData(indexPath: indexPath, title: title, body: body)
+        updateMemoData(indexPath: indexPath, title: title, body: body, allText: allText)
+        
     }
     
-    private func updateMemoData(indexPath: IndexPath, title: String, body: String) {
+    private func updateMemoData(indexPath: IndexPath, title: String, body: String, allText: String) {
         MemoCache.shared.memoData[indexPath.row].title = title
         MemoCache.shared.memoData[indexPath.row].body = body
         MemoCache.shared.memoData[indexPath.row].lastModifiedDate = Date()
+        MemoCache.shared.memoData[indexPath.row].allText = allText
         memoListViewController?.tableView.reloadData()
         CoreData.shared.updateMemoListItem(item: MemoCache.shared.memoData[indexPath.row])
     }

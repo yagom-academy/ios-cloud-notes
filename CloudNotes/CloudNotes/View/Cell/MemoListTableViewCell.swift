@@ -22,6 +22,12 @@ class MemoListTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
     }
     
+    override func prepareForReuse() {
+        title.text = ""
+        lastModifiedDate.text = ""
+        body.text = ""
+    }
+    
     private func setUpUI() {
         let safeArea = self.contentView.safeAreaLayoutGuide
         self.addSubviewInContentView()
@@ -65,7 +71,7 @@ class MemoListTableViewCell: UITableViewCell {
         body.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             body.topAnchor.constraint(equalTo: lastModifiedDate.topAnchor, constant: 0),
-            body.leadingAnchor.constraint(equalTo: lastModifiedDate.trailingAnchor, constant: 10),
+            body.leadingAnchor.constraint(equalTo: layoutGuide.leadingAnchor, constant: 150),
             body.trailingAnchor.constraint(equalTo: layoutGuide.trailingAnchor, constant: -10),
         ])
     }
@@ -77,8 +83,8 @@ class MemoListTableViewCell: UITableViewCell {
             return
         }
         title.text = memo.title
-        body.text = memo.body
         lastModifiedDate.text = formattedLastModifiedDate(date: lastModified)
+        body.text = memo.body
     }
     
     private func formattedLastModifiedDate(date: Date) -> String {

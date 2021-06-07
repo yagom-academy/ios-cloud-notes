@@ -57,7 +57,7 @@ extension SplitViewController: SplitViewDelegate {
         let memoDetailViewController = MemoDetailViewController(memoListViewDelegate: memoListViewDelegate)
         memoDetailViewController.fetchData(memo: memo, indexPath: indexPath)
 
-        if UIScreen.main.traitCollection.horizontalSizeClass == .regular {
+        if traitCollection.horizontalSizeClass == .regular {
             showDetailViewController(UINavigationController(rootViewController: memoDetailViewController), sender: nil)
         } else {
             showDetailViewController(memoDetailViewController, sender: nil)

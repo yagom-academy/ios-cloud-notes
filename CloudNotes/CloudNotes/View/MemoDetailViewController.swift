@@ -21,7 +21,6 @@ class MemoDetailViewController: UIViewController {
         textView.isScrollEnabled = false
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.font = UIFont.preferredFont(forTextStyle: .title1)
-        textView.textContainer.maximumNumberOfLines = 1
         textView.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         return textView
     }()
@@ -110,7 +109,7 @@ class MemoDetailViewController: UIViewController {
             titleTextView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             titleTextView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             titleTextView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            titleTextView.heightAnchor.constraint(lessThanOrEqualToConstant: 50) // TODO: 적절하게 교체 필요
+            titleTextView.heightAnchor.constraint(equalToConstant: 50) // TODO: 적절하게 교체 필요
         ])
     }
 
@@ -175,6 +174,13 @@ extension MemoDetailViewController: UITextViewDelegate {
                 titleTextView.text.removeLast()
                 descriptionTextView.becomeFirstResponder()
             }
+        }
+
+        if textView == titleTextView {
+            let estimatedSize = textView.sizeThatFits(CGSize(width: textView.frame.width, height: .infinity))
+            textView.constraints.forEach({ if $0.firstAttribute == .height {
+                $0.constant = estimatedSize.height
+            } })
         }
     }
 }

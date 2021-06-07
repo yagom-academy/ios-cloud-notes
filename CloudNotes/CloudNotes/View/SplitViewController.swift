@@ -8,21 +8,36 @@
 import UIKit
 
 class SplitViewController: UISplitViewController {
+    private var memoListViewController: MemoListViewController?
+    private var memoDetailViewController: MemoDetailViewController?
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        setViewControllers()
+        setUpMemoListViewController()
+        setUpMemoDetailViewController()
+        setSplitViewController()
     }
 
-    private func setViewControllers() {
+    private func setUpMemoListViewController() {
+        memoListViewController = MemoListViewController(splitViewDelegate: self)
+    }
+
+    private func setUpMemoDetailViewController() {
+        guard let memoListViewController = memoListViewController else {
+            return
+        }
+        memoDetailViewController = MemoDetailViewController(memoListViewDelegate: memoListViewController)
+    }
+    private func setSplitViewController() {
+        guard let memoListViewController = memoListViewController,
+              let memoDetailViewController = memoDetailViewController else { return }
         delegate = self
+        preferredSplitBehavior = .tile
         preferredDisplayMode = .oneBesideSecondary
 
-        let memoListViewController = MemoListViewController(splitViewDelegate: self)
-        let memoDetailViewController = MemoDetailViewController(memoListViewDelegate: memoListViewController)
-
         viewControllers = [
-            UINavigationController(rootViewController: memoListViewController),
-            UINavigationController(rootViewController: memoDetailViewController)
+            memoListViewController,
+            memoDetailViewController
         ]
     }
 
@@ -47,20 +62,16 @@ class SplitViewController: UISplitViewController {
 }
 
 extension SplitViewController: UISplitViewControllerDelegate {
-    func splitViewController(_ splitViewController: UISplitViewController,
-                             collapseSecondary secondaryViewController: UIViewController,
-                             onto primaryViewController: UIViewController) -> Bool { true }
+    func splitViewController(_ svc: UISplitViewController,
+                             topColumnForCollapsingToProposedTopColumn proposedTopColumn: UISplitViewController.Column) -> UISplitViewController.Column {
+        return .primary
+    }
 }
 
 extension SplitViewController: SplitViewDelegate {
     func didSelectRow(memo: Memo, indexPath: IndexPath, memoListViewDelegate: MemoListViewDelegate) {
-        let memoDetailViewController = MemoDetailViewController(memoListViewDelegate: memoListViewDelegate)
+        guard let memoDetailViewController = memoDetailViewController else { return }
         memoDetailViewController.fetchData(memo: memo, indexPath: indexPath)
-
-        if traitCollection.horizontalSizeClass == .regular {
-            showDetailViewController(UINavigationController(rootViewController: memoDetailViewController), sender: nil)
-        } else {
-            showDetailViewController(memoDetailViewController, sender: nil)
-        }
+        showDetailViewController(memoDetailViewController, sender: self)
     }
 }

@@ -1,5 +1,5 @@
 //
-//  CloudNotes - MemoListVC.swift
+//  CloudNotes - MemoListViewController.swift
 //  Created by yagom.
 //  Copyright © yagom. All rights reserved.
 //
@@ -7,7 +7,7 @@
 import UIKit
 
 class MemoListViewController: UIViewController {
-    var memoModel: MemoListViewControllerModel = MemoListViewControllerModel()
+    var memoModel: MemoListViewModel = MemoListViewModel()
     let memoListViewNavigationBarTitle: String = "메모"
     var splitViewDelegate: SplitViewDelegate?
     
@@ -21,11 +21,7 @@ class MemoListViewController: UIViewController {
         fatalError("init(coder:) has not been impl")
     }
     
-    private var tableView: UITableView = {
-        let tableView = UITableView()
-        
-        return tableView
-    }()
+    private var tableView: UITableView = UITableView()
     
     private let plusMemo = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: nil)
 
@@ -64,7 +60,6 @@ class MemoListViewController: UIViewController {
             tableView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
         ])
     }
-    
     
 }
 

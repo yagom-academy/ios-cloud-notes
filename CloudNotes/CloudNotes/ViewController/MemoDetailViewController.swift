@@ -7,7 +7,6 @@
 import UIKit
 
 final class MemoDetailViewController: UIViewController {
-
   private let viewModel = MemoDetailViewModel()
   
   lazy var textView: UITextView = {
@@ -24,6 +23,7 @@ final class MemoDetailViewController: UIViewController {
     textView.translatesAutoresizingMaskIntoConstraints = false
     textView.font = UIFont.preferredFont(forTextStyle: .title3)
     textView.text = viewModel.content
+    
     return textView
   }()
   

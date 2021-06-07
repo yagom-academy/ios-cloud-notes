@@ -14,6 +14,7 @@ final class MemoListViewController: UITableViewController {
   
   lazy var addButton: UIBarButtonItem = {
     let button = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addMemo))
+    
     return button
   }()
   
@@ -40,7 +41,8 @@ final class MemoListViewController: UITableViewController {
     return tableViewModel.getNumberOfMemo()
   }
   
-  override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+  override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath)
+  -> UITableViewCell {
     guard let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier)
             as? MemoListCell else {
       return UITableViewCell()
@@ -58,7 +60,10 @@ final class MemoListViewController: UITableViewController {
   
   override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     guard let splitViewController = splitViewController as? SplitViewController else { return }
-    guard let detailViewController = splitViewController.viewController(for: .secondary) as? MemoDetailViewController else { return }
+    guard let detailViewController = splitViewController.viewController(for: .secondary)
+            as? MemoDetailViewController else {
+      return
+    }
     
     guard let memo = tableViewModel.getMemo(for: indexPath) else { return }
     detailViewController.configure(with: memo)

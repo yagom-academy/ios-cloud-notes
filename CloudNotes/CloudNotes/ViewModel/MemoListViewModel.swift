@@ -9,6 +9,7 @@ import Foundation
 
 final class MemoListViewModel {
   private var memoServiceAdapter = MemoProvider()
+
   private lazy var memos: [Memo]? = {
     do {
       let memos = try memoServiceAdapter.getMockData()
@@ -20,9 +21,7 @@ final class MemoListViewModel {
   
   private lazy var memoViewModels: [MemoViewModel]? = {
     var memoViewModels: [MemoViewModel] = []
-    guard let memos = memos else {
-      return nil
-    }
+    guard let memos = memos else { return nil }
     let dateFormatter: DateFormatter = DateFormatter()
 
     for memo in memos {
@@ -41,24 +40,20 @@ final class MemoListViewModel {
   }
   
   func getNumberOfMemo() -> Int {
-    guard let memos = memos else {
-      return .zero
-    }
+    guard let memos = memos else { return .zero }
+    
     return memos.count
   }
   
   func getMemoViewModel(for indexPath: IndexPath) -> MemoViewModel? {
-    guard let memoViewModels = memoViewModels else {
-      return nil
-    }
+    guard let memoViewModels = memoViewModels else { return nil }
     let memoViewModel = memoViewModels[indexPath.row]
+    
     return memoViewModel
   }
   
   func getMemo(for indexPath: IndexPath) -> Memo? {
-    guard let memos = memos else {
-      return nil
-    }
+    guard let memos = memos else { return nil }
     
     return memos[indexPath.row]
   }

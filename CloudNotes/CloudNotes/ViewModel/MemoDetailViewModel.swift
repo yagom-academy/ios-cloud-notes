@@ -8,22 +8,25 @@
 import Foundation
 
 final class MemoDetailViewModel {
-  private let whiteSpace = ""
-  private let emptyParagraph = "\n\n"
+  private enum ContentConstant {
+    static let emptyString = ""
+    static let doubleNewLine = "\n\n"
+  }
+  
   var delegate: MemoDetailViewModelDelegate?
   
-  private var memo: Memo = Memo(title: "", body: "", lastModified: 0) {
+  private var memo: Memo = Memo(title: ContentConstant.emptyString,
+                                body: ContentConstant.emptyString,
+                                lastModified: .zero) {
     willSet {
       self.date = newValue.lastModified
-      self.content = newValue.title + emptyParagraph + newValue.body
+      self.content = newValue.title + ContentConstant.doubleNewLine + newValue.body
       delegate?.changeMemo(content: content)
     }
   }
   
   lazy var date: Int = { return memo.lastModified }()
-  lazy var content: String = {
-    return memo.title + emptyParagraph + memo.body
-  }()
+  lazy var content: String = { return memo.title + ContentConstant.doubleNewLine + memo.body }()
   
   func configure(with memo: Memo) {
     self.memo = memo

@@ -119,6 +119,8 @@ class DetailMemoViewController: UIViewController {
 
 extension DetailMemoViewController: UITextViewDelegate {
     func textViewDidEndEditing(_ textView: UITextView) {
+        var title = ""
+        var body = ""
         guard let indexPath = self.indexPath else {
             return
         }
@@ -128,12 +130,26 @@ extension DetailMemoViewController: UITextViewDelegate {
         }
         while text[0] == "" {
             text.remove(at: 0)
+            if text.count == 0 {
+                updateMemoData(indexPath: indexPath, title: "", body: "")
+                return
+            }
         }
-        MemoCache.shared.memoData[indexPath.row].title = text.remove(at: 0)
+        title = text.remove(at: 0)
         while text[0] == "" {
             text.remove(at: 0)
+            if text.count == 0 {
+                updateMemoData(indexPath: indexPath, title: title, body: "")
+                return
+            }
         }
-        MemoCache.shared.memoData[indexPath.row].body = text.joined(separator: "\n")
+        body = text.joined(separator: "\n")
+        updateMemoData(indexPath: indexPath, title: title, body: body)
+    }
+    
+    private func updateMemoData(indexPath: IndexPath, title: String, body: String) {
+        MemoCache.shared.memoData[indexPath.row].title = title
+        MemoCache.shared.memoData[indexPath.row].body = body
         MemoCache.shared.memoData[indexPath.row].lastModifiedDate = Date()
         memoListViewController?.tableView.reloadData()
         CoreData.shared.updateMemoListItem(item: MemoCache.shared.memoData[indexPath.row])

@@ -14,59 +14,55 @@ struct CoreData {
     
     // Mark: Function For UpdatedFile
     
-    func getUpdatedFileList(completion: (@escaping Handler) = { _ in }) -> Result<Void?, DataError> {
+    func getUpdatedFileList(completion: (@escaping Handler) = { _ in }) {
         do {
             MemoCache.shared.updatedFileNameList = try context.fetch(UpdatedFile.fetchRequest())
             completion(true)
-            return .success(nil)
         } catch {
             completion(false)
-            return .failure(DataError.getItems)
+            print(DataError.getItems)
         }
     }
     
-    func createUpdatedFileListItem(fileName: String, completion: (@escaping Handler) = { _ in }) -> Result<Void?, DataError> {
+    func createUpdatedFileListItem(fileName: String, completion: (@escaping Handler) = { _ in }){
         let newItem = UpdatedFile(context: context)
         newItem.name = fileName
         do {
             try context.save()
             getUpdatedFileList()
             completion(true)
-            return .success(nil)
         } catch {
             completion(false)
-            return .failure(DataError.createItem)
+            print(DataError.createItem)
         }
     }
 
-    func deleteUpdatedFileListItem(item: UpdatedFile, completion: (@escaping Handler) = { _ in }) -> Result<Void?, DataError> {
+    func deleteUpdatedFileListItem(item: UpdatedFile, completion: (@escaping Handler) = { _ in }) {
         context.delete(item)
         do {
             try context.save()
             getUpdatedFileList()
             completion(true)
-            return .success(nil)
         } catch {
             completion(false)
-            return .failure(DataError.deleteItem)
+            print(DataError.deleteItem)
         }
     }
     
-    func resetUpdatedFileListItem(files: [UpdatedFile], completion: (@escaping Handler) = { _ in }) -> Result<Void?, DataError> {
+    func resetUpdatedFileListItem(files: [UpdatedFile], completion: (@escaping Handler) = { _ in }) {
         for file in files {
             context.delete(file)
         }
         do {
             try context.save()
             completion(true)
-            return .success(nil)
         } catch {
             completion(false)
-            return .failure(DataError.resetItems)
+            print(DataError.resetItems)
         }
     }
     
-    func convertMemoTypeToMemoListItemType(memoList: [Memo], completion: (@escaping Handler) = { _ in }) -> Result<Void?, DataError> {
+    func convertMemoTypeToMemoListItemType(memoList: [Memo], completion: (@escaping Handler) = { _ in }) {
         for memo in memoList {
             let newItem = MemoListItem(context: context)
             newItem.title = memo.computedTitle
@@ -77,28 +73,26 @@ struct CoreData {
             try context.save()
             getAllMemoListItems()
             completion(true)
-            return .success(nil)
         } catch {
             completion(false)
-            return .failure(DataError.convertItem)
+            print(DataError.convertItem)
         }
     }
     
     // Mark: Function For MemoListItem
     
-    func getAllMemoListItems(completion: @escaping Handler = { _ in }) -> Result<Void?, DataError> {
+    func getAllMemoListItems(completion: @escaping Handler = { _ in }) {
         do {
             MemoCache.shared.memoData = try context.fetch(MemoListItem.fetchRequest())
             MemoCache.shared.memoData.reverse()
             completion(true)
-            return .success(nil)
         } catch {
             completion(false)
-            return .failure(DataError.getItems)
+            print(DataError.getItems)
         }
     }
     
-    func createMemoListItem(completion: (@escaping Handler) = { _ in }) -> Result<Void?, DataError> {
+    func createMemoListItem(completion: (@escaping Handler) = { _ in }) {
         let newItem = MemoListItem(context: context)
         newItem.title = ""
         newItem.body = ""
@@ -107,51 +101,47 @@ struct CoreData {
             try context.save()
             getAllMemoListItems()
             completion(true)
-            return .success(nil)
         } catch {
             completion(false)
-            return .failure(DataError.createItem)
+            print(DataError.createItem)
         }
     }
 
-    func updateMemoListItem(item: MemoListItem, completion: (@escaping Handler) = { _ in }) -> Result<Void?, DataError> {
+    func updateMemoListItem(item: MemoListItem, completion: (@escaping Handler) = { _ in }) {
   
         item.lastModifiedDate = Date()
         do {
             try context.save()
             getAllMemoListItems()
             completion(true)
-            return .success(nil)
         } catch {
             completion(false)
-            return .failure(DataError.updateItem)
+            print(DataError.updateItem)
         }
     }
 
-    func deleteMemoListItem(item: MemoListItem, completion: (@escaping Handler) = { _ in }) -> Result<Void?, DataError> {
+    func deleteMemoListItem(item: MemoListItem, completion: (@escaping Handler) = { _ in }) {
         context.delete(item)
         do {
             try context.save()
             getAllMemoListItems()
             completion(true)
-            return .success(nil)
         } catch {
             completion(false)
-            return .failure(DataError.deleteItem)
+            print(DataError.deleteItem)
         }
     }
     
-    func resetMemoListItem(items: [MemoListItem], completion: (@escaping Handler) = { _ in }) -> Result<Void?, DataError> {
+    func resetMemoListItem(items: [MemoListItem], completion: (@escaping Handler) = { _ in }) {
         for item in items {
             context.delete(item)
         }
         do {
             try context.save()
             completion(true)
-            return .success(nil)
         } catch {
             completion(false)
-            return .failure(DataError.resetItems)
+            print(DataError.resetItems)
         }
     }
     

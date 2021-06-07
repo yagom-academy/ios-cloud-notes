@@ -79,7 +79,6 @@ class MemoListViewController: UIViewController {
         guard let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext else { return }
 
         let newMemo = Memo(context: context)
-//        newMemo.title = "새로운 메모"
         newMemo.date = Date()
 
         try? context.save()
@@ -152,10 +151,15 @@ extension MemoListViewController: MemoListViewDelegate {
         memoListTableView.deleteRows(at: [indexPath], with: .automatic)
     }
 
-    // FIXME: share 이후에 sizeclass가 compact로 고정되는 문제 있음
     func shareMemo(indexPath: IndexPath) {
         guard let memos = memos else { return }
         let activityView = UIActivityViewController(activityItems: [memos[indexPath.row].title], applicationActivities: nil)
+
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            let popOverPresentationController = activityView.popoverPresentationController
+            popOverPresentationController?.sourceView = memoListTableView.cellForRow(at: indexPath)
+        }
+
         present(activityView, animated: true)
     }
 }

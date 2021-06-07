@@ -131,7 +131,6 @@ class MemoDetailViewController: UIViewController {
     }
 
     @objc private func showMoreButtonDidTouched() {
-        // FIXME: iPad에서는 actionSheet 띄울 때 error 발생중 대응 해야함
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let shareAction = UIAlertAction(title: "Share", style: .default, handler: shareActionCompletionHandler)
         let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: deleteActionCompletionHandler)
@@ -139,6 +138,12 @@ class MemoDetailViewController: UIViewController {
         alert.addAction(shareAction)
         alert.addAction(deleteAction)
         alert.addAction(cancelAction)
+
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            alert.popoverPresentationController?.sourceRect = CGRect(origin: view.center, size: CGSize(width: 100, height: 100))
+            alert.popoverPresentationController?.sourceView = self.view
+            alert.popoverPresentationController?.barButtonItem = showMoreButton
+        }
 
         present(alert, animated: true, completion: nil)
     }

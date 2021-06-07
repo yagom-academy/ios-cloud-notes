@@ -3,7 +3,7 @@
     <entity name="Memo" representedClassName="Memo" syncable="YES">
         <attribute name="date" attributeType="Date" defaultDateTimeInterval="644499240" usesScalarValueType="NO"/>
         <attribute name="memoDescription" attributeType="String" defaultValueString=""/>
-        <attribute name="title" attributeType="String" defaultValueString="&quot;&quot;"/>
+        <attribute name="title" attributeType="String" defaultValueString="새로운 메모"/>
     </entity>
     <elements>
         <element name="Memo" positionX="-18" positionY="27" width="128" height="74"/>

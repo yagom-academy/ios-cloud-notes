@@ -9,4 +9,5 @@ import UIKit
 protocol MemoListViewDelegate: class {
     func updateMemo(indexPath: IndexPath)
     func deleteMemo(indexPath: IndexPath)
+    func shareMemo(indexPath: IndexPath)
 }

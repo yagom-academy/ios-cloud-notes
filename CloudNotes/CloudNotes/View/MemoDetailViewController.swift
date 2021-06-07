@@ -144,9 +144,8 @@ class MemoDetailViewController: UIViewController {
     }
 
     private func shareActionCompletionHandler(alert: UIAlertAction) {
-        guard let memo = memo else { return }
-        let activityView = UIActivityViewController(activityItems: [memo.title], applicationActivities: nil)
-        present(activityView, animated: true)
+        guard let indexPath = indexPath else { return }
+        memoListViewDelegate?.shareMemo(indexPath: indexPath)
     }
 
     private func deleteActionCompletionHandler(alert: UIAlertAction) {

@@ -79,7 +79,7 @@ class MemoListViewController: UIViewController {
         guard let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext else { return }
 
         let newMemo = Memo(context: context)
-        newMemo.title = "새로운 메모"
+//        newMemo.title = "새로운 메모"
         newMemo.date = Date()
 
         try? context.save()
@@ -137,7 +137,17 @@ extension MemoListViewController: MemoListViewDelegate {
         guard let memos = memos,
               let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext else { return }
         context.delete(memos[indexPath.row])
-        try? context.save
+
+        do {
+            try context.save()
+        } catch {
+            let alert = UIAlertController(title: "Save Failed",
+                                          message: "메모 저장에 실패했어요 😢",
+                                          preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "확인", style: .default, handler: nil))
+            present(alert, animated: true, completion: nil)
+        }
+
         fetchData() // to refresh memos (delete deleted memo from local variable 'memos')
         memoListTableView.deleteRows(at: [indexPath], with: .automatic)
     }

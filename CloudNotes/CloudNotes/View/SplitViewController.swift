@@ -18,6 +18,7 @@ class SplitViewController: UISplitViewController, UISplitViewControllerDelegate 
   
   private func setViewControllers() {
     delegate = self
+    preferredDisplayMode = .oneBesideSecondary
     
     listVC.title = "메모"
     listVC.delegate = self
@@ -41,7 +42,8 @@ extension SplitViewController: ListViewControllerDelegate {
     memoVC.updateUI()
     
     // FIXME: - 기기가 아이폰일 경우, 화면전환이 안되는 문제
-    if UIDevice.current.userInterfaceIdiom == .phone {
+    if UIDevice.current.userInterfaceIdiom == .phone
+        && UITraitCollection.current.horizontalSizeClass == .compact {
       listVC.navigationController?.pushViewController(memoVC, animated: true)
     }
   }

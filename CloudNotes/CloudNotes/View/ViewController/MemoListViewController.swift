@@ -26,7 +26,7 @@ class MemoListViewController: UIViewController {
     }
     
     @objc private func addNewMemo() {
-        CoreData.shared.createMemoListItem(completion: { _ in })
+        CoreData.shared.createMemoListItem()
         tableView.reloadData()
     }
     

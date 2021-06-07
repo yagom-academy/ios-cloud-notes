@@ -14,8 +14,8 @@ class MemoSplitViewController: UISplitViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        CoreData.shared.getUpdatedFileList(completion: { _ in })
-        CoreData.shared.getAllMemoListItems(completion: { _ in })
+        CoreData.shared.getUpdatedFileList()
+        CoreData.shared.getAllMemoListItems()
         dismissKeyboardWhenTappedAround()
         updateJsonData(fileName: "sample")
         self.delegate = self
@@ -33,7 +33,7 @@ class MemoSplitViewController: UISplitViewController {
                 return
             }
         }
-        CoreData.shared.createUpdatedFileListItem(fileName: fileName, completion: { _ in })
+        CoreData.shared.createUpdatedFileListItem(fileName: fileName)
 
         let resultOfFetch = self.setUpData(fileName: fileName, model: [Memo].self)
         switch resultOfFetch {

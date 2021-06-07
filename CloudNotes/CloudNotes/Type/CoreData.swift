@@ -14,50 +14,42 @@ struct CoreData {
     
     // Mark: Function For UpdatedFile
     
-    func getUpdatedFileList(completion: (@escaping Handler) = { _ in }) {
+    func getUpdatedFileList() {
         do {
             MemoCache.shared.updatedFileNameList = try context.fetch(UpdatedFile.fetchRequest())
-            completion(true)
         } catch {
-            completion(false)
             print(DataError.getItems)
         }
     }
     
-    func createUpdatedFileListItem(fileName: String, completion: (@escaping Handler) = { _ in }){
+    func createUpdatedFileListItem(fileName: String){
         let newItem = UpdatedFile(context: context)
         newItem.name = fileName
         do {
             try context.save()
             getUpdatedFileList()
-            completion(true)
         } catch {
-            completion(false)
             print(DataError.createItem)
         }
     }
 
-    func deleteUpdatedFileListItem(item: UpdatedFile, completion: (@escaping Handler) = { _ in }) {
+    func deleteUpdatedFileListItem(item: UpdatedFile) {
         context.delete(item)
         do {
             try context.save()
             getUpdatedFileList()
-            completion(true)
         } catch {
-            completion(false)
             print(DataError.deleteItem)
         }
     }
     
-    func resetUpdatedFileListItem(files: [UpdatedFile], completion: (@escaping Handler) = { _ in }) {
+    func resetUpdatedFileListItem(files: [UpdatedFile]) {
         for file in files {
             context.delete(file)
         }
         do {
             try context.save()
-            completion(true)
         } catch {
-            completion(false)
             print(DataError.resetItems)
         }
     }
@@ -72,27 +64,23 @@ struct CoreData {
         do {
             try context.save()
             getAllMemoListItems()
-            completion(true)
         } catch {
-            completion(false)
             print(DataError.convertItem)
         }
     }
     
     // Mark: Function For MemoListItem
     
-    func getAllMemoListItems(completion: @escaping Handler = { _ in }) {
+    func getAllMemoListItems() {
         do {
             MemoCache.shared.memoData = try context.fetch(MemoListItem.fetchRequest())
             MemoCache.shared.memoData.reverse()
-            completion(true)
         } catch {
-            completion(false)
             print(DataError.getItems)
         }
     }
     
-    func createMemoListItem(completion: (@escaping Handler) = { _ in }) {
+    func createMemoListItem() {
         let newItem = MemoListItem(context: context)
         newItem.title = ""
         newItem.body = ""
@@ -100,47 +88,39 @@ struct CoreData {
         do {
             try context.save()
             getAllMemoListItems()
-            completion(true)
         } catch {
-            completion(false)
             print(DataError.createItem)
         }
     }
 
-    func updateMemoListItem(item: MemoListItem, completion: (@escaping Handler) = { _ in }) {
+    func updateMemoListItem(item: MemoListItem) {
   
         item.lastModifiedDate = Date()
         do {
             try context.save()
             getAllMemoListItems()
-            completion(true)
         } catch {
-            completion(false)
             print(DataError.updateItem)
         }
     }
 
-    func deleteMemoListItem(item: MemoListItem, completion: (@escaping Handler) = { _ in }) {
+    func deleteMemoListItem(item: MemoListItem) {
         context.delete(item)
         do {
             try context.save()
             getAllMemoListItems()
-            completion(true)
         } catch {
-            completion(false)
             print(DataError.deleteItem)
         }
     }
     
-    func resetMemoListItem(items: [MemoListItem], completion: (@escaping Handler) = { _ in }) {
+    func resetMemoListItem(items: [MemoListItem]) {
         for item in items {
             context.delete(item)
         }
         do {
             try context.save()
-            completion(true)
         } catch {
-            completion(false)
             print(DataError.resetItems)
         }
     }

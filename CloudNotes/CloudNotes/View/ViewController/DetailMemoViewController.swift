@@ -47,7 +47,7 @@ class DetailMemoViewController: UIViewController {
     }
     
     func deleteMemo(indexPath: IndexPath) {
-        CoreData.shared.deleteMemoListItem(item: MemoCache.shared.memoData[indexPath.row]) { _ in }
+        CoreData.shared.deleteMemoListItem(item: MemoCache.shared.memoData[indexPath.row])
         MemoCache.shared.memoData.remove(at: indexPath.row)
         self.memoListViewController?.tableView.reloadData()
         self.configure(with: nil, indexPath: nil)
@@ -133,7 +133,7 @@ extension DetailMemoViewController: UITextViewDelegate {
         MemoCache.shared.memoData[indexPath.row].body = text.joined(separator: "\n")
         MemoCache.shared.memoData[indexPath.row].lastModifiedDate = Date()
         memoListViewController?.tableView.reloadData()
-        CoreData.shared.updateMemoListItem(item: MemoCache.shared.memoData[indexPath.row]) { _ in }
+        CoreData.shared.updateMemoListItem(item: MemoCache.shared.memoData[indexPath.row])
     }
 }
 

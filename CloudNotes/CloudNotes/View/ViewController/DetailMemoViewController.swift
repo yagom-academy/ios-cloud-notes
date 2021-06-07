@@ -123,6 +123,9 @@ extension DetailMemoViewController: UITextViewDelegate {
             return
         }
         var text = textView.text.components(separatedBy: "\n")
+        guard text.count > 0 else {
+            return
+        }
         while text[0] == "" {
             text.remove(at: 0)
         }

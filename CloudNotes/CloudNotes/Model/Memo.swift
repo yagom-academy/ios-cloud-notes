@@ -44,7 +44,6 @@ struct Memo: Decodable {
             lastModified = newValue
         }
     }
-    
 }
 
 

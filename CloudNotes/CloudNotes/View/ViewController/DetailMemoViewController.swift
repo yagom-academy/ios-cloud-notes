@@ -108,7 +108,7 @@ class DetailMemoViewController: UIViewController {
             memoTextView.text = ""
             return
         }
-        memoTextView.text = "\n" + title + "\n\n" + body
+        memoTextView.text = title + "\n" + body
         guard let indexPath = indexPath else {
             return
         }
@@ -126,6 +126,7 @@ extension DetailMemoViewController: UITextViewDelegate {
         }
         var text = textView.text.components(separatedBy: "\n")
         guard text.count > 0 else {
+            updateMemoData(indexPath: indexPath, title: "", body: "")
             return
         }
         while text[0] == "" {
@@ -136,7 +137,7 @@ extension DetailMemoViewController: UITextViewDelegate {
             }
         }
         title = text.remove(at: 0)
-        while text[0] == "" {
+        while text.count > 0, text[0] == "" {
             text.remove(at: 0)
             if text.count == 0 {
                 updateMemoData(indexPath: indexPath, title: title, body: "")

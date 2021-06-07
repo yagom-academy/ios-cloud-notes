@@ -8,8 +8,8 @@
 import UIKit
 
 class SplitViewController: UISplitViewController, UISplitViewControllerDelegate {
-  private let listVC = ListViewController()
-  private let memoVC = MemoViewController()
+  private let listViewController = ListViewController()
+  private let memoViewController = MemoViewController()
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -20,12 +20,12 @@ class SplitViewController: UISplitViewController, UISplitViewControllerDelegate 
     delegate = self
     preferredDisplayMode = .oneBesideSecondary
     
-    listVC.title = "메모"
-    listVC.delegate = self
+    listViewController.title = "메모"
+    listViewController.delegate = self
     
     viewControllers = [
-      UINavigationController(rootViewController: listVC),
-      UINavigationController(rootViewController: memoVC)
+      UINavigationController(rootViewController: listViewController),
+      UINavigationController(rootViewController: memoViewController)
     ]
   }
   
@@ -37,14 +37,14 @@ class SplitViewController: UISplitViewController, UISplitViewControllerDelegate 
 }
 
 extension SplitViewController: ListViewControllerDelegate {
-  func didTapMenuItem(at index: Int, model memoInfo: MemoInfo) {
-    memoVC.viewModel.update(model: memoInfo)
-    memoVC.updateUI()
+  func didTapMenuItem(model memoInfo: MemoInfo) {
+    memoViewController.viewModel.update(model: memoInfo)
+    memoViewController.updateUI()
     
     // FIXME: - 기기가 아이폰일 경우, 화면전환이 안되는 문제
     if UIDevice.current.userInterfaceIdiom == .phone
         && UITraitCollection.current.horizontalSizeClass == .compact {
-      listVC.navigationController?.pushViewController(memoVC, animated: true)
+      listViewController.navigationController?.pushViewController(memoViewController, animated: true)
     }
   }
 }

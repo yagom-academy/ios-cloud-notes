@@ -8,7 +8,7 @@
 import Foundation
 
 struct NoteViewModel {
-    var note: NoteData
+    var note: Note
     
     var title: String {
         return note.title

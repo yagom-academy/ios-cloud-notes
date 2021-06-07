@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 final class NoteListViewModel {
-    lazy var notes: [NoteData] = {
+    lazy var notes: [Note] = {
         do {
             return try self.decode()
         } catch let error {
@@ -18,9 +18,9 @@ final class NoteListViewModel {
         }
     }()
     
-    private func decode() throws -> [NoteData] {
+    private func decode() throws -> [Note] {
         guard let dataAsset = NSDataAsset(name: "sample") else { throw DataError.notFoundAsset }
-        guard let data = try? JSONDecoder().decode([NoteData].self, from: dataAsset.data) else { throw DataError.decodingFailed }
+        guard let data = try? JSONDecoder().decode([Note].self, from: dataAsset.data) else { throw DataError.decodingFailed }
         
         return data
     }

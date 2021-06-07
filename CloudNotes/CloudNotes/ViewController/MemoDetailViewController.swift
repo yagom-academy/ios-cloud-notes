@@ -39,6 +39,7 @@ final class MemoDetailViewController: UIViewController {
     self.view.backgroundColor = .white
     self.view.addSubview(textView)
     self.navigationItem.rightBarButtonItem = editButton
+    self.viewModel.delegate = self
     configureConstraints()
   }
   
@@ -67,5 +68,11 @@ final class MemoDetailViewController: UIViewController {
   
   @objc func editMemo() {
     
+  }
+}
+
+extension MemoDetailViewController: MemoDetailViewModelDelegate {
+  func changeMemo(content: String) {
+    textView.text = content
   }
 }

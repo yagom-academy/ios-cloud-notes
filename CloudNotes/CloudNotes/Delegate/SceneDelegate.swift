@@ -15,10 +15,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     let window = UIWindow(windowScene: windowScene)
     let splitViewController = SplitViewController(style: .doubleColumn)
-    let memoDetailViewController = MemoDetailViewController()
-    let memoListViewController = MemoListViewController()
-    splitViewController.setViewController(memoListViewController, for: .primary)
-    splitViewController.setViewController(memoDetailViewController, for: .secondary)
+    splitViewController.setViewController(MemoListViewController(), for: .primary)
+    splitViewController.setViewController(MemoDetailViewController(), for: .secondary)
     
     window.rootViewController = splitViewController
     window.backgroundColor = .systemBackground

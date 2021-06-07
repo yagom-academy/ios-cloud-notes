@@ -15,8 +15,8 @@ final class SplitViewController: UISplitViewController {
   }
   
   private func setPreferredStyle() {
-    self.preferredSplitBehavior = .tile
-    self.preferredDisplayMode = .oneBesideSecondary
+    preferredSplitBehavior = .tile
+    preferredDisplayMode = .oneBesideSecondary
   }
 }
 

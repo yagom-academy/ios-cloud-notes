@@ -10,17 +10,26 @@ import Foundation
 final class MemoDetailViewModel {
   private let whiteSpace = ""
   private let emptyParagraph = "\n\n"
-
-  private var memo: Memo?
-  private var title: String { return memo?.title ?? whiteSpace }
-  private var body: String { return memo?.body ?? whiteSpace }
+  var delegate: MemoDetailViewModelDelegate?
   
-  var date: Int { return memo?.lastModified ?? .zero }
+  private var memo: Memo = Memo(title: "", body: "", lastModified: 0) {
+    willSet {
+      self.date = newValue.lastModified
+      self.content = newValue.title + emptyParagraph + newValue.body
+      delegate?.changeMemo(content: content)
+    }
+  }
+  
+  lazy var date: Int = { return memo.lastModified }()
   lazy var content: String = {
-    return title + emptyParagraph + body
+    return memo.title + emptyParagraph + memo.body
   }()
   
   func configure(with memo: Memo) {
     self.memo = memo
   }
+}
+
+protocol MemoDetailViewModelDelegate: NSObject {
+  func changeMemo(content: String)
 }

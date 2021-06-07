@@ -57,13 +57,11 @@ final class MemoListViewController: UITableViewController {
   // MARK: - Table view Delegate
   
   override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    let navigationController = UINavigationController(rootViewController: MemoDetailViewController())
-    guard let memoDetailVC = navigationController.viewControllers.first as? MemoDetailViewController else {
-      return
-    }
+    guard let splitViewController = splitViewController as? SplitViewController else { return }
+    guard let detailViewController = splitViewController.viewController(for: .secondary) as? MemoDetailViewController else { return }
     
     guard let memo = tableViewModel.getMemo(for: indexPath) else { return }
-    memoDetailVC.configure(with: memo)
-    showDetailViewController(navigationController, sender: self)
+    detailViewController.configure(with: memo)
+    showDetailViewController(detailViewController, sender: self)
   }
 }

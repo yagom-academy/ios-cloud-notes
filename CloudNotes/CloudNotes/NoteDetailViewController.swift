@@ -54,8 +54,7 @@ final class NoteDetailViewController: UIViewController {
         ])
     }
     
-    func configureTextView(_ note: NoteData) {
+    func configureTextView(_ note: NoteViewModel) {
         self.detailNoteTextView.text = note.title + "\n\n" + note.body
     }
-
 }

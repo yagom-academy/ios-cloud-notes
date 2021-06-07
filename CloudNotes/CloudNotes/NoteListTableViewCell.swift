@@ -52,14 +52,14 @@ final class NoteListTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.accessoryType = .disclosureIndicator
-        setConstraint()
+        configureConstraint()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
     
-    private func setConstraint() {
+    private func configureConstraint() {
         outerStackView.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(outerStackView)
         
@@ -71,7 +71,7 @@ final class NoteListTableViewCell: UITableViewCell {
         ])
     }
     
-    func configure(_ note: NoteData) {
+    func configure(_ note: NoteViewModel) {
         self.titleLabel.text = note.title
         self.dateLabel.text = note.formattedLastModified
         self.previewBodyLabel.text = note.body

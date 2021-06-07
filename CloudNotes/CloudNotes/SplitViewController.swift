@@ -21,7 +21,7 @@ final class SplitViewController: UISplitViewController {
 }
 
 extension SplitViewController: NoteDelegate {
-    func showDetailNote(data: NoteData) {
+    func showDetailNote(data: NoteViewModel) {
         let noteDetailNC = UINavigationController(rootViewController: NoteDetailViewController())
         (noteDetailNC.viewControllers.last as? NoteDetailViewController)?.configureTextView(data)
         self.showDetailViewController(noteDetailNC, sender: self)
@@ -31,5 +31,5 @@ extension SplitViewController: NoteDelegate {
 extension SplitViewController: UISplitViewControllerDelegate {
     func splitViewController(_ splitViewController: UISplitViewController, collapseSecondary secondaryViewController: UIViewController, onto primaryViewController: UIViewController) -> Bool {
         return true
-      }
+    }
 }

@@ -8,5 +8,5 @@
 import Foundation
 
 protocol NoteDelegate: AnyObject {
-    func showDetailNote(data: NoteData)
+    func showDetailNote(data: NoteViewModel)
 }

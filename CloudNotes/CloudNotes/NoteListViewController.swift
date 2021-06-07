@@ -9,34 +9,34 @@ import UIKit
 
 final class NoteListViewController: UIViewController {
     private let noteTableView: UITableView = UITableView()
-    private var notes: [NoteData] = []
+//    private var notes: [NoteData] = []
+    private var noteListViewModel: NoteListViewModel = NoteListViewModel()
     static weak var noteDelegate: NoteDelegate?
-   
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureTableView()
-        setNavigationItem()
-        setConstraint()
-        fetchSampleNote()
+        configureNavigationItem()
+        configureConstraint()
     }
     
     private func configureTableView() {
         self.noteTableView.dataSource = self
         self.noteTableView.delegate = self
         self.noteTableView.register(NoteListTableViewCell.self,
-                                forCellReuseIdentifier: NoteListTableViewCell.identifier)
+                                    forCellReuseIdentifier: NoteListTableViewCell.identifier)
         self.noteTableView.reloadData()
         self.noteTableView.showsVerticalScrollIndicator = false
     }
     
-    private func setNavigationItem() {
+    private func configureNavigationItem() {
         self.navigationItem.title = "메모"
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
                                                                  target: self,
                                                                  action: nil)
     }
     
-    private func setConstraint() {
+    private func configureConstraint() {
         noteTableView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(noteTableView)
         
@@ -48,24 +48,24 @@ final class NoteListViewController: UIViewController {
         ])
     }
     
-    private func fetchSampleNote() {
-        guard let notesData = NSDataAsset(name: "sample")?.data,
-              let notes = try? JSONDecoder().decode([NoteData].self, from: notesData) else { return }
-        
-        self.notes = notes
-    }
+    //    private func fetchSampleNote() {
+    //        guard let notesData = NSDataAsset(name: "sample")?.data,
+    //              let notes = try? JSONDecoder().decode([NoteData].self, from: notesData) else { return }
+    //
+    //        self.notes = notes
+    //    }
 }
 
 extension NoteListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return notes.count
+        return noteListViewModel.getNumberOfNotes()
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: NoteListTableViewCell.identifier, for: indexPath) as? NoteListTableViewCell
         else { return UITableViewCell() }
         
-        cell.configure(notes[indexPath.row])
+        cell.configure(noteListViewModel.getNoteViewModel(for: indexPath))
         
         return cell
     }
@@ -74,6 +74,6 @@ extension NoteListViewController: UITableViewDataSource {
 extension NoteListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        NoteListViewController.noteDelegate?.showDetailNote(data: notes[indexPath.row])
+        NoteListViewController.noteDelegate?.showDetailNote(data: noteListViewModel.getNoteViewModel(for: indexPath))
     }
 }

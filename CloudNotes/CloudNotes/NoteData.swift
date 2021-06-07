@@ -11,14 +11,6 @@ struct NoteData: Decodable {
     let title: String
     let body: String
     let lastModified: Int
-    var formattedLastModified: String {
-        let date = Date(timeIntervalSince1970: TimeInterval(lastModified))
-        let dateFormatter = DateFormatter()
-        dateFormatter.locale = Locale.current
-        dateFormatter.dateStyle = .medium
-        
-        return dateFormatter.string(from: date)
-    }
     
     private enum CodingKeys: String, CodingKey {
         case title, body

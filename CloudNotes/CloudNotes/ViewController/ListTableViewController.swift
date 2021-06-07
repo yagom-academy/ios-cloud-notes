@@ -77,15 +77,13 @@ extension ListTableViewController {
         if let detailNavigationController = self.splitViewController?.viewControllers.last as? UINavigationController,
            let textViewController = detailNavigationController.topViewController as? TextViewController {
             textViewController.textView.isEditable = false
-            textViewController.textView.text = memoList[indexPath.row].title + "\n\n"
-            textViewController.textView.text.append(memoList[indexPath.row].body)
+            textViewController.changedTextBySelectedCell(with: memoList[indexPath.row])
             textViewController.textView.isEditable = true
         } else {
             let textViewController = TextViewController()
             let navigationController = UINavigationController(rootViewController: textViewController)
             self.splitViewController?.showDetailViewController(navigationController, sender: nil)
-            textViewController.textView.text = memoList[indexPath.row].title + "\n\n"
-            textViewController.textView.text.append(memoList[indexPath.row].body)
+            textViewController.changedTextBySelectedCell(with: memoList[indexPath.row])
         }
     }
 }

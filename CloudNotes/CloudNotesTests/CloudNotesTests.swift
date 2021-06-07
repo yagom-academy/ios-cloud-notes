@@ -27,8 +27,14 @@ class CloudNotesTests: XCTestCase {
     }
     
     func test_Date_변환() {
+        let dateFormat = DateFormatter()
         let second = 1608651333
         let date = Date(timeIntervalSince1970: TimeInterval(second))
-        XCTAssertNil(date)
+        dateFormat.locale = Locale(identifier: Locale.preferredLanguages.last!)
+        dateFormat.dateStyle = .medium
+        XCTAssertNil(Locale.preferredLanguages)
+//        dateFormat.dateStyle = .long
+        XCTAssertNil(Locale.current)
+        XCTAssertNil(dateFormat.string(from: date))
     }
 }

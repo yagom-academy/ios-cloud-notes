@@ -40,5 +40,10 @@ class TextViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         print("viewDidLayoutSubviews")
     }
+    
+    func changedTextBySelectedCell(with memo: Memo) {
+        textView.text = memo.title + "\n\n"
+        textView.text.append(memo.body)
+    }
 
 }

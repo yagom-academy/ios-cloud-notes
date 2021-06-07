@@ -115,21 +115,14 @@
 		C7481C6C25BBCF3900B9CA55 /* CloudNotes */ = {
 			isa = PBXGroup;
 			children = (
-				C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */,
-				C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */,
-				E2CF5F352666671A00342156 /* NoteData.swift */,
-				C7481C7925BBCF3A00B9CA55 /* Assets.xcassets */,
+				E2110D2E266E00A800075DC3 /* Supporting File */,
+				E2110D30266E022800075DC3 /* Resource */,
+				E2110D2F266E016400075DC3 /* Delegate */,
+				E2110D2C266DFEF200075DC3 /* Error */,
+				E2110D2B266DFE8D00075DC3 /* ViewController */,
+				E2110D2A266DFE8200075DC3 /* Model */,
+				E2110D29266DFE7800075DC3 /* ViewModel */,
 				C7481C7B25BBCF3A00B9CA55 /* LaunchScreen.storyboard */,
-				C7481C7E25BBCF3A00B9CA55 /* Info.plist */,
-				C7481C7625BBCF3900B9CA55 /* CloudNotes.xcdatamodeld */,
-				C7481C7125BBCF3900B9CA55 /* SplitViewController.swift */,
-				E28FE33B266632A6000E724A /* NoteListViewController.swift */,
-				E2CF5F3726666E4A00342156 /* NoteListTableViewCell.swift */,
-				E2975DD42668AC6100C6E304 /* NoteDetailViewController.swift */,
-				E2975E12266913B100C6E304 /* NoteDelegate.swift */,
-				E230A526266BE56F00C8B76C /* NoteViewModel.swift */,
-				E230A528266BEBF300C8B76C /* DataError.swift */,
-				E25BA01B266D287F006D6A98 /* NoteListViewModel.swift */,
 			);
 			path = CloudNotes;
 			sourceTree = "<group>";
@@ -150,6 +143,77 @@
 				C7481C9425BBCF3A00B9CA55 /* Info.plist */,
 			);
 			path = CloudNotesUITests;
+			sourceTree = "<group>";
+		};
+		E2110D29266DFE7800075DC3 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				E230A526266BE56F00C8B76C /* NoteViewModel.swift */,
+				E25BA01B266D287F006D6A98 /* NoteListViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		E2110D2A266DFE8200075DC3 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				E2CF5F352666671A00342156 /* NoteData.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		E2110D2B266DFE8D00075DC3 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				E2110D2D266E000600075DC3 /* Cell */,
+				C7481C7125BBCF3900B9CA55 /* SplitViewController.swift */,
+				E28FE33B266632A6000E724A /* NoteListViewController.swift */,
+				E2975DD42668AC6100C6E304 /* NoteDetailViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		E2110D2C266DFEF200075DC3 /* Error */ = {
+			isa = PBXGroup;
+			children = (
+				E230A528266BEBF300C8B76C /* DataError.swift */,
+			);
+			path = Error;
+			sourceTree = "<group>";
+		};
+		E2110D2D266E000600075DC3 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				E2CF5F3726666E4A00342156 /* NoteListTableViewCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		E2110D2E266E00A800075DC3 /* Supporting File */ = {
+			isa = PBXGroup;
+			children = (
+				C7481C7625BBCF3900B9CA55 /* CloudNotes.xcdatamodeld */,
+				C7481C7E25BBCF3A00B9CA55 /* Info.plist */,
+			);
+			path = "Supporting File";
+			sourceTree = "<group>";
+		};
+		E2110D2F266E016400075DC3 /* Delegate */ = {
+			isa = PBXGroup;
+			children = (
+				E2975E12266913B100C6E304 /* NoteDelegate.swift */,
+			);
+			path = Delegate;
+			sourceTree = "<group>";
+		};
+		E2110D30266E022800075DC3 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				C7481C7925BBCF3A00B9CA55 /* Assets.xcassets */,
+				C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */,
+				C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */,
+			);
+			path = Resource;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

@@ -129,7 +129,7 @@ extension MemoListViewController: UITableViewDelegate {
 
 extension MemoListViewController: MemoListViewDelegate {
     func updateMemo(indexPath: IndexPath) {
-        memoListTableView.reloadRows(at: [indexPath], with: .automatic)
+        memoListTableView.reloadRows(at: [indexPath], with: .none)
     }
 
     func deleteMemo(indexPath: IndexPath) {

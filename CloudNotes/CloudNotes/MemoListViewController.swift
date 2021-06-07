@@ -37,8 +37,8 @@ class MemoListViewController: UITableViewController {
         guard let dataAsset = NSDataAsset(name: "sample") else {
             return
         }
-        
         let data = dataAsset.data
+        
         do {
             let result = try decoder.decode([MemoData].self, from: data)
             memoList = result
@@ -66,19 +66,25 @@ class MemoListViewController: UITableViewController {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "MemoListCell") as? MemoListCell else {
             return MemoListCell()
         }
-    
+        
         let memoData = memoList[indexPath.row]
+        let date = convertDateFormat(date: memoData.lastModified)
+        
         cell.accessoryType = .disclosureIndicator
         cell.title.text = memoData.title
-        cell.date.text = convertDateFormat(date: memoData.lastModified)
+        cell.date.text = date
         cell.preview.text = memoData.body
-
+        
         return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let memoFormViewController = MemoFormViewController()
-        memoFormViewController.MemoTextView.text = memoList[indexPath.row].body
+        memoFormViewController.MemoTextView.text = """
+        \(memoList[indexPath.row].title)
+
+        \(memoList[indexPath.row].body)
+        """
         self.navigationController?.pushViewController(memoFormViewController, animated: true)
     }
 }

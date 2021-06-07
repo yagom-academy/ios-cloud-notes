@@ -16,6 +16,7 @@ class MemoFormViewController: UIViewController {
         
         view.backgroundColor = .systemBackground
         setMemoTextView()
+        MemoTextView.contentOffset = .zero
     }
     
     private func setMemoTextView() {
@@ -26,7 +27,7 @@ class MemoFormViewController: UIViewController {
         MemoTextView.translatesAutoresizingMaskIntoConstraints = false
         
         let memoTextViewConstraints = ([
-            MemoTextView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            MemoTextView.topAnchor.constraint(equalTo: view.topAnchor),
             MemoTextView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             MemoTextView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             MemoTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor)

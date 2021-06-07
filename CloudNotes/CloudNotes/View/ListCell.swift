@@ -62,10 +62,12 @@ class ListCell: UITableViewCell {
     stackView2.addArrangedSubview(stackView3)
     
     contentView.addSubview(stackView2)
+    
+    self.accessoryType = .disclosureIndicator
   }
   
-  required init?(coder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
+  required init?(coder decoder: NSCoder) {
+      super.init(coder: decoder)
   }
   
   override func layoutSubviews() {
@@ -77,17 +79,7 @@ class ListCell: UITableViewCell {
   
   func update(info: MemoInfo) {
     titleLabel.text = info.title
-    
-    let doubleDate = info.lastModified
-    let date = Date(timeIntervalSince1970: doubleDate)
-    let dateFormatter = DateFormatter()
-    dateFormatter.locale = Locale(identifier: Locale.current.identifier)
-    dateFormatter.dateFormat = "yyyy-MM-dd"
-    dateLabel.text = dateFormatter.string(from: date)
-    
-    let summary = info.body.components(separatedBy: ".").first
-    summaryLabel.text = summary
-    
-    self.accessoryType = .disclosureIndicator
+    dateLabel.text = DateConvertor(date: info.lastModified).result()
+    summaryLabel.text = info.body.components(separatedBy: ".").first
   }
 }

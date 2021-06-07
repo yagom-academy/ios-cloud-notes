@@ -16,10 +16,4 @@ struct MemoInfo: Decodable {
     case title, body
     case lastModified = "last_modified"
   }
-  
-  init(title: String, lastModified: Double, body: String) {
-    self.title = title
-    self.lastModified = lastModified
-    self.body = body
-  }
 }

@@ -8,5 +8,5 @@
 import Foundation
 
 protocol ListViewControllerDelegate: AnyObject {
-  func didTapMenuItem(at index: Int, model memoInfo: MemoInfo)
+  func didTapMenuItem(model memoInfo: MemoInfo)
 }

@@ -52,10 +52,8 @@ final class NoteListViewController: UIViewController {
         configureCollectionViewDataSource()
         applyInitialSnapshot()
     }
-}
-
-// MARK: - Load Notes from Sample JSON
-extension NoteListViewController {
+    
+    // MARK: - Load Notes from Sample JSON
     private func loadNotes(from assetName: String) {
         let decodedResult = JSONDecoder().decode(to: [Note].self, from: assetName)
         switch decodedResult {
@@ -65,10 +63,8 @@ extension NoteListViewController {
             os_log(.error, log: .data, OSLog.objectCFormatSpecifier, dataError.localizedDescription)
         }
     }
-}
-
-// MARK: - Cell Nib Registration
-extension NoteListViewController {
+    
+    // MARK: - Cell Nib Registration
     private func registerCellNib() {
         let noteCellNib = UINib(nibName: NoteCollectionViewListCell.reuseIdentifier, bundle: .main)
         noteListCollectionView?.register(
@@ -76,18 +72,14 @@ extension NoteListViewController {
             forCellWithReuseIdentifier: NoteCollectionViewListCell.reuseIdentifier
         )
     }
-}
-
-// MARK: - Create Layout for Collection View
-extension NoteListViewController {
+    
+    // MARK: - Create Layout for Collection View
     private func createLayout() -> UICollectionViewLayout {
         let configuration = UICollectionLayoutListConfiguration(appearance: .sidebarPlain)
         return UICollectionViewCompositionalLayout.list(using: configuration)
     }
-}
-
-// MARK: - Configure Hierarchy and Data Source of Collection View
-extension NoteListViewController {
+    
+    // MARK: - Configure Hierarchy and Data Source of Collection View
     private func configureCollectionViewHierarchy() {
         noteListCollectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
         
@@ -124,10 +116,8 @@ extension NoteListViewController {
         snapshot.appendItems(notes)
         dataSource?.apply(snapshot, animatingDifferences: false)
     }
-}
-
-// MARK: - Configure Navigation Bar and Relevant Actions
-extension NoteListViewController {
+    
+    // MARK: - Configure Navigation Bar and Relevant Actions
     private func configureNavigationBar() {
         navigationItem.title = NavigationBarItems.title
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: NavigationBarItems.addButtonImage, target: self, action: #selector(addTapped))

@@ -52,10 +52,8 @@ final class NoteCollectionViewListCell: UICollectionViewListCell {
             static let bottom: CGFloat = -10
         }
     }
-}
-
-// MARK: - Configure cell
-extension NoteCollectionViewListCell {
+    
+    // MARK: - Configure cell
     func configure(with note: Note) {
         let cellStackView = createCellStackView()
         addSubview(cellStackView)

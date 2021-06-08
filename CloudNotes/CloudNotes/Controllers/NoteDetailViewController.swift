@@ -61,10 +61,8 @@ final class NoteDetailViewController: UIViewController {
         super.viewDidAppear(animated)
         noteTextView.isEditable = true
     }
-}
-
-// MARK: - Configure Detail Note View
-extension NoteDetailViewController {
+    
+    // MARK: - Configure Detail Note View
     func showContent(with inputNote: Note) {
         note = inputNote
         updateTextView()
@@ -119,10 +117,8 @@ extension NoteDetailViewController {
     private func removeActivatedKeyboard() {
         noteTextView.resignFirstResponder()
     }
-}
-
-// MARK: - Configure Navigation Bar and Relevant Actions
-extension NoteDetailViewController {
+    
+    // MARK: - Configure Navigation Bar and Relevant Actions
     private func configureNavigationBar() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: NavigationBarItems.rightButtonImage, style: .plain, target: self, action: #selector(ellipsisTapped))
     }

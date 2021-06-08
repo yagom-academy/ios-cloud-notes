@@ -35,9 +35,9 @@ class MemoViewController: UIViewController {
   func updateUI() {
     if let memoInfo = self.viewModel.memoInfo {
       let text = """
-        \(memoInfo.title)
+        \(memoInfo.title ?? "")
         \n
-        \(memoInfo.body)
+        \(memoInfo.body ?? "")
         """
       textView.text = text
       textView.isEditable = true

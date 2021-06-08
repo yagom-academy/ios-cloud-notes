@@ -26,8 +26,6 @@ class MemoListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
-        
         configureMemoListView()
         configurefirstMemo()
         tableViewAutoLayout()
@@ -75,18 +73,15 @@ extension MemoListViewController: UITableViewDelegate, UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: MemoListCell.identifier) as? MemoListCell else {
             return UITableViewCell()
         }
-        
         let memoData = memoListViewModel.readMemo(index: indexPath.row)
-        
         cell.configureCell(memoData: memoData, stringLastModified: memoListViewModel.convertDate(date: memoData.lastModified))
         
         return cell
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let detail = memoDetailViewDelegate as? MemoDetailViewController else { return }
         memoDetailViewDelegate?.configureDetailText(data: memoListViewModel.readMemo(index: indexPath.row))
-        
+        guard let detail = memoDetailViewDelegate as? MemoDetailViewController else { return }
         showDetailViewController(UINavigationController(rootViewController: detail), sender: nil)
     }
         

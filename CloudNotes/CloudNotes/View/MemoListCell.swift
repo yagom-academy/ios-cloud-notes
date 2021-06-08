@@ -55,16 +55,13 @@ class MemoListCell: UITableViewCell {
         contentView.addSubview(title)
         contentView.addSubview(body)
         contentView.addSubview(lastModified)
-        
         NSLayoutConstraint.activate([
             title.topAnchor.constraint(equalTo: safeArea.topAnchor),
             title.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 3),
             title.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: 0),
-            
             lastModified.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 0),
             lastModified.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
             lastModified.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 3),
-            
             body.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 0),
             body.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
             body.leadingAnchor.constraint(equalTo: lastModified.trailingAnchor, constant: 20),

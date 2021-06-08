@@ -18,7 +18,6 @@ class MemoDetailViewController: UIViewController, UITextViewDelegate, MemoDetail
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         configureView()
         configureTextViewConstraints()
     }
@@ -31,7 +30,6 @@ class MemoDetailViewController: UIViewController, UITextViewDelegate, MemoDetail
         view.backgroundColor = .white
         view.addSubview(textView)
         textView.delegate = self
-        
         self.navigationItem.rightBarButtonItem = naviButton
     }
     
@@ -40,7 +38,6 @@ class MemoDetailViewController: UIViewController, UITextViewDelegate, MemoDetail
         
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.font = UIFont.systemFont(ofSize: 20)
-        
         NSLayoutConstraint.activate([
             textView.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 0),
             textView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 10),

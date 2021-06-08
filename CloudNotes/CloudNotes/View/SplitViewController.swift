@@ -11,7 +11,6 @@ class SplitViewController: UISplitViewController, UISplitViewControllerDelegate 
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         configureSplitViewController()
     }
     
@@ -20,7 +19,6 @@ class SplitViewController: UISplitViewController, UISplitViewControllerDelegate 
         let memoListViewController = MemoListViewController(detailViewDelegate: memoDetailViewController as MemoDetailViewDelegate)
         let memoListNavigationController = UINavigationController(rootViewController: memoListViewController)
         let memoDetailNavigationController = UINavigationController(rootViewController: memoDetailViewController)
-        
         self.delegate = self
         self.preferredDisplayMode = .allVisible
         self.viewControllers = [memoListNavigationController, memoDetailNavigationController]

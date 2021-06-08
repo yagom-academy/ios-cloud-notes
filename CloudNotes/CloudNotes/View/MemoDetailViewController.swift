@@ -9,7 +9,6 @@ import UIKit
 import CoreData
 
 class MemoDetailViewController: UIViewController {
-    private var memo: Memo?
     private var indexPath: IndexPath?
     private weak var memoListViewDelegate: MemoListViewDelegate?
 
@@ -33,6 +32,7 @@ class MemoDetailViewController: UIViewController {
     }
 
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        // FIXME: iPad는 regular -> regular라 이 코드 사용 불가
         let willChangeSizeClassToRegular = UIScreen.main.traitCollection.horizontalSizeClass == .compact
         view.backgroundColor = willChangeSizeClassToRegular ? .systemBackground : .systemGray3
         navigationItem.hidesBackButton = willChangeSizeClassToRegular
@@ -51,16 +51,6 @@ class MemoDetailViewController: UIViewController {
         super.init(coder: coder)
     }
 
-    func fetchData(memo: Memo, indexPath: IndexPath) {
-        self.memo = memo
-        titleTextView.text = memo.title
-        descriptionTextView.text = memo.memoDescription
-        titleTextView.isHidden = false
-        descriptionTextView.isHidden = false
-
-        self.indexPath = indexPath
-    }
-
     private func setUpView() {
         let isHorizontalSizeClassRegular = traitCollection.horizontalSizeClass == .regular
         view.backgroundColor = isHorizontalSizeClassRegular ? .systemBackground : .systemGray3
@@ -75,11 +65,6 @@ class MemoDetailViewController: UIViewController {
         view.addSubview(titleTextView)
         titleTextView.delegate = self
 
-        if let memo = memo {
-            let text = memo.title
-            titleTextView.text = text
-        }
-
         NSLayoutConstraint.activate([
             titleTextView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             titleTextView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
@@ -92,16 +77,30 @@ class MemoDetailViewController: UIViewController {
         view.addSubview(descriptionTextView)
         descriptionTextView.delegate = self
 
-        if let memo = memo {
-            descriptionTextView.text = memo.memoDescription
-        }
-
         NSLayoutConstraint.activate([
             descriptionTextView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             descriptionTextView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             descriptionTextView.topAnchor.constraint(equalTo: titleTextView.bottomAnchor),
             descriptionTextView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
+    }
+}
+
+// MARK: - MemoDetailViewDelegate
+
+extension MemoDetailViewController: MemoDetailViewDelegate {
+    func setUpData(memo: Memo, indexPath: IndexPath) {
+        self.indexPath = indexPath
+        titleTextView.text = memo.title
+        descriptionTextView.text = memo.memoDescription
+        self.titleTextView.isHidden = false
+        self.descriptionTextView.isHidden = false
+    }
+
+    func clearField() {
+        self.titleTextView.isHidden = true
+        self.descriptionTextView.isHidden = true
+        splitViewController?.hide(.secondary)
     }
 }
 
@@ -133,12 +132,7 @@ extension MemoDetailViewController {
 
     private func deleteActionCompletionHandler(alert: UIAlertAction) {
         guard let indexPath = indexPath else { return }
-        memoListViewDelegate?.deleteMemo(indexPath: indexPath)
-
-        self.memo = nil
-        self.titleTextView.isHidden = true
-        self.descriptionTextView.isHidden = true
-        splitViewController?.hide(.secondary)
+        MemoManager.shared.deleteMemo(indexPath: indexPath)
     }
 }
 
@@ -146,6 +140,7 @@ extension MemoDetailViewController {
 
 extension MemoDetailViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
+        // Change Responder
         if titleTextView.isFirstResponder {
             let latestText = titleTextView.text.last
             if latestText == "\n" || latestText == "\t" {
@@ -154,25 +149,21 @@ extension MemoDetailViewController: UITextViewDelegate {
             }
         }
 
+        // Runtime AutoResizing
         let estimatedSize = textView.sizeThatFits(CGSize(width: textView.frame.width, height: .infinity))
         textView.constraints.forEach {
             if $0.firstAttribute == .height {
             $0.constant = estimatedSize.height
             }
         }
-        guard let memo = memo,
-              let indexPath = indexPath,
-              let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext else { return }
+
+        // Realtime updateCell
+        guard let indexPath = indexPath else { return }
 
         if textView == titleTextView {
-            memo.title = titleTextView.text
-
+            MemoManager.shared.updateTitle(indexPath: indexPath, title: textView.text)
         } else if textView == descriptionTextView {
-            memo.memoDescription = descriptionTextView.text
+            MemoManager.shared.updateDescription(indexPath: indexPath, description: textView.text)
         }
-
-        memo.date = Date()
-        try? context.save()
-        memoListViewDelegate?.updateMemo(indexPath: indexPath)
     }
 }

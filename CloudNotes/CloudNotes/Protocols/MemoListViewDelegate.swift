@@ -7,7 +7,8 @@
 import UIKit
 
 protocol MemoListViewDelegate: class {
-    func updateMemo(indexPath: IndexPath)
-    func deleteMemo(indexPath: IndexPath)
+    func updateCell(indexPath: IndexPath)
+    func deleteCell(indexPath: IndexPath)
     func shareMemo(indexPath: IndexPath)
+    func createNewCell()
 }

@@ -24,8 +24,8 @@ class SplitViewController: UISplitViewController {
     }
 
     private func setUpMemoDetailViewController() {
-        guard let memoListViewController = memoListViewController else { return }
-        memoDetailViewController = MemoDetailViewController(memoListViewDelegate: memoListViewController)
+        guard memoListViewController != nil else { return }
+        memoDetailViewController = MemoDetailViewController(splitViewDelegate: self)
     }
 
     private func setUpSplitViewController() {
@@ -42,6 +42,7 @@ class SplitViewController: UISplitViewController {
     }
 
     private func setUpMemoManager() {
+        MemoManager.shared.splitViewDelegate = self
         MemoManager.shared.memoListViewDelegate = memoListViewController
         MemoManager.shared.memoDetailViewDelegate = memoDetailViewController
     }
@@ -55,10 +56,29 @@ extension SplitViewController: UISplitViewControllerDelegate {
 }
 
 extension SplitViewController: SplitViewDelegate {
-    func didSelectRow(memo: Memo, indexPath: IndexPath, memoListViewDelegate: MemoListViewDelegate) {
-        guard let memoDetailViewController = memoDetailViewController else { return }
+    func didSelectRow(indexPath: IndexPath, memoListViewDelegate: MemoListViewDelegate) {
+        guard let memoDetailViewController = memoDetailViewController,
+              let memo = MemoManager.shared.memos?[indexPath.row] else { return }
+
         memoDetailViewController.setUpData(memo: memo, indexPath: indexPath)
         showDetailViewController(memoDetailViewController, sender: self)
+    }
 
+    func showAlert(alert: UIAlertController) {
+        present(alert, animated: true, completion: nil)
+    }
+
+    func showActivityView(indexPath: IndexPath, sourceView: UIView) {
+        guard let memos = MemoManager.shared.memos else { return }
+
+        let activityView = UIActivityViewController(activityItems: [memos[indexPath.row].title],
+                                                    applicationActivities: nil)
+
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            let popOverPresentationController = activityView.popoverPresentationController
+            popOverPresentationController?.sourceView = sourceView
+        }
+
+        present(activityView, animated: true)
     }
 }

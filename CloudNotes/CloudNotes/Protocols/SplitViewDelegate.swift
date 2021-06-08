@@ -7,5 +7,7 @@
 import UIKit
 
 protocol SplitViewDelegate: class {
-    func didSelectRow(memo: Memo, indexPath: IndexPath, memoListViewDelegate: MemoListViewDelegate)
+    func didSelectRow(indexPath: IndexPath, memoListViewDelegate: MemoListViewDelegate)
+    func showAlert(alert: UIAlertController)
+    func showActivityView(indexPath: IndexPath, sourceView: UIView)
 }

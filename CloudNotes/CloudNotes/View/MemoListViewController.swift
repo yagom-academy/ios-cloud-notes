@@ -67,6 +67,8 @@ class MemoListViewController: UIViewController {
     }
 }
 
+// MARK: - UITableViewDataSource
+
 extension MemoListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let memos = MemoManager.shared.memos else { return 0 }
@@ -83,22 +85,26 @@ extension MemoListViewController: UITableViewDataSource {
     }
 }
 
+// MARK: - UITableViewDelegate
+
 extension MemoListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let memos = MemoManager.shared.memos else { return }
-        splitViewDelegate?.didSelectRow(memo: memos[indexPath.row], indexPath: indexPath, memoListViewDelegate: self)
+        splitViewDelegate?.didSelectRow(indexPath: indexPath, memoListViewDelegate: self)
     }
 
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let deleteAction = UIContextualAction(style: .destructive, title: "delete") { _, _, _ in
-            self.reconfirmDeleteAlert(indexPath: indexPath)
+            MemoManager.shared.deleteMemo(indexPath: indexPath)
         }
         let shareAction = UIContextualAction(style: .normal, title: "share") { _, _, _ in
-            self.shareMemo(indexPath: indexPath)
+            guard let cellToShare = self.memoListTableView.cellForRow(at: indexPath) else { return }
+            self.splitViewDelegate?.showActivityView(indexPath: indexPath, sourceView: cellToShare)
         }
         return UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
     }
 }
+
+// MARK: - MemoListViewDelegate
 
 extension MemoListViewController: MemoListViewDelegate {
     func createNewCell() {
@@ -113,26 +119,5 @@ extension MemoListViewController: MemoListViewDelegate {
 
     func deleteCell(indexPath: IndexPath) {
         memoListTableView.deleteRows(at: [indexPath], with: .automatic)
-    }
-
-    func reconfirmDeleteAlert(indexPath: IndexPath) {
-        let alert = UIAlertController(title: "삭제하시겠습니까?", message: nil, preferredStyle: .alert)
-        let yesAction = UIAlertAction(title: "네", style: .default, handler: { _ in MemoManager.shared.deleteMemo(indexPath: indexPath) })
-        let noAction = UIAlertAction(title: "아니오", style: .destructive, handler: nil)
-        alert.addAction(yesAction)
-        alert.addAction(noAction)
-        present(alert, animated: true, completion: nil)
-    }
-
-    func shareMemo(indexPath: IndexPath) {
-        guard let memos = MemoManager.shared.memos else { return }
-        let activityView = UIActivityViewController(activityItems: [memos[indexPath.row].title], applicationActivities: nil)
-
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            let popOverPresentationController = activityView.popoverPresentationController
-            popOverPresentationController?.sourceView = memoListTableView.cellForRow(at: indexPath)
-        }
-
-        present(activityView, animated: true)
     }
 }

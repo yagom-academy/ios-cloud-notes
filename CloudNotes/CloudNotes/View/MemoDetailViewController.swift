@@ -10,7 +10,7 @@ import CoreData
 
 class MemoDetailViewController: UIViewController {
     private var indexPath: IndexPath?
-    private weak var memoListViewDelegate: MemoListViewDelegate?
+    private weak var splitViewDelegate: SplitViewDelegate?
 
     private let titleTextView = MemoTextView(font: UIFont.preferredFont(forTextStyle: .title1))
 
@@ -42,9 +42,9 @@ class MemoDetailViewController: UIViewController {
         descriptionTextView.backgroundColor = willChangeSizeClassToRegular ? .systemBackground : .systemGray3
     }
 
-    init(memoListViewDelegate: MemoListViewDelegate) {
+    init(splitViewDelegate: SplitViewDelegate) {
         super.init(nibName: nil, bundle: nil)
-        self.memoListViewDelegate = memoListViewDelegate
+        self.splitViewDelegate = splitViewDelegate
     }
 
     required init?(coder: NSCoder) {
@@ -127,7 +127,7 @@ extension MemoDetailViewController {
 
     private func shareActionCompletionHandler(alert: UIAlertAction) {
         guard let indexPath = indexPath else { return }
-        memoListViewDelegate?.shareMemo(indexPath: indexPath)
+        splitViewDelegate?.showActivityView(indexPath: indexPath, sourceView: view)
     }
 
     private func deleteActionCompletionHandler(alert: UIAlertAction) {

@@ -66,22 +66,10 @@ extension NoteCollectionViewListCell {
         accessories = [.disclosureIndicator()]
         
         NSLayoutConstraint.activate([
-            cellStackView.leadingAnchor.constraint(
-                equalTo: contentView.leadingAnchor,
-                constant: Constraints.CellStackView.leading
-            ),
-            cellStackView.trailingAnchor.constraint(
-                equalTo: contentView.trailingAnchor,
-                constant: Constraints.CellStackView.trailing
-            ),
-            cellStackView.topAnchor.constraint(
-                equalTo: contentView.topAnchor,
-                constant: Constraints.CellStackView.top
-            ),
-            cellStackView.bottomAnchor.constraint(
-                equalTo: contentView.bottomAnchor,
-                constant: Constraints.CellStackView.bottom
-            )
+            cellStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constraints.CellStackView.leading),
+            cellStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: Constraints.CellStackView.trailing),
+            cellStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Constraints.CellStackView.top),
+            cellStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: Constraints.CellStackView.bottom)
         ])
     }
     

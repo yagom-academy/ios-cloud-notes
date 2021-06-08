@@ -53,12 +53,12 @@ final class NoteDetailViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
+        super.viewWillAppear(animated)
         noteTextView.isEditable = false
     }
 
     override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(true)
+        super.viewDidAppear(animated)
         noteTextView.isEditable = true
     }
 }
@@ -87,22 +87,10 @@ extension NoteDetailViewController {
         configureScrollIndicatorInsets(of: noteTextView)
         
         NSLayoutConstraint.activate([
-            noteTextView.leadingAnchor.constraint(
-                equalTo: view.leadingAnchor,
-                constant: Constraints.NoteTextView.leading
-            ),
-            noteTextView.trailingAnchor.constraint(
-                equalTo: view.trailingAnchor,
-                constant: Constraints.NoteTextView.trailing
-            ),
-            noteTextView.topAnchor.constraint(
-                equalTo: view.topAnchor,
-                constant: Constraints.NoteTextView.top
-            ),
-            noteTextView.bottomAnchor.constraint(
-                equalTo: view.bottomAnchor,
-                constant: Constraints.NoteTextView.bottom
-            )
+            noteTextView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constraints.NoteTextView.leading),
+            noteTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: Constraints.NoteTextView.trailing),
+            noteTextView.topAnchor.constraint(equalTo: view.topAnchor, constant: Constraints.NoteTextView.top),
+            noteTextView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: Constraints.NoteTextView.bottom)
         ])
     }
     
@@ -136,12 +124,7 @@ extension NoteDetailViewController {
 // MARK: - Configure Navigation Bar and Relevant Actions
 extension NoteDetailViewController {
     private func configureNavigationBar() {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(
-            image: NavigationBarItems.rightButtonImage,
-            style: .plain,
-            target: self,
-            action: #selector(ellipsisTapped)
-        )
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: NavigationBarItems.rightButtonImage, style: .plain, target: self, action: #selector(ellipsisTapped))
     }
 
     @objc private func ellipsisTapped() { }

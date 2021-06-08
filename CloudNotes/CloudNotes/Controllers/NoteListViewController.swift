@@ -110,10 +110,7 @@ extension NoteListViewController {
         dataSource = UICollectionViewDiffableDataSource<Section, Note>(
             collectionView: noteListCollectionView
         ) { collectionView, indexPath, note -> UICollectionViewCell? in
-            let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: NoteCollectionViewListCell.reuseIdentifier,
-                for: indexPath
-            ) as? NoteCollectionViewListCell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NoteCollectionViewListCell.reuseIdentifier, for: indexPath) as? NoteCollectionViewListCell
             
             cell?.configure(with: note)
             return cell
@@ -133,11 +130,7 @@ extension NoteListViewController {
 extension NoteListViewController {
     private func configureNavigationBar() {
         navigationItem.title = NavigationBarItems.title
-        navigationItem.rightBarButtonItem = UIBarButtonItem(
-            barButtonSystemItem: NavigationBarItems.addButtonImage,
-            target: self,
-            action: #selector(addTapped)
-        )
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: NavigationBarItems.addButtonImage, target: self, action: #selector(addTapped))
     }
     
     private func appendNewNote(to dataSource: UICollectionViewDiffableDataSource<Section, Note>) {
@@ -147,8 +140,7 @@ extension NoteListViewController {
         dataSource.apply(snapshot, animatingDifferences: true)
     }
     
-    private func insertNewNote(to dataSource: UICollectionViewDiffableDataSource<Section, Note>,
-                               before firstItemInSnapshot: Note) {
+    private func insertNewNote(to dataSource: UICollectionViewDiffableDataSource<Section, Note>, before firstItemInSnapshot: Note) {
         var snapshot = dataSource.snapshot()
         snapshot.insertItems([NoteData.newNoteConfiguration], beforeItem: firstItemInSnapshot)
         notes.insert(NoteData.newNoteConfiguration, at: notes.startIndex)

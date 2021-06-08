@@ -11,26 +11,22 @@ final class MemoDetailViewController: UIViewController {
   
   lazy var textView: UITextView = {
     let textView = UITextView()
-    
     if UIScreen.main.traitCollection.horizontalSizeClass == .compact {
       textView.backgroundColor = .systemGray4
     } else if UIScreen.main.traitCollection.horizontalSizeClass == .regular {
       textView.backgroundColor = .white
     }
-    
     textView.frame.size = CGSize(width: self.view.frame.width, height: self.view.frame.height)
     textView.frame.origin = .zero
     textView.translatesAutoresizingMaskIntoConstraints = false
     textView.font = UIFont.preferredFont(forTextStyle: .title3)
     textView.text = viewModel.content
-    
     return textView
   }()
   
   lazy var editButton: UIBarButtonItem = {
     let button = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"),
                     style: .plain, target: self, action: #selector(editMemo))
-    
     return button
   }()
   

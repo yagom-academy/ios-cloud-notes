@@ -69,7 +69,6 @@ final class MemoListCell: UITableViewCell {
       titleLabel.topAnchor.constraint(equalTo: margins.topAnchor),
       titleLabel.leadingAnchor.constraint(equalTo: margins.leadingAnchor),
       titleLabel.trailingAnchor.constraint(equalTo: margins.trailingAnchor),
-      
       stackView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
       stackView.leadingAnchor.constraint(equalTo: margins.leadingAnchor),
       stackView.trailingAnchor.constraint(equalTo: margins.trailingAnchor),

@@ -14,7 +14,6 @@ final class MemoListViewController: UITableViewController {
   
   lazy var addButton: UIBarButtonItem = {
     let button = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addMemo))
-    
     return button
   }()
   
@@ -47,11 +46,9 @@ final class MemoListViewController: UITableViewController {
             as? MemoListCell else {
       return UITableViewCell()
     }
-    
     guard let viewModel = tableViewModel.getMemoViewModel(for: indexPath) else {
       return UITableViewCell()
     }
-    
     cell.configure(with: viewModel)
     return cell
   }
@@ -64,7 +61,6 @@ final class MemoListViewController: UITableViewController {
             as? MemoDetailViewController else {
       return
     }
-    
     guard let memo = tableViewModel.getMemo(for: indexPath) else { return }
     detailViewController.configure(with: memo)
     showDetailViewController(detailViewController, sender: self)

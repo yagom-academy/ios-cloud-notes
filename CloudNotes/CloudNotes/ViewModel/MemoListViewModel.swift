@@ -23,7 +23,6 @@ final class MemoListViewModel {
     var memoViewModels: [MemoViewModel] = []
     guard let memos = memos else { return nil }
     let dateFormatter: DateFormatter = DateFormatter()
-
     for memo in memos {
       let date = Date(timeIntervalSince1970: TimeInterval(memo.lastModified))
       dateFormatter.locale = Locale(identifier: Locale.current.identifier)
@@ -31,7 +30,6 @@ final class MemoListViewModel {
       let dateString = dateFormatter.string(from: date)
       memoViewModels.append(MemoViewModel(title: memo.title, date: dateString, content: memo.body))
     }
-    
     return memoViewModels
   }()
   
@@ -41,20 +39,17 @@ final class MemoListViewModel {
   
   func getNumberOfMemo() -> Int {
     guard let memos = memos else { return .zero }
-    
     return memos.count
   }
   
   func getMemoViewModel(for indexPath: IndexPath) -> MemoViewModel? {
     guard let memoViewModels = memoViewModels else { return nil }
     let memoViewModel = memoViewModels[indexPath.row]
-    
     return memoViewModel
   }
   
   func getMemo(for indexPath: IndexPath) -> Memo? {
     guard let memos = memos else { return nil }
-    
     return memos[indexPath.row]
   }
 }

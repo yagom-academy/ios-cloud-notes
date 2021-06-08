@@ -61,6 +61,9 @@ final class MemoViewController: UIViewController {
 
         guard memo.title != "" else { return textView.text = nil }
         textView.text = "\(memo.title)\n\(memo.body)"
+
+        let topOffset = CGPoint(x: 0, y: -view.safeAreaInsets.top)
+        textView.setContentOffset(topOffset, animated: false)
     }
 
     func textViewResignFirstResponder() {

@@ -67,8 +67,9 @@ final class MemoViewController: UIViewController {
     }
 
     private func configureTextView() {
-        view.addSubview(textView)
+        textView.delegate = self
 
+        view.addSubview(textView)
         NSLayoutConstraint.activate([
             textView.topAnchor.constraint(equalTo: view.topAnchor),
             textView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
@@ -94,10 +95,45 @@ final class MemoViewController: UIViewController {
         textView.scrollIndicatorInsets = contentInset
     }
 
-    // Method
+    // MARK: Method
 
     func textViewResignFirstResponder() {
         textView.resignFirstResponder()
+    }
+
+}
+
+// MARK: - UITextViewDelegate
+
+extension MemoViewController: UITextViewDelegate {
+
+    func textViewDidChange(_ textView: UITextView) {
+        guard let textViewText = textView.text else { return }
+        let text: [Substring] = textViewText.split(separator: "\n", maxSplits: 1, omittingEmptySubsequences: true)
+
+        var newTitle: String = ""
+        var newBody: String = ""
+
+        switch text.count {
+        case 0:
+            break
+        case 1:
+            newTitle = String(text[0])
+        case 2:
+            newTitle = String(text[0])
+            newBody = String(text[1])
+        default:
+            return
+        }
+
+        self.memo = Memo(title: newTitle, body: newBody, lastModified: Date().timeIntervalSince1970)
+
+        let primaryViewController = splitViewController?.viewController(for: .primary) as? MemoListViewController
+
+        if let memo = memo,
+           let row = row {
+            primaryViewController?.updateMemo(at: row, to: memo)
+        }
     }
 
 }

@@ -74,6 +74,20 @@ final class MemoListViewController: UIViewController {
         splitViewController?.show(.secondary)
     }
 
+    // MARK: Method
+
+    func updateMemo(at row: Int, to memo: Memo) {
+        let reloadingIndices = (0...row).map { IndexPath(row: $0, section: 0) }
+
+        memos[row] = memo
+
+        if row == 0 {
+            tableView.reloadRows(at: reloadingIndices, with: .none)
+        } else {
+            tableView.reloadRows(at: reloadingIndices, with: .top)
+        }
+    }
+
 }
 
 // MARK: - UITableViewDataSource

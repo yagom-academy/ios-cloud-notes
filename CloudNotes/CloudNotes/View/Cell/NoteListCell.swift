@@ -35,7 +35,7 @@ class NoteListCell: UITableViewCell {
     private lazy var descriptionLabel: UILabel = {
         let description = UILabel()
         description.translatesAutoresizingMaskIntoConstraints = false
-        description.textColor = UIColor.lightGray
+        description.textColor = UIColor.systemGray2
         description.font = UIFont.preferredFont(forTextStyle: .subheadline)
         
         return description
@@ -43,18 +43,25 @@ class NoteListCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        setConstraint()
         self.accessoryType = .disclosureIndicator
+        setConstraint()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
-
+    
     func displayData(_ data: Note) {
         titleLabel.text = data.title
         dateLabel.text = data.date
         descriptionLabel.text = data.description
+    }
+    
+    private func selectedCell() {
+        let backgroundColorCell = UIView()
+        backgroundColorCell.layer.cornerRadius = 15
+        backgroundColorCell.backgroundColor = .systemOrange
+        self.selectedBackgroundView = backgroundColorCell
     }
     
     private func setConstraint() {

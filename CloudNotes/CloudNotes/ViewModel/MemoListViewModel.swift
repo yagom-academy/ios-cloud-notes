@@ -33,13 +33,13 @@ final class MemoListViewModel {
     return memoViewModels
   }()
   
-  func addMemo(_ memo: Memo) {
-    memos?.append(memo)
-  }
-  
-  func getNumberOfMemo() -> Int {
+  var count: Int {
     guard let memos = memos else { return .zero }
     return memos.count
+  }
+  
+  func addMemo(_ memo: Memo) {
+    memos?.append(memo)
   }
   
   func getMemoViewModel(for indexPath: IndexPath) -> MemoViewModel? {

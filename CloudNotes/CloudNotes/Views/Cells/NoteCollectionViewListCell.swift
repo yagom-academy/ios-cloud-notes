@@ -37,11 +37,12 @@ final class NoteCollectionViewListCell: UICollectionViewListCell {
         lastModifiedDateLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
         return lastModifiedDateLabel
     }()
-    
+
     // MARK: - Namespaces
     private enum Layouts {
         static let spacingInSecondaryTextStackView: CGFloat = 15
         static let spacingInCellStackView: CGFloat = 3
+        static let contentViewCornerRadius: CGFloat = 10
     }
     
     private enum Constraints {
@@ -62,6 +63,7 @@ final class NoteCollectionViewListCell: UICollectionViewListCell {
         bodyLabel.text = note.body
         lastModifiedDateLabel.text = note.lastModified.formatted
         accessories = [.disclosureIndicator()]
+        contentView.layer.cornerRadius = Layouts.contentViewCornerRadius
         
         NSLayoutConstraint.activate([
             cellStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constraints.CellStackView.leading),
@@ -87,5 +89,16 @@ final class NoteCollectionViewListCell: UICollectionViewListCell {
         cellStackView.spacing = Layouts.spacingInCellStackView
         
         return cellStackView
+    }
+    
+    // MARK: - Set cell selection effect
+    override func updateConfiguration(using state: UICellConfigurationState) {
+        super.updateConfiguration(using: state)
+        
+        if state.isSelected {
+            contentView.backgroundColor = .systemBlue
+        } else {
+            contentView.backgroundColor = .systemBackground
+        }
     }
 }

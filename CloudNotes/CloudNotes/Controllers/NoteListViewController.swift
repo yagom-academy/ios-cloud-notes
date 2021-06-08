@@ -39,6 +39,13 @@ final class NoteListViewController: UIViewController {
         showNoteList()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if let selectedIndexPath = noteListCollectionView?.indexPathsForSelectedItems?.first {
+            noteListCollectionView?.deselectItem(at: selectedIndexPath, animated: true)
+        }
+    }
+    
     // MARK: - Load Notes from Sample JSON
     private func loadNotes(from assetName: String) {
         let decodedResult = JSONDecoder().decode(to: [Note].self, from: assetName)

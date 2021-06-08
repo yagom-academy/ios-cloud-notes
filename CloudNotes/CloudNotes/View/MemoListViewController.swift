@@ -9,29 +9,28 @@ import UIKit
 class MemoListViewController: UIViewController {
     var memoListViewModel: MemoListViewModel = MemoListViewModel()
     let memoListViewNavigationBarTitle: String = "메모"
-    var splitViewDelegate: SplitViewDelegate?
+    var memoDetailViewDelegate: MemoDetailViewDelegate?
     
-    init(splitViewDelegate: SplitViewDelegate) {
+    private var tableView: UITableView = UITableView()
+    private let plusMemo = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: nil)
+
+    init(detailViewDelegate: MemoDetailViewDelegate) {
         super.init(nibName: nil, bundle: nil)
         
-        self.splitViewDelegate = splitViewDelegate
+        self.memoDetailViewDelegate = detailViewDelegate
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been impl")
     }
     
-    private var tableView: UITableView = UITableView()
-    
-    private let plusMemo = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: nil)
-
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
         configureMemoListView()
+        configurefirstMemo()
         tableViewAutoLayout()
-        
     }
     
     private func configureMemoListView() {
@@ -43,6 +42,10 @@ class MemoListViewController: UIViewController {
         self.view.backgroundColor = .white
         self.navigationItem.title = memoListViewNavigationBarTitle
         self.navigationItem.rightBarButtonItem = plusMemo
+    }
+    
+    private func configurefirstMemo() {
+        memoDetailViewDelegate?.configureDetailText(data: memoListViewModel.readMemo(index: 0))
     }
  
     private func tableViewAutoLayout() {
@@ -81,7 +84,10 @@ extension MemoListViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.splitViewDelegate?.didSelectRowAt(data: memoListViewModel.readMemo(index: indexPath.row))
+        guard let detail = memoDetailViewDelegate as? MemoDetailViewController else { return }
+        memoDetailViewDelegate?.configureDetailText(data: memoListViewModel.readMemo(index: indexPath.row))
+        
+        showDetailViewController(UINavigationController(rootViewController: detail), sender: nil)
     }
         
 }

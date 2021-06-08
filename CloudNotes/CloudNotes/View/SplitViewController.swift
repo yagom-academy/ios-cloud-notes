@@ -16,12 +16,14 @@ class SplitViewController: UISplitViewController, UISplitViewControllerDelegate 
     }
     
     private func configureSplitViewController() {
-        let memoListViewController = UINavigationController(rootViewController: MemoListViewController(splitViewDelegate: self))
-        let detailMemoViewController = UINavigationController(rootViewController: DetailMemoViewController())
+        let memoDetailViewController = MemoDetailViewController()
+        let memoListViewController = MemoListViewController(detailViewDelegate: memoDetailViewController as MemoDetailViewDelegate)
+        let memoListNavigationController = UINavigationController(rootViewController: memoListViewController)
+        let memoDetailNavigationController = UINavigationController(rootViewController: memoDetailViewController)
         
         self.delegate = self
         self.preferredDisplayMode = .allVisible
-        self.viewControllers = [memoListViewController, detailMemoViewController]
+        self.viewControllers = [memoListNavigationController, memoDetailNavigationController]
         self.preferredPrimaryColumnWidthFraction = 1/3
     }
     
@@ -29,17 +31,4 @@ class SplitViewController: UISplitViewController, UISplitViewControllerDelegate 
         return true
     }
     
-}
-
-protocol SplitViewDelegate {
-    func didSelectRowAt(data: Memo)
-}
-
-extension SplitViewController: SplitViewDelegate {
-    func didSelectRowAt(data: Memo) {
-        let detailMemoViewController = DetailMemoViewController()
-        
-        detailMemoViewController.configureDetailText(data: data)
-        showDetailViewController(UINavigationController(rootViewController: detailMemoViewController), sender: nil)
-    }
 }

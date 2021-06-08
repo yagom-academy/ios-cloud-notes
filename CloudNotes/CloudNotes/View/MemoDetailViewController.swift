@@ -1,5 +1,5 @@
 //
-//  DetailMemoViewController.swift
+//  MemoDetailViewController.swift
 //  CloudNotes
 //
 //  Created by 기원우 on 2021/06/02.
@@ -7,11 +7,15 @@
 
 import UIKit
 
-class DetailMemoViewController: UIViewController, UITextViewDelegate {
+protocol MemoDetailViewDelegate {
+    func configureDetailText(data: Memo)
+}
+
+class MemoDetailViewController: UIViewController, UITextViewDelegate, MemoDetailViewDelegate {
     static let identifier: String = "DetailMemoVC"
     private var textView = UITextView()
     private var naviButton = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: nil)
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         

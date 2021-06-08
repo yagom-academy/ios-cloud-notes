@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 struct NoteManager {
-    private var noteDatas: [Note] = []
+    private var noteDatas: [Note]?
     
     init() {
         guard let jsonData = NSDataAsset(name: "sample") else { return }
@@ -18,14 +18,15 @@ struct NoteManager {
     }
     
     var dataCount: Int {
-        return noteDatas.count
+        return noteDatas?.count ?? 0
     }
     
     func dataAtIndex(_ index: Int) -> Note {
-        var data = noteDatas[index]
+        var data = noteDatas?[index] ?? Note(title: "", description: "", lastModify: 0, date: nil)
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy.MM.dd"
-        let date = Date(timeIntervalSince1970: TimeInterval(noteDatas[index].lastModify))
+        dateFormatter.locale = Locale(identifier: Locale.current.identifier)
+        dateFormatter.setLocalizedDateFormatFromTemplate("yyyy.MM.dd")
+        let date = Date(timeIntervalSince1970: TimeInterval(data.lastModify))
         data.date = dateFormatter.string(from: date)
         
         return data

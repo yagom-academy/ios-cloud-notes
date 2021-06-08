@@ -70,7 +70,7 @@ extension MemoSplitViewController {
         return .success(jsonData)
     }
 
-    private func decodeData<T:Decodable>(data: NSDataAsset, model: T.Type) -> Result<T, DataError> {
+    private func decodeData<T: Decodable>(data: NSDataAsset, model: T.Type) -> Result<T, DataError> {
         let jsonDecoder = JSONDecoder()
         do {
             let data = try jsonDecoder.decode(T.self, from: data.data)

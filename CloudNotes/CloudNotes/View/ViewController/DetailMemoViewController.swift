@@ -113,7 +113,6 @@ class DetailMemoViewController: UIViewController {
         }
         memoTextView.text = allText
         self.indexPath = indexPath
-        memoTextView.contentOffset = CGPoint(x: 0,y: 0)
     }
 }
 

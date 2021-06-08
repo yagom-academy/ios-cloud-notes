@@ -16,7 +16,6 @@ class MemoFormViewController: UIViewController {
         
         view.backgroundColor = .systemBackground
         setMemoTextView()
-        MemoTextView.contentOffset = .zero
     }
     
     private func setMemoTextView() {

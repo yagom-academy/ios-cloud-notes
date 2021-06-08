@@ -79,12 +79,18 @@ class MemoListViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let memoFormViewController = MemoFormViewController()
+        let memoFormViewController = splitViewController?.viewController(for: .secondary) as! MemoFormViewController
+        
         memoFormViewController.MemoTextView.text = """
         \(memoList[indexPath.row].title)
 
         \(memoList[indexPath.row].body)
         """
-        self.navigationController?.pushViewController(memoFormViewController, animated: true)
+        
+        if UITraitCollection.current.horizontalSizeClass == .compact {
+            navigationController?.pushViewController(memoFormViewController, animated: true)
+        } else if UITraitCollection.current.horizontalSizeClass == .regular {
+            splitViewController?.show(.primary)
+        }
     }
 }

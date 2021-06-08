@@ -17,12 +17,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(windowScene: windowScene)
         
         let splitViewController = UISplitViewController(style: .doubleColumn)
-        let masterViewController = MemoListViewController()
-        let primaryViewController = MemoFormViewController()
+        let primaryViewController = MemoListViewController()
+        let secondaryViewController = MemoFormViewController()
         
-
-        splitViewController.preferredDisplayMode = .automatic
-        splitViewController.viewControllers = [masterViewController, primaryViewController]
+        splitViewController.preferredDisplayMode = .oneBesideSecondary
+        splitViewController.presentsWithGesture = false
+        splitViewController.viewControllers = [primaryViewController, secondaryViewController]
         
         window?.rootViewController = splitViewController
         window?.makeKeyAndVisible()

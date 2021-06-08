@@ -64,7 +64,6 @@ final class MemoListCell: UITableViewCell {
   
   private func setAutoLayout() {
     let margins = contentView.layoutMarginsGuide
-    
     NSLayoutConstraint.activate([
       titleLabel.topAnchor.constraint(equalTo: margins.topAnchor),
       titleLabel.leadingAnchor.constraint(equalTo: margins.leadingAnchor),

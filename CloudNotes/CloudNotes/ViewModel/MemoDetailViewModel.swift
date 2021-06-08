@@ -17,19 +17,13 @@ final class MemoDetailViewModel {
   
   private var memo: Memo = Memo(title: ContentConstant.emptyString,
                                 body: ContentConstant.emptyString,
-                                lastModified: .zero) {
-    willSet {
-      self.date = newValue.lastModified
-      self.content = newValue.title + ContentConstant.doubleNewLine + newValue.body
-      delegate?.changeMemo(content: content)
-    }
-  }
-  
-  lazy var date: Int = { return memo.lastModified }()
-  lazy var content: String = { return memo.title + ContentConstant.doubleNewLine + memo.body }()
+                                lastModified: .zero)
+  var date: Int { return memo.lastModified }
+  var content: String { return memo.title + ContentConstant.doubleNewLine + memo.body }
   
   func configure(with memo: Memo) {
     self.memo = memo
+    delegate?.changeMemo(content: content)
   }
 }
 

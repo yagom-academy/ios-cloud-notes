@@ -14,27 +14,33 @@ class MemoSplitViewController: UISplitViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUpData()
+        CoreData.shared.getUpdatedFileList()
+        CoreData.shared.getAllMemoListItems()
+        dismissKeyboardWhenTappedAround()
+        updateJsonData(fileName: "sample")
         self.delegate = self
-        master.horizontalSizeClass = UITraitCollection.current.horizontalSizeClass
         master.memoSplitViewController = self
+        detail.memoListViewController = master
         self.viewControllers = [UINavigationController(rootViewController: master), UINavigationController(rootViewController: detail)]
         self.preferredDisplayMode = .oneBesideSecondary
     }
-    
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        if previousTraitCollection?.horizontalSizeClass ==  .regular {
-            master.horizontalSizeClass = .compact
-        } else {
-            master.horizontalSizeClass = .regular
+
+    private func updateJsonData(fileName: String) {
+        for fileNameInTheList in MemoCache.shared.updatedFileNameList {
+            guard fileName != fileNameInTheList.name else {
+                return
+            }
         }
-    }
-    
-    private func setUpData() {
-        let resultOfFetch = setUpData(fileName: "sample", model: [Memo].self)
+        CoreData.shared.createUpdatedFileListItem(fileName: fileName)
+
+        let resultOfFetch = self.setUpData(fileName: fileName, model: [Memo].self)
         switch resultOfFetch {
         case .success(let data):
-            JsonDataCache.shared.decodedJsonData = data
+            CoreData.shared.convertMemoTypeToMemoListItemType(memoList: data) { bool in
+                if bool {
+                    self.master.tableView.reloadData()
+                }
+            }
         case .failure(let error):
             print(error.localizedDescription)
         }
@@ -64,7 +70,7 @@ extension MemoSplitViewController {
         return .success(jsonData)
     }
 
-    private func decodeData<T:Decodable>(data: NSDataAsset, model: T.Type) -> Result<T, DataError> {
+    private func decodeData<T: Decodable>(data: NSDataAsset, model: T.Type) -> Result<T, DataError> {
         let jsonDecoder = JSONDecoder()
         do {
             let data = try jsonDecoder.decode(T.self, from: data.data)
@@ -72,5 +78,18 @@ extension MemoSplitViewController {
         } catch {
             return .failure(DataError.decodeJSON)
         }
+    }
+}
+
+extension UIViewController {
+    func dismissKeyboardWhenTappedAround() {
+        let tap: UITapGestureRecognizer =
+            UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        self.view.addGestureRecognizer(tap)
+    }
+    
+    @objc func dismissKeyboard() {
+        self.view.endEditing(false)
     }
 }

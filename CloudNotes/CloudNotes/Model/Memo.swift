@@ -15,17 +15,10 @@ struct Memo: Decodable {
         case title, body
         case lastModified = "last_modified"
     }
-    
-    var formattedLastModifiedDate: String {
-        get {
-            let currentLocale = Locale.current.collatorIdentifier ?? "ko_KR"
-            let dateFormatter = DateFormatter()
-                    
-            dateFormatter.locale = Locale(identifier: currentLocale)
-            dateFormatter.setLocalizedDateFormatFromTemplate("yyyy. MM. dd.")
-            dateFormatter.timeZone = TimeZone.autoupdatingCurrent
-            return dateFormatter.string(from: Date(timeIntervalSince1970: TimeInterval(lastModified)))
-        }
+    init(title: String, body: String) {
+        self.title = title
+        self.body = body
+        self.lastModified = Int(Date().timeIntervalSince1970)
     }
 }
 

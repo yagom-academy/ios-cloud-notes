@@ -70,10 +70,7 @@ final class NoteListViewController: UIViewController {
     // MARK: - Cell Nib Registration
     private func registerCellNib() {
         let noteCellNib = UINib(nibName: NoteCollectionViewListCell.reuseIdentifier, bundle: .main)
-        noteListCollectionView?.register(
-            noteCellNib,
-            forCellWithReuseIdentifier: NoteCollectionViewListCell.reuseIdentifier
-        )
+        noteListCollectionView?.register(noteCellNib, forCellWithReuseIdentifier: NoteCollectionViewListCell.reuseIdentifier)
     }
     
     // MARK: - Create Layout for Collection View

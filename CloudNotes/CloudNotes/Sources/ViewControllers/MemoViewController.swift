@@ -66,10 +66,6 @@ final class MemoViewController: UIViewController {
         textView.setContentOffset(topOffset, animated: false)
     }
 
-    func textViewResignFirstResponder() {
-        textView.resignFirstResponder()
-    }
-
     private func configureTextView() {
         view.addSubview(textView)
 
@@ -83,7 +79,7 @@ final class MemoViewController: UIViewController {
 
     // MARK: Keyboard observing
 
-    @objc func textViewMoveUp(_ notification: NSNotification) {
+    @objc private func textViewMoveUp(_ notification: NSNotification) {
         guard let userInfo = notification.userInfo,
               let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
 
@@ -92,10 +88,16 @@ final class MemoViewController: UIViewController {
         textView.scrollIndicatorInsets = contentInset
     }
 
-    @objc func textViewMoveDown(_ notification: NSNotification) {
+    @objc private func textViewMoveDown() {
         let contentInset = UIEdgeInsets.zero
         textView.contentInset = contentInset
         textView.scrollIndicatorInsets = contentInset
+    }
+
+    // Method
+
+    func textViewResignFirstResponder() {
+        textView.resignFirstResponder()
     }
 
 }

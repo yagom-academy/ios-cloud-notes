@@ -101,6 +101,10 @@ final class MemoViewController: UIViewController {
         textView.resignFirstResponder()
     }
 
+    func setTextViewHidden(is value: Bool) {
+        textView.isHidden = value
+    }
+
 }
 
 // MARK: - UITextViewDelegate

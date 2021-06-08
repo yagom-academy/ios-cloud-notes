@@ -31,15 +31,14 @@ class MemoDetailViewController: UIViewController {
         descriptionTextView.contentOffset = .zero
     }
 
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        // FIXME: iPad는 regular -> regular라 이 코드 사용 불가
-        let willChangeSizeClassToRegular = UIScreen.main.traitCollection.horizontalSizeClass == .compact
-        view.backgroundColor = willChangeSizeClassToRegular ? .systemBackground : .systemGray3
-        navigationItem.hidesBackButton = willChangeSizeClassToRegular
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        let isHorizontalSizeClassRegular = traitCollection.horizontalSizeClass == .regular
+        view.backgroundColor = isHorizontalSizeClassRegular ? .systemBackground : .systemGray3
+        navigationItem.hidesBackButton = isHorizontalSizeClassRegular
         navigationItem.rightBarButtonItem = showMoreButton
 
-        titleTextView.backgroundColor = willChangeSizeClassToRegular ? .systemBackground : .systemGray3
-        descriptionTextView.backgroundColor = willChangeSizeClassToRegular ? .systemBackground : .systemGray3
+        titleTextView.backgroundColor = isHorizontalSizeClassRegular ? .systemBackground : .systemGray3
+        descriptionTextView.backgroundColor = isHorizontalSizeClassRegular ? .systemBackground : .systemGray3
     }
 
     init(splitViewDelegate: SplitViewDelegate) {

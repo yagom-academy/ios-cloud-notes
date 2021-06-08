@@ -16,6 +16,8 @@ class ListTableViewController: UITableViewController {
         parseSampleData()
         setNavigationItem()
         self.tableView.register(ListTableViewCell.self, forCellReuseIdentifier: ListTableViewCell.identifier)
+        self.tableView.estimatedRowHeight = 90.0
+        self.tableView.rowHeight = UITableView.automaticDimension
     }
     
     func parseSampleData() {
@@ -40,7 +42,8 @@ class ListTableViewController: UITableViewController {
            let textViewController = detailNavigationController.topViewController as? TextViewController {
             textViewController.textView.text = ""
         } else {
-            self.splitViewController?.showDetailViewController(TextViewController(), sender: nil)
+            let navigationEmbeddTextViewController = UINavigationController(rootViewController: TextViewController())
+            self.splitViewController?.showDetailViewController(navigationEmbeddTextViewController, sender: nil)
         }
     }
     
@@ -49,7 +52,7 @@ class ListTableViewController: UITableViewController {
 extension ListTableViewController {
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 65
+        return UITableView.automaticDimension
     }
 
     // MARK: - Table view data source
@@ -76,14 +79,13 @@ extension ListTableViewController {
         if let detailNavigationController = self.splitViewController?.viewControllers.last as? UINavigationController,
            let textViewController = detailNavigationController.topViewController as? TextViewController {
             textViewController.textView.isEditable = false
-            textViewController.textView.text = memoList[indexPath.row].title + "\n\n"
-            textViewController.textView.text.append(memoList[indexPath.row].body)
+            textViewController.changedTextBySelectedCell(with: memoList[indexPath.row])
             textViewController.textView.isEditable = true
         } else {
             let textViewController = TextViewController()
-            self.splitViewController?.showDetailViewController(textViewController, sender: nil)
-            textViewController.textView.text = memoList[indexPath.row].title + "\n\n"
-            textViewController.textView.text.append(memoList[indexPath.row].body)
+            let navigationController = UINavigationController(rootViewController: textViewController)
+            self.splitViewController?.showDetailViewController(navigationController, sender: nil)
+            textViewController.changedTextBySelectedCell(with: memoList[indexPath.row])
         }
     }
 }

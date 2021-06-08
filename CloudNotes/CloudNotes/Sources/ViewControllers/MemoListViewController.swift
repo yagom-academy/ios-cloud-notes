@@ -83,11 +83,14 @@ final class MemoListViewController: UIViewController {
         }
     }
 
-    private func deleteEmptyMemo() {
-        guard memos.first?.title == "" else { return }
+    @discardableResult
+    private func deleteEmptyMemo() -> Bool {
+        guard memos.first?.title == "" else { return false }
 
         memos.remove(at: 0)
         tableView.deleteRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
+
+        return true
     }
 
     private func addMemo() {
@@ -128,8 +131,13 @@ extension MemoListViewController: UITableViewDataSource {
 extension MemoListViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        deleteEmptyMemo()
-        showMemo(of: indexPath.row)
+        if deleteEmptyMemo() {
+            if indexPath.row > 0 {
+                showMemo(of: indexPath.row - 1)
+            }
+        } else {
+            showMemo(of: indexPath.row)
+        }
     }
 
 }

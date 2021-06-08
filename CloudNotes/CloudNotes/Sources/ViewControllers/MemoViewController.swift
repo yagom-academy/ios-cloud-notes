@@ -133,6 +133,7 @@ extension MemoViewController: UITextViewDelegate {
         if let memo = memo,
            let row = row {
             primaryViewController?.updateMemo(at: row, to: memo)
+            self.row = 0
         }
     }
 

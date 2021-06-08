@@ -106,9 +106,10 @@ final class NoteDetailViewController: UIViewController {
     private func updateTextView() {
         if let note = note {
             setText(to: noteTextView, with: note)
-        } else {
-            setGreetingText(to: noteTextView)
+            return
         }
+        
+        setGreetingText(to: noteTextView)
     }
     
     private func removeActivatedKeyboard() {

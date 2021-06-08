@@ -64,19 +64,9 @@ final class MemoListViewController: UIViewController {
     // MARK: Action
 
     private func memoAddAction(_ action: UIAction) {
-        let memoViewController = (splitViewController?.viewController(for: .secondary) as? MemoViewController)
-
-        if memos.first?.title == "" {
-            memos.remove(at: 0)
-            tableView.deleteRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
-        }
-
-        memos.append(Memo(title: "", body: "", lastModified: Date().timeIntervalSince1970))
-        tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
-
-        memoViewController?.configure(row: 0, memo: memos[0])
-        memoViewController?.textViewResignFirstResponder()
-        splitViewController?.show(.secondary)
+        deleteEmptyMemo()
+        addMemo()
+        showMemo(of: 0)
     }
 
     // MARK: Method
@@ -91,6 +81,26 @@ final class MemoListViewController: UIViewController {
         } else {
             tableView.reloadRows(at: reloadingIndices, with: .top)
         }
+    }
+
+    private func deleteEmptyMemo() {
+        guard memos.first?.title == "" else { return }
+
+        memos.remove(at: 0)
+        tableView.deleteRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
+    }
+
+    private func addMemo() {
+        memos.append(Memo(title: "", body: "", lastModified: Date().timeIntervalSince1970))
+        tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
+    }
+
+    private func showMemo(of row: Int) {
+        let memoViewController = (splitViewController?.viewController(for: .secondary) as? MemoViewController)
+
+        memoViewController?.configure(row: row, memo: memos[row])
+        memoViewController?.textViewResignFirstResponder()
+        splitViewController?.show(.secondary)
     }
 
 }
@@ -118,16 +128,8 @@ extension MemoListViewController: UITableViewDataSource {
 extension MemoListViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let memoViewController = (splitViewController?.viewController(for: .secondary) as? MemoViewController)
-
-        if memos.first?.title == "" {
-            memos.remove(at: 0)
-            tableView.deleteRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
-        }
-
-        memoViewController?.configure(row: indexPath.row, memo: memos[indexPath.row])
-        memoViewController?.textViewResignFirstResponder()
-        splitViewController?.show(.secondary)
+        deleteEmptyMemo()
+        showMemo(of: indexPath.row)
     }
 
 }

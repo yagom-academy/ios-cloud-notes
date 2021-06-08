@@ -57,10 +57,10 @@ struct CoreData {
     func convertMemoTypeToMemoListItemType(memoList: [Memo], completion: (@escaping Handler) = { _ in }) {
         for memo in memoList {
             let newItem = MemoListItem(context: context)
-            newItem.title = memo.computedTitle
-            newItem.body = memo.computedBody
-            newItem.lastModifiedDate = Date(timeIntervalSince1970: TimeInterval(memo.computedlastModifiedDate))
-            newItem.allText = memo.computedTitle + "\n" + memo.computedBody
+            newItem.title = memo.title
+            newItem.body = memo.body
+            newItem.lastModifiedDate = Date(timeIntervalSince1970: TimeInterval(memo.lastModified))
+            newItem.allText = memo.title + "\n" + memo.body
         }
         do {
             try context.save()

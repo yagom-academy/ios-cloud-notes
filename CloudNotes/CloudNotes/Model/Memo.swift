@@ -8,9 +8,9 @@
 import Foundation
 
 struct Memo: Decodable {
-    private var title: String
-    private var body: String
-    private var lastModified: Int
+    var title: String
+    var body: String
+    var lastModified: Int
     private enum CodingKeys: String, CodingKey {
         case title, body
         case lastModified = "last_modified"
@@ -19,30 +19,6 @@ struct Memo: Decodable {
         self.title = title
         self.body = body
         self.lastModified = Int(Date().timeIntervalSince1970)
-    }
-    var computedTitle: String {
-        get {
-            return title
-        }
-        set {
-            title = newValue
-        }
-    }
-    var computedBody: String {
-        get {
-            return body
-        }
-        set {
-            body = newValue
-        }
-    }
-    var computedlastModifiedDate: Int {
-        get {
-            return lastModified
-        }
-        set {
-            lastModified = newValue
-        }
     }
 }
 

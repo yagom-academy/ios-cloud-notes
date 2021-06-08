@@ -66,6 +66,11 @@ final class MemoListViewController: UIViewController {
     private func memoAddAction(_ action: UIAction) {
         let memoViewController = (splitViewController?.viewController(for: .secondary) as? MemoViewController)
 
+        if memos.first?.title == "" {
+            memos.remove(at: 0)
+            tableView.deleteRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
+        }
+
         memos.append(Memo(title: "", body: "", lastModified: Date().timeIntervalSince1970))
         tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
 
@@ -114,6 +119,11 @@ extension MemoListViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let memoViewController = (splitViewController?.viewController(for: .secondary) as? MemoViewController)
+
+        if memos.first?.title == "" {
+            memos.remove(at: 0)
+            tableView.deleteRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
+        }
 
         memoViewController?.configure(row: indexPath.row, memo: memos[indexPath.row])
         memoViewController?.textViewResignFirstResponder()

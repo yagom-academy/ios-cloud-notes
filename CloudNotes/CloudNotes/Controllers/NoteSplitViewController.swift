@@ -12,11 +12,15 @@ final class NoteSplitViewController: UISplitViewController {
 
     override init(style: UISplitViewController.Style) {
         super.init(style: style)
+        
+        setSubViewControllers()
         setWithPreferredStyle()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+        
+        setSubViewControllers()
         setWithPreferredStyle()
     }
     
@@ -25,21 +29,19 @@ final class NoteSplitViewController: UISplitViewController {
         preferredSplitBehavior = .tile
         super.delegate = self
     }
+    
+    private func setSubViewControllers() {
+        let sideBarViewController = NoteListViewController()
+        let secondaryViewController = NoteDetailViewController()
+        sideBarViewController.noteDetailViewControllerDelegate = secondaryViewController
+        
+        setViewController(sideBarViewController, for: .primary)
+        setViewController(secondaryViewController, for: .secondary)
+    }
 }
 
 extension NoteSplitViewController: UISplitViewControllerDelegate {
     func splitViewController(_ svc: UISplitViewController, topColumnForCollapsingToProposedTopColumn proposedTopColumn: UISplitViewController.Column) -> UISplitViewController.Column {
         return .primary
-    }
-}
-
-extension NoteSplitViewController: NoteShowable {
-    func showNote(with note: Note) {
-        guard let noteDetailViewController = self.viewController(for: .secondary) as? NoteDetailViewController else {
-            os_log(.error, log: .ui, OSLog.objectCFormatSpecifier, UIError.downcastingFailed(subject: "Secondary view controller", location: #function).localizedDescription)
-            return
-        }
-        noteDetailViewController.showContent(with: note)
-        showDetailViewController(noteDetailViewController, sender: nil)
     }
 }

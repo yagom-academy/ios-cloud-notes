@@ -12,7 +12,7 @@ final class NoteDetailViewController: UIViewController {
     private var note: Note?
     
     // MARK: - UI Elements
-    var noteTextView: UITextView = {
+    private var noteTextView: UITextView = {
         let noteTextView = UITextView()
         noteTextView.translatesAutoresizingMaskIntoConstraints = false
         noteTextView.font = UIFont.preferredFont(forTextStyle: .body)
@@ -46,9 +46,7 @@ final class NoteDetailViewController: UIViewController {
     // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureNavigationBar()
-        configureTextView()
-        setNoteBackgroundColor(to: .systemBackground)
+        configureViews()
         updateTextView()
     }
     
@@ -63,11 +61,10 @@ final class NoteDetailViewController: UIViewController {
     }
     
     // MARK: - Configure Detail Note View
-    func showContent(with inputNote: Note) {
-        note = inputNote
-        updateTextView()
-        moveTop(of: noteTextView)
-        removeActivatedKeyboard()
+    private func configureViews() {
+        configureNavigationBar()
+        configureTextView()
+        setNoteBackgroundColor(to: .systemBackground)
     }
     
     private func setNoteBackgroundColor(to color: UIColor) {
@@ -124,4 +121,13 @@ final class NoteDetailViewController: UIViewController {
     }
 
     @objc private func ellipsisTapped() { }
+}
+
+extension NoteDetailViewController: NoteDetailViewControllerDelegate {
+    func showNote(with note: Note) {
+        self.note = note
+        updateTextView()
+        moveTop(of: noteTextView)
+        removeActivatedKeyboard()
+    }
 }

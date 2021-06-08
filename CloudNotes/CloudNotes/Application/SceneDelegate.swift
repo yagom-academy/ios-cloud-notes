@@ -20,11 +20,6 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.windowScene = windowScene
         
         let splitViewController = NoteSplitViewController(style: .doubleColumn)
-        let sideBarViewController = NoteListViewController(noteSplitViewDelegate: splitViewController)
-        let secondaryViewController = NoteDetailViewController()
-        
-        splitViewController.setViewController(sideBarViewController, for: .primary)
-        splitViewController.setViewController(secondaryViewController, for: .secondary)
         
         window?.rootViewController = splitViewController
         window?.makeKeyAndVisible()

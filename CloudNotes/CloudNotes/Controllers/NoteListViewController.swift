@@ -12,17 +12,7 @@ final class NoteListViewController: UIViewController {
     private var noteListCollectionView: UICollectionView?
     private var dataSource: UICollectionViewDiffableDataSource<Section, Note>?
     private var notes: [Note] = []
-    private weak var noteSplitViewControllerDelegate: NoteShowable?
-    
-    // MARK: - Initializers
-    init(noteSplitViewDelegate: NoteShowable) {
-        super.init(nibName: nil, bundle: nil)
-        self.noteSplitViewControllerDelegate = noteSplitViewDelegate
-    }
-    
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-    }
+    weak var noteDetailViewControllerDelegate: NoteDetailViewControllerDelegate?
     
     // MARK: - Section for diffable data source
     private enum Section: CaseIterable {
@@ -46,11 +36,7 @@ final class NoteListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         loadNotes(from: NoteData.sampleFileName)
-        configureNavigationBar()
-        configureCollectionViewHierarchy()
-        registerCellNib()
-        configureCollectionViewDataSource()
-        applyInitialSnapshot()
+        showNoteList()
     }
     
     // MARK: - Load Notes from Sample JSON
@@ -62,6 +48,23 @@ final class NoteListViewController: UIViewController {
         case .failure(let dataError):
             os_log(.error, log: .data, OSLog.objectCFormatSpecifier, dataError.localizedDescription)
         }
+    }
+    
+    // MARK: - Configure Views and Datasource as Component Methods for `showNote()`
+    private func configureViews() {
+        configureNavigationBar()
+        configureCollectionViewHierarchy()
+    }
+    
+    private func configureDataSource() {
+        configureCollectionViewDataSource()
+        applyInitialSnapshot()
+    }
+    
+    private func showNoteList() {
+        configureViews()
+        registerCellNib()
+        configureDataSource()
     }
     
     // MARK: - Cell Nib Registration
@@ -156,6 +159,12 @@ final class NoteListViewController: UIViewController {
 // MARK: - Collection View Delegate
 extension NoteListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        noteSplitViewControllerDelegate?.showNote(with: notes[indexPath.item])
+        guard let noteDetailViewController = noteDetailViewControllerDelegate as? NoteDetailViewController else {
+            os_log(.error, log: .ui, OSLog.objectCFormatSpecifier, UIError.downcastingFailed(subject: "NoteDetailViewController", location: #function).localizedDescription)
+            return
+        }
+        
+        noteDetailViewControllerDelegate?.showNote(with: notes[indexPath.item])
+        splitViewController?.showDetailViewController(noteDetailViewController, sender: nil)
     }
 }

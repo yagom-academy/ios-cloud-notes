@@ -16,6 +16,8 @@ class ListTableViewController: UITableViewController {
         parseSampleData()
         setNavigationItem()
         self.tableView.register(ListTableViewCell.self, forCellReuseIdentifier: ListTableViewCell.identifier)
+        self.tableView.estimatedRowHeight = 90.0
+        self.tableView.rowHeight = UITableView.automaticDimension
     }
     
     func parseSampleData() {
@@ -50,7 +52,7 @@ class ListTableViewController: UITableViewController {
 extension ListTableViewController {
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 65
+        return UITableView.automaticDimension
     }
 
     // MARK: - Table view data source

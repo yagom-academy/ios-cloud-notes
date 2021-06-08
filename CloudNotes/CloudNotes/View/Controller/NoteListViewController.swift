@@ -12,7 +12,7 @@ class NoteListViewController: UIViewController {
     weak var noteDelegate: NoteDelegate?
     
     private let tableView: UITableView = {
-        let tableview = UITableView()
+        let tableview = UITableView(frame: .zero, style: .insetGrouped)
         tableview.showsVerticalScrollIndicator = false
         tableview.translatesAutoresizingMaskIntoConstraints = false
         return tableview

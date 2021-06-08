@@ -47,8 +47,8 @@ final class NoteDetailViewController: UIViewController {
         view.addSubview(detailNoteTextView)
         
         NSLayoutConstraint.activate([
-            detailNoteTextView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            detailNoteTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            detailNoteTextView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            detailNoteTextView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             detailNoteTextView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             detailNoteTextView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])

@@ -5,6 +5,7 @@
 // 
 
 import XCTest
+@testable import CloudNotes
 
 class CloudNotesUITests: XCTestCase {
 

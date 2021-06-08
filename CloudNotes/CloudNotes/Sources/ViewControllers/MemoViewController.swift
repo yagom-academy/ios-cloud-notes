@@ -11,12 +11,8 @@ final class MemoViewController: UIViewController {
 
     // MARK: Property
 
-     private var memo: Memo? {
-         didSet {
-             guard let memo = memo else { return textView.text = nil }
-             textView.text = "\(memo.title)\n\n\(memo.body)"
-         }
-     }
+    private var row: Int?
+    private var memo: Memo?
 
     // MARK: UI
 
@@ -60,8 +56,11 @@ final class MemoViewController: UIViewController {
 
     // MARK: Configure
 
-    func configure(memo: Memo?) {
-        self.memo = memo
+    func configure(row: Int, memo: Memo) {
+        self.row = row
+
+        guard memo.title != "" else { return textView.text = nil }
+        textView.text = "\(memo.title)\n\(memo.body)"
     }
 
     func textViewResignFirstResponder() {

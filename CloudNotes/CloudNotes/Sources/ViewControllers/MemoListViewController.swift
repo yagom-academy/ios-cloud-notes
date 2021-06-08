@@ -65,13 +65,12 @@ final class MemoListViewController: UIViewController {
 
     private func memoAddAction(_ action: UIAction) {
         let memoViewController = (splitViewController?.viewController(for: .secondary) as? MemoViewController)
-        memoViewController?.configure(memo: nil)
-        memoViewController?.textViewResignFirstResponder()
 
-        memos.append(Memo(title: "새로운 메모", body: "추가 텍스트 없음", lastModified: Date().timeIntervalSince1970))
+        memos.append(Memo(title: "", body: "", lastModified: Date().timeIntervalSince1970))
         tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
-        memoAddButton.isEnabled = false
 
+        memoViewController?.configure(row: 0, memo: memos[0])
+        memoViewController?.textViewResignFirstResponder()
         splitViewController?.show(.secondary)
     }
 
@@ -102,7 +101,7 @@ extension MemoListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let memoViewController = (splitViewController?.viewController(for: .secondary) as? MemoViewController)
 
-        memoViewController?.configure(memo: memos[indexPath.row])
+        memoViewController?.configure(row: indexPath.row, memo: memos[indexPath.row])
         memoViewController?.textViewResignFirstResponder()
         splitViewController?.show(.secondary)
     }

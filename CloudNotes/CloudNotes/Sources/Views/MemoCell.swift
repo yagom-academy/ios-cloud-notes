@@ -72,9 +72,9 @@ final class MemoCell: UITableViewCell {
     // MARK: Configure
 
     func configure(memo: Memo) {
-        self.titleLabel.text = memo.title
+        self.titleLabel.text = (memo.title == "" ? "새로운 메모" : memo.title)
         self.lastModifiedDateLabel.text = DateFormatter().currentLocaleString(from: memo.lastModified)
-        self.oneLineBodyLabel.text = memo.body
+        self.oneLineBodyLabel.text = (memo.body == "" ? "추가 텍스트 없음" : memo.body)
     }
 
     private func configureContentView() {

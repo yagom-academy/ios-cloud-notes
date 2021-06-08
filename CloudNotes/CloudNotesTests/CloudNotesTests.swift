@@ -9,24 +9,18 @@ import XCTest
 
 class CloudNotesTests: XCTestCase {
 
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+  func test_dateFormatter() {
+    guard let asset = NSDataAsset(name: "sample") else {
+      XCTFail()
+      return
     }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    
+    do {
+      let data = try JSONDecoder().decode([Memo].self, from: asset.data)
+      XCTAssertEqual(data[0].title, "똘기떵이호치새초미자축인묘")
+      XCTAssertEqual(data[0].lastModifiedDate, "2020. 12. 23")
+    } catch {
+      XCTFail()
     }
-
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
-    }
-
+  }
 }

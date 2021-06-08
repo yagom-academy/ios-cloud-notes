@@ -26,3 +26,15 @@ final class MemoListViewModel {
     }
     
 }
+
+extension MemoListViewModel {
+    func convertDate(date: Double) -> String {
+        let result = Date(timeIntervalSince1970: date)
+        let dateFormatter = DateFormatter()
+        
+        dateFormatter.locale = Locale(identifier: Locale.current.identifier)
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        
+        return dateFormatter.string(from: result)
+    }
+}

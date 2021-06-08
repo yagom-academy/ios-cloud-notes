@@ -73,8 +73,9 @@ extension MemoListViewController: UITableViewDelegate, UITableViewDataSource {
             return UITableViewCell()
         }
         
-        cell.configureCell(data: memoListViewModel.readMemo(index: indexPath.row))
+        let memoData = memoListViewModel.readMemo(index: indexPath.row)
         
+        cell.configureCell(memoData: memoData, stringLastModified: memoListViewModel.convertDate(date: memoData.lastModified))
         
         return cell
     }

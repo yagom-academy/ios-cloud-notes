@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		701BC0CC26665A52006FFFB2 /* DateConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701BC0CB26665A52006FFFB2 /* DateConverter.swift */; };
 		701BC0CE26675F23006FFFB2 /* DetailMemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701BC0CD26675F23006FFFB2 /* DetailMemoViewController.swift */; };
 		701BC0CF26675F23006FFFB2 /* DetailMemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701BC0CD26675F23006FFFB2 /* DetailMemoViewController.swift */; };
 		701BC0D026675F23006FFFB2 /* DetailMemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701BC0CD26675F23006FFFB2 /* DetailMemoViewController.swift */; };
@@ -49,7 +48,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		701BC0CB26665A52006FFFB2 /* DateConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateConverter.swift; sourceTree = "<group>"; };
 		701BC0CD26675F23006FFFB2 /* DetailMemoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailMemoViewController.swift; sourceTree = "<group>"; };
 		701BC0D126676888006FFFB2 /* SplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitViewController.swift; sourceTree = "<group>"; };
 		70B8BD2F2664E78F0079A8CB /* Memo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memo.swift; sourceTree = "<group>"; };
@@ -119,7 +117,6 @@
 			isa = PBXGroup;
 			children = (
 				70BECDDE26662C4200F18811 /* MemoListViewModel.swift */,
-				701BC0CB26665A52006FFFB2 /* DateConverter.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -322,7 +319,6 @@
 				701BC0CE26675F23006FFFB2 /* DetailMemoViewController.swift in Sources */,
 				701BC0D226676888006FFFB2 /* SplitViewController.swift in Sources */,
 				C7481C7825BBCF3900B9CA55 /* CloudNotes.xcdatamodeld in Sources */,
-				701BC0CC26665A52006FFFB2 /* DateConverter.swift in Sources */,
 				70B8BD302664E78F0079A8CB /* Memo.swift in Sources */,
 				70BECDDF26662C4200F18811 /* MemoListViewModel.swift in Sources */,
 			);

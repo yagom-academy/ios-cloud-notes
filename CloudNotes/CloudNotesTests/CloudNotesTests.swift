@@ -7,26 +7,16 @@
 import XCTest
 @testable import CloudNotes
 
-class CloudNotesTests: XCTestCase {
-
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+final class CloudNotesTests: XCTestCase {
+    func testNoteModelDecodingWhenTestedWithSampleJSONReturnsDecodedResult() {
+        let decoded = JSONDecoder().decode(to: [Note].self, from: NoteListViewController.NoteData.sampleFileName)
+        
+        XCTAssertNotNil(decoded, DataError.decodingFailed.localizedDescription)
     }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    
+    func testNoteModelDecodingWhenTestedWithInvalidJSONReturnsFailureWithCannotFindFileError() {
+        let decoded = JSONDecoder().decode(to: [Note].self, from: "some invalid file")
+        
+        XCTAssertEqual(decoded, .failure(.cannotFindFile("some invalid file")))
     }
-
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
-    }
-
 }

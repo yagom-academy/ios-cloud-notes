@@ -1,0 +1,12 @@
+disabled_rules:
+  - trailing_whitespace
+  - identifier_name
+  - nesting
+  - line_length
+  
+included:
+
+excluded:
+  - Pods
+  - CloudNotes/Application/AppDelegate.swift
+  - CloudNotesUITests/CloudNotesUITests.swift

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		768952C62669E14B00AE4B6F /* CloudNoteError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768952C52669E14B00AE4B6F /* CloudNoteError.swift */; };
+		768EDB472670ED1800D8EF18 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768EDB462670ED1800D8EF18 /* DataManager.swift */; };
 		76A5A3C22668951000B21DF8 /* MemoListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A5A3C12668951000B21DF8 /* MemoListViewController.swift */; };
 		76A5A3C42668954C00B21DF8 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A5A3C32668954C00B21DF8 /* DetailViewController.swift */; };
 		76A5A3CE2669003C00B21DF8 /* MemoSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A5A3CD2669003C00B21DF8 /* MemoSplitViewController.swift */; };
@@ -42,6 +43,7 @@
 
 /* Begin PBXFileReference section */
 		768952C52669E14B00AE4B6F /* CloudNoteError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudNoteError.swift; sourceTree = "<group>"; };
+		768EDB462670ED1800D8EF18 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		76A5A3C12668951000B21DF8 /* MemoListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoListViewController.swift; sourceTree = "<group>"; };
 		76A5A3C32668954C00B21DF8 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		76A5A3CD2669003C00B21DF8 /* MemoSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoSplitViewController.swift; sourceTree = "<group>"; };
@@ -92,6 +94,7 @@
 			isa = PBXGroup;
 			children = (
 				76E894062664F700006ED838 /* MemoData.swift */,
+				768EDB462670ED1800D8EF18 /* DataManager.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -323,6 +326,7 @@
 				C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */,
 				C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */,
 				76A5A3D426690AAE00B21DF8 /* SendDataDelegate.swift in Sources */,
+				768EDB472670ED1800D8EF18 /* DataManager.swift in Sources */,
 				C7481C7825BBCF3900B9CA55 /* CloudNotes.xcdatamodeld in Sources */,
 				76A5A3C42668954C00B21DF8 /* DetailViewController.swift in Sources */,
 			);

@@ -21,7 +21,7 @@ struct Memo: Decodable {
         case lastModified = "last_modified"
     }
 
-    init(title: String, body: String, lastModified: TimeInterval = Date().timeIntervalSince1970) {
+    init(title: String = "", body: String = "", lastModified: TimeInterval = Date().timeIntervalSince1970) {
         self.title = title
         self.body = body
         self.lastModified = lastModified

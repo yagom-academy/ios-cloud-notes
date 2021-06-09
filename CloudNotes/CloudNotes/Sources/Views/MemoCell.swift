@@ -9,6 +9,10 @@ import UIKit
 
 final class MemoCell: UITableViewCell {
 
+    // MARK: Property
+
+    static let reuseIdentifier: String = "memoCell"
+
     // MARK: UI
 
     private let titleLabel: UILabel = {

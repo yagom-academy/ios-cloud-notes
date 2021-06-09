@@ -19,11 +19,11 @@ final class MemoListViewController: UIViewController {
 
     // MARK: UI
 
-    private lazy var memoAddButton = UIBarButtonItem(systemItem: .add, primaryAction: UIAction(handler: memoAddAction), menu: nil)
+    private lazy var memoAddButton = UIBarButtonItem(systemItem: Style.memoAddButtonSystemItem, primaryAction: UIAction(handler: memoAddAction), menu: nil)
 
     private let tableView: UITableView = {
         let tableView = UITableView()
-        tableView.register(MemoCell.self, forCellReuseIdentifier: "memoCell")
+        tableView.register(MemoCell.self, forCellReuseIdentifier: MemoCell.reuseIdentifier)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
@@ -32,7 +32,7 @@ final class MemoListViewController: UIViewController {
 
     init() {
         super.init(nibName: nil, bundle: nil)
-        navigationItem.title = "메모"
+        navigationItem.title = Style.navigationItemTitle
         navigationItem.setRightBarButton(memoAddButton, animated: true)
     }
 
@@ -73,7 +73,7 @@ final class MemoListViewController: UIViewController {
     private func memoAddAction(_ action: UIAction) {
         deleteEmptyMemo()
         addMemo()
-        showMemo(of: 0)
+        showMemo(of: Style.updatedMemoRow)
     }
 
     // MARK: Method
@@ -89,14 +89,14 @@ final class MemoListViewController: UIViewController {
 
     func updateMemo(at row: Int, to memo: Memo) {
         let reloadingIndices: [IndexPath] = (0...row).map { IndexPath(row: $0, section: 0) }
-        let indexPathForUpdatedRow = IndexPath(row: 0, section: 0)
+        let indexPathForUpdatedRow = IndexPath(row: Style.updatedMemoRow, section: 0)
 
         memos[row] = memo
 
-        if row == 0 {
-            tableView.reloadRows(at: reloadingIndices, with: .none)
+        if row == Style.updatedMemoRow {
+            tableView.reloadRows(at: reloadingIndices, with: Style.reloadingRowAnimation)
         } else {
-            tableView.reloadRows(at: reloadingIndices, with: .top)
+            tableView.reloadRows(at: reloadingIndices, with: Style.reloadingRowsAnimation)
         }
 
         tableView.selectRow(at: indexPathForUpdatedRow, animated: true, scrollPosition: .none)
@@ -104,19 +104,20 @@ final class MemoListViewController: UIViewController {
 
     @discardableResult
     private func deleteEmptyMemo() -> Bool {
-        guard memos.first?.title == "" else { return false }
+        guard let firstMemo = memos.first,
+              firstMemo.isTitleEmpty else { return false }
 
-        memos.remove(at: 0)
-        tableView.deleteRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
+        memos.remove(at: Style.updatedMemoRow)
+        tableView.deleteRows(at: [IndexPath(row: Style.updatedMemoRow, section: 0)], with: Style.inAndOutRowAnimation)
 
         return true
     }
 
     private func addMemo() {
-        let indexPathForInsertedRow = IndexPath(row: 0, section: 0)
+        let indexPathForInsertedRow = IndexPath(row: Style.updatedMemoRow, section: 0)
 
-        memos.append(Memo(title: "", body: "", lastModified: Date().timeIntervalSince1970))
-        tableView.insertRows(at: [indexPathForInsertedRow], with: .automatic)
+        memos.append(Memo())
+        tableView.insertRows(at: [indexPathForInsertedRow], with: Style.inAndOutRowAnimation)
         tableView.selectRow(at: indexPathForInsertedRow, animated: true, scrollPosition: .none)
     }
 
@@ -148,7 +149,7 @@ extension MemoListViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let memoCell = tableView.dequeueReusableCell(withIdentifier: "memoCell",
+        guard let memoCell = tableView.dequeueReusableCell(withIdentifier: MemoCell.reuseIdentifier,
                                                            for: indexPath) as? MemoCell else { return MemoCell() }
         memoCell.configure(memo: memos[indexPath.row])
 
@@ -167,6 +168,24 @@ extension MemoListViewController: UITableViewDelegate {
         } else {
             showMemo(of: indexPath.row)
         }
+    }
+
+}
+
+// MARK: - Style
+
+extension MemoListViewController {
+
+    enum Style {
+        static let memoAddButtonSystemItem: UIBarButtonItem.SystemItem = .add
+
+        static let navigationItemTitle: String = "메모"
+
+        static let updatedMemoRow: Int = 0
+
+        static let reloadingRowAnimation: UITableView.RowAnimation = .none
+        static let reloadingRowsAnimation: UITableView.RowAnimation = .top
+        static let inAndOutRowAnimation: UITableView.RowAnimation = .automatic
     }
 
 }

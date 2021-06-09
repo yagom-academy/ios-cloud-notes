@@ -18,9 +18,12 @@ class DetailViewController: UIViewController, SendDataDelegate {
         return view
     }()
     
+    var currentIndex: Int = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.memoDetailTextView.delegate = self
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: #selector(editMemo))
         self.view.addSubview(memoDetailTextView)
         setTextViewConstraint()
@@ -33,8 +36,9 @@ class DetailViewController: UIViewController, SendDataDelegate {
     @objc func editMemo() {
     }
     
-    func sendData(data: Memo) {
-        self.memoDetailTextView.text = "\(data.title)\n\n" + "\(data.body)"
+    func sendData(data: Memo, index: Int) {
+        self.memoDetailTextView.text = "\(data.title!)\n\n" + "\(data.body!)"
+        self.currentIndex = index
     }
     
     func isRegularTextViewColor(regular: Bool) {
@@ -60,6 +64,22 @@ class DetailViewController: UIViewController, SendDataDelegate {
         self.memoDetailTextView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 0).isActive = true
         self.memoDetailTextView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0).isActive = true
         self.memoDetailTextView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0).isActive = true
+    }
+    
+}
+
+extension DetailViewController: UITextViewDelegate {
+    
+    func textViewDidChange(_ textView: UITextView) {
+        guard let greeting = self.memoDetailTextView.text else { return }
+        let splitText = greeting.split(separator: "\n",maxSplits: 1).map { (value) -> String in
+            return String(value) }
+
+
+        DataManager.shared.memoList[currentIndex].title = splitText.first!
+        DataManager.shared.memoList[currentIndex].body = splitText.last!
+        DataManager.shared.saveContext()
+        DataManager.shared.fetchData()
     }
     
 }

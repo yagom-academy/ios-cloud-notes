@@ -86,7 +86,8 @@ class MemoListViewController: UIViewController {
 extension MemoListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        delegate?.sendData(data: DataManager.shared.memoList[indexPath.row])
+        self.memoTableView.reloadData()
+        delegate?.sendData(data: DataManager.shared.memoList[indexPath.row], index: indexPath.row)
         
         guard let memoDetailViewController = delegate as? DetailViewController else { return }
         

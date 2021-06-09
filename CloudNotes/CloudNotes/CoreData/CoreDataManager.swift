@@ -19,6 +19,10 @@ class CoreDataManager {
         return persistentContainer.viewContext
     }
     
+    var entity: NSEntityDescription? {
+        return NSEntityDescription.entity(forEntityName: "Memo", in: mainContext)
+    }
+    
     // MARK: - Core Data stack
     lazy var persistentContainer: NSPersistentCloudKitContainer = {
         let container = NSPersistentCloudKitContainer(name: "CloudNotes")

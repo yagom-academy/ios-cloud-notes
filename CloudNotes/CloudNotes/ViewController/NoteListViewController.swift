@@ -10,7 +10,7 @@ import UIKit
 final class NoteListViewController: UIViewController {
     private let noteTableView: UITableView = UITableView()
     private var noteListViewModel: NoteListViewModel = NoteListViewModel()
-    static weak var noteDelegate: NoteDelegate?
+    weak var noteDelegate: NoteDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,6 +66,6 @@ extension NoteListViewController: UITableViewDataSource {
 extension NoteListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        NoteListViewController.noteDelegate?.showDetailNote(data: noteListViewModel.getNoteViewModel(for: indexPath))
+        noteDelegate?.showDetailNote(data: noteListViewModel.getNoteViewModel(for: indexPath))
     }
 }

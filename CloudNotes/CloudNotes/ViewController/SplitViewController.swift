@@ -7,24 +7,28 @@
 import UIKit
 
 final class SplitViewController: UISplitViewController {
+    let noteListViewController = NoteListViewController()
+    let noteDetailViewController = NoteDetailViewController()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.delegate = self
+        noteListViewController.noteDelegate = self
         self.preferredDisplayMode = .oneBesideSecondary
-        NoteListViewController.noteDelegate = self
         
         self.viewControllers = [
-            UINavigationController(rootViewController: NoteListViewController()),
-            UINavigationController(rootViewController: NoteDetailViewController())
+            UINavigationController(rootViewController: noteListViewController),
+            UINavigationController(rootViewController: noteDetailViewController)
         ]
     }
 }
 
 extension SplitViewController: NoteDelegate {
     func showDetailNote(data: NoteViewModel) {
-        let noteDetailNC = UINavigationController(rootViewController: NoteDetailViewController())
-        (noteDetailNC.viewControllers.last as? NoteDetailViewController)?.configureTextView(data)
-        self.showDetailViewController(noteDetailNC, sender: self)
+        noteDetailViewController.configureTextView(data)
+        
+        let noteDetailNavigationController = UINavigationController(rootViewController: noteDetailViewController)
+        self.showDetailViewController(noteDetailNavigationController, sender: self)
     }
 }
 

@@ -9,19 +9,18 @@ import UIKit
 import CoreData
 
 final class MemoListViewModel {
-    private var memo: [Memo] = []
-    private var memoData: [MemoData] = []
+    private var memo: [MemoData] = []
     
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
-    func loadSampleData() {
-        guard let assetData: NSDataAsset = NSDataAsset(name: "sample") else { return }
-        guard let memoData = try? JSONDecoder().decode([Memo].self, from: assetData.data) else { return }
-        
-        self.memo = memoData
-    }
+//    func loadSampleData() {
+//        guard let assetData: NSDataAsset = NSDataAsset(name: "sample") else { return }
+//        guard let memoData = try? JSONDecoder().decode([Memo].self, from: assetData.data) else { return }
+//
+//        self.memo = memoData
+//    }
     
-    func readMemo(index: Int) -> Memo {
+    func readMemo(index: Int) -> MemoData {
         return self.memo[index]
     }
     
@@ -54,17 +53,17 @@ extension MemoListViewModel {
     
     func getAllMemoData() {
         do {
-            let data = try  context.fetch(MemoData.fetchRequest())
+            self.memo = try  context.fetch(MemoData.fetchRequest())
         }
         catch {
             // error
         }
     }
     
-    func createMemoData(titleText: String, bodyText: String) {
+    func createMemoData() {
         let newMemoData = MemoData(context: context)
-        newMemoData.title = titleText
-        newMemoData.body = bodyText
+        newMemoData.title = "새로운 메모"
+        newMemoData.body = ""
         newMemoData.lastModified = convertDouble()
         
         do {
@@ -79,6 +78,7 @@ extension MemoListViewModel {
         
         do {
             try context.save()
+            getAllMemoData()
         } catch {
             
         }

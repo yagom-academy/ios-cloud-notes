@@ -12,7 +12,6 @@ class MemoListViewController: UIViewController {
     var memoDetailViewDelegate: MemoDetailViewDelegate?
     
     private var tableView: UITableView = UITableView()
-    private let plusMemo = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: nil)
 
     init(detailViewDelegate: MemoDetailViewDelegate) {
         super.init(nibName: nil, bundle: nil)
@@ -27,24 +26,25 @@ class MemoListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureMemoListView()
-        configurefirstMemo()
+//        configurefirstMemo()
         tableViewAutoLayout()
     }
     
     private func configureMemoListView() {
         self.tableView.dataSource = self
         self.tableView.delegate = self
-        self.memoListViewModel.loadSampleData()
+//        self.memoListViewModel.loadSampleData()
+        self.memoListViewModel.getAllMemoData()
         
         tableView.register(MemoListCell.self, forCellReuseIdentifier: MemoListCell.identifier)
         self.view.backgroundColor = .white
         self.navigationItem.title = memoListViewNavigationBarTitle
-        self.navigationItem.rightBarButtonItem = plusMemo
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(didTapAdd))
     }
     
-    private func configurefirstMemo() {
-        memoDetailViewDelegate?.configureDetailText(data: memoListViewModel.readMemo(index: 0))
-    }
+//    private func configurefirstMemo() {
+//        memoDetailViewDelegate?.configureDetailText(data: memoListViewModel.readMemo(index: 0))
+//    }
  
     private func tableViewAutoLayout() {
         let safeArea = view.safeAreaLayoutGuide
@@ -60,6 +60,13 @@ class MemoListViewController: UIViewController {
             tableView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
         ])
+    }
+    
+    @objc private func didTapAdd() {
+        memoListViewModel.createMemoData()
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
     }
     
 }

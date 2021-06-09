@@ -69,7 +69,7 @@ class MemoListCell: UITableViewCell {
         ])
     }
     
-    func configureCell(memoData: Memo, stringLastModified: String) {
+    func configureCell(memoData: MemoData, stringLastModified: String) {
         title.text = memoData.title
         body.text = memoData.body
         lastModified.text = stringLastModified

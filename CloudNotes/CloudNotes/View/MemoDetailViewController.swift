@@ -8,13 +8,12 @@
 import UIKit
 
 protocol MemoDetailViewDelegate {
-    func configureDetailText(data: Memo)
+    func configureDetailText(data: MemoData)
 }
 
 class MemoDetailViewController: UIViewController, UITextViewDelegate, MemoDetailViewDelegate {
     static let identifier: String = "DetailMemoVC"
     private var textView = UITextView()
-    private var naviButton = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: nil)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,7 +29,7 @@ class MemoDetailViewController: UIViewController, UITextViewDelegate, MemoDetail
         view.backgroundColor = .white
         view.addSubview(textView)
         textView.delegate = self
-        self.navigationItem.rightBarButtonItem = naviButton
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: #selector(didTapMore))
     }
     
     private func configureTextViewConstraints() {
@@ -46,9 +45,34 @@ class MemoDetailViewController: UIViewController, UITextViewDelegate, MemoDetail
         ])
     }
 
-    func configureDetailText(data: Memo) {
-        let text = data.title + "\n\n\n" + data.body
+    func configureDetailText(data: MemoData) {
+        guard let title = data.title else { return }
+        guard let body = data.body else { return }
+        
+        let text = title + "\n\n\n" + body
         textView.text = text
+    }
+    
+    @objc func didTapMore() {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let saveAction = UIAlertAction(title: "Save", style: .default) { _ in
+            
+        }
+        let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
+        
+        }
+        let shareAction = UIAlertAction(title: "Share", style: .default) { _ in
+            
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { _ in
+        
+        }
+        alert.addAction(saveAction)
+        alert.addAction(deleteAction)
+        alert.addAction(shareAction)
+        alert.addAction(cancelAction)
+        self.present(alert, animated: true, completion: nil)
     }
     
 }

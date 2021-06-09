@@ -64,12 +64,8 @@ final class MemoViewController: UIViewController {
 
     func configure(row: Int, memo: Memo) {
         self.row = row
-
-        guard memo.title != "" else { return textView.text = nil }
-        textView.text = "\(memo.title)\n\(memo.body)"
-
-        let topOffset = CGPoint(x: 0, y: -view.safeAreaInsets.top)
-        textView.setContentOffset(topOffset, animated: false)
+        configureTextViewText(by: memo)
+        resetScrollOffset()
     }
 
     private func configureTextView() {
@@ -86,6 +82,16 @@ final class MemoViewController: UIViewController {
 
     private func configureBackgroundColor(by sizeClass: UIUserInterfaceSizeClass) {
         view.backgroundColor = (sizeClass == .compact) ? .systemGray3 : .systemBackground
+    }
+
+    private func configureTextViewText(by memo: Memo) {
+        guard memo.title != "" else { return textView.text = nil }
+        textView.text = "\(memo.title)\n\(memo.body)"
+    }
+
+    private func resetScrollOffset() {
+        let topOffset = CGPoint(x: 0, y: -view.safeAreaInsets.top)
+        textView.setContentOffset(topOffset, animated: false)
     }
 
     // MARK: Keyboard observing
@@ -133,33 +139,39 @@ extension MemoViewController: UISplitViewControllerDelegate {
 extension MemoViewController: UITextViewDelegate {
 
     func textViewDidChange(_ textView: UITextView) {
-        guard let textViewText = textView.text else { return }
-        let text: [Substring] = textViewText.split(separator: "\n", maxSplits: 1, omittingEmptySubsequences: true)
+        guard let textViewText = textView.text,
+              let seperatedMemo = seperatedMemo(from: textViewText) else { return }
+
+        self.memo = Memo(title: seperatedMemo.newTitle, body: seperatedMemo.newBody, lastModified: Date().timeIntervalSince1970)
+
+        let primaryViewController = splitViewController?.viewController(for: .primary) as? MemoListViewController
+
+        if let row = row,
+           let memo = memo {
+            primaryViewController?.updateMemo(at: row, to: memo)
+            self.row = 0
+        }
+    }
+
+    private func seperatedMemo(from text: String) -> (newTitle: String, newBody: String)? {
+        let seperatedText: [Substring] = text.split(separator: "\n", maxSplits: 1, omittingEmptySubsequences: true)
 
         var newTitle: String = ""
         var newBody: String = ""
 
-        switch text.count {
+        switch seperatedText.count {
         case 0:
             break
         case 1:
-            newTitle = String(text[0])
+            newTitle = String(seperatedText[0])
         case 2:
-            newTitle = String(text[0])
-            newBody = String(text[1])
+            newTitle = String(seperatedText[0])
+            newBody = String(seperatedText[1])
         default:
-            return
+            return nil
         }
 
-        self.memo = Memo(title: newTitle, body: newBody, lastModified: Date().timeIntervalSince1970)
-
-        let primaryViewController = splitViewController?.viewController(for: .primary) as? MemoListViewController
-
-        if let memo = memo,
-           let row = row {
-            primaryViewController?.updateMemo(at: row, to: memo)
-            self.row = 0
-        }
+        return (newTitle, newBody)
     }
 
 }

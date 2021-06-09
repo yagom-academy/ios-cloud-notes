@@ -50,13 +50,7 @@ final class MemoListViewController: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-
-        if deleteEmptyMemo() {
-            hideMemo()
-        }
-
-        guard let indexPathForSelectedRow = tableView.indexPathForSelectedRow else { return }
-        tableView.deselectRow(at: indexPathForSelectedRow, animated: true)
+        updateMemoList()
     }
 
     // MARK: Configure
@@ -84,6 +78,15 @@ final class MemoListViewController: UIViewController {
 
     // MARK: Method
 
+    func updateMemoList() {
+        if deleteEmptyMemo() {
+            hideMemo()
+        }
+
+        guard let indexPathForSelectedRow = tableView.indexPathForSelectedRow else { return }
+        tableView.deselectRow(at: indexPathForSelectedRow, animated: true)
+    }
+
     func updateMemo(at row: Int, to memo: Memo) {
         let reloadingIndices: [IndexPath] = (0...row).map { IndexPath(row: $0, section: 0) }
         let indexPathForUpdatedRow = IndexPath(row: 0, section: 0)
@@ -95,6 +98,7 @@ final class MemoListViewController: UIViewController {
         } else {
             tableView.reloadRows(at: reloadingIndices, with: .top)
         }
+
         tableView.selectRow(at: indexPathForUpdatedRow, animated: true, scrollPosition: .none)
     }
 

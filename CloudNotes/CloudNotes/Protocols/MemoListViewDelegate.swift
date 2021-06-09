@@ -7,7 +7,9 @@
 import UIKit
 
 protocol MemoListViewDelegate: class {
-    func createNewCell()
-    func updateCell(indexPath: IndexPath)
-    func deleteCell(indexPath: IndexPath)
+    func memoAddButtonDidTapped()
+    func memoDeleteButtonDidTapped(memoIndexPath: IndexPath)
+    func memoShareButtonDidTapped(memoIndexPathToShare: IndexPath, sourceView: UIView)
+    func didSelectRow(at indexPath: IndexPath)
+    func showAlert(alert: UIAlertController)
 }

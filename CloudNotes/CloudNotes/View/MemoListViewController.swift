@@ -8,17 +8,19 @@ import UIKit
 import CoreData
 
 class MemoListViewController: UIViewController {
-    private weak var splitViewDelegate: SplitViewDelegate?
+    private weak var memoListViewDelegate: MemoListViewDelegate?
 
     private let memoListTableView: UITableView = {
         let tableView = UITableView()
+        tableView.backgroundColor = .systemBackground
         tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.register(MemoPreviewCell.self, forCellReuseIdentifier: MemoPreviewCell.reusableIdentifier)
         return tableView
     }()
 
-    init(splitViewDelegate: SplitViewDelegate) {
+    init(memoListViewDelegate: MemoListViewDelegate) {
         super.init(nibName: nil, bundle: nil)
-        self.splitViewDelegate = splitViewDelegate
+        self.memoListViewDelegate = memoListViewDelegate
     }
 
     required init?(coder: NSCoder) {
@@ -27,33 +29,24 @@ class MemoListViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureView()
-        configureTableView()
-        addSubviews()
+        setUpView()
+        setUpTableView()
     }
 
-    override func viewWillLayoutSubviews() {
-        addConstraints()
-    }
-
-    private func configureView() {
+    private func setUpView() {
         view.backgroundColor = .systemBackground
         navigationItem.title = "메모"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(createNewMemo))
+
+        let memoAddButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(touchUpMemoAddButton))
+        navigationItem.rightBarButtonItem = memoAddButton
     }
 
-    private func configureTableView() {
+    private func setUpTableView() {
+        view.addSubview(memoListTableView)
+
         memoListTableView.dataSource = self
         memoListTableView.delegate = self
-        memoListTableView.register(MemoPreviewCell.self, forCellReuseIdentifier: MemoPreviewCell.reusableIdentifier)
-        memoListTableView.backgroundColor = .systemBackground
-    }
 
-    private func addSubviews() {
-        view.addSubview(memoListTableView)
-    }
-
-    private func addConstraints() {
         NSLayoutConstraint.activate([
             memoListTableView.topAnchor.constraint(equalTo: view.topAnchor),
             memoListTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
@@ -62,8 +55,8 @@ class MemoListViewController: UIViewController {
         ])
     }
 
-    @objc private func createNewMemo() {
-        MemoManager.shared.createMemo()
+    @objc private func touchUpMemoAddButton() {
+        memoListViewDelegate?.memoAddButtonDidTapped()
     }
 }
 
@@ -89,24 +82,24 @@ extension MemoListViewController: UITableViewDataSource {
 
 extension MemoListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        splitViewDelegate?.didSelectRow(indexPath: indexPath, memoListViewDelegate: self)
+        memoListViewDelegate?.didSelectRow(at: indexPath)
     }
 
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let deleteAction = UIContextualAction(style: .destructive, title: "delete") { _, _, _ in
-            MemoManager.shared.deleteMemo(indexPath: indexPath)
+            self.memoListViewDelegate?.memoDeleteButtonDidTapped(memoIndexPath: indexPath)
         }
         let shareAction = UIContextualAction(style: .normal, title: "share") { _, _, _ in
             guard let cellToShare = self.memoListTableView.cellForRow(at: indexPath) else { return }
-            self.splitViewDelegate?.showActivityView(indexPath: indexPath, sourceView: cellToShare)
+            self.memoListViewDelegate?.memoShareButtonDidTapped(memoIndexPathToShare: indexPath, sourceView: cellToShare)
         }
         return UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
     }
 }
 
-// MARK: - MemoListViewDelegate
+// MARK: - Cell Management
 
-extension MemoListViewController: MemoListViewDelegate {
+extension MemoListViewController {
     func createNewCell() {
         let topIndexPath = IndexPath(row: 0, section: 0)
         memoListTableView.insertRows(at: [topIndexPath], with: .automatic)

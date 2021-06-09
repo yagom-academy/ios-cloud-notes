@@ -6,10 +6,13 @@
 //
 
 import UIKit
-
+// @@delegate : @@의 이벤트를 받아서 내가 처리하겠다!
 class SplitViewController: UISplitViewController {
     private var memoListViewController: MemoListViewController?
     private var memoDetailViewController: MemoDetailViewController?
+
+    weak var memoListViewDelegate: MemoListViewDelegate?
+    weak var memoDetailViewDelegate: MemoDetailViewDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,12 +23,12 @@ class SplitViewController: UISplitViewController {
     }
 
     private func setUpMemoListViewController() {
-        memoListViewController = MemoListViewController(splitViewDelegate: self)
+        memoListViewController = MemoListViewController(memoListViewDelegate: self)
     }
 
     private func setUpMemoDetailViewController() {
         guard memoListViewController != nil else { return }
-        memoDetailViewController = MemoDetailViewController(splitViewDelegate: self)
+        memoDetailViewController = MemoDetailViewController(memoDetailViewDelegate: self)
     }
 
     private func setUpSplitViewController() {
@@ -42,9 +45,8 @@ class SplitViewController: UISplitViewController {
     }
 
     private func setUpMemoManager() {
-        MemoManager.shared.splitViewDelegate = self
-        MemoManager.shared.memoListViewDelegate = memoListViewController
-        MemoManager.shared.memoDetailViewDelegate = memoDetailViewController
+        MemoManager.shared.memoManagerDelegate = self
+        MemoManager.shared.fetchMemoData()
     }
 }
 
@@ -55,23 +57,38 @@ extension SplitViewController: UISplitViewControllerDelegate {
     }
 }
 
-extension SplitViewController: SplitViewDelegate {
-    func didSelectRow(indexPath: IndexPath, memoListViewDelegate: MemoListViewDelegate) {
-        guard let memoDetailViewController = memoDetailViewController,
-              let memo = MemoManager.shared.memos?[indexPath.row] else { return }
+// MARK: - MemoListViewDelegate, MemoDetailViewDelegate
 
-        memoDetailViewController.setUpData(memo: memo, indexPath: indexPath)
-        showDetailViewController(memoDetailViewController, sender: self)
+extension SplitViewController: MemoListViewDelegate, MemoDetailViewDelegate {
+    func memoAddButtonDidTapped() {
+        MemoManager.shared.createMemo()
     }
 
-    func showAlert(alert: UIAlertController) {
-        present(alert, animated: true, completion: nil)
+    func memoTitleTextViewDidChanged(memoIndexPathToUpdate: IndexPath, text: String) {
+        MemoManager.shared.updateMemoTitle(indexPath: memoIndexPathToUpdate, text: text)
     }
 
-    func showActivityView(indexPath: IndexPath, sourceView: UIView) {
+    func memoDescriptionTextViewDidChanged(memoIndexPathToUpdate: IndexPath, text: String) {
+        MemoManager.shared.updateMemoDescription(indexPath: memoIndexPathToUpdate, text: text)
+    }
+
+    func memoDeleteButtonDidTapped(memoIndexPath: IndexPath) {
+        let alert = UIAlertController(title: "삭제하시겠습니까?", message: nil, preferredStyle: .alert)
+        let yesAction = UIAlertAction(title: "네", style: .default) { _ in
+            MemoManager.shared.deleteMemo(indexPath: memoIndexPath)
+        }
+        let noAction = UIAlertAction(title: "아니오", style: .destructive, handler: nil)
+        alert.addAction(yesAction)
+        alert.addAction(noAction)
+
+        showAlert(alert: alert)
+        MemoManager.shared.deleteMemo(indexPath: memoIndexPath)
+    }
+
+    func memoShareButtonDidTapped(memoIndexPathToShare: IndexPath, sourceView: UIView) {
         guard let memos = MemoManager.shared.memos else { return }
 
-        let activityView = UIActivityViewController(activityItems: [memos[indexPath.row].title],
+        let activityView = UIActivityViewController(activityItems: [memos[memoIndexPathToShare.row].title],
                                                     applicationActivities: nil)
 
         if UIDevice.current.userInterfaceIdiom == .pad {
@@ -80,5 +97,40 @@ extension SplitViewController: SplitViewDelegate {
         }
 
         present(activityView, animated: true)
+    }
+
+    func showAlert(alert: UIAlertController) {
+        present(alert, animated: true, completion: nil)
+    }
+
+    func didSelectRow(at indexPath: IndexPath) {
+        guard let selectedMemo = MemoManager.shared.memos?[indexPath.row],
+              let memoDetailViewController = memoDetailViewController else { return }
+
+        memoDetailViewController.setUpData(memo: selectedMemo, indexPath: indexPath)
+        showDetailViewController(memoDetailViewController, sender: self)
+    }
+}
+
+// MARK: - MemoManagerDelegate
+
+extension SplitViewController: MemoManagerDelegate {
+    func memoDidCreated(createdMemo: Memo, createdMemoIndexPath: IndexPath) {
+        guard let memoListViewController = memoListViewController,
+              let memoDetailViewController = memoDetailViewController else { return }
+
+        memoListViewController.createNewCell()
+        memoDetailViewController.setUpData(memo: createdMemo, indexPath: createdMemoIndexPath)
+
+        showDetailViewController(memoDetailViewController, sender: self)
+    }
+
+    func memoDidUpdated(updatedMemoIndexPath: IndexPath) {
+        memoListViewController?.updateCell(indexPath: updatedMemoIndexPath)
+    }
+
+    func memoDidDeleted(deletedMemoIndexPath: IndexPath) {
+        memoListViewController?.deleteCell(indexPath: deletedMemoIndexPath)
+        memoDetailViewController?.clearField()
     }
 }

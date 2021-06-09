@@ -10,7 +10,7 @@ import CoreData
 
 class MemoDetailViewController: UIViewController {
     private var indexPath: IndexPath?
-    private weak var splitViewDelegate: SplitViewDelegate?
+    private weak var memoDetailViewDelegate: MemoDetailViewDelegate?
 
     private let titleTextView = MemoTextView(font: UIFont.preferredFont(forTextStyle: .title1))
 
@@ -41,9 +41,9 @@ class MemoDetailViewController: UIViewController {
         descriptionTextView.backgroundColor = isHorizontalSizeClassRegular ? .systemBackground : .systemGray3
     }
 
-    init(splitViewDelegate: SplitViewDelegate) {
+    init(memoDetailViewDelegate: MemoDetailViewDelegate) {
         super.init(nibName: nil, bundle: nil)
-        self.splitViewDelegate = splitViewDelegate
+        self.memoDetailViewDelegate = memoDetailViewDelegate
     }
 
     required init?(coder: NSCoder) {
@@ -83,11 +83,6 @@ class MemoDetailViewController: UIViewController {
             descriptionTextView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
-}
-
-// MARK: - MemoDetailViewDelegate
-
-extension MemoDetailViewController: MemoDetailViewDelegate {
     func setUpData(memo: Memo, indexPath: IndexPath) {
         self.indexPath = indexPath
         titleTextView.text = memo.title
@@ -126,12 +121,12 @@ extension MemoDetailViewController {
 
     private func shareActionCompletionHandler(alert: UIAlertAction) {
         guard let indexPath = indexPath else { return }
-        splitViewDelegate?.showActivityView(indexPath: indexPath, sourceView: view)
+        memoDetailViewDelegate?.memoShareButtonDidTapped(memoIndexPathToShare: indexPath, sourceView: view)
     }
 
     private func deleteActionCompletionHandler(alert: UIAlertAction) {
         guard let indexPath = indexPath else { return }
-        MemoManager.shared.deleteMemo(indexPath: indexPath)
+        memoDetailViewDelegate?.memoDeleteButtonDidTapped(memoIndexPath: indexPath)
     }
 }
 
@@ -160,9 +155,11 @@ extension MemoDetailViewController: UITextViewDelegate {
         guard let indexPath = indexPath else { return }
 
         if textView == titleTextView {
-            MemoManager.shared.updateTitle(indexPath: indexPath, title: textView.text)
+            memoDetailViewDelegate?.memoTitleTextViewDidChanged(memoIndexPathToUpdate: indexPath,
+                                                                text: titleTextView.text)
         } else if textView == descriptionTextView {
-            MemoManager.shared.updateDescription(indexPath: indexPath, description: textView.text)
+            memoDetailViewDelegate?.memoDescriptionTextViewDidChanged(memoIndexPathToUpdate: indexPath,
+                                                                      text: descriptionTextView.text)
         }
     }
 }

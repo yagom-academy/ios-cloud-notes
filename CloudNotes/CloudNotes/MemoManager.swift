@@ -9,105 +9,52 @@ import UIKit
 import CoreData
 
 class MemoManager {
+    var memos: [Memo]?
+    weak var memoManagerDelegate: MemoManagerDelegate?
+
     static let shared = MemoManager()
 
-    var memos: [Memo]?
-    weak var splitViewDelegate: SplitViewDelegate?
-    weak var memoListViewDelegate: MemoListViewDelegate?
-    weak var memoDetailViewDelegate: MemoDetailViewDelegate?
-    private let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext
-
-    private init() {
-        fetchData()
-    }
-
     func createMemo() {
-        guard let context = context else { return }
+        guard let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext else { return }
         let newMemo = Memo(context: context)
         newMemo.date = Date()
 
+        memos?.insert(newMemo, at: 0) // 시간복잡도 O(n), 적절히 수정해야함
         let newIndexPath = IndexPath(row: 0, section: 0)
-
-        try? context.save()
-        fetchData()
-
-        memoListViewDelegate?.createNewCell()
-        memoDetailViewDelegate?.setUpData(memo: newMemo, indexPath: newIndexPath)
+        memoManagerDelegate?.memoDidCreated(createdMemo: newMemo, createdMemoIndexPath: newIndexPath)
     }
 
-    func updateTitle(indexPath: IndexPath, title: String) {
-        guard let memos = memos,
-              let context = context else { return }
-        memos[indexPath.row].title = title
-        memos[indexPath.row].date = Date()
+    func updateMemoTitle(indexPath: IndexPath, text: String) {
+        let memo = memos?[indexPath.row]
+        memo?.date = Date()
+        memo?.title = text
 
-        do {
-            try context.save()
-        } catch {
-            splitViewDelegate?.showAlert(alert: failAlert(title: "제목 저장 실패",
-                                                          message: "메모의 제목을 저장하지 못했어요😢"))
-        }
-
-        memoListViewDelegate?.updateCell(indexPath: indexPath)
+        memoManagerDelegate?.memoDidUpdated(updatedMemoIndexPath: indexPath)
     }
 
-    func updateDescription(indexPath: IndexPath, description: String) {
-        guard let memos = memos,
-              let context = context else { return }
-        memos[indexPath.row].memoDescription = description
-        memos[indexPath.row].date = Date()
+    func updateMemoDescription(indexPath: IndexPath, text: String) {
+        let memo = memos?[indexPath.row]
+        memo?.date = Date()
+        memo?.memoDescription = text
 
-        do {
-            try context.save()
-        } catch {
-            splitViewDelegate?.showAlert(alert: failAlert(title: "내용 저장 실패",
-                                                          message: "메모의 내용을 저장하지 못했어요😢"))
-        }
-
-        memoListViewDelegate?.updateCell(indexPath: indexPath)
+        memoManagerDelegate?.memoDidUpdated(updatedMemoIndexPath: indexPath)
     }
 
     func deleteMemo(indexPath: IndexPath) {
-        guard let memos = memos,
-              let context = context else { return }
-
-        context.delete(memos[indexPath.row])
-        fetchData()
-        do {
-            try context.save()
-        } catch {
-            splitViewDelegate?.showAlert(alert: failAlert(title: "메모 삭제 실패",
-                                                          message: "메모를 삭제하지 못했어요😢"))
-        }
-
-        reconfirmDeleteAlert(indexPath: indexPath)
+        guard let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext,
+              let memoToDelete = memos?[indexPath.row] else { return }
+        context.delete(memoToDelete)
+        self.memos?.remove(at: indexPath.row)
+        self.memoManagerDelegate?.memoDidDeleted(deletedMemoIndexPath: indexPath)
     }
 
-    private func reconfirmDeleteAlert(indexPath: IndexPath) {
-        let alert = UIAlertController(title: "삭제하시겠습니까?", message: nil, preferredStyle: .alert)
-        let yesAction = UIAlertAction(title: "네", style: .default) { _ in
-            self.memoListViewDelegate?.deleteCell(indexPath: indexPath)
-            self.memoDetailViewDelegate?.clearField()
-        }
-        let noAction = UIAlertAction(title: "아니오", style: .destructive, handler: nil)
-        alert.addAction(yesAction)
-        alert.addAction(noAction)
-        splitViewDelegate?.showAlert(alert: alert)
-    }
-
-    private func failAlert(title: String?, message: String?) -> UIAlertController {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        return alert
-    }
-
-    private func fetchData() {
+    func fetchMemoData() {
         do {
             let request = Memo.fetchRequest() as NSFetchRequest<Memo>
             request.sortDescriptors = [NSSortDescriptor(key: "date", ascending: false)]
-            memos = try context?.fetch(request)
+            memos = try (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext.fetch(request)
         } catch {
-            splitViewDelegate?.showAlert(alert: failAlert(title: "데이터 불러오기 실패",
-                                                          message: "데이터를 가져오지 못했어요😢"))
+            // throw
         }
     }
 }

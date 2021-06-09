@@ -20,6 +20,7 @@ final class MemoViewController: UIViewController {
 
     private let textView: UITextView = {
         let textView = UITextView()
+        textView.backgroundColor = .clear
         textView.font = UIFont.preferredFont(forTextStyle: .body)
         textView.isEditable = true
         textView.isHidden = true
@@ -46,13 +47,13 @@ final class MemoViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemBackground
+        configureBackgroundColor(by: traitCollection.horizontalSizeClass)
         configureTextView()
     }
 
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        memo = nil
+    override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.willTransition(to: newCollection, with: coordinator)
+        configureBackgroundColor(by: newCollection.horizontalSizeClass)
     }
 
     // MARK: Configure
@@ -77,6 +78,10 @@ final class MemoViewController: UIViewController {
             textView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             textView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
+    }
+
+    private func configureBackgroundColor(by sizeClass: UIUserInterfaceSizeClass) {
+        view.backgroundColor = (sizeClass == .compact) ? .systemGray3 : .systemBackground
     }
 
     // MARK: Keyboard observing

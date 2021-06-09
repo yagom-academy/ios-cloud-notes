@@ -22,6 +22,7 @@ final class MemoViewController: UIViewController {
         let textView = UITextView()
         textView.font = UIFont.preferredFont(forTextStyle: .body)
         textView.isEditable = true
+        textView.isHidden = true
         textView.textContainerInset = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
         textView.translatesAutoresizingMaskIntoConstraints = false
         return textView
@@ -103,6 +104,17 @@ final class MemoViewController: UIViewController {
 
     func setTextViewHidden(is value: Bool) {
         textView.isHidden = value
+    }
+
+}
+
+// MARK: - UISplitViewControllerDelegate
+
+extension MemoViewController: UISplitViewControllerDelegate {
+
+    func splitViewController(_ svc: UISplitViewController,
+                             topColumnForCollapsingToProposedTopColumn proposedTopColumn: UISplitViewController.Column) -> UISplitViewController.Column {
+        return textView.isHidden ? .primary : .secondary
     }
 
 }

@@ -23,7 +23,7 @@ struct MemoData: Decodable {
     
     private enum CodingKeys: String, CodingKey {
         case title, body
-        case lastModified = "3last_modified"
+        case lastModified = "last_modified"
     }
     
 }

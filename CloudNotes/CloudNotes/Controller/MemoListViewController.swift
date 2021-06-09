@@ -60,7 +60,9 @@ class MemoListViewController: UIViewController {
             self.memoData = try decoder.decode([MemoData].self, from: data.data)
         }
         catch {
-            return
+            let alert = UIAlertController(title: "경고", message: CloudNoteError.decode.localizedDescription, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            splitViewController?.present(alert, animated: true, completion: nil)
         }
     }
     

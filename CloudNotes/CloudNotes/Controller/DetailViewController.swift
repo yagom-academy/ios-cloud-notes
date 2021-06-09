@@ -47,9 +47,11 @@ class DetailViewController: UIViewController, SendDataDelegate {
     private func setBackgroundColor() {
         if UITraitCollection.current.horizontalSizeClass == .compact {
             self.memoDetailTextView.backgroundColor = UIColor.lightGray
+            self.view.backgroundColor = UIColor.lightGray
         }
         else {
             self.memoDetailTextView.backgroundColor = UIColor.white
+            self.view.backgroundColor = UIColor.white
         }
     }
     

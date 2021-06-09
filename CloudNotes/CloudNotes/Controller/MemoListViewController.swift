@@ -9,7 +9,7 @@ import UIKit
 
 class MemoListViewController: UIViewController {
     
-    private let tableView = UITableView()
+    private let memoTableView = UITableView()
     private let decoder = JSONDecoder()
     var memoData: [MemoData] = []
     var delegate: SendDataDelegate?
@@ -17,11 +17,11 @@ class MemoListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.tableView.dataSource = self
-        self.tableView.delegate = self
+        self.memoTableView.dataSource = self
+        self.memoTableView.delegate = self
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNote))
-        self.tableView.register(MemoListCell.self, forCellReuseIdentifier: MemoListCell.identifier)
-        self.view.addSubview(self.tableView)
+        self.memoTableView.register(MemoListCell.self, forCellReuseIdentifier: MemoListCell.identifier)
+        self.view.addSubview(self.memoTableView)
         setTableViewConstraint()
         decodeMemoData()
     }
@@ -37,17 +37,18 @@ class MemoListViewController: UIViewController {
     }
     
     private func setTableViewConstraint() {
-        self.tableView.translatesAutoresizingMaskIntoConstraints = false
-        self.view.addConstraint(NSLayoutConstraint(item: self.tableView,
+        self.memoTableView.translatesAutoresizingMaskIntoConstraints = false
+        self.memoTableView.rowHeight = 50
+        self.view.addConstraint(NSLayoutConstraint(item: self.memoTableView,
                                                    attribute: .top, relatedBy: .equal, toItem: self.view, attribute: .top,
                                                    multiplier: 1.0, constant: 0))
-        self.view.addConstraint(NSLayoutConstraint(item: self.tableView,
+        self.view.addConstraint(NSLayoutConstraint(item: self.memoTableView,
                                                    attribute: .bottom, relatedBy: .equal, toItem: self.view,
                                                    attribute: .bottom, multiplier: 1.0, constant: 0))
-        self.view.addConstraint(NSLayoutConstraint(item: self.tableView,
+        self.view.addConstraint(NSLayoutConstraint(item: self.memoTableView,
                                                    attribute: .leading, relatedBy: .equal, toItem: self.view,
                                                    attribute: .leading, multiplier: 1.0, constant: 0))
-        self.view.addConstraint(NSLayoutConstraint(item: self.tableView,
+        self.view.addConstraint(NSLayoutConstraint(item: self.memoTableView,
                                                    attribute: .trailing, relatedBy: .equal, toItem: self.view,
                                                    attribute: .trailing, multiplier: 1.0, constant: 0))
     }
@@ -89,7 +90,7 @@ extension MemoListViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: MemoListCell.identifier, for: indexPath) as! MemoListCell
         let currentMemoData = memoData[indexPath.row]
         
-        cell.setCellData(title: currentMemoData.title, body: currentMemoData.body, dateCreate: currentMemoData.lastModifiedDate)
+        cell.setCellData(currentMemoData: currentMemoData)
 
         return cell
     }

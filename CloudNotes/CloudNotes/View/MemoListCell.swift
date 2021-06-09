@@ -70,10 +70,10 @@ class MemoListCell: UITableViewCell {
         memoPreview.heightAnchor.constraint(equalTo: memoDateCreate.heightAnchor, multiplier: 1).isActive = true
     }
     
-    func setCellData(title: String, body: String, dateCreate: String) {
-        self.memoTitle.text = title
-        self.memoPreview.text = body
-        self.memoDateCreate.text = dateCreate
+    func setCellData(currentMemoData: MemoData) {
+        self.memoTitle.text = currentMemoData.title
+        self.memoPreview.text = currentMemoData.body
+        self.memoDateCreate.text = currentMemoData.lastModifiedDate
         self.accessoryType = .disclosureIndicator
         self.selectionStyle = .none
     }

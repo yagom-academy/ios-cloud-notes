@@ -54,6 +54,9 @@ final class MemoListViewController: UIViewController {
         if deleteEmptyMemo() {
             hideMemo()
         }
+
+        guard let indexPathForSelectedRow = tableView.indexPathForSelectedRow else { return }
+        tableView.deselectRow(at: indexPathForSelectedRow, animated: true)
     }
 
     // MARK: Configure

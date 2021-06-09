@@ -43,6 +43,8 @@ class MemoListViewController: UIViewController {
         newMemo.lastModifiedDate = "날짜"
         
         DataManager.shared.saveContext()
+        DataManager.shared.fetchData()
+        self.memoTableView.reloadData()
     }
     
     private func setTableViewConstraint() {
@@ -91,6 +93,18 @@ extension MemoListViewController: UITableViewDelegate {
         if UITraitCollection.current.horizontalSizeClass == .compact {
             splitViewController?.showDetailViewController(UINavigationController(rootViewController: memoDetailViewController) , sender: nil)
         }
+    }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let action = UIContextualAction(style: .destructive, title: "Delete") { (action, view, completionHandler ) in
+            let memoToRemove = DataManager.shared.memoList[indexPath.row]
+            DataManager.shared.mainContext.delete(memoToRemove)
+            DataManager.shared.saveContext()
+            DataManager.shared.fetchData()
+            self.memoTableView.reloadData()
+        }
+        
+        return UISwipeActionsConfiguration(actions: [action])
     }
     
 }

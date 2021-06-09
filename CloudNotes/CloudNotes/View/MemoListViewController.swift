@@ -33,8 +33,8 @@ class MemoListViewController: UIViewController {
     private func configureMemoListView() {
         self.tableView.dataSource = self
         self.tableView.delegate = self
-//        self.memoListViewModel.loadSampleData()
         self.memoListViewModel.getAllMemoData()
+        NotificationCenter.default.addObserver(self, selector: #selector(deleteMemo), name: NotificationNames.delete.name, object: nil)
         
         tableView.register(MemoListCell.self, forCellReuseIdentifier: MemoListCell.identifier)
         self.view.backgroundColor = .white
@@ -42,9 +42,9 @@ class MemoListViewController: UIViewController {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(didTapAdd))
     }
     
-//    private func configurefirstMemo() {
-//        memoDetailViewDelegate?.configureDetailText(data: memoListViewModel.readMemo(index: 0))
-//    }
+    private func configurefirstMemo() {
+        memoDetailViewDelegate?.configureDetailText(data: memoListViewModel.readMemo(index: 0))
+    }
  
     private func tableViewAutoLayout() {
         let safeArea = view.safeAreaLayoutGuide
@@ -69,6 +69,13 @@ class MemoListViewController: UIViewController {
         }
     }
     
+    @objc private func deleteMemo() {
+        self.memoListViewModel.deleteMemoData()
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
+    }
+    
 }
 
 extension MemoListViewController: UITableViewDelegate, UITableViewDataSource {
@@ -87,9 +94,15 @@ extension MemoListViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.memoListViewModel.configureLastSelectIndex(index: indexPath.row)
         memoDetailViewDelegate?.configureDetailText(data: memoListViewModel.readMemo(index: indexPath.row))
         guard let detail = memoDetailViewDelegate as? MemoDetailViewController else { return }
-        showDetailViewController(UINavigationController(rootViewController: detail), sender: nil)
+        
+        if UITraitCollection.current.horizontalSizeClass == .compact {
+            self.navigationController?.pushViewController(detail, animated: true)
+        } else {
+            showDetailViewController(UINavigationController(rootViewController: detail), sender: nil)
+        }
     }
         
 }

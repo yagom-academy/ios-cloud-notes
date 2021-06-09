@@ -59,7 +59,13 @@ class MemoDetailViewController: UIViewController, UITextViewDelegate, MemoDetail
             
         }
         let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
-            NotificationCenter.default.post(name: <#T##NSNotification.Name#>, object: nil)
+            NotificationCenter.default.post(name: NotificationNames.delete.name, object: nil)
+            if UITraitCollection.current.horizontalSizeClass == .compact {
+                self.navigationController?.popViewController(animated: true)
+            } else {
+                
+            }
+            
         }
         let shareAction = UIAlertAction(title: "Share", style: .default) { _ in
             

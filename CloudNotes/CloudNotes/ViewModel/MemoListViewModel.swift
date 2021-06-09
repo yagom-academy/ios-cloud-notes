@@ -10,15 +10,8 @@ import CoreData
 
 final class MemoListViewModel {
     private var memo: [MemoData] = []
-    
+    private var lastSelectIndex = -1
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-    
-//    func loadSampleData() {
-//        guard let assetData: NSDataAsset = NSDataAsset(name: "sample") else { return }
-//        guard let memoData = try? JSONDecoder().decode([Memo].self, from: assetData.data) else { return }
-//
-//        self.memo = memoData
-//    }
     
     func readMemo(index: Int) -> MemoData {
         return self.memo[index]
@@ -26,6 +19,10 @@ final class MemoListViewModel {
     
     func countMemo() -> Int {
         return self.memo.count
+    }
+    
+    func configureLastSelectIndex(index: Int) {
+        self.lastSelectIndex = index
     }
     
 }
@@ -53,7 +50,7 @@ extension MemoListViewModel {
     
     func getAllMemoData() {
         do {
-            self.memo = try  context.fetch(MemoData.fetchRequest())
+            self.memo = try context.fetch(MemoData.fetchRequest())
         }
         catch {
             // error
@@ -65,7 +62,6 @@ extension MemoListViewModel {
         newMemoData.title = "새로운 메모"
         newMemoData.body = ""
         newMemoData.lastModified = convertDouble()
-        
         do {
             try context.save()
             getAllMemoData()
@@ -74,8 +70,9 @@ extension MemoListViewModel {
         }
     }
     
-    func deleteMemoData(memo: MemoData) {
-        context.delete(memo)
+    func deleteMemoData() {
+        let memoData = self.memo[lastSelectIndex]
+        context.delete(memoData)
         
         do {
             try context.save()
@@ -96,4 +93,5 @@ extension MemoListViewModel {
             
         }
     }
+    
 }

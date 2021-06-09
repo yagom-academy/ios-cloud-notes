@@ -60,10 +60,14 @@ class MemoListViewController: UIViewController {
             self.memoData = try decoder.decode([MemoData].self, from: data.data)
         }
         catch {
-            let alert = UIAlertController(title: "경고", message: CloudNoteError.decode.localizedDescription, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-            splitViewController?.present(alert, animated: true, completion: nil)
+            errorAlert(errorDescription: CloudNoteError.decode.localizedDescription)
         }
+    }
+    
+    private func errorAlert(errorDescription: String) {
+        let alert = UIAlertController(title: "경고", message: errorDescription, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        splitViewController?.present(alert, animated: true, completion: nil)
     }
     
 }

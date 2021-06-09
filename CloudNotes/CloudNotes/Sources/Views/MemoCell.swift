@@ -95,6 +95,19 @@ final class MemoCell: UITableViewCell {
         footStackView.addArrangedSubview(oneLineBodyLabel)
     }
 
+    override func updateConfiguration(using state: UICellConfigurationState) {
+        super.updateConfiguration(using: state)
+        var background = UIBackgroundConfiguration.listPlainCell()
+
+        if state.isHighlighted || state.isSelected {
+            background.backgroundColor = .systemYellow
+        } else {
+            background.backgroundColor = .systemBackground
+        }
+
+        backgroundConfiguration = background
+    }
+
 }
 
 // MARK: - DateFormatter

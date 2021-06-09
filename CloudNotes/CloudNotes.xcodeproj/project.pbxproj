@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		0C0981C6B2C1D5D7090AD37A /* Pods_CloudNotes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BE444377F57992B1D8536BA /* Pods_CloudNotes.framework */; };
+		AAC82051266FE3B7003FDD71 /* NoteTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAC82050266FE3B7003FDD71 /* NoteTextView.swift */; };
+		AAC82053266FE41B003FDD71 /* NoteListViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAC82052266FE41B003FDD71 /* NoteListViewControllerDelegate.swift */; };
 		AAD37677266A01EC0008B62F /* NoteDetailViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAD37676266A01EC0008B62F /* NoteDetailViewControllerDelegate.swift */; };
 		AAE063E52668D50D0051EF9C /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = AAE063E42668D50D0051EF9C /* .swiftlint.yml */; };
 		AAE063F12668DA0E0051EF9C /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE063F02668DA0E0051EF9C /* Note.swift */; };
@@ -56,6 +58,8 @@
 		7CB4AB75A119586B6C05E65C /* Pods-CloudNotes.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudNotes.debug.xcconfig"; path = "Target Support Files/Pods-CloudNotes/Pods-CloudNotes.debug.xcconfig"; sourceTree = "<group>"; };
 		8636E16ABC52144FF7B9C183 /* Pods_CloudNotesTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CloudNotesTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A930485D6899C3B3CFA3B46F /* Pods-CloudNotesTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudNotesTests.debug.xcconfig"; path = "Target Support Files/Pods-CloudNotesTests/Pods-CloudNotesTests.debug.xcconfig"; sourceTree = "<group>"; };
+		AAC82050266FE3B7003FDD71 /* NoteTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteTextView.swift; sourceTree = "<group>"; };
+		AAC82052266FE41B003FDD71 /* NoteListViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteListViewControllerDelegate.swift; sourceTree = "<group>"; };
 		AAD37676266A01EC0008B62F /* NoteDetailViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteDetailViewControllerDelegate.swift; sourceTree = "<group>"; };
 		AAE063E42668D50D0051EF9C /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		AAE063F02668DA0E0051EF9C /* Note.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Note.swift; sourceTree = "<group>"; };
@@ -130,6 +134,7 @@
 			isa = PBXGroup;
 			children = (
 				AAD37676266A01EC0008B62F /* NoteDetailViewControllerDelegate.swift */,
+				AAC82052266FE41B003FDD71 /* NoteListViewControllerDelegate.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -194,6 +199,7 @@
 			children = (
 				AAE063ED2668D5AF0051EF9C /* Cells */,
 				C7481C7B25BBCF3A00B9CA55 /* LaunchScreen.storyboard */,
+				AAC82050266FE3B7003FDD71 /* NoteTextView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -513,9 +519,11 @@
 				C7481C7225BBCF3900B9CA55 /* NoteListViewController.swift in Sources */,
 				AAE6811C2668F5CB000C2410 /* NoteDetailViewController.swift in Sources */,
 				C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */,
+				AAC82051266FE3B7003FDD71 /* NoteTextView.swift in Sources */,
 				AAE063F82668DC310051EF9C /* OSLog+Extension.swift in Sources */,
 				C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */,
 				AAE6811E2668F5DC000C2410 /* NoteSplitViewController.swift in Sources */,
+				AAC82053266FE41B003FDD71 /* NoteListViewControllerDelegate.swift in Sources */,
 				AAE063FA2668DC440051EF9C /* DataError.swift in Sources */,
 				C7481C7825BBCF3900B9CA55 /* CloudNotes.xcdatamodeld in Sources */,
 				AAD37677266A01EC0008B62F /* NoteDetailViewControllerDelegate.swift in Sources */,
@@ -689,6 +697,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = W62BWL527B;
 				INFOPLIST_FILE = CloudNotes/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -708,6 +717,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = W62BWL527B;
 				INFOPLIST_FILE = CloudNotes/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

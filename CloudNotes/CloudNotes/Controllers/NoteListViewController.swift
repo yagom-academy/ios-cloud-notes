@@ -8,11 +8,13 @@ import UIKit
 import OSLog
 
 final class NoteListViewController: UIViewController {
+    private typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Note>
     // MARK: - Properties
     private var noteListCollectionView: UICollectionView?
     private var dataSource: UICollectionViewDiffableDataSource<Section, Note>?
     private var notes: [Note] = []
     weak var noteDetailViewControllerDelegate: NoteDetailViewControllerDelegate?
+    private(set) var editingNote: Note?
     
     // MARK: - Section for diffable data source
     private enum Section: CaseIterable {
@@ -23,7 +25,7 @@ final class NoteListViewController: UIViewController {
     enum NoteData {
         static let sampleFileName = "sample"
         static var newNoteConfiguration: Note {
-            Note(title: "새 메모", body: "", lastModified: Date())
+            Note(title: "", body: "", lastModified: Date())
         }
     }
     
@@ -36,6 +38,7 @@ final class NoteListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         loadNotes(from: NoteData.sampleFileName)
+        sortNotes()
         showNoteList()
     }
     
@@ -54,6 +57,12 @@ final class NoteListViewController: UIViewController {
             notes = decodedNotes
         case .failure(let dataError):
             os_log(.error, log: .data, OSLog.objectCFormatSpecifier, dataError.localizedDescription)
+        }
+    }
+    
+    private func sortNotes() {
+        notes.sort { current, next in
+            current.lastModified > next.lastModified
         }
     }
     
@@ -118,7 +127,7 @@ final class NoteListViewController: UIViewController {
     
     private func applyInitialSnapshot() {
         let sections = Section.allCases
-        var snapshot = NSDiffableDataSourceSnapshot<Section, Note>()
+        var snapshot = Snapshot()
         snapshot.appendSections(sections)
         snapshot.appendItems(notes)
         dataSource?.apply(snapshot, animatingDifferences: false)
@@ -130,17 +139,17 @@ final class NoteListViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: NavigationBarItems.addButtonImage, target: self, action: #selector(addTapped))
     }
     
-    private func appendNewNote(to dataSource: UICollectionViewDiffableDataSource<Section, Note>) {
+    private func append(_ newNote: Note, to dataSource: UICollectionViewDiffableDataSource<Section, Note>) {
         var snapshot = dataSource.snapshot()
         snapshot.appendItems([NoteData.newNoteConfiguration])
         notes.append(NoteData.newNoteConfiguration)
         dataSource.apply(snapshot, animatingDifferences: true)
     }
     
-    private func insertNewNote(to dataSource: UICollectionViewDiffableDataSource<Section, Note>, before firstItemInSnapshot: Note) {
+    private func insert(_ newNote: Note, to dataSource: UICollectionViewDiffableDataSource<Section, Note>, before firstItemInSnapshot: Note) {
         var snapshot = dataSource.snapshot()
         snapshot.insertItems([NoteData.newNoteConfiguration], beforeItem: firstItemInSnapshot)
-        notes.insert(NoteData.newNoteConfiguration, at: notes.startIndex)
+        notes.insert(newNote, at: notes.startIndex)
         dataSource.apply(snapshot, animatingDifferences: true)
     }
     
@@ -151,24 +160,57 @@ final class NoteListViewController: UIViewController {
         }
         
         let snapshot = dataSource.snapshot()
+        let newNote = NoteData.newNoteConfiguration
         
         if let firstItemInSnapshot = snapshot.itemIdentifiers.first {
-            insertNewNote(to: dataSource, before: firstItemInSnapshot)
+            insert(newNote, to: dataSource, before: firstItemInSnapshot)
         } else {
-            appendNewNote(to: dataSource)
+            append(newNote, to: dataSource)
         }
+    }
+    
+    // MARK: - View Transition
+    private func showDetailViewController(with editingNote: Note) {
+        guard let noteDetailViewController = noteDetailViewControllerDelegate as? NoteDetailViewController else {
+            os_log(.error, log: .ui, OSLog.objectCFormatSpecifier, UIError.downcastingFailed(subject: "NoteDetailViewController", location: #function).localizedDescription)
+            return
+        }
+        noteDetailViewControllerDelegate?.showNote(with: editingNote)
+        splitViewController?.showDetailViewController(noteDetailViewController, sender: nil)
     }
 }
 
 // MARK: - Collection View Delegate
 extension NoteListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let noteDetailViewController = noteDetailViewControllerDelegate as? NoteDetailViewController else {
-            os_log(.error, log: .ui, OSLog.objectCFormatSpecifier, UIError.downcastingFailed(subject: "NoteDetailViewController", location: #function).localizedDescription)
-            return
+        editingNote = dataSource?.itemIdentifier(for: indexPath)
+        guard let editingNote = editingNote else { return }
+        showDetailViewController(with: editingNote)
+    }
+}
+
+// MARK: - Note List View Controller Delegate
+extension NoteListViewController: NoteListViewControllerDelegate {
+    func changeNote(with newNote: Note) {
+        guard var snapshot = dataSource?.snapshot() else { return }
+        guard let firstNote = snapshot.itemIdentifiers.first else { return }
+        guard let editingNote = editingNote else { return }
+        
+        if editingNote == firstNote {
+            notes[0] = newNote
+            snapshot.deleteAllItems()
+            snapshot.appendSections(Section.allCases)
+            snapshot.appendItems(notes)
+        } else {
+            snapshot.deleteItems([editingNote])
+            snapshot.insertItems([newNote], beforeItem: firstNote)
         }
         
-        noteDetailViewControllerDelegate?.showNote(with: notes[indexPath.item])
-        splitViewController?.showDetailViewController(noteDetailViewController, sender: nil)
+        dataSource?.apply(snapshot, animatingDifferences: true) { [weak self] in
+            self?.dataSource?.apply(snapshot, animatingDifferences: false)
+        }
+        
+        notes = snapshot.itemIdentifiers
+        noteListCollectionView?.scrollToItem(at: (dataSource?.indexPath(for: newNote))!, at: .top, animated: true)
     }
 }

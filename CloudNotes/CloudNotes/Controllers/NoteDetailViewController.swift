@@ -6,14 +6,15 @@
 //
 
 import UIKit
+import OSLog
 
 final class NoteDetailViewController: UIViewController {
     // MARK: - Properties
     private var note: Note?
     
     // MARK: - UI Elements
-    private var noteTextView: UITextView = {
-        let noteTextView = UITextView()
+    private var noteTextView: NoteTextView = {
+        let noteTextView = NoteTextView()
         noteTextView.translatesAutoresizingMaskIntoConstraints = false
         noteTextView.font = UIFont.preferredFont(forTextStyle: .body)
         noteTextView.adjustsFontForContentSizeCategory = true
@@ -24,7 +25,7 @@ final class NoteDetailViewController: UIViewController {
     private enum ViewContents {
         /// shows when the screen first loaded with regular size class.
         static let welcomeGreeting = "환영합니다!"
-        static let newLineString = "\n"
+        static let titleSeparatorString = "\n"
         static let emptyString = ""
     }
     
@@ -52,7 +53,10 @@ final class NoteDetailViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
         noteTextView.isEditable = false
+        moveTop(of: noteTextView)
+        setTextViewDelegatesIfNeeded()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -94,9 +98,7 @@ final class NoteDetailViewController: UIViewController {
     }
     
     private func setText(to textView: UITextView, with note: Note) {
-        textView.text = ViewContents.emptyString
-        textView.insertText(note.title + ViewContents.newLineString)
-        textView.insertText(note.body)
+        textView.text = note.title + ViewContents.titleSeparatorString + note.body
     }
     
     private func moveTop(of textView: UITextView) {
@@ -114,6 +116,20 @@ final class NoteDetailViewController: UIViewController {
     
     private func removeActivatedKeyboard() {
         noteTextView.resignFirstResponder()
+    }
+    
+    private func setTextViewDelegatesIfNeeded() {
+        guard noteTextView.delegate == nil && noteTextView.noteListViewControllerDelegate == nil else {
+            return
+        }
+        
+        noteTextView.delegate = noteTextView
+        
+        guard let noteListViewController = splitViewController?.viewController(for: .primary) as? NoteListViewController else {
+            os_log(.error, log: .ui, OSLog.objectCFormatSpecifier, UIError.downcastingFailed(subject: "NoteListViewController", location: #function).localizedDescription)
+            return
+        }
+        noteTextView.noteListViewControllerDelegate = noteListViewController
     }
     
     // MARK: - Configure Navigation Bar and Relevant Actions

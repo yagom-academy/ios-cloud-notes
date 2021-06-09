@@ -59,9 +59,7 @@ final class NoteCollectionViewListCell: UICollectionViewListCell {
         let cellStackView = createCellStackView()
         addSubview(cellStackView)
         
-        titleLabel.text = note.title
-        bodyLabel.text = note.body
-        lastModifiedDateLabel.text = note.lastModified.formatted
+        updateContents(note)
         accessories = [.disclosureIndicator()]
         contentView.layer.cornerRadius = Layouts.contentViewCornerRadius
         
@@ -89,6 +87,12 @@ final class NoteCollectionViewListCell: UICollectionViewListCell {
         cellStackView.spacing = Layouts.spacingInCellStackView
         
         return cellStackView
+    }
+    
+    func updateContents(_ note: Note) {
+        titleLabel.text = note.title == "" ? "새 메모" : note.title
+        bodyLabel.text = note.body == "" ? "내용 없음" : note.body
+        lastModifiedDateLabel.text = note.lastModified.formatted
     }
     
     // MARK: - Set cell selection effect

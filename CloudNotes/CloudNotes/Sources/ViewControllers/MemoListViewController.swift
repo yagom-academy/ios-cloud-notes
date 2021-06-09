@@ -48,6 +48,14 @@ final class MemoListViewController: UIViewController {
         configureTableView()
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        if deleteEmptyMemo() {
+            hideMemo()
+        }
+    }
+
     // MARK: Configure
 
     private func configureTableView() {

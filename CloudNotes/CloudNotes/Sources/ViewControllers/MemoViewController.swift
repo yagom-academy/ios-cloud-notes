@@ -16,15 +16,15 @@ final class MemoViewController: UIViewController {
 
     // MARK: UI
 
-    private let moreActionButton = UIBarButtonItem(title: "more", image: UIImage(systemName: "ellipsis.circle") ?? UIImage(), primaryAction: nil, menu: nil)
+    private let moreActionButton = UIBarButtonItem(title: Style.moreActionButtonTitle, image: Style.moreActionButtonImage, primaryAction: nil, menu: nil)
 
     private let textView: UITextView = {
         let textView = UITextView()
-        textView.backgroundColor = .clear
-        textView.font = UIFont.preferredFont(forTextStyle: .body)
+        textView.backgroundColor = Style.textViewBackgroundColor
+        textView.font = Style.textViewFont
         textView.isEditable = true
         textView.isHidden = true
-        textView.textContainerInset = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
+        textView.textContainerInset = Style.textViewTextContainerInset
         textView.translatesAutoresizingMaskIntoConstraints = false
         return textView
     }()
@@ -81,11 +81,14 @@ final class MemoViewController: UIViewController {
     }
 
     private func configureBackgroundColor(by sizeClass: UIUserInterfaceSizeClass) {
-        view.backgroundColor = (sizeClass == .compact) ? .systemGray3 : .systemBackground
+        view.backgroundColor = (sizeClass == .compact) ? Style.compactViewBackgroundColor : Style.commonViewBackgroundColor
     }
 
     private func configureTextViewText(by memo: Memo) {
-        guard memo.title != "" else { return textView.text = nil }
+        guard false == memo.isTitleEmpty else {
+            return textView.text = nil
+        }
+
         textView.text = "\(memo.title)\n\(memo.body)"
     }
 
@@ -140,38 +143,60 @@ extension MemoViewController: UITextViewDelegate {
 
     func textViewDidChange(_ textView: UITextView) {
         guard let textViewText = textView.text,
-              let seperatedMemo = seperatedMemo(from: textViewText) else { return }
+              let seperatedMemo = separatedMemo(from: textViewText) else { return }
 
-        self.memo = Memo(title: seperatedMemo.newTitle, body: seperatedMemo.newBody, lastModified: Date().timeIntervalSince1970)
+        self.memo = Memo(title: seperatedMemo.newTitle, body: seperatedMemo.newBody)
 
         let primaryViewController = splitViewController?.viewController(for: .primary) as? MemoListViewController
 
         if let row = row,
            let memo = memo {
             primaryViewController?.updateMemo(at: row, to: memo)
-            self.row = 0
+            self.row = Style.updatedMemoRow
         }
     }
 
-    private func seperatedMemo(from text: String) -> (newTitle: String, newBody: String)? {
-        let seperatedText: [Substring] = text.split(separator: "\n", maxSplits: 1, omittingEmptySubsequences: true)
+    private func separatedMemo(from text: String) -> (newTitle: String, newBody: String)? {
+        let separatedText: [Substring] = text.split(separator: Style.memoSeparator, maxSplits: 1, omittingEmptySubsequences: true)
 
-        var newTitle: String = ""
-        var newBody: String = ""
+        var newTitle = String()
+        var newBody = String()
 
-        switch seperatedText.count {
+        switch separatedText.count {
         case 0:
             break
         case 1:
-            newTitle = String(seperatedText[0])
+            newTitle = String(separatedText[0])
         case 2:
-            newTitle = String(seperatedText[0])
-            newBody = String(seperatedText[1])
+            newTitle = String(separatedText[0])
+            newBody = String(separatedText[1])
         default:
             return nil
         }
 
         return (newTitle, newBody)
+    }
+
+}
+
+// MARK: - Style
+
+extension MemoViewController {
+
+    enum Style {
+        static let moreActionButtonTitle: String = "more"
+        static let moreActionButtonImage: UIImage = UIImage(systemName: "ellipsis.circle") ?? .actions
+
+        static let textViewBackgroundColor: UIColor = .clear
+        static let textViewFont: UIFont = UIFont.preferredFont(forTextStyle: .body)
+        static let textViewTextContainerInset: UIEdgeInsets = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
+
+        static let commonViewBackgroundColor: UIColor = .systemBackground
+        static let compactViewBackgroundColor: UIColor = .systemGray3
+
+        static let updatedMemoRow: Int = 0
+
+        static let memoSeparator: Character = "\n"
     }
 
 }

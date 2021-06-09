@@ -48,6 +48,8 @@ final class MemoListViewController: UIViewController {
         configureTableView()
     }
 
+    // MARK: Configure
+
     private func configureTableView() {
         tableView.dataSource = self
         tableView.delegate = self
@@ -72,7 +74,8 @@ final class MemoListViewController: UIViewController {
     // MARK: Method
 
     func updateMemo(at row: Int, to memo: Memo) {
-        let reloadingIndices = (0...row).map { IndexPath(row: $0, section: 0) }
+        let reloadingIndices: [IndexPath] = (0...row).map { IndexPath(row: $0, section: 0) }
+        let indexPathForUpdatedRow = IndexPath(row: 0, section: 0)
 
         memos[row] = memo
 
@@ -81,6 +84,7 @@ final class MemoListViewController: UIViewController {
         } else {
             tableView.reloadRows(at: reloadingIndices, with: .top)
         }
+        tableView.selectRow(at: indexPathForUpdatedRow, animated: true, scrollPosition: .none)
     }
 
     @discardableResult
@@ -94,8 +98,11 @@ final class MemoListViewController: UIViewController {
     }
 
     private func addMemo() {
+        let indexPathForInsertedRow = IndexPath(row: 0, section: 0)
+
         memos.append(Memo(title: "", body: "", lastModified: Date().timeIntervalSince1970))
-        tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
+        tableView.insertRows(at: [indexPathForInsertedRow], with: .automatic)
+        tableView.selectRow(at: indexPathForInsertedRow, animated: true, scrollPosition: .none)
     }
 
     private func showMemo(of row: Int) {

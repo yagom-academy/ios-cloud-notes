@@ -47,8 +47,12 @@ final class MemoViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureBackgroundColor(by: traitCollection.horizontalSizeClass)
         configureTextView()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        configureBackgroundColor(by: traitCollection.horizontalSizeClass)
     }
 
     override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {

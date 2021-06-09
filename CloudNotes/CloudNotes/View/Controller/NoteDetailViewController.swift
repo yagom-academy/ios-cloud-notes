@@ -41,7 +41,7 @@ class NoteDetailViewController: UIViewController {
         textView.text = ""
         textView.insertText(data.title)
         textView.insertText("\n\n")
-        textView.insertText(data.description)
+        textView.insertText(data.contents)
         textView.resignFirstResponder()
         textView.scrollRangeToVisible(NSMakeRange(0, 0))
     }

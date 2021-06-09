@@ -8,7 +8,8 @@
 import UIKit
 
 class NoteListViewController: UIViewController {
-    private let noteListManager = NoteManager()
+    private var noteListManager = NoteManager()
+    private var cellView: UIView?
     weak var noteDelegate: NoteDelegate?
     
     private let tableView: UITableView = {
@@ -22,6 +23,14 @@ class NoteListViewController: UIViewController {
         super.viewDidLoad()
         setConfiguration()
         setConstraint()
+        setCellView()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if let selectedIndexPath = tableView.indexPathForSelectedRow {
+            tableView.deselectRow(at: selectedIndexPath, animated: animated)
+        }
     }
     
     @objc private func addNote() {

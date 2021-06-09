@@ -8,7 +8,6 @@
 import UIKit
 
 class NoteListCell: UITableViewCell {
-    
     private enum Style {
         static let titleLableMargin: UIEdgeInsets = .init(top: 10, left: 15, bottom: 5, right: 5)
         static let dateLableMargin: UIEdgeInsets = .init(top: 5, left: 10, bottom: 15, right: 10)
@@ -52,16 +51,17 @@ class NoteListCell: UITableViewCell {
     }
     
     func displayData(_ data: Note) {
+        setSelctedCell()
         titleLabel.text = data.title
         dateLabel.text = data.date
-        descriptionLabel.text = data.description
+        descriptionLabel.text = data.contents
     }
     
-    private func selectedCell() {
-        let backgroundColorCell = UIView()
-        backgroundColorCell.layer.cornerRadius = 15
-        backgroundColorCell.backgroundColor = .systemOrange
-        self.selectedBackgroundView = backgroundColorCell
+    private func setSelctedCell() {
+        let view = UIView()
+        view.layer.cornerRadius = 15
+        view.backgroundColor = .systemOrange
+        self.selectedBackgroundView = view
     }
     
     private func setConstraint() {

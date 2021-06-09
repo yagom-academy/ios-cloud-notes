@@ -14,11 +14,14 @@ class SplitViewController: UISplitViewController {
     weak var memoListViewDelegate: MemoListViewDelegate?
     weak var memoDetailViewDelegate: MemoDetailViewDelegate?
 
+    private let loadingIndicator = UIActivityIndicatorView(style: .medium)
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpMemoListViewController()
         setUpMemoDetailViewController()
         setUpSplitViewController()
+        setUpLoadingIndicator()
         setUpMemoManager()
     }
 
@@ -44,9 +47,32 @@ class SplitViewController: UISplitViewController {
         ]
     }
 
+    private func setUpLoadingIndicator() {
+        loadingIndicator.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(loadingIndicator)
+
+        NSLayoutConstraint.activate([
+            loadingIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            loadingIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
+        loadingIndicator.startAnimating()
+    }
+
     private func setUpMemoManager() {
         MemoManager.shared.memoManagerDelegate = self
-        MemoManager.shared.fetchMemoData()
+        MemoManager.shared.fetchMemoData(completionHandler: fetchMemoDataCompletionHandler(result:))
+    }
+
+    private func fetchMemoDataCompletionHandler(result: Result<Any?, CoreDataError>) {
+        switch result {
+        case .success:
+            self.loadingIndicator.stopAnimating()
+            self.memoListViewController?.reloadMemoListTableViewData()
+        case .failure(let error):
+            self.loadingIndicator.stopAnimating()
+            showAlert(alert: UIAlertController(title: "에러 발생", message: error.errorDescription,
+                                               preferredStyle: .alert))
+        }
     }
 }
 

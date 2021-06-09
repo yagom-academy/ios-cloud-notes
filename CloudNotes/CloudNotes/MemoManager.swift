@@ -19,7 +19,7 @@ class MemoManager {
         let newMemo = Memo(context: context)
         newMemo.date = Date()
 
-        memos?.insert(newMemo, at: 0) // 시간복잡도 O(n), 적절히 수정해야함
+        memos?.insert(newMemo, at: 0) // TODO: 시간복잡도 O(n), 적절히 수정해야함
         let newIndexPath = IndexPath(row: 0, section: 0)
         memoManagerDelegate?.memoDidCreated(createdMemo: newMemo, createdMemoIndexPath: newIndexPath)
     }
@@ -48,13 +48,19 @@ class MemoManager {
         self.memoManagerDelegate?.memoDidDeleted(deletedMemoIndexPath: indexPath)
     }
 
-    func fetchMemoData() {
-        do {
-            let request = Memo.fetchRequest() as NSFetchRequest<Memo>
-            request.sortDescriptors = [NSSortDescriptor(key: "date", ascending: false)]
-            memos = try (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext.fetch(request)
-        } catch {
-            // throw
+    func fetchMemoData(completionHandler: @escaping (Result<Any?, CoreDataError>) -> Void) {
+        guard let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext else { return }
+
+        DispatchQueue.global().async {
+            do {
+                let request = Memo.fetchRequest() as NSFetchRequest<Memo>
+                request.sortDescriptors = [NSSortDescriptor(key: "date", ascending: false)]
+
+                self.memos = try context.fetch(request)
+                completionHandler(.success(nil))
+            } catch {
+                completionHandler(.failure(.fetchFailed))
+            }
         }
     }
 }

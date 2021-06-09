@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1C4B795A266E8415001CFA0E /* MemoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C4B7959266E8415001CFA0E /* MemoManager.swift */; };
+		1C4B796926716C85001CFA0E /* CoreDataError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C4B796826716C85001CFA0E /* CoreDataError.swift */; };
 		1C4ECF202669FB750005DF40 /* MemoManagerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C4ECF1F2669FB750005DF40 /* MemoManagerDelegate.swift */; };
 		1C4ECF252669FB820005DF40 /* MemoListViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C4ECF242669FB820005DF40 /* MemoListViewDelegate.swift */; };
 		1C4ECF68266E5A370005DF40 /* MemoTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C4ECF67266E5A370005DF40 /* MemoTextView.swift */; };
@@ -47,6 +48,7 @@
 
 /* Begin PBXFileReference section */
 		1C4B7959266E8415001CFA0E /* MemoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoManager.swift; sourceTree = "<group>"; };
+		1C4B796826716C85001CFA0E /* CoreDataError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataError.swift; sourceTree = "<group>"; };
 		1C4ECF1F2669FB750005DF40 /* MemoManagerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoManagerDelegate.swift; sourceTree = "<group>"; };
 		1C4ECF242669FB820005DF40 /* MemoListViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoListViewDelegate.swift; sourceTree = "<group>"; };
 		1C4ECF67266E5A370005DF40 /* MemoTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoTextView.swift; sourceTree = "<group>"; };
@@ -188,6 +190,7 @@
 			isa = PBXGroup;
 			children = (
 				1C4B7959266E8415001CFA0E /* MemoManager.swift */,
+				1C4B796826716C85001CFA0E /* CoreDataError.swift */,
 				1C4ECF1B2669F2B60005DF40 /* CoreDataModel */,
 				1C76EBA4266E5CD90055F2C9 /* CustomView */,
 				1CD98AA4266659C0004C3136 /* View */,
@@ -370,6 +373,7 @@
 			files = (
 				1C8163F62669BE850068446C /* Memo+CoreDataProperties.swift in Sources */,
 				C7481C7225BBCF3900B9CA55 /* MemoListViewController.swift in Sources */,
+				1C4B796926716C85001CFA0E /* CoreDataError.swift in Sources */,
 				1C4ECF252669FB820005DF40 /* MemoListViewDelegate.swift in Sources */,
 				1C4ECF68266E5A370005DF40 /* MemoTextView.swift in Sources */,
 				1CF5EDC4266635E6003B5349 /* SplitViewController.swift in Sources */,

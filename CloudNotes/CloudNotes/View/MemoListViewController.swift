@@ -33,6 +33,10 @@ class MemoListViewController: UIViewController {
         setUpTableView()
     }
 
+    func reloadMemoListTableViewData() {
+        memoListTableView.reloadData()
+    }
+
     private func setUpView() {
         view.backgroundColor = .systemBackground
         navigationItem.title = "메모"

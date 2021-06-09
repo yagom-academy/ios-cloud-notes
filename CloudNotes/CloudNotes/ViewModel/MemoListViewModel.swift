@@ -68,6 +68,7 @@ extension MemoListViewModel {
         
         do {
             try context.save()
+            getAllMemoData()
         } catch {
             
         }

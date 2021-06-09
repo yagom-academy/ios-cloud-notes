@@ -59,7 +59,7 @@ class MemoDetailViewController: UIViewController, UITextViewDelegate, MemoDetail
             
         }
         let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
-        
+            NotificationCenter.default.post(name: <#T##NSNotification.Name#>, object: nil)
         }
         let shareAction = UIAlertAction(title: "Share", style: .default) { _ in
             

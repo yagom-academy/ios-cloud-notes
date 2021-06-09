@@ -15,9 +15,9 @@ class CoreDataTest: XCTestCase {
         // context를 가져 온다. -> CoreDataManager 안에 있음.
         
         // Entity를 가져온다.
-        guard let entity = CoreDataManager else {
-            <#statements#>
-        }
+//        guard let entity = CoreDataManager else {
+//            <#statements#>
+//        }
         
     }
 }

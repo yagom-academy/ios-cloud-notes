@@ -13,7 +13,7 @@ class ListTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        parseSampleData()
+//        parseSampleData()
         setNavigationItem()
         self.tableView.register(ListTableViewCell.self, forCellReuseIdentifier: ListTableViewCell.identifier)
         self.tableView.estimatedRowHeight = 90.0
@@ -26,10 +26,10 @@ class ListTableViewController: UITableViewController {
         guard let jsonData = NSDataAsset(name: "sample") else {
             return
         }
-        guard let memoList = try? jsonDecoder.decode([Memo].self, from: jsonData.data) else {
-            return
-        }
-        self.memoList = memoList
+//        guard let memoList = try? jsonDecoder.decode([Memo].self, from: jsonData.data) else {
+//            return
+//        }
+//        self.memoList = memoList
     }
     
     func setNavigationItem() {
@@ -66,10 +66,10 @@ extension ListTableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = self.tableView.dequeueReusableCell(withIdentifier: ListTableViewCell.identifier, for: indexPath) as! ListTableViewCell
-        let memoItem = memoList[indexPath.row]
-        cell.titleLabel.text = memoItem.title
-        cell.dateLabel.text = memoItem.lastModifiedDate
-        cell.bodyLabel.text = memoItem.body
+//        let memoItem = memoList[indexPath.row]
+//        cell.titleLabel.text = memoItem.title
+//        cell.dateLabel.text = memoItem.lastModifiedDate
+//        cell.bodyLabel.text = memoItem.body
         cell.accessoryType = .disclosureIndicator
         return cell
     }

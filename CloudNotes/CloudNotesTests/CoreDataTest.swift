@@ -24,7 +24,7 @@ class CoreDataTest: XCTestCase {
         let memo = NSManagedObject(entity: entity, insertInto: CoreDataManager.shared.mainContext)
         memo.setValue("제목", forKey: "title")
         memo.setValue("내용내용내용", forKey: "body")
-//        memo.setValue(NSData(), forKey: "lastModified")
+        memo.setValue(Date(), forKey: "lastModified")
         
         CoreDataManager.shared.saveContext()
        
@@ -34,7 +34,34 @@ class CoreDataTest: XCTestCase {
         } catch {
             XCTFail(error.localizedDescription)
         }
+    }
+    
+    func test_메모_객체를_만들어서_저장하기() {
         
+        let newMemo = Memo(context: CoreDataManager.shared.mainContext)
+        newMemo.title = "제목2222"
+        newMemo.body = "내용2222"
+        newMemo.lastModified = Date()
         
+        CoreDataManager.shared.saveContext()
+        
+        do {
+            let memos = try CoreDataManager.shared.mainContext.fetch(Memo.fetchRequest()) as! [Memo]
+            XCTAssertNil(memos.count)
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+    }
+    
+    func test_저장된_메모_불러오기() {
+        
+        do {
+            let memos = try CoreDataManager.shared.mainContext.fetch(Memo.fetchRequest()) as! [Memo]
+            for memo in memos {
+                debugPrint(memo)
+            }
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
     }
 }

@@ -54,7 +54,7 @@ extension MemoListViewModel {
     
     func getAllMemoData() {
         do {
-            let item = try  context.fetch(MemoData.fetchRequest())
+            let data = try  context.fetch(MemoData.fetchRequest())
         }
         catch {
             // error

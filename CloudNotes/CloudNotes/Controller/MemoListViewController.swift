@@ -30,10 +30,19 @@ class MemoListViewController: UIViewController {
         if splitViewController?.traitCollection.horizontalSizeClass == .regular {
             delegate?.isRegularTextViewColor(regular: true)
         }
+        
+        DataManager.shared.fetchData()
+        self.memoTableView.reloadData()
     }
     
     @objc func addNote() {
+        let newMemo = Memo(context: DataManager.shared.mainContext)
         
+        newMemo.title = "새메모"
+        newMemo.body = "새바디"
+        newMemo.lastModifiedDate = "날짜"
+        
+        DataManager.shared.saveContext()
     }
     
     private func setTableViewConstraint() {
@@ -75,7 +84,7 @@ class MemoListViewController: UIViewController {
 extension MemoListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        delegate?.sendData(data: memoData[indexPath.row])
+        delegate?.sendData(data: DataManager.shared.memoList[indexPath.row])
         
         guard let memoDetailViewController = delegate as? DetailViewController else { return }
         
@@ -89,12 +98,12 @@ extension MemoListViewController: UITableViewDelegate {
 extension MemoListViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return memoData.count
+        return DataManager.shared.memoList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: MemoListCell.identifier, for: indexPath) as! MemoListCell
-        let currentMemoData = memoData[indexPath.row]
+        let currentMemoData = DataManager.shared.memoList[indexPath.row]
         
         cell.setCellData(currentMemoData: currentMemoData)
 

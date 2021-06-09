@@ -70,7 +70,7 @@ class MemoListCell: UITableViewCell {
         memoPreview.heightAnchor.constraint(equalTo: memoDateCreate.heightAnchor, multiplier: 1).isActive = true
     }
     
-    func setCellData(currentMemoData: MemoData) {
+    func setCellData(currentMemoData: Memo) {
         self.memoTitle.text = currentMemoData.title
         self.memoPreview.text = currentMemoData.body
         self.memoDateCreate.text = currentMemoData.lastModifiedDate

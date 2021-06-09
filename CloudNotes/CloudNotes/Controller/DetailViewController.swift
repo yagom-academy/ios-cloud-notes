@@ -33,7 +33,7 @@ class DetailViewController: UIViewController, SendDataDelegate {
     @objc func editMemo() {
     }
     
-    func sendData(data: MemoData) {
+    func sendData(data: Memo) {
         self.memoDetailTextView.text = "\(data.title)\n\n" + "\(data.body)"
     }
     

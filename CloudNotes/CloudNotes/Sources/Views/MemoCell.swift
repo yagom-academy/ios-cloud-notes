@@ -13,13 +13,13 @@ final class MemoCell: UITableViewCell {
 
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.preferredFont(forTextStyle: .body)
+        label.font = Style.titleLabelFont
         return label
     }()
 
     private let lastModifiedDateLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.preferredFont(forTextStyle: .footnote)
+        label.font = Style.lastModifiedDateLabelFont
         label.setContentCompressionResistancePriority(.required, for: .horizontal)
         label.setContentHuggingPriority(.required, for: .horizontal)
         return label
@@ -27,8 +27,8 @@ final class MemoCell: UITableViewCell {
 
     private let oneLineBodyLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.preferredFont(forTextStyle: .footnote)
-        label.textColor = .systemGray
+        label.font = Style.oneLineBodyLabelFont
+        label.textColor = Style.oneLineBodyLabelTextColor
         return label
     }()
 
@@ -36,7 +36,7 @@ final class MemoCell: UITableViewCell {
         let stackView = UIStackView()
         stackView.alignment = .center
         stackView.axis = .horizontal
-        stackView.spacing = 20
+        stackView.spacing = Style.footStackViewSpacing
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
@@ -72,19 +72,18 @@ final class MemoCell: UITableViewCell {
     // MARK: Configure
 
     func configure(memo: Memo) {
-        self.titleLabel.text = (memo.title == "" ? "새로운 메모" : memo.title)
+        self.titleLabel.text = (memo.isTitleEmpty ? Style.titleLabelPlaceHolder : memo.title)
         self.lastModifiedDateLabel.text = DateFormatter().currentLocaleString(from: memo.lastModified)
-        self.oneLineBodyLabel.text = (memo.body == "" ? "추가 텍스트 없음" : memo.body)
+        self.oneLineBodyLabel.text = (memo.isBodyEmpty ? Style.oneLineBodyLabelPlaceHolder : memo.body)
     }
 
     private func configureContentView() {
         contentView.addSubview(contentStackView)
-
         NSLayoutConstraint.activate([
-            contentStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
+            contentStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Style.contentStackViewVerticalInset),
             contentStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: separatorInset.left),
             contentStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -separatorInset.left),
-            contentStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5)
+            contentStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -Style.contentStackViewVerticalInset)
         ])
     }
 
@@ -100,12 +99,36 @@ final class MemoCell: UITableViewCell {
         var background = UIBackgroundConfiguration.listPlainCell()
 
         if state.isHighlighted || state.isSelected {
-            background.backgroundColor = .systemYellow
+            background.backgroundColor = Style.highlightedBackgroundColor
         } else {
-            background.backgroundColor = .systemBackground
+            background.backgroundColor = Style.commonBackgroundColor
         }
 
         backgroundConfiguration = background
+    }
+
+}
+
+// MARK: - Style
+
+extension MemoCell {
+
+    enum Style {
+        static let titleLabelFont: UIFont = UIFont.preferredFont(forTextStyle: .body)
+        static let titleLabelPlaceHolder: String = "새로운 메모"
+
+        static let lastModifiedDateLabelFont: UIFont = UIFont.preferredFont(forTextStyle: .footnote)
+
+        static let oneLineBodyLabelFont: UIFont = UIFont.preferredFont(forTextStyle: .footnote)
+        static let oneLineBodyLabelPlaceHolder: String = "추가 텍스트 없음"
+        static let oneLineBodyLabelTextColor: UIColor = .systemGray
+
+        static let footStackViewSpacing: CGFloat = 20
+
+        static let contentStackViewVerticalInset: CGFloat = 5
+
+        static let commonBackgroundColor: UIColor = .systemBackground
+        static let highlightedBackgroundColor: UIColor = .systemYellow
     }
 
 }

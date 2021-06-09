@@ -86,3 +86,27 @@ extension MemoListViewController: UITableViewDelegate, UITableViewDataSource {
     }
         
 }
+
+extension MemoListViewController {
+//    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+//    
+//    
+//    
+//    
+//    func getAllMemo() {
+//        let data = context.fetch
+//    }
+//    
+//    func createMemo(title: String, body: String) {
+//        
+//    }
+//    
+//    func deleteMemo(memo: MemoData) {
+//        
+//    }
+//    
+//    func updateMemo(memo: MemoData) {
+//        
+//    }
+    
+}

@@ -72,9 +72,9 @@ extension ListTableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = self.tableView.dequeueReusableCell(withIdentifier: ListTableViewCell.identifier, for: indexPath) as! ListTableViewCell
         let memoItem = memoList[indexPath.row]
-        cell.titleLabel.text = memoItem.title
-//        cell.dateLabel.text = memoItem.lastModifiedDate
-        cell.bodyLabel.text = memoItem.body
+        cell.titleLabel.text = memoItem.title ?? "새로운 메모"
+        cell.dateLabel.text = memoItem.lastModified?.formatDate()
+        cell.bodyLabel.text = memoItem.body ?? "추가 텍스트 없음"
         cell.accessoryType = .disclosureIndicator
         return cell
     }
@@ -93,4 +93,19 @@ extension ListTableViewController {
             textViewController.changedTextBySelectedCell(with: memoList[indexPath.row])
         }
     }
+    
 }
+
+extension Date {
+    
+    func formatDate() -> String {
+        let formatter = DateFormatter()
+        formatter.locale = Locale.current
+        formatter.dateStyle = .short
+        formatter.timeStyle = .none
+        return formatter.string(from: self)
+    }
+    
+}
+
+

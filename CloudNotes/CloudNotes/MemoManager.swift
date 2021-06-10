@@ -30,7 +30,7 @@ class MemoManager {
     static let shared = MemoManager()
 
     func createMemo() {
-        guard let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext else { return }
+        guard let context = persistentContainer?.viewContext else { return }
         let newMemo = Memo(context: context)
         newMemo.date = Date()
 
@@ -61,15 +61,16 @@ class MemoManager {
     }
 
     func deleteMemo(indexPath: IndexPath) {
-        guard let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext,
+        guard let context = persistentContainer?.viewContext,
               let memoToDelete = memos?[indexPath.row] else { return }
+
         context.delete(memoToDelete)
         self.memos?.remove(at: indexPath.row)
         self.memoManagerDelegate?.memoDidDeleted(deletedMemoIndexPath: indexPath)
     }
 
     func fetchMemoData(completionHandler: @escaping (Result<Any?, CoreDataError>) -> Void) {
-        guard let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext else { return }
+        guard let context = persistentContainer?.viewContext else { return }
 
         DispatchQueue.global().async {
             do {

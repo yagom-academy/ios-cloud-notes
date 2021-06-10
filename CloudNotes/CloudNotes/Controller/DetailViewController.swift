@@ -34,6 +34,7 @@ class DetailViewController: UIViewController, SendDataDelegate {
     }
     
     @objc func editMemo() {
+        detailActionSheet()
     }
     
     func sendData(data: Memo, index: Int) {
@@ -80,6 +81,28 @@ class DetailViewController: UIViewController, SendDataDelegate {
         alert.addAction(defaultAction)
         alert.addAction(cancelAction)
              
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    func detailActionSheet() {
+        let destroyAction = UIAlertAction(title: "Delete",
+                  style: .destructive) { (action) in
+        }
+        let cancelAction = UIAlertAction(title: "Cancel",
+                  style: .cancel) { (action) in
+        }
+        let shareAction = UIAlertAction(title: "Share..",
+                    style: .default) { (action) in
+            
+        }
+             
+        let alert = UIAlertController(title: nil,
+                    message: nil,
+                    preferredStyle: .actionSheet)
+        alert.addAction(shareAction)
+        alert.addAction(destroyAction)
+        alert.addAction(cancelAction)
+        
         self.present(alert, animated: true, completion: nil)
     }
     

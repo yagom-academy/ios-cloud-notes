@@ -66,6 +66,23 @@ class DetailViewController: UIViewController, SendDataDelegate {
         self.memoDetailTextView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0).isActive = true
     }
     
+    func deleteAlert() {
+        let defaultAction = UIAlertAction(title: "삭제",
+                                          style: .destructive) { (action) in
+        }
+        let cancelAction = UIAlertAction(title: "취소",
+                                         style: .cancel) { (action) in
+        }
+        
+        let alert = UIAlertController(title: "진짜요?",
+              message: "정말로 삭제하시겠어요?",
+              preferredStyle: .alert)
+        alert.addAction(defaultAction)
+        alert.addAction(cancelAction)
+             
+        self.present(alert, animated: true, completion: nil)
+    }
+    
 }
 
 extension DetailViewController: UITextViewDelegate {

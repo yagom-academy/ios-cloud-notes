@@ -23,11 +23,33 @@ class CoreDataManager {
         return NSEntityDescription.entity(forEntityName: "Memo", in: mainContext)
     }
     
+    func makeNewMeno() -> Memo {
+//        let newMemo = NSManagedObject(entity: entity!, insertInto: mainContext)
+//        newMemo.setValue("새로운제목", forKey: "title")
+//        newMemo.setValue("새로운 내용이다!!", forKey: "body")
+//        newMemo.setValue(Date(), forKey: "lastModified")
+        let newMemo = Memo(entity: entity!, insertInto: mainContext)
+        newMemo.title = "객체를 직접 만들어서 제목4444"
+        newMemo.body = "객체를 직접 바디444444"
+        newMemo.lastModified = Date()
+//        saveContext()
+        return newMemo
+    }
+    
     func fetchMemos() -> [Memo] {
         guard let memos = try? mainContext.fetch(Memo.fetchRequest()) as? [Memo] else {
             return []
         }
         return memos
+    }
+    
+    func deleteAllMemos() {
+        let deleteRequest = NSBatchDeleteRequest(fetchRequest: Memo.fetchRequest())
+        do {
+            try mainContext.execute(deleteRequest)
+        } catch {
+            print(error.localizedDescription)
+        }
     }
     
     // MARK: - Core Data stack

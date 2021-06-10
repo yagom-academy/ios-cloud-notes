@@ -43,10 +43,7 @@ class ListTableViewController: UITableViewController {
            let textViewController = detailNavigationController.topViewController as? TextViewController {
             textViewController.textView.text = ""
             tableView.beginUpdates()
-            let newMemo = Memo(context: CoreDataManager.shared.mainContext)
-            newMemo.title = "title111"
-            newMemo.body = "body2222"
-            memoList.insert(newMemo, at: 0)
+            memoList.insert(CoreDataManager.shared.makeNewMeno(), at: 0)
             tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
             tableView.endUpdates()
         } else {

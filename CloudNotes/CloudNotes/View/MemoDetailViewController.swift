@@ -55,6 +55,7 @@ class MemoDetailViewController: UIViewController {
     private func setUpTitleTextView() {
         view.addSubview(titleTextView)
         titleTextView.delegate = self
+        titleTextView.isHidden = true
 
         NSLayoutConstraint.activate([
             titleTextView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
@@ -67,6 +68,7 @@ class MemoDetailViewController: UIViewController {
     private func setUpDescriptionTextView() {
         view.addSubview(descriptionTextView)
         descriptionTextView.delegate = self
+        descriptionTextView.isHidden = true
 
         NSLayoutConstraint.activate([
             descriptionTextView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
@@ -75,6 +77,7 @@ class MemoDetailViewController: UIViewController {
             descriptionTextView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
+
     func setUpData(memo: Memo, indexPath: IndexPath) {
         self.indexPath = indexPath
         titleTextView.text = memo.title

@@ -8,7 +8,7 @@ import UIKit
 import CoreData
 
 class MemoListViewController: UIViewController {
-    private weak var memoListViewDelegate: MemoListViewDelegate?
+    weak var memoListViewDelegate: MemoListViewDelegate?
 
     private let memoListTableView: UITableView = {
         let tableView = UITableView()
@@ -17,15 +17,6 @@ class MemoListViewController: UIViewController {
         tableView.register(MemoPreviewCell.self, forCellReuseIdentifier: MemoPreviewCell.reusableIdentifier)
         return tableView
     }()
-
-    init(memoListViewDelegate: MemoListViewDelegate) {
-        super.init(nibName: nil, bundle: nil)
-        self.memoListViewDelegate = memoListViewDelegate
-    }
-
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-    }
 
     override func viewDidLoad() {
         super.viewDidLoad()

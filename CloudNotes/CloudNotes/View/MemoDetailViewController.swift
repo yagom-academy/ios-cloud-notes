@@ -10,15 +10,15 @@ import CoreData
 
 class MemoDetailViewController: UIViewController {
     private var indexPath: IndexPath?
-    private weak var memoDetailViewDelegate: MemoDetailViewDelegate?
+    weak var memoDetailViewDelegate: MemoDetailViewDelegate?
 
     private let titleTextView = MemoTextView(font: UIFont.preferredFont(forTextStyle: .title1))
 
     private let descriptionTextView = MemoTextView(font: UIFont.preferredFont(forTextStyle: .body))
 
     private lazy var showMoreButton = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"),
-                                                                style: .plain, target: self,
-                                                                action: #selector(showMoreButtonDidTouched))
+                                                      style: .plain, target: self,
+                                                      action: #selector(showMoreButtonDidTouched))
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,20 +41,12 @@ class MemoDetailViewController: UIViewController {
         descriptionTextView.backgroundColor = isHorizontalSizeClassRegular ? .systemBackground : .systemGray3
     }
 
-    init(memoDetailViewDelegate: MemoDetailViewDelegate) {
-        super.init(nibName: nil, bundle: nil)
-        self.memoDetailViewDelegate = memoDetailViewDelegate
-    }
-
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-    }
-
     private func setUpView() {
         let isHorizontalSizeClassRegular = traitCollection.horizontalSizeClass == .regular
         view.backgroundColor = isHorizontalSizeClassRegular ? .systemBackground : .systemGray3
         navigationItem.hidesBackButton = isHorizontalSizeClassRegular
         navigationItem.rightBarButtonItem = showMoreButton
+        navigationItem.rightBarButtonItem?.isEnabled = false
 
         titleTextView.backgroundColor = isHorizontalSizeClassRegular ? .systemBackground : .systemGray3
         descriptionTextView.backgroundColor = isHorizontalSizeClassRegular ? .systemBackground : .systemGray3
@@ -87,13 +79,15 @@ class MemoDetailViewController: UIViewController {
         self.indexPath = indexPath
         titleTextView.text = memo.title
         descriptionTextView.text = memo.memoDescription
-        self.titleTextView.isHidden = false
-        self.descriptionTextView.isHidden = false
+        titleTextView.isHidden = false
+        descriptionTextView.isHidden = false
+        navigationItem.rightBarButtonItem?.isEnabled = true
     }
 
     func clearField() {
-        self.titleTextView.isHidden = true
-        self.descriptionTextView.isHidden = true
+        titleTextView.isHidden = true
+        descriptionTextView.isHidden = true
+        navigationItem.rightBarButtonItem?.isEnabled = false
         splitViewController?.hide(.secondary)
     }
 }
@@ -147,7 +141,7 @@ extension MemoDetailViewController: UITextViewDelegate {
         let estimatedSize = textView.sizeThatFits(CGSize(width: textView.frame.width, height: .infinity))
         textView.constraints.forEach {
             if $0.firstAttribute == .height {
-            $0.constant = estimatedSize.height
+                $0.constant = estimatedSize.height
             }
         }
 

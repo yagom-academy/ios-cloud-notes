@@ -26,12 +26,13 @@ class SplitViewController: UISplitViewController {
     }
 
     private func setUpMemoListViewController() {
-        memoListViewController = MemoListViewController(memoListViewDelegate: self)
+        memoListViewController = MemoListViewController()
+        memoListViewController?.memoListViewDelegate = self
     }
 
     private func setUpMemoDetailViewController() {
-        guard memoListViewController != nil else { return }
-        memoDetailViewController = MemoDetailViewController(memoDetailViewDelegate: self)
+        memoDetailViewController = MemoDetailViewController()
+        memoDetailViewController?.memoDetailViewDelegate = self
     }
 
     private func setUpSplitViewController() {
@@ -66,7 +67,9 @@ class SplitViewController: UISplitViewController {
     private func fetchMemoDataCompletionHandler(result: Result<Any?, CoreDataError>) {
         switch result {
         case .success:
-            self.loadingIndicator.stopAnimating()
+            DispatchQueue.main.async {
+                self.loadingIndicator.stopAnimating()
+            }
             self.memoListViewController?.reloadMemoListTableViewData()
         case .failure(let error):
             self.loadingIndicator.stopAnimating()
@@ -108,7 +111,6 @@ extension SplitViewController: MemoListViewDelegate, MemoDetailViewDelegate {
         alert.addAction(noAction)
 
         showAlert(alert: alert)
-        MemoManager.shared.deleteMemo(indexPath: memoIndexPath)
     }
 
     func memoShareButtonDidTapped(memoIndexPathToShare: IndexPath, sourceView: UIView) {

@@ -8,8 +8,9 @@
 import UIKit
 
 class NoteListViewController: UIViewController {
-    private var noteListManager = NoteManager()
+    private lazy var noteListManager = NoteManager()
     private var cellView: UIView?
+    private var noteData: [Note]?
     weak var noteDelegate: NoteDelegate?
     
     private let tableView: UITableView = {
@@ -21,6 +22,7 @@ class NoteListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        updateData()
         setConfiguration()
         setConstraint()
         setCellView()
@@ -35,6 +37,19 @@ class NoteListViewController: UIViewController {
     
     @objc private func addNote() {
         // TODO: - 메모 추가
+        let add = Note(title: "새로운 메모 📄", body: nil, lastModify: nil)
+        self.noteListManager.insert(add)
+        noteData?.append(add)
+        self.tableView.insertRows(at: [IndexPath.init(row: 0, section: 0)], with: .automatic)
+    }
+    
+    private func updateData() {
+        noteData = noteListManager.fetch()
+    }
+    
+    private func setCellView() {
+        self.cellView = UIView()
+        self.cellView?.layer.cornerRadius = 15
     }
     
     private func setConfiguration() {
@@ -59,12 +74,12 @@ class NoteListViewController: UIViewController {
 
 extension NoteListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return noteListManager.dataCount
+        return noteData == nil ? 0 : noteData!.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "NoteCell", for: indexPath) as? NoteListCell else { return UITableViewCell() }
-        cell.displayData(noteListManager.dataAtIndex(indexPath.row))
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "NoteCell", for: indexPath) as? NoteListCell, let data = noteData else { return UITableViewCell() }
+        cell.displayData(data[indexPath.row])
 
         return cell
     }
@@ -72,6 +87,16 @@ extension NoteListViewController: UITableViewDataSource {
 
 extension NoteListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        noteDelegate?.deliverToDetail(noteListManager.dataAtIndex(indexPath.row))
+        guard let data = noteData else { return }
+        noteDelegate?.deliverToDetail(data[indexPath.row])
+    }
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        guard let data = noteData else { return }
+        let removeData = data[indexPath.row]
+        
+        if noteListManager.delete(removeData.objectID!) {
+            self.noteData?.remove(at: indexPath.row)
+            self.tableView.deleteRows(at: [indexPath], with: .fade)
+        }
     }
 }

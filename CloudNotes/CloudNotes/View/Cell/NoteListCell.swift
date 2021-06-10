@@ -53,8 +53,8 @@ class NoteListCell: UITableViewCell {
     func displayData(_ data: Note) {
         setSelctedCell()
         titleLabel.text = data.title
-        dateLabel.text = data.date
-        descriptionLabel.text = data.contents
+        dateLabel.text = data.body
+        descriptionLabel.text = data.lastModify
     }
     
     private func setSelctedCell() {

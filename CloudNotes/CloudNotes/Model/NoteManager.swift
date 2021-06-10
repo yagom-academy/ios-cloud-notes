@@ -24,13 +24,15 @@ final class NoteManager {
             let result = try self.context.fetch(fetchRequest)
             
             for record in result {
-                let data = Note(title: record.title, body: record.body, lastModify: record.lastModify)
-                noteList?.append(data)
+                let data = Note(title: record.title, body: record.body, lastModify: record.lastModify, objectID: record.objectID)
+                
+                noteList.append(data)
             }
         } catch let error as NSError {
             print(error.localizedDescription)
         }
-        return noteList ?? []
+        
+        return noteList
     }
     
     func insert(_ data: Note) {

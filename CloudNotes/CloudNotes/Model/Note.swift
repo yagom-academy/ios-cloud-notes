@@ -6,9 +6,11 @@
 //
 
 import Foundation
+import CoreData
 
 struct Note {
     let title: String?
     let body: String?
-    let lastModify: Date?
+    var lastModify: String?
+    var objectID: NSManagedObjectID?
 }

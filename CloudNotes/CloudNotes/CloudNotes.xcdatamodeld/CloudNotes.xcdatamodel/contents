@@ -2,7 +2,7 @@
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="18154" systemVersion="20E241" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
     <entity name="Note" representedClassName="NoteModel" syncable="YES" codeGenerationType="class">
         <attribute name="body" optional="YES" attributeType="String"/>
-        <attribute name="lastModify" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="lastModify" optional="YES" attributeType="String"/>
         <attribute name="title" optional="YES" attributeType="String"/>
     </entity>
     <elements>

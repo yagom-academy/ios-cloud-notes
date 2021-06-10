@@ -65,7 +65,12 @@ class CoreDataTest: XCTestCase {
         }
     }
     
-    func test_CoreDataManger_fetchMemos() {
+    func test_CoreDataManager_fetchMemos() {
         XCTAssertNil(CoreDataManager.shared.fetchMemos().count)
+    }
+    
+    func test_CoreDataManager_deleteAllMemos() {
+        CoreDataManager.shared.deleteAllMemos()
+        XCTAssertEqual(CoreDataManager.shared.fetchMemos().count, 0)
     }
 }

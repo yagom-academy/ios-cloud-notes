@@ -79,7 +79,7 @@ class ListCell: UITableViewCell {
   
   func update(info: MemoInfo) {
     titleLabel.text = info.title
-    dateLabel.text = DateConvertor(date: info.lastModified).result()
+    dateLabel.text = DateConvertor().numberToString(number: info.lastModified)
     summaryLabel.text = info.body?.components(separatedBy: ".").first
   }
 }

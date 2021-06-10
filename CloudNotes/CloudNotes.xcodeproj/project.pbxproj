@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		850A5CCA266FDA6000E0BE08 /* AddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850A5CC9266FDA6000E0BE08 /* AddViewController.swift */; };
 		851B6A602667725000A9EEB9 /* ListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851B6A5F2667725000A9EEB9 /* ListCell.swift */; };
 		851B6A6226677C5900A9EEB9 /* ListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851B6A6126677C5900A9EEB9 /* ListViewModel.swift */; };
 		851B6A6B2667922000A9EEB9 /* MemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851B6A6A2667922000A9EEB9 /* MemoViewController.swift */; };
@@ -14,7 +15,6 @@
 		853D1F912664AFF40003E674 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853D1F902664AFF40003E674 /* ListViewController.swift */; };
 		85469B1C266F744D0051CE9A /* MemoInfo+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85469B1A266F744D0051CE9A /* MemoInfo+CoreDataClass.swift */; };
 		85469B1D266F744D0051CE9A /* MemoInfo+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85469B1B266F744D0051CE9A /* MemoInfo+CoreDataProperties.swift */; };
-		85469B20266F761D0051CE9A /* MemoInfoDummy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85469B1F266F761D0051CE9A /* MemoInfoDummy.swift */; };
 		858A89DE2669D6360094FAD5 /* ListViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 858A89DD2669D6360094FAD5 /* ListViewControllerDelegate.swift */; };
 		858A89E02669E3930094FAD5 /* SplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 858A89DF2669E3930094FAD5 /* SplitViewController.swift */; };
 		85B677DA266CAE4E0071A4A4 /* DateConvertor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B677D9266CAE4E0071A4A4 /* DateConvertor.swift */; };
@@ -46,6 +46,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		850A5CC9266FDA6000E0BE08 /* AddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddViewController.swift; sourceTree = "<group>"; };
 		851B6A5F2667725000A9EEB9 /* ListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCell.swift; sourceTree = "<group>"; };
 		851B6A6126677C5900A9EEB9 /* ListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewModel.swift; sourceTree = "<group>"; };
 		851B6A6A2667922000A9EEB9 /* MemoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoViewController.swift; sourceTree = "<group>"; };
@@ -53,7 +54,6 @@
 		853D1F902664AFF40003E674 /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		85469B1A266F744D0051CE9A /* MemoInfo+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MemoInfo+CoreDataClass.swift"; sourceTree = "<group>"; };
 		85469B1B266F744D0051CE9A /* MemoInfo+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MemoInfo+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		85469B1F266F761D0051CE9A /* MemoInfoDummy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoInfoDummy.swift; sourceTree = "<group>"; };
 		858A89DD2669D6360094FAD5 /* ListViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewControllerDelegate.swift; sourceTree = "<group>"; };
 		858A89DF2669E3930094FAD5 /* SplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitViewController.swift; sourceTree = "<group>"; };
 		85B677D9266CAE4E0071A4A4 /* DateConvertor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateConvertor.swift; sourceTree = "<group>"; };
@@ -127,6 +127,7 @@
 				853D1F902664AFF40003E674 /* ListViewController.swift */,
 				851B6A5F2667725000A9EEB9 /* ListCell.swift */,
 				851B6A6A2667922000A9EEB9 /* MemoViewController.swift */,
+				850A5CC9266FDA6000E0BE08 /* AddViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -137,7 +138,6 @@
 				C7481C7625BBCF3900B9CA55 /* Model.xcdatamodeld */,
 				85469B1A266F744D0051CE9A /* MemoInfo+CoreDataClass.swift */,
 				85469B1B266F744D0051CE9A /* MemoInfo+CoreDataProperties.swift */,
-				85469B1F266F761D0051CE9A /* MemoInfoDummy.swift */,
 			);
 			path = CoreData;
 			sourceTree = "<group>";
@@ -338,7 +338,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				85469B20266F761D0051CE9A /* MemoInfoDummy.swift in Sources */,
 				851B6A6B2667922000A9EEB9 /* MemoViewController.swift in Sources */,
 				C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */,
 				858A89E02669E3930094FAD5 /* SplitViewController.swift in Sources */,
@@ -348,6 +347,7 @@
 				85469B1D266F744D0051CE9A /* MemoInfo+CoreDataProperties.swift in Sources */,
 				C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */,
 				858A89DE2669D6360094FAD5 /* ListViewControllerDelegate.swift in Sources */,
+				850A5CCA266FDA6000E0BE08 /* AddViewController.swift in Sources */,
 				853D1F912664AFF40003E674 /* ListViewController.swift in Sources */,
 				85B677DA266CAE4E0071A4A4 /* DateConvertor.swift in Sources */,
 				85B677DD266CB38B0071A4A4 /* SetMemoInfoListError.swift in Sources */,

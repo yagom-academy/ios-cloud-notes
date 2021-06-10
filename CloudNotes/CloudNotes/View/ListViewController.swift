@@ -35,8 +35,19 @@ class ListViewController: UIViewController {
   }
   
   func configureNavigationBar() {
-    let add = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: nil)
-    navigationItem.rightBarButtonItem = add
+    let addButton = UIBarButtonItem(barButtonSystemItem: .add,
+                                    target: self,
+                                    action: #selector(buttonPressed(_:)))
+    navigationItem.rightBarButtonItem = addButton
+  }
+  
+  @objc private func buttonPressed(_ sender: Any) {
+    self.navigationController?.pushViewController(AddViewController(), animated: true)
+  }
+  
+  func updateUI() {
+    viewModel.setMemoInfoList()
+    tableView.reloadData()
   }
 }
 

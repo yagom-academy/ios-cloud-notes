@@ -12,7 +12,6 @@ class ListViewModel {
   private var memoInfoList: [MemoInfo] = []
   
   init() {
-    setMemoInfoDummy()
     setMemoInfoList()
   }
   
@@ -20,7 +19,7 @@ class ListViewModel {
     return memoInfoList.count
   }
   
-  private func setMemoInfoList() {
+  func setMemoInfoList() {
     do {
       guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
         throw SetMemoInfoListError.FailedToAccessAppDelegate
@@ -33,30 +32,6 @@ class ListViewModel {
       self.memoInfoList = infoList
     } catch {
       print(error.localizedDescription)
-    }
-  }
-  
-  private func setMemoInfoDummy() {
-    let memoInfo = MemoInfoDummy(title: "test title",
-                                 lastModified: 1608651333,
-                                 body: "it is test's body.estes.ts.ets.etestsetsetes")
-    
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate
-    let context = appDelegate.persistentContainer.viewContext
-    
-    let entity = NSEntityDescription.entity(forEntityName: "MemoInfo", in: context)
-    
-    if let entity = entity {
-      let memo = NSManagedObject(entity: entity, insertInto: context)
-      memo.setValue(memoInfo.title, forKey: "title")
-      memo.setValue(memoInfo.lastModified, forKey: "lastModified")
-      memo.setValue(memoInfo.body, forKey: "body")
-      
-      do {
-        try context.save()
-      } catch {
-        print(error.localizedDescription)
-      }
     }
   }
   

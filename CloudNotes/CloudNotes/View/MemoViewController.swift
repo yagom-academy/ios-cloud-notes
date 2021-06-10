@@ -22,7 +22,6 @@ class MemoViewController: UIViewController {
     super.viewDidLoad()
     
     configureNavigationBar()
-    updateUI()
     view.addSubview(textView)
   }
   

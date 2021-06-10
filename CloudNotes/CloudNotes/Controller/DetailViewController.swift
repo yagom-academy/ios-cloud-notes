@@ -7,7 +7,7 @@
 
 import UIKit
 
-class DetailViewController: UIViewController, SendDataDelegate {
+class DetailViewController: UIViewController, SendDataDelegate, UIPopoverPresentationControllerDelegate {
     
     var memoDetailTextView: UITextView = {
         let view = UITextView()
@@ -24,6 +24,7 @@ class DetailViewController: UIViewController, SendDataDelegate {
         super.viewDidLoad()
         
         self.memoDetailTextView.delegate = self
+        self.modalPresentationStyle = .popover
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: #selector(editMemo))
         self.view.addSubview(memoDetailTextView)
         setTextViewConstraint()
@@ -34,7 +35,7 @@ class DetailViewController: UIViewController, SendDataDelegate {
     }
     
     @objc func editMemo() {
-        detailActionSheet()
+        detailActionSheet(self.navigationItem.rightBarButtonItem!)
     }
     
     func sendData(data: Memo, index: Int) {
@@ -67,7 +68,7 @@ class DetailViewController: UIViewController, SendDataDelegate {
         self.memoDetailTextView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0).isActive = true
     }
     
-    func deleteAlert() {
+    func deleteAlert(_ sender: UIBarButtonItem) {
         let defaultAction = UIAlertAction(title: "삭제",
                                           style: .destructive) { (action) in
         }
@@ -80,20 +81,23 @@ class DetailViewController: UIViewController, SendDataDelegate {
               preferredStyle: .alert)
         alert.addAction(defaultAction)
         alert.addAction(cancelAction)
-             
+        guard let popOverController = alert.popoverPresentationController else { return }
+        popOverController.barButtonItem = sender
+        
         self.present(alert, animated: true, completion: nil)
     }
     
-    func detailActionSheet() {
+    func detailActionSheet(_ sender: UIBarButtonItem) {
         let destroyAction = UIAlertAction(title: "Delete",
                   style: .destructive) { (action) in
+            self.deleteAlert(sender)
         }
         let cancelAction = UIAlertAction(title: "Cancel",
                   style: .cancel) { (action) in
         }
         let shareAction = UIAlertAction(title: "Share..",
                     style: .default) { (action) in
-            
+            self.presentShareSheet(sender)
         }
              
         let alert = UIAlertController(title: nil,
@@ -103,7 +107,22 @@ class DetailViewController: UIViewController, SendDataDelegate {
         alert.addAction(destroyAction)
         alert.addAction(cancelAction)
         
+        guard let popOverController = alert.popoverPresentationController else { return }
+        popOverController.barButtonItem = sender
+        
         self.present(alert, animated: true, completion: nil)
+    
+    }
+    
+    func presentShareSheet(_ sender: UIBarButtonItem) {
+        guard let sendText = self.memoDetailTextView.text else { return }
+        
+        let shareSheetViewController = UIActivityViewController(activityItems: [sendText], applicationActivities: nil)
+    
+        guard let popOverController = shareSheetViewController.popoverPresentationController else { return }
+        popOverController.barButtonItem = sender
+        
+        present(shareSheetViewController, animated: true, completion: nil)
     }
     
 }

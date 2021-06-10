@@ -20,9 +20,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
-        let context = (UIApplication.shared.delegate as? AppDelegate)
         do {
-            try context?.persistentContainer.viewContext.save()
+            try MemoManager.shared.persistentContainer?.viewContext.save()
         } catch {
             // do something
         }
@@ -44,12 +43,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func sceneDidEnterBackground(_ scene: UIScene) {
-        // Called as the scene transitions from the foreground to the background.
-        // Use this method to save data, release shared resources, and store enough scene-specific state information
-        // to restore the scene back to its current state.
-
-        // Save changes in the application's managed object context when the application transitions to the background.
-        (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
+        do {
+            try MemoManager.shared.persistentContainer?.viewContext.save()
+        } catch {
+            // do something
+        }
     }
 }
 

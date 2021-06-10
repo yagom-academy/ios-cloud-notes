@@ -15,7 +15,7 @@ final class NoteManager {
     }()
     
     func fetch() -> [Note] {
-        var noteList: [Note]?
+        var noteList: [Note] = []
         let fetchRequest: NSFetchRequest<NoteModel> = NoteModel.fetchRequest()
         let lastModifyDesc = NSSortDescriptor(key: "lastModify", ascending: false)
         fetchRequest.sortDescriptors = [lastModifyDesc]

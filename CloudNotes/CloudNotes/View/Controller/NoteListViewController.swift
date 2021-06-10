@@ -37,10 +37,11 @@ class NoteListViewController: UIViewController {
     
     @objc private func addNote() {
         // TODO: - 메모 추가
-        let add = Note(title: "새로운 메모 📄", body: nil, lastModify: nil)
+        let add = Note(title: nil, body: nil, lastModify: nil)
         self.noteListManager.insert(add)
         noteData?.append(add)
         self.tableView.insertRows(at: [IndexPath.init(row: 0, section: 0)], with: .automatic)
+        noteDelegate?.deliverToDetail(add)
     }
     
     private func updateData() {
@@ -69,6 +70,17 @@ class NoteListViewController: UIViewController {
             tableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor)
         ])
+    }
+    
+    func deleteEmptyNote() {
+        updateData()
+        guard let data = noteData else { return }
+        let removeData = data[0]
+        
+        if self.noteListManager.delete(removeData.objectID!) {
+            self.noteData?.remove(at: 0)
+            self.tableView.deleteRows(at: [IndexPath.init(row: 0, section: 0)], with: .fade)
+        }
     }
 }
 

@@ -15,6 +15,7 @@ class NoteSplitViewController: UISplitViewController {
         super.viewDidLoad()
         self.delegate = self
         self.primary.noteDelegate = self
+        self.secondary.noteDelegate = self
         setSplitViewController()
     }
     
@@ -33,6 +34,12 @@ extension NoteSplitViewController: UISplitViewControllerDelegate {
 }
 
 extension NoteSplitViewController: NoteDelegate {
+    func deliverToPrimary(_ data: String) {
+        if data == "" {
+            primary.deleteEmptyNote()
+        }
+    }
+    
     func deliverToDetail(_ data: Note) {
         secondary.displayData(data)
         self.showDetailViewController(secondary, sender: self)

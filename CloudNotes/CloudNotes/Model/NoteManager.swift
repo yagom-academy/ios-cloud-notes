@@ -25,7 +25,6 @@ final class NoteManager {
             
             for record in result {
                 let data = Note(title: record.title, body: record.body, lastModify: record.lastModify, objectID: record.objectID)
-                
                 noteList.append(data)
             }
         } catch let error as NSError {

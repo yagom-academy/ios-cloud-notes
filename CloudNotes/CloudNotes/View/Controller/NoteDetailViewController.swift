@@ -21,6 +21,7 @@ class NoteDetailViewController: UIViewController {
 
         return textview
     }()
+    weak var noteDelegate: NoteDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,6 +33,7 @@ class NoteDetailViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         textView.isEditable = true
+        self.textView.becomeFirstResponder()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -40,10 +42,11 @@ class NoteDetailViewController: UIViewController {
     }
     
     func displayData(_ data: Note) {
+        if data.title == nil { return }
         textView.text = ""
-        textView.insertText(data.title)
+        textView.insertText(data.title ?? "")
         textView.insertText("\n\n")
-        textView.insertText(data.contents)
+        textView.insertText(data.body ?? "")
         textView.resignFirstResponder()
         textView.scrollRangeToVisible(NSMakeRange(0, 0))
     }
@@ -80,5 +83,19 @@ class NoteDetailViewController: UIViewController {
             textView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             textView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
+    }
+}
+
+extension NoteDetailViewController: UITextViewDelegate {
+    func textViewDidChange(_ textView: UITextView) {
+        
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        noteDelegate?.deliverToPrimary(textView.text)
+    }
+    
+    func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
+        return true
     }
 }

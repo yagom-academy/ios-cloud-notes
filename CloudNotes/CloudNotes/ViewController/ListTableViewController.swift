@@ -14,6 +14,7 @@ class ListTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 //        parseSampleData()
+        memoList = CoreDataManager.shared.fetchMemos()
         setNavigationItem()
         self.tableView.register(ListTableViewCell.self, forCellReuseIdentifier: ListTableViewCell.identifier)
         self.tableView.estimatedRowHeight = 90.0
@@ -41,6 +42,13 @@ class ListTableViewController: UITableViewController {
         if let detailNavigationController = self.splitViewController?.viewControllers.last as? UINavigationController,
            let textViewController = detailNavigationController.topViewController as? TextViewController {
             textViewController.textView.text = ""
+            tableView.beginUpdates()
+            let newMemo = Memo(context: CoreDataManager.shared.mainContext)
+            newMemo.title = "title111"
+            newMemo.body = "body2222"
+            memoList.insert(newMemo, at: 0)
+            tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
+            tableView.endUpdates()
         } else {
             let navigationEmbeddTextViewController = UINavigationController(rootViewController: TextViewController())
             self.splitViewController?.showDetailViewController(navigationEmbeddTextViewController, sender: nil)
@@ -66,10 +74,10 @@ extension ListTableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = self.tableView.dequeueReusableCell(withIdentifier: ListTableViewCell.identifier, for: indexPath) as! ListTableViewCell
-//        let memoItem = memoList[indexPath.row]
-//        cell.titleLabel.text = memoItem.title
+        let memoItem = memoList[indexPath.row]
+        cell.titleLabel.text = memoItem.title
 //        cell.dateLabel.text = memoItem.lastModifiedDate
-//        cell.bodyLabel.text = memoItem.body
+        cell.bodyLabel.text = memoItem.body
         cell.accessoryType = .disclosureIndicator
         return cell
     }

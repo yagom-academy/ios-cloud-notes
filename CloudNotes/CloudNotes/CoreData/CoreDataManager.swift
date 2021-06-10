@@ -23,6 +23,13 @@ class CoreDataManager {
         return NSEntityDescription.entity(forEntityName: "Memo", in: mainContext)
     }
     
+    func fetchMemos() -> [Memo] {
+        guard let memos = try? mainContext.fetch(Memo.fetchRequest()) as? [Memo] else {
+            return []
+        }
+        return memos
+    }
+    
     // MARK: - Core Data stack
     lazy var persistentContainer: NSPersistentCloudKitContainer = {
         let container = NSPersistentCloudKitContainer(name: "CloudNotes")

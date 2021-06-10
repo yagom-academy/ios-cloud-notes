@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import CoreData
 
 class MemoPreviewCell: UITableViewCell {
     static let reusableIdentifier = "memoPreviewCell"

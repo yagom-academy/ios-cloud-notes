@@ -64,4 +64,8 @@ class CoreDataTest: XCTestCase {
             XCTFail(error.localizedDescription)
         }
     }
+    
+    func test_CoreDataManger_fetchMemos() {
+        XCTAssertNil(CoreDataManager.shared.fetchMemos().count)
+    }
 }

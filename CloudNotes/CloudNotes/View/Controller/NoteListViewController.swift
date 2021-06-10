@@ -90,13 +90,26 @@ extension NoteListViewController: UITableViewDelegate {
         guard let data = noteData else { return }
         noteDelegate?.deliverToDetail(data[indexPath.row])
     }
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        guard let data = noteData else { return }
-        let removeData = data[indexPath.row]
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        guard let data = noteData else { return nil }
+        let deleteAction = UIContextualAction(style: .destructive, title:  "🗑", handler: { (ac: UIContextualAction, view:UIView, success:(Bool) -> Void) in
+            let removeData = data[indexPath.row]
+            
+            if self.noteListManager.delete(removeData.objectID!) {
+                self.noteData?.remove(at: indexPath.row)
+                self.tableView.deleteRows(at: [indexPath], with: .fade)
+                success(true)
+            }
+        })
         
-        if noteListManager.delete(removeData.objectID!) {
-            self.noteData?.remove(at: indexPath.row)
-            self.tableView.deleteRows(at: [indexPath], with: .fade)
-        }
+        let shareAction = UIContextualAction(style: .normal, title:  "공유", handler: { (ac:UIContextualAction, view:UIView, success:(Bool) -> Void) in
+            let shardNote = "\(data[indexPath.row].title ?? "") \n\n \(data[indexPath.row].body ?? "")"
+            let activityViewController = UIActivityViewController(activityItems: [shardNote], applicationActivities: nil)
+            self.present(activityViewController, animated: true, completion: nil)
+            success(true)
+        })
+        shareAction.backgroundColor = .systemTeal
+        return UISwipeActionsConfiguration(actions:[deleteAction,shareAction])
     }
 }

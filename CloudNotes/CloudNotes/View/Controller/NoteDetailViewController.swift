@@ -8,6 +8,7 @@
 import UIKit
 
 class NoteDetailViewController: UIViewController {
+    private lazy var noteListManager = NoteManager()
     private lazy var textView: UITextView = {
         let textview = UITextView()
         textview.translatesAutoresizingMaskIntoConstraints = false
@@ -23,7 +24,8 @@ class NoteDetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: #selector(displayInfomation))
+        self.textView.delegate = self
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: #selector(moreSee))
         setConstraint()
     }
 
@@ -46,8 +48,27 @@ class NoteDetailViewController: UIViewController {
         textView.scrollRangeToVisible(NSMakeRange(0, 0))
     }
  
-    @objc private func displayInfomation() {
-        // TODO: - Detail 정보 보여주기
+    @objc private func moreSee() {
+        let actionsheetController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let sharedNote = UIAlertAction(title: "Share..", style: .default) { share in
+            self.shareNote()
+        }
+        let deleteNote = UIAlertAction(title: "Delete", style: .destructive) { delete in
+            
+        }
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        actionsheetController.addAction(sharedNote)
+        actionsheetController.addAction(deleteNote)
+        actionsheetController.addAction(cancel)
+        
+        self.present(actionsheetController, animated: true, completion: nil)
+    }
+    
+    private func shareNote() {
+        let shareText = textView.text ?? "새로운 메모"
+        let activityViewController = UIActivityViewController(activityItems: [shareText], applicationActivities: nil)
+        self.present(activityViewController, animated: true, completion: nil)
     }
 
     private func setConstraint() {

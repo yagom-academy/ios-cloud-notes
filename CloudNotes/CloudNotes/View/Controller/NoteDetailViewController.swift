@@ -94,8 +94,4 @@ extension NoteDetailViewController: UITextViewDelegate {
     func textViewDidEndEditing(_ textView: UITextView) {
         noteDelegate?.deliverToPrimary(textView.text)
     }
-    
-    func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
-        return true
-    }
 }

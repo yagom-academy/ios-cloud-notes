@@ -10,6 +10,7 @@ import UIKit
 class ListTableViewController: UITableViewController {
     
     var memoList: [Memo] = []
+    var lastClickedIndexPath: IndexPath = IndexPath(row: 0, section: 0)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,6 +20,20 @@ class ListTableViewController: UITableViewController {
         self.tableView.register(ListTableViewCell.self, forCellReuseIdentifier: ListTableViewCell.identifier)
         self.tableView.estimatedRowHeight = 90.0
         self.tableView.rowHeight = UITableView.automaticDimension
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if let detailNavigationController = self.splitViewController?.viewControllers.last as? UINavigationController,
+           let textViewController = detailNavigationController.topViewController as? TextViewController {
+            // TODO: - 메모에 아무것도 없을 때도 처리해줘야 함.
+            // 시작 했을 때 아무것도 없으면 메모가 삭제됨 그래서 점을 넣음.
+            textViewController.textView.text = "."
+            tableView.selectRow(at: IndexPath(row: 0, section: 0), animated: true, scrollPosition: .none)
+            tableView.delegate?.tableView?(tableView, didSelectRowAt: IndexPath(row: 0, section: 0))
+        } else {
+            print("텍스트튜 없음")
+        }
     }
     
     func parseSampleData() {
@@ -76,6 +91,10 @@ extension ListTableViewController {
         cell.dateLabel.text = memoItem.lastModified?.formatDate()
         cell.bodyLabel.text = memoItem.body ?? "추가 텍스트 없음"
         cell.accessoryType = .disclosureIndicator
+        
+        let backgroundView = UIView()
+        backgroundView.backgroundColor = UIColor.systemYellow
+        cell.selectedBackgroundView = backgroundView
         return cell
     }
     
@@ -84,8 +103,19 @@ extension ListTableViewController {
         if let detailNavigationController = self.splitViewController?.viewControllers.last as? UINavigationController,
            let textViewController = detailNavigationController.topViewController as? TextViewController {
             textViewController.textView.isEditable = false
+            print("마지막 textView = ", textViewController.textView.text)
+            print("최신 indexPath = ", indexPath)
+            // 클릭 되기전 마지막 텍스트뷰가 아무것도 없으면
+            if textViewController.textView.text.isEmpty {
+                // 메모 리스트에서 지운다.
+                print("들어옴!!")
+                memoList.remove(at: lastClickedIndexPath.row)
+                tableView.beginUpdates()
+                tableView.deleteRows(at: [lastClickedIndexPath], with: .automatic)
+            }
             textViewController.changedTextBySelectedCell(with: memoList[indexPath.row])
             textViewController.textView.isEditable = true
+            lastClickedIndexPath = indexPath
         } else {
             let textViewController = TextViewController()
             let navigationController = UINavigationController(rootViewController: textViewController)

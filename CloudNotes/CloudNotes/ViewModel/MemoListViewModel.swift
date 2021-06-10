@@ -11,7 +11,7 @@ import CoreData
 final class MemoListViewModel {
     private var memo: [MemoData] = []
     private var lastSelectIndex = -1
-    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     func readMemo(index: Int) -> MemoData {
         return self.memo[index]
@@ -48,13 +48,19 @@ extension MemoListViewModel {
 
 extension MemoListViewModel {
     
+    func fetch() -> [MemoData] {
+        let fetchRequest = NSFetchRequest<MemoData>(entityName: "MemoData")
+        
+        let sort = NSSortDescriptor(key: "lastModified", ascending: false)
+        fetchRequest.sortDescriptors = [sort]
+        
+        let result = try! context.fetch(fetchRequest)
+        
+        return result
+    }
+    
     func getAllMemoData() {
-        do {
-            self.memo = try context.fetch(MemoData.fetchRequest())
-        }
-        catch {
-            // error
-        }
+        self.memo = self.fetch()
     }
     
     func createMemoData() {

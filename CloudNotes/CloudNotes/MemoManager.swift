@@ -12,6 +12,21 @@ class MemoManager {
     var memos: [Memo]?
     weak var memoManagerDelegate: MemoManagerDelegate?
 
+    // MARK: - Core Data stack
+
+    lazy var persistentContainer: NSPersistentCloudKitContainer? = {
+        let container = NSPersistentCloudKitContainer(name: "CloudNotes")
+        container.loadPersistentStores { (_, error) in
+            if let error = error as NSError? {
+                let alert = UIAlertController(title: "데이터 저장소 불러오기 오류",
+                                              message: error.description,
+                                              preferredStyle: .alert)
+                self.memoManagerDelegate?.showAlert(alert: alert)
+            }
+        }
+        return container
+    }()
+
     static let shared = MemoManager()
 
     func createMemo() {
@@ -19,9 +34,14 @@ class MemoManager {
         let newMemo = Memo(context: context)
         newMemo.date = Date()
 
-        memos?.insert(newMemo, at: 0) // TODO: 시간복잡도 O(n), 적절히 수정해야함
-        let newIndexPath = IndexPath(row: 0, section: 0)
-        memoManagerDelegate?.memoDidCreated(createdMemo: newMemo, createdMemoIndexPath: newIndexPath)
+        context.perform {
+            let newMemo = Memo(context: context)
+            newMemo.date = Date()
+
+            self.memos?.insert(newMemo, at: 0)
+            let newIndexPath = IndexPath(row: 0, section: 0)
+            self.memoManagerDelegate?.memoDidCreated(createdMemo: newMemo, createdMemoIndexPath: newIndexPath)
+        }
     }
 
     func updateMemoTitle(indexPath: IndexPath, text: String) {

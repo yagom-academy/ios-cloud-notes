@@ -34,7 +34,7 @@ final class NoteManager {
     }
     
     func insert(_ data: Note) {
-        guard let object = NSEntityDescription.insertNewObject(forEntityName: "CloudNotes", into: self.context) as? NoteModel else { return }
+        guard let object = NSEntityDescription.insertNewObject(forEntityName: "Note", into: self.context) as? NoteModel else { return }
         object.title = data.title
         object.body = data.body
         object.lastModify = data.lastModify

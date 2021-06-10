@@ -13,8 +13,8 @@ final class NoteListViewController: UIViewController {
     private var noteListCollectionView: UICollectionView?
     private var dataSource: UICollectionViewDiffableDataSource<Section, Note>?
     private var notes: [Note] = []
+    private var editingNote: Note?
     weak var noteDetailViewControllerDelegate: NoteDetailViewControllerDelegate?
-    private(set) var editingNote: Note?
     
     // MARK: - Section for diffable data source
     private enum Section: CaseIterable {
@@ -27,11 +27,17 @@ final class NoteListViewController: UIViewController {
         static var newNoteConfiguration: Note {
             Note(title: "", body: "", lastModified: Date())
         }
+        static let IndexPathOfFirstNote = IndexPath(item: 0, section: 0)
     }
     
     private enum NavigationBarItems {
         static let title = "메모"
         static let addButtonImage: UIBarButtonItem.SystemItem = .add
+    }
+    
+    private enum TextSymbols {
+        static let newLine: String.Element = "\n"
+        static let emptyString: Substring = ""
     }
     
     // MARK: - View life cycle
@@ -141,15 +147,13 @@ final class NoteListViewController: UIViewController {
     
     private func append(_ newNote: Note, to dataSource: UICollectionViewDiffableDataSource<Section, Note>) {
         var snapshot = dataSource.snapshot()
-        snapshot.appendItems([NoteData.newNoteConfiguration])
-        notes.append(NoteData.newNoteConfiguration)
+        snapshot.appendItems([newNote])
         dataSource.apply(snapshot, animatingDifferences: true)
     }
     
     private func insert(_ newNote: Note, to dataSource: UICollectionViewDiffableDataSource<Section, Note>, before firstItemInSnapshot: Note) {
         var snapshot = dataSource.snapshot()
-        snapshot.insertItems([NoteData.newNoteConfiguration], beforeItem: firstItemInSnapshot)
-        notes.insert(newNote, at: notes.startIndex)
+        snapshot.insertItems([newNote], beforeItem: firstItemInSnapshot)
         dataSource.apply(snapshot, animatingDifferences: true)
     }
     
@@ -167,6 +171,9 @@ final class NoteListViewController: UIViewController {
         } else {
             append(newNote, to: dataSource)
         }
+        
+        editingNote = newNote
+        showDetailViewController(with: newNote)
     }
     
     // MARK: - View Transition
@@ -177,6 +184,25 @@ final class NoteListViewController: UIViewController {
         }
         noteDetailViewControllerDelegate?.showNote(with: editingNote)
         splitViewController?.showDetailViewController(noteDetailViewController, sender: nil)
+        
+    }
+    
+    // MARK: - Create Note with New Text from Text View
+    private func createNewNote(with newText: String) -> Note? {
+        var text = newText.split(separator: TextSymbols.newLine, omittingEmptySubsequences: false)
+        guard let editingNote = editingNote else {
+            os_log(.error, log: .ui, OSLog.objectCFormatSpecifier, UIError.editingNoteNotSet.localizedDescription)
+            return nil
+        }
+        var newNote = Note(with: editingNote, title: String(text.first ?? TextSymbols.emptyString), body: String(TextSymbols.emptyString), lastModified: Date())
+        
+        if text.count > 1 {
+            let newTitle = text.removeFirst()
+            let newBody = text.joined(separator: String(TextSymbols.newLine))
+            newNote = Note(with: editingNote, title: String(newTitle), body: newBody, lastModified: Date())
+        }
+        
+        return newNote
     }
 }
 
@@ -184,33 +210,30 @@ final class NoteListViewController: UIViewController {
 extension NoteListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         editingNote = dataSource?.itemIdentifier(for: indexPath)
-        guard let editingNote = editingNote else { return }
+        guard let editingNote = editingNote else {
+            return
+        }
         showDetailViewController(with: editingNote)
     }
 }
 
 // MARK: - Note List View Controller Delegate
 extension NoteListViewController: NoteListViewControllerDelegate {
-    func changeNote(with newNote: Note) {
-        guard var snapshot = dataSource?.snapshot() else { return }
-        guard let firstNote = snapshot.itemIdentifiers.first else { return }
-        guard let editingNote = editingNote else { return }
+    func changeNote(with newText: String) {
+        guard let newNote = createNewNote(with: newText),
+              var snapshot = dataSource?.snapshot() else {
+            return
+        }
         
-        if editingNote == firstNote {
-            notes[0] = newNote
-            snapshot.deleteAllItems()
-            snapshot.appendSections(Section.allCases)
-            snapshot.appendItems(notes)
-        } else {
-            snapshot.deleteItems([editingNote])
-            snapshot.insertItems([newNote], beforeItem: firstNote)
+        snapshot.deleteItems([newNote])
+        
+        if let firstNoteInSnapshot = snapshot.itemIdentifiers.first {
+            snapshot.insertItems([newNote], beforeItem: firstNoteInSnapshot)
         }
         
         dataSource?.apply(snapshot, animatingDifferences: true) { [weak self] in
             self?.dataSource?.apply(snapshot, animatingDifferences: false)
         }
-        
-        notes = snapshot.itemIdentifiers
-        noteListCollectionView?.scrollToItem(at: (dataSource?.indexPath(for: newNote))!, at: .top, animated: true)
+        noteListCollectionView?.scrollToItem(at: NoteData.IndexPathOfFirstNote, at: .top, animated: true)
     }
 }

@@ -10,7 +10,7 @@ import Foundation
 enum UIError: Error {
     case collectionViewNotSet
     case downcastingFailed(subject: String, location: String)
-    case delegateNotSet(delegateName: String)
+    case editingNoteNotSet
 }
 
 extension UIError: LocalizedError {
@@ -20,8 +20,8 @@ extension UIError: LocalizedError {
             return "Collection view is not set."
         case let .downcastingFailed(subject, location):
             return "\(subject) failed to downcast at \(location). "
-        case let .delegateNotSet(delegateName):
-            return "\(delegateName) is not set."
+        case .editingNoteNotSet:
+            return "Editing note is not set."
         }
     }
 }

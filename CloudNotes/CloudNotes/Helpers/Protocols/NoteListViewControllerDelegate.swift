@@ -8,6 +8,5 @@
 import Foundation
 
 protocol NoteListViewControllerDelegate: AnyObject {
-    var editingNote: Note? { get }
-    func changeNote(with newNote: Note)
+    func changeNote(with newText: String)
 }

@@ -112,6 +112,7 @@ final class NoteDetailViewController: UIViewController {
         }
         
         setGreetingText(to: noteTextView)
+        noteTextView.isEditable = false
     }
     
     private func removeActivatedKeyboard() {

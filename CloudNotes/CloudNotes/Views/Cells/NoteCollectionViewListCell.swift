@@ -54,6 +54,12 @@ final class NoteCollectionViewListCell: UICollectionViewListCell {
         }
     }
     
+    private enum NoteTexts {
+        static let emptyString = ""
+        static let noTitle = "제목 없음"
+        static let noBody = "내용 없음"
+    }
+    
     // MARK: - Configure cell
     func configure(with note: Note) {
         let cellStackView = createCellStackView()
@@ -90,8 +96,8 @@ final class NoteCollectionViewListCell: UICollectionViewListCell {
     }
     
     func updateContents(_ note: Note) {
-        titleLabel.text = note.title == "" ? "새 메모" : note.title
-        bodyLabel.text = note.body == "" ? "내용 없음" : note.body
+        titleLabel.text = note.title == NoteTexts.emptyString ? NoteTexts.noTitle : note.title
+        bodyLabel.text = note.body == NoteTexts.emptyString ? NoteTexts.noBody : note.body
         lastModifiedDateLabel.text = note.lastModified.formatted
     }
     

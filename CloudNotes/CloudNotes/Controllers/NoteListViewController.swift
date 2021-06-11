@@ -17,8 +17,8 @@ final class NoteListViewController: UIViewController {
     private var noteListCollectionView: UICollectionView?
     private var dataSource: DataSource?
     private var editingNote: Note?
-    weak var noteDetailViewControllerDelegate: NoteDetailViewControllerDelegate?
     private let noteCoreDataManager: NoteCoreDataManager = .shared
+    weak var noteDetailViewControllerDelegate: NoteDetailViewControllerDelegate?
     
     // MARK: - Section for diffable data source
     
@@ -138,6 +138,7 @@ final class NoteListViewController: UIViewController {
         }
         
         noteListCollectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        noteListCollectionView.backgroundColor = .systemBackground
         view.addSubview(noteListCollectionView)
         noteListCollectionView.delegate = self
     }
@@ -190,6 +191,7 @@ final class NoteListViewController: UIViewController {
             return
         }
         
+        noteDetailViewControllerDelegate?.setIndexPathOfSelectedNote(NoteData.IndexPathOfFirstNote)
         editingNote = newNote
         showDetailViewController(with: newNote)
     }
@@ -202,7 +204,7 @@ final class NoteListViewController: UIViewController {
                 completion(false)
                 return
             }
-            self.deleteTapped(noteAt: indexPath)
+            self.deleteTapped(at: indexPath)
             completion(true)
         }
         deleteAction.image = UIImage(systemName: "trash")
@@ -210,7 +212,7 @@ final class NoteListViewController: UIViewController {
     }
     
     private func leadingSwipeActionConfiguration(_ indexPath: IndexPath) -> UISwipeActionsConfiguration {
-        let callActivityViewAction = UIContextualAction(style: .normal, title: nil) { [weak self] _, _, completion in
+        let showActivityViewAction = UIContextualAction(style: .normal, title: nil) { [weak self] _, _, completion in
             guard let self = self else {
                 completion(false)
                 return
@@ -218,30 +220,15 @@ final class NoteListViewController: UIViewController {
             self.activityViewTapped(at: indexPath)
             completion(true)
         }
-        callActivityViewAction.image = UIImage(systemName: "square.and.arrow.up")
-        callActivityViewAction.backgroundColor = .systemBlue
+        showActivityViewAction.image = UIImage(systemName: "square.and.arrow.up")
+        showActivityViewAction.backgroundColor = .systemBlue
         
         let starAction = UIContextualAction(style: .normal, title: nil) { _, _, completion in
             completion(false)
         }
         starAction.image = UIImage(systemName: "star.fill")
         starAction.backgroundColor = .systemYellow
-        return UISwipeActionsConfiguration(actions: [callActivityViewAction, starAction])
-    }
-    
-    private func deleteTapped(noteAt indexPath: IndexPath) {
-        let alert = UIAlertController(title: "Are you sure?", message: "Cannot recover your note after being removed.", preferredStyle: .alert)
-        let removeButton = UIAlertAction(title: "Remove", style: .destructive) { [weak self] _ in
-            guard let self = self else {
-                return
-            }
-            self.delete(at: indexPath)
-        }
-        let cancelButton = UIAlertAction(title: "Cancel", style: .cancel)
-        
-        alert.addAction(removeButton)
-        alert.addAction(cancelButton)
-        present(alert, animated: true)
+        return UISwipeActionsConfiguration(actions: [showActivityViewAction, starAction])
     }
     
     private func delete(at indexPath: IndexPath) {
@@ -257,17 +244,6 @@ final class NoteListViewController: UIViewController {
         noteCoreDataManager.saveContext()
     }
     
-    private func activityViewTapped(at indexPath: IndexPath) {
-        guard let selectedNote = self.dataSource?.itemIdentifier(for: indexPath) else {
-            return
-        }
-        let items = [selectedNote.title + TextSymbols.newLineAsString + selectedNote.body]
-        let activityView = UIActivityViewController(activityItems: items, applicationActivities: nil)
-        activityView.popoverPresentationController?.sourceView = self.view
-        
-        self.present(activityView, animated: true)
-    }
-    
     // MARK: - View Transition
     
     private func showDetailViewController(with editingNote: Note) {
@@ -277,7 +253,16 @@ final class NoteListViewController: UIViewController {
         }
         noteDetailViewControllerDelegate?.showNote(with: editingNote)
         splitViewController?.showDetailViewController(noteDetailViewController, sender: nil)
-        
+    }
+    
+    private func showFirstNote() {
+        guard let identifierForFirstNote = self.dataSource?.itemIdentifier(for: NoteData.IndexPathOfFirstNote) else {
+            return
+        }
+        self.noteListCollectionView?.selectItem(at: NoteData.IndexPathOfFirstNote, animated: false, scrollPosition: .top)
+        editingNote = identifierForFirstNote
+        self.noteDetailViewControllerDelegate?.setIndexPathOfSelectedNote(NoteData.IndexPathOfFirstNote)
+        self.showDetailViewController(with: identifierForFirstNote)
     }
     
     // MARK: - Update Note with New Text from Text View
@@ -325,6 +310,7 @@ extension NoteListViewController: UICollectionViewDelegate {
         guard let editingNote = editingNote else {
             return
         }
+        noteDetailViewControllerDelegate?.setIndexPathOfSelectedNote(indexPath)
         showDetailViewController(with: editingNote)
     }
 }
@@ -354,5 +340,40 @@ extension NoteListViewController: NoteListViewControllerDelegate {
 extension NoteListViewController: NSFetchedResultsControllerDelegate {
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         updateSnapshot()
+    }
+}
+
+// MARK: - NoteListViewController Actions Delegate
+
+extension NoteListViewController: NoteListViewControllerActionsDelegate {
+    func deleteTapped(at indexPath: IndexPath) {
+        let alert = UIAlertController(title: "Are you sure?", message: "Cannot recover your note after being removed.", preferredStyle: .alert)
+        let removeButton = UIAlertAction(title: "Remove", style: .destructive) { [weak self] _ in
+            guard let self = self else {
+                return
+            }
+            self.delete(at: indexPath)
+            if self.splitViewController?.traitCollection.horizontalSizeClass == .regular {
+                self.showFirstNote()
+            } else {
+                self.navigationController?.popViewController(animated: true)
+            }
+        }
+        let cancelButton = UIAlertAction(title: "Cancel", style: .cancel)
+        
+        alert.addAction(removeButton)
+        alert.addAction(cancelButton)
+        present(alert, animated: true)
+    }
+    
+    func activityViewTapped(at indexPath: IndexPath) {
+        guard let selectedNote = self.dataSource?.itemIdentifier(for: indexPath) else {
+            return
+        }
+        let items = [selectedNote.title + TextSymbols.newLineAsString + selectedNote.body]
+        let activityView = UIActivityViewController(activityItems: items, applicationActivities: nil)
+        
+        activityView.popoverPresentationController?.sourceView = self.view
+        self.present(activityView, animated: true)
     }
 }

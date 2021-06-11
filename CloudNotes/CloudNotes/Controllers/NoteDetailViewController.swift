@@ -11,6 +11,8 @@ import OSLog
 final class NoteDetailViewController: UIViewController {
     // MARK: - Properties
     private var note: Note?
+    private var currentIndexPathOfSelectedNote: IndexPath?
+    weak var noteListViewControllerActionsDelegate: NoteListViewControllerActionsDelegate?
     
     // MARK: - UI Elements
     private var noteTextView: NoteTextView = {
@@ -138,7 +140,33 @@ final class NoteDetailViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: NavigationBarItems.rightButtonImage, style: .plain, target: self, action: #selector(ellipsisTapped))
     }
 
-    @objc private func ellipsisTapped() { }
+    @objc private func ellipsisTapped() {
+        guard let currentIndexPathOfSelectedNote = self.currentIndexPathOfSelectedNote else {
+            return
+        }
+        
+        let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let showActivityViewAction = UIAlertAction(title: "Show activity view", style: .default) { [weak self] _ in
+            guard let self = self else {
+                return
+            }
+            self.noteListViewControllerActionsDelegate?.activityViewTapped(at: currentIndexPathOfSelectedNote)
+        }
+        let deleteAction = UIAlertAction(title: "Delete this note", style: .destructive) { [weak self] _ in
+            guard let self = self else {
+                return
+            }
+            self.noteListViewControllerActionsDelegate?.deleteTapped(at: currentIndexPathOfSelectedNote)
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        
+        actionSheet.addAction(showActivityViewAction)
+        actionSheet.addAction(deleteAction)
+        actionSheet.addAction(cancelAction)
+        
+        actionSheet.popoverPresentationController?.sourceView = self.view
+        present(actionSheet, animated: true)
+    }
 }
 
 extension NoteDetailViewController: NoteDetailViewControllerDelegate {
@@ -147,5 +175,9 @@ extension NoteDetailViewController: NoteDetailViewControllerDelegate {
         updateTextView()
         moveTop(of: noteTextView)
         removeActivatedKeyboard()
+    }
+    
+    func setIndexPathOfSelectedNote(_ indexPath: IndexPath) {
+        currentIndexPathOfSelectedNote = indexPath
     }
 }

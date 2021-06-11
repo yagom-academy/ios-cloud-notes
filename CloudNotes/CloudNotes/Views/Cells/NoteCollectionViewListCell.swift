@@ -24,6 +24,7 @@ final class NoteCollectionViewListCell: UICollectionViewListCell {
         let bodyLabel = UILabel()
         bodyLabel.translatesAutoresizingMaskIntoConstraints = false
         bodyLabel.font = UIFont.preferredFont(forTextStyle: .body)
+        bodyLabel.textAlignment = .left
         bodyLabel.lineBreakMode = .byTruncatingTail
         bodyLabel.textColor = .gray
         bodyLabel.adjustsFontForContentSizeCategory = true
@@ -35,6 +36,7 @@ final class NoteCollectionViewListCell: UICollectionViewListCell {
         lastModifiedDateLabel.font = UIFont.preferredFont(forTextStyle: .subheadline)
         lastModifiedDateLabel.adjustsFontForContentSizeCategory = true
         lastModifiedDateLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
+        lastModifiedDateLabel.setContentHuggingPriority(.required, for: .horizontal)
         return lastModifiedDateLabel
     }()
 

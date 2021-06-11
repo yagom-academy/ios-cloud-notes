@@ -34,6 +34,7 @@ final class NoteSplitViewController: UISplitViewController {
         let sideBarViewController = NoteListViewController()
         let secondaryViewController = NoteDetailViewController()
         sideBarViewController.noteDetailViewControllerDelegate = secondaryViewController
+        secondaryViewController.noteListViewControllerActionsDelegate = sideBarViewController
         
         setViewController(sideBarViewController, for: .primary)
         setViewController(secondaryViewController, for: .secondary)

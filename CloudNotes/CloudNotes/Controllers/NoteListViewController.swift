@@ -90,6 +90,7 @@ final class NoteListViewController: UIViewController {
     }
     
     // MARK: - Configure Views and Datasource as Component Methods for `showNote()`
+    
     private func configureViews() {
         configureNavigationBar()
         configureCollectionViewHierarchy()
@@ -117,9 +118,11 @@ final class NoteListViewController: UIViewController {
     
     private func createLayout() -> UICollectionViewLayout {
         var configuration = UICollectionLayoutListConfiguration(appearance: .sidebarPlain)
+        configuration.leadingSwipeActionsConfigurationProvider = { indexPath in
+            return self.leadingSwipeActionConfiguration(indexPath)
+        }
         configuration.trailingSwipeActionsConfigurationProvider = { indexPath in
-            let trailingSwipeAction = self.trailingSwipeActionConfiguration(indexPath)
-            return trailingSwipeAction
+            return self.trailingSwipeActionConfiguration(indexPath)
         }
         return UICollectionViewCompositionalLayout.list(using: configuration)
     }
@@ -164,9 +167,10 @@ final class NoteListViewController: UIViewController {
     }
     
     // MARK: - Configure Navigation Bar and Relevant Actions
+    
     private func configureNavigationBar() {
         navigationItem.title = NavigationBarItems.title
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: NavigationBarItems.addButtonImage, target: self, action: #selector(addTapped))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: NavigationBarItems.addButtonImage, target: self, action: #selector(addButtonTapped))
     }
     
     private func append(_ newNote: Note, to dataSource: UICollectionViewDiffableDataSource<Section, Note>) {
@@ -181,7 +185,7 @@ final class NoteListViewController: UIViewController {
         dataSource.apply(snapshot, animatingDifferences: true)
     }
     
-    @objc private func addTapped() {
+    @objc private func addButtonTapped() {
         guard let newNote = createNewNote() else {
             return
         }
@@ -191,20 +195,33 @@ final class NoteListViewController: UIViewController {
     }
     
     // MARK: - Swipe Actions and Supporting Methods
+    
     private func trailingSwipeActionConfiguration(_ indexPath: IndexPath) -> UISwipeActionsConfiguration {
         let deleteAction = UIContextualAction(style: .destructive, title: nil) { [weak self] _, _, completion in
             guard let self = self else {
                 completion(false)
                 return
             }
-            self.reaffirmToRemove(noteAt: indexPath)
+            self.deleteTapped(noteAt: indexPath)
             completion(true)
         }
-        deleteAction.image = UIImage(systemName: "trash.fill")
+        deleteAction.image = UIImage(systemName: "trash")
         return UISwipeActionsConfiguration(actions: [deleteAction])
     }
     
-    private func reaffirmToRemove(noteAt indexPath: IndexPath) {
+    private func leadingSwipeActionConfiguration(_ indexPath: IndexPath) -> UISwipeActionsConfiguration {
+        let callActivityViewAction = UIContextualAction(style: .normal, title: nil) { [weak self] action, view, completion in
+            guard let self = self else {
+                return
+            }
+            self.activityViewTapped(at: indexPath)
+        }
+        callActivityViewAction.image = UIImage(systemName: "square.and.arrow.up")
+        callActivityViewAction.backgroundColor = .systemBlue
+        return UISwipeActionsConfiguration(actions: [callActivityViewAction])
+    }
+    
+    private func deleteTapped(noteAt indexPath: IndexPath) {
         let alert = UIAlertController(title: "Are you sure?", message: "Cannot recover your note after being removed.", preferredStyle: .alert)
         let removeButton = UIAlertAction(title: "Remove", style: .destructive) { [weak self] _ in
             guard let self = self else {
@@ -230,6 +247,17 @@ final class NoteListViewController: UIViewController {
             return
         }
         noteCoreDataManager.saveContext()
+    }
+    
+    private func activityViewTapped(at indexPath: IndexPath) {
+        guard let selectedNote = self.dataSource?.itemIdentifier(for: indexPath) else {
+            return
+        }
+        let items = [selectedNote.title + TextSymbols.newLineAsString + selectedNote.body]
+        let activityView = UIActivityViewController(activityItems: items, applicationActivities: nil)
+        activityView.popoverPresentationController?.sourceView = self.view
+        
+        self.present(activityView, animated: true)
     }
     
     // MARK: - View Transition

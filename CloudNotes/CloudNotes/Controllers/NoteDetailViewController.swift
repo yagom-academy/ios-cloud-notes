@@ -102,7 +102,7 @@ final class NoteDetailViewController: UIViewController {
     }
     
     private func moveTop(of textView: UITextView) {
-        textView.setContentOffset(CGPoint(x: 0, y: -view.safeAreaInsets.top), animated: false)
+        textView.setContentOffset(CGPoint(x: .zero, y: -view.safeAreaInsets.top), animated: false)
     }
     
     private func updateTextView() {

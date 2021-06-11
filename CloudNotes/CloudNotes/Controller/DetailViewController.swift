@@ -24,7 +24,6 @@ class DetailViewController: UIViewController, SendDataDelegate, UIPopoverPresent
         super.viewDidLoad()
         
         self.memoDetailTextView.delegate = self
-        self.modalPresentationStyle = .popover
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: #selector(editMemo))
         self.view.addSubview(memoDetailTextView)
         setTextViewConstraint()
@@ -68,7 +67,27 @@ class DetailViewController: UIViewController, SendDataDelegate, UIPopoverPresent
         self.memoDetailTextView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0).isActive = true
     }
     
-    func deleteAlert(_ sender: UIBarButtonItem) {
+}
+
+extension DetailViewController: UITextViewDelegate {
+    
+    func textViewDidChange(_ textView: UITextView) {
+        guard let greeting = self.memoDetailTextView.text else { return }
+        let splitText = greeting.split(separator: "\n",maxSplits: 1).map { (value) -> String in
+            return String(value) }
+
+
+        DataManager.shared.memoList[currentIndex].title = splitText.first!
+        DataManager.shared.memoList[currentIndex].body = splitText.last!
+        DataManager.shared.saveContext()
+        DataManager.shared.fetchData()
+    }
+    
+}
+
+extension DetailViewController {
+    
+    func deleteAlert() {
         let defaultAction = UIAlertAction(title: "삭제",
                                           style: .destructive) { (action) in
         }
@@ -81,8 +100,6 @@ class DetailViewController: UIViewController, SendDataDelegate, UIPopoverPresent
               preferredStyle: .alert)
         alert.addAction(defaultAction)
         alert.addAction(cancelAction)
-        guard let popOverController = alert.popoverPresentationController else { return }
-        popOverController.barButtonItem = sender
         
         self.present(alert, animated: true, completion: nil)
     }
@@ -90,7 +107,7 @@ class DetailViewController: UIViewController, SendDataDelegate, UIPopoverPresent
     func detailActionSheet(_ sender: UIBarButtonItem) {
         let destroyAction = UIAlertAction(title: "Delete",
                   style: .destructive) { (action) in
-            self.deleteAlert(sender)
+            self.deleteAlert()
         }
         let cancelAction = UIAlertAction(title: "Cancel",
                   style: .cancel) { (action) in
@@ -107,8 +124,7 @@ class DetailViewController: UIViewController, SendDataDelegate, UIPopoverPresent
         alert.addAction(destroyAction)
         alert.addAction(cancelAction)
         
-        guard let popOverController = alert.popoverPresentationController else { return }
-        popOverController.barButtonItem = sender
+        if let popOverController = alert.popoverPresentationController { popOverController.barButtonItem = sender }
         
         self.present(alert, animated: true, completion: nil)
     
@@ -119,26 +135,9 @@ class DetailViewController: UIViewController, SendDataDelegate, UIPopoverPresent
         
         let shareSheetViewController = UIActivityViewController(activityItems: [sendText], applicationActivities: nil)
     
-        guard let popOverController = shareSheetViewController.popoverPresentationController else { return }
-        popOverController.barButtonItem = sender
+        if let popOverController = shareSheetViewController.popoverPresentationController { popOverController.barButtonItem = sender }
         
         present(shareSheetViewController, animated: true, completion: nil)
-    }
-    
-}
-
-extension DetailViewController: UITextViewDelegate {
-    
-    func textViewDidChange(_ textView: UITextView) {
-        guard let greeting = self.memoDetailTextView.text else { return }
-        let splitText = greeting.split(separator: "\n",maxSplits: 1).map { (value) -> String in
-            return String(value) }
-
-
-        DataManager.shared.memoList[currentIndex].title = splitText.first!
-        DataManager.shared.memoList[currentIndex].body = splitText.last!
-        DataManager.shared.saveContext()
-        DataManager.shared.fetchData()
     }
     
 }

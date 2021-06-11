@@ -37,10 +37,12 @@ class MemoListViewController: UIViewController {
     
     @objc func addNote() {
         let newMemo = Memo(context: DataManager.shared.mainContext)
-        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy. MM. dd."
+
         newMemo.title = "새메모"
         newMemo.body = "새바디"
-        newMemo.lastModifiedDate = "날짜"
+        newMemo.lastModifiedDate = formatter.string(from: Date())
         
         DataManager.shared.saveContext()
         DataManager.shared.fetchData()
@@ -97,15 +99,42 @@ extension MemoListViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let action = UIContextualAction(style: .destructive, title: "Delete") { (action, view, completionHandler ) in
-            let memoToRemove = DataManager.shared.memoList[indexPath.row]
-            DataManager.shared.mainContext.delete(memoToRemove)
-            DataManager.shared.saveContext()
-            DataManager.shared.fetchData()
-            self.memoTableView.reloadData()
+        let deleteAction = UIContextualAction(style: .destructive, title: "삭제") { (action, view, completionHandler ) in
+            
+            let defaultAction = UIAlertAction(title: "삭제",
+                                              style: .destructive) { (action) in
+                let memoToRemove = DataManager.shared.memoList[indexPath.row]
+                DataManager.shared.mainContext.delete(memoToRemove)
+                DataManager.shared.saveContext()
+                DataManager.shared.fetchData()
+                self.memoTableView.reloadData()
+            }
+            let cancelAction = UIAlertAction(title: "취소",
+                                             style: .cancel) { (action) in
+            }
+            
+            let alert = UIAlertController(title: "진짜요?",
+                  message: "정말로 삭제하시겠어요?",
+                  preferredStyle: .alert)
+            alert.addAction(defaultAction)
+            alert.addAction(cancelAction)
+
+            self.present(alert, animated: true, completion: nil)
         }
         
-        return UISwipeActionsConfiguration(actions: [action])
+        let shareAction = UIContextualAction(style: .normal, title: "공유") { (action, view, completionHandler ) in
+            guard let sendText = DataManager.shared.memoList[indexPath.row].body else { return }
+            
+            let shareSheetViewController = UIActivityViewController(activityItems: [sendText], applicationActivities: nil)
+        
+            if let popOverController = shareSheetViewController.popoverPresentationController {
+                popOverController.sourceView = view
+            }
+            
+            self.present(shareSheetViewController, animated: true, completion: nil)
+        }
+        
+        return UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
     }
     
 }

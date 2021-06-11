@@ -5,74 +5,43 @@
 // 
 
 import UIKit
-
-struct SampleMemo: Decodable {
-    let title: String
-    let description: String
-    let lastModifiedDate: Double
-
-    enum CodingKeys: String, CodingKey {
-        case title
-        case description = "body"
-        case lastModifiedDate = "last_modified"
-    }
-}
+import CoreData
 
 class MemoListViewController: UIViewController {
-    private var sampleMemos: [SampleMemo] = []
-    private weak var splitViewDelegate: SplitViewDelegate?
+    weak var memoListViewDelegate: MemoListViewDelegate?
 
     private let memoListTableView: UITableView = {
         let tableView = UITableView()
+        tableView.backgroundColor = .systemBackground
         tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.register(MemoPreviewCell.self, forCellReuseIdentifier: MemoPreviewCell.reusableIdentifier)
         return tableView
     }()
 
-    init(splitViewDelegate: SplitViewDelegate) {
-        super.init(nibName: nil, bundle: nil)
-        self.splitViewDelegate = splitViewDelegate
-    }
-
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
-        fetchSampleData()
-        configureView()
-        configureTableView()
-        addSubviews()
+        setUpView()
+        setUpTableView()
     }
 
-    override func viewWillLayoutSubviews() {
-        addConstraints()
+    func reloadMemoListTableViewData() {
+        memoListTableView.reloadData()
     }
 
-    private func configureView() {
+    private func setUpView() {
         view.backgroundColor = .systemBackground
         navigationItem.title = "메모"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: nil)
+
+        let memoAddButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(touchUpMemoAddButton))
+        navigationItem.rightBarButtonItem = memoAddButton
     }
 
-    private func fetchSampleData() {
-        guard let data = NSDataAsset(name: "sample")?.data,
-              let jsonData = try? JSONDecoder().decode([SampleMemo].self, from: data) else { return }
-        sampleMemos = jsonData
-    }
+    private func setUpTableView() {
+        view.addSubview(memoListTableView)
 
-    private func configureTableView() {
         memoListTableView.dataSource = self
         memoListTableView.delegate = self
-        memoListTableView.register(MemoPreviewCell.self, forCellReuseIdentifier: MemoPreviewCell.reusableIdentifier)
-        memoListTableView.backgroundColor = .systemBackground
-    }
 
-    private func addSubviews() {
-        view.addSubview(memoListTableView)
-    }
-
-    private func addConstraints() {
         NSLayoutConstraint.activate([
             memoListTableView.topAnchor.constraint(equalTo: view.topAnchor),
             memoListTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
@@ -80,33 +49,63 @@ class MemoListViewController: UIViewController {
             memoListTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
+
+    @objc private func touchUpMemoAddButton() {
+        memoListViewDelegate?.memoAddButtonDidTapped()
+    }
 }
+
+// MARK: - UITableViewDataSource
 
 extension MemoListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        sampleMemos.count
+        guard let memos = MemoManager.shared.memos else { return 0 }
+
+        return memos.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: MemoPreviewCell.reusableIdentifier) else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: MemoPreviewCell.reusableIdentifier) as? MemoPreviewCell,
+              let memos = MemoManager.shared.memos else { return UITableViewCell() }
+        cell.fetchData(memo: memos[indexPath.row])
 
         return cell
     }
 }
 
+// MARK: - UITableViewDelegate
+
 extension MemoListViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        guard let cell = cell as? MemoPreviewCell else { return }
-
-        let sampleData = sampleMemos[indexPath.row]
-        let title = sampleData.title
-        let date = sampleData.lastModifiedDate
-        let description = sampleData.description
-
-        cell.setTextValues(title: title, date: date, description: description)
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        memoListViewDelegate?.didSelectRow(at: indexPath)
     }
 
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        splitViewDelegate?.didSelectRow(data: sampleMemos[indexPath.row])
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let deleteAction = UIContextualAction(style: .destructive, title: "delete") { _, _, _ in
+            self.memoListViewDelegate?.memoDeleteButtonDidTapped(memoIndexPath: indexPath)
+        }
+        let shareAction = UIContextualAction(style: .normal, title: "share") { _, _, _ in
+            guard let cellToShare = self.memoListTableView.cellForRow(at: indexPath) else { return }
+            self.memoListViewDelegate?.memoShareButtonDidTapped(memoIndexPathToShare: indexPath, sourceView: cellToShare)
+        }
+        return UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
+    }
+}
+
+// MARK: - Cell Management
+
+extension MemoListViewController {
+    func createNewCell() {
+        let topIndexPath = IndexPath(row: 0, section: 0)
+        memoListTableView.insertRows(at: [topIndexPath], with: .automatic)
+        memoListTableView.selectRow(at: topIndexPath, animated: true, scrollPosition: .top)
+    }
+
+    func updateCell(indexPath: IndexPath) {
+        memoListTableView.reloadRows(at: [indexPath], with: .none)
+    }
+
+    func deleteCell(indexPath: IndexPath) {
+        memoListTableView.deleteRows(at: [indexPath], with: .automatic)
     }
 }

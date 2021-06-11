@@ -13,17 +13,18 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         let window = UIWindow(windowScene: windowScene)
 
-        let rootViewController = SplitViewController()
+        let rootViewController = SplitViewController(style: .doubleColumn)
         window.rootViewController = rootViewController
         window.makeKeyAndVisible()
         self.window = window
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
-        // Called as the scene is being released by the system.
-        // This occurs shortly after the scene enters the background, or when its session is discarded.
-        // Release any resources associated with this scene that can be re-created the next time the scene connects.
-        // The scene may re-connect later, as its session was not necessarily discarded (see `application:didDiscardSceneSessions` instead).
+        do {
+            try MemoManager.shared.persistentContainer?.viewContext.save()
+        } catch {
+            // do something
+        }
     }
 
     func sceneDidBecomeActive(_ scene: UIScene) {
@@ -42,14 +43,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func sceneDidEnterBackground(_ scene: UIScene) {
-        // Called as the scene transitions from the foreground to the background.
-        // Use this method to save data, release shared resources, and store enough scene-specific state information
-        // to restore the scene back to its current state.
-
-        // Save changes in the application's managed object context when the application transitions to the background.
-        (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
+        do {
+            try MemoManager.shared.persistentContainer?.viewContext.save()
+        } catch {
+            // do something
+        }
     }
-
-
 }
 

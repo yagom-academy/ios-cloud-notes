@@ -20,7 +20,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let primaryViewController = MemoListViewController()
         let secondaryViewController = MemoFormViewController()
         
+        splitViewController.delegate = primaryViewController
         splitViewController.preferredDisplayMode = .oneBesideSecondary
+        splitViewController.preferredSplitBehavior = .tile
         splitViewController.presentsWithGesture = false
         splitViewController.viewControllers = [primaryViewController, secondaryViewController]
         

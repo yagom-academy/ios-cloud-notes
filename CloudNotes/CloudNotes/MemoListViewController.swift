@@ -87,10 +87,12 @@ class MemoListViewController: UITableViewController {
         \(memoList[indexPath.row].body)
         """
         
-        if UITraitCollection.current.horizontalSizeClass == .compact {
-            navigationController?.pushViewController(memoFormViewController, animated: true)
-        } else if UITraitCollection.current.horizontalSizeClass == .regular {
-            splitViewController?.show(.primary)
-        }
+        splitViewController?.showDetailViewController(memoFormViewController, sender: self)
+    }
+}
+
+extension MemoListViewController: UISplitViewControllerDelegate {
+    func splitViewController(_ svc: UISplitViewController, topColumnForCollapsingToProposedTopColumn proposedTopColumn: UISplitViewController.Column) -> UISplitViewController.Column {
+        .primary
     }
 }

@@ -9,27 +9,28 @@ import Foundation
 import UIKit
 
 final class NoteListViewModel {
-    let notes: [Note]
+    let notes: Observable<[NoteViewModel]> = Observable([])
     
-    init(_ notes: [Note] = []) {
+    init(_ notes: Observable<[NoteViewModel]> = Observable([])) {
         do {
             guard let dataAsset = NSDataAsset(name: "sample") else { throw DataError.notFoundAsset }
             guard let data = try? JSONDecoder().decode([Note].self, from: dataAsset.data) else { throw DataError.decodingFailed }
-            self.notes = data
+            
+            self.notes.value = data.compactMap({
+                NoteViewModel($0)
+            })
         } catch let error {
             print(error.localizedDescription)
-            self.notes = []
         }
     }
 }
 
 extension NoteListViewModel {
     func getNumberOfNotes() -> Int {
-        return self.notes.count
+        return self.notes.value.count
     }
     
     func getNoteViewModel(for indexPath: IndexPath) -> NoteViewModel {
-        let note = self.notes[indexPath.row]
-        return NoteViewModel(note: note)
+        return self.notes.value[indexPath.row]
     }
 }

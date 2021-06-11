@@ -17,6 +17,12 @@ final class NoteListViewController: UIViewController {
         configureTableView()
         configureNavigationItem()
         configureConstraint()
+        
+        noteListViewModel.notes.bind { [weak self] _ in
+            DispatchQueue.main.async {
+                self?.noteTableView.reloadData()
+            }
+        }
     }
     
     private func configureTableView() {

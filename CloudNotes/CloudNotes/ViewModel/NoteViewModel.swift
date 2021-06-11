@@ -8,21 +8,20 @@
 import Foundation
 
 struct NoteViewModel {
-    var note: Note
+    let note: Note
+    
+    init(_ note: Note) {
+        self.note = note
+    }
     
     var title: String {
         return note.title
     }
-    
+
     var formattedLastModified: String {
-        let date = Date(timeIntervalSince1970: TimeInterval(note.lastModified))
-        let dateFormatter = DateFormatter()
-        dateFormatter.locale = Locale.current
-        dateFormatter.dateStyle = .medium
-        
-        return dateFormatter.string(from: date)
+        return note.formattedLastModified
     }
-    
+
     var body: String {
         return note.body
     }

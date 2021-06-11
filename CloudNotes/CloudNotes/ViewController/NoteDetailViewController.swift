@@ -8,6 +8,8 @@
 import UIKit
 
 final class NoteDetailViewController: UIViewController {
+    var note: NoteViewModel?
+    
     private lazy var detailNoteTextView: UITextView = {
         let textView: UITextView = UITextView()
         textView.textAlignment = .left
@@ -23,6 +25,10 @@ final class NoteDetailViewController: UIViewController {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: nil)
         view.backgroundColor = .systemBackground
         setConstraint()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        configureTextView()
     }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -54,7 +60,8 @@ final class NoteDetailViewController: UIViewController {
         ])
     }
     
-    func configureTextView(_ note: NoteViewModel) {
+    func configureTextView() {
+        guard let note = note else { return }
         self.detailNoteTextView.text = note.title + "\n\n" + note.body
     }
 }

@@ -32,7 +32,7 @@ final class ListCell: UITableViewCell {
     return label
   }()
   
-  private let stackView2: UIStackView = {
+  private let stackOfTitleAndSubtitle: UIStackView = {
     let stackView = UIStackView()
     stackView.axis = .vertical
     stackView.alignment = .fill
@@ -43,7 +43,7 @@ final class ListCell: UITableViewCell {
     return stackView
   }()
   
-  private let stackView3: UIStackView = {
+  private let stackOfDateAndSummary: UIStackView = {
     let stackView = UIStackView()
     stackView.axis = .horizontal
     stackView.alignment = .fill
@@ -56,13 +56,13 @@ final class ListCell: UITableViewCell {
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
     
-    stackView3.addArrangedSubview(dateLabel)
-    stackView3.addArrangedSubview(summaryLabel)
+    stackOfDateAndSummary.addArrangedSubview(dateLabel)
+    stackOfDateAndSummary.addArrangedSubview(summaryLabel)
     
-    stackView2.addArrangedSubview(titleLabel)
-    stackView2.addArrangedSubview(stackView3)
+    stackOfTitleAndSubtitle.addArrangedSubview(titleLabel)
+    stackOfTitleAndSubtitle.addArrangedSubview(stackOfDateAndSummary)
     
-    contentView.addSubview(stackView2)
+    contentView.addSubview(stackOfTitleAndSubtitle)
     
     self.accessoryType = .disclosureIndicator
   }
@@ -74,8 +74,8 @@ final class ListCell: UITableViewCell {
   override func layoutSubviews() {
     super.layoutSubviews()
     
-    stackView3.frame = contentView.bounds
-    stackView2.frame = contentView.bounds
+    stackOfDateAndSummary.frame = contentView.bounds
+    stackOfTitleAndSubtitle.frame = contentView.bounds
   }
   
   func update(info: MemoInfo) {

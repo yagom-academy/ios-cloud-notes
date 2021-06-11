@@ -116,7 +116,11 @@ final class NoteListViewController: UIViewController {
     // MARK: - Create Layout for Collection View
     
     private func createLayout() -> UICollectionViewLayout {
-        let configuration = UICollectionLayoutListConfiguration(appearance: .sidebarPlain)
+        var configuration = UICollectionLayoutListConfiguration(appearance: .sidebarPlain)
+        configuration.trailingSwipeActionsConfigurationProvider = { indexPath in
+            let trailingSwipeAction = self.trailingSwipeActionConfiguration(indexPath)
+            return trailingSwipeAction
+        }
         return UICollectionViewCompositionalLayout.list(using: configuration)
     }
     
@@ -186,7 +190,50 @@ final class NoteListViewController: UIViewController {
         showDetailViewController(with: newNote)
     }
     
+    // MARK: - Swipe Actions and Supporting Methods
+    private func trailingSwipeActionConfiguration(_ indexPath: IndexPath) -> UISwipeActionsConfiguration {
+        let deleteAction = UIContextualAction(style: .destructive, title: nil) { [weak self] _, _, completion in
+            guard let self = self else {
+                completion(false)
+                return
+            }
+            self.reaffirmToRemove(noteAt: indexPath)
+            completion(true)
+        }
+        deleteAction.image = UIImage(systemName: "trash.fill")
+        return UISwipeActionsConfiguration(actions: [deleteAction])
+    }
+    
+    private func reaffirmToRemove(noteAt indexPath: IndexPath) {
+        let alert = UIAlertController(title: "Are you sure?", message: "Cannot recover your note after being removed.", preferredStyle: .alert)
+        let removeButton = UIAlertAction(title: "Remove", style: .destructive) { [weak self] _ in
+            guard let self = self else {
+                return
+            }
+            self.delete(at: indexPath)
+        }
+        let cancelButton = UIAlertAction(title: "Cancel", style: .cancel)
+        
+        alert.addAction(removeButton)
+        alert.addAction(cancelButton)
+        present(alert, animated: true)
+    }
+    
+    private func delete(at indexPath: IndexPath) {
+        var currentSnapshot = dataSource?.snapshot()
+        if let currentNoteIdentifier = dataSource?.itemIdentifier(for: indexPath),
+           let noteToDelete = noteCoreDataManager.fetchedResultsController?.object(at: indexPath) {
+            currentSnapshot?.deleteItems([currentNoteIdentifier])
+            noteCoreDataManager.persistentContainer.viewContext.delete(noteToDelete)
+        } else {
+            os_log(.error, log: .data, OSLog.objectCFormatSpecifier, DataError.failedToDeleteNote(indexPath: indexPath).localizedDescription)
+            return
+        }
+        noteCoreDataManager.saveContext()
+    }
+    
     // MARK: - View Transition
+    
     private func showDetailViewController(with editingNote: Note) {
         guard let noteDetailViewController = noteDetailViewControllerDelegate as? NoteDetailViewController else {
             os_log(.error, log: .ui, OSLog.objectCFormatSpecifier, UIError.downcastingFailed(subject: "NoteDetailViewController", location: #function).localizedDescription)

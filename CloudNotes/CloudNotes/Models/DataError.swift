@@ -14,6 +14,7 @@ enum DataError: Error, Equatable {
     case failedToSave(error: NSError)
     case failedToLoadSavedNotes(error: NSError)
     case failedToLoadPersistentStores(error: NSError)
+    case failedToDeleteNote(indexPath: IndexPath)
 }
 
 extension DataError: LocalizedError {
@@ -31,6 +32,8 @@ extension DataError: LocalizedError {
             return "Failed to load saved notes. \(error)"
         case let .failedToLoadPersistentStores(error):
             return "Failed to load persistent stores. \(error)"
+        case let .failedToDeleteNote(indexPath):
+            return "Failed to delete note. Please check if selected note is valid in snapshot. IndexPath: \(indexPath)"
         }
     }
 }

@@ -12,7 +12,7 @@ final class NoteCoreDataManager {
     // MARK: - Properties
     
     static let shared = NoteCoreDataManager()
-    private var fetchedResultsController: NSFetchedResultsController<Note>?
+    private(set) var fetchedResultsController: NSFetchedResultsController<Note>?
     var fetchedNotes: [Note] {
         return fetchedResultsController?.fetchedObjects ?? []
     }

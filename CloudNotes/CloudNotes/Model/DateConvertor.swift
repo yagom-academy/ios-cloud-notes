@@ -7,7 +7,7 @@
 
 import Foundation
 
-class DateConvertor {
+final class DateConvertor {
   private let dateFormatter = DateFormatter()
   private var date: String = ""
   

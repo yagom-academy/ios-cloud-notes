@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ListViewController: UIViewController {
+final class ListViewController: UIViewController {
   weak var delegate: ListViewControllerDelegate?
   let viewModel = ListViewModel()
   

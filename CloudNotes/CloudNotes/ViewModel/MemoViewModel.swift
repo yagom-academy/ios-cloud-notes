@@ -7,7 +7,7 @@
 
 import Foundation
 
-class MemoViewModel {
+final class MemoViewModel {
   var memoInfo: MemoInfo?
   
   func update(model: MemoInfo?) {

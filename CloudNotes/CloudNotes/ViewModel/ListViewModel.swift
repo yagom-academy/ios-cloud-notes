@@ -7,7 +7,7 @@
 
 import Foundation
 
-class ListViewModel {
+final class ListViewModel {
   private var memoInfoList: [MemoInfo] = []
   
   init() {

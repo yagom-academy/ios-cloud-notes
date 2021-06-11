@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MemoViewController: UIViewController {
+final class MemoViewController: UIViewController {
   let viewModel = MemoViewModel()
   
   private let textView: UITextView = {

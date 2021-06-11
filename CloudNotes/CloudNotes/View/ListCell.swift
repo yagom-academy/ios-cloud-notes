@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ListCell: UITableViewCell {
+final class ListCell: UITableViewCell {
   static let identifier = "TableViewCell"
   
   private let titleLabel: UILabel = {

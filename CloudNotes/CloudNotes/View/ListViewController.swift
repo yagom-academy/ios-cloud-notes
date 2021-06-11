@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ListViewController: UIViewController {
+final class ListViewController: UIViewController {
   weak var delegate: ListViewControllerDelegate?
   let viewModel = ListViewModel()
   
@@ -44,7 +44,7 @@ extension ListViewController: UITableViewDelegate {
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     let memoInfo = viewModel.memoInfo(at: indexPath.row)
     delegate?.didTapMenuItem(model: memoInfo)
-    
+        
     tableView.deselectRow(at: indexPath, animated: true)
   }
 }

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftyDropbox
 
 class MemoSplitViewController: UISplitViewController {
     
@@ -14,6 +15,9 @@ class MemoSplitViewController: UISplitViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        if DropboxClientsManager.authorizedClient == nil {
+            print("@@@ Hi")
+        }
         CoreData.shared.getUpdatedFileList()
         CoreData.shared.getAllMemoListItems()
         dismissKeyboardWhenTappedAround()

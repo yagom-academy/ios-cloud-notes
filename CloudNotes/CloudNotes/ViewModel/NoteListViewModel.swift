@@ -9,20 +9,17 @@ import Foundation
 import UIKit
 
 final class NoteListViewModel {
-    lazy var notes: [Note] = {
+    let notes: [Note]
+    
+    init(_ notes: [Note] = []) {
         do {
-            return try self.decode()
+            guard let dataAsset = NSDataAsset(name: "sample") else { throw DataError.notFoundAsset }
+            guard let data = try? JSONDecoder().decode([Note].self, from: dataAsset.data) else { throw DataError.decodingFailed }
+            self.notes = data
         } catch let error {
             print(error.localizedDescription)
-            return []
+            self.notes = []
         }
-    }()
-    
-    private func decode() throws -> [Note] {
-        guard let dataAsset = NSDataAsset(name: "sample") else { throw DataError.notFoundAsset }
-        guard let data = try? JSONDecoder().decode([Note].self, from: dataAsset.data) else { throw DataError.decodingFailed }
-        
-        return data
     }
 }
 

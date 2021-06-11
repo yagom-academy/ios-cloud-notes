@@ -33,7 +33,7 @@ final class NoteListTableViewCell: UITableViewCell {
         return label
     }()
     
-    private lazy var innerStackView: UIStackView = {
+    private lazy var descriptionStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [dateLabel, previewBodyLabel])
         stackView.distribution = .equalSpacing
         stackView.axis = .horizontal
@@ -41,8 +41,8 @@ final class NoteListTableViewCell: UITableViewCell {
         return stackView
     }()
     
-    private lazy var outerStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [titleLabel, innerStackView])
+    private lazy var noteStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [titleLabel, descriptionStackView])
         stackView.distribution = .equalSpacing
         stackView.axis = .vertical
         stackView.spacing = 3
@@ -60,14 +60,14 @@ final class NoteListTableViewCell: UITableViewCell {
     }
     
     private func configureConstraint() {
-        outerStackView.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(outerStackView)
+        noteStackView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(noteStackView)
         
         NSLayoutConstraint.activate([
-            outerStackView.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor),
-            outerStackView.bottomAnchor.constraint(equalTo: contentView.layoutMarginsGuide.bottomAnchor),
-            outerStackView.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor),
-            outerStackView.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor)
+            noteStackView.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor),
+            noteStackView.bottomAnchor.constraint(equalTo: contentView.layoutMarginsGuide.bottomAnchor),
+            noteStackView.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor),
+            noteStackView.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor)
         ])
     }
     

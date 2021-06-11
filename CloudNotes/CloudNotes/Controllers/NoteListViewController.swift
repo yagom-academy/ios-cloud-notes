@@ -210,15 +210,23 @@ final class NoteListViewController: UIViewController {
     }
     
     private func leadingSwipeActionConfiguration(_ indexPath: IndexPath) -> UISwipeActionsConfiguration {
-        let callActivityViewAction = UIContextualAction(style: .normal, title: nil) { [weak self] action, view, completion in
+        let callActivityViewAction = UIContextualAction(style: .normal, title: nil) { [weak self] _, _, completion in
             guard let self = self else {
+                completion(false)
                 return
             }
             self.activityViewTapped(at: indexPath)
+            completion(true)
         }
         callActivityViewAction.image = UIImage(systemName: "square.and.arrow.up")
         callActivityViewAction.backgroundColor = .systemBlue
-        return UISwipeActionsConfiguration(actions: [callActivityViewAction])
+        
+        let starAction = UIContextualAction(style: .normal, title: nil) { _, _, completion in
+            completion(false)
+        }
+        starAction.image = UIImage(systemName: "star.fill")
+        starAction.backgroundColor = .systemYellow
+        return UISwipeActionsConfiguration(actions: [callActivityViewAction, starAction])
     }
     
     private func deleteTapped(noteAt indexPath: IndexPath) {
@@ -275,6 +283,12 @@ final class NoteListViewController: UIViewController {
     // MARK: - Update Note with New Text from Text View
     
     private func updateNote(with newText: String) -> Note? {
+        var textHasBody: Bool {
+            return text.count > 1
+        }
+        var newBodyOnlyHasNewLineString: Bool {
+            return newBody == TextSymbols.newLineAsString
+        }
         var text = newText.split(separator: TextSymbols.newLineAsElement, omittingEmptySubsequences: false)
         guard let editingNote = editingNote else {
             os_log(.error, log: .ui, OSLog.objectCFormatSpecifier, UIError.editingNoteNotSet.localizedDescription)
@@ -289,10 +303,13 @@ final class NoteListViewController: UIViewController {
         editingNote.body = newBody
         editingNote.lastModified = currentDate
         
-        if text.count > 1 {
+        if textHasBody {
             newTitle = String(text.removeFirst())
-            newBody = text.joined(separator: TextSymbols.newLineAsString)
             editingNote.title = newTitle
+            newBody = text.joined(separator: TextSymbols.newLineAsString)
+        }
+        
+        if !newBodyOnlyHasNewLineString {
             editingNote.body = newBody
         }
         

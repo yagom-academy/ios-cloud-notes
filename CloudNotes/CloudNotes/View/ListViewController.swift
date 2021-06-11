@@ -44,7 +44,7 @@ extension ListViewController: UITableViewDelegate {
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     let memoInfo = viewModel.memoInfo(at: indexPath.row)
     delegate?.didTapMenuItem(model: memoInfo)
-    
+        
     tableView.deselectRow(at: indexPath, animated: true)
   }
 }

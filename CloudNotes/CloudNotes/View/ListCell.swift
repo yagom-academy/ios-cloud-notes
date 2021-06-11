@@ -9,6 +9,7 @@ import UIKit
 
 final class ListCell: UITableViewCell {
   static let identifier = "TableViewCell"
+  private let dateConvertor = DateConvertor()
   
   private let titleLabel: UILabel = {
     let label = UILabel()
@@ -79,7 +80,7 @@ final class ListCell: UITableViewCell {
   
   func update(info: MemoInfo) {
     titleLabel.text = info.title
-    dateLabel.text = DateConvertor(date: info.lastModified).result()
+    dateLabel.text = dateConvertor.numberToString(number: info.lastModified)
     summaryLabel.text = info.body.components(separatedBy: ".").first
   }
 }

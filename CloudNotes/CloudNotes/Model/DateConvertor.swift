@@ -7,23 +7,17 @@
 
 import Foundation
 
-final class DateConvertor {
-  private let dateFormatter = DateFormatter()
-  private var date: String = ""
-  
-  init(date: Double) {
-    let inputDate = Date(timeIntervalSince1970: date)
-    self.date = format(date: inputDate)
-  }
-  
-  private func format(date: Date) -> String {
+class DateConvertor {
+  func numberToString(number: TimeInterval) -> String {
+    let date = Date(timeIntervalSince1970: number)
+    let dateFormatter = DateFormatter()
     dateFormatter.locale = Locale(identifier: Locale.current.identifier)
     dateFormatter.dateFormat = "yyyy-MM-dd"
     
     return dateFormatter.string(from: date)
   }
   
-  func result() -> String {
-    return date
+  func dateToNumber(date: Date) -> TimeInterval {
+    return date.timeIntervalSince1970
   }
 }

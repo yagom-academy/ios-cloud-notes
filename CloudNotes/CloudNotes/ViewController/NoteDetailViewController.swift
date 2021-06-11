@@ -8,7 +8,11 @@
 import UIKit
 
 final class NoteDetailViewController: UIViewController {
-    var note: NoteViewModel?
+    var note: NoteViewModel? {
+        didSet {
+            configureTextView()
+        }
+    }
     
     private lazy var detailNoteTextView: UITextView = {
         let textView: UITextView = UITextView()
@@ -25,10 +29,6 @@ final class NoteDetailViewController: UIViewController {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: nil)
         view.backgroundColor = .systemBackground
         setConstraint()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        configureTextView()
     }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {

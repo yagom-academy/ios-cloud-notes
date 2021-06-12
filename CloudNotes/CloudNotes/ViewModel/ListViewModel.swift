@@ -8,7 +8,7 @@
 import UIKit
 import CoreData
 
-class ListViewModel {
+final class ListViewModel {
   private var memoInfoList: [MemoInfo] = []
   
   init() {

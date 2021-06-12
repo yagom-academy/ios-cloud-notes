@@ -7,8 +7,9 @@
 
 import UIKit
 
-class ListCell: UITableViewCell {
+final class ListCell: UITableViewCell {
   static let identifier = "TableViewCell"
+  private let dateConvertor = DateConvertor()
   
   private let titleLabel: UILabel = {
     let label = UILabel()
@@ -31,7 +32,7 @@ class ListCell: UITableViewCell {
     return label
   }()
   
-  private let stackView2: UIStackView = {
+  private let stackOfTitleAndSubtitle: UIStackView = {
     let stackView = UIStackView()
     stackView.axis = .vertical
     stackView.alignment = .fill
@@ -42,7 +43,7 @@ class ListCell: UITableViewCell {
     return stackView
   }()
   
-  private let stackView3: UIStackView = {
+  private let stackOfDateAndSummary: UIStackView = {
     let stackView = UIStackView()
     stackView.axis = .horizontal
     stackView.alignment = .fill
@@ -55,13 +56,13 @@ class ListCell: UITableViewCell {
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
     
-    stackView3.addArrangedSubview(dateLabel)
-    stackView3.addArrangedSubview(summaryLabel)
+    stackOfDateAndSummary.addArrangedSubview(dateLabel)
+    stackOfDateAndSummary.addArrangedSubview(summaryLabel)
     
-    stackView2.addArrangedSubview(titleLabel)
-    stackView2.addArrangedSubview(stackView3)
+    stackOfTitleAndSubtitle.addArrangedSubview(titleLabel)
+    stackOfTitleAndSubtitle.addArrangedSubview(stackOfDateAndSummary)
     
-    contentView.addSubview(stackView2)
+    contentView.addSubview(stackOfTitleAndSubtitle)
     
     self.accessoryType = .disclosureIndicator
   }
@@ -73,13 +74,13 @@ class ListCell: UITableViewCell {
   override func layoutSubviews() {
     super.layoutSubviews()
     
-    stackView3.frame = contentView.bounds
-    stackView2.frame = contentView.bounds
+    stackOfDateAndSummary.frame = contentView.bounds
+    stackOfTitleAndSubtitle.frame = contentView.bounds
   }
   
   func update(info: MemoInfo) {
     titleLabel.text = info.title
-    dateLabel.text = DateConvertor().numberToString(number: info.lastModified)
+    dateLabel.text = dateConvertor.numberToString(number: info.lastModified)
     summaryLabel.text = info.body?.components(separatedBy: ".").first
   }
 }

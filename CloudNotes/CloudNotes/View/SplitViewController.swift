@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SplitViewController: UISplitViewController, UISplitViewControllerDelegate {
+final class SplitViewController: UISplitViewController, UISplitViewControllerDelegate {
   private let listViewController = ListViewController()
   private let memoViewController = MemoViewController()
   
@@ -41,10 +41,6 @@ extension SplitViewController: ListViewControllerDelegate {
     memoViewController.viewModel.update(model: memoInfo)
     memoViewController.updateUI()
     
-    // FIXME: - 기기가 아이폰일 경우, 화면전환이 안되는 문제
-    if UIDevice.current.userInterfaceIdiom == .phone
-        && UITraitCollection.current.horizontalSizeClass == .compact {
-      listViewController.navigationController?.pushViewController(memoViewController, animated: true)
-    }
+    showDetailViewController(memoViewController, sender: nil)
   }
 }

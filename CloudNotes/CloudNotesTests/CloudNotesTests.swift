@@ -7,16 +7,4 @@
 import XCTest
 @testable import CloudNotes
 
-final class CloudNotesTests: XCTestCase {
-    func testNoteModelDecodingWhenTestedWithSampleJSONReturnsDecodedResult() {
-        let decoded = JSONDecoder().decode(to: [Note].self, from: NoteListViewController.NoteLocations.sampleFileName)
-        
-        XCTAssertNotNil(decoded, DataError.decodingFailed.localizedDescription)
-    }
-    
-    func testNoteModelDecodingWhenTestedWithInvalidJSONReturnsFailureWithCannotFindFileError() {
-        let decoded = JSONDecoder().decode(to: [Note].self, from: "some invalid file")
-        
-        XCTAssertEqual(decoded, .failure(.cannotFindFile("some invalid file")))
-    }
-}
+final class CloudNotesTests: XCTestCase { }

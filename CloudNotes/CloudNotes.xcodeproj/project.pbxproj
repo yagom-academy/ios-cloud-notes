@@ -16,7 +16,6 @@
 		AAC82053266FE41B003FDD71 /* NoteListViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAC82052266FE41B003FDD71 /* NoteListViewControllerDelegate.swift */; };
 		AAD37677266A01EC0008B62F /* NoteDetailViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAD37676266A01EC0008B62F /* NoteDetailViewControllerDelegate.swift */; };
 		AAE063E52668D50D0051EF9C /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = AAE063E42668D50D0051EF9C /* .swiftlint.yml */; };
-		AAE063F32668DA7A0051EF9C /* JSONDecoder+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE063F22668DA7A0051EF9C /* JSONDecoder+Extension.swift */; };
 		AAE063F52668DB0B0051EF9C /* CloudNotesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C8725BBCF3A00B9CA55 /* CloudNotesTests.swift */; };
 		AAE063F82668DC310051EF9C /* OSLog+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE063F72668DC310051EF9C /* OSLog+Extension.swift */; };
 		AAE063FA2668DC440051EF9C /* DataError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE063F92668DC440051EF9C /* DataError.swift */; };
@@ -69,7 +68,6 @@
 		AAC82052266FE41B003FDD71 /* NoteListViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteListViewControllerDelegate.swift; sourceTree = "<group>"; };
 		AAD37676266A01EC0008B62F /* NoteDetailViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteDetailViewControllerDelegate.swift; sourceTree = "<group>"; };
 		AAE063E42668D50D0051EF9C /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
-		AAE063F22668DA7A0051EF9C /* JSONDecoder+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JSONDecoder+Extension.swift"; sourceTree = "<group>"; };
 		AAE063F72668DC310051EF9C /* OSLog+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OSLog+Extension.swift"; sourceTree = "<group>"; };
 		AAE063F92668DC440051EF9C /* DataError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataError.swift; sourceTree = "<group>"; };
 		AAE063FB2668DC7D0051EF9C /* UIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIError.swift; sourceTree = "<group>"; };
@@ -225,7 +223,6 @@
 		AAE063EE2668D63A0051EF9C /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				AAE063F22668DA7A0051EF9C /* JSONDecoder+Extension.swift */,
 				AAE063F72668DC310051EF9C /* OSLog+Extension.swift */,
 				AAE064012668E09D0051EF9C /* Date+Extension.swift */,
 			);
@@ -521,7 +518,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AAE063F32668DA7A0051EF9C /* JSONDecoder+Extension.swift in Sources */,
 				AA9C747426737B9D00AC8CD6 /* NoteListViewControllerActionsDelegate.swift in Sources */,
 				AAE064022668E09D0051EF9C /* Date+Extension.swift in Sources */,
 				AAE063FF2668DCA60051EF9C /* NoteCollectionViewListCell.swift in Sources */,

@@ -16,7 +16,7 @@ final class NoteCoreDataManager {
     var fetchedNotes: [Note] {
         return fetchedResultsController?.fetchedObjects ?? []
     }
-    lazy var persistentContainer: NSPersistentCloudKitContainer = {
+    lazy private(set) var persistentContainer: NSPersistentCloudKitContainer = {
         let container = NSPersistentCloudKitContainer(name: CoreDataConstants.containerName)
         container.loadPersistentStores(completionHandler: { (_, error) in
             container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy

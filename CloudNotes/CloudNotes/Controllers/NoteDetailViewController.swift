@@ -9,12 +9,15 @@ import UIKit
 import OSLog
 
 final class NoteDetailViewController: UIViewController {
+    
     // MARK: - Properties
+    
     private var note: Note?
     private var currentIndexPathOfSelectedNote: IndexPath?
     weak var noteListViewControllerActionsDelegate: NoteListViewControllerActionsDelegate?
     
     // MARK: - UI Elements
+    
     private var noteTextView: NoteTextView = {
         let noteTextView = NoteTextView()
         noteTextView.translatesAutoresizingMaskIntoConstraints = false
@@ -24,15 +27,28 @@ final class NoteDetailViewController: UIViewController {
     }()
     
     // MARK: - Namespaces
-    private enum ViewContents {
-        /// shows when the screen first loaded with regular size class.
-        static let welcomeGreeting = "환영합니다!"
-        static let titleSeparatorString = "\n"
-        static let emptyString = ""
-    }
-    
-    private enum NavigationBarItems {
-        static let rightButtonImage = UIImage(systemName: "ellipsis.circle")
+
+    private enum UIItems {
+        enum TextView {
+            /// shows when the screen first loaded with regular size class.
+            static let welcomeGreeting = "환영합니다!"
+            static let titleSeparatorString = "\n"
+            static let emptyString = ""
+        }
+        
+        enum NavigationBar {
+            static let rightButtonImage = UIImage(systemName: "ellipsis.circle")
+        }
+        
+        enum AlertConfiguration {
+            static let ellipsis = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        }
+        
+        enum AlertAction {
+            static let showActivityViewTitle = "Show activity view"
+            static let deleteButtonTitle = "Delete this note"
+            static let cancelButtonTitle = "Cancel"
+        }
     }
     
     private enum Constraints {
@@ -47,6 +63,7 @@ final class NoteDetailViewController: UIViewController {
     }
     
     // MARK: - View Life Cycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureViews()
@@ -67,6 +84,7 @@ final class NoteDetailViewController: UIViewController {
     }
     
     // MARK: - Configure Detail Note View
+    
     private func configureViews() {
         configureNavigationBar()
         configureTextView()
@@ -96,11 +114,11 @@ final class NoteDetailViewController: UIViewController {
     }
     
     private func setGreetingText(to textView: UITextView) {
-        textView.text = ViewContents.welcomeGreeting
+        textView.text = UIItems.TextView.welcomeGreeting
     }
     
     private func setText(to textView: UITextView, with note: Note) {
-        textView.text = note.title + ViewContents.titleSeparatorString + note.body
+        textView.text = note.title + UIItems.TextView.titleSeparatorString + note.body
     }
     
     private func moveTop(of textView: UITextView) {
@@ -136,29 +154,31 @@ final class NoteDetailViewController: UIViewController {
     }
     
     // MARK: - Configure Navigation Bar and Relevant Actions
+    
     private func configureNavigationBar() {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: NavigationBarItems.rightButtonImage, style: .plain, target: self, action: #selector(ellipsisTapped))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIItems.NavigationBar.rightButtonImage, style: .plain, target: self, action: #selector(ellipsisTapped))
     }
 
     @objc private func ellipsisTapped() {
         guard let currentIndexPathOfSelectedNote = self.currentIndexPathOfSelectedNote else {
+            os_log(.error, log: .data, OSLog.objectCFormatSpecifier, DataError.cannotFindIndexPath(location: #function).localizedDescription)
             return
         }
         
-        let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let showActivityViewAction = UIAlertAction(title: "Show activity view", style: .default) { [weak self] _ in
+        let actionSheet = UIItems.AlertConfiguration.ellipsis
+        let showActivityViewAction = UIAlertAction(title: UIItems.AlertAction.showActivityViewTitle, style: .default) { [weak self] _ in
             guard let self = self else {
                 return
             }
             self.noteListViewControllerActionsDelegate?.activityViewTapped(at: currentIndexPathOfSelectedNote)
         }
-        let deleteAction = UIAlertAction(title: "Delete this note", style: .destructive) { [weak self] _ in
+        let deleteAction = UIAlertAction(title: UIItems.AlertAction.deleteButtonTitle, style: .destructive) { [weak self] _ in
             guard let self = self else {
                 return
             }
             self.noteListViewControllerActionsDelegate?.deleteTapped(at: currentIndexPathOfSelectedNote)
         }
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        let cancelAction = UIAlertAction(title: UIItems.AlertAction.cancelButtonTitle, style: .cancel)
         
         actionSheet.addAction(showActivityViewAction)
         actionSheet.addAction(deleteAction)
@@ -168,6 +188,8 @@ final class NoteDetailViewController: UIViewController {
         present(actionSheet, animated: true)
     }
 }
+
+// MARK: - Note Detail View Controller Delegate
 
 extension NoteDetailViewController: NoteDetailViewControllerDelegate {
     func showNote(with note: Note) {

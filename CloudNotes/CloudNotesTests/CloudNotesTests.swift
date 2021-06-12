@@ -9,7 +9,7 @@ import XCTest
 
 final class CloudNotesTests: XCTestCase {
     func testNoteModelDecodingWhenTestedWithSampleJSONReturnsDecodedResult() {
-        let decoded = JSONDecoder().decode(to: [Note].self, from: NoteListViewController.NoteData.sampleFileName)
+        let decoded = JSONDecoder().decode(to: [Note].self, from: NoteListViewController.NoteLocations.sampleFileName)
         
         XCTAssertNotNil(decoded, DataError.decodingFailed.localizedDescription)
     }

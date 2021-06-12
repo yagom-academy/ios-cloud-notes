@@ -18,13 +18,13 @@ final class NoteCoreDataManager {
     }
     lazy private(set) var persistentContainer: NSPersistentCloudKitContainer = {
         let container = NSPersistentCloudKitContainer(name: CoreDataConstants.containerName)
-        container.loadPersistentStores(completionHandler: { (_, error) in
+        container.loadPersistentStores { (_, error) in
             container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
             
             if let error = error as NSError? {
                 os_log(.fault, log: .data, OSLog.objectCFormatSpecifier, DataError.failedToSave(error: error).localizedDescription)
             }
-        })
+        }
         return container
     }()
     

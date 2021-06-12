@@ -121,13 +121,9 @@
 		851B6A6926677CF100A9EEB9 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */,
-				C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */,
-				858A89DF2669E3930094FAD5 /* SplitViewController.swift */,
-				853D1F902664AFF40003E674 /* ListViewController.swift */,
+				858E5E8526743D05007AE4BC /* Delegate */,
+				858E5E8626743D11007AE4BC /* ViewController */,
 				851B6A5F2667725000A9EEB9 /* ListCell.swift */,
-				851B6A6A2667922000A9EEB9 /* MemoViewController.swift */,
-				850A5CC9266FDA6000E0BE08 /* AddViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -148,6 +144,26 @@
 				858A89DD2669D6360094FAD5 /* ListViewControllerDelegate.swift */,
 			);
 			path = Protocol;
+			sourceTree = "<group>";
+		};
+		858E5E8526743D05007AE4BC /* Delegate */ = {
+			isa = PBXGroup;
+			children = (
+				C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */,
+				C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */,
+			);
+			path = Delegate;
+			sourceTree = "<group>";
+		};
+		858E5E8626743D11007AE4BC /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				858A89DF2669E3930094FAD5 /* SplitViewController.swift */,
+				853D1F902664AFF40003E674 /* ListViewController.swift */,
+				851B6A6A2667922000A9EEB9 /* MemoViewController.swift */,
+				850A5CC9266FDA6000E0BE08 /* AddViewController.swift */,
+			);
+			path = ViewController;
 			sourceTree = "<group>";
 		};
 		85B677DB266CB37D0071A4A4 /* Error */ = {

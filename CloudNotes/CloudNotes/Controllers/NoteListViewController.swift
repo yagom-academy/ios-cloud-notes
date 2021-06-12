@@ -164,9 +164,7 @@ final class NoteListViewController: UIViewController {
             return
         }
         
-        dataSource = UICollectionViewDiffableDataSource<Section, Note>(
-            collectionView: noteListCollectionView
-        ) { collectionView, indexPath, note -> UICollectionViewCell? in
+        dataSource = DataSource(collectionView: noteListCollectionView) { collectionView, indexPath, note -> UICollectionViewCell? in
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NoteCollectionViewListCell.reuseIdentifier, for: indexPath) as? NoteCollectionViewListCell
             cell?.configure(with: note)
             return cell
@@ -188,13 +186,13 @@ final class NoteListViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIItems.NavigationBar.addButtonImage, target: self, action: #selector(addButtonTapped))
     }
     
-    private func append(_ newNote: Note, to dataSource: UICollectionViewDiffableDataSource<Section, Note>) {
+    private func append(_ newNote: Note, to dataSource: DataSource) {
         var snapshot = dataSource.snapshot()
         snapshot.appendItems([newNote])
         dataSource.apply(snapshot, animatingDifferences: true)
     }
     
-    private func insert(_ newNote: Note, to dataSource: UICollectionViewDiffableDataSource<Section, Note>, before firstItemInSnapshot: Note) {
+    private func insert(_ newNote: Note, to dataSource: DataSource, before firstItemInSnapshot: Note) {
         var snapshot = dataSource.snapshot()
         snapshot.insertItems([newNote], beforeItem: firstItemInSnapshot)
         dataSource.apply(snapshot, animatingDifferences: true)

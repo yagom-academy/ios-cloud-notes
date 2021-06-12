@@ -22,7 +22,7 @@ final class NoteCoreDataManager {
             container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
             
             if let error = error as NSError? {
-                os_log(.fault, log: .data, OSLog.objectCFormatSpecifier, DataError.failedToSave(error: error).localizedDescription)
+                os_log(.fault, log: .data, OSLog.objectCFormatSpecifier, DataError.failedToLoadPersistentStores(error: error).localizedDescription)
             }
         }
         return container

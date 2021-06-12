@@ -58,7 +58,7 @@ final class NoteListViewController: UIViewController {
     }
     
     private enum NoteLocations {
-        static let IndexPathOfFirstNote = IndexPath(item: 0, section: 0)
+        static let indexPathOfFirstNote = IndexPath(item: 0, section: 0)
     }
     
     // MARK: - View life cycle
@@ -203,8 +203,7 @@ final class NoteListViewController: UIViewController {
             os_log(.error, log: .data, OSLog.objectCFormatSpecifier, DataError.failedToCreateNote(location: #function).localizedDescription)
             return
         }
-        noteDetailViewControllerDelegate?.setIndexPathOfSelectedNote(NoteLocations.IndexPathOfFirstNote)
-        editingNote = newNote
+        informEditingNote(newNote, indexPath: NoteLocations.indexPathOfFirstNote)
         showDetailViewController(with: newNote)
     }
     
@@ -262,13 +261,12 @@ final class NoteListViewController: UIViewController {
     }
     
     private func showFirstNote() {
-        guard let identifierForFirstNote = self.dataSource?.itemIdentifier(for: NoteLocations.IndexPathOfFirstNote) else {
+        guard let identifierForFirstNote = self.dataSource?.itemIdentifier(for: NoteLocations.indexPathOfFirstNote) else {
             os_log(.fault, log: .data, OSLog.objectCFormatSpecifier, DataError.dataSourceNotSet(location: #function).localizedDescription)
             return
         }
-        editingNote = identifierForFirstNote
-        self.noteDetailViewControllerDelegate?.setIndexPathOfSelectedNote(NoteLocations.IndexPathOfFirstNote)
-        self.noteListCollectionView?.selectItem(at: NoteLocations.IndexPathOfFirstNote, animated: false, scrollPosition: .top)
+        informEditingNote(identifierForFirstNote, indexPath: NoteLocations.indexPathOfFirstNote)
+        self.noteListCollectionView?.selectItem(at: NoteLocations.indexPathOfFirstNote, animated: false, scrollPosition: .top)
         self.showDetailViewController(with: identifierForFirstNote)
     }
     
@@ -345,7 +343,7 @@ extension NoteListViewController: NoteListViewControllerDelegate {
         }
         
         snapshot.insertItems([newNote], beforeItem: firstNoteInSnapshot)
-        noteListCollectionView?.scrollToItem(at: NoteLocations.IndexPathOfFirstNote, at: .top, animated: true)
+        noteListCollectionView?.scrollToItem(at: NoteLocations.indexPathOfFirstNote, at: .top, animated: true)
         noteCoreDataManager.saveContext()
     }
 }
@@ -355,7 +353,7 @@ extension NoteListViewController: NoteListViewControllerDelegate {
 extension NoteListViewController: NSFetchedResultsControllerDelegate {
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         updateSnapshot()
-        noteListCollectionView?.selectItem(at: NoteLocations.IndexPathOfFirstNote, animated: false, scrollPosition: .top)
+        noteListCollectionView?.selectItem(at: NoteLocations.indexPathOfFirstNote, animated: false, scrollPosition: .top)
     }
 }
 

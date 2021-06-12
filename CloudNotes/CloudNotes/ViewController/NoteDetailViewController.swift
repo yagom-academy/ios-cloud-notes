@@ -19,7 +19,7 @@ final class NoteDetailViewController: UIViewController {
         textView.textAlignment = .left
         textView.font = UIFont.preferredFont(forTextStyle: .body)
         setBackGroundColor(of: textView)
-        textView.contentOffset = CGPoint(x: 0, y: -20)
+        textView.contentOffset = CGPoint(x: -20, y: -20)
         textView.contentInset = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
         return textView
     }()
@@ -29,6 +29,17 @@ final class NoteDetailViewController: UIViewController {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: nil)
         view.backgroundColor = .systemBackground
         setConstraint()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        detailNoteTextView.isEditable = true
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(true)
+        detailNoteTextView.contentOffset = CGPoint(x: -20, y: -20)
+        detailNoteTextView.isEditable = false
     }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {

@@ -9,7 +9,7 @@ import Foundation
 
 enum NotificationNames: String {
     case delete = "delete"
-    case navigationBack = "navigationBack"
+    case update = "update"
     
     var name: Notification.Name {
         return Notification.Name(rawValue: self.rawValue)

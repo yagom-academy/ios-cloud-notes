@@ -49,15 +49,13 @@ class MemoDetailViewController: UIViewController, UITextViewDelegate, MemoDetail
         guard let title = data.title else { return }
         guard let body = data.body else { return }
         
-        let text = title + "\n\n\n" + body
+        let text = title + "\n" + body
         textView.text = text
     }
     
     @objc func didTapMore() {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let saveAction = UIAlertAction(title: "Save", style: .default) { _ in
-            
-        }
+        
         let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
             NotificationCenter.default.post(name: NotificationNames.delete.name, object: nil)
             if UITraitCollection.current.horizontalSizeClass == .compact {
@@ -74,7 +72,7 @@ class MemoDetailViewController: UIViewController, UITextViewDelegate, MemoDetail
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { _ in
         
         }
-        alert.addAction(saveAction)
+        
         alert.addAction(deleteAction)
         alert.addAction(shareAction)
         alert.addAction(cancelAction)

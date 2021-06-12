@@ -37,6 +37,9 @@ final class NoteDetailViewController: UIViewController {
         if self.traitCollection.horizontalSizeClass == .regular {
             detailNoteTextView.backgroundColor = .systemBackground
         }
+        else if self.traitCollection.horizontalSizeClass == .compact {
+            detailNoteTextView.backgroundColor = .systemGray3
+        }
     }
     
     private func setBackGroundColor(of textView: UITextView) {

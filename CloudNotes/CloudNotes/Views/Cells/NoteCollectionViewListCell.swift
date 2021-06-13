@@ -97,13 +97,14 @@ final class NoteCollectionViewListCell: UICollectionViewListCell {
         return cellStackView
     }
     
-    func updateContents(_ note: Note) {
+    private func updateContents(_ note: Note) {
         titleLabel.text = note.title == NoteTexts.emptyString ? NoteTexts.noTitle : note.title
         bodyLabel.text = note.body == NoteTexts.emptyString ? NoteTexts.noBody : note.body
         lastModifiedDateLabel.text = note.lastModified.formatted
     }
     
     // MARK: - Set cell selection effect
+    
     override func updateConfiguration(using state: UICellConfigurationState) {
         super.updateConfiguration(using: state)
         

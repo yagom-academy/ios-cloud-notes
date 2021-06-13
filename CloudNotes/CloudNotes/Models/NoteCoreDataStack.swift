@@ -13,9 +13,6 @@ final class NoteCoreDataStack {
     
     static let shared = NoteCoreDataStack()
     private(set) var fetchedResultsController: NSFetchedResultsController<Note>?
-    var fetchedNotes: [Note] {
-        return fetchedResultsController?.fetchedObjects ?? []
-    }
     lazy private(set) var persistentContainer: NSPersistentCloudKitContainer = {
         let container = NSPersistentCloudKitContainer(name: CoreDataConstants.containerName)
         container.loadPersistentStores { (_, error) in

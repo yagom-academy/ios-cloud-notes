@@ -41,13 +41,15 @@ final class NoteDetailViewController: UIViewController {
         }
         
         enum AlertConfiguration {
-            static var ellipsis = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+            static var ellipsis: UIAlertController {
+                UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+            }
         }
         
-        enum AlertAction {
-            static let showActivityViewTitle = "Show activity view"
-            static let deleteButtonTitle = "Delete this note"
-            static let cancelButtonTitle = "Cancel"
+        enum AlertActionTitles {
+            static let showActivityView = "Show activity view"
+            static let deleteButton = "Delete this note"
+            static let cancelButton = "Cancel"
         }
     }
     
@@ -138,7 +140,7 @@ final class NoteDetailViewController: UIViewController {
     }
     
     private func setTextViewDelegatesIfNeeded() {
-        guard noteTextView.delegate == nil && noteTextView.noteManagerDelegate == nil else {
+        guard noteTextView.delegate == nil || noteTextView.noteListViewControllerDelegate == nil else {
             return
         }
         noteTextView.delegate = noteTextView
@@ -151,7 +153,7 @@ final class NoteDetailViewController: UIViewController {
             os_log(.error, log: .ui, OSLog.objectCFormatSpecifier, UIError.typeCastingFailed(subject: "primaryViewController", location: #function).localizedDescription)
             return
         }
-        noteTextView.noteManagerDelegate = noteListViewController.noteManager
+        noteTextView.noteListViewControllerDelegate = noteListViewController
     }
     
     // MARK: - Configure Navigation Bar and Relevant Actions
@@ -167,35 +169,28 @@ final class NoteDetailViewController: UIViewController {
         }
         
         let actionSheet = UIItems.AlertConfiguration.ellipsis
-        
-        if actionSheet.actions.isEmpty {
-            addActions(to: actionSheet, for: currentIndexPathForSelectedNote)
-        }
-        
-        actionSheet.popoverPresentationController?.sourceView = self.view
-        present(actionSheet, animated: true)
-    }
-    
-    private func addActions(to actionSheet: UIAlertController, for currentIndexPathForSelectedNote: IndexPath) {
-        let showActivityViewAction = UIAlertAction(title: UIItems.AlertAction.showActivityViewTitle, style: .default) { [weak self] _ in
+        let showActivityViewAction = UIAlertAction(title: UIItems.AlertActionTitles.showActivityView, style: .default) { [weak self] _ in
             guard let self = self else {
                 return
             }
             self.noteListViewControllerActionsDelegate?.activityViewTapped(at: currentIndexPathForSelectedNote)
         }
         
-        let deleteAction = UIAlertAction(title: UIItems.AlertAction.deleteButtonTitle, style: .destructive) { [weak self] _ in
+        let deleteAction = UIAlertAction(title: UIItems.AlertActionTitles.deleteButton, style: .destructive) { [weak self] _ in
             guard let self = self else {
                 return
             }
             self.noteListViewControllerActionsDelegate?.deleteTapped(at: currentIndexPathForSelectedNote)
         }
         
-        let cancelAction = UIAlertAction(title: UIItems.AlertAction.cancelButtonTitle, style: .cancel)
+        let cancelAction = UIAlertAction(title: UIItems.AlertActionTitles.cancelButton, style: .cancel)
         
         actionSheet.addAction(showActivityViewAction)
         actionSheet.addAction(deleteAction)
         actionSheet.addAction(cancelAction)
+        
+        actionSheet.popoverPresentationController?.sourceView = self.view
+        present(actionSheet, animated: true)
     }
 }
 
@@ -209,7 +204,7 @@ extension NoteDetailViewController: NoteDetailViewControllerDelegate {
         removeActivatedKeyboard()
     }
     
-    func setIndexPathForSelectedNote(_ indexPath: IndexPath) {
+    func setIndexPathForSelectedNote(_ indexPath: IndexPath?) {
         currentIndexPathForSelectedNote = indexPath
     }
 }

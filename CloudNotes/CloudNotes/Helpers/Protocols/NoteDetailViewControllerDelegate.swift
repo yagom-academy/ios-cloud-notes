@@ -9,5 +9,5 @@ import UIKit
 
 protocol NoteDetailViewControllerDelegate: AnyObject {
     func showNote(with note: Note)
-    func setIndexPathForSelectedNote(_ indexPath: IndexPath)
+    func setIndexPathForSelectedNote(_ indexPath: IndexPath?)
 }

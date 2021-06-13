@@ -13,7 +13,7 @@ final class NoteDetailViewController: UIViewController {
     // MARK: - Properties
     
     private var note: Note?
-    private var currentIndexPathOfSelectedNote: IndexPath?
+    private var currentIndexPathForSelectedNote: IndexPath?
     weak var noteListViewControllerActionsDelegate: NoteListViewControllerActionsDelegate?
     
     // MARK: - UI Elements
@@ -41,7 +41,7 @@ final class NoteDetailViewController: UIViewController {
         }
         
         enum AlertConfiguration {
-            static let ellipsis = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+            static var ellipsis = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         }
         
         enum AlertAction {
@@ -72,7 +72,6 @@ final class NoteDetailViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         noteTextView.isEditable = false
         moveTop(of: noteTextView)
         setTextViewDelegatesIfNeeded()
@@ -130,7 +129,6 @@ final class NoteDetailViewController: UIViewController {
             setText(to: noteTextView, with: note)
             return
         }
-        
         setGreetingText(to: noteTextView)
         noteTextView.isEditable = false
     }
@@ -140,17 +138,16 @@ final class NoteDetailViewController: UIViewController {
     }
     
     private func setTextViewDelegatesIfNeeded() {
-        guard noteTextView.delegate == nil && noteTextView.noteListViewControllerDelegate == nil else {
+        guard noteTextView.delegate == nil && noteTextView.noteManagerDelegate == nil else {
             return
         }
-        
         noteTextView.delegate = noteTextView
         
         guard let noteListViewController = splitViewController?.viewController(for: .primary) as? NoteListViewController else {
             os_log(.error, log: .ui, OSLog.objectCFormatSpecifier, UIError.downcastingFailed(subject: "NoteListViewController", location: #function).localizedDescription)
             return
         }
-        noteTextView.noteListViewControllerDelegate = noteListViewController
+        noteTextView.noteManagerDelegate = noteListViewController.noteManager
     }
     
     // MARK: - Configure Navigation Bar and Relevant Actions
@@ -158,34 +155,43 @@ final class NoteDetailViewController: UIViewController {
     private func configureNavigationBar() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIItems.NavigationBar.rightButtonImage, style: .plain, target: self, action: #selector(ellipsisTapped))
     }
-
+    
     @objc private func ellipsisTapped() {
-        guard let currentIndexPathOfSelectedNote = self.currentIndexPathOfSelectedNote else {
+        guard let currentIndexPathForSelectedNote = self.currentIndexPathForSelectedNote else {
             os_log(.error, log: .data, OSLog.objectCFormatSpecifier, DataError.cannotFindIndexPath(location: #function).localizedDescription)
             return
         }
         
         let actionSheet = UIItems.AlertConfiguration.ellipsis
+        
+        if actionSheet.actions.isEmpty {
+            addActions(to: actionSheet, for: currentIndexPathForSelectedNote)
+        }
+        
+        actionSheet.popoverPresentationController?.sourceView = self.view
+        present(actionSheet, animated: true)
+    }
+    
+    private func addActions(to actionSheet: UIAlertController, for currentIndexPathForSelectedNote: IndexPath) {
         let showActivityViewAction = UIAlertAction(title: UIItems.AlertAction.showActivityViewTitle, style: .default) { [weak self] _ in
             guard let self = self else {
                 return
             }
-            self.noteListViewControllerActionsDelegate?.activityViewTapped(at: currentIndexPathOfSelectedNote)
+            self.noteListViewControllerActionsDelegate?.activityViewTapped(at: currentIndexPathForSelectedNote)
         }
+        
         let deleteAction = UIAlertAction(title: UIItems.AlertAction.deleteButtonTitle, style: .destructive) { [weak self] _ in
             guard let self = self else {
                 return
             }
-            self.noteListViewControllerActionsDelegate?.deleteTapped(at: currentIndexPathOfSelectedNote)
+            self.noteListViewControllerActionsDelegate?.deleteTapped(at: currentIndexPathForSelectedNote)
         }
+        
         let cancelAction = UIAlertAction(title: UIItems.AlertAction.cancelButtonTitle, style: .cancel)
         
         actionSheet.addAction(showActivityViewAction)
         actionSheet.addAction(deleteAction)
         actionSheet.addAction(cancelAction)
-        
-        actionSheet.popoverPresentationController?.sourceView = self.view
-        present(actionSheet, animated: true)
     }
 }
 
@@ -199,7 +205,7 @@ extension NoteDetailViewController: NoteDetailViewControllerDelegate {
         removeActivatedKeyboard()
     }
     
-    func setIndexPathOfSelectedNote(_ indexPath: IndexPath) {
-        currentIndexPathOfSelectedNote = indexPath
+    func setIndexPathForSelectedNote(_ indexPath: IndexPath) {
+        currentIndexPathForSelectedNote = indexPath
     }
 }

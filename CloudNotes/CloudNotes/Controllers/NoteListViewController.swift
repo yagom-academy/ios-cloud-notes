@@ -6,25 +6,13 @@
 
 import UIKit
 import OSLog
-import CoreData
 
 final class NoteListViewController: UIViewController {
-    private typealias DataSource = UICollectionViewDiffableDataSource<Section, Note>
-    private typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Note>
     
     // MARK: - Properties
     
-    private var noteListCollectionView: UICollectionView?
-    private var dataSource: DataSource?
-    private var editingNote: Note?
-    private let noteCoreDataManager: NoteCoreDataManager = .shared
-    weak var noteDetailViewControllerDelegate: NoteDetailViewControllerDelegate?
-    
-    // MARK: - Section for diffable data source
-    
-    private enum Section: CaseIterable {
-        case list
-    }
+    private(set) var listCollectionView: UICollectionView?
+    private(set) var noteManager: NoteManager?
     
     // MARK: - Namespaces
     
@@ -41,7 +29,9 @@ final class NoteListViewController: UIViewController {
         }
         
         enum AlertControllerConfiguration {
-            static let delete = UIAlertController(title: "Are you sure?", message: "Cannot recover your note after being removed.", preferredStyle: .alert)
+            static var delete: UIAlertController {
+                return UIAlertController(title: "Are you sure?", message: "Cannot recover your note after being removed.", preferredStyle: .alert)
+            }
         }
         
         enum AlertAction {
@@ -50,10 +40,7 @@ final class NoteListViewController: UIViewController {
         }
         
         enum TextSymbols {
-            static let newLineAsElement: String.Element = "\n"
             static let newLineAsString = "\n"
-            static let emptyString = ""
-            static let emptySubString: Substring = ""
         }
     }
     
@@ -65,44 +52,16 @@ final class NoteListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        noteCoreDataManager.loadSavedNotes(with: self)
-        showNoteList()
+        showCollectionView()
+        implementNoteManager()
+        noteManager?.loadSavedNotes()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if let selectedIndexPath = noteListCollectionView?.indexPathsForSelectedItems?.first {
-            noteListCollectionView?.deselectItem(at: selectedIndexPath, animated: true)
+        if let selectedIndexPath = listCollectionView?.indexPathsForSelectedItems?.first {
+            listCollectionView?.deselectItem(at: selectedIndexPath, animated: true)
         }
-    }
-    
-    // MARK: - Create a New Note
-    
-    private func getNewNote(title: String, body: String) -> Note {
-        let newNote = Note(context: noteCoreDataManager.persistentContainer.viewContext)
-        newNote.title = title
-        newNote.body = body
-        newNote.lastModified = Date()
-        
-        return newNote
-    }
-    
-    private func createNewNote() -> Note? {
-        guard let dataSource = dataSource else {
-            os_log(.fault, log: .data, OSLog.objectCFormatSpecifier, DataError.dataSourceNotSet(location: #function).localizedDescription)
-            return nil
-        }
-        let snapshot = dataSource.snapshot()
-        let newNote = getNewNote(title: UIItems.TextSymbols.emptyString, body: UIItems.TextSymbols.emptyString)
-        
-        if let firstItemInSnapshot = snapshot.itemIdentifiers.first {
-            insert(newNote, to: dataSource, before: firstItemInSnapshot)
-        } else {
-            append(newNote, to: dataSource)
-        }
-        
-        noteCoreDataManager.saveContext()
-        return newNote
     }
     
     // MARK: - Configure Views and Datasource as Component Methods for `showNote()`
@@ -112,22 +71,16 @@ final class NoteListViewController: UIViewController {
         configureCollectionViewHierarchy()
     }
     
-    private func configureDataSource() {
-        configureCollectionViewDataSource()
-        updateSnapshot()
-    }
-    
-    private func showNoteList() {
+    private func showCollectionView() {
         configureViews()
         registerCellNib()
-        configureDataSource()
     }
     
     // MARK: - Cell Nib Registration
     
     private func registerCellNib() {
         let noteCellNib = UINib(nibName: NoteCollectionViewListCell.reuseIdentifier, bundle: .main)
-        noteListCollectionView?.register(noteCellNib, forCellWithReuseIdentifier: NoteCollectionViewListCell.reuseIdentifier)
+        listCollectionView?.register(noteCellNib, forCellWithReuseIdentifier: NoteCollectionViewListCell.reuseIdentifier)
     }
     
     // MARK: - Create Layout for Collection View
@@ -146,9 +99,9 @@ final class NoteListViewController: UIViewController {
     // MARK: - Configure Hierarchy and Data Source of Collection View
     
     private func configureCollectionViewHierarchy() {
-        noteListCollectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
+        listCollectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
         
-        guard let noteListCollectionView = noteListCollectionView else {
+        guard let noteListCollectionView = listCollectionView else {
             os_log(.fault, log: .ui, OSLog.objectCFormatSpecifier, UIError.collectionViewNotSet.localizedDescription)
             return
         }
@@ -158,27 +111,6 @@ final class NoteListViewController: UIViewController {
         noteListCollectionView.delegate = self
     }
     
-    private func configureCollectionViewDataSource() {
-        guard let noteListCollectionView = noteListCollectionView else {
-            os_log(.fault, log: .ui, OSLog.objectCFormatSpecifier, UIError.collectionViewNotSet.localizedDescription)
-            return
-        }
-        
-        dataSource = DataSource(collectionView: noteListCollectionView) { collectionView, indexPath, note -> UICollectionViewCell? in
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NoteCollectionViewListCell.reuseIdentifier, for: indexPath) as? NoteCollectionViewListCell
-            cell?.configure(with: note)
-            return cell
-        }
-    }
-    
-    private func updateSnapshot() {
-        let sections = Section.allCases
-        var updated = Snapshot()
-        updated.appendSections(sections)
-        updated.appendItems(noteCoreDataManager.fetchedNotes)
-        dataSource?.apply(updated, animatingDifferences: false)
-    }
-    
     // MARK: - Configure Navigation Bar and Relevant Actions
     
     private func configureNavigationBar() {
@@ -186,24 +118,11 @@ final class NoteListViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIItems.NavigationBar.addButtonImage, target: self, action: #selector(addButtonTapped))
     }
     
-    private func append(_ newNote: Note, to dataSource: DataSource) {
-        var snapshot = dataSource.snapshot()
-        snapshot.appendItems([newNote])
-        dataSource.apply(snapshot, animatingDifferences: true)
-    }
-    
-    private func insert(_ newNote: Note, to dataSource: DataSource, before firstItemInSnapshot: Note) {
-        var snapshot = dataSource.snapshot()
-        snapshot.insertItems([newNote], beforeItem: firstItemInSnapshot)
-        dataSource.apply(snapshot, animatingDifferences: true)
-    }
-    
     @objc private func addButtonTapped() {
-        guard let newNote = createNewNote() else {
+        guard let newNote = noteManager?.create() else {
             os_log(.error, log: .data, OSLog.objectCFormatSpecifier, DataError.failedToCreateNote(location: #function).localizedDescription)
             return
         }
-        informEditingNote(newNote, indexPath: NoteLocations.indexPathOfFirstNote)
         showDetailViewController(with: newNote)
     }
     
@@ -236,153 +155,80 @@ final class NoteListViewController: UIViewController {
         return UISwipeActionsConfiguration(actions: [showActivityViewAction])
     }
     
-    private func delete(at indexPath: IndexPath) {
-        var currentSnapshot = dataSource?.snapshot()
-        if let currentNoteIdentifier = dataSource?.itemIdentifier(for: indexPath),
-           let noteToDelete = noteCoreDataManager.fetchedResultsController?.object(at: indexPath) {
-            currentSnapshot?.deleteItems([currentNoteIdentifier])
-            noteCoreDataManager.persistentContainer.viewContext.delete(noteToDelete)
-        } else {
-            os_log(.error, log: .data, OSLog.objectCFormatSpecifier, DataError.failedToDeleteNote(indexPath: indexPath).localizedDescription)
-            return
-        }
-        noteCoreDataManager.saveContext()
-    }
-    
     // MARK: - View Transition
     
     private func showDetailViewController(with editingNote: Note) {
-        guard let noteDetailViewController = noteDetailViewControllerDelegate as? NoteDetailViewController else {
+        guard let noteDetailViewController = splitViewController?.viewController(for: .secondary) as? NoteDetailViewController else {
             os_log(.error, log: .ui, OSLog.objectCFormatSpecifier, UIError.downcastingFailed(subject: "NoteDetailViewController", location: #function).localizedDescription)
             return
         }
-        noteDetailViewControllerDelegate?.showNote(with: editingNote)
+        noteDetailViewController.showNote(with: editingNote)
         splitViewController?.showDetailViewController(noteDetailViewController, sender: nil)
     }
     
-    private func showFirstNote() {
-        guard let identifierForFirstNote = self.dataSource?.itemIdentifier(for: NoteLocations.indexPathOfFirstNote) else {
-            os_log(.fault, log: .data, OSLog.objectCFormatSpecifier, DataError.dataSourceNotSet(location: #function).localizedDescription)
+    private func showFirstNoteAfterDeletingNote() {
+        guard let firstNote = noteManager?.getNote(at: NoteLocations.indexPathOfFirstNote) else {
             return
         }
-        informEditingNote(identifierForFirstNote, indexPath: NoteLocations.indexPathOfFirstNote)
-        self.noteListCollectionView?.selectItem(at: NoteLocations.indexPathOfFirstNote, animated: false, scrollPosition: .top)
-        self.showDetailViewController(with: identifierForFirstNote)
+        self.listCollectionView?.selectItem(at: NoteLocations.indexPathOfFirstNote, animated: false, scrollPosition: .top)
+        self.showDetailViewController(with: firstNote)
     }
     
-    // MARK: - Update Note with New Text from Text View
+    // MARK: - Implement Note Manager
     
-    private func updateNote(with newText: String) -> Note? {
-        var text = newText.split(separator: UIItems.TextSymbols.newLineAsElement, omittingEmptySubsequences: false)
-        var textHasTitleAtLeast: Bool {
-            return text.count >= 1
-        }
-        var newBodyHasText: Bool {
-            return newBody != UIItems.TextSymbols.newLineAsString
-        }
-        guard let editingNote = editingNote else {
-            os_log(.error, log: .ui, OSLog.objectCFormatSpecifier, UIError.editingNoteNotSet.localizedDescription)
-            return nil
-        }
-        var newTitle = String(text.first ?? UIItems.TextSymbols.emptySubString)
-        var newBody = UIItems.TextSymbols.emptyString
-        let currentDate = Date()
-        
-        editingNote.title = newTitle
-        editingNote.body = newBody
-        editingNote.lastModified = currentDate
-        
-        if textHasTitleAtLeast {
-            newTitle = String(text.removeFirst())
-            editingNote.title = newTitle
-            newBody = text.joined(separator: UIItems.TextSymbols.newLineAsString)
-        }
-        
-        if newBodyHasText {
-            editingNote.body = newBody
-        }
-        
-        return editingNote
+    private func implementNoteManager() {
+        noteManager = NoteManager()
+        noteManager?.listViewDataSource = self
+        noteManager?.noteDetailViewControllerDelegate = splitViewController?.viewController(for: .secondary) as? NoteDetailViewController
     }
-    
-    /// Call this method when the target note for edit changes to inform the note and location to be changed to related objects such as view controllers.
-    private func informEditingNote(_ editingNote: Note, indexPath: IndexPath) {
-        self.editingNote = editingNote
-        noteDetailViewControllerDelegate?.setIndexPathOfSelectedNote(indexPath)
-    }
+
 }
 
 // MARK: - Collection View Delegate
 
 extension NoteListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let editingNote = dataSource?.itemIdentifier(for: indexPath) else {
-            os_log(.fault, log: .data, OSLog.objectCFormatSpecifier, DataError.dataSourceNotSet(location: #function).localizedDescription)
+        guard let editingNote = noteManager?.getNote(at: indexPath) else {
             return
         }
-        informEditingNote(editingNote, indexPath: indexPath)
         showDetailViewController(with: editingNote)
-    }
-}
-
-// MARK: - Note List View Controller Delegate
-
-extension NoteListViewController: NoteListViewControllerDelegate {
-    func changeNote(with newText: String) {
-        guard let newNote = updateNote(with: newText),
-              var snapshot = dataSource?.snapshot() else {
-            os_log(.fault, log: .data, OSLog.objectCFormatSpecifier, DataError.dataSourceNotSet(location: #function).localizedDescription)
-            return
-        }
-        
-        snapshot.deleteItems([newNote])
-        
-        guard let firstNoteInSnapshot = snapshot.itemIdentifiers.first else {
-            os_log(.fault, log: .data, OSLog.objectCFormatSpecifier, DataError.snapshotIsEmpty(location: #function).localizedDescription)
-            return
-        }
-        
-        snapshot.insertItems([newNote], beforeItem: firstNoteInSnapshot)
-        noteListCollectionView?.scrollToItem(at: NoteLocations.indexPathOfFirstNote, at: .top, animated: true)
-        noteCoreDataManager.saveContext()
-    }
-}
-
-// MARK: - NSFetchedResultsController Delegate
-
-extension NoteListViewController: NSFetchedResultsControllerDelegate {
-    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        updateSnapshot()
-        noteListCollectionView?.selectItem(at: NoteLocations.indexPathOfFirstNote, animated: false, scrollPosition: .top)
     }
 }
 
 // MARK: - NoteListViewController Actions Delegate
 
 extension NoteListViewController: NoteListViewControllerActionsDelegate {
+    
     func deleteTapped(at indexPath: IndexPath) {
-        let alert = UIItems.AlertControllerConfiguration.delete
+        let deleteAlert = UIItems.AlertControllerConfiguration.delete
+        
+        if deleteAlert.actions.isEmpty {
+            addActions(to: deleteAlert, for: indexPath)
+        }
+        
+        present(deleteAlert, animated: true)
+    }
+    
+    private func addActions(to deleteAlert: UIAlertController, for indexPath: IndexPath) {
         let deleteButton = UIAlertAction(title: UIItems.AlertAction.deleteButtonTitle, style: .destructive) { [weak self] _ in
             guard let self = self else {
                 return
             }
-            self.delete(at: indexPath)
+            self.noteManager?.delete(at: indexPath)
             if self.splitViewController?.traitCollection.horizontalSizeClass == .regular {
-                self.showFirstNote()
+                self.showFirstNoteAfterDeletingNote()
             } else {
                 self.navigationController?.popViewController(animated: true)
             }
         }
         let cancelButton = UIAlertAction(title: UIItems.AlertAction.cancelButtonTitle, style: .cancel)
         
-        alert.addAction(deleteButton)
-        alert.addAction(cancelButton)
-        present(alert, animated: true)
+        deleteAlert.addAction(deleteButton)
+        deleteAlert.addAction(cancelButton)
     }
     
     func activityViewTapped(at indexPath: IndexPath) {
-        guard let selectedNote = self.dataSource?.itemIdentifier(for: indexPath) else {
-            os_log(.fault, log: .data, OSLog.objectCFormatSpecifier, DataError.dataSourceNotSet(location: #function).localizedDescription)
+        guard let selectedNote = noteManager?.getNote(at: indexPath) else {
             return
         }
         let items = [selectedNote.title + UIItems.TextSymbols.newLineAsString + selectedNote.body]
@@ -392,3 +238,6 @@ extension NoteListViewController: NoteListViewControllerActionsDelegate {
         self.present(activityView, animated: true)
     }
 }
+
+// MARK: - List View Data Source
+extension NoteListViewController: ListViewDataSource { }

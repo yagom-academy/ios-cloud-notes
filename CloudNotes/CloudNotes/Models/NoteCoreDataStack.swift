@@ -8,10 +8,10 @@
 import CoreData
 import OSLog
 
-final class NoteCoreDataManager {
+final class NoteCoreDataStack {
     // MARK: - Properties
     
-    static let shared = NoteCoreDataManager()
+    static let shared = NoteCoreDataStack()
     private(set) var fetchedResultsController: NSFetchedResultsController<Note>?
     var fetchedNotes: [Note] {
         return fetchedResultsController?.fetchedObjects ?? []
@@ -55,7 +55,7 @@ final class NoteCoreDataManager {
         }
     }
     
-    func loadSavedNotes(with viewController: NSFetchedResultsControllerDelegate) {
+    func loadSavedNotes(with dataSource: NSFetchedResultsControllerDelegate) {
         if fetchedResultsController == nil {
             let request: NSFetchRequest<Note> = Note.fetchRequest()
             let dateDescendingOrderSort = NSSortDescriptor(key: CoreDataConstants.Keys.lastModified, ascending: false)
@@ -63,7 +63,7 @@ final class NoteCoreDataManager {
             request.fetchBatchSize = CoreDataConstants.fetchBatchSize
             
             fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: persistentContainer.viewContext, sectionNameKeyPath: nil, cacheName: nil)
-            fetchedResultsController?.delegate = viewController
+            fetchedResultsController?.delegate = dataSource
         }
         
         do {

@@ -9,11 +9,11 @@ import UIKit
 import OSLog
 
 final class NoteTextView: UITextView {
-    weak var noteListViewControllerDelegate: NoteListViewControllerDelegate?
+    weak var noteManagerDelegate: NoteManagerDelegate?
 }
 
 extension NoteTextView: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
-        noteListViewControllerDelegate?.changeNote(with: textView.text)
+        noteManagerDelegate?.changeNote(with: textView.text)
     }
 }

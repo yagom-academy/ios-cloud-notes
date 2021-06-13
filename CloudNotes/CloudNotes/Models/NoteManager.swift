@@ -192,13 +192,14 @@ extension NoteManager: NoteManagerDelegate {
             os_log(.fault, log: .data, OSLog.objectCFormatSpecifier, DataError.diffableDataSourceNotImplemented(location: #function).localizedDescription)
             return
         }
+        
         snapshot.deleteItems([newNote])
         
-        guard let firstNoteInSnapshot = snapshot.itemIdentifiers.first else {
-            os_log(.fault, log: .data, OSLog.objectCFormatSpecifier, DataError.snapshotIsEmpty(location: #function).localizedDescription)
-            return
+        if let firstNoteInSnapshot = snapshot.itemIdentifiers.first {
+            snapshot.insertItems([newNote], beforeItem: firstNoteInSnapshot)
+        } else {
+            snapshot.appendItems([newNote])
         }
-        snapshot.insertItems([newNote], beforeItem: firstNoteInSnapshot)
         noteCoreDataStack.saveContext()
     }
 }

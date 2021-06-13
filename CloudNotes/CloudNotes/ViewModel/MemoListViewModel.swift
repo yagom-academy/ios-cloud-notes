@@ -25,6 +25,17 @@ final class MemoListViewModel {
         self.lastSelectIndex = index
     }
     
+    func memoDataText(data: MemoData) -> String {
+        guard let title = data.title else {
+            return "non title"
+        }
+        guard let body = data.body else {
+            return "non body"
+        }
+        
+        return title + body
+    }
+    
 }
 
 extension MemoListViewModel {

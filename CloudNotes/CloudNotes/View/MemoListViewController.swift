@@ -7,10 +7,9 @@
 import UIKit
 
 class MemoListViewController: UIViewController {
-    var memoListViewModel: MemoListViewModel = MemoListViewModel()
-    let memoListViewNavigationBarTitle: String = "메모"
-    var memoDetailViewDelegate: MemoDetailViewDelegate?
-    
+    private var memoListViewModel: MemoListViewModel = MemoListViewModel()
+    private let memoListViewNavigationBarTitle: String = "메모"
+    private var memoDetailViewDelegate: MemoDetailViewDelegate?
     private var tableView: UITableView = UITableView()
 
     init(detailViewDelegate: MemoDetailViewDelegate) {
@@ -69,8 +68,16 @@ class MemoListViewController: UIViewController {
     
     @objc private func didTapAdd() {
         memoListViewModel.createMemoData()
-        DispatchQueue.main.async {
-            self.tableView.reloadData()
+        
+        if UITraitCollection.current.horizontalSizeClass == .compact {
+            self.memoListViewModel.configureLastSelectIndex(index: 0)
+            memoDetailViewDelegate?.configureDetailText(data: memoListViewModel.readMemo(index: 0))
+            guard let detail = memoDetailViewDelegate as? MemoDetailViewController else { return }
+            self.navigationController?.pushViewController(detail, animated: true)
+        } else {
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
         }
     }
     
@@ -124,6 +131,25 @@ extension MemoListViewController: UITableViewDelegate, UITableViewDataSource {
         } else {
             showDetailViewController(UINavigationController(rootViewController: detail), sender: nil)
         }
+    }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        self.memoListViewModel.configureLastSelectIndex(index: indexPath.row)
+        let delete = UIContextualAction(style: .normal, title: "delete", handler: {(action, view, completionHandler) in
+            self.deleteMemo()
+            completionHandler(true)
+        })
+        let share = UIContextualAction(style: .normal, title: "share", handler: {(action, view, completionHandler) in
+            let text = self.memoListViewModel.memoDataText(data: self.memoListViewModel.readMemo(index: indexPath.row))
+        
+            let activityController = UIActivityViewController(activityItems: [text], applicationActivities: nil)
+            self.present(activityController, animated: true, completion: nil)
+            completionHandler(true)
+        })
+        delete.backgroundColor = .systemRed
+        share.backgroundColor = .systemBlue
+        
+        return UISwipeActionsConfiguration(actions: [share, delete])
     }
         
 }

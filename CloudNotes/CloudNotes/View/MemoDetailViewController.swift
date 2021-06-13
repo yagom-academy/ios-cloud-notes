@@ -60,7 +60,7 @@ class MemoDetailViewController: UIViewController, UITextViewDelegate, MemoDetail
         textView.text = text
     }
     
-    @objc func didTapMore() {
+    @objc private func didTapMore() {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
             self.alertState = .delete
@@ -82,7 +82,7 @@ class MemoDetailViewController: UIViewController, UITextViewDelegate, MemoDetail
         self.present(alert, animated: true, completion: nil)
     }
     
-    func alertNotification() {
+   private func alertNotification() {
         switch self.alertState {
         case .delete:
             NotificationCenter.default.post(name: NotificationNames.delete.name, object: nil)
@@ -90,4 +90,6 @@ class MemoDetailViewController: UIViewController, UITextViewDelegate, MemoDetail
             NotificationCenter.default.post(name: NotificationNames.update.name, object: self.textView.text)
         }
     }
+    
+    
 }

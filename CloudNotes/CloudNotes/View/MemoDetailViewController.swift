@@ -62,23 +62,19 @@ class MemoDetailViewController: UIViewController, UITextViewDelegate, MemoDetail
     
     @objc func didTapMore() {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        
         let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
             self.alertState = .delete
             if UITraitCollection.current.horizontalSizeClass == .compact {
                 self.navigationController?.popViewController(animated: true)
             } else {
-                
-            }
             
+            }
         }
         let shareAction = UIAlertAction(title: "Share", style: .default) { _ in
-            
+            let activityController = UIActivityViewController(activityItems: [self.textView.text], applicationActivities: nil)
+            self.present(activityController, animated: true, completion: nil)
         }
-        
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { _ in
-        
-        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         
         alert.addAction(deleteAction)
         alert.addAction(shareAction)

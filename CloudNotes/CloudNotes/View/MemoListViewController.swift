@@ -26,7 +26,7 @@ class MemoListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureMemoListView()
-//        configurefirstMemo()
+        configurefirstMemo()
         tableViewAutoLayout()
         addNotifictaionObserver()
     }

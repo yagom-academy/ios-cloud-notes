@@ -8,6 +8,13 @@
 import Foundation
 
 struct NoteViewModel {
+    static let dateFormatter: DateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale.current
+        dateFormatter.dateStyle = .medium
+        return dateFormatter
+    }()
+    
     let note: Note
     
     init(_ note: Note) {
@@ -17,9 +24,10 @@ struct NoteViewModel {
     var title: String {
         return note.title
     }
-
+    
     var formattedLastModified: String {
-        return note.formattedLastModified
+        let date = Date(timeIntervalSince1970: TimeInterval(note.lastModified))
+        return NoteViewModel.dateFormatter.string(from: date)
     }
 
     var body: String {

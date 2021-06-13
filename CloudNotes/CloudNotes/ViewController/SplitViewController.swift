@@ -24,8 +24,8 @@ final class SplitViewController: UISplitViewController {
 }
 
 extension SplitViewController: NoteDelegate {
-    func showDetailNote(data: NoteViewModel) {
-        noteDetailViewController.note = data
+    func showDetailNote(_ listViewController: NoteListViewController, data: NoteViewModel) {
+        noteDetailViewController.noteViewModel = NoteTextViewModel(Observable(data))
         
         let noteDetailNavigationController = UINavigationController(rootViewController: noteDetailViewController)
         self.showDetailViewController(noteDetailNavigationController, sender: self)

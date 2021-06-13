@@ -8,11 +8,7 @@
 import UIKit
 
 final class NoteDetailViewController: UIViewController {
-    var note: NoteViewModel? {
-        didSet {
-            configureTextView()
-        }
-    }
+    var noteTextViewModel: NoteTextViewModel?
     
     private lazy var detailNoteTextView: UITextView = {
         let textView: UITextView = UITextView()
@@ -29,16 +25,23 @@ final class NoteDetailViewController: UIViewController {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: nil)
         view.backgroundColor = .systemBackground
         setConstraint()
+        
+        noteTextViewModel?.note.bind { [weak self] _ in
+            DispatchQueue.main.async {
+                self?.configureTextView()
+            }
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         detailNoteTextView.isEditable = true
+        detailNoteTextView.contentOffset = CGPoint(x: -20, y: -20)
+        configureTextView()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(true)
-        detailNoteTextView.contentOffset = CGPoint(x: -20, y: -20)
         detailNoteTextView.isEditable = false
     }
     
@@ -75,7 +78,6 @@ final class NoteDetailViewController: UIViewController {
     }
     
     func configureTextView() {
-        guard let note = note else { return }
-        self.detailNoteTextView.text = note.title + "\n\n" + note.body
+        self.detailNoteTextView.text = self.noteTextViewModel?.getTextViewData()
     }
 }

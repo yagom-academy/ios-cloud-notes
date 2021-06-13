@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import UIKit
+import UIKit.NSDataAsset
 
 final class NoteListViewModel {
     let notes: Observable<[NoteViewModel]> = Observable([])

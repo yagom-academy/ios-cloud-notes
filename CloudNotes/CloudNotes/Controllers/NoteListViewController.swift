@@ -165,7 +165,7 @@ final class NoteListViewController: UIViewController {
     }
     
     @objc private func addButtonTapped() {
-        let newNote = noteManager.create(title: UIItems.TextSymbols.emptyString, body: UIItems.TextSymbols.emptyString, date: Date())
+        let newNote = noteManager.createNewNote(title: UIItems.TextSymbols.emptyString, body: UIItems.TextSymbols.emptyString, date: Date())
         applySnapshot(animatingDifferences: true)
         listCollectionView?.selectItem(at: NoteLocations.indexPathOfFirstNote, animated: false, scrollPosition: .top)
         showDetailViewController(with: newNote)
@@ -245,7 +245,7 @@ final class NoteListViewController: UIViewController {
             return
         }
         print(noteManager.fetchedNotes)
-        noteManager.delete(noteToDelete)
+        noteManager.deleteNote(noteToDelete)
         applySnapshot(animatingDifferences: true)
     }
 }
@@ -304,7 +304,7 @@ extension NoteListViewController: NoteListViewControllerActionsDelegate {
 
 extension NoteListViewController: NoteListViewControllerDelegate {
     func applyTextUpdate(with newText: String) {
-        noteManager.update(with: newText)
+        noteManager.updateNote(with: newText)
     }
     
     func applySnapshot(animatingDifferences: Bool) {

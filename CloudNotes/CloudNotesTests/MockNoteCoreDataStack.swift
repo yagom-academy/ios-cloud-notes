@@ -1,41 +1,47 @@
 //
-//  NoteManager.swift
-//  CloudNotes
+//  MockNoteCoreDataStack.swift
+//  CloudNotesTests
 //
-//  Created by Ryan-Son on 2021/06/11.
+//  Created by Ryan-Son on 2021/06/14.
 //
 
 import CoreData
 import os
+@testable import CloudNotes
 
-final class NoteCoreDataStack: CoreDataStack {
-    // MARK: - Properties
+final class MockNoteCoreDataStack: CoreDataStack {
     
-    static let shared = NoteCoreDataStack()
     private(set) var fetchedResultsController: NSFetchedResultsController<Note>?
     lazy private(set) var persistentContainer: NSPersistentCloudKitContainer = {
-        let container = NSPersistentCloudKitContainer(name: CoreDataConstants.containerName)
+        let container = NSPersistentCloudKitContainer(name: NoteCoreDataStack.CoreDataConstants.containerName)
         container.loadPersistentStores { (_, error) in
             container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
-            
+
             if let error = error as NSError? {
-                Loggers.data.fault("\(DataError.failedToLoadPersistentStores(error: error))")
+                fatalError("\(DataError.failedToLoadPersistentStores(error: error))")
             }
         }
         return container
     }()
     
-    private init() { }
-    
-    // MARK: - Namespaces
-    
-    enum CoreDataConstants {
-        static let containerName = "CloudNotes"
-        static let fetchBatchSize = 20
+    init() {
+        let persistentStoreDescription = NSPersistentStoreDescription()
+        persistentStoreDescription.type = NSInMemoryStoreType
         
-        enum Keys {
-            static let lastModified = "lastModified"
+        guard let note = NSManagedObjectModel.mergedModel(from: nil) else {
+            fatalError("Could not load model")
         }
+        
+        let container = NSPersistentCloudKitContainer(name: NoteCoreDataStack.CoreDataConstants.containerName, managedObjectModel: note)
+        
+        container.persistentStoreDescriptions = [persistentStoreDescription]
+        container.loadPersistentStores { _, error in
+            if let error = error as NSError? {
+                fatalError("\(DataError.failedToLoadPersistentStores(error: error))")
+            }
+        }
+        
+        persistentContainer = container
     }
     
     // MARK: - Core Data Saving and Loading support
@@ -47,7 +53,7 @@ final class NoteCoreDataStack: CoreDataStack {
                 try context.save()
             } catch {
                 let error = error as NSError
-                Loggers.data.fault("\(DataError.failedToSave(error: error))")
+                fatalError("\(DataError.failedToSave(error: error))")
             }
         }
     }
@@ -56,9 +62,9 @@ final class NoteCoreDataStack: CoreDataStack {
     func loadSavedNotes(with noteManager: NSFetchedResultsControllerDelegate) {
         if fetchedResultsController == nil {
             let request: NSFetchRequest<Note> = Note.fetchRequest()
-            let dateDescendingOrderSort = NSSortDescriptor(key: CoreDataConstants.Keys.lastModified, ascending: false)
+            let dateDescendingOrderSort = NSSortDescriptor(key: NoteCoreDataStack.CoreDataConstants.Keys.lastModified, ascending: false)
             request.sortDescriptors = [dateDescendingOrderSort]
-            request.fetchBatchSize = CoreDataConstants.fetchBatchSize
+            request.fetchBatchSize = NoteCoreDataStack.CoreDataConstants.fetchBatchSize
             
             fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: persistentContainer.viewContext, sectionNameKeyPath: nil, cacheName: nil)
             fetchedResultsController?.delegate = noteManager
@@ -68,7 +74,7 @@ final class NoteCoreDataStack: CoreDataStack {
             try fetchedResultsController?.performFetch()
         } catch {
             let error = error as NSError
-            Loggers.data.fault("\(DataError.failedToLoadSavedNotes(error: error))")
+            fatalError("\(DataError.failedToLoadSavedNotes(error: error))")
         }
     }
 }

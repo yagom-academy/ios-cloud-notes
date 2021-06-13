@@ -13,7 +13,7 @@ final class NoteDetailViewController: UIViewController {
     // MARK: - Properties
     
     private var note: Note?
-    private var currentIndexPathForSelectedNote: IndexPath?
+    private(set) var currentIndexPathForSelectedNote: IndexPath?
     weak var noteListViewControllerActionsDelegate: NoteListViewControllerActionsDelegate?
     
     // MARK: - UI Elements

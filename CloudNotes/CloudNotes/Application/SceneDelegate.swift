@@ -5,7 +5,7 @@
 // 
 
 import UIKit
-import OSLog
+import os
 
 final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -14,7 +14,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else {
-            os_log(.fault, log: .ui, OSLog.objectCFormatSpecifier, UIError.typeCastingFailed(subject: "scene", location: #function).localizedDescription)
+            Loggers.ui.error("\(UIError.typeCastingFailed(subject: "scene: \(scene)", location: #function))")
             return
         }
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)

@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import OSLog
+import os
 
 final class NoteDetailViewController: UIViewController {
     
@@ -146,11 +146,11 @@ final class NoteDetailViewController: UIViewController {
         noteTextView.delegate = noteTextView
         
         guard let primaryViewController = splitViewController?.viewController(for: .primary) else {
-            os_log(.error, log: .ui, OSLog.objectCFormatSpecifier, UIError.cannotFindSplitViewController(location: #function).localizedDescription)
+            Loggers.ui.error("\(UIError.cannotFindSplitViewController(location: #function))")
             return
         }
         guard let noteListViewController = primaryViewController as? NoteListViewController else {
-            os_log(.error, log: .ui, OSLog.objectCFormatSpecifier, UIError.typeCastingFailed(subject: "primaryViewController", location: #function).localizedDescription)
+            Loggers.ui.error("\(UIError.typeCastingFailed(subject: "primaryViewController", location: #function))")
             return
         }
         noteTextView.noteListViewControllerDelegate = noteListViewController
@@ -163,8 +163,8 @@ final class NoteDetailViewController: UIViewController {
     }
     
     @objc private func ellipsisTapped() {
-        guard let currentIndexPathForSelectedNote = self.currentIndexPathForSelectedNote else {
-            os_log(.error, log: .data, OSLog.objectCFormatSpecifier, DataError.cannotFindIndexPath(location: #function).localizedDescription)
+        guard let currentIndexPathForSelectedNote = currentIndexPathForSelectedNote else {
+            Loggers.data.error("\(DataError.cannotFindIndexPath(location: #function))")
             return
         }
         

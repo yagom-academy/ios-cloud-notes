@@ -8,17 +8,17 @@
 import Foundation
 
 enum UIError: Error {
-    case collectionViewNotSet(location: String)
+    case collectionViewNotImplemented(location: String)
     case typeCastingFailed(subject: String, location: String)
     case cannotFindSplitViewController(location: String)
     case noteManagerNotImplemented(location: String)
 }
 
-extension UIError: LocalizedError {
-    var errorDescription: String? {
+extension UIError: CustomStringConvertible {
+    var description: String {
         switch self {
-        case let .collectionViewNotSet(location):
-            return "Collection view is not set. Please check if you implemented collection view before configuring hierarchy with `createLayout()`. Error occurred at \(location)"
+        case let .collectionViewNotImplemented(location):
+            return "Collection view is not implementd. Please check if you set collection view before configuring hierarchy with `createLayout()`. Error occurred at \(location)"
         case let .typeCastingFailed(subject, location):
             return "\(subject) failed to convert type at \(location)."
         case let .cannotFindSplitViewController(location):

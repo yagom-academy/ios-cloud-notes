@@ -6,7 +6,7 @@
 //
 
 import CoreData
-import OSLog
+import os
 
 final class NoteCoreDataStack {
     // MARK: - Properties
@@ -19,7 +19,7 @@ final class NoteCoreDataStack {
             container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
             
             if let error = error as NSError? {
-                os_log(.fault, log: .data, OSLog.objectCFormatSpecifier, DataError.failedToLoadPersistentStores(error: error).localizedDescription)
+                Loggers.data.fault("\(DataError.failedToLoadPersistentStores(error: error))")
             }
         }
         return container
@@ -47,7 +47,7 @@ final class NoteCoreDataStack {
                 try context.save()
             } catch {
                 let error = error as NSError
-                os_log(.fault, log: .data, OSLog.objectCFormatSpecifier, DataError.failedToSave(error: error).localizedDescription)
+                Loggers.data.fault("\(DataError.failedToSave(error: error))")
             }
         }
     }
@@ -67,7 +67,7 @@ final class NoteCoreDataStack {
             try fetchedResultsController?.performFetch()
         } catch {
             let error = error as NSError
-            os_log(.fault, log: .data, OSLog.objectCFormatSpecifier, DataError.failedToLoadSavedNotes(error: error).localizedDescription)
+            Loggers.data.fault("\(DataError.failedToLoadSavedNotes(error: error))")
         }
     }
 }

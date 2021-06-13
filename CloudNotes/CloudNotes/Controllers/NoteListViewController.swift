@@ -5,7 +5,7 @@
 // 
 
 import UIKit
-import OSLog
+import os
 
 final class NoteListViewController: UIViewController {
     
@@ -134,9 +134,10 @@ final class NoteListViewController: UIViewController {
         listCollectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
         
         guard let noteListCollectionView = listCollectionView else {
-            os_log(.fault, log: .ui, OSLog.objectCFormatSpecifier, UIError.collectionViewNotSet(location: #function).localizedDescription)
+            Loggers.ui.fault("\(UIError.collectionViewNotImplemented(location: #function))")
             return
         }
+        
         noteListCollectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         noteListCollectionView.backgroundColor = .systemBackground
         view.addSubview(noteListCollectionView)
@@ -145,7 +146,7 @@ final class NoteListViewController: UIViewController {
     
     private func configureDiffableDataSource() {
         guard let noteListCollectionView = listCollectionView else {
-            os_log(.fault, log: .data, OSLog.objectCFormatSpecifier, DataError.failedToConfigureDiffableDataSource(location: #function).localizedDescription)
+            Loggers.ui.fault("\(UIError.collectionViewNotImplemented(location: #function))")
             return
         }
         
@@ -202,17 +203,22 @@ final class NoteListViewController: UIViewController {
     // MARK: - View Transition Supporting Methods
     
     private func showDetailViewController(with editingNote: Note) {
-        guard let noteDetailViewController = splitViewController?.viewController(for: .secondary) as? NoteDetailViewController else {
-            os_log(.error, log: .ui, OSLog.objectCFormatSpecifier, UIError.typeCastingFailed(subject: "NoteDetailViewController", location: #function).localizedDescription)
+        guard let secondaryViewController = splitViewController?.viewController(for: .secondary) else {
+            Loggers.ui.error("\(UIError.cannotFindSplitViewController(location: #function))")
             return
         }
+        guard let noteDetailViewController = secondaryViewController as? NoteDetailViewController else {
+            Loggers.ui.error("\(UIError.typeCastingFailed(subject: "secondaryViewController", location: #function))")
+            return
+        }
+        
         noteDetailViewController.showNote(with: editingNote)
         splitViewController?.showDetailViewController(noteDetailViewController, sender: nil)
     }
     
     private func showFirstNoteAfterDeletingNote() {
         guard let firstNote = noteManager.getNote(at: NoteLocations.indexPathOfFirstNote) else {
-            
+            Loggers.data.notice("\(DataError.failedToGetNote(indexPath: NoteLocations.indexPathOfFirstNote, location: #function))")
             return
         }
         self.listCollectionView?.selectItem(at: NoteLocations.indexPathOfFirstNote, animated: false, scrollPosition: .top)
@@ -223,11 +229,11 @@ final class NoteListViewController: UIViewController {
     
     private func setNoteManagerDelegate() {
         guard let secondaryViewController = splitViewController?.viewController(for: .secondary)  else {
-            os_log(.error, log: .ui, OSLog.objectCFormatSpecifier, UIError.cannotFindSplitViewController(location: #function).localizedDescription)
+            Loggers.ui.error("\(UIError.cannotFindSplitViewController(location: #function))")
             return
         }
         guard let noteDetailViewController = secondaryViewController as? NoteDetailViewController else {
-            os_log(.error, log: .ui, OSLog.objectCFormatSpecifier, UIError.typeCastingFailed(subject: "secondaryViewController", location: #function).localizedDescription)
+            Loggers.ui.error("\(UIError.typeCastingFailed(subject: "secondaryViewController", location: #function))")
             return
         }
         noteManager.noteDetailViewControllerDelegate = noteDetailViewController
@@ -235,10 +241,10 @@ final class NoteListViewController: UIViewController {
     
     private func applyDeletion(at indexPath: IndexPath) {
         guard let noteToDelete = noteManager.getNote(at: indexPath) else {
-            os_log(.error, log: .data, OSLog.objectCFormatSpecifier, DataError.failedToDeleteNote(indexPath: indexPath).localizedDescription)
+            Loggers.data.error("\(DataError.failedToGetNote(indexPath: indexPath, location: #function))")
             return
         }
-        
+        print(noteManager.fetchedNotes)
         noteManager.delete(noteToDelete)
         applySnapshot(animatingDifferences: true)
     }
@@ -249,7 +255,7 @@ final class NoteListViewController: UIViewController {
 extension NoteListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let editingNote = noteManager.getNote(at: indexPath) else {
-            os_log(.error, log: .ui, OSLog.objectCFormatSpecifier, UIError.noteManagerNotImplemented(location: #function).localizedDescription)
+            Loggers.data.error("\(DataError.failedToGetNote(indexPath: indexPath, location: #function))")
             return
         }
         showDetailViewController(with: editingNote)
@@ -284,7 +290,7 @@ extension NoteListViewController: NoteListViewControllerActionsDelegate {
     
     func activityViewTapped(at indexPath: IndexPath) {
         guard let selectedNote = noteManager.getNote(at: indexPath) else {
-            os_log(.error, log: .ui, OSLog.objectCFormatSpecifier, UIError.noteManagerNotImplemented(location: #function).localizedDescription)
+            Loggers.data.error("\(DataError.failedToGetNote(indexPath: indexPath, location: #function))")
             return
         }
         let items = [selectedNote.title + UIItems.TextSymbols.newLine + selectedNote.body]

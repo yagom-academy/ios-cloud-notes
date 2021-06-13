@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import OSLog
+import os
 import CoreData
 
 final class NoteManager: NSObject {
@@ -35,7 +35,7 @@ final class NoteManager: NSObject {
         let newNote = Note(context: noteCoreDataStack.persistentContainer.viewContext)
         newNote.title = title
         newNote.body = body
-        newNote.lastModified = Date()
+        newNote.lastModified = date
         
         informEditingNote(newNote, indexPath: NoteListViewController.NoteLocations.indexPathOfFirstNote)
         noteCoreDataStack.saveContext()
@@ -56,7 +56,7 @@ final class NoteManager: NSObject {
             return newBody != TextSymbols.newLineAsString
         }
         guard let editingNote = editingNote else {
-            os_log(.error, log: .data, OSLog.objectCFormatSpecifier, DataError.editingNoteNotSet(location: #function).localizedDescription)
+            Loggers.data.log(level: .error, "\(DataError.editingNoteNotSet(location: #function))")
             return nil
         }
         var newTitle = String(text.first ?? TextSymbols.emptySubString)
@@ -92,19 +92,19 @@ final class NoteManager: NSObject {
     
     func getNote(at indexPath: IndexPath) -> Note? {
         guard let fetchedObjects = noteCoreDataStack.fetchedResultsController?.fetchedObjects else {
+            Loggers.data.notice("\(DataError.cannotGetFetchedObjects(location: #function))")
             return nil
         }
         
         if fetchedObjects.isEmpty {
             informEditingNote(nil, indexPath: nil)
+            Loggers.data.info("\(DataError.noNote)")
             return nil
         }
         
-        guard let editingNote = noteCoreDataStack.fetchedResultsController?.object(at: indexPath) else {
-            os_log(.fault, log: .data, OSLog.objectCFormatSpecifier, DataError.failedToGetNote(indexPath: indexPath, location: #function).localizedDescription)
-            return nil
-        }
-        informEditingNote(editingNote, indexPath: indexPath)
+        let note = noteCoreDataStack.fetchedResultsController?.object(at: indexPath)
+        
+        informEditingNote(note, indexPath: indexPath)
         return editingNote
     }
     

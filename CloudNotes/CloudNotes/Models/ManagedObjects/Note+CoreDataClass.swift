@@ -6,7 +6,6 @@
 //
 //
 
-import Foundation
 import CoreData
 
 public final class Note: NSManagedObject { }

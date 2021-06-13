@@ -10,7 +10,7 @@ import CoreData
 
 final class MemoListViewModel {
     private var memo: [MemoData] = []
-    private var lastSelectIndex = -1
+    private var lastSelectIndex = 0
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     func readMemo(index: Int) -> MemoData {
@@ -88,13 +88,14 @@ extension MemoListViewModel {
         }
     }
     
-    func updataMemoData(memo: MemoData, titleText: String, bodyText: String) {
-        memo.title = titleText
-        memo.body = bodyText
-        memo.lastModified = convertDouble()
+    func updataMemoData(titleText: String, bodyText: String) {
+        self.memo[lastSelectIndex].title = titleText
+        self.memo[lastSelectIndex].body = bodyText
+        self.memo[lastSelectIndex].lastModified = convertDouble()
         
         do {
             try context.save()
+            getAllMemoData()
         } catch {
             
         }

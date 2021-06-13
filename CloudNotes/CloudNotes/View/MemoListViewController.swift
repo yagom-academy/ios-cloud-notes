@@ -28,13 +28,13 @@ class MemoListViewController: UIViewController {
         configureMemoListView()
 //        configurefirstMemo()
         tableViewAutoLayout()
+        addNotifictaionObserver()
     }
     
     private func configureMemoListView() {
         self.tableView.dataSource = self
         self.tableView.delegate = self
         self.memoListViewModel.getAllMemoData()
-        NotificationCenter.default.addObserver(self, selector: #selector(deleteMemo), name: NotificationNames.delete.name, object: nil)
         
         tableView.register(MemoListCell.self, forCellReuseIdentifier: MemoListCell.identifier)
         self.view.backgroundColor = .white
@@ -44,6 +44,11 @@ class MemoListViewController: UIViewController {
     
     private func configurefirstMemo() {
         memoDetailViewDelegate?.configureDetailText(data: memoListViewModel.readMemo(index: 0))
+    }
+    
+    private func addNotifictaionObserver() {
+        NotificationCenter.default.addObserver(self, selector: #selector(deleteMemo), name: NotificationNames.delete.name, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateMemo(notification:)), name: NotificationNames.update.name, object: nil)
     }
  
     private func tableViewAutoLayout() {
@@ -71,6 +76,22 @@ class MemoListViewController: UIViewController {
     
     @objc private func deleteMemo() {
         self.memoListViewModel.deleteMemoData()
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
+    }
+    
+    @objc private func updateMemo(notification: Notification) {
+        guard let textData: String = notification.object as? String else { return }
+        if let lineChange = textData.range(of: "\n") {
+            let lineChangeInt = textData.distance(from: textData.startIndex, to: lineChange.lowerBound)
+            let pointIndex = String.Index(encodedOffset: lineChangeInt+1)
+            let title = textData[textData.startIndex...lineChange.lowerBound]
+            let body = textData[pointIndex..<textData.endIndex]
+            self.memoListViewModel.updataMemoData(titleText: String(title), bodyText: String(body))
+        } else {
+            self.memoListViewModel.updataMemoData(titleText: textData, bodyText: "")
+        }
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }

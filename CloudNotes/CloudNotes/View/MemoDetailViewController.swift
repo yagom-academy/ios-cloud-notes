@@ -14,11 +14,16 @@ protocol MemoDetailViewDelegate {
 class MemoDetailViewController: UIViewController, UITextViewDelegate, MemoDetailViewDelegate {
     static let identifier: String = "DetailMemoVC"
     private var textView = UITextView()
+    private var alertState: AlertState = .update
 
     override func viewDidLoad() {
         super.viewDidLoad()
         configureView()
         configureTextViewConstraints()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        alertNotification()
     }
     
     override func viewDidLayoutSubviews() {
@@ -46,10 +51,12 @@ class MemoDetailViewController: UIViewController, UITextViewDelegate, MemoDetail
     }
 
     func configureDetailText(data: MemoData) {
+        self.alertState = .update
+        
         guard let title = data.title else { return }
         guard let body = data.body else { return }
         
-        let text = title + "\n" + body
+        let text = title + body
         textView.text = text
     }
     
@@ -57,7 +64,7 @@ class MemoDetailViewController: UIViewController, UITextViewDelegate, MemoDetail
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
         let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
-            NotificationCenter.default.post(name: NotificationNames.delete.name, object: nil)
+            self.alertState = .delete
             if UITraitCollection.current.horizontalSizeClass == .compact {
                 self.navigationController?.popViewController(animated: true)
             } else {
@@ -79,4 +86,12 @@ class MemoDetailViewController: UIViewController, UITextViewDelegate, MemoDetail
         self.present(alert, animated: true, completion: nil)
     }
     
+    func alertNotification() {
+        switch self.alertState {
+        case .delete:
+            NotificationCenter.default.post(name: NotificationNames.delete.name, object: nil)
+        default:
+            NotificationCenter.default.post(name: NotificationNames.update.name, object: self.textView.text)
+        }
+    }
 }

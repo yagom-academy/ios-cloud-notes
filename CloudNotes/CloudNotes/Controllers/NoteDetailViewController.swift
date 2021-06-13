@@ -143,8 +143,12 @@ final class NoteDetailViewController: UIViewController {
         }
         noteTextView.delegate = noteTextView
         
-        guard let noteListViewController = splitViewController?.viewController(for: .primary) as? NoteListViewController else {
-            os_log(.error, log: .ui, OSLog.objectCFormatSpecifier, UIError.downcastingFailed(subject: "NoteListViewController", location: #function).localizedDescription)
+        guard let primaryViewController = splitViewController?.viewController(for: .primary) else {
+            os_log(.error, log: .ui, OSLog.objectCFormatSpecifier, UIError.cannotFindSplitViewController(location: #function).localizedDescription)
+            return
+        }
+        guard let noteListViewController = primaryViewController as? NoteListViewController else {
+            os_log(.error, log: .ui, OSLog.objectCFormatSpecifier, UIError.typeCastingFailed(subject: "primaryViewController", location: #function).localizedDescription)
             return
         }
         noteTextView.noteManagerDelegate = noteListViewController.noteManager

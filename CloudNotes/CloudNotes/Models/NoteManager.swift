@@ -42,12 +42,11 @@ final class NoteManager: NSObject {
         static let indexPathOfFirstNote = IndexPath(item: 0, section: 0)
     }
     
-    // MARK: - CRUD
+    // MARK: - Create, Read, Update, Delete (CRUD) Features Implemented with Core Data Stack
 
     func create() -> Note? {
         guard let dataSource = dataSource else {
-            // TODO: 에러문구 전체 손보기
-            os_log(.fault, log: .data, OSLog.objectCFormatSpecifier, DataError.dataSourceNotSet(location: #function).localizedDescription)
+            os_log(.fault, log: .data, OSLog.objectCFormatSpecifier, DataError.diffableDataSourceNotImplemented(location: #function).localizedDescription)
             return nil
         }
         let snapshot = dataSource.snapshot()
@@ -66,8 +65,8 @@ final class NoteManager: NSObject {
     
     func loadSavedNotes() {
         noteCoreDataStack.loadSavedNotes(with: self)
-        configureDataSource()
-        updateSnapshot()
+        configureDiffableDataSource()
+        updateDiffableDataSource()
     }
     
     func update(with newText: String) -> Note? {
@@ -79,7 +78,7 @@ final class NoteManager: NSObject {
             return newBody != TextSymbols.newLineAsString
         }
         guard let editingNote = editingNote else {
-            os_log(.error, log: .ui, OSLog.objectCFormatSpecifier, UIError.editingNoteNotSet.localizedDescription)
+            os_log(.error, log: .data, OSLog.objectCFormatSpecifier, DataError.editingNoteNotSet(location: #function).localizedDescription)
             return nil
         }
         var newTitle = String(text.first ?? TextSymbols.emptySubString)
@@ -119,10 +118,10 @@ final class NoteManager: NSObject {
         return currentNoteIdentifier
     }
     
-    // MARK: - Configure Data Source
-    private func configureDataSource() {
+    // MARK: - Configure and Update Diffable Data Source
+    private func configureDiffableDataSource() {
         guard let noteListCollectionView = listViewDataSource?.listCollectionView else {
-            os_log(.fault, log: .ui, OSLog.objectCFormatSpecifier, UIError.collectionViewNotSet.localizedDescription)
+            os_log(.fault, log: .data, OSLog.objectCFormatSpecifier, DataError.failedToConfigureDiffableDataSource(location: #function).localizedDescription)
             return
         }
         
@@ -133,23 +132,12 @@ final class NoteManager: NSObject {
         }
     }
     
-    private func updateSnapshot() {
+    private func updateDiffableDataSource() {
         let sections = Section.allCases
         var updated = Snapshot()
         updated.appendSections(sections)
         updated.appendItems(noteCoreDataStack.fetchedNotes)
         dataSource?.apply(updated, animatingDifferences: false)
-    }
-    
-    // MARK: - `Read` Supporting Methods
-    
-    func getNote(at indexPath: IndexPath) -> Note? {
-        guard let editingNote = dataSource?.itemIdentifier(for: indexPath) else {
-            os_log(.fault, log: .data, OSLog.objectCFormatSpecifier, DataError.dataSourceNotSet(location: #function).localizedDescription)
-            return nil
-        }
-        informEditingNote(editingNote, indexPath: indexPath)
-        return editingNote
     }
     
     // MARK: - `Create` Supporting Methods
@@ -175,6 +163,17 @@ final class NoteManager: NSObject {
         dataSource.apply(snapshot, animatingDifferences: true)
     }
     
+    // MARK: - `Read` Supporting Methods
+    
+    func getNote(at indexPath: IndexPath) -> Note? {
+        guard let editingNote = dataSource?.itemIdentifier(for: indexPath) else {
+            os_log(.fault, log: .data, OSLog.objectCFormatSpecifier, DataError.failedToGetNote(indexPath: indexPath, location: #function).localizedDescription)
+            return nil
+        }
+        informEditingNote(editingNote, indexPath: indexPath)
+        return editingNote
+    }
+    
     // MARK: - `Update` Supporting Methods
     
     /// Call this method when the target note for edit changes to inform the note and location to be changed to related objects such as view controllers.
@@ -190,7 +189,7 @@ extension NoteManager: NoteManagerDelegate {
     func changeNote(with newText: String) {
         guard let newNote = update(with: newText),
               var snapshot = dataSource?.snapshot() else {
-            os_log(.fault, log: .data, OSLog.objectCFormatSpecifier, DataError.dataSourceNotSet(location: #function).localizedDescription)
+            os_log(.fault, log: .data, OSLog.objectCFormatSpecifier, DataError.diffableDataSourceNotImplemented(location: #function).localizedDescription)
             return
         }
         snapshot.deleteItems([newNote])
@@ -208,7 +207,7 @@ extension NoteManager: NoteManagerDelegate {
 
 extension NoteManager: NSFetchedResultsControllerDelegate {
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        updateSnapshot()
+        updateDiffableDataSource()
         listViewDataSource?.listCollectionView?.selectItem(at: NoteLocations.indexPathOfFirstNote, animated: false, scrollPosition: .top)
     }
 }

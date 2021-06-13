@@ -54,7 +54,7 @@ final class NoteListViewController: UIViewController {
         super.viewDidLoad()
         showCollectionView()
         implementNoteManager()
-        noteManager?.loadSavedNotes()
+        loadSavedNotesFromNoteManager()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -64,7 +64,7 @@ final class NoteListViewController: UIViewController {
         }
     }
     
-    // MARK: - Configure Views and Datasource as Component Methods for `showNote()`
+    // MARK: - Configure Views and Datasource as Component Methods for `showCollectionView()`
     
     private func configureViews() {
         configureNavigationBar()
@@ -102,7 +102,7 @@ final class NoteListViewController: UIViewController {
         listCollectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
         
         guard let noteListCollectionView = listCollectionView else {
-            os_log(.fault, log: .ui, OSLog.objectCFormatSpecifier, UIError.collectionViewNotSet.localizedDescription)
+            os_log(.fault, log: .ui, OSLog.objectCFormatSpecifier, UIError.collectionViewNotSet(location: #function).localizedDescription)
             return
         }
         noteListCollectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
@@ -120,7 +120,7 @@ final class NoteListViewController: UIViewController {
     
     @objc private func addButtonTapped() {
         guard let newNote = noteManager?.create() else {
-            os_log(.error, log: .data, OSLog.objectCFormatSpecifier, DataError.failedToCreateNote(location: #function).localizedDescription)
+            os_log(.error, log: .ui, OSLog.objectCFormatSpecifier, UIError.noteManagerNotImplemented(location: #function).localizedDescription)
             return
         }
         showDetailViewController(with: newNote)
@@ -159,7 +159,7 @@ final class NoteListViewController: UIViewController {
     
     private func showDetailViewController(with editingNote: Note) {
         guard let noteDetailViewController = splitViewController?.viewController(for: .secondary) as? NoteDetailViewController else {
-            os_log(.error, log: .ui, OSLog.objectCFormatSpecifier, UIError.downcastingFailed(subject: "NoteDetailViewController", location: #function).localizedDescription)
+            os_log(.error, log: .ui, OSLog.objectCFormatSpecifier, UIError.typeCastingFailed(subject: "NoteDetailViewController", location: #function).localizedDescription)
             return
         }
         noteDetailViewController.showNote(with: editingNote)
@@ -168,20 +168,46 @@ final class NoteListViewController: UIViewController {
     
     private func showFirstNoteAfterDeletingNote() {
         guard let firstNote = noteManager?.getNote(at: NoteLocations.indexPathOfFirstNote) else {
+            os_log(.error, log: .ui, OSLog.objectCFormatSpecifier, UIError.noteManagerNotImplemented(location: #function).localizedDescription)
             return
         }
         self.listCollectionView?.selectItem(at: NoteLocations.indexPathOfFirstNote, animated: false, scrollPosition: .top)
         self.showDetailViewController(with: firstNote)
     }
     
-    // MARK: - Implement Note Manager
+    // MARK: - Implement and Fetch Saved Notes from Note Manager
     
     private func implementNoteManager() {
         noteManager = NoteManager()
-        noteManager?.listViewDataSource = self
-        noteManager?.noteDetailViewControllerDelegate = splitViewController?.viewController(for: .secondary) as? NoteDetailViewController
+        setNoteManagerDelegates()
     }
-
+    
+    private func setNoteManagerDelegates() {
+        guard let noteManager = noteManager else {
+            os_log(.error, log: .ui, OSLog.objectCFormatSpecifier, UIError.noteManagerNotImplemented(location: #function).localizedDescription)
+            return
+        }
+        guard let secondaryViewController = splitViewController?.viewController(for: .secondary)  else {
+            os_log(.error, log: .ui, OSLog.objectCFormatSpecifier, UIError.cannotFindSplitViewController(location: #function).localizedDescription)
+            return
+        }
+        guard let noteDetailViewController = secondaryViewController as? NoteDetailViewController else {
+            os_log(.error, log: .ui, OSLog.objectCFormatSpecifier, UIError.typeCastingFailed(subject: "secondaryViewController", location: #function).localizedDescription)
+            return
+        }
+        
+        noteManager.listViewDataSource = self
+        noteManager.noteDetailViewControllerDelegate = noteDetailViewController
+    }
+    
+    private func loadSavedNotesFromNoteManager() {
+        guard let noteManager = noteManager else {
+            os_log(.error, log: .ui, OSLog.objectCFormatSpecifier, UIError.noteManagerNotImplemented(location: #function).localizedDescription)
+            return
+        }
+        
+        noteManager.loadSavedNotes()
+    }
 }
 
 // MARK: - Collection View Delegate
@@ -189,6 +215,7 @@ final class NoteListViewController: UIViewController {
 extension NoteListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let editingNote = noteManager?.getNote(at: indexPath) else {
+            os_log(.error, log: .ui, OSLog.objectCFormatSpecifier, UIError.noteManagerNotImplemented(location: #function).localizedDescription)
             return
         }
         showDetailViewController(with: editingNote)
@@ -229,6 +256,7 @@ extension NoteListViewController: NoteListViewControllerActionsDelegate {
     
     func activityViewTapped(at indexPath: IndexPath) {
         guard let selectedNote = noteManager?.getNote(at: indexPath) else {
+            os_log(.error, log: .ui, OSLog.objectCFormatSpecifier, UIError.noteManagerNotImplemented(location: #function).localizedDescription)
             return
         }
         let items = [selectedNote.title + UIItems.TextSymbols.newLineAsString + selectedNote.body]

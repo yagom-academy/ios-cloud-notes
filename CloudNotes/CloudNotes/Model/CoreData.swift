@@ -11,8 +11,10 @@ typealias Handler = (Bool) -> Void
 struct CoreData {
     static let shared = CoreData()
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    let directoryURL = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
+    let persistenceSqliteFiles = [FileName.cloudNotesSqlite, FileName.cloudNotesSqliteWal, FileName.cloudNotesSqliteShm]
     
-    // Mark: Function For UpdatedFile
+    // Mark: Function for UpdatedFile
     
     func getUpdatedFileList() {
         do {
@@ -70,7 +72,7 @@ struct CoreData {
         }
     }
     
-    // Mark: Function For MemoListItem
+    // Mark: Function for MemoListItem
     
     func getAllMemoListItems() {
         do {

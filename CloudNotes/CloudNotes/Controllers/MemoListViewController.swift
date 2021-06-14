@@ -10,16 +10,10 @@ class MemoListViewController: UIViewController {
     
     let tableView = UITableView()
     var memoSplitViewController: MemoSplitViewController?
-    lazy var rightNvigationItem: UIButton = {
-        let button = UIButton()
-        button.setTitle("+", for: .normal)
-        button.setTitleColor(UIColor.systemBlue, for: .normal)
-        button.addTarget(self, action: #selector(addNewMemo), for: .touchDown)
-        return button
-    }()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        DropboxManager.shared.authorize(viewController: self)
         self.view.backgroundColor = .white
         self.setUpTableView()
         setUpNavigationBar()
@@ -27,11 +21,12 @@ class MemoListViewController: UIViewController {
     
     @objc private func addNewMemo() {
         CoreData.shared.createMemoListItem()
+        DropboxManager.shared.uploadData(files: CoreData.shared.persistenceSqliteFiles, directoryURL: CoreData.shared.directoryURL)
         tableView.reloadData()
     }
     
     private func setUpNavigationBar() {
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightNvigationItem)
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add , target: self, action: #selector(addNewMemo))
         self.navigationItem.title = "메모"
         self.navigationController?.navigationBar.backgroundColor = .white
     }
@@ -94,6 +89,8 @@ extension MemoListViewController: UITableViewDataSource {
 
 extension MemoListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        DropboxManager.shared.downLoadData(files: CoreData.shared.persistenceSqliteFiles, directoryURL: CoreData.shared.directoryURL)
+        CoreData.shared.getAllMemoListItems()
         guard let memoSplitViewController = memoSplitViewController else {
             return
         }

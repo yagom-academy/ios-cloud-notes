@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftyDropbox
 
 class MemoSplitViewController: UISplitViewController {
     
@@ -14,15 +15,20 @@ class MemoSplitViewController: UISplitViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        CoreData.shared.getUpdatedFileList()
-        CoreData.shared.getAllMemoListItems()
+        setUpData()
         dismissKeyboardWhenTappedAround()
-        updateJsonData(fileName: "sample")
         self.delegate = self
         master.memoSplitViewController = self
         detail.memoListViewController = master
         self.viewControllers = [UINavigationController(rootViewController: master), UINavigationController(rootViewController: detail)]
         self.preferredDisplayMode = .oneBesideSecondary
+    }
+    
+    private func setUpData() {
+        DropboxManager.shared.downLoadData(files: CoreData.shared.persistenceSqliteFiles, directoryURL: CoreData.shared.directoryURL)
+        CoreData.shared.getUpdatedFileList()
+        CoreData.shared.getAllMemoListItems()
+        updateJsonData(fileName: FileName.sample)
     }
 
     private func updateJsonData(fileName: String) {
@@ -88,7 +94,6 @@ extension UIViewController {
         tap.cancelsTouchesInView = false
         self.view.addGestureRecognizer(tap)
     }
-    
     @objc func dismissKeyboard() {
         self.view.endEditing(false)
     }

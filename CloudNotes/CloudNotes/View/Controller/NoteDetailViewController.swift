@@ -6,9 +6,10 @@
 //
 
 import UIKit
+import CoreData
 
-class NoteDetailViewController: UIViewController {
-    private lazy var noteListManager = NoteManager()
+final class NoteDetailViewController: UIViewController {
+    private lazy var noteManager = NoteManager()
     private lazy var textView: UITextView = {
         let textview = UITextView()
         textview.translatesAutoresizingMaskIntoConstraints = false

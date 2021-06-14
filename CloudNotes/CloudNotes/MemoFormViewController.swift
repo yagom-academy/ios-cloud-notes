@@ -18,6 +18,14 @@ class MemoFormViewController: UIViewController {
         setMemoTextView()
     }
     
+    private func setBackgroundColor() {
+        if UITraitCollection.current.userInterfaceIdiom == .pad {
+            MemoTextView.backgroundColor = .systemGray
+        } else if UITraitCollection.current.userInterfaceIdiom == .phone {
+            MemoTextView.backgroundColor = .systemBackground
+        }
+    }
+    
     private func setMemoTextView() {
         MemoTextView.backgroundColor = .systemGray
         MemoTextView.font = UIFont.systemFont(ofSize: 16)

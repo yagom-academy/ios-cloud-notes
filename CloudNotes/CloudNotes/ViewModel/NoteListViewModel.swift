@@ -9,16 +9,21 @@ import Foundation
 import UIKit.NSDataAsset
 
 final class NoteListViewModel {
-    let notes: Observable<[NoteViewModel]> = Observable([])
+    static let dateFormatter: DateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale.current
+        dateFormatter.dateStyle = .medium
+        return dateFormatter
+    }()
     
-    init(_ notes: Observable<[NoteViewModel]> = Observable([])) {
+    let notes: Observable<[Note]> = Observable([])
+    
+    init(_ notes: Observable<[Note]> = Observable([])) {
         do {
             guard let dataAsset = NSDataAsset(name: "sample") else { throw DataError.notFoundAsset }
             guard let data = try? JSONDecoder().decode([Note].self, from: dataAsset.data) else { throw DataError.decodingFailed }
             
-            self.notes.value = data.compactMap({
-                NoteViewModel($0)
-            })
+            self.notes.value = data
         } catch let error {
             print(error.localizedDescription)
         }
@@ -30,7 +35,11 @@ extension NoteListViewModel {
         return self.notes.value.count
     }
     
-    func getNoteViewModel(for indexPath: IndexPath) -> NoteViewModel {
-        return self.notes.value[indexPath.row]
+    func getNoteViewModel(for indexPath: IndexPath) -> Note {
+        var note = notes.value[indexPath.row]
+        let date = Date(timeIntervalSince1970: TimeInterval(note.lastModified))
+        note.formattedLastModified = NoteListViewModel.dateFormatter.string(from: date)
+        
+        return note
     }
 }

@@ -6,9 +6,9 @@
 //
 
 final class NoteTextViewModel {
-    let note: Observable<NoteViewModel>
+    let note: Observable<Note>
     
-    init(_ note: Observable<NoteViewModel>) {
+    init(_ note: Observable<Note>) {
         self.note = note
     }
 }

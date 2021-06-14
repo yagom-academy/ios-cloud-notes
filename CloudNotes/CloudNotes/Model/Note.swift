@@ -11,6 +11,7 @@ struct Note: Decodable {
     let title: String
     let body: String
     let lastModified: Int
+    var formattedLastModified: String?
     
     private enum CodingKeys: String, CodingKey {
         case title, body

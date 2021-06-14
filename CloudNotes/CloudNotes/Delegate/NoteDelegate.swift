@@ -6,5 +6,5 @@
 //
 
 protocol NoteDelegate: AnyObject {
-    func showDetailNote(_ listViewController: NoteListViewController, data: NoteViewModel)
+    func showDetailNote(_ listViewController: NoteListViewController, data: Note)
 }

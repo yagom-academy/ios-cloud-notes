@@ -71,7 +71,7 @@ final class NoteListTableViewCell: UITableViewCell {
         ])
     }
     
-    func configure(_ note: NoteViewModel) {
+    func configure(_ note: Note) {
         self.titleLabel.text = note.title
         self.dateLabel.text = note.formattedLastModified
         self.previewBodyLabel.text = note.body

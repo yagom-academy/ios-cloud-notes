@@ -71,8 +71,8 @@ class MemoListCell: UITableViewCell {
     }
     
     func configureCell(memoData: MemoData, stringLastModified: String) {
-        title.text = memoData.title
-        body.text = memoData.body
+        title.text = memoData.title == "" ? "새로운 메모" : memoData.title
+        body.text = memoData.body == "" ? "내용 없음" : memoData.body
         lastModified.text = stringLastModified
     }
     

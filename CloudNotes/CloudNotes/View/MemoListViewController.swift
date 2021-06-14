@@ -78,8 +78,8 @@ class MemoListViewController: UIViewController {
         if let lineChange = textData.range(of: "\n") {
             let lineChangeInt = textData.distance(from: textData.startIndex, to: lineChange.lowerBound)
             let pointIndex = String.Index(encodedOffset: lineChangeInt+1)
-            let title = textData[textData.startIndex...lineChange.lowerBound]
-            let body = textData[pointIndex..<textData.endIndex]
+            let title = textData[textData.startIndex...lineChange.lowerBound] == "\n" ? "" : textData[textData.startIndex...lineChange.lowerBound]
+            let body = textData[pointIndex..<textData.endIndex] == "\n" ? "" : textData[pointIndex..<textData.endIndex]
             self.memoListViewModel.updataMemoData(titleText: String(title), bodyText: String(body), data: memoData)
         } else {
             self.memoListViewModel.updataMemoData(titleText: textData, bodyText: "", data: memoData)

@@ -117,37 +117,29 @@ class DetailMemoViewController: UIViewController {
 }
 
 extension DetailMemoViewController: UITextViewDelegate {
+    
     func textViewDidEndEditing(_ textView: UITextView) {
-        var title = ""
-        var body = ""
-        guard let indexPath = self.indexPath else {
+        guard let indexPath = self.indexPath, let allText = textView.text else {
             return
         }
-        guard let allText = textView.text else {
+        let separatedTextArray = textView.text.components(separatedBy: "\n")
+        filterTitleAndBody(separatedTextArray: separatedTextArray) { title, body in
+            self.updateMemoData(indexPath: indexPath, title: title, body: body, allText: allText)
+        }
+    }
+    
+    func filterTitleAndBody(separatedTextArray: [String], completion: @escaping (String, String) -> ()) {
+        var separatedTextArray = separatedTextArray
+        guard separatedTextArray.count > 0, let title = separatedTextArray.first(where: { $0 != "" }), let titleIndex = separatedTextArray.firstIndex(of: title) else {
+            completion("", "")
             return
         }
-        var text = textView.text.components(separatedBy: "\n")
-        guard text.count > 0 else {
-            updateMemoData(indexPath: indexPath, title: "", body: "", allText: allText)
-            return
+        separatedTextArray.remove(at: titleIndex)
+        while separatedTextArray.count > 0, separatedTextArray[0] == ""{
+            separatedTextArray.remove(at: 0)
         }
-        while text[0] == "" {
-            text.remove(at: 0)
-            if text.count == 0 {
-                updateMemoData(indexPath: indexPath, title: "", body: "", allText: allText)
-                return
-            }
-        }
-        title = text.remove(at: 0)
-        while text.count > 0, text[0] == "" {
-            text.remove(at: 0)
-            if text.count == 0 {
-                updateMemoData(indexPath: indexPath, title: title, body: "", allText: allText)
-                return
-            }
-        }
-        body = text.joined(separator: "\n")
-        updateMemoData(indexPath: indexPath, title: title, body: body, allText: allText)
+        let body = separatedTextArray.joined(separator: "\n")
+        completion(title, body)
     }
     
     private func updateMemoData(indexPath: IndexPath, title: String, body: String, allText: String) {

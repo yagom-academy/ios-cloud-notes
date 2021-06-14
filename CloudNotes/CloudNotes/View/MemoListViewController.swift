@@ -25,7 +25,6 @@ class MemoListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureMemoListView()
-        configurefirstMemo()
         tableViewAutoLayout()
         addNotifictaionObserver()
     }
@@ -43,10 +42,6 @@ class MemoListViewController: UIViewController {
         self.view.backgroundColor = .white
         self.navigationItem.title = memoListViewNavigationBarTitle
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(didTapAdd))
-    }
-    
-    private func configurefirstMemo() {
-//        memoDetailViewDelegate?.configureDetailText(data: memoListViewModel.readMemo(index: 0))
     }
     
     private func addNotifictaionObserver() {

@@ -76,9 +76,9 @@ final class MemoCell: UITableViewCell {
     // MARK: Configure
 
     func configure(memo: Memo) {
-        self.titleLabel.text = (memo.isTitleEmpty ? Style.titleLabelPlaceHolder : memo.title)
+        self.titleLabel.text = (memo.title.isEmpty ? Style.titleLabelPlaceHolder : memo.title)
         self.lastModifiedDateLabel.text = DateFormatter().currentLocaleString(from: memo.lastModified)
-        self.oneLineBodyLabel.text = (memo.isBodyEmpty ? Style.oneLineBodyLabelPlaceHolder : memo.body)
+        self.oneLineBodyLabel.text = (memo.body.isEmpty ? Style.oneLineBodyLabelPlaceHolder : memo.body)
     }
 
     private func configureContentView() {

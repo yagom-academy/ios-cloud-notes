@@ -85,7 +85,7 @@ final class MemoViewController: UIViewController {
     }
 
     private func configureTextViewText(by memo: Memo) {
-        guard false == memo.isTitleEmpty else {
+        guard false == memo.title.isEmpty else {
             return textView.text = nil
         }
 

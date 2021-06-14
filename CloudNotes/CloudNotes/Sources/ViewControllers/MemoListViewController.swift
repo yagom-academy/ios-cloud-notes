@@ -105,7 +105,7 @@ final class MemoListViewController: UIViewController {
     @discardableResult
     private func deleteEmptyMemo() -> Bool {
         guard let firstMemo = memos.first,
-              firstMemo.isTitleEmpty else { return false }
+              firstMemo.title.isEmpty else { return false }
 
         memos.remove(at: Style.updatedMemoRow)
         tableView.deleteRows(at: [IndexPath(row: Style.updatedMemoRow, section: 0)], with: Style.inAndOutRowAnimation)

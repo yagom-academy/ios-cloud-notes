@@ -8,55 +8,73 @@
 import CoreData
 import UIKit
 
-final class NoteManager {
-    private lazy var context: NSManagedObjectContext = {
+class NoteManager {
+    lazy var context: NSManagedObjectContext = {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         return appDelegate.persistentContainer.viewContext
     }()
     
-    func fetch() -> [Note] {
-        var noteList: [Note] = []
-        let fetchRequest: NSFetchRequest<NoteModel> = NoteModel.fetchRequest()
-        let lastModifyDesc = NSSortDescriptor(key: "lastModify", ascending: false)
-        fetchRequest.sortDescriptors = [lastModifyDesc]
+    lazy var fetchedResultsController: NSFetchedResultsController<Note> = {
+        let fetchRequest: NSFetchRequest<Note> = Note.fetchRequest()
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "lastModify", ascending: false)]
+        let fetchResult = NSFetchedResultsController(fetchRequest: fetchRequest,
+                                                                  managedObjectContext: context,
+                                                                  sectionNameKeyPath: nil,
+                                                                  cacheName: nil)
         
+        return fetchResult
+    }()
+    
+    private func save() {
         do {
-            let result = try self.context.fetch(fetchRequest)
-            
-            for record in result {
-                let data = Note(title: record.title, body: record.body, lastModify: record.lastModify, objectID: record.objectID)
-                noteList.append(data)
-            }
-        } catch let error as NSError {
-            print(error.localizedDescription)
+            try context.save()
+        } catch {
+            print("Save Error")
         }
-        
-        return noteList
+    }
+    
+    func specify(_ index: IndexPath?) -> Note {
+        return fetchedResultsController.object(at: index ?? IndexPath(item: 0, section: 0))
+    }
+    
+    func count() -> Int {
+        return fetchedResultsController.fetchedObjects?.count ?? 0
     }
     
     func insert(_ data: Note) {
-        guard let object = NSEntityDescription.insertNewObject(forEntityName: "Note", into: self.context) as? NoteModel else { return }
-        object.title = data.title
-        object.body = data.body
-        object.lastModify = data.lastModify
-        
+        context.insert(data)
+        save()
+    }
+    
+    func fetch() -> Result<Bool, Error> {
         do {
-            try self.context.save()
-        } catch let error as NSError {
-            print(error.localizedDescription)
+            try fetchedResultsController.performFetch()
+            return .success(true)
+        } catch {
+            return .failure(CoreDataError.fetch(error))
         }
     }
     
-    func delete(_ objectID: NSManagedObjectID) -> Bool {
-        let object = self.context.object(with: objectID)
-        self.context.delete(object)
+    func delete(_ date: Note) {
+        self.context.delete(date)
         
         do {
-            try self.context.save()
-            return true
-        } catch let error as NSError {
-            print(error.localizedDescription)
-            return false
+            save()
+            try fetchedResultsController.performFetch()
+        } catch let error {
+            print("Delete Data Error :\(error.localizedDescription)")
         }
+    }
+    
+    func update(_ text: String, _ isTitle: Bool, notedata: Note) {
+        var split = text.split(separator: "\n", maxSplits: 1, omittingEmptySubsequences: false)
+        let title = String(split.removeFirst())
+        let body = split.map { String($0) }.first
+        
+        notedata.title = title
+        notedata.body = body
+        notedata.lastModify = Date()
+        
+        save()
     }
 }

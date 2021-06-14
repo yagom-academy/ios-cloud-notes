@@ -65,7 +65,8 @@ class MemoDetailViewController: UIViewController, UITextViewDelegate, MemoDetail
             }
         }
         let shareAction = UIAlertAction(title: "Share", style: .default) { _ in
-            let activityController = UIActivityViewController(activityItems: [self.textView.text], applicationActivities: nil)
+            guard let textViewData = self.textView.text else { return }
+            let activityController = UIActivityViewController(activityItems: [textViewData], applicationActivities: nil)
             self.present(activityController, animated: true, completion: nil)
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)

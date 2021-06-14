@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		7014D1B32670E28A0064EB69 /* MemoData+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7014D1B12670E28A0064EB69 /* MemoData+CoreDataClass.swift */; };
-		7014D1B42670E28A0064EB69 /* MemoData+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7014D1B22670E28A0064EB69 /* MemoData+CoreDataProperties.swift */; };
 		7014D1B62670F69F0064EB69 /* NotificationNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7014D1B52670F69F0064EB69 /* NotificationNames.swift */; };
 		7014D1B82671DE5D0064EB69 /* MemoError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7014D1B72671DE5D0064EB69 /* MemoError.swift */; };
 		701BC0CE26675F23006FFFB2 /* MemoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701BC0CD26675F23006FFFB2 /* MemoDetailViewController.swift */; };
@@ -55,7 +54,6 @@
 
 /* Begin PBXFileReference section */
 		7014D1B12670E28A0064EB69 /* MemoData+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MemoData+CoreDataClass.swift"; sourceTree = "<group>"; };
-		7014D1B22670E28A0064EB69 /* MemoData+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MemoData+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		7014D1B52670F69F0064EB69 /* NotificationNames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationNames.swift; sourceTree = "<group>"; };
 		7014D1B72671DE5D0064EB69 /* MemoError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoError.swift; sourceTree = "<group>"; };
 		701BC0CD26675F23006FFFB2 /* MemoDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoDetailViewController.swift; sourceTree = "<group>"; };
@@ -110,7 +108,6 @@
 			isa = PBXGroup;
 			children = (
 				7014D1B12670E28A0064EB69 /* MemoData+CoreDataClass.swift */,
-				7014D1B22670E28A0064EB69 /* MemoData+CoreDataProperties.swift */,
 			);
 			path = MemoData;
 			sourceTree = "<group>";
@@ -352,7 +349,6 @@
 				7062564026759D980011BADE /* AlertState.swift in Sources */,
 				7014D1B82671DE5D0064EB69 /* MemoError.swift in Sources */,
 				70BECDDF26662C4200F18811 /* MemoListViewModel.swift in Sources */,
-				7014D1B42670E28A0064EB69 /* MemoData+CoreDataProperties.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -20,6 +20,8 @@
 		8A697858266E3233000AD4F5 /* MemoListItem+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A697856266E3233000AD4F5 /* MemoListItem+CoreDataClass.swift */; };
 		8A697859266E3233000AD4F5 /* MemoListItem+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A697857266E3233000AD4F5 /* MemoListItem+CoreDataProperties.swift */; };
 		8A697875266F8CF2000AD4F5 /* Secret.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A697874266F8CF2000AD4F5 /* Secret.swift */; };
+		8A6978AA26765588000AD4F5 /* DropboxManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A6978A926765588000AD4F5 /* DropboxManager.swift */; };
+		8A6978B02676F256000AD4F5 /* FileName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A6978AF2676F256000AD4F5 /* FileName.swift */; };
 		A09AD9F5A2D144F11444F92C /* Pods_CloudNotes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B48D1085446CF07364EBA608 /* Pods_CloudNotes.framework */; };
 		C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */; };
 		C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */; };
@@ -67,6 +69,8 @@
 		8A697856266E3233000AD4F5 /* MemoListItem+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MemoListItem+CoreDataClass.swift"; sourceTree = "<group>"; };
 		8A697857266E3233000AD4F5 /* MemoListItem+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MemoListItem+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		8A697874266F8CF2000AD4F5 /* Secret.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secret.swift; sourceTree = "<group>"; };
+		8A6978A926765588000AD4F5 /* DropboxManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropboxManager.swift; sourceTree = "<group>"; };
+		8A6978AF2676F256000AD4F5 /* FileName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileName.swift; sourceTree = "<group>"; };
 		98E18EBBFF7BD10E131D399C /* Pods-CloudNotesTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudNotesTests.debug.xcconfig"; path = "Target Support Files/Pods-CloudNotesTests/Pods-CloudNotesTests.debug.xcconfig"; sourceTree = "<group>"; };
 		B48D1085446CF07364EBA608 /* Pods_CloudNotes.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CloudNotes.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C1036E645E63AB0701A31357 /* Pods-CloudNotes.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudNotes.release.xcconfig"; path = "Target Support Files/Pods-CloudNotes/Pods-CloudNotes.release.xcconfig"; sourceTree = "<group>"; };
@@ -172,6 +176,7 @@
 				8A697783266B5621000AD4F5 /* CoreData.swift */,
 				8A39C8312667429000121C82 /* DataError.swift */,
 				8A697874266F8CF2000AD4F5 /* Secret.swift */,
+				8A6978A926765588000AD4F5 /* DropboxManager.swift */,
 			);
 			path = Type;
 			sourceTree = "<group>";
@@ -185,6 +190,14 @@
 				8A69781E266CDA09000AD4F5 /* UpdatedFile+CoreDataProperties.swift */,
 			);
 			path = CoreDataEntities;
+			sourceTree = "<group>";
+		};
+		8A6978AE2676F142000AD4F5 /* Constant */ = {
+			isa = PBXGroup;
+			children = (
+				8A6978AF2676F256000AD4F5 /* FileName.swift */,
+			);
+			path = Constant;
 			sourceTree = "<group>";
 		};
 		C7481C6125BBCF3900B9CA55 = {
@@ -212,6 +225,7 @@
 		C7481C6C25BBCF3900B9CA55 /* CloudNotes */ = {
 			isa = PBXGroup;
 			children = (
+				8A6978AE2676F142000AD4F5 /* Constant */,
 				8A69770A2669EBC8000AD4F5 /* CoreDataEntities */,
 				8A39C8302667427700121C82 /* Type */,
 				8A39C80D2664EDA700121C82 /* Model */,
@@ -496,6 +510,8 @@
 				8A697784266B5621000AD4F5 /* CoreData.swift in Sources */,
 				8A39C8322667429000121C82 /* DataError.swift in Sources */,
 				8A697859266E3233000AD4F5 /* MemoListItem+CoreDataProperties.swift in Sources */,
+				8A6978AA26765588000AD4F5 /* DropboxManager.swift in Sources */,
+				8A6978B02676F256000AD4F5 /* FileName.swift in Sources */,
 				8A39C817266635EE00121C82 /* DetailMemoViewController.swift in Sources */,
 				8A39C80F2664EE0800121C82 /* Memo.swift in Sources */,
 				8A39C83B266743B800121C82 /* MemoCache.swift in Sources */,

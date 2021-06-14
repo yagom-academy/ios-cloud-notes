@@ -48,6 +48,7 @@ class DetailMemoViewController: UIViewController {
     
     func deleteMemo(indexPath: IndexPath) {
         CoreData.shared.deleteMemoListItem(item: MemoCache.shared.memoData[indexPath.row])
+        DropboxManager.shared.uploadData(files: CoreData.shared.persistenceSqliteFiles, directoryURL: CoreData.shared.directoryURL)
         self.memoListViewController?.tableView.reloadData()
         self.configure(with: nil, indexPath: nil)
     }
@@ -102,7 +103,6 @@ class DetailMemoViewController: UIViewController {
     }
 
     func configure(with memo: MemoListItem?, indexPath: IndexPath?) {
-        
         memoTextView.contentOffset = CGPoint(x: 0,y: 0)
         guard let memo = memo, let allText = memo.allText else {
             memoTextView.text = ""
@@ -118,7 +118,6 @@ class DetailMemoViewController: UIViewController {
 
 extension DetailMemoViewController: UITextViewDelegate {
     func textViewDidEndEditing(_ textView: UITextView) {
-        
         var title = ""
         var body = ""
         guard let indexPath = self.indexPath else {
@@ -149,7 +148,6 @@ extension DetailMemoViewController: UITextViewDelegate {
         }
         body = text.joined(separator: "\n")
         updateMemoData(indexPath: indexPath, title: title, body: body, allText: allText)
-        
     }
     
     private func updateMemoData(indexPath: IndexPath, title: String, body: String, allText: String) {
@@ -159,6 +157,7 @@ extension DetailMemoViewController: UITextViewDelegate {
         MemoCache.shared.memoData[indexPath.row].allText = allText
         memoListViewController?.tableView.reloadData()
         CoreData.shared.updateMemoListItem(item: MemoCache.shared.memoData[indexPath.row])
+        DropboxManager.shared.uploadData(files: CoreData.shared.persistenceSqliteFiles, directoryURL: CoreData.shared.directoryURL)
     }
 }
 

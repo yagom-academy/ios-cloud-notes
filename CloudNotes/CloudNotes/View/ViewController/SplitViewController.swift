@@ -15,18 +15,20 @@ class MemoSplitViewController: UISplitViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        if DropboxClientsManager.authorizedClient == nil {
-            print("@@@ Hi")
-        }
-        CoreData.shared.getUpdatedFileList()
-        CoreData.shared.getAllMemoListItems()
+        DropboxManager.shared.authorize(viewController: self)
+        setUpData()
         dismissKeyboardWhenTappedAround()
-        updateJsonData(fileName: "sample")
         self.delegate = self
         master.memoSplitViewController = self
         detail.memoListViewController = master
         self.viewControllers = [UINavigationController(rootViewController: master), UINavigationController(rootViewController: detail)]
         self.preferredDisplayMode = .oneBesideSecondary
+    }
+    
+    private func setUpData() {
+        CoreData.shared.getUpdatedFileList()
+        CoreData.shared.getAllMemoListItems()
+        updateJsonData(fileName: FileName.sample)
     }
 
     private func updateJsonData(fileName: String) {

@@ -72,7 +72,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
         
         for context in URLContexts {
-            if DropboxClientsManager.handleRedirectURL(context.url, completion: oauthCompletion) { break }
+            if DropboxClientsManager.handleRedirectURL(context.url, completion: oauthCompletion) {
+                break
+            }
         }
     }
 

@@ -9,12 +9,17 @@ import Foundation
 import SwiftyDropbox
 
 struct DropboxManager {
-    
     static let shared = DropboxManager()
     let client = DropboxClientsManager.authorizedClient
-
+    var areThereAuthorizedClient: Bool {
+        guard let _ = DropboxClientsManager.authorizedClient else {
+            return true
+        }
+        return false
+    }
+    
     func authorize(viewController: UIViewController) {
-        guard DropboxClientsManager.authorizedClient == nil else {
+        guard areThereAuthorizedClient else {
             return
         }
         DropboxClientsManager.authorizeFromController(UIApplication.shared,

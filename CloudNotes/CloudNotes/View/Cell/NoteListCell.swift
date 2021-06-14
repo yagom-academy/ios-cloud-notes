@@ -35,6 +35,7 @@ class NoteListCell: UITableViewCell {
         let description = UILabel()
         description.translatesAutoresizingMaskIntoConstraints = false
         description.textColor = UIColor.systemGray2
+        description.numberOfLines = 1
         description.font = UIFont.preferredFont(forTextStyle: .subheadline)
         
         return description
@@ -52,9 +53,9 @@ class NoteListCell: UITableViewCell {
     
     func displayData(_ data: Note) {
         setSelctedCell()
-        titleLabel.text = data.title
-        dateLabel.text = data.body
-        descriptionLabel.text = data.lastModify
+        titleLabel.text = data.title == "" ? "새로운 노트" : data.title
+        descriptionLabel.text = data.body == "" ? "내용 없음" : data.body
+        dateLabel.text = data.lastModify?.currentDateToString()
     }
     
     private func setSelctedCell() {

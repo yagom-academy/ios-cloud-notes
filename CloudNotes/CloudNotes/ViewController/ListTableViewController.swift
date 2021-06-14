@@ -61,6 +61,9 @@ class ListTableViewController: UITableViewController {
             memoList.insert(CoreDataManager.shared.makeNewMeno(), at: 0)
             tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
             tableView.endUpdates()
+            tableView.selectRow(at: IndexPath(row: 0, section: 0), animated: true, scrollPosition: .none)
+            textViewController.changedTextBySelectedCell(with: memoList[0])
+            lastClickedIndexPath = IndexPath(row: 0, section: 0)
         } else {
             let navigationEmbeddTextViewController = UINavigationController(rootViewController: TextViewController())
             self.splitViewController?.showDetailViewController(navigationEmbeddTextViewController, sender: nil)
@@ -106,14 +109,18 @@ extension ListTableViewController {
             print("마지막 textView = ", textViewController.textView.text)
             print("최신 indexPath = ", indexPath)
             // 클릭 되기전 마지막 텍스트뷰가 아무것도 없으면
-            if textViewController.textView.text.isEmpty {
+            if textViewController.textView.text.isEmpty && lastClickedIndexPath != indexPath {
                 // 메모 리스트에서 지운다.
                 print("들어옴!!")
                 memoList.remove(at: lastClickedIndexPath.row)
                 tableView.beginUpdates()
                 tableView.deleteRows(at: [lastClickedIndexPath], with: .automatic)
+                tableView.endUpdates()
+                // 여기서 -1을 하는 이유는 최상단의 빈 메모가 지워졌기 때문
+                textViewController.changedTextBySelectedCell(with: memoList[indexPath.row - 1])
+            } else {
+                textViewController.changedTextBySelectedCell(with: memoList[indexPath.row])
             }
-            textViewController.changedTextBySelectedCell(with: memoList[indexPath.row])
             textViewController.textView.isEditable = true
             lastClickedIndexPath = indexPath
         } else {

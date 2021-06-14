@@ -30,6 +30,10 @@ class MemoListViewController: UIViewController {
         addNotifictaionObserver()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        self.tableView.reloadData()
+    }
+    
     private func configureMemoListView() {
         self.tableView.dataSource = self
         self.tableView.delegate = self
@@ -42,28 +46,12 @@ class MemoListViewController: UIViewController {
     }
     
     private func configurefirstMemo() {
-        memoDetailViewDelegate?.configureDetailText(data: memoListViewModel.readMemo(index: 0))
+//        memoDetailViewDelegate?.configureDetailText(data: memoListViewModel.readMemo(index: 0))
     }
     
     private func addNotifictaionObserver() {
         NotificationCenter.default.addObserver(self, selector: #selector(deleteMemo), name: NotificationNames.delete.name, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updateMemo(notification:)), name: NotificationNames.update.name, object: nil)
-    }
- 
-    private func tableViewAutoLayout() {
-        let safeArea = view.safeAreaLayoutGuide
-        
-        self.view.addSubview(tableView)
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.rowHeight = UITableView.automaticDimension
-        tableView.estimatedRowHeight = UITableView.automaticDimension
-        
-        NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: safeArea.topAnchor),
-            tableView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
-            tableView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
-        ])
     }
     
     @objc private func didTapAdd() {
@@ -82,7 +70,8 @@ class MemoListViewController: UIViewController {
     }
     
     @objc private func deleteMemo() {
-        self.memoListViewModel.deleteMemoData()
+        guard let memoData = self.memoListViewModel.editingMemo else { return }
+        self.memoListViewModel.deleteMemoData(data: memoData)
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
@@ -90,18 +79,35 @@ class MemoListViewController: UIViewController {
     
     @objc private func updateMemo(notification: Notification) {
         guard let textData: String = notification.object as? String else { return }
+        guard let memoData = self.memoListViewModel.editingMemo else { return }
         if let lineChange = textData.range(of: "\n") {
             let lineChangeInt = textData.distance(from: textData.startIndex, to: lineChange.lowerBound)
             let pointIndex = String.Index(encodedOffset: lineChangeInt+1)
             let title = textData[textData.startIndex...lineChange.lowerBound]
             let body = textData[pointIndex..<textData.endIndex]
-            self.memoListViewModel.updataMemoData(titleText: String(title), bodyText: String(body))
+            self.memoListViewModel.updataMemoData(titleText: String(title), bodyText: String(body), data: memoData)
         } else {
-            self.memoListViewModel.updataMemoData(titleText: textData, bodyText: "")
+            self.memoListViewModel.updataMemoData(titleText: textData, bodyText: "", data: memoData)
         }
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
+    }
+ 
+    private func tableViewAutoLayout() {
+        let safeArea = view.safeAreaLayoutGuide
+        
+        self.view.addSubview(tableView)
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = UITableView.automaticDimension
+        
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: safeArea.topAnchor),
+            tableView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
+            tableView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
+        ])
     }
     
 }
@@ -122,11 +128,10 @@ extension MemoListViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let memo: MemoData = memoListViewModel.readMemo(index: indexPath.row)
         self.memoListViewModel.configureLastSelectIndex(index: indexPath.row)
-        memoDetailViewDelegate?.configureDetailText(data: memoListViewModel.readMemo(index: indexPath.row))
+        memoDetailViewDelegate?.configureDetailText(data: memo)
         guard let detail = memoDetailViewDelegate as? MemoDetailViewController else { return }
-        
-        
         
         if splitViewController?.traitCollection.horizontalSizeClass == .compact {
             self.navigationController?.pushViewController(detail, animated: true)

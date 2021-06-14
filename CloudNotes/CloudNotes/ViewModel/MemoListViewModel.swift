@@ -12,6 +12,7 @@ final class MemoListViewModel {
     private var memo: [MemoData] = []
     private var lastSelectIndex = 0
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    var editingMemo: MemoData?
     
     func readMemo(index: Int) -> MemoData {
         return self.memo[index]
@@ -22,7 +23,7 @@ final class MemoListViewModel {
     }
     
     func configureLastSelectIndex(index: Int) {
-        self.lastSelectIndex = index
+        self.editingMemo = self.memo[index]
     }
     
     func memoDataText(data: MemoData) -> String {
@@ -87,9 +88,8 @@ extension MemoListViewModel {
         }
     }
     
-    func deleteMemoData() {
-        let memoData = self.memo[lastSelectIndex]
-        context.delete(memoData)
+    func deleteMemoData(data: MemoData) {
+        context.delete(data)
         
         do {
             try context.save()
@@ -99,10 +99,10 @@ extension MemoListViewModel {
         }
     }
     
-    func updataMemoData(titleText: String, bodyText: String) {
-        self.memo[lastSelectIndex].title = titleText
-        self.memo[lastSelectIndex].body = bodyText
-        self.memo[lastSelectIndex].lastModified = convertDouble()
+    func updataMemoData(titleText: String, bodyText: String, data: MemoData) {
+        data.title = titleText
+        data.body = bodyText
+        data.lastModified = convertDouble()
         
         do {
             try context.save()

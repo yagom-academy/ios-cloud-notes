@@ -38,6 +38,7 @@ class NoteDetailViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        noteDelegate?.deliverToPrimary(textView, first: isNewPage, index: editIndex)
         textView.isEditable = false
     }
     
@@ -88,10 +89,6 @@ class NoteDetailViewController: UIViewController {
 
 extension NoteDetailViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
-        
-    }
-    
-    func textViewDidEndEditing(_ textView: UITextView) {
-        noteDelegate?.deliverToPrimary(textView.text)
+        self.noteDelegate?.deliverToPrimary(textView, first: isNewPage, index: editIndex)
     }
 }

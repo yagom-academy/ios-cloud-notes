@@ -34,14 +34,16 @@ extension NoteSplitViewController: UISplitViewControllerDelegate {
 }
 
 extension NoteSplitViewController: NoteDelegate {
-    func deliverToPrimary(_ data: String) {
-        if data == "" {
-            primary.deleteEmptyNote()
+    func deliverToPrimary(_ data: UITextView, first: Bool, index: IndexPath?) {
+        if data.text == "" {
+            self.primary.textViewIsEmpty(first)
+        } else {
+            self.primary.updateTextToCell(data.text, isTitle: false, index: index)
         }
     }
     
-    func deliverToDetail(_ data: Note) {
-        secondary.displayData(data)
+    func deliverToDetail(_ data: Note?, first: Bool, index: IndexPath) {
+        secondary.displayData(data, first: first, index: index)
         self.showDetailViewController(secondary, sender: self)
     }
 }

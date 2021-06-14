@@ -12,6 +12,7 @@ class NoteListViewController: UIViewController {
     private var cellView: UIView?
     private var noteData: [Note]?
     weak var noteDelegate: NoteDelegate?
+    private var specifyNote: Note?
     
     private let tableView: UITableView = {
         let tableview = UITableView(frame: .zero, style: .insetGrouped)
@@ -36,16 +37,33 @@ class NoteListViewController: UIViewController {
     }
     
     @objc private func addNote() {
-        // TODO: - 메모 추가
-        let add = Note(title: nil, body: nil, lastModify: nil)
-        self.noteListManager.insert(add)
-        noteData?.append(add)
-        self.tableView.insertRows(at: [IndexPath.init(row: 0, section: 0)], with: .automatic)
-        noteDelegate?.deliverToDetail(add)
+        let newNote = Note(context: noteManager.context)
+        newNote.title = ""
+        newNote.body = ""
+        newNote.lastModify = Date()
+        noteManager.insert(newNote)
+        noteDelegate?.deliverToDetail(nil, first: true, index: IndexPath(item: 0, section: 0))
     }
     
-    private func updateData() {
-        noteData = noteListManager.fetch()
+    func textViewIsEmpty(_ first: Bool) {
+        if first == false { return }
+        let data = noteManager.specify(IndexPath(row: 0, section: 0))
+        self.noteManager.delete(data)
+    }
+    
+    func updateTextToCell(_ data: String, isTitle: Bool, index: IndexPath?) {
+        self.noteManager.update(data, isTitle, notedata: specifyNote!)
+    }
+    
+    private func fetchList() {
+        switch noteManager.fetch() {
+        case .success(_):
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        case .failure(let error):
+            alterError(CoreDataError.fetch(error).errorDescription)
+        }
     }
     
     private func setCellView() {
@@ -99,8 +117,8 @@ extension NoteListViewController: UITableViewDataSource {
 
 extension NoteListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let data = noteData else { return }
-        noteDelegate?.deliverToDetail(data[indexPath.row])
+        specifyNote = noteManager.specify(indexPath)
+        noteDelegate?.deliverToDetail(specifyNote, first: false, index: indexPath)
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {

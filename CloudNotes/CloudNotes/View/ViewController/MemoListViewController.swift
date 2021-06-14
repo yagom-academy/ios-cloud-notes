@@ -13,6 +13,7 @@ class MemoListViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        DropboxManager.shared.authorize(viewController: self)
         self.view.backgroundColor = .white
         self.setUpTableView()
         setUpNavigationBar()
@@ -88,6 +89,8 @@ extension MemoListViewController: UITableViewDataSource {
 
 extension MemoListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        DropboxManager.shared.downLoadData(files: CoreData.shared.persistenceSqliteFiles, directoryURL: CoreData.shared.directoryURL)
+        CoreData.shared.getAllMemoListItems()
         guard let memoSplitViewController = memoSplitViewController else {
             return
         }

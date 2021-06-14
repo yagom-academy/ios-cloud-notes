@@ -17,11 +17,13 @@ struct DropboxManager {
         guard DropboxClientsManager.authorizedClient == nil else {
             return
         }
+        print("start")
         DropboxClientsManager.authorizeFromController(UIApplication.shared,
                                                       controller: viewController,
                                                       openURL: { (url: URL) -> Void in
                                                         UIApplication.shared.open(url)
                                                       })
+        print("end")
     }
     
     func uploadData(files: [String], directoryURL: URL) {

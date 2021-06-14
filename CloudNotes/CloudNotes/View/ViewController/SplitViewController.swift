@@ -15,7 +15,6 @@ class MemoSplitViewController: UISplitViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        DropboxManager.shared.authorize(viewController: self)
         setUpData()
         dismissKeyboardWhenTappedAround()
         self.delegate = self
@@ -26,6 +25,7 @@ class MemoSplitViewController: UISplitViewController {
     }
     
     private func setUpData() {
+        DropboxManager.shared.downLoadData(files: CoreData.shared.persistenceSqliteFiles, directoryURL: CoreData.shared.directoryURL)
         CoreData.shared.getUpdatedFileList()
         CoreData.shared.getAllMemoListItems()
         updateJsonData(fileName: FileName.sample)

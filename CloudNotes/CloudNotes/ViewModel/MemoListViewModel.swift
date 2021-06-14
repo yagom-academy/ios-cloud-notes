@@ -77,7 +77,7 @@ extension MemoListViewModel {
     
     func createMemoData() {
         let newMemoData = MemoData(context: context)
-        newMemoData.title = "새로운 메모"
+        newMemoData.title = ""
         newMemoData.body = ""
         newMemoData.lastModified = convertDouble()
         do {

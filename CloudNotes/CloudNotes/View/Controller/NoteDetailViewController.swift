@@ -35,7 +35,6 @@ class NoteDetailViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         textView.isEditable = true
-        self.textView.becomeFirstResponder()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -44,12 +43,15 @@ class NoteDetailViewController: UIViewController {
         textView.isEditable = false
     }
     
-    func displayData(_ data: Note) {
-        if data.title == nil { return }
-        textView.text = ""
-        textView.insertText(data.title ?? "")
-        textView.insertText("\n\n")
-        textView.insertText(data.body ?? "")
+    func displayData(_ data: Note?, first: Bool, index: IndexPath) {
+        guard let textdata = data else {
+            textView.text = ""
+            self.isNewPage = first
+            return
+        }
+        self.editIndex = index
+        self.isNewPage = first
+        textView.text = (textdata.title ?? "") + "\n" + (textdata.body ?? "")
         textView.resignFirstResponder()
         textView.scrollRangeToVisible(NSMakeRange(0, 0))
     }

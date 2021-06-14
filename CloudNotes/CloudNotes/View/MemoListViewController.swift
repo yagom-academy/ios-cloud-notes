@@ -89,6 +89,7 @@ class MemoListViewController: UIViewController {
     }
     
     @objc private func updateMemo(notification: Notification) {
+        print("업데이트 실행")
         guard let textData: String = notification.object as? String else { return }
         if let lineChange = textData.range(of: "\n") {
             let lineChangeInt = textData.distance(from: textData.startIndex, to: lineChange.lowerBound)
@@ -126,7 +127,9 @@ extension MemoListViewController: UITableViewDelegate, UITableViewDataSource {
         memoDetailViewDelegate?.configureDetailText(data: memoListViewModel.readMemo(index: indexPath.row))
         guard let detail = memoDetailViewDelegate as? MemoDetailViewController else { return }
         
-        if UITraitCollection.current.horizontalSizeClass == .compact {
+        
+        
+        if splitViewController?.traitCollection.horizontalSizeClass == .compact {
             self.navigationController?.pushViewController(detail, animated: true)
         } else {
             showDetailViewController(UINavigationController(rootViewController: detail), sender: nil)

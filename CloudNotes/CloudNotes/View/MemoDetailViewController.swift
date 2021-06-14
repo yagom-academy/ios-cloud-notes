@@ -13,7 +13,7 @@ protocol MemoDetailViewDelegate {
 
 class MemoDetailViewController: UIViewController, UITextViewDelegate, MemoDetailViewDelegate {
     static let identifier: String = "DetailMemoVC"
-    private var textView = UITextView()
+    private var textView = MemoTextView()
     private var alertState: AlertState = .update
 
     override func viewDidLoad() {
@@ -33,7 +33,7 @@ class MemoDetailViewController: UIViewController, UITextViewDelegate, MemoDetail
     private func configureView() {
         view.backgroundColor = .white
         view.addSubview(textView)
-        textView.delegate = self
+        textView.delegate = textView
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: #selector(didTapMore))
     }
     
@@ -64,7 +64,7 @@ class MemoDetailViewController: UIViewController, UITextViewDelegate, MemoDetail
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
             self.alertState = .delete
-            if UITraitCollection.current.horizontalSizeClass == .compact {
+            if self.splitViewController?.traitCollection.horizontalSizeClass == .compact {
                 self.navigationController?.popViewController(animated: true)
             } else {
             
@@ -87,7 +87,7 @@ class MemoDetailViewController: UIViewController, UITextViewDelegate, MemoDetail
         case .delete:
             NotificationCenter.default.post(name: NotificationNames.delete.name, object: nil)
         default:
-            NotificationCenter.default.post(name: NotificationNames.update.name, object: self.textView.text)
+            print("업데이트는 실시간으로 진행될 것 입니다")
         }
     }
     

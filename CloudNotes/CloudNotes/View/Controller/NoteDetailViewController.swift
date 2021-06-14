@@ -22,7 +22,9 @@ class NoteDetailViewController: UIViewController {
         return textview
     }()
     weak var noteDelegate: NoteDelegate?
-
+    private var isNewPage: Bool = true
+    private var editIndex: IndexPath?
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         self.textView.delegate = self

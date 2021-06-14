@@ -14,16 +14,11 @@ protocol MemoDetailViewDelegate {
 class MemoDetailViewController: UIViewController, UITextViewDelegate, MemoDetailViewDelegate {
     static let identifier: String = "DetailMemoVC"
     private var textView = MemoTextView()
-    private var alertState: AlertState = .update
 
     override func viewDidLoad() {
         super.viewDidLoad()
         configureView()
         configureTextViewConstraints()
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        alertNotification()
     }
     
     override func viewDidLayoutSubviews() {
@@ -51,8 +46,6 @@ class MemoDetailViewController: UIViewController, UITextViewDelegate, MemoDetail
     }
 
     func configureDetailText(data: MemoData) {
-        self.alertState = .update
-        
         guard let title = data.title else { return }
         guard let body = data.body else { return }
         
@@ -63,11 +56,12 @@ class MemoDetailViewController: UIViewController, UITextViewDelegate, MemoDetail
     @objc private func didTapMore() {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
-            self.alertState = .delete
             if self.splitViewController?.traitCollection.horizontalSizeClass == .compact {
+                NotificationCenter.default.post(name: NotificationNames.delete.name, object: nil)
                 self.navigationController?.popViewController(animated: true)
             } else {
-            
+                self.textView.text = nil
+                NotificationCenter.default.post(name: NotificationNames.delete.name, object: nil)
             }
         }
         let shareAction = UIAlertAction(title: "Share", style: .default) { _ in
@@ -81,15 +75,5 @@ class MemoDetailViewController: UIViewController, UITextViewDelegate, MemoDetail
         alert.addAction(cancelAction)
         self.present(alert, animated: true, completion: nil)
     }
-    
-   private func alertNotification() {
-        switch self.alertState {
-        case .delete:
-            NotificationCenter.default.post(name: NotificationNames.delete.name, object: nil)
-        default:
-            print("업데이트는 실시간으로 진행될 것 입니다")
-        }
-    }
-    
     
 }

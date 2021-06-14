@@ -13,7 +13,6 @@ class MemoTextView: UITextView {
 
 extension MemoTextView: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
-        print("바뀌고 이썽!")
         NotificationCenter.default.post(name: NotificationNames.update.name, object: self.text)
     }
 }

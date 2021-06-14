@@ -45,6 +45,7 @@ class MemoListCell: UITableViewCell {
         lastModified.text = "lastModified Text"
         lastModified.translatesAutoresizingMaskIntoConstraints = false
         lastModified.font = UIFont.systemFont(ofSize: 15)
+        lastModified.setContentCompressionResistancePriority(.required, for: .horizontal)
         
         return lastModified
     }()

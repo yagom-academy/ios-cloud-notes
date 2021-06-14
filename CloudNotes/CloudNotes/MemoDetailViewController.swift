@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MemoFormViewController: UIViewController {
+class MemoDetailViewController: UIViewController {
     
     let MemoTextView = UITextView()
     

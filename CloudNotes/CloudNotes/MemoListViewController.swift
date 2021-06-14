@@ -23,7 +23,7 @@ class MemoListViewController: UITableViewController {
     }
     
     @objc private func addToMemo() {
-        let memoFormViewController = MemoFormViewController()
+        let memoFormViewController = MemoDetailViewController()
         navigationController?.pushViewController(memoFormViewController, animated: true)
     }
     
@@ -47,17 +47,6 @@ class MemoListViewController: UITableViewController {
         }
     }
     
-    private func convertDateFormat(date: Double) -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.locale = Locale(identifier: "ko_KR")
-        dateFormatter.dateFormat = "yyyy. MM. dd"
-        
-        let convertDate = Date(timeIntervalSince1970: date)
-        let result = dateFormatter.string(from: convertDate)
-        
-        return result
-    }
-    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return memoList.count
     }
@@ -67,19 +56,13 @@ class MemoListViewController: UITableViewController {
             return MemoListCell()
         }
         
-        let memoData = memoList[indexPath.row]
-        let date = convertDateFormat(date: memoData.lastModified)
-        
-        cell.accessoryType = .disclosureIndicator
-        cell.title.text = memoData.title
-        cell.date.text = date
-        cell.preview.text = memoData.body
+        cell.bindCellContent(item: memoList[indexPath.row])
         
         return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let memoFormViewController = splitViewController?.viewController(for: .secondary) as! MemoFormViewController
+        let memoFormViewController = splitViewController?.viewController(for: .secondary) as! MemoDetailViewController
         
         memoFormViewController.MemoTextView.text = """
         \(memoList[indexPath.row].title)

@@ -11,22 +11,47 @@ class MemoListCell: UITableViewCell {
     
     let cellStackView = UIStackView()
     let bottomStackView = UIStackView()
-    let title = UILabel()
-    let date = UILabel()
-    let preview = UILabel()
+    let cellTitle = UILabel()
+    let cellDate = UILabel()
+    let cellBody = UILabel()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: "MemoListCell")
         
+        self.accessoryType = .disclosureIndicator
+        self.addSubview(cellStackView)
         setCellStackViewAttribute()
         setLabelAttribute()
+        setLabelConstraints()
     }
 
     required init?(coder: NSCoder) {
         super.init(style: .default, reuseIdentifier: "MemoListCell")
         
+        self.accessoryType = .disclosureIndicator
+        self.addSubview(cellStackView)
         setCellStackViewAttribute()
         setLabelAttribute()
+        setLabelConstraints()
+    }
+    
+    private func convertDateFormat(date: Double) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "ko_KR")
+        dateFormatter.dateFormat = "yyyy. MM. dd"
+        
+        let convertDate = Date(timeIntervalSince1970: date)
+        let result = dateFormatter.string(from: convertDate)
+        
+        return result
+    }
+    
+    func bindCellContent(item: MemoData) {
+        let date = convertDateFormat(date: item.lastModified)
+        
+        self.cellTitle.text = item.title
+        self.cellDate.text = date
+        self.cellBody.text = item.body
     }
     
     private func setCellStackViewAttribute() {
@@ -40,22 +65,20 @@ class MemoListCell: UITableViewCell {
     }
     
     private func setLabelAttribute() {
-        title.font = UIFont.systemFont(ofSize: 18)
-        date.font = UIFont.systemFont(ofSize: 14)
-        preview.font = UIFont.systemFont(ofSize: 14)
-        preview.textColor = .systemGray
-        setLabelConstraints()
+        cellTitle.font = UIFont.systemFont(ofSize: 18)
+        cellDate.font = UIFont.systemFont(ofSize: 14)
+        cellBody.font = UIFont.systemFont(ofSize: 14)
+        cellBody.textColor = .systemGray
     }
     
     private func setLabelConstraints() {
-        self.addSubview(cellStackView)
-        cellStackView.addArrangedSubview(title)
+        cellStackView.addArrangedSubview(cellTitle)
         cellStackView.addArrangedSubview(bottomStackView)
-        bottomStackView.addArrangedSubview(date)
-        bottomStackView.addArrangedSubview(preview)
+        bottomStackView.addArrangedSubview(cellDate)
+        bottomStackView.addArrangedSubview(cellBody)
         
         cellStackView.translatesAutoresizingMaskIntoConstraints = false
-        date.translatesAutoresizingMaskIntoConstraints = false
+        cellDate.translatesAutoresizingMaskIntoConstraints = false
         
         let cellStackViewConstraints = ([
             cellStackView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 5),
@@ -64,7 +87,7 @@ class MemoListCell: UITableViewCell {
             cellStackView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -50)
         ])
         
-        date.widthAnchor.constraint(equalToConstant: self.frame.size.width / 3).isActive = true
+        cellDate.widthAnchor.constraint(equalToConstant: self.frame.size.width / 3).isActive = true
         
         NSLayoutConstraint.activate(cellStackViewConstraints)
     }

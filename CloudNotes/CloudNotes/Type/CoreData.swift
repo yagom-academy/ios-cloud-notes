@@ -11,7 +11,7 @@ typealias Handler = (Bool) -> Void
 struct CoreData {
     static let shared = CoreData()
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-    let directoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+    let directoryURL = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
     let persistenceSqliteFiles = [FileName.cloudNotesSqlite, FileName.cloudNotesSqliteWal, FileName.cloudNotesSqliteShm]
     
     // Mark: Function for UpdatedFile

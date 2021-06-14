@@ -47,12 +47,12 @@ class MemoListViewController: UITableViewController {
         }
     }
     
-    private func convertDateFormat(date: Int) -> String {
+    private func convertDateFormat(date: Double) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: "ko_KR")
         dateFormatter.dateFormat = "yyyy. MM. dd"
         
-        let convertDate = Date(timeIntervalSince1970: Double(date))
+        let convertDate = Date(timeIntervalSince1970: date)
         let result = dateFormatter.string(from: convertDate)
         
         return result

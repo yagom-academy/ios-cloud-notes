@@ -13,7 +13,6 @@ final class NoteDetailViewController: UIViewController {
     // MARK: - Properties
     
     private var note: Note?
-    private(set) var currentIndexPathForSelectedNote: IndexPath?
     weak var noteListViewControllerActionsDelegate: NoteListViewControllerActionsDelegate?
     
     // MARK: - UI Elements
@@ -165,7 +164,7 @@ final class NoteDetailViewController: UIViewController {
     }
     
     @objc private func moreButtonTapped() {
-        guard let currentIndexPathForSelectedNote = currentIndexPathForSelectedNote else {
+        guard let indexPath = noteListViewControllerActionsDelegate?.currentIndexPathOfEditingNote else {
             Loggers.data.error("\(DataError.cannotFindIndexPath(location: #function))")
             return
         }
@@ -175,14 +174,14 @@ final class NoteDetailViewController: UIViewController {
             guard let self = self else {
                 return
             }
-            self.noteListViewControllerActionsDelegate?.activityViewTapped(at: currentIndexPathForSelectedNote)
+            self.noteListViewControllerActionsDelegate?.activityViewTapped(at: indexPath)
         }
         
         let deleteAction = UIAlertAction(title: UIItems.AlertActionTitles.deleteButton, style: .destructive) { [weak self] _ in
             guard let self = self else {
                 return
             }
-            self.noteListViewControllerActionsDelegate?.deleteTapped(at: currentIndexPathForSelectedNote)
+            self.noteListViewControllerActionsDelegate?.deleteTapped(at: indexPath)
         }
         
         let cancelAction = UIAlertAction(title: UIItems.AlertActionTitles.cancelButton, style: .cancel)
@@ -229,10 +228,6 @@ extension NoteDetailViewController: NoteDetailViewControllerDelegate {
         updateTextView()
         moveTop(of: noteTextView)
         removeActivatedKeyboard()
-    }
-    
-    func setIndexPathForSelectedNote(_ indexPath: IndexPath?) {
-        currentIndexPathForSelectedNote = indexPath
     }
     
     func clearText() {

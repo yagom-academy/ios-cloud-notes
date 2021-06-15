@@ -8,7 +8,8 @@
 import CoreData
 import os
 
-final class NoteCoreDataStack: CoreDataStack {
+final class NoteCoreDataStack {
+    
     // MARK: - Properties
     
     static let shared = NoteCoreDataStack()
@@ -25,6 +26,8 @@ final class NoteCoreDataStack: CoreDataStack {
         return container
     }()
     
+    // MARK: - Initializer (Set as private due to having shared instance)
+    
     private init() { }
     
     // MARK: - Namespaces
@@ -37,9 +40,10 @@ final class NoteCoreDataStack: CoreDataStack {
             static let lastModified = "lastModified"
         }
     }
-    
-    // MARK: - Core Data Saving and Loading support
+}
 
+extension NoteCoreDataStack: CoreDataStack {
+    
     func saveContext() {
         let context = persistentContainer.viewContext
         if context.hasChanges {

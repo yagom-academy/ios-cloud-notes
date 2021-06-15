@@ -25,8 +25,15 @@ final class NoteListViewController: UIViewController {
     private(set) var listCollectionView: UICollectionView?
     private var dataSource: DataSource?
     private let noteManager: NoteManager
-    private var currentIndexPathOfSelectedNote: IndexPath?
     weak var noteDetailViewControllerDelegate: NoteDetailViewControllerDelegate?
+    private(set) var editingNote: Note?
+    var currentIndexPathOfEditingNote: IndexPath {
+        guard let editingNote = editingNote,
+              let indexPath = dataSource?.indexPath(for: editingNote) else {
+            return NoteLocations.indexPathOfFirstNote
+        }
+        return indexPath
+    }
     
     // MARK: - Initializers
     
@@ -167,7 +174,7 @@ final class NoteListViewController: UIViewController {
     
     @objc private func addButtonTapped() {
         let newNote = noteManager.createNewNote(title: UIItems.Texts.empty, body: UIItems.Texts.empty, date: Date())
-        informEditingNote(newNote, indexPath: NoteLocations.indexPathOfFirstNote)
+        editingNote = dataSource?.snapshot().itemIdentifiers.first
         applySnapshot(animatingDifferences: true)
         listCollectionView?.selectItem(at: NoteLocations.indexPathOfFirstNote, animated: false, scrollPosition: .top)
         showDetailViewController(with: newNote)
@@ -219,6 +226,7 @@ final class NoteListViewController: UIViewController {
             Loggers.data.notice("\(DataError.failedToGetNote(indexPath: NoteLocations.indexPathOfFirstNote, location: #function))")
             return
         }
+        editingNote = firstNote
         self.listCollectionView?.selectItem(at: NoteLocations.indexPathOfFirstNote, animated: false, scrollPosition: .top)
         self.showDetailViewController(with: firstNote)
     }
@@ -228,14 +236,7 @@ final class NoteListViewController: UIViewController {
         guard let note = dataSource?.itemIdentifier(for: indexPath) else {
             return nil
         }
-        informEditingNote(note, indexPath: indexPath)
         return note
-    }
-    
-    /// Call this method when the target note for edit changes to inform the note and location to be changed to related objects such as view controllers.
-    private func informEditingNote(_ note: Note, indexPath: IndexPath?) {
-        noteManager.setEditingNote(note)
-        noteDetailViewControllerDelegate?.setIndexPathForSelectedNote(indexPath)
     }
     
     // MARK: - Delete Supporting Method
@@ -273,11 +274,12 @@ final class NoteListViewController: UIViewController {
 
 extension NoteListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let editingNote = getNote(at: indexPath) else {
+        guard let selectedNote = getNote(at: indexPath) else {
             Loggers.data.error("\(DataError.failedToGetNote(indexPath: indexPath, location: #function))")
             return
         }
-        showDetailViewController(with: editingNote)
+        self.editingNote = selectedNote
+        showDetailViewController(with: selectedNote)
     }
 }
 
@@ -287,7 +289,6 @@ extension NoteListViewController: NoteListViewControllerActionsDelegate {
     
     func deleteTapped(at indexPath: IndexPath) {
         let deleteAlert = UIItems.AlertControllerConfiguration.delete
-        
         let deleteButton = configureDeleteButton(for: indexPath)
         let cancelButton = UIAlertAction(title: UIItems.AlertActionTitle.cancelButton, style: .cancel)
         
@@ -312,7 +313,14 @@ extension NoteListViewController: NoteListViewControllerActionsDelegate {
 
 extension NoteListViewController: NoteListViewControllerDelegate {
     func applyTextUpdate(with newText: String) {
-        noteManager.updateNote(with: newText)
+        if let editingNote = self.editingNote {
+            noteManager.updateNote(editingNote, with: newText)
+        } else {
+            guard let newNote = dataSource?.snapshot().itemIdentifiers.first else {
+                return
+            }
+            noteManager.updateNote(newNote, with: newText)
+        }
     }
     
     func applySnapshot(animatingDifferences: Bool) {

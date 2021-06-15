@@ -14,7 +14,6 @@ final class NoteManager: NSObject {
     // MARK: - Properties
     
     private let noteCoreDataStack: CoreDataStack
-    private var editingNote: Note?
     var fetchedNotes: [Note] {
         return noteCoreDataStack.fetchedResultsController?.fetchedObjects ?? []
     }
@@ -49,12 +48,8 @@ final class NoteManager: NSObject {
     }
     
     @discardableResult
-    func updateNote(with newText: String) -> Note? {
+    func updateNote(_ editingNote: Note, with newText: String) -> Note? {
         var text = newText.split(separator: Texts.newLineAsElement, maxSplits: 1, omittingEmptySubsequences: false)
-        guard let editingNote = editingNote else {
-            Loggers.data.log(level: .error, "\(DataError.editingNoteNotSet(location: #function))")
-            return nil
-        }
         let newTitle = [text.removeFirst()].joined()
         let newBody = text.joined()
         let currentDate = Date()
@@ -76,10 +71,6 @@ final class NoteManager: NSObject {
     
     func saveContext() {
         noteCoreDataStack.saveContext()
-    }
-    
-    func setEditingNote(_ note: Note) {
-        editingNote = note
     }
 }
 

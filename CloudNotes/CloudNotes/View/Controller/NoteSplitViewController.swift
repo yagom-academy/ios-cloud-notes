@@ -7,7 +7,7 @@
 
 import UIKit
 
-class NoteSplitViewController: UISplitViewController {
+final class NoteSplitViewController: UISplitViewController {
     private var primary = NoteListViewController()
     private var secondary = NoteDetailViewController()
     
@@ -16,6 +16,7 @@ class NoteSplitViewController: UISplitViewController {
         self.delegate = self
         self.primary.noteDelegate = self
         self.secondary.noteDelegate = self
+        NoteManager.shared.coreDataDelegate = self
         setSplitViewController()
     }
     
@@ -45,5 +46,24 @@ extension NoteSplitViewController: NoteDelegate {
     func deliverToDetail(_ data: Note?, first: Bool, index: IndexPath) {
         secondary.displayData(data, first: first, index: index)
         self.showDetailViewController(secondary, sender: self)
+    }
+}
+
+extension NoteSplitViewController: CoreDataDelegate {
+    func insert(current: IndexPath?, new: IndexPath?) {
+        self.primary.insertCell(indexPath: current, newIndexPath: new)
+    }
+    
+    func delete(current: IndexPath?, new: IndexPath?) {
+        self.primary.deleteCell(indexPath: current, newIndexPath: new)
+    }
+    
+    func move(current: IndexPath?, new: IndexPath?) {
+        self.primary.moveCell(indexPath: current, newIndexPath: new)
+    }
+    
+    func update(current: IndexPath?, new: IndexPath?) {
+        let data = NoteManager.shared.specify(current)
+        self.primary.updateCell(indexPath: current, newIndexPath: new, data: data)
     }
 }

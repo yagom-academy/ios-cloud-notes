@@ -8,8 +8,7 @@
 import UIKit
 import CoreData
 
-class NoteListViewController: UIViewController {
-    private lazy var noteManager = NoteManager()
+final class NoteListViewController: UIViewController {
     private var cellView: UIView?
     weak var noteDelegate: NoteDelegate?
     private var specifyNote: Note?
@@ -38,26 +37,27 @@ class NoteListViewController: UIViewController {
     }
     
     @objc private func addNote() {
-        let newNote = Note(context: noteManager.context)
+        let newNote = Note(context: NoteManager.shared.context)
         newNote.title = ""
         newNote.body = ""
         newNote.lastModify = Date()
-        noteManager.insert(newNote)
+        NoteManager.shared.insert(newNote)
         noteDelegate?.deliverToDetail(nil, first: true, index: IndexPath(item: 0, section: 0))
     }
     
     func textViewIsEmpty(_ first: Bool) {
         if first == false { return }
-        let data = noteManager.specify(IndexPath(row: 0, section: 0))
-        self.noteManager.delete(data)
+        let data = NoteManager.shared.specify(IndexPath(row: 0, section: 0))
+        NoteManager.shared.delete(data)
     }
     
     func updateTextToCell(_ data: String, isTitle: Bool, index: IndexPath?) {
-        self.noteManager.update(data, isTitle, notedata: specifyNote!)
+        let newNote = NoteManager.shared.specify(IndexPath(item: 0, section: 0))
+        NoteManager.shared.update(data, isTitle, notedata: specifyNote ?? newNote)
     }
     
     private func fetchList() {
-        switch noteManager.fetch() {
+        switch NoteManager.shared.fetch() {
         case .success(_):
             DispatchQueue.main.async {
                 self.tableView.reloadData()
@@ -94,12 +94,12 @@ class NoteListViewController: UIViewController {
 
 extension NoteListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return noteManager.count()
+        return NoteManager.shared.count()
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "NoteCell", for: indexPath) as? NoteListCell else { return UITableViewCell() }
-        let data = noteManager.specify(indexPath)
+        let data = NoteManager.shared.specify(indexPath)
         cell.displayData(data)
 
         return cell
@@ -108,17 +108,16 @@ extension NoteListViewController: UITableViewDataSource {
 
 extension NoteListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        specifyNote = noteManager.specify(indexPath)
+        specifyNote = NoteManager.shared.specify(indexPath)
         noteDelegate?.deliverToDetail(specifyNote, first: false, index: indexPath)
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-
         let deleteAction = UIContextualAction(style: .destructive, title:  "🗑", handler: { [self] (ac: UIContextualAction, view:UIView, success:(Bool) -> Void) in
-            let removeData = self.noteManager.specify(indexPath)
+            let removeData = NoteManager.shared.specify(indexPath)
             let alertViewController = UIAlertController(title: "Really?", message: "삭제하시겠어요?", preferredStyle: .alert)
             let delete = UIAlertAction(title: "삭제", style: .destructive) { _ in
-                noteManager.delete(removeData)
+                NoteManager.shared.delete(removeData)
             }
             let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
             
@@ -127,11 +126,10 @@ extension NoteListViewController: UITableViewDelegate {
             
             self.present(alertViewController, animated: true, completion: nil)
             success(true)
-            
         })
         
-        let shareAction = UIContextualAction(style: .normal, title:  "공유", handler: { (ac:UIContextualAction, view:UIView, success:(Bool) -> Void) in
-            let shardNote = "\(self.noteManager.specify(indexPath).title ?? "") \n\n \(self.noteManager.specify(indexPath).body ?? "")"
+        let shareAction = UIContextualAction(style: .normal, title: "공유", handler: { (ac:UIContextualAction, view:UIView, success:(Bool) -> Void) in
+            let shardNote = "\(NoteManager.shared.specify(indexPath).title ?? "") \n\n \(NoteManager.shared.specify(indexPath).body ?? "")"
             let activityViewController = UIActivityViewController(activityItems: [shardNote], applicationActivities: nil)
             self.present(activityViewController, animated: true, completion: nil)
             success(true)
@@ -141,29 +139,37 @@ extension NoteListViewController: UITableViewDelegate {
     }
 }
 
-extension NoteListViewController: NSFetchedResultsControllerDelegate {
-    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        self.tableView.beginUpdates()
+extension NoteListViewController {
+    func insertCell(indexPath: IndexPath?, newIndexPath: IndexPath?) {
+        self.tableView.insertRows(at: [newIndexPath ?? IndexPath(row: 0, section: 0)], with: .automatic)
     }
     
-    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-        switch type {
-        case .insert:
-            self.tableView.insertRows(at: [newIndexPath ?? IndexPath(row: 0, section: 0)], with: .none)
-        case .delete:
-            self.tableView.deleteRows(at: [indexPath!], with: .none)
-        case .move:
-            self.tableView.deleteRows(at: [indexPath!], with: .none)
-            self.tableView.insertRows(at: [newIndexPath!], with: .none)
-        case .update:
-            guard let cell = self.tableView.cellForRow(at: indexPath!) as? NoteListCell else { return }
-            cell.displayData(noteManager.specify(indexPath!))
-        @unknown default:
-            alterError(CoreDataError.fetch("Unexpected NSFetchedResultsChangeType" as? Error).errorDescription)
+    func deleteCell(indexPath: IndexPath?, newIndexPath: IndexPath?) {
+        self.tableView.deleteRows(at: [indexPath!], with: .automatic)
+        
+        if NoteManager.shared.count() == 0 || (NoteManager.shared.count() == indexPath?.row) {
+            if UITraitCollection.current.horizontalSizeClass == .regular {
+                noteDelegate?.deliverToDetail(nil, first: false, index: IndexPath(item: 0, section: 0))
+            }
+            noteDelegate?.clearNote()
+            return
+        }
+
+        if UITraitCollection.current.horizontalSizeClass == .regular {
+            self.tableView.selectRow(at: indexPath, animated: true, scrollPosition: .top)
+            noteDelegate?.deliverToDetail(NoteManager.shared.specify(indexPath), first: false, index: indexPath!)
         }
     }
     
-    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        tableView.endUpdates()
+    func moveCell(indexPath: IndexPath?, newIndexPath: IndexPath?) {
+        tableView.performBatchUpdates({
+            self.tableView.deleteRows(at: [indexPath!], with: .none)
+            self.tableView.insertRows(at: [newIndexPath!], with: .automatic)
+        }, completion: nil)
+    }
+    
+    func updateCell(indexPath: IndexPath?, newIndexPath: IndexPath?, data: Note?) {
+        guard let cell = self.tableView.cellForRow(at: indexPath!) as? NoteListCell else { return }
+        cell.displayData(data ?? Note())
     }
 }

@@ -112,3 +112,28 @@ final class NoteManager: NSObject {
         save()
     }
 }
+
+extension NoteManager: NSFetchedResultsControllerDelegate {
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        
+    }
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        switch type {
+        case .insert:
+            coreDataDelegate?.insert(current: indexPath, new: newIndexPath)
+        case .delete:
+            coreDataDelegate?.delete(current: indexPath, new: newIndexPath)
+        case .move:
+            coreDataDelegate?.move(current: indexPath, new: newIndexPath)
+        case .update:
+            coreDataDelegate?.update(current: indexPath, new: newIndexPath)
+        @unknown default:
+            print("Unexpected NSFetchedResultsChangeType")
+        }
+    }
+    
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        
+    }
+}

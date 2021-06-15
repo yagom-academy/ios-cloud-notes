@@ -9,7 +9,6 @@ import UIKit
 import CoreData
 
 final class NoteDetailViewController: UIViewController {
-    private lazy var noteManager = NoteManager()
     private lazy var textView: UITextView = {
         let textview = UITextView()
         textview.translatesAutoresizingMaskIntoConstraints = false
@@ -63,7 +62,20 @@ final class NoteDetailViewController: UIViewController {
             self.shareNote()
         }
         let deleteNote = UIAlertAction(title: "Delete", style: .destructive) { delete in
+            let alertViewController = UIAlertController(title: "Really?", message: "삭제하시겠어요?", preferredStyle: .alert)
+            let delete = UIAlertAction(title: "삭제", style: .destructive) { _ in
+                if UITraitCollection.current.horizontalSizeClass == .compact {
+                    self.noteDelegate?.backToPrimary()
+                }
+                let data = NoteManager.shared.specify(self.editIndex)
+                NoteManager.shared.delete(data)
+            }
+            let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
             
+            alertViewController.addAction(delete)
+            alertViewController.addAction(cancel)
+            
+            self.present(alertViewController, animated: true, completion: nil)
         }
         let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         

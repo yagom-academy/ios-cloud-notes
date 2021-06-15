@@ -252,7 +252,7 @@ final class NoteListViewController: UIViewController {
     }
     
     private func configureDeleteButton(for indexPath: IndexPath) -> UIAlertAction {
-        return UIAlertAction(title: UIItems.AlertActionTitle.deleteButton, style: .destructive) { [weak self] _ in
+        let deleteButton = UIAlertAction(title: UIItems.AlertActionTitle.deleteButton, style: .destructive) { [weak self] _ in
             guard let self = self else {
                 return
             }
@@ -268,6 +268,7 @@ final class NoteListViewController: UIViewController {
                 self.navigationController?.popViewController(animated: true)
             }
         }
+        return deleteButton
     }
 }
 

@@ -42,8 +42,6 @@ class MemoListViewController: UIViewController {
     private func configureMemoListView() {
         self.tableView.dataSource = self
         self.tableView.delegate = self
-        self.memoListViewModel.getAllMemoData()
-        
         tableView.register(MemoListCell.self, forCellReuseIdentifier: MemoListCell.identifier)
         self.view.backgroundColor = .white
         self.navigationItem.title = memoListViewNavigationBarTitle

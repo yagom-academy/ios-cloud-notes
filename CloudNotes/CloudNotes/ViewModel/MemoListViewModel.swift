@@ -14,6 +14,10 @@ final class MemoListViewModel {
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     var editingMemo: MemoData?
     
+    init() {
+        self.getAllMemoData()
+    }
+    
     func readMemo(index: Int) -> MemoData {
         return self.memo[index]
     }

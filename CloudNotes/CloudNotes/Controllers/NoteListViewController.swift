@@ -165,6 +165,15 @@ final class NoteListViewController: UIViewController {
         }
     }
     
+    /// Use this method after making changes to core data stack. Changes made from core data stack will automatically reflected to diffable data source and the UI elements.
+    private func applySnapshot(animatingDifferences: Bool) {
+        let sections = Section.allCases
+        var updated = Snapshot()
+        updated.appendSections(sections)
+        updated.appendItems(noteManager.fetchedNotes)
+        dataSource?.apply(updated, animatingDifferences: animatingDifferences)
+    }
+    
     // MARK: - Configure Navigation Bar and Relevant Actions
     
     private func configureNavigationBar() {
@@ -326,14 +335,5 @@ extension NoteListViewController: NoteListViewControllerDelegate {
         }
         applySnapshot(animatingDifferences: false)
         listCollectionView?.selectItem(at: NoteListViewController.NoteLocations.indexPathOfFirstNote, animated: false, scrollPosition: .top)
-    }
-    
-    /// Use this method after making changes to core data stack. Changes made from core data stack will automatically reflected to diffable data source and the UI elements.
-    func applySnapshot(animatingDifferences: Bool) {
-        let sections = Section.allCases
-        var updated = Snapshot()
-        updated.appendSections(sections)
-        updated.appendItems(noteManager.fetchedNotes)
-        dataSource?.apply(updated, animatingDifferences: animatingDifferences)
     }
 }

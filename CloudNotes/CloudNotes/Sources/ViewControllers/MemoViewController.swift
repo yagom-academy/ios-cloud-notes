@@ -145,7 +145,7 @@ extension MemoViewController: UITextViewDelegate {
         guard let textViewText = textView.text,
               let seperatedMemo = separatedMemo(from: textViewText) else { return }
 
-        self.memo = Memo(title: seperatedMemo.newTitle, body: seperatedMemo.newBody)
+        self.memo = Memo(title: seperatedMemo.title, body: seperatedMemo.body)
 
         let primaryViewController = splitViewController?.viewController(for: .primary) as? MemoListViewController
 
@@ -156,25 +156,9 @@ extension MemoViewController: UITextViewDelegate {
         }
     }
 
-    private func separatedMemo(from text: String) -> (newTitle: String, newBody: String)? {
+    private func separatedMemo(from text: String) -> (title: String, body: String)? {
         let separatedText: [Substring] = text.split(separator: Style.memoSeparator, maxSplits: 1, omittingEmptySubsequences: true)
-
-        var newTitle = String()
-        var newBody = String()
-
-        switch separatedText.count {
-        case 0:
-            break
-        case 1:
-            newTitle = String(separatedText[0])
-        case 2:
-            newTitle = String(separatedText[0])
-            newBody = String(separatedText[1])
-        default:
-            return nil
-        }
-
-        return (newTitle, newBody)
+        return (String(separatedText.first ?? ""), String(separatedText.last ?? ""))
     }
 
 }

@@ -34,11 +34,11 @@ class MemoListViewController: UIViewController {
     private func setUpNavigationBar() {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add , target: self, action: #selector(addNewMemo))
         self.navigationItem.title = "메모"
-        self.navigationController?.navigationBar.backgroundColor = .white
     }
     
     private func setUpSearchBar() {
         self.view.addSubview(searchBar)
+        searchBar.placeholder = "Search"
         self.setSearchBarLayout()
     }
     

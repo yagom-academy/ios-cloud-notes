@@ -124,8 +124,9 @@ extension NoteListViewController: UITableViewDelegate {
         })
         
         let shareAction = UIContextualAction(style: .normal, title: "공유", handler: { (ac:UIContextualAction, view:UIView, success:(Bool) -> Void) in
-            let shardNote = "\(NoteManager.shared.specify(indexPath).title ?? "") \n\n \(NoteManager.shared.specify(indexPath).body ?? "")"
+            let shardNote = "\(NoteManager.shared.specify(indexPath).title ?? "")"
             let activityViewController = UIActivityViewController(activityItems: [shardNote], applicationActivities: nil)
+            activityViewController.popoverPresentationController?.sourceView = self.view
             self.present(activityViewController, animated: true, completion: nil)
             success(true)
         })

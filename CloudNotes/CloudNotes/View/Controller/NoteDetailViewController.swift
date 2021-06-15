@@ -61,6 +61,7 @@ final class NoteDetailViewController: UIViewController {
  
     @objc private func moreSee() {
         let actionsheetController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        actionsheetController.popoverPresentationController?.sourceView = self.view
         let sharedNote = UIAlertAction(title: "Share..", style: .default) { share in
             self.shareNote()
         }
@@ -92,6 +93,7 @@ final class NoteDetailViewController: UIViewController {
     private func shareNote() {
         let shareText = textView.text ?? "새로운 메모"
         let activityViewController = UIActivityViewController(activityItems: [shareText], applicationActivities: nil)
+        activityViewController.popoverPresentationController?.sourceView = self.view
         self.present(activityViewController, animated: true, completion: nil)
     }
 

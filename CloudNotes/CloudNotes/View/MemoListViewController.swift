@@ -29,14 +29,8 @@ class MemoListViewController: UIViewController {
         addNotifictaionObserver()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        self.tableView.reloadData()
-    }
-    
     private func reloadTableView() {
-        DispatchQueue.main.async {
-            self.tableView.reloadData()
-        }
+        self.tableView.reloadData()
     }
     
     private func configureMemoListView() {

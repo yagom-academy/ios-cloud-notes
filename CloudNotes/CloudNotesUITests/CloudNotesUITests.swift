@@ -127,7 +127,7 @@ final class CloudNotesUITests: XCTestCase {
         UIItems.moreButton.tap()
         UIItems.showActivityViewActionSheetButtonOfMoreButton.tap()
         
-        if UIItems.activityContentNavigationBar.waitForExistence(timeout: 3) {
+        if UIItems.activityContentNavigationBar.waitForExistence(timeout: 1) {
             XCTAssertTrue(UIItems.activityContentNavigationBar.isEnabled)
             UIItems.activityContentCloseButton.tap()
         } else {

@@ -174,7 +174,7 @@ final class NoteListViewController: UIViewController {
     
     @objc private func addButtonTapped() {
         let newNote = noteManager.createNewNote(title: UIItems.Texts.empty, body: UIItems.Texts.empty, date: Date())
-        editingNote = dataSource?.snapshot().itemIdentifiers.first
+        editingNote = newNote
         applySnapshot(animatingDifferences: true)
         listCollectionView?.selectItem(at: NoteLocations.indexPathOfFirstNote, animated: false, scrollPosition: .top)
         showDetailViewController(with: newNote)

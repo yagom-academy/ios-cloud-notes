@@ -9,6 +9,7 @@ import UIKit
 
 class MemoListViewController: UITableViewController {
     
+    var delegate: TextViewProtocol?
     var memoList = [MemoData]()
     
     override func viewDidLoad() {
@@ -23,7 +24,7 @@ class MemoListViewController: UITableViewController {
     }
     
     @objc private func addToMemo() {
-        let memoFormViewController = MemoFormViewController()
+        let memoFormViewController = MemoDetailViewController()
         navigationController?.pushViewController(memoFormViewController, animated: true)
     }
     
@@ -47,17 +48,6 @@ class MemoListViewController: UITableViewController {
         }
     }
     
-    private func convertDateFormat(date: Int) -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.locale = Locale(identifier: "ko_KR")
-        dateFormatter.dateFormat = "yyyy. MM. dd"
-        
-        let convertDate = Date(timeIntervalSince1970: Double(date))
-        let result = dateFormatter.string(from: convertDate)
-        
-        return result
-    }
-    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return memoList.count
     }
@@ -66,31 +56,25 @@ class MemoListViewController: UITableViewController {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "MemoListCell") as? MemoListCell else {
             return MemoListCell()
         }
-        
-        let memoData = memoList[indexPath.row]
-        let date = convertDateFormat(date: memoData.lastModified)
-        
-        cell.accessoryType = .disclosureIndicator
-        cell.title.text = memoData.title
-        cell.date.text = date
-        cell.preview.text = memoData.body
+    
+        cell.bindCellContent(item: memoList[indexPath.row])
         
         return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let memoFormViewController = splitViewController?.viewController(for: .secondary) as! MemoFormViewController
-        
-        memoFormViewController.MemoTextView.text = """
+        delegate?.setupContent("""
         \(memoList[indexPath.row].title)
 
         \(memoList[indexPath.row].body)
-        """
-        
-        if UITraitCollection.current.horizontalSizeClass == .compact {
-            navigationController?.pushViewController(memoFormViewController, animated: true)
-        } else if UITraitCollection.current.horizontalSizeClass == .regular {
-            splitViewController?.show(.primary)
-        }
+        """)
+
+        splitViewController?.show(.secondary)
+    }
+}
+
+extension MemoListViewController: UISplitViewControllerDelegate {
+    func splitViewController(_ svc: UISplitViewController, topColumnForCollapsingToProposedTopColumn proposedTopColumn: UISplitViewController.Column) -> UISplitViewController.Column {
+        .primary
     }
 }

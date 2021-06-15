@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MemoFormViewController: UIViewController {
+class MemoDetailViewController: UIViewController {
     
     let MemoTextView = UITextView()
     
@@ -16,6 +16,14 @@ class MemoFormViewController: UIViewController {
         
         view.backgroundColor = .systemBackground
         setMemoTextView()
+    }
+    
+    private func setBackgroundColor() {
+        if UITraitCollection.current.userInterfaceIdiom == .pad {
+            MemoTextView.backgroundColor = .systemGray
+        } else if UITraitCollection.current.userInterfaceIdiom == .phone {
+            MemoTextView.backgroundColor = .systemBackground
+        }
     }
     
     private func setMemoTextView() {
@@ -33,5 +41,16 @@ class MemoFormViewController: UIViewController {
         ])
         
         NSLayoutConstraint.activate(memoTextViewConstraints)
+    }
+}
+
+protocol TextViewProtocol {
+    func setupContent(_ content: String)
+}
+
+extension MemoDetailViewController: TextViewProtocol {
+    
+    func setupContent(_ content: String) {
+        MemoTextView.text = content
     }
 }

@@ -50,7 +50,7 @@ final class NoteManager: NSObject {
     @discardableResult
     func updateNote(_ editingNote: Note, with newText: String) -> Note? {
         var text = newText.split(separator: Texts.newLineAsElement, maxSplits: 1, omittingEmptySubsequences: false)
-        let newTitle = [text.removeFirst()].joined()
+        let newTitle = String(text.removeFirst())
         let newBody = text.joined()
         let currentDate = Date()
         

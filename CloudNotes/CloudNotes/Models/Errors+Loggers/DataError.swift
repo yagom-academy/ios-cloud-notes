@@ -8,22 +8,20 @@
 import UIKit
 
 enum DataError: Error, Equatable {
-    case editingNoteNotSet(location: String)
     case failedToGetNote(indexPath: IndexPath, location: String)
     case failedToSave(error: NSError)
     case failedToLoadSavedNotes(error: NSError)
     case failedToLoadPersistentStores(error: NSError)
     case cannotFindIndexPath(location: String)
     case noteNotFound
+    case snapshotIsEmpty(location: String)
 }
 
 extension DataError: CustomStringConvertible {
     var description: String {
         switch self {
-        case let .editingNoteNotSet(location):
-            return "Editing note is not set. Please check if you called `informEditingNote(_:indexPath:)` at the time the subject note for edit is being changed. Error occurred at \(location)"
         case let .failedToGetNote(indexPath, location):
-            return "Failed to get note. There is no note in intended indexPath (indexPath: \(indexPath). Error occurred at \(location)"
+            return "Failed to get note. There is no note at intended indexPath (indexPath: \(indexPath). Error occurred at \(location)"
         case let .failedToSave(error):
             return "Failed to save notes. Unresolved error \(error)."
         case let .failedToLoadSavedNotes(error):
@@ -31,9 +29,11 @@ extension DataError: CustomStringConvertible {
         case let .failedToLoadPersistentStores(error):
             return "Failed to load persistent stores. \(error)"
         case let .cannotFindIndexPath(location):
-            return "Cannot find indexPath for the more button to work. Please check if you called `informEditingNote(_:indexPath:)` at the time the subject note for edit is being changed. Error occurred at \(location)"
+            return "Cannot find indexPath for the more button to work. Error occurred at \(location)"
         case .noteNotFound:
-            return "There is no note in box. Please add a new note to make a memo."
+            return "There is no note in list. Please add a new note to make a memo."
+        case let .snapshotIsEmpty(location):
+            return "Note not found in snapshot while trying to change note. Error occurred at \(location)"
         }
     }
 }

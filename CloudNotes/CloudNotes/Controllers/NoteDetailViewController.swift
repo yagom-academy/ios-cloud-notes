@@ -30,7 +30,7 @@ final class NoteDetailViewController: UIViewController {
 
     private enum UIItems {
         enum TextView {
-            /// shows when the screen first loaded with regular size class.
+            /// shows when the screen first shown with regular size class.
             static let welcomeGreeting = "환영합니다!"
             static let textAfterCleared = "작성된 노트가 없습니다."
             static let titleSeparatorString = "\n"

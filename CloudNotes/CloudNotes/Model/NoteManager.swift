@@ -8,10 +8,27 @@
 import CoreData
 import UIKit
 
-class NoteManager {
+final class NoteManager: NSObject {
+    
+    static let shared = NoteManager()
+    var coreDataDelegate: CoreDataDelegate?
+    
+    // MARK: - Core Data stack
+    
+    lazy var persistentContainer: NSPersistentCloudKitContainer = {
+        
+        let container = NSPersistentCloudKitContainer(name: "CloudNotes")
+        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
+            if let error = error as NSError? {
+                
+                fatalError("Unresolved error \(error), \(error.userInfo)")
+            }
+        })
+        return container
+    }()
+    
     lazy var context: NSManagedObjectContext = {
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        return appDelegate.persistentContainer.viewContext
+        return persistentContainer.viewContext
     }()
     
     lazy var fetchedResultsController: NSFetchedResultsController<Note> = {
@@ -21,9 +38,26 @@ class NoteManager {
                                                                   managedObjectContext: context,
                                                                   sectionNameKeyPath: nil,
                                                                   cacheName: nil)
-        
+        fetchResult.delegate = self
         return fetchResult
     }()
+    
+    private override init() { }
+    
+    // MARK: - Core Data Saving support
+    
+    private func saveContext () {
+        let context = persistentContainer.viewContext
+        if context.hasChanges {
+            do {
+                try context.save()
+            } catch {
+                
+                let nserror = error as NSError
+                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+            }
+        }
+    }
     
     private func save() {
         do {

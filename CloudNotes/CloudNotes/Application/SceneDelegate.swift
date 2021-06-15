@@ -5,15 +5,16 @@
 // 
 
 import UIKit
-import OSLog
+import os
 
 final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
+    private var noteCoreDataStack: NoteCoreDataStack = .shared
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else {
-            os_log(.fault, log: .ui, OSLog.objectCFormatSpecifier, UIError.downcastingFailed(subject: "scene", location: #function).localizedDescription)
+            Loggers.ui.error("\(UIError.typeCastingFailed(subject: "scene: \(scene)", location: #function))")
             return
         }
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
@@ -26,6 +27,10 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func sceneDidEnterBackground(_ scene: UIScene) {
-        (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
+        noteCoreDataStack.saveContext()
+    }
+    
+    func sceneDidDisconnect(_ scene: UIScene) {
+        noteCoreDataStack.saveContext()
     }
 }

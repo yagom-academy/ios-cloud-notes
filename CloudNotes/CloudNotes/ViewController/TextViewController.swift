@@ -47,6 +47,7 @@ class TextViewController: UIViewController {
         } else {
             textView.text = ""
         }
+        textView.becomeFirstResponder()
     }
 
 }

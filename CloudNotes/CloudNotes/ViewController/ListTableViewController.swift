@@ -25,7 +25,8 @@ class ListTableViewController: UITableViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if let detailNavigationController = self.splitViewController?.viewControllers.last as? UINavigationController,
-           let textViewController = detailNavigationController.topViewController as? TextViewController {
+           let textViewController = detailNavigationController.topViewController as? TextViewController,
+           memoList.count != 0 {
             // TODO: - 메모에 아무것도 없을 때도 처리해줘야 함.
             // 시작 했을 때 아무것도 없으면 메모가 삭제됨 그래서 점을 넣음.
 //            textViewController.textView.text = "."

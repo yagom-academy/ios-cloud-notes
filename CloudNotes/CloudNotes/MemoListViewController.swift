@@ -9,6 +9,7 @@ import UIKit
 
 class MemoListViewController: UITableViewController {
     
+    var delegate: TextViewProtocol?
     var memoList = [MemoData]()
     
     override func viewDidLoad() {
@@ -55,22 +56,20 @@ class MemoListViewController: UITableViewController {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "MemoListCell") as? MemoListCell else {
             return MemoListCell()
         }
-        
+    
         cell.bindCellContent(item: memoList[indexPath.row])
         
         return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let memoFormViewController = splitViewController?.viewController(for: .secondary) as! MemoDetailViewController
-        
-        memoFormViewController.MemoTextView.text = """
+        delegate?.setupContent("""
         \(memoList[indexPath.row].title)
 
         \(memoList[indexPath.row].body)
-        """
-        
-        splitViewController?.showDetailViewController(memoFormViewController, sender: self)
+        """)
+
+        splitViewController?.show(.secondary)
     }
 }
 

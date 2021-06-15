@@ -34,6 +34,14 @@ class MemoListCell: UITableViewCell {
         setLabelAttribute()
         setLabelConstraints()
     }
+
+    func bindCellContent(item: MemoData) {
+        let date = convertDateFormat(date: item.lastModified)
+        
+        self.cellTitle.text = item.title
+        self.cellDate.text = date
+        self.cellBody.text = item.body
+    }
     
     private func convertDateFormat(date: Double) -> String {
         let dateFormatter = DateFormatter()
@@ -44,14 +52,6 @@ class MemoListCell: UITableViewCell {
         let result = dateFormatter.string(from: convertDate)
         
         return result
-    }
-    
-    func bindCellContent(item: MemoData) {
-        let date = convertDateFormat(date: item.lastModified)
-        
-        self.cellTitle.text = item.title
-        self.cellDate.text = date
-        self.cellBody.text = item.body
     }
     
     private func setCellStackViewAttribute() {

@@ -44,4 +44,13 @@ class MemoDetailViewController: UIViewController {
     }
 }
 
+protocol TextViewProtocol {
+    func setupContent(_ content: String)
+}
 
+extension MemoDetailViewController: TextViewProtocol {
+    
+    func setupContent(_ content: String) {
+        MemoTextView.text = content
+    }
+}

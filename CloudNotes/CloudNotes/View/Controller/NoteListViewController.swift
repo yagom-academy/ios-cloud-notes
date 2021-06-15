@@ -43,13 +43,7 @@ final class NoteListViewController: UIViewController {
         newNote.body = ""
         newNote.lastModify = Date()
         NoteManager.shared.insert(newNote)
-        noteDelegate?.deliverToDetail(nil, first: true, index: IndexPath(item: 0, section: 0))
-    }
-    
-    func textViewIsEmpty(_ first: Bool) {
-        if first == false { return }
-        let data = NoteManager.shared.specify(IndexPath(row: 0, section: 0))
-        NoteManager.shared.delete(data)
+        noteDelegate?.deliverToDetail(nil, index: IndexPath(item: 0, section: 0))
     }
     
     func updateTextToCell(_ data: String, index: IndexPath?) {
@@ -110,7 +104,7 @@ extension NoteListViewController: UITableViewDataSource {
 extension NoteListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         specifyNote = NoteManager.shared.specify(indexPath)
-        noteDelegate?.deliverToDetail(specifyNote, first: false, index: indexPath)
+        noteDelegate?.deliverToDetail(specifyNote, index: indexPath)
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
@@ -150,7 +144,7 @@ extension NoteListViewController {
         
         if NoteManager.shared.count() == 0 || (NoteManager.shared.count() == indexPath?.row) {
             if UITraitCollection.current.horizontalSizeClass == .regular {
-                noteDelegate?.deliverToDetail(nil, first: false, index: IndexPath(item: 0, section: 0))
+                noteDelegate?.deliverToDetail(nil, index: IndexPath(item: 0, section: 0))
             }
             noteDelegate?.clearNote()
             return
@@ -158,7 +152,7 @@ extension NoteListViewController {
 
         if UITraitCollection.current.horizontalSizeClass == .regular {
             self.tableView.selectRow(at: indexPath, animated: true, scrollPosition: .top)
-            noteDelegate?.deliverToDetail(NoteManager.shared.specify(indexPath), first: false, index: indexPath!)
+            noteDelegate?.deliverToDetail(NoteManager.shared.specify(indexPath), index: indexPath!)
         }
     }
     

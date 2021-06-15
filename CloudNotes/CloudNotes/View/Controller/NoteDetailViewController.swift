@@ -22,7 +22,6 @@ final class NoteDetailViewController: UIViewController {
         return textview
     }()
     weak var noteDelegate: NoteDelegate?
-    private var isNewPage: Bool = true
     private var editIndex: IndexPath?
         
     override func viewDidLoad() {
@@ -39,18 +38,17 @@ final class NoteDetailViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        noteDelegate?.deliverToPrimary(textView, first: isNewPage, index: editIndex)
+        noteDelegate?.deliverToPrimary(textView, index: editIndex)
         textView.isEditable = false
     }
     
-    func displayData(_ data: Note?, first: Bool, index: IndexPath) {
+    func displayData(_ data: Note?, index: IndexPath) {
         guard let textdata = data else {
             textView.text = ""
-            self.isNewPage = first
+            
             return
         }
         self.editIndex = index
-        self.isNewPage = first
         textView.text = (textdata.title ?? "") + "\n" + (textdata.body ?? "")
         textView.resignFirstResponder()
         textView.scrollRangeToVisible(NSMakeRange(0, 0))
@@ -111,6 +109,6 @@ final class NoteDetailViewController: UIViewController {
 
 extension NoteDetailViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
-        self.noteDelegate?.deliverToPrimary(textView, first: isNewPage, index: editIndex)
+        self.noteDelegate?.deliverToPrimary(textView, index: editIndex)
     }
 }

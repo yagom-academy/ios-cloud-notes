@@ -8,8 +8,8 @@
 import UIKit
 
 protocol NoteDelegate: AnyObject {
-    func deliverToDetail(_ data: Note?, first: Bool, index: IndexPath)
-    func deliverToPrimary(_ text: UITextView, first: Bool, index: IndexPath?)
+    func deliverToDetail(_ data: Note?, index: IndexPath)
+    func deliverToPrimary(_ data: UITextView, index: IndexPath?)
     func clearNote()
     func backToPrimary()
 }

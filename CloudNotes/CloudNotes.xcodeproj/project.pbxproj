@@ -144,16 +144,16 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		8A39C80D2664EDA700121C82 /* Model */ = {
+		8A39C80D2664EDA700121C82 /* Models */ = {
 			isa = PBXGroup;
 			children = (
 				8A39C83A266743B800121C82 /* MemoCache.swift */,
 				8A697783266B5621000AD4F5 /* CoreData.swift */,
-				8A39C8312667429000121C82 /* DataError.swift */,
 				8A6978A926765588000AD4F5 /* DropboxManager.swift */,
+				8A39C8312667429000121C82 /* DataError.swift */,
 				8A39C80E2664EE0800121C82 /* Memo.swift */,
 			);
-			path = Model;
+			path = Models;
 			sourceTree = "<group>";
 		};
 		8A39C81B2666381600121C82 /* Controllers */ = {
@@ -240,7 +240,7 @@
 				8A69770A2669EBC8000AD4F5 /* CoreDataEntities */,
 				8A6978AE2676F142000AD4F5 /* Constant */,
 				8A6978B426772671000AD4F5 /* Resources */,
-				8A39C80D2664EDA700121C82 /* Model */,
+				8A39C80D2664EDA700121C82 /* Models */,
 				8A39C8042664ECDE00121C82 /* Views */,
 				8A39C81B2666381600121C82 /* Controllers */,
 				C7481C7E25BBCF3A00B9CA55 /* Info.plist */,

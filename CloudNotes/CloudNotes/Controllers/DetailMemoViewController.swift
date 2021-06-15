@@ -16,7 +16,7 @@ class DetailMemoViewController: UIViewController {
     var indexPath: IndexPath?
     var memoListViewController: MemoListViewController?
     
-    lazy var rightNvigationItem: UIButton = {
+    lazy var rightNavigationItem: UIButton = {
         let button = UIButton()
         button.setTitleColor(UIColor.systemBlue, for: .normal)
         button.setBackgroundImage(UIImage(systemName: "ellipsis.circle"), for: .normal)
@@ -86,7 +86,7 @@ class DetailMemoViewController: UIViewController {
     
     private func setUpUI() {
         self.view.backgroundColor = .white
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightNvigationItem)
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightNavigationItem)
         self.view.addSubview(memoTextView)
         setUpMemoTextView()
     }
@@ -104,15 +104,25 @@ class DetailMemoViewController: UIViewController {
 
     func configure(with memo: MemoListItem?, indexPath: IndexPath?) {
         memoTextView.contentOffset = CGPoint(x: 0,y: 0)
-        guard let memo = memo, let allText = memo.allText else {
+        guard let memo = memo, let allText = memo.allText, let title = memo.title, let body = memo.body else {
             memoTextView.text = ""
             return
         }
         guard let indexPath = indexPath else {
             return
         }
-        memoTextView.text = allText
+        setUpTextStyle(allText: allText, title: title, body: body)
         self.indexPath = indexPath
+    }
+    
+    func setUpTextStyle(allText: String, title: String, body: String) {
+        let titleFont = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.title1)
+        let bodyFont = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.body)
+        let attributedString = NSMutableAttributedString(string: allText)
+
+        attributedString.addAttribute(.font, value: titleFont, range: (allText as NSString).range(of: title))
+        attributedString.addAttribute(.font, value: bodyFont, range: (allText as NSString).range(of: body))
+        memoTextView.attributedText = attributedString
     }
 }
 

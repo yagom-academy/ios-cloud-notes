@@ -7,7 +7,9 @@
 
 import Foundation
 import UIKit
+
 typealias Handler = (Bool) -> Void
+
 struct CoreData {
     static let shared = CoreData()
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext

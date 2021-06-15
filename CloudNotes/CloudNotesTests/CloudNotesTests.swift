@@ -42,7 +42,7 @@ final class CloudNotesTests: XCTestCase {
     func testReceivedNoteIsSameAsCreated() {
         let newNote = sutNoteManager.createNewNote(title: TestAssets.title, body: TestAssets.body, date: TestAssets.date)
         
-        let received = sutNoteManager.getNote(byID: newNote.objectID)
+        let received = sutNoteManager.fetchedNotes.first
         
         XCTAssertEqual(newNote, received)
     }

@@ -42,28 +42,16 @@ final class CloudNotesTests: XCTestCase {
     func testReceivedNoteIsSameAsCreated() {
         let newNote = sutNoteManager.createNewNote(title: TestAssets.title, body: TestAssets.body, date: TestAssets.date)
         
-        let received = sutNoteManager.getNote(at: TestAssets.indexPathOfFirstNote)
+        let received = sutNoteManager.getNote(byID: newNote.objectID)
         
         XCTAssertEqual(newNote, received)
     }
     
-    func testInformEditingNote() {
-        let editingNote = sutNoteManager.createNewNote(title: TestAssets.title, body: TestAssets.body, date: TestAssets.date)
-        let noteDetailViewController = NoteDetailViewController()
-        sutNoteManager.noteDetailViewControllerDelegate = noteDetailViewController
-        
-        sutNoteManager.informEditingNote(editingNote, indexPath: TestAssets.indexPathOfFirstNote)
-        
-        XCTAssertEqual(sutNoteManager.editingNote, editingNote)
-        XCTAssertEqual(noteDetailViewController.currentIndexPathForSelectedNote, TestAssets.indexPathOfFirstNote)
-    }
-    
     func testUpdateNote() {
         let editingNote = sutNoteManager.createNewNote(title: TestAssets.title, body: TestAssets.body, date: TestAssets.date)
-        sutNoteManager.informEditingNote(editingNote, indexPath: nil)
         let updatedText = TestAssets.updatedTitle + TestAssets.titleBodySeparator + TestAssets.updatedBody
         
-        let updated = sutNoteManager.updateNote(with: updatedText)
+        let updated = sutNoteManager.updateNote(editingNote, with: updatedText)
         
         XCTAssertEqual(updated?.title, TestAssets.updatedTitle)
         XCTAssertEqual(updated?.body, TestAssets.updatedBody)

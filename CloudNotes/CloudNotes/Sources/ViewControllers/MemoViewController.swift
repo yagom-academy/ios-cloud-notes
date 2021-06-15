@@ -89,7 +89,7 @@ final class MemoViewController: UIViewController {
             return textView.text = nil
         }
 
-        textView.text = "\(memo.title)\n\(memo.body)"
+        textView.text = memo.title + "\(Style.memoSeparator)" + memo.body
     }
 
     private func resetScrollOffset() {

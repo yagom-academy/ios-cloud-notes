@@ -9,12 +9,14 @@ import UIKit
 class MemoListViewController: UIViewController {
     
     let tableView = UITableView()
+    let searchBar = UISearchBar()
     var memoSplitViewController: MemoSplitViewController?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         DropboxManager.shared.authorize(viewController: self)
         self.view.backgroundColor = .systemBackground
+        self.setUpSearchBar()
         self.setUpTableView()
         setUpNavigationBar()
     }
@@ -35,6 +37,11 @@ class MemoListViewController: UIViewController {
         self.navigationController?.navigationBar.backgroundColor = .white
     }
     
+    private func setUpSearchBar() {
+        self.view.addSubview(searchBar)
+        self.setSearchBarLayout()
+    }
+    
     private func setUpTableView() {
         self.view.addSubview(tableView)
         self.tableView.delegate = self
@@ -43,11 +50,21 @@ class MemoListViewController: UIViewController {
         self.setTableViewLayout()
     }
     
+    private func setSearchBarLayout() {
+        let safeArea = self.view.safeAreaLayoutGuide
+        self.searchBar.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            self.searchBar.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 0),
+            self.searchBar.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 0),
+            self.searchBar.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: 0)
+        ])
+    }
+    
     private func setTableViewLayout() {
         let safeArea = self.view.safeAreaLayoutGuide
         self.tableView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            self.tableView.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 0),
+            self.tableView.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: 0),
             self.tableView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 0),
             self.tableView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: 0),
             self.tableView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: 0),

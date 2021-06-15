@@ -49,6 +49,7 @@ final class NoteDetailViewController: UIViewController {
             return
         }
         self.editIndex = index
+        textView.isEditable = true
         textView.text = (textdata.title ?? "") + "\n" + (textdata.body ?? "")
         textView.resignFirstResponder()
         textView.scrollRangeToVisible(NSMakeRange(0, 0))

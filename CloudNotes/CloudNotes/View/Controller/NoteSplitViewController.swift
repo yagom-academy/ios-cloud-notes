@@ -47,7 +47,7 @@ extension NoteSplitViewController: NoteDelegate {
         if data.text == "" {
             self.primary.textViewIsEmpty(first)
         } else {
-            self.primary.updateTextToCell(data.text, isTitle: false, index: index)
+            self.primary.updateTextToCell(data.text, index: index)
         }
     }
     

@@ -52,9 +52,9 @@ final class NoteListViewController: UIViewController {
         NoteManager.shared.delete(data)
     }
     
-    func updateTextToCell(_ data: String, isTitle: Bool, index: IndexPath?) {
+    func updateTextToCell(_ data: String, index: IndexPath?) {
         let newNote = NoteManager.shared.specify(IndexPath(item: 0, section: 0))
-        NoteManager.shared.update(data, isTitle, notedata: specifyNote ?? newNote)
+        NoteManager.shared.update(data, notedata: specifyNote ?? newNote)
     }
     
     private func fetchList() {

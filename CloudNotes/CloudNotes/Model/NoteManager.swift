@@ -100,7 +100,7 @@ final class NoteManager: NSObject {
         }
     }
     
-    func update(_ text: String, _ isTitle: Bool, notedata: Note) {
+    func update(_ text: String, notedata: Note) {
         var split = text.split(separator: "\n", maxSplits: 1, omittingEmptySubsequences: false)
         let title = String(split.removeFirst())
         let body = split.map { String($0) }.first

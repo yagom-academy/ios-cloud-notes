@@ -33,6 +33,12 @@ class MemoListViewController: UIViewController {
         self.tableView.reloadData()
     }
     
+    private func reloadTableView() {
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
+    }
+    
     private func configureMemoListView() {
         self.tableView.dataSource = self
         self.tableView.delegate = self
@@ -41,12 +47,20 @@ class MemoListViewController: UIViewController {
         tableView.register(MemoListCell.self, forCellReuseIdentifier: MemoListCell.identifier)
         self.view.backgroundColor = .white
         self.navigationItem.title = memoListViewNavigationBarTitle
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(didTapAdd))
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
+                                                                 target: self,
+                                                                 action: #selector(didTapAdd))
     }
     
     private func addNotifictaionObserver() {
-        NotificationCenter.default.addObserver(self, selector: #selector(deleteMemo), name: NotificationNames.delete.name, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(updateMemo(notification:)), name: NotificationNames.update.name, object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(deleteMemo),
+                                               name: NotificationNames.delete.name,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(updateMemo(notification:)),
+                                               name: NotificationNames.update.name,
+                                               object: nil)
     }
     
     @objc private func didTapAdd() {
@@ -58,35 +72,33 @@ class MemoListViewController: UIViewController {
             guard let detail = memoDetailViewDelegate as? MemoDetailViewController else { return }
             self.navigationController?.pushViewController(detail, animated: true)
         } else {
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
+            reloadTableView()
         }
     }
     
     @objc private func deleteMemo() {
         guard let memoData = self.memoListViewModel.editingMemo else { return }
         self.memoListViewModel.deleteMemoData(data: memoData)
-        DispatchQueue.main.async {
-            self.tableView.reloadData()
-        }
+        reloadTableView()
     }
     
     @objc private func updateMemo(notification: Notification) {
         guard let textData: String = notification.object as? String else { return }
         guard let memoData = self.memoListViewModel.editingMemo else { return }
         if let lineChange = textData.range(of: "\n") {
-            let lineChangeInt = textData.distance(from: textData.startIndex, to: lineChange.lowerBound)
+            let lineChangeInt = textData.distance(from: textData.startIndex,
+                                                  to: lineChange.lowerBound)
             let pointIndex = String.Index(encodedOffset: lineChangeInt+1)
             let title = textData[textData.startIndex...lineChange.lowerBound] == "\n" ? "" : textData[textData.startIndex...lineChange.lowerBound]
-            let body = textData[pointIndex..<textData.endIndex] == "\n" ? "" : textData[pointIndex..<textData.endIndex]
-            self.memoListViewModel.updataMemoData(titleText: String(title), bodyText: String(body), data: memoData)
+            let body = textData[pointIndex..<textData.endIndex] == "\n" ? "" :
+                textData[pointIndex..<textData.endIndex]
+            self.memoListViewModel.updataMemoData(titleText: String(title),
+                                                  bodyText: String(body),
+                                                  data: memoData)
         } else {
             self.memoListViewModel.updataMemoData(titleText: textData, bodyText: "", data: memoData)
         }
-        DispatchQueue.main.async {
-            self.tableView.reloadData()
-        }
+        reloadTableView()
     }
  
     private func tableViewAutoLayout() {
@@ -117,7 +129,8 @@ extension MemoListViewController: UITableViewDelegate, UITableViewDataSource {
             return UITableViewCell()
         }
         let memoData = memoListViewModel.readMemo(index: indexPath.row)
-        cell.configureCell(memoData: memoData, stringLastModified: memoListViewModel.convertDate(date: memoData.lastModified))
+        cell.configureCell(memoData: memoData,
+                           stringLastModified: memoListViewModel.convertDate(date: memoData.lastModified))
         
         return cell
     }
@@ -137,14 +150,18 @@ extension MemoListViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         self.memoListViewModel.configureLastSelectIndex(index: indexPath.row)
-        let delete = UIContextualAction(style: .normal, title: "delete", handler: {(action, view, completionHandler) in
+        let delete = UIContextualAction(style: .normal,
+                                        title: "delete",
+                                        handler: {(action, view, completionHandler) in
             self.deleteMemo()
             completionHandler(true)
         })
-        let share = UIContextualAction(style: .normal, title: "share", handler: {(action, view, completionHandler) in
+        let share = UIContextualAction(style: .normal,
+                                       title: "share",
+                                       handler: {(action, view, completionHandler) in
             let text = self.memoListViewModel.memoDataText(data: self.memoListViewModel.readMemo(index: indexPath.row))
-        
-            let activityController = UIActivityViewController(activityItems: [text], applicationActivities: nil)
+            let activityController = UIActivityViewController(activityItems: [text],
+                                                              applicationActivities: nil)
             self.present(activityController, animated: true, completion: nil)
             completionHandler(true)
         })

@@ -23,7 +23,6 @@ class MemoListCell: UITableViewCell {
     
     private var title: UILabel = {
         let title = UILabel()
-        title.text = "title Text"
         title.translatesAutoresizingMaskIntoConstraints = false
         title.font = UIFont.boldSystemFont(ofSize: 24)
         
@@ -32,7 +31,6 @@ class MemoListCell: UITableViewCell {
     
     private var body: UILabel = {
         let body = UILabel()
-        body.text = "body Text"
         body.translatesAutoresizingMaskIntoConstraints = false
         body.font = UIFont.systemFont(ofSize: 15)
         body.textColor = .gray
@@ -42,7 +40,6 @@ class MemoListCell: UITableViewCell {
     
     private var lastModified: UILabel = {
         let lastModified = UILabel()
-        lastModified.text = "lastModified Text"
         lastModified.translatesAutoresizingMaskIntoConstraints = false
         lastModified.font = UIFont.systemFont(ofSize: 15)
         lastModified.setContentCompressionResistancePriority(.required, for: .horizontal)

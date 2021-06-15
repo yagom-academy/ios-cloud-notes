@@ -29,26 +29,16 @@ class MemoDetailViewController: UIViewController, UITextViewDelegate, MemoDetail
         view.backgroundColor = .white
         view.addSubview(textView)
         textView.delegate = textView
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: #selector(didTapMore))
-    }
-    
-    private func configureTextViewConstraints() {
-        let safeArea = view.safeAreaLayoutGuide
-        
-        textView.translatesAutoresizingMaskIntoConstraints = false
-        textView.font = UIFont.systemFont(ofSize: 20)
-        NSLayoutConstraint.activate([
-            textView.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 0),
-            textView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 10),
-            textView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -10),
-            textView.heightAnchor.constraint(equalTo: safeArea.heightAnchor),
-        ])
+        let buttonItemImage = UIImage(systemName: "ellipsis.circle")
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: buttonItemImage,
+                                                                 style: .plain,
+                                                                 target: self,
+                                                                 action: #selector(didTapMore))
     }
 
     func configureDetailText(data: MemoData) {
-        guard let title = data.title else { return }
-        guard let body = data.body else { return }
-        
+        guard let title = data.title,
+              let body = data.body else { return }
         let text = title + body
         textView.text = text
     }
@@ -66,7 +56,8 @@ class MemoDetailViewController: UIViewController, UITextViewDelegate, MemoDetail
         }
         let shareAction = UIAlertAction(title: "Share", style: .default) { _ in
             guard let textViewData = self.textView.text else { return }
-            let activityController = UIActivityViewController(activityItems: [textViewData], applicationActivities: nil)
+            let activityController = UIActivityViewController(activityItems: [textViewData],
+                                                              applicationActivities: nil)
             self.present(activityController, animated: true, completion: nil)
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
@@ -75,6 +66,19 @@ class MemoDetailViewController: UIViewController, UITextViewDelegate, MemoDetail
         alert.addAction(shareAction)
         alert.addAction(cancelAction)
         self.present(alert, animated: true, completion: nil)
+    }
+    
+    private func configureTextViewConstraints() {
+        let safeArea = view.safeAreaLayoutGuide
+        
+        textView.translatesAutoresizingMaskIntoConstraints = false
+        textView.font = UIFont.systemFont(ofSize: 20)
+        NSLayoutConstraint.activate([
+            textView.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 0),
+            textView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 10),
+            textView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -10),
+            textView.heightAnchor.constraint(equalTo: safeArea.heightAnchor),
+        ])
     }
     
 }

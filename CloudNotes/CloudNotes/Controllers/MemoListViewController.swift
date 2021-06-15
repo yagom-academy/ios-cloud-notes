@@ -14,9 +14,13 @@ class MemoListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         DropboxManager.shared.authorize(viewController: self)
-        self.view.backgroundColor = .white
+        self.view.backgroundColor = .systemBackground
         self.setUpTableView()
         setUpNavigationBar()
+    }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        self.navigationItem.rightBarButtonItem?.tintColor = setDynamicTintColor(dark: UIColor.systemYellow, light: UIColor.systemBlue, traiteCollection: self.view.traitCollection)
     }
     
     @objc private func addNewMemo() {

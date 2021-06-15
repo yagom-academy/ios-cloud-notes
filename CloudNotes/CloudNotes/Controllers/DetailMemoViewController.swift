@@ -18,7 +18,7 @@ class DetailMemoViewController: UIViewController {
     
     lazy var rightNavigationItem: UIButton = {
         let button = UIButton()
-        button.setTitleColor(UIColor.systemBlue, for: .normal)
+        button.tintColor = .systemBlue
         button.setBackgroundImage(UIImage(systemName: "ellipsis.circle"), for: .normal)
         button.addTarget(self, action: #selector(showActionSheet), for: .touchDown)
         return button
@@ -31,6 +31,10 @@ class DetailMemoViewController: UIViewController {
         memoTextView.contentInsetAdjustmentBehavior = .automatic
         memoTextView.textAlignment = NSTextAlignment.justified
         memoTextView.contentOffset = CGPoint(x: 0,y: 0)
+    }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        rightNavigationItem.tintColor = setDynamicTintColor(dark: UIColor.systemYellow, light: UIColor.systemBlue, traiteCollection: self.view.traitCollection)
     }
     
     private func presentAlertForActionSheet(
@@ -85,7 +89,7 @@ class DetailMemoViewController: UIViewController {
     }
     
     private func setUpUI() {
-        self.view.backgroundColor = .white
+        self.view.backgroundColor = .systemBackground
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightNavigationItem)
         self.view.addSubview(memoTextView)
         setUpMemoTextView()
@@ -122,6 +126,7 @@ class DetailMemoViewController: UIViewController {
 
         attributedString.addAttribute(.font, value: titleFont, range: (allText as NSString).range(of: title))
         attributedString.addAttribute(.font, value: bodyFont, range: (allText as NSString).range(of: body))
+        attributedString.addAttribute(.foregroundColor, value: UIColor.label, range: (allText as NSString).range(of: allText))
         memoTextView.attributedText = attributedString
     }
 }
@@ -176,3 +181,12 @@ extension DetailMemoViewController: UITextViewDelegate {
     }
 }
 
+extension UIViewController {
+    func setDynamicTintColor(dark: UIColor, light: UIColor, traiteCollection: UITraitCollection) -> UIColor {
+        if traiteCollection.userInterfaceStyle == .dark {
+            return dark
+        } else {
+            return light
+        }
+    }
+}

@@ -43,8 +43,8 @@ class MemoListTableViewCell: UITableViewCell {
     }
     
     private func setUpTitleLabel(layoutGuide: UILayoutGuide) {
-        title.font = title.font.withSize(15)
-        title.textColor = .black
+        title.font = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.title3)
+        title.textColor = .label
         title.translatesAutoresizingMaskIntoConstraints = false
         title.numberOfLines = 0
         NSLayoutConstraint.activate([
@@ -56,17 +56,19 @@ class MemoListTableViewCell: UITableViewCell {
     }
     
     private func setUpWritedDateLabel(layoutGuide: UILayoutGuide) {
-        lastModifiedDate.textColor = .black
+        lastModifiedDate.font = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.body)
+        lastModifiedDate.textColor = .label
         lastModifiedDate.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             lastModifiedDate.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 5),
             lastModifiedDate.leadingAnchor.constraint(equalTo: layoutGuide.leadingAnchor, constant: 10),
-            lastModifiedDate.trailingAnchor.constraint(equalTo: body.leadingAnchor, constant: -50),
+            lastModifiedDate.trailingAnchor.constraint(equalTo: body.leadingAnchor, constant: 0),
             lastModifiedDate.bottomAnchor.constraint(equalTo: layoutGuide.bottomAnchor, constant: -5),
         ])
     }
     
     private func setUpPreviewLabel(layoutGuide: UILayoutGuide) {
+        body.font = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.body)
         body.textColor = .systemGray
         body.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([

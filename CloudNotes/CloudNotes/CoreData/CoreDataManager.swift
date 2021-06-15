@@ -36,6 +36,12 @@ class CoreDataManager {
         return newMemo
     }
     
+    func editMemo(memo: Memo, title: String, body: String) {
+        memo.title = title
+        memo.body = body
+        saveContext()
+    }
+    
     func fetchMemos() -> [Memo] {
         guard let memos = try? mainContext.fetch(Memo.fetchRequest()) as? [Memo] else {
             return []

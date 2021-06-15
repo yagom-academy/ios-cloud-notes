@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		B017346826665C44005054F6 /* Memo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B017346726665C44005054F6 /* Memo.swift */; };
+		B03DF85026778A4700F45137 /* StringTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B03DF84F26778A4700F45137 /* StringTest.swift */; };
 		B051DF122664F27500186844 /* MainSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B051DF112664F27500186844 /* MainSplitViewController.swift */; };
 		B051DF1B2664FF1200186844 /* ListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B051DF1A2664FF1200186844 /* ListTableViewController.swift */; };
 		B051DF232664FF5E00186844 /* TextViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B051DF222664FF5E00186844 /* TextViewController.swift */; };
@@ -42,6 +43,7 @@
 
 /* Begin PBXFileReference section */
 		B017346726665C44005054F6 /* Memo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memo.swift; sourceTree = "<group>"; };
+		B03DF84F26778A4700F45137 /* StringTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringTest.swift; sourceTree = "<group>"; };
 		B051DF112664F27500186844 /* MainSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSplitViewController.swift; sourceTree = "<group>"; };
 		B051DF1A2664FF1200186844 /* ListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableViewController.swift; sourceTree = "<group>"; };
 		B051DF222664FF5E00186844 /* TextViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewController.swift; sourceTree = "<group>"; };
@@ -165,6 +167,7 @@
 				C7481C8725BBCF3A00B9CA55 /* CloudNotesTests.swift */,
 				B0A309C0267096B300BDE6A2 /* CoreDataTest.swift */,
 				C7481C8925BBCF3A00B9CA55 /* Info.plist */,
+				B03DF84F26778A4700F45137 /* StringTest.swift */,
 			);
 			path = CloudNotesTests;
 			sourceTree = "<group>";
@@ -325,6 +328,7 @@
 			files = (
 				B0A309C1267096B300BDE6A2 /* CoreDataTest.swift in Sources */,
 				C7481C8825BBCF3A00B9CA55 /* CloudNotesTests.swift in Sources */,
+				B03DF85026778A4700F45137 /* StringTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

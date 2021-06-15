@@ -42,7 +42,7 @@ class TextViewController: UIViewController {
     func changedTextBySelectedCell(with memo: Memo) {
         if let title = memo.title,
            let body = memo.body {
-            textView.text = title + "\n\n"
+            textView.text = title + "\n"
             textView.text.append(body)
         } else {
             textView.text = ""

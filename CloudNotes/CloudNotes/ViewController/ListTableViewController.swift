@@ -28,9 +28,10 @@ class ListTableViewController: UITableViewController {
            let textViewController = detailNavigationController.topViewController as? TextViewController {
             // TODO: - 메모에 아무것도 없을 때도 처리해줘야 함.
             // 시작 했을 때 아무것도 없으면 메모가 삭제됨 그래서 점을 넣음.
-            textViewController.textView.text = "."
+//            textViewController.textView.text = "."
             tableView.selectRow(at: IndexPath(row: 0, section: 0), animated: true, scrollPosition: .none)
-            tableView.delegate?.tableView?(tableView, didSelectRowAt: IndexPath(row: 0, section: 0))
+            textViewController.changedTextBySelectedCell(with: memoList[0])
+//            tableView.delegate?.tableView?(tableView, didSelectRowAt: IndexPath(row: 0, section: 0))
         } else {
             print("텍스트튜 없음")
         }
@@ -57,10 +58,14 @@ class ListTableViewController: UITableViewController {
         if let detailNavigationController = self.splitViewController?.viewControllers.last as? UINavigationController,
            let textViewController = detailNavigationController.topViewController as? TextViewController {
             textViewController.textView.text = ""
-            tableView.beginUpdates()
+//            tableView.beginUpdates()
+//            memoList.insert(CoreDataManager.shared.makeNewMeno(), at: 0)
+//            tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
+//            tableView.endUpdates()
             memoList.insert(CoreDataManager.shared.makeNewMeno(), at: 0)
-            tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
-            tableView.endUpdates()
+            tableView.performBatchUpdates({
+                tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
+            }, completion: nil)
             tableView.selectRow(at: IndexPath(row: 0, section: 0), animated: true, scrollPosition: .none)
             textViewController.changedTextBySelectedCell(with: memoList[0])
             lastClickedIndexPath = IndexPath(row: 0, section: 0)
@@ -119,6 +124,10 @@ extension ListTableViewController {
                 // 여기서 -1을 하는 이유는 최상단의 빈 메모가 지워졌기 때문
                 textViewController.changedTextBySelectedCell(with: memoList[indexPath.row - 1])
             } else {
+                // 수정된 메모를 저장하는 시점..
+                CoreDataManager.shared.editMemo(memo: memoList[lastClickedIndexPath.row],
+                                                title: textViewController.textView.text.subString(before: "\n"),
+                                                body: textViewController.textView.text.subString(after: "\n"))
                 textViewController.changedTextBySelectedCell(with: memoList[indexPath.row])
             }
             textViewController.textView.isEditable = true
@@ -145,4 +154,20 @@ extension Date {
     
 }
 
+extension String {
+    
+    func subString(before: Character) -> String {
+        let selectedIndex = self.firstIndex(of: before) ?? self.index(before: self.endIndex)
+        print(String(self[..<selectedIndex]))
+        return String(self[..<selectedIndex])
+    }
+    
+    func subString(after: Character) -> String {
+        let selectedIndex = self.firstIndex(of: after) ?? self.index(before: self.endIndex)
+        let nextselectedIndex = self.index(after: selectedIndex)
+        print(String(self[nextselectedIndex...]))
+        return String(self[nextselectedIndex...])
+    }
+    
+}
 

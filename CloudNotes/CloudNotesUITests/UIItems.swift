@@ -42,8 +42,20 @@ enum UIItems {
     static let showActivityViewActionSheetButtonOfMoreButton = app.sheets.scrollViews.otherElements.buttons["Show activity view"]
     
     // Strings for test
-    static let sampleText = "Learning Swift is so fun!\nUI Testing is also fun!!"
-    static let sampleTextForFirstNote = "First Title\nFirst note"
-    static let sampleTextForSecondNote = "Second Title\nSecond note"
-    static let sampleUpdatedTextForFirstNote = "IndexPath moved from [0, 1] to [0, 0].\nWE ARE ON FIRE!!"
+    static let sampleText = """
+    Learning Swift is so fun!
+    UI Testing is also fun !!
+    """
+    static let sampleTextForFirstNote = """
+    First Title
+    First note
+    """
+    static let sampleTextForSecondNote = """
+    Second Title
+    Second note
+    """
+    static let sampleUpdatedTextForFirstNote = """
+    IndexPath moved from [0, 1] to [0, 0].
+    WE ARE ON FIRE!!
+    """
 }

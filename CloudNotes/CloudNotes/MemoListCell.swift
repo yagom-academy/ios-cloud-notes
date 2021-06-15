@@ -24,15 +24,9 @@ class MemoListCell: UITableViewCell {
         setLabelAttribute()
         setLabelConstraints()
     }
-
+    
     required init?(coder: NSCoder) {
-        super.init(style: .default, reuseIdentifier: "MemoListCell")
-        
-        self.accessoryType = .disclosureIndicator
-        self.addSubview(cellStackView)
-        setCellStackViewAttribute()
-        setLabelAttribute()
-        setLabelConstraints()
+        super.init(coder: coder)
     }
 
     func bindCellContent(item: MemoData) {

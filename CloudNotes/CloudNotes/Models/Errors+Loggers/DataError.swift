@@ -34,7 +34,7 @@ extension DataError: CustomStringConvertible {
         case let .cannotGetFetchedObjects(location):
             return "Cannot get fetched objects from fetched results controller. Check if the controller is implemented and called `performFetch()` before get fetched objects. Error occurred at \(location)"
         case let .cannotFindIndexPath(location):
-            return "Cannot find indexPath for the ellipsis button to work. Please check if you called `informEditingNote(_:indexPath:)` at the time the subject note for edit is being changed. Error occurred at \(location)"
+            return "Cannot find indexPath for the more button to work. Please check if you called `informEditingNote(_:indexPath:)` at the time the subject note for edit is being changed. Error occurred at \(location)"
         case .noNote:
             return "There is no note in box. Please add a new note to make a memo."
         }

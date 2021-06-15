@@ -27,11 +27,10 @@ final class NoteManager: NSObject {
     
     // MARK: - Namespaces
     
-    private enum TextSymbols {
+    private enum Texts {
         static let newLineAsElement: String.Element = "\n"
-        static let newLineAsString = "\n"
-        static let emptyString = ""
-        static let emptySubString: Substring = ""
+        static let newLine = "\n"
+        static let empty = ""
     }
     
     // MARK: - Create, Read, Update, Delete (CRUD) Features Implemented with Core Data Stack
@@ -53,34 +52,18 @@ final class NoteManager: NSObject {
     
     @discardableResult
     func updateNote(with newText: String) -> Note? {
-        var text = newText.split(separator: TextSymbols.newLineAsElement, omittingEmptySubsequences: false)
-        var textHasTitleAtLeast: Bool {
-            return text.count >= 1
-        }
-        var newBodyHasText: Bool {
-            return newBody != TextSymbols.newLineAsString
-        }
+        var text = newText.split(separator: Texts.newLineAsElement, maxSplits: 1, omittingEmptySubsequences: false)
         guard let editingNote = editingNote else {
             Loggers.data.log(level: .error, "\(DataError.editingNoteNotSet(location: #function))")
             return nil
         }
-        var newTitle = String(text.first ?? TextSymbols.emptySubString)
-        var newBody = TextSymbols.emptyString
+        let newTitle = [text.removeFirst()].joined()
+        let newBody = text.joined()
         let currentDate = Date()
         
         editingNote.title = newTitle
-        editingNote.body = newBody
+        editingNote.body = newBody == Texts.newLine ? Texts.empty : newBody
         editingNote.lastModified = currentDate
-        
-        if textHasTitleAtLeast {
-            newTitle = String(text.removeFirst())
-            editingNote.title = newTitle
-            newBody = text.joined(separator: TextSymbols.newLineAsString)
-        }
-        
-        if newBodyHasText {
-            editingNote.body = newBody
-        }
         
         saveContext()
         return editingNote
@@ -112,7 +95,6 @@ final class NoteManager: NSObject {
         }
         
         let note = noteCoreDataStack.fetchedResultsController?.object(at: indexPath)
-        
         informEditingNote(note, indexPath: indexPath)
         return editingNote
     }
@@ -123,6 +105,10 @@ final class NoteManager: NSObject {
     func informEditingNote(_ editingNote: Note?, indexPath: IndexPath?) {
         self.editingNote = editingNote
         noteDetailViewControllerDelegate?.setIndexPathForSelectedNote(indexPath)
+    }
+    
+    func clearText() {
+        noteDetailViewControllerDelegate?.clearText()
     }
 }
 

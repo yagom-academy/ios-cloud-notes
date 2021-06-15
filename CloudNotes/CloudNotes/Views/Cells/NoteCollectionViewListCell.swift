@@ -66,7 +66,6 @@ final class NoteCollectionViewListCell: UICollectionViewListCell {
     func configure(with note: Note) {
         let cellStackView = createCellStackView()
         addSubview(cellStackView)
-        
         updateContents(note)
         accessories = [.disclosureIndicator()]
         contentView.layer.cornerRadius = Layouts.contentViewCornerRadius

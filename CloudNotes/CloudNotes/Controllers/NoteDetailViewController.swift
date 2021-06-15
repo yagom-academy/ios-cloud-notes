@@ -23,6 +23,7 @@ final class NoteDetailViewController: UIViewController {
         noteTextView.translatesAutoresizingMaskIntoConstraints = false
         noteTextView.font = UIFont.preferredFont(forTextStyle: .body)
         noteTextView.adjustsFontForContentSizeCategory = true
+        noteTextView.accessibilityIdentifier = "noteTextView"
         return noteTextView
     }()
     
@@ -32,6 +33,7 @@ final class NoteDetailViewController: UIViewController {
         enum TextView {
             /// shows when the screen first loaded with regular size class.
             static let welcomeGreeting = "환영합니다!"
+            static let textAfterCleared = "작성된 노트가 없습니다."
             static let titleSeparatorString = "\n"
             static let emptyString = ""
         }
@@ -41,7 +43,7 @@ final class NoteDetailViewController: UIViewController {
         }
         
         enum AlertConfiguration {
-            static var ellipsis: UIAlertController {
+            static var moreButton: UIAlertController {
                 UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
             }
         }
@@ -70,6 +72,27 @@ final class NoteDetailViewController: UIViewController {
         super.viewDidLoad()
         configureViews()
         updateTextView()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc private func keyboardWillShow(_ notification: Notification) {
+        guard let userInfo = notification.userInfo,
+              let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else {
+            return
+        }
+        noteTextView.contentInset.bottom = keyboardFrame.size.height
+        let firstResponder = UIResponder.currentFirstResponder
+        
+        if let textView = firstResponder as? UITextView {
+            noteTextView.scrollRectToVisible(textView.frame, animated: true)
+        }
+    }
+    
+    @objc private func keyboardWillHide() {
+        let contentInset = UIEdgeInsets.zero
+        noteTextView.contentInset = contentInset
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -132,7 +155,6 @@ final class NoteDetailViewController: UIViewController {
             return
         }
         setGreetingText(to: noteTextView)
-        noteTextView.isEditable = false
     }
     
     private func removeActivatedKeyboard() {
@@ -159,16 +181,16 @@ final class NoteDetailViewController: UIViewController {
     // MARK: - Configure Navigation Bar and Relevant Actions
     
     private func configureNavigationBar() {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIItems.NavigationBar.rightButtonImage, style: .plain, target: self, action: #selector(ellipsisTapped))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIItems.NavigationBar.rightButtonImage, style: .plain, target: self, action: #selector(moreButtonTapped))
     }
     
-    @objc private func ellipsisTapped() {
+    @objc private func moreButtonTapped() {
         guard let currentIndexPathForSelectedNote = currentIndexPathForSelectedNote else {
             Loggers.data.error("\(DataError.cannotFindIndexPath(location: #function))")
             return
         }
         
-        let actionSheet = UIItems.AlertConfiguration.ellipsis
+        let actionSheet = UIItems.AlertConfiguration.moreButton
         let showActivityViewAction = UIAlertAction(title: UIItems.AlertActionTitles.showActivityView, style: .default) { [weak self] _ in
             guard let self = self else {
                 return
@@ -206,5 +228,10 @@ extension NoteDetailViewController: NoteDetailViewControllerDelegate {
     
     func setIndexPathForSelectedNote(_ indexPath: IndexPath?) {
         currentIndexPathForSelectedNote = indexPath
+    }
+    
+    func clearText() {
+        noteTextView.text = UIItems.TextView.textAfterCleared
+        removeActivatedKeyboard()
     }
 }

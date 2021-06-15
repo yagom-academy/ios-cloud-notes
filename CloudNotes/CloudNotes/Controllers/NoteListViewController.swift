@@ -63,9 +63,9 @@ final class NoteListViewController: UIViewController {
             static let cancelButton = "Cancel"
         }
         
-        enum TextSymbols {
+        enum Texts {
             static let newLine = "\n"
-            static let emptyString = ""
+            static let empty = ""
         }
     }
     
@@ -165,7 +165,7 @@ final class NoteListViewController: UIViewController {
     }
     
     @objc private func addButtonTapped() {
-        let newNote = noteManager.createNewNote(title: UIItems.TextSymbols.emptyString, body: UIItems.TextSymbols.emptyString, date: Date())
+        let newNote = noteManager.createNewNote(title: UIItems.Texts.empty, body: UIItems.Texts.empty, date: Date())
         applySnapshot(animatingDifferences: true)
         listCollectionView?.selectItem(at: NoteLocations.indexPathOfFirstNote, animated: false, scrollPosition: .top)
         showDetailViewController(with: newNote)
@@ -244,7 +244,6 @@ final class NoteListViewController: UIViewController {
             Loggers.data.error("\(DataError.failedToGetNote(indexPath: indexPath, location: #function))")
             return
         }
-        print(noteManager.fetchedNotes)
         noteManager.deleteNote(noteToDelete)
         applySnapshot(animatingDifferences: true)
     }
@@ -275,6 +274,10 @@ extension NoteListViewController: NoteListViewControllerActionsDelegate {
             }
             self.applyDeletion(at: indexPath)
             
+            if self.noteManager.fetchedNotes.isEmpty {
+                self.noteManager.clearText()
+            }
+            
             if self.splitViewController?.traitCollection.horizontalSizeClass == .regular {
                 self.showFirstNoteAfterDeletingNote()
             } else {
@@ -293,7 +296,7 @@ extension NoteListViewController: NoteListViewControllerActionsDelegate {
             Loggers.data.error("\(DataError.failedToGetNote(indexPath: indexPath, location: #function))")
             return
         }
-        let items = [selectedNote.title + UIItems.TextSymbols.newLine + selectedNote.body]
+        let items = [selectedNote.title + UIItems.Texts.newLine + selectedNote.body]
         let activityView = UIActivityViewController(activityItems: items, applicationActivities: nil)
         activityView.popoverPresentationController?.sourceView = self.view
         self.present(activityView, animated: true)

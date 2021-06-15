@@ -25,6 +25,8 @@ final class NoteListViewController: UIViewController {
     private(set) var listCollectionView: UICollectionView?
     private var dataSource: DataSource?
     private let noteManager: NoteManager
+    private var currentIndexPathOfSelectedNote: IndexPath?
+    weak var noteDetailViewControllerDelegate: NoteDetailViewControllerDelegate?
     
     // MARK: - Initializers
     
@@ -78,7 +80,6 @@ final class NoteListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         showCollectionView()
-        setNoteManagerDelegate()
         configureDiffableDataSource()
         noteManager.loadSavedNotes()
         applySnapshot(animatingDifferences: false)
@@ -166,6 +167,7 @@ final class NoteListViewController: UIViewController {
     
     @objc private func addButtonTapped() {
         let newNote = noteManager.createNewNote(title: UIItems.Texts.empty, body: UIItems.Texts.empty, date: Date())
+        informEditingNote(newNote, indexPath: NoteLocations.indexPathOfFirstNote)
         applySnapshot(animatingDifferences: true)
         listCollectionView?.selectItem(at: NoteLocations.indexPathOfFirstNote, animated: false, scrollPosition: .top)
         showDetailViewController(with: newNote)
@@ -203,21 +205,17 @@ final class NoteListViewController: UIViewController {
     // MARK: - View Transition Supporting Methods
     
     private func showDetailViewController(with editingNote: Note) {
-        guard let secondaryViewController = splitViewController?.viewController(for: .secondary) else {
-            Loggers.ui.error("\(UIError.cannotFindSplitViewController(location: #function))")
-            return
-        }
-        guard let noteDetailViewController = secondaryViewController as? NoteDetailViewController else {
-            Loggers.ui.error("\(UIError.typeCastingFailed(subject: "secondaryViewController", location: #function))")
+        guard let noteDetailViewController = noteDetailViewControllerDelegate as? NoteDetailViewController else {
+            Loggers.ui.error("\(UIError.typeCastingFailed(subject: "noteDetailViewControllerDelegate", location: #function))")
             return
         }
         
-        noteDetailViewController.showNote(with: editingNote)
+        noteDetailViewControllerDelegate?.showNote(with: editingNote)
         splitViewController?.showDetailViewController(noteDetailViewController, sender: nil)
     }
     
     private func showFirstNoteAfterDeletingNote() {
-        guard let firstNote = noteManager.getNote(at: NoteLocations.indexPathOfFirstNote) else {
+        guard let firstNote = getNote(at: NoteLocations.indexPathOfFirstNote) else {
             Loggers.data.notice("\(DataError.failedToGetNote(indexPath: NoteLocations.indexPathOfFirstNote, location: #function))")
             return
         }
@@ -225,27 +223,49 @@ final class NoteListViewController: UIViewController {
         self.showDetailViewController(with: firstNote)
     }
     
-    // MARK: - Note Manager
-    
-    private func setNoteManagerDelegate() {
-        guard let secondaryViewController = splitViewController?.viewController(for: .secondary)  else {
-            Loggers.ui.error("\(UIError.cannotFindSplitViewController(location: #function))")
-            return
+    // MARK: - Get Note from Diffable Data Source
+    private func getNote(at indexPath: IndexPath) -> Note? {
+        guard let note = dataSource?.itemIdentifier(for: indexPath) else {
+            return nil
         }
-        guard let noteDetailViewController = secondaryViewController as? NoteDetailViewController else {
-            Loggers.ui.error("\(UIError.typeCastingFailed(subject: "secondaryViewController", location: #function))")
-            return
-        }
-        noteManager.noteDetailViewControllerDelegate = noteDetailViewController
+        informEditingNote(note, indexPath: indexPath)
+        return note
     }
     
+    /// Call this method when the target note for edit changes to inform the note and location to be changed to related objects such as view controllers.
+    private func informEditingNote(_ note: Note, indexPath: IndexPath?) {
+        noteManager.setEditingNote(note)
+        noteDetailViewControllerDelegate?.setIndexPathForSelectedNote(indexPath)
+    }
+    
+    // MARK: - Delete Supporting Method
+    
     private func applyDeletion(at indexPath: IndexPath) {
-        guard let noteToDelete = noteManager.getNote(at: indexPath) else {
+        guard let noteToDelete = getNote(at: indexPath) else {
             Loggers.data.error("\(DataError.failedToGetNote(indexPath: indexPath, location: #function))")
             return
         }
         noteManager.deleteNote(noteToDelete)
         applySnapshot(animatingDifferences: true)
+    }
+    
+    private func configureDeleteButton(for indexPath: IndexPath) -> UIAlertAction {
+        return UIAlertAction(title: UIItems.AlertActionTitle.deleteButton, style: .destructive) { [weak self] _ in
+            guard let self = self else {
+                return
+            }
+            self.applyDeletion(at: indexPath)
+            
+            if self.noteManager.fetchedNotes.isEmpty {
+                self.noteDetailViewControllerDelegate?.clearText()
+            }
+            
+            if self.splitViewController?.traitCollection.horizontalSizeClass == .regular {
+                self.showFirstNoteAfterDeletingNote()
+            } else {
+                self.navigationController?.popViewController(animated: true)
+            }
+        }
     }
 }
 
@@ -253,7 +273,7 @@ final class NoteListViewController: UIViewController {
 
 extension NoteListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let editingNote = noteManager.getNote(at: indexPath) else {
+        guard let editingNote = getNote(at: indexPath) else {
             Loggers.data.error("\(DataError.failedToGetNote(indexPath: indexPath, location: #function))")
             return
         }
@@ -268,22 +288,7 @@ extension NoteListViewController: NoteListViewControllerActionsDelegate {
     func deleteTapped(at indexPath: IndexPath) {
         let deleteAlert = UIItems.AlertControllerConfiguration.delete
         
-        let deleteButton = UIAlertAction(title: UIItems.AlertActionTitle.deleteButton, style: .destructive) { [weak self] _ in
-            guard let self = self else {
-                return
-            }
-            self.applyDeletion(at: indexPath)
-            
-            if self.noteManager.fetchedNotes.isEmpty {
-                self.noteManager.clearText()
-            }
-            
-            if self.splitViewController?.traitCollection.horizontalSizeClass == .regular {
-                self.showFirstNoteAfterDeletingNote()
-            } else {
-                self.navigationController?.popViewController(animated: true)
-            }
-        }
+        let deleteButton = configureDeleteButton(for: indexPath)
         let cancelButton = UIAlertAction(title: UIItems.AlertActionTitle.cancelButton, style: .cancel)
         
         deleteAlert.addAction(deleteButton)
@@ -292,7 +297,7 @@ extension NoteListViewController: NoteListViewControllerActionsDelegate {
     }
     
     func activityViewTapped(at indexPath: IndexPath) {
-        guard let selectedNote = noteManager.getNote(at: indexPath) else {
+        guard let selectedNote = getNote(at: indexPath) else {
             Loggers.data.error("\(DataError.failedToGetNote(indexPath: indexPath, location: #function))")
             return
         }

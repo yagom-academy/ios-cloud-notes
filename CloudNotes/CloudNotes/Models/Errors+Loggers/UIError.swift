@@ -11,7 +11,6 @@ enum UIError: Error {
     case collectionViewNotImplemented(location: String)
     case typeCastingFailed(subject: String, location: String)
     case cannotFindSplitViewController(location: String)
-    case noteManagerNotImplemented(location: String)
 }
 
 extension UIError: CustomStringConvertible {
@@ -23,8 +22,6 @@ extension UIError: CustomStringConvertible {
             return "\(subject) failed to convert type at \(location)."
         case let .cannotFindSplitViewController(location):
             return "Cannot find split view controller. Please check if the view controller is set as child view controller of split view controller. Error occurred at \(location)"
-        case let .noteManagerNotImplemented(location):
-            return "NoteManager should be implemented before committing this action. Error occurred at \(location)"
         }
     }
 }

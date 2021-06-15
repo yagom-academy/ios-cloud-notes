@@ -13,9 +13,8 @@ enum DataError: Error, Equatable {
     case failedToSave(error: NSError)
     case failedToLoadSavedNotes(error: NSError)
     case failedToLoadPersistentStores(error: NSError)
-    case cannotGetFetchedObjects(location: String)
     case cannotFindIndexPath(location: String)
-    case noNote
+    case noteNotFound
 }
 
 extension DataError: CustomStringConvertible {
@@ -31,11 +30,9 @@ extension DataError: CustomStringConvertible {
             return "Failed to load saved notes. \(error)"
         case let .failedToLoadPersistentStores(error):
             return "Failed to load persistent stores. \(error)"
-        case let .cannotGetFetchedObjects(location):
-            return "Cannot get fetched objects from fetched results controller. Check if the controller is implemented and called `performFetch()` before get fetched objects. Error occurred at \(location)"
         case let .cannotFindIndexPath(location):
             return "Cannot find indexPath for the more button to work. Please check if you called `informEditingNote(_:indexPath:)` at the time the subject note for edit is being changed. Error occurred at \(location)"
-        case .noNote:
+        case .noteNotFound:
             return "There is no note in box. Please add a new note to make a memo."
         }
     }

@@ -14,8 +14,7 @@ final class NoteManager: NSObject {
     // MARK: - Properties
     
     private let noteCoreDataStack: CoreDataStack
-    private(set) var editingNote: Note?
-    weak var noteDetailViewControllerDelegate: NoteDetailViewControllerDelegate?
+    private var editingNote: Note?
     var fetchedNotes: [Note] {
         return noteCoreDataStack.fetchedResultsController?.fetchedObjects ?? []
     }
@@ -41,7 +40,6 @@ final class NoteManager: NSObject {
         newNote.body = body
         newNote.lastModified = date
         
-        informEditingNote(newNote, indexPath: NoteListViewController.NoteLocations.indexPathOfFirstNote)
         saveContext()
         return newNote
     }
@@ -80,35 +78,8 @@ final class NoteManager: NSObject {
         noteCoreDataStack.saveContext()
     }
     
-    // MARK: - `Read` Supporting Methods
-    
-    func getNote(at indexPath: IndexPath) -> Note? {
-        guard let fetchedObjects = noteCoreDataStack.fetchedResultsController?.fetchedObjects else {
-            Loggers.data.notice("\(DataError.cannotGetFetchedObjects(location: #function))")
-            return nil
-        }
-        
-        if fetchedObjects.isEmpty {
-            informEditingNote(nil, indexPath: nil)
-            Loggers.data.info("\(DataError.noNote)")
-            return nil
-        }
-        
-        let note = noteCoreDataStack.fetchedResultsController?.object(at: indexPath)
-        informEditingNote(note, indexPath: indexPath)
-        return editingNote
-    }
-    
-    // MARK: - `Update` Supporting Methods
-    
-    /// Call this method when the target note for edit changes to inform the note and location to be changed to related objects such as view controllers.
-    func informEditingNote(_ editingNote: Note?, indexPath: IndexPath?) {
-        self.editingNote = editingNote
-        noteDetailViewControllerDelegate?.setIndexPathForSelectedNote(indexPath)
-    }
-    
-    func clearText() {
-        noteDetailViewControllerDelegate?.clearText()
+    func setEditingNote(_ note: Note) {
+        editingNote = note
     }
 }
 

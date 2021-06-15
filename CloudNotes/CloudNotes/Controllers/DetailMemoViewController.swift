@@ -135,6 +135,19 @@ extension DetailMemoViewController: UITextViewDelegate {
         let separatedTextArray = textView.text.components(separatedBy: "\n")
         filterTitleAndBody(separatedTextArray: separatedTextArray) { title, body in
             self.updateMemoData(indexPath: indexPath, title: title, body: body, allText: allText)
+            self.configure(with: MemoCache.shared.memoData[indexPath.row], indexPath: indexPath)
+        }
+    }
+    
+    func textViewDidChange(_ textView: UITextView) {
+        let textRange = textView.selectedTextRange
+        guard let allText = textView.text else {
+            return
+        }
+        let separatedTextArray = textView.text.components(separatedBy: "\n")
+        filterTitleAndBody(separatedTextArray: separatedTextArray) { title, body in
+            self.setUpTextStyle(allText: allText, title: title, body: body)
+            textView.selectedTextRange = textRange
         }
     }
     

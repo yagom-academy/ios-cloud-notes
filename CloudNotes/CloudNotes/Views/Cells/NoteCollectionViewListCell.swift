@@ -8,6 +8,7 @@
 import UIKit
 
 final class NoteCollectionViewListCell: UICollectionViewListCell {
+    
     // MARK: - Properties
     static let reuseIdentifier = "NoteCollectionViewListCell"
     

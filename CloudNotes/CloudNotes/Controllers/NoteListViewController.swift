@@ -22,11 +22,11 @@ final class NoteListViewController: UIViewController {
     
     // MARK: - Properties
     
-    private(set) var listCollectionView: UICollectionView?
+    private var listCollectionView: UICollectionView?
     private var dataSource: DataSource?
     private let noteManager: NoteManager
     weak var noteDetailViewControllerDelegate: NoteDetailViewControllerDelegate?
-    private(set) var editingNote: Note?
+    private var editingNote: Note?
     var currentIndexPathOfEditingNote: IndexPath {
         guard let editingNote = editingNote,
               let indexPath = dataSource?.indexPath(for: editingNote) else {
@@ -324,6 +324,8 @@ extension NoteListViewController: NoteListViewControllerDelegate {
             }
             noteManager.updateNote(newNote, with: newText)
         }
+        applySnapshot(animatingDifferences: false)
+        listCollectionView?.selectItem(at: NoteListViewController.NoteLocations.indexPathOfFirstNote, animated: false, scrollPosition: .top)
     }
     
     /// Use this method after making changes to core data stack. Changes made from core data stack will automatically reflected to diffable data source and the UI elements.

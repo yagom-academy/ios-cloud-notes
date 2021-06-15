@@ -8,7 +8,6 @@
 import UIKit
 
 protocol NoteListViewControllerActionsDelegate: AnyObject {
-    var editingNote: Note? { get }
     var currentIndexPathOfEditingNote: IndexPath { get }
     func deleteTapped(at indexPath: IndexPath)
     func activityViewTapped(at indexPath: IndexPath)

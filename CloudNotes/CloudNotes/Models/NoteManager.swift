@@ -70,10 +70,6 @@ final class NoteManager: NSObject {
     func saveContext() {
         noteCoreDataStack.saveContext()
     }
-    
-    func getNote(byID id: NSManagedObjectID) -> NSManagedObject? {
-        return noteCoreDataStack.persistentContainer.viewContext.registeredObject(for: id)
-    }
 }
 
 // MARK: - NSFetchedResultsController Delegate

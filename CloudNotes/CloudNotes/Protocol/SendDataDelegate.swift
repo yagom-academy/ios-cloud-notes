@@ -11,5 +11,5 @@ protocol SendDataDelegate {
 
     func sendData(data: Memo, index: Int)
     func isRegularTextViewColor(regular: Bool)
-    
+
 }

@@ -76,5 +76,4 @@ class MemoListCell: UITableViewCell {
         self.memoDateCreate.text = currentMemoData.lastModifiedDate
         self.accessoryType = .disclosureIndicator
     }
-    
 }

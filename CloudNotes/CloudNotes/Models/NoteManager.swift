@@ -25,7 +25,7 @@ final class NoteManager: NSObject {
     
     // MARK: - Namespaces
     
-    private enum Texts {
+    enum Texts {
         static let newLineAsElement: String.Element = "\n"
         static let newLine = "\n"
         static let empty = ""
@@ -49,9 +49,7 @@ final class NoteManager: NSObject {
     
     @discardableResult
     func updateNote(_ editingNote: Note, with newText: String) -> Note? {
-        var text = newText.split(separator: Texts.newLineAsElement, maxSplits: 1, omittingEmptySubsequences: false)
-        let newTitle = String(text.removeFirst())
-        let newBody = text.joined()
+        let (newTitle, newBody) = newText.dividedIntoTitleAndBody
         let currentDate = Date()
         
         editingNote.title = newTitle

@@ -22,6 +22,7 @@
 		AAD702F82677D000003EBFAA /* UIItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAD702F72677D000003EBFAA /* UIItems.swift */; };
 		AAD702FD2677D042003EBFAA /* XCUIElement+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAD702FC2677D042003EBFAA /* XCUIElement+Extension.swift */; };
 		AAD703022677DEBC003EBFAA /* UIResponder+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAD703012677DEBC003EBFAA /* UIResponder+Extension.swift */; };
+		AAD703592678C4CA003EBFAA /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAD703582678C4CA003EBFAA /* String+Extension.swift */; };
 		AAE063E52668D50D0051EF9C /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = AAE063E42668D50D0051EF9C /* .swiftlint.yml */; };
 		AAE063F52668DB0B0051EF9C /* CloudNotesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C8725BBCF3A00B9CA55 /* CloudNotesTests.swift */; };
 		AAE063F82668DC310051EF9C /* Loggers.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE063F72668DC310051EF9C /* Loggers.swift */; };
@@ -81,6 +82,7 @@
 		AAD702F72677D000003EBFAA /* UIItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIItems.swift; sourceTree = "<group>"; };
 		AAD702FC2677D042003EBFAA /* XCUIElement+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCUIElement+Extension.swift"; sourceTree = "<group>"; };
 		AAD703012677DEBC003EBFAA /* UIResponder+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIResponder+Extension.swift"; sourceTree = "<group>"; };
+		AAD703582678C4CA003EBFAA /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		AAE063E42668D50D0051EF9C /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		AAE063F72668DC310051EF9C /* Loggers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Loggers.swift; sourceTree = "<group>"; };
 		AAE063F92668DC440051EF9C /* DataError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataError.swift; sourceTree = "<group>"; };
@@ -258,6 +260,7 @@
 			children = (
 				AAE064012668E09D0051EF9C /* Date+Extension.swift */,
 				AAD703012677DEBC003EBFAA /* UIResponder+Extension.swift */,
+				AAD703582678C4CA003EBFAA /* String+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -567,6 +570,7 @@
 				C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */,
 				AAE6811E2668F5DC000C2410 /* NoteSplitViewController.swift in Sources */,
 				AAC82053266FE41B003FDD71 /* NoteListViewControllerDelegate.swift in Sources */,
+				AAD703592678C4CA003EBFAA /* String+Extension.swift in Sources */,
 				AAE063FA2668DC440051EF9C /* DataError.swift in Sources */,
 				AA9C746F2672AF7C00AC8CD6 /* Note+CoreDataClass.swift in Sources */,
 				C7481C7825BBCF3900B9CA55 /* CloudNotes.xcdatamodeld in Sources */,

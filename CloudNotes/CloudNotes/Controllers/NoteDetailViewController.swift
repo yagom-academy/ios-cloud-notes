@@ -72,27 +72,7 @@ final class NoteDetailViewController: UIViewController {
         super.viewDidLoad()
         configureViews()
         updateTextView()
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-    }
-    
-    @objc private func keyboardWillShow(_ notification: Notification) {
-        guard let userInfo = notification.userInfo,
-              let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else {
-            return
-        }
-        noteTextView.contentInset.bottom = keyboardFrame.size.height
-        let firstResponder = UIResponder.currentFirstResponder
-        
-        if let textView = firstResponder as? UITextView {
-            noteTextView.scrollRectToVisible(textView.frame, animated: true)
-        }
-    }
-    
-    @objc private func keyboardWillHide() {
-        let contentInset = UIEdgeInsets.zero
-        noteTextView.contentInset = contentInset
+        addObserversForKeyboardHideAndShowEvents()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -213,6 +193,31 @@ final class NoteDetailViewController: UIViewController {
         
         actionSheet.popoverPresentationController?.sourceView = self.view
         present(actionSheet, animated: true)
+    }
+    
+    // MARK: - Keyboard Hide and Show Methods triggered by Notification
+    
+    @objc private func keyboardWillShow(_ notification: Notification) {
+        guard let userInfo = notification.userInfo,
+              let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else {
+            return
+        }
+        noteTextView.contentInset.bottom = keyboardFrame.size.height
+        let firstResponder = UIResponder.currentFirstResponder
+        
+        if let textView = firstResponder as? UITextView {
+            noteTextView.scrollRectToVisible(textView.frame, animated: true)
+        }
+    }
+    
+    @objc private func keyboardWillHide() {
+        let contentInset = UIEdgeInsets.zero
+        noteTextView.contentInset = contentInset
+    }
+    
+    private func addObserversForKeyboardHideAndShowEvents() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
 }
 

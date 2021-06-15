@@ -17,6 +17,7 @@
 		701BC0D326676888006FFFB2 /* SplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701BC0D126676888006FFFB2 /* SplitViewController.swift */; };
 		701BC0D426676888006FFFB2 /* SplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701BC0D126676888006FFFB2 /* SplitViewController.swift */; };
 		706601EC267734CC006EEBB1 /* MemoTextVIew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 706601EB267734CC006EEBB1 /* MemoTextVIew.swift */; };
+		706601F02678A08D006EEBB1 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 706601EF2678A08D006EEBB1 /* StringExtension.swift */; };
 		70B8BD302664E78F0079A8CB /* Memo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70B8BD2F2664E78F0079A8CB /* Memo.swift */; };
 		70BECDDB2666150700F18811 /* MemoListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BECDDA2666150700F18811 /* MemoListCell.swift */; };
 		70BECDDC2666150700F18811 /* MemoListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BECDDA2666150700F18811 /* MemoListCell.swift */; };
@@ -58,6 +59,7 @@
 		701BC0CD26675F23006FFFB2 /* MemoDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoDetailViewController.swift; sourceTree = "<group>"; };
 		701BC0D126676888006FFFB2 /* SplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitViewController.swift; sourceTree = "<group>"; };
 		706601EB267734CC006EEBB1 /* MemoTextVIew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoTextVIew.swift; sourceTree = "<group>"; };
+		706601EF2678A08D006EEBB1 /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		70B8BD2F2664E78F0079A8CB /* Memo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memo.swift; sourceTree = "<group>"; };
 		70BECDDA2666150700F18811 /* MemoListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoListCell.swift; sourceTree = "<group>"; };
 		70BECDDE26662C4200F18811 /* MemoListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoListViewModel.swift; sourceTree = "<group>"; };
@@ -108,6 +110,14 @@
 				7014D1B12670E28A0064EB69 /* MemoData+CoreDataClass.swift */,
 			);
 			path = MemoData;
+			sourceTree = "<group>";
+		};
+		706601ED2678A079006EEBB1 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				706601EF2678A08D006EEBB1 /* StringExtension.swift */,
+			);
+			path = Extension;
 			sourceTree = "<group>";
 		};
 		70B8BD2A2664D6690079A8CB /* Model */ = {
@@ -178,6 +188,7 @@
 				70B8BD2C2664D6740079A8CB /* ViewModel */,
 				70B8BD2B2664D66E0079A8CB /* View */,
 				70B8BD2A2664D6690079A8CB /* Model */,
+				706601ED2678A079006EEBB1 /* Extension */,
 				C7481C7925BBCF3A00B9CA55 /* Assets.xcassets */,
 				C7481C7E25BBCF3A00B9CA55 /* Info.plist */,
 				C7481C7625BBCF3900B9CA55 /* CloudNotes.xcdatamodeld */,
@@ -340,6 +351,7 @@
 				C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */,
 				701BC0CE26675F23006FFFB2 /* MemoDetailViewController.swift in Sources */,
 				701BC0D226676888006FFFB2 /* SplitViewController.swift in Sources */,
+				706601F02678A08D006EEBB1 /* StringExtension.swift in Sources */,
 				706601EC267734CC006EEBB1 /* MemoTextVIew.swift in Sources */,
 				C7481C7825BBCF3900B9CA55 /* CloudNotes.xcdatamodeld in Sources */,
 				70B8BD302664E78F0079A8CB /* Memo.swift in Sources */,

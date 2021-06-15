@@ -39,7 +39,7 @@ class MemoDetailViewController: UIViewController, UITextViewDelegate, MemoDetail
     func configureDetailText(data: MemoData) {
         guard let title = data.title,
               let body = data.body else { return }
-        let text = title + body
+        let text = title + "\n" +  body
         textView.text = text
     }
     

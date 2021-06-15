@@ -10,4 +10,6 @@ import UIKit
 protocol NoteDelegate: AnyObject {
     func deliverToDetail(_ data: Note?, first: Bool, index: IndexPath)
     func deliverToPrimary(_ text: UITextView, first: Bool, index: IndexPath?)
+    func clearNote()
+    func backToPrimary()
 }

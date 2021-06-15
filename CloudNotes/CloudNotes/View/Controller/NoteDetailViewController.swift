@@ -55,6 +55,11 @@ final class NoteDetailViewController: UIViewController {
         textView.resignFirstResponder()
         textView.scrollRangeToVisible(NSMakeRange(0, 0))
     }
+    
+    func clearTextView() {
+        textView.isEditable = false
+        textView.text = ""
+    }
  
     @objc private func moreSee() {
         let actionsheetController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)

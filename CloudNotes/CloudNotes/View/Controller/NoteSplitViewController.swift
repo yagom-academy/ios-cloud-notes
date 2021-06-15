@@ -35,6 +35,14 @@ extension NoteSplitViewController: UISplitViewControllerDelegate {
 }
 
 extension NoteSplitViewController: NoteDelegate {
+    func clearNote() {
+        self.secondary.clearTextView()
+    }
+    
+    func backToPrimary() {
+        self.show(.primary)
+    }
+    
     func deliverToPrimary(_ data: UITextView, first: Bool, index: IndexPath?) {
         if data.text == "" {
             self.primary.textViewIsEmpty(first)

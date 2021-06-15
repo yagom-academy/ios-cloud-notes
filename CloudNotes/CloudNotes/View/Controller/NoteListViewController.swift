@@ -26,7 +26,8 @@ final class NoteListViewController: UIViewController {
         setConstraint()
         setCellView()
         fetchList()
-        noteManager.fetchedResultsController.delegate = self
+        noteDelegate?.clearNote()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {

@@ -38,7 +38,6 @@ final class NoteDetailViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        noteDelegate?.deliverToPrimary(textView, index: editIndex)
         textView.isEditable = false
     }
     

@@ -27,7 +27,6 @@ final class NoteListViewController: UIViewController {
         setCellView()
         fetchList()
         noteDelegate?.clearNote()
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -108,7 +107,7 @@ extension NoteListViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let deleteAction = UIContextualAction(style: .destructive, title:  "🗑", handler: { [self] (ac: UIContextualAction, view:UIView, success:(Bool) -> Void) in
+        let deleteAction = UIContextualAction(style: .destructive, title: "🗑", handler: { [self] (ac: UIContextualAction, view:UIView, success:(Bool) -> Void) in
             let removeData = NoteManager.shared.specify(indexPath)
             let alertViewController = UIAlertController(title: "Really?", message: "삭제하시겠어요?", preferredStyle: .alert)
             let delete = UIAlertAction(title: "삭제", style: .destructive) { _ in

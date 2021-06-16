@@ -45,7 +45,6 @@ extension NoteSplitViewController: NoteDelegate {
     
     func deliverToPrimary(_ data: UITextView, index: IndexPath?) {
         self.primary.updateTextToCell(data.text, index: index)
-        
     }
     
     func deliverToDetail(_ data: Note?, index: IndexPath) {

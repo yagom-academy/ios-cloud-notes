@@ -39,6 +39,7 @@ class CoreDataManager {
     func editMemo(memo: Memo, title: String, body: String) {
         memo.title = title
         memo.body = body
+        memo.lastModified = Date()
         saveContext()
     }
     

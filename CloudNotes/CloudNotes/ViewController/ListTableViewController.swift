@@ -38,16 +38,18 @@ class ListTableViewController: UITableViewController {
         }
     }
     
-    func parseSampleData() {
-        let jsonDecoder = JSONDecoder()
-        jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
-        guard let jsonData = NSDataAsset(name: "sample") else {
+    func changeSelectedCellLabelValue() {
+        guard let selectedIndexPath = tableView.indexPathForSelectedRow else {
             return
         }
-//        guard let memoList = try? jsonDecoder.decode([Memo].self, from: jsonData.data) else {
-//            return
-//        }
-//        self.memoList = memoList
+        if selectedIndexPath.row != 0 {
+            let movedItem = memoList.remove(at: selectedIndexPath.row)
+            memoList.insert(movedItem, at: 0)
+            tableView.moveRow(at: selectedIndexPath, to: IndexPath(row: 0, section: 0))
+            lastClickedIndexPath = IndexPath(row: 0, section: 0)
+            print(CoreDataManager.shared.fetchMemos())
+//            CoreDataManager.shared.saveContext()
+        }
     }
     
     func setNavigationItem() {
@@ -93,6 +95,14 @@ extension ListTableViewController {
         return memoList.count
     }
     
+    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    override func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        print("moverowat")
+    }
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = self.tableView.dequeueReusableCell(withIdentifier: ListTableViewCell.identifier, for: indexPath) as! ListTableViewCell
         let memoItem = memoList[indexPath.row]
@@ -125,7 +135,7 @@ extension ListTableViewController {
                 // 여기서 -1을 하는 이유는 최상단의 빈 메모가 지워졌기 때문
                 textViewController.changedTextBySelectedCell(with: memoList[indexPath.row - 1])
             } else {
-                // 수정된 메모를 저장하는 시점..
+                // FIXME: 새로운 메모를 만들고 다시 그 셀을 클릭 했을 때 저장이 안되게 처리해야 함.
                 CoreDataManager.shared.editMemo(memo: memoList[lastClickedIndexPath.row],
                                                 title: textViewController.textView.text.subString(before: "\n"),
                                                 body: textViewController.textView.text.subString(after: "\n"))

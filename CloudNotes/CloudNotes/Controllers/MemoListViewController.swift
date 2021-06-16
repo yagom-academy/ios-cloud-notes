@@ -85,6 +85,7 @@ class MemoListViewController: UIViewController {
             guard let indexPathRow = MemoCache.shared.memoDataList.firstIndex(of: MemoCache.shared.searchedMemoResults[indexPath.row]) else {
                 return
             }
+            MemoCache.shared.searchedMemoResults.remove(at: indexPath.row)
             self?.memoSplitViewController?.detail.deleteMemo(indexPathRow: indexPathRow)
         }
         alert.addAction(cancelAction)
@@ -157,7 +158,6 @@ extension MemoListViewController: UITableViewDelegate {
 
 extension MemoListViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        print("searchText: ", searchText)
         guard searchText != "" else {
             isThereTextInSearchBar = false
             self.tableView.reloadData()

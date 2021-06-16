@@ -10,6 +10,7 @@ import Foundation
 enum CoreDataError {
     case fetch(Error?)
     case indexPath
+    case save(Error?)
 }
 
 extension CoreDataError: LocalizedError {
@@ -19,6 +20,8 @@ extension CoreDataError: LocalizedError {
             return "⛔️ CoreData fetch Error: \(String(describing: error))"
         case .indexPath:
             return "⛔️ CoreData invalid IndaxPath Error"
+        case .save(let error):
+            return "⛔️ CoreData save Error: \(String(describing: error))"
         }
     }
 }

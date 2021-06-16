@@ -35,9 +35,9 @@ final class NoteManager: NSObject {
         let fetchRequest: NSFetchRequest<Note> = Note.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "lastModify", ascending: false)]
         let fetchResult = NSFetchedResultsController(fetchRequest: fetchRequest,
-                                                                  managedObjectContext: context,
-                                                                  sectionNameKeyPath: nil,
-                                                                  cacheName: nil)
+                                                     managedObjectContext: context,
+                                                     sectionNameKeyPath: nil,
+                                                     cacheName: nil)
         fetchResult.delegate = self
         return fetchResult
     }()
@@ -52,9 +52,7 @@ final class NoteManager: NSObject {
             do {
                 try context.save()
             } catch {
-                
-                let nserror = error as NSError
-                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+                print(CoreDataError.save(error).errorDescription ?? "")
             }
         }
     }
@@ -69,6 +67,10 @@ final class NoteManager: NSObject {
     
     func specify(_ index: IndexPath?) -> Note {
         guard let index = index else { return Note() }
+        if (fetchedResultsController.fetchedObjects?.count ?? 0) - 1 < index.row {
+            print(CoreDataError.indexPath.errorDescription ?? "")
+            return Note()
+        }
         return fetchedResultsController.object(at: index)
     }
     

@@ -20,7 +20,7 @@ final class SplitViewController: UISplitViewController, UISplitViewControllerDel
     delegate = self
     preferredDisplayMode = .oneBesideSecondary
     
-    listViewController.title = "메모"
+    listViewController.title = ListViewController.titleText
     listViewController.delegate = self
     
     viewControllers = [

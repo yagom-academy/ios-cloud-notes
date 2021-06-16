@@ -9,6 +9,7 @@ import UIKit
 
 final class ListViewController: UIViewController {
   weak var delegate: ListViewControllerDelegate?
+  static let titleText = "메모"
   let viewModel = ListViewModel()
   
   private let tableView: UITableView = {
@@ -42,10 +43,17 @@ final class ListViewController: UIViewController {
   }
   
   @objc private func buttonPressed(_ sender: Any) {
-    self.navigationController?.pushViewController(AddViewController(), animated: true)
+    // FIXME: - 네비게이션 바가 출력되지않는 오류
+    MemoDataManager.shared.createMemo() {
+      self.updateTable()
+      self.viewModel.setMemoInfoList()
+      
+      let memoInfo = self.viewModel.memoInfo(at: 0)
+      self.delegate?.didTapMenuItem(model: memoInfo)
+    }
   }
   
-  func updateUI() {
+  func updateTable() {
     viewModel.setMemoInfoList()
     tableView.reloadData()
   }
@@ -55,7 +63,7 @@ extension ListViewController: UITableViewDelegate {
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     let memoInfo = viewModel.memoInfo(at: indexPath.row)
     delegate?.didTapMenuItem(model: memoInfo)
-        
+    
     tableView.deselectRow(at: indexPath, animated: true)
   }
 }
@@ -68,9 +76,8 @@ extension ListViewController: UITableViewDataSource {
   
   func tableView(_ tableView: UITableView,
                  cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    guard let cell: ListCell = tableView.dequeueReusableCell(
-            withIdentifier: ListCell.identifier,
-            for: indexPath) as? ListCell else {
+    guard let cell = tableView.dequeueReusableCell(withIdentifier: ListCell.identifier,
+                                                   for: indexPath) as? ListCell else {
       return UITableViewCell()
     }
     

@@ -19,6 +19,14 @@ final class ListViewModel {
     return memoInfoList.count
   }
   
+  var sortedMemoInfoList: [MemoInfo] {
+    let sortedList = memoInfoList.sorted { prev, next in
+      return prev.lastModified > next.lastModified
+    }
+    
+    return sortedList
+  }
+  
   func setMemoInfoList() {
     do {
       guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
@@ -36,6 +44,6 @@ final class ListViewModel {
   }
   
   func memoInfo(at index: Int) -> MemoInfo {
-    return memoInfoList[index]
+    return sortedMemoInfoList[index]
   }
 }

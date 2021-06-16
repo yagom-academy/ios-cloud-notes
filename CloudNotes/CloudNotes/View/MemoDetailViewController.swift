@@ -8,7 +8,7 @@
 import UIKit
 
 protocol MemoDetailViewDelegate {
-    func configureDetailText(data: MemoData)
+    func setupDetailText(data: MemoData)
 }
 
 class MemoDetailViewController: UIViewController, UITextViewDelegate, MemoDetailViewDelegate {
@@ -36,10 +36,10 @@ class MemoDetailViewController: UIViewController, UITextViewDelegate, MemoDetail
                                                                  action: #selector(didTapMore))
     }
 
-    func configureDetailText(data: MemoData) {
+    func setupDetailText(data: MemoData) {
         guard let title = data.title,
               let body = data.body else { return }
-        let text = title + "\n" +  body
+        let text = title +  body
         textView.text = text
     }
     

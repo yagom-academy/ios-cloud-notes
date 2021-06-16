@@ -26,16 +26,14 @@ final class MemoListViewModel {
         return self.memo.count
     }
     
-    func configureLastSelectIndex(index: Int) {
+    func setupEditingMemo(index: Int) {
         self.editingMemo = self.memo[index]
     }
     
     func memoDataText(data: MemoData) -> String {
-        guard let title = data.title else {
-            return "non title"
-        }
-        guard let body = data.body else {
-            return "non body"
+        guard let title = data.title,
+              let body = data.body else {
+            return "non data"
         }
         
         return title + body

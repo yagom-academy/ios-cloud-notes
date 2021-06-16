@@ -59,8 +59,8 @@ class MemoListViewController: UIViewController {
         memoListViewModel.createMemoData()
         
         if UITraitCollection.current.horizontalSizeClass == .compact {
-            self.memoListViewModel.configureLastSelectIndex(index: 0)
-            memoDetailViewDelegate?.configureDetailText(data: memoListViewModel.readMemo(index: 0))
+            self.memoListViewModel.setupEditingMemo(index: 0)
+            memoDetailViewDelegate?.setupDetailText(data: memoListViewModel.readMemo(index: 0))
             guard let detail = memoDetailViewDelegate as? MemoDetailViewController else { return }
             self.navigationController?.pushViewController(detail, animated: true)
         } else {
@@ -79,8 +79,6 @@ class MemoListViewController: UIViewController {
         guard let memoData = self.memoListViewModel.editingMemo else { return }
         let subString = textData.subString(target: textData, point: "\n")
         if subString.count == 2 {
-            print(subString[0])
-            print(subString[1])
             self.memoListViewModel.updateMemoData(titleText: subString[0],
                                                   bodyText: subString[1],
                                                   data: memoData)
@@ -126,8 +124,8 @@ extension MemoListViewController: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let memo: MemoData = memoListViewModel.readMemo(index: indexPath.row)
-        self.memoListViewModel.configureLastSelectIndex(index: indexPath.row)
-        memoDetailViewDelegate?.configureDetailText(data: memo)
+        self.memoListViewModel.setupEditingMemo(index: indexPath.row)
+        memoDetailViewDelegate?.setupDetailText(data: memo)
         guard let detail = memoDetailViewDelegate as? MemoDetailViewController else { return }
         
         if splitViewController?.traitCollection.horizontalSizeClass == .compact {
@@ -138,7 +136,7 @@ extension MemoListViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        self.memoListViewModel.configureLastSelectIndex(index: indexPath.row)
+        self.memoListViewModel.setupEditingMemo(index: indexPath.row)
         let delete = UIContextualAction(style: .normal,
                                         title: "delete",
                                         handler: {(action, view, completionHandler) in

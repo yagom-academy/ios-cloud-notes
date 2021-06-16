@@ -11,6 +11,8 @@ final class MemoViewController: UIViewController {
 
     // MARK: Property
 
+    var memoData: MemoData = MemoData.sample
+
     private var row: Int?
     private var memo: Memo?
 

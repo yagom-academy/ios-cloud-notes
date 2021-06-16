@@ -9,6 +9,10 @@ import UIKit
 
 final class MemoSplitViewController: UISplitViewController {
 
+    // MARK: Property
+
+    var memoData: MemoData = MemoData.sample
+
     // MARK: UI
 
     private let memoListViewController = MemoListViewController()

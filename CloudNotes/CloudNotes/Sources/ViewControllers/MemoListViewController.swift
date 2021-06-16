@@ -11,6 +11,8 @@ final class MemoListViewController: UIViewController {
 
     // MARK: Property
 
+    var memoData: MemoData = MemoData.sample
+
     private var memos = [Memo]() {
         didSet {
             memos.sort { $0.lastModified > $1.lastModified }
@@ -44,7 +46,6 @@ final class MemoListViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        memos = JSONDecoder().decodeSampleMemos()
         configureTableView()
     }
 
@@ -186,19 +187,6 @@ extension MemoListViewController {
         static let reloadingRowAnimation: UITableView.RowAnimation = .none
         static let reloadingRowsAnimation: UITableView.RowAnimation = .top
         static let inAndOutRowAnimation: UITableView.RowAnimation = .automatic
-    }
-
-}
-
-// MARK: - JSONDecoder
-
-extension JSONDecoder {
-
-    fileprivate func decodeSampleMemos() -> [Memo] {
-        guard let data = NSDataAsset(name: "sampleMemos")?.data,
-              let memos = try? self.decode([Memo].self, from: data) else { return [] }
-
-        return memos
     }
 
 }

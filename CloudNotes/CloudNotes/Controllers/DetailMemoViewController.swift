@@ -53,8 +53,8 @@ class DetailMemoViewController: UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
-    func deleteMemo(indexPath: IndexPath) {
-        CoreData.shared.deleteMemoListItem(item: MemoCache.shared.memoDataList[indexPath.row])
+    func deleteMemo(indexPathRow: Int) {
+        CoreData.shared.deleteMemoListItem(item: MemoCache.shared.memoDataList[indexPathRow])
         DropboxManager.shared.uploadData(files: CoreData.shared.persistenceSqliteFiles, directoryURL: CoreData.shared.directoryURL)
         self.memoListViewController?.tableView.reloadData()
         self.configure(with: nil, indexPath: nil)
@@ -65,7 +65,14 @@ class DetailMemoViewController: UIViewController {
         let cancelAction = UIAlertAction(title: "취소", style: .default) { action in
         }
         let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { [weak self] action in
-            self?.deleteMemo(indexPath: indexPath)
+            guard let isThereTextInSearchBar = self?.memoListViewController?.isThereTextInSearchBar, isThereTextInSearchBar else {
+                self?.deleteMemo(indexPathRow: indexPath.row)
+                return
+            }
+            guard let indexPathRow = MemoCache.shared.memoDataList.firstIndex(of: MemoCache.shared.searchedMemoResults[indexPath.row]) else {
+                return
+            }
+            self?.deleteMemo(indexPathRow: indexPathRow)
         }
         alert.addAction(cancelAction)
         alert.addAction(deleteAction)

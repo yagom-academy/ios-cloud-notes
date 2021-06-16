@@ -78,7 +78,14 @@ class MemoListViewController: UIViewController {
         let cancelAction = UIAlertAction(title: "취소", style: .default) { action in
         }
         let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { [weak self] action in
-            self?.memoSplitViewController?.detail.deleteMemo(indexPath: indexPath)
+            guard let isThereTextInSearchBar = self?.isThereTextInSearchBar, isThereTextInSearchBar else {
+                self?.memoSplitViewController?.detail.deleteMemo(indexPathRow: indexPath.row)
+                return
+            }
+            guard let indexPathRow = MemoCache.shared.memoDataList.firstIndex(of: MemoCache.shared.searchedMemoResults[indexPath.row]) else {
+                return
+            }
+            self?.memoSplitViewController?.detail.deleteMemo(indexPathRow: indexPathRow)
         }
         alert.addAction(cancelAction)
         alert.addAction(deleteAction)
@@ -86,7 +93,10 @@ class MemoListViewController: UIViewController {
     }
     
     private func shareMemo(indexPath: IndexPath) {
-        let memo = MemoCache.shared.memoDataList[indexPath.row]
+        var memo = MemoCache.shared.memoDataList[indexPath.row]
+        if isThereTextInSearchBar {
+            memo = MemoCache.shared.searchedMemoResults[indexPath.row]
+        }
         guard let allText = memo.allText else {
             return
         }
@@ -125,6 +135,9 @@ extension MemoListViewController: UITableViewDelegate {
             return
         }
         memoSplitViewController.detail.configure(with: MemoCache.shared.memoDataList[indexPath.row], indexPath: indexPath)
+        if isThereTextInSearchBar {
+            memoSplitViewController.detail.configure(with: MemoCache.shared.searchedMemoResults[indexPath.row], indexPath: indexPath)
+        }
         memoSplitViewController.showDetailViewController(UINavigationController(rootViewController: memoSplitViewController.detail), sender: nil)
     }
     

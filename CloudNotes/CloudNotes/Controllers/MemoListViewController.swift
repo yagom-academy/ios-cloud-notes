@@ -103,7 +103,7 @@ class MemoListViewController: UIViewController {
         }
         let text = allText
         let activity = UIActivityViewController(activityItems: [text], applicationActivities: nil)
-        locateActivityController(alertController: activity)
+        locateController(controller: activity)
         self.present(activity, animated: true, completion: nil)
     }
 }

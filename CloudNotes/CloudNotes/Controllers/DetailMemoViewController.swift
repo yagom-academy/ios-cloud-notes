@@ -49,7 +49,7 @@ class DetailMemoViewController: UIViewController {
             let actionCancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
             alert.addAction(actionCancel)
         }
-        locateActionSheet(alertController: alert)
+        locateController(controller: alert)
         self.present(alert, animated: true, completion: nil)
     }
     
@@ -82,7 +82,7 @@ class DetailMemoViewController: UIViewController {
     
     private func shareMemo(indexPath: IndexPath) {
         let activity = UIActivityViewController(activityItems: [self.memoTextView.text], applicationActivities: nil)
-        self.locateActivityController(alertController: activity)
+        locateController(controller: activity)
         self.present(activity, animated: true, completion: nil)
     }
     
@@ -225,19 +225,10 @@ extension UIViewController {
             return light
         }
     }
-    
-    func locateActivityController(alertController: UIActivityViewController) {
+
+    func locateController(controller: UIViewController) {
         if UIDevice.current.userInterfaceIdiom == .pad {
-            if let popoverController = alertController.popoverPresentationController {
-                popoverController.sourceView = self.view
-                popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
-            }
-        }
-    }
-    
-    func locateActionSheet(alertController: UIAlertController) {
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            if let popoverController = alertController.popoverPresentationController {
+            if let popoverController = controller.popoverPresentationController {
                 popoverController.sourceView = self.view
                 popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
             }

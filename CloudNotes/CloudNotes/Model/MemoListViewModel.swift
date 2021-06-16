@@ -10,7 +10,7 @@ import CoreData
 
 final class MemoListViewModel {
     private var memo: [MemoData] = []
-    let coreDataMemoModel: CoreDataMemoModel = CoreDataMemoModel.shared
+    let coreDataStack: CoreDataStack = CoreDataStack.shared
     var editingMemo: MemoData?
     
     init() {
@@ -18,7 +18,7 @@ final class MemoListViewModel {
     }
     
     func getAllMemoData() {
-        self.memo = coreDataMemoModel.fetch()
+        self.memo = coreDataStack.fetch()
     }
     
     func readMemo(index: Int) -> MemoData {

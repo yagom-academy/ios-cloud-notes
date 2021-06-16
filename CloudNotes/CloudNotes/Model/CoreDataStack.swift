@@ -1,5 +1,5 @@
 //
-//  CoreDataMemoModel.swift
+//  CoreDataStack.swift
 //  CloudNotes
 //
 //  Created by 기원우 on 2021/06/16.
@@ -8,8 +8,8 @@
 import UIKit
 import CoreData
 
-final class CoreDataMemoModel {
-    static let shared = CoreDataMemoModel()
+final class CoreDataStack {
+    static let shared = CoreDataStack()
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     let converter: ConvertDate = ConvertDate.shared
     

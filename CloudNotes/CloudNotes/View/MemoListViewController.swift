@@ -56,7 +56,7 @@ class MemoListViewController: UIViewController {
     }
     
     @objc private func didTapAdd() {
-        memoListViewModel.coreDataMemoModel.createMemoData()
+        memoListViewModel.coreDataStack.createMemoData()
         memoListViewModel.getAllMemoData()
         if UITraitCollection.current.horizontalSizeClass == .compact {
             memoDetailViewDelegate?.setupDetailText(data: memoListViewModel.readMemo(index: 0))
@@ -69,7 +69,7 @@ class MemoListViewController: UIViewController {
     
     @objc private func deleteMemo() {
         guard let memoData = self.memoListViewModel.editingMemo else { return }
-        self.memoListViewModel.coreDataMemoModel.deleteMemoData(data: memoData)
+        self.memoListViewModel.coreDataStack.deleteMemoData(data: memoData)
         self.memoListViewModel.getAllMemoData()
         reloadTableView()
     }
@@ -79,11 +79,11 @@ class MemoListViewController: UIViewController {
         guard let memoData = self.memoListViewModel.editingMemo else { return }
         let subString = textData.subString(target: textData, point: "\n")
         if subString.count == 2 {
-            self.memoListViewModel.coreDataMemoModel.updateMemoData(titleText: subString[0],
+            self.memoListViewModel.coreDataStack.updateMemoData(titleText: subString[0],
                                                   bodyText: subString[1],
                                                   data: memoData)
         } else {
-            self.memoListViewModel.coreDataMemoModel.updateMemoData(titleText: textData, bodyText: "", data: memoData)
+            self.memoListViewModel.coreDataStack.updateMemoData(titleText: textData, bodyText: "", data: memoData)
         }
         reloadTableView()
     }
@@ -117,7 +117,7 @@ extension MemoListViewController: UITableViewDelegate, UITableViewDataSource {
         }
         let memoData = memoListViewModel.readMemo(index: indexPath.row)
         cell.configureCell(memoData: memoData,
-                           stringLastModified: memoListViewModel.coreDataMemoModel.converter.convertDate(date: memoData.lastModified))
+                           stringLastModified: memoListViewModel.coreDataStack.converter.convertDate(date: memoData.lastModified))
         
         return cell
     }

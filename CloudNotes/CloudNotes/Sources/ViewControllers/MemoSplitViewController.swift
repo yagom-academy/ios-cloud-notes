@@ -18,7 +18,7 @@ final class MemoSplitViewController: UISplitViewController {
 
     init() {
         super.init(style: .doubleColumn)
-        delegate = memoViewController
+        delegate = self
         preferredDisplayMode = .oneBesideSecondary
         presentsWithGesture = false
         setViewController(memoListViewController, for: .primary)
@@ -27,6 +27,19 @@ final class MemoSplitViewController: UISplitViewController {
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+    }
+
+}
+
+// MARK: - UISplitViewControllerDelegate
+
+extension MemoSplitViewController: UISplitViewControllerDelegate {
+
+    func splitViewController(
+        _ svc: UISplitViewController,
+        topColumnForCollapsingToProposedTopColumn proposedTopColumn: UISplitViewController.Column
+    ) -> UISplitViewController.Column {
+        return memoViewController.isTextViewHidden ? .primary : .secondary
     }
 
 }

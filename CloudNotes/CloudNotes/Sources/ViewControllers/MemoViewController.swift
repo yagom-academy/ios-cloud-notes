@@ -14,6 +14,11 @@ final class MemoViewController: UIViewController {
     private var row: Int?
     private var memo: Memo?
 
+    var isTextViewHidden: Bool {
+        get { textView.isHidden }
+        set { textView.isHidden = newValue }
+    }
+
     // MARK: UI
 
     private let moreActionButton = UIBarButtonItem(title: Style.moreActionButtonTitle, image: Style.moreActionButtonImage, primaryAction: nil, menu: nil)
@@ -118,21 +123,6 @@ final class MemoViewController: UIViewController {
 
     func textViewResignFirstResponder() {
         textView.resignFirstResponder()
-    }
-
-    func setTextViewHidden(is value: Bool) {
-        textView.isHidden = value
-    }
-
-}
-
-// MARK: - UISplitViewControllerDelegate
-
-extension MemoViewController: UISplitViewControllerDelegate {
-
-    func splitViewController(_ svc: UISplitViewController,
-                             topColumnForCollapsingToProposedTopColumn proposedTopColumn: UISplitViewController.Column) -> UISplitViewController.Column {
-        return textView.isHidden ? .primary : .secondary
     }
 
 }

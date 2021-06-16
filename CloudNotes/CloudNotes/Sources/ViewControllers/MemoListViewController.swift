@@ -124,7 +124,7 @@ final class MemoListViewController: UIViewController {
     private func showMemo(of row: Int) {
         let memoViewController = (splitViewController?.viewController(for: .secondary) as? MemoViewController)
 
-        memoViewController?.setTextViewHidden(is: false)
+        memoViewController?.isTextViewHidden = false
         memoViewController?.configure(row: row, memo: memos[row])
         memoViewController?.textViewResignFirstResponder()
         splitViewController?.show(.secondary)
@@ -133,7 +133,7 @@ final class MemoListViewController: UIViewController {
     private func hideMemo() {
         let memoViewController = (splitViewController?.viewController(for: .secondary) as? MemoViewController)
 
-        memoViewController?.setTextViewHidden(is: true)
+        memoViewController?.isTextViewHidden = true
         memoViewController?.textViewResignFirstResponder()
         splitViewController?.hide(.secondary)
     }

@@ -23,7 +23,6 @@ class MemoListCell: UITableViewCell {
     
     private var title: UILabel = {
         let title = UILabel()
-        title.text = "title Text"
         title.translatesAutoresizingMaskIntoConstraints = false
         title.font = UIFont.boldSystemFont(ofSize: 24)
         
@@ -32,7 +31,6 @@ class MemoListCell: UITableViewCell {
     
     private var body: UILabel = {
         let body = UILabel()
-        body.text = "body Text"
         body.translatesAutoresizingMaskIntoConstraints = false
         body.font = UIFont.systemFont(ofSize: 15)
         body.textColor = .gray
@@ -42,12 +40,18 @@ class MemoListCell: UITableViewCell {
     
     private var lastModified: UILabel = {
         let lastModified = UILabel()
-        lastModified.text = "lastModified Text"
         lastModified.translatesAutoresizingMaskIntoConstraints = false
         lastModified.font = UIFont.systemFont(ofSize: 15)
+        lastModified.setContentCompressionResistancePriority(.required, for: .horizontal)
         
         return lastModified
     }()
+    
+    func configureCell(memoData: MemoData, stringLastModified: String) {
+        title.text = memoData.title == StringLiterals.empty.data ? StringLiterals.newMemo.data : memoData.title
+        body.text = memoData.body == StringLiterals.empty.data ? StringLiterals.noContent.data : memoData.body
+        lastModified.text = stringLastModified
+    }
     
     private func configureCellConstraints() {
         let safeArea = contentView.layoutMarginsGuide
@@ -68,11 +72,5 @@ class MemoListCell: UITableViewCell {
             body.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: 0)
         ])
     }
-    
-    func configureCell(memoData: Memo, stringLastModified: String) {
-        title.text = memoData.title
-        body.text = memoData.body
-        lastModified.text = stringLastModified
-    }
-    
+
 }

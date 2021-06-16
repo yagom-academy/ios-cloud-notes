@@ -23,6 +23,7 @@ class SplitViewController: UISplitViewController, UISplitViewControllerDelegate 
         self.preferredDisplayMode = .allVisible
         self.viewControllers = [memoListNavigationController, memoDetailNavigationController]
         self.preferredPrimaryColumnWidthFraction = 1/3
+        
     }
     
     func splitViewController(_ splitViewController: UISplitViewController, collapseSecondary secondaryViewController: UIViewController, onto primaryViewController: UIViewController) -> Bool {

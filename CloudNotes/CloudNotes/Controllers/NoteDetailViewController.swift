@@ -168,6 +168,7 @@ final class NoteDetailViewController: UIViewController {
             Loggers.data.error("\(DataError.cannotFindIndexPath(location: #function))")
             return
         }
+        removeActivatedKeyboard()
         
         let actionSheet = UIItems.AlertConfiguration.moreButton
         let showActivityViewAction = UIAlertAction(title: UIItems.AlertActionTitles.showActivityView, style: .default) { [weak self] _ in

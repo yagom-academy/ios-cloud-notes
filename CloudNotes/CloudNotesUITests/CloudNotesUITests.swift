@@ -10,7 +10,7 @@ import XCTest
 final class CloudNotesUITests: XCTestCase {
     
     override class func setUp() {
-        UIItems.app.launch()
+//        UIItems.app.launch()
     }
     
     override func setUpWithError() throws {
@@ -127,7 +127,7 @@ final class CloudNotesUITests: XCTestCase {
         UIItems.moreButton.tap()
         UIItems.showActivityViewActionSheetButtonOfMoreButton.tap()
         
-        if UIItems.activityContentNavigationBar.waitForExistence(timeout: 1) {
+        if UIItems.activityContentNavigationBar.waitForExistence(timeout: 3) {
             XCTAssertTrue(UIItems.activityContentNavigationBar.isEnabled)
             UIItems.activityContentCloseButton.tap()
         } else {

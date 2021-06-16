@@ -69,11 +69,12 @@ final class NoteDetailViewController: UIViewController {
         let deleteNote = UIAlertAction(title: "Delete", style: .destructive) { delete in
             let alertViewController = UIAlertController(title: "Really?", message: "삭제하시겠어요?", preferredStyle: .alert)
             let delete = UIAlertAction(title: "삭제", style: .destructive) { _ in
+                let data = NoteManager.shared.specify(self.editIndex)
+                NoteManager.shared.delete(data)
+                
                 if UITraitCollection.current.horizontalSizeClass == .compact {
                     self.noteDelegate?.backToPrimary()
                 }
-                let data = NoteManager.shared.specify(self.editIndex)
-                NoteManager.shared.delete(data)
             }
             let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
             

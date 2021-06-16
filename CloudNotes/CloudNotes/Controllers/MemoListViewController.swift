@@ -92,7 +92,6 @@ class MemoListViewController: UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
-    
     private func shareMemo(indexPath: IndexPath) {
         var memo = MemoCache.shared.memoDataList[indexPath.row]
         if isThereTextInSearchBar {
@@ -106,7 +105,6 @@ class MemoListViewController: UIViewController {
         locateActivityController(alertController: activity)
         self.present(activity, animated: true, completion: nil)
     }
-    
 }
 
 extension MemoListViewController: UITableViewDataSource {

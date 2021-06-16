@@ -68,7 +68,8 @@ final class NoteManager: NSObject {
     }
     
     func specify(_ index: IndexPath?) -> Note {
-        return fetchedResultsController.object(at: index ?? IndexPath(item: 0, section: 0))
+        guard let index = index else { return Note() }
+        return fetchedResultsController.object(at: index)
     }
     
     func count() -> Int {

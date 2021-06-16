@@ -37,7 +37,7 @@ final class NoteListViewController: UIViewController {
     }
     
     @objc private func addNote() {
-        NoteManager.shared.insert(NoteManager.shared.creat())
+        NoteManager.shared.insert(NoteManager.shared.create())
         noteDelegate?.deliverToDetail(nil, index: IndexPath(item: 0, section: 0))
     }
     
@@ -136,9 +136,13 @@ extension NoteListViewController {
     }
     
     func deleteCell(indexPath: IndexPath?, newIndexPath: IndexPath?) {
-        self.tableView.deleteRows(at: [indexPath!], with: .automatic)
+        guard let indexPath = indexPath else {
+            alterError(CoreDataError.indexPath.errorDescription)
+            return
+        }
+        self.tableView.deleteRows(at: [indexPath], with: .automatic)
         
-        if NoteManager.shared.count() == 0 || (NoteManager.shared.count() == indexPath?.row) {
+        if NoteManager.shared.count() == 0 || (NoteManager.shared.count() == indexPath.row) {
             if UITraitCollection.current.horizontalSizeClass == .regular {
                 noteDelegate?.deliverToDetail(nil, index: IndexPath(item: 0, section: 0))
             }
@@ -148,19 +152,27 @@ extension NoteListViewController {
 
         if UITraitCollection.current.horizontalSizeClass == .regular {
             self.tableView.selectRow(at: indexPath, animated: true, scrollPosition: .top)
-            noteDelegate?.deliverToDetail(NoteManager.shared.specify(indexPath), index: indexPath!)
+            noteDelegate?.deliverToDetail(NoteManager.shared.specify(indexPath), index: indexPath)
         }
     }
     
     func moveCell(indexPath: IndexPath?, newIndexPath: IndexPath?) {
+        guard let indexPath = indexPath, let newIndexPath = newIndexPath else {
+            alterError(CoreDataError.indexPath.errorDescription)
+            return
+        }
         tableView.performBatchUpdates({
-            self.tableView.deleteRows(at: [indexPath!], with: .none)
-            self.tableView.insertRows(at: [newIndexPath!], with: .automatic)
+            self.tableView.deleteRows(at: [indexPath], with: .none)
+            self.tableView.insertRows(at: [newIndexPath], with: .automatic)
         }, completion: nil)
     }
     
     func updateCell(indexPath: IndexPath?, newIndexPath: IndexPath?, data: Note?) {
-        guard let cell = self.tableView.cellForRow(at: indexPath!) as? NoteListCell else { return }
+        guard let indexPath = indexPath else {
+            alterError(CoreDataError.indexPath.errorDescription)
+            return
+        }
+        guard let cell = self.tableView.cellForRow(at: indexPath) as? NoteListCell else { return }
         cell.displayData(data ?? Note())
     }
 }

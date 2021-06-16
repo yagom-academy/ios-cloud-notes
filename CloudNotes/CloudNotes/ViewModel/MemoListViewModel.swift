@@ -36,7 +36,7 @@ final class MemoListViewModel {
             return "non data"
         }
         
-        return title + body
+        return "\(title)\(body)"
     }
     
 }

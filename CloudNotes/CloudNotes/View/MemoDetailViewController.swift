@@ -39,8 +39,7 @@ class MemoDetailViewController: UIViewController, UITextViewDelegate, MemoDetail
     func setupDetailText(data: MemoData) {
         guard let title = data.title,
               let body = data.body else { return }
-        let text = title +  body
-        textView.text = text
+        textView.text = "\(title)\(body)"
     }
     
     @objc private func didTapMore() {

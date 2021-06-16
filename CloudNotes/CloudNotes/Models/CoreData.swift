@@ -78,8 +78,8 @@ struct CoreData {
     
     func getAllMemoListItems() {
         do {
-            MemoCache.shared.memoData = try context.fetch(MemoListItem.fetchRequest())
-            MemoCache.shared.memoData.reverse()
+            MemoCache.shared.memoDataList = try context.fetch(MemoListItem.fetchRequest())
+            MemoCache.shared.memoDataList.reverse()
         } catch {
             print(DataError.getItems)
         }

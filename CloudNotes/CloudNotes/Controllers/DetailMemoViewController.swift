@@ -54,7 +54,7 @@ class DetailMemoViewController: UIViewController {
     }
     
     func deleteMemo(indexPath: IndexPath) {
-        CoreData.shared.deleteMemoListItem(item: MemoCache.shared.memoData[indexPath.row])
+        CoreData.shared.deleteMemoListItem(item: MemoCache.shared.memoDataList[indexPath.row])
         DropboxManager.shared.uploadData(files: CoreData.shared.persistenceSqliteFiles, directoryURL: CoreData.shared.directoryURL)
         self.memoListViewController?.tableView.reloadData()
         self.configure(with: nil, indexPath: nil)
@@ -110,7 +110,7 @@ class DetailMemoViewController: UIViewController {
     }
 
     func configure(with memo: MemoListItem?, indexPath: IndexPath?) {
-        memoTextView.contentOffset = CGPoint(x: 0,y: 0) // 이 코드를 삭제하면 맨처음에 코드 실행시 텍스트뷰의 스크롤이 약간 내린상태로 시작합니다.
+        memoTextView.contentOffset = CGPoint(x: 0,y: 0)
         guard let memo = memo, let allText = memo.allText, let title = memo.title, let body = memo.body else {
             memoTextView.text = ""
             return
@@ -120,7 +120,7 @@ class DetailMemoViewController: UIViewController {
         }
         setUpTextStyle(allText: allText, title: title, body: body)
         updateProperties(title: title, body: body, allText: allText, indexPath: indexPath)
-        memoTextView.contentOffset = CGPoint(x: 0,y: 0) // 이 코드를 삭제하면 이전 메모의 스크롤 위치 그대로 실행됩니다.
+        memoTextView.contentOffset = CGPoint(x: 0,y: 0)
     }
     
     private func updateProperties(title: String, body: String, allText: String, indexPath: IndexPath) {
@@ -151,7 +151,7 @@ extension DetailMemoViewController: UITextViewDelegate {
         let separatedTextArray = textView.text.components(separatedBy: "\n")
         filterTitleAndBody(separatedTextArray: separatedTextArray) { title, body in
             self.updateMemoData(indexPath: indexPath, title: title, body: body, allText: allText)
-            self.configure(with: MemoCache.shared.memoData[indexPath.row], indexPath: indexPath)
+            self.configure(with: MemoCache.shared.memoDataList[indexPath.row], indexPath: indexPath)
         }
     }
     
@@ -198,12 +198,12 @@ extension DetailMemoViewController: UITextViewDelegate {
     }
     
     private func updateMemoData(indexPath: IndexPath, title: String, body: String, allText: String) {
-        MemoCache.shared.memoData[indexPath.row].title = title
-        MemoCache.shared.memoData[indexPath.row].body = body
-        MemoCache.shared.memoData[indexPath.row].lastModifiedDate = Date()
-        MemoCache.shared.memoData[indexPath.row].allText = allText
+        MemoCache.shared.memoDataList[indexPath.row].title = title
+        MemoCache.shared.memoDataList[indexPath.row].body = body
+        MemoCache.shared.memoDataList[indexPath.row].lastModifiedDate = Date()
+        MemoCache.shared.memoDataList[indexPath.row].allText = allText
         memoListViewController?.tableView.reloadData()
-        CoreData.shared.updateMemoListItem(item: MemoCache.shared.memoData[indexPath.row])
+        CoreData.shared.updateMemoListItem(item: MemoCache.shared.memoDataList[indexPath.row])
         DropboxManager.shared.uploadData(files: CoreData.shared.persistenceSqliteFiles, directoryURL: CoreData.shared.directoryURL)
     }
 }

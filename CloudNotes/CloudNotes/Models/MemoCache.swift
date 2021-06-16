@@ -10,5 +10,6 @@ import Foundation
 struct MemoCache {
     static var shared = MemoCache()
     var updatedFileNameList: [UpdatedFile] = []
-    var memoData: [MemoListItem] = []
+    var memoDataList: [MemoListItem] = []
+    var searchedMemoResults: [MemoListItem] = []
 }

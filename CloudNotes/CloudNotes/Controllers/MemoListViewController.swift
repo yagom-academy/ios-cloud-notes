@@ -11,6 +11,7 @@ class MemoListViewController: UIViewController {
     let tableView = UITableView()
     let searchBar = UISearchBar()
     var memoSplitViewController: MemoSplitViewController?
+    var isThereTextInSearchBar = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,6 +39,7 @@ class MemoListViewController: UIViewController {
     
     private func setUpSearchBar() {
         self.view.addSubview(searchBar)
+        searchBar.delegate = self
         searchBar.placeholder = "Search"
         self.setSearchBarLayout()
     }
@@ -84,7 +86,7 @@ class MemoListViewController: UIViewController {
     }
     
     private func shareMemo(indexPath: IndexPath) {
-        let memo = MemoCache.shared.memoData[indexPath.row]
+        let memo = MemoCache.shared.memoDataList[indexPath.row]
         guard let allText = memo.allText else {
             return
         }
@@ -96,14 +98,21 @@ class MemoListViewController: UIViewController {
 
 extension MemoListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return MemoCache.shared.memoData.count
+        if isThereTextInSearchBar {
+            return MemoCache.shared.searchedMemoResults.count
+        }
+        return MemoCache.shared.memoDataList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier : MemoListTableViewCell.identifier) as? MemoListTableViewCell else {
             return UITableViewCell()
         }
-        cell.configure(with: MemoCache.shared.memoData[indexPath.row])
+        if isThereTextInSearchBar {
+            cell.configure(with: MemoCache.shared.searchedMemoResults[indexPath.row])
+            return cell
+        }
+        cell.configure(with: MemoCache.shared.memoDataList[indexPath.row])
         return cell
     }
 }
@@ -115,7 +124,7 @@ extension MemoListViewController: UITableViewDelegate {
         guard let memoSplitViewController = memoSplitViewController else {
             return
         }
-        memoSplitViewController.detail.configure(with: MemoCache.shared.memoData[indexPath.row], indexPath: indexPath)
+        memoSplitViewController.detail.configure(with: MemoCache.shared.memoDataList[indexPath.row], indexPath: indexPath)
         memoSplitViewController.showDetailViewController(UINavigationController(rootViewController: memoSplitViewController.detail), sender: nil)
     }
     
@@ -132,3 +141,20 @@ extension MemoListViewController: UITableViewDelegate {
     }
 }
 
+extension MemoListViewController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        print("searchText: ", searchText)
+        guard searchText != "" else {
+            isThereTextInSearchBar = false
+            self.tableView.reloadData()
+            return
+        }
+        isThereTextInSearchBar = true
+        updateSearchedMemoResult(searchText: searchText)
+        self.tableView.reloadData()
+    }
+    
+    private func updateSearchedMemoResult(searchText: String) {
+        MemoCache.shared.searchedMemoResults = MemoCache.shared.memoDataList.filter({($0.allText?.contains(searchText) ?? false)})
+    }
+}

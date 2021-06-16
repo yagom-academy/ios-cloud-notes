@@ -15,6 +15,8 @@ class DetailMemoViewController: UIViewController {
     var memoMain = UITextView()
     var indexPath: IndexPath?
     var memoListViewController: MemoListViewController?
+    var currentContentOffset: CGPoint?
+    var currentSelectedTextRange: UITextRange?
     
     lazy var rightNavigationItem: UIButton = {
         let button = UIButton()
@@ -27,6 +29,7 @@ class DetailMemoViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUI()
+        memoTextView.typingAttributes = [NSAttributedString.Key.font : UIFont.preferredFont(forTextStyle: UIFont.TextStyle.largeTitle), NSAttributedString.Key.foregroundColor: UIColor.red]
         memoTextView.delegate = self
         memoTextView.contentInsetAdjustmentBehavior = .automatic
         memoTextView.textAlignment = NSTextAlignment.justified
@@ -107,7 +110,6 @@ class DetailMemoViewController: UIViewController {
     }
 
     func configure(with memo: MemoListItem?, indexPath: IndexPath?) {
-        memoTextView.contentOffset = CGPoint(x: 0,y: 0)
         guard let memo = memo, let allText = memo.allText, let title = memo.title, let body = memo.body else {
             memoTextView.text = ""
             return
@@ -117,6 +119,7 @@ class DetailMemoViewController: UIViewController {
         }
         setUpTextStyle(allText: allText, title: title, body: body)
         self.indexPath = indexPath
+        memoTextView.contentOffset = CGPoint(x: 0,y: 0)
     }
     
     func setUpTextStyle(allText: String, title: String, body: String) {
@@ -124,9 +127,9 @@ class DetailMemoViewController: UIViewController {
         let bodyFont = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.body)
         let attributedString = NSMutableAttributedString(string: allText)
 
-        attributedString.addAttribute(.font, value: bodyFont, range: (allText as NSString).range(of: allText))
-        attributedString.addAttribute(.font, value: titleFont, range: (allText as NSString).range(of: title))
-        attributedString.addAttribute(.foregroundColor, value: UIColor.label, range: (allText as NSString).range(of: allText))
+        attributedString.addAttribute(NSAttributedString.Key.font, value: bodyFont, range: (allText as NSString).range(of: allText))
+        attributedString.addAttribute(NSAttributedString.Key.font, value: titleFont, range: (allText as NSString).range(of: title))
+        attributedString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.label, range: (allText as NSString).range(of: allText))
         memoTextView.attributedText = attributedString
     }
 }
@@ -145,6 +148,7 @@ extension DetailMemoViewController: UITextViewDelegate {
     }
     
     func textViewDidChange(_ textView: UITextView) {
+        memoTextView.delegate = nil
         let textRange = textView.selectedTextRange
         guard let allText = textView.text else {
             return
@@ -153,8 +157,15 @@ extension DetailMemoViewController: UITextViewDelegate {
         filterTitleAndBody(separatedTextArray: separatedTextArray) { title, body in
             self.setUpTextStyle(allText: allText, title: title, body: body)
             textView.selectedTextRange = textRange
+            self.memoTextView.delegate = self
         }
     }
+    
+    func textViewDidChangeSelection(_ textView: UITextView) {
+        self.currentContentOffset = memoTextView.contentOffset
+        self.currentSelectedTextRange = textView.selectedTextRange
+    }
+
     
     func filterTitleAndBody(separatedTextArray: [String], completion: @escaping (String, String) -> ()) {
         var separatedTextArray = separatedTextArray

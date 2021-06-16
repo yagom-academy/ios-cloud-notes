@@ -14,4 +14,5 @@ enum NotificationNames: String {
     var name: Notification.Name {
         return Notification.Name(rawValue: self.rawValue)
     }
+    
 }

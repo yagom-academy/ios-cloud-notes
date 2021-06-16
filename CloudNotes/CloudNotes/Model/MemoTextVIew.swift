@@ -15,4 +15,5 @@ extension MemoTextView: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         NotificationCenter.default.post(name: NotificationNames.update.name, object: self.text)
     }
+    
 }

@@ -37,11 +37,7 @@ final class NoteListViewController: UIViewController {
     }
     
     @objc private func addNote() {
-        let newNote = Note(context: NoteManager.shared.context)
-        newNote.title = ""
-        newNote.body = ""
-        newNote.lastModify = Date()
-        NoteManager.shared.insert(newNote)
+        NoteManager.shared.insert(NoteManager.shared.creat())
         noteDelegate?.deliverToDetail(nil, index: IndexPath(item: 0, section: 0))
     }
     

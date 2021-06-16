@@ -75,6 +75,15 @@ final class NoteManager: NSObject {
         return fetchedResultsController.fetchedObjects?.count ?? 0
     }
     
+    func create() -> Note {
+        let newNote = Note(context: context)
+        newNote.title = ""
+        newNote.body = ""
+        newNote.lastModify = Date()
+        
+        return newNote
+    }
+    
     func insert(_ data: Note) {
         context.insert(data)
         save()

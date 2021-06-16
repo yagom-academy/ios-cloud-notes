@@ -89,7 +89,17 @@ class MemoListViewController: UIViewController {
         }
         alert.addAction(cancelAction)
         alert.addAction(deleteAction)
+        self.locateActionSheet(alertController: alert)
         self.present(alert, animated: true, completion: nil)
+    }
+    
+    private func locateActionSheet(alertController: UIAlertController) {
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            if let popoverController = alertController.popoverPresentationController {
+                popoverController.sourceView = self.view
+                popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+            }
+        }
     }
     
     private func shareMemo(indexPath: IndexPath) {
@@ -102,7 +112,17 @@ class MemoListViewController: UIViewController {
         }
         let text = allText
         let activity = UIActivityViewController(activityItems: [text], applicationActivities: nil)
+        self.locateActivityController(alertController: activity)
         self.present(activity, animated: true, completion: nil)
+    }
+    
+    private func locateActivityController(alertController: UIActivityViewController) {
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            if let popoverController = alertController.popoverPresentationController {
+                popoverController.sourceView = self.view
+                popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+            }
+        }
     }
 }
 

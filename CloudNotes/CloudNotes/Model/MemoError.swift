@@ -8,5 +8,8 @@
 import Foundation
 
 enum MemoError: Error {
-    case failAppDelegate
+    case failCreate
+    case failDelete
+    case failUpdate
+    
 }

@@ -66,10 +66,8 @@ extension MemoListViewModel {
     
     func fetch() -> [MemoData] {
         let fetchRequest = NSFetchRequest<MemoData>(entityName: "MemoData")
-        
         let sort = NSSortDescriptor(key: "lastModified", ascending: false)
         fetchRequest.sortDescriptors = [sort]
-        
         let result = try! context.fetch(fetchRequest)
         
         return result
@@ -88,7 +86,7 @@ extension MemoListViewModel {
             try context.save()
             getAllMemoData()
         } catch {
-            
+            MemoError.failCreate
         }
     }
     
@@ -99,11 +97,11 @@ extension MemoListViewModel {
             try context.save()
             getAllMemoData()
         } catch {
-            
+            MemoError.failDelete
         }
     }
     
-    func updataMemoData(titleText: String, bodyText: String, data: MemoData) {
+    func updateMemoData(titleText: String, bodyText: String, data: MemoData) {
         data.title = titleText
         data.body = bodyText
         data.lastModified = convertDouble()
@@ -112,7 +110,7 @@ extension MemoListViewModel {
             try context.save()
             getAllMemoData()
         } catch {
-            
+            MemoError.failUpdate
         }
     }
     

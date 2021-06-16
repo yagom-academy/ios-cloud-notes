@@ -81,11 +81,11 @@ class MemoListViewController: UIViewController {
         if subString.count == 2 {
             print(subString[0])
             print(subString[1])
-            self.memoListViewModel.updataMemoData(titleText: subString[0],
+            self.memoListViewModel.updateMemoData(titleText: subString[0],
                                                   bodyText: subString[1],
                                                   data: memoData)
         } else {
-            self.memoListViewModel.updataMemoData(titleText: textData, bodyText: "", data: memoData)
+            self.memoListViewModel.updateMemoData(titleText: textData, bodyText: "", data: memoData)
         }
         reloadTableView()
     }

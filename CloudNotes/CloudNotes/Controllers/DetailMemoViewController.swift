@@ -72,6 +72,7 @@ class DetailMemoViewController: UIViewController {
             guard let indexPathRow = MemoCache.shared.memoDataList.firstIndex(of: MemoCache.shared.searchedMemoResults[indexPath.row]) else {
                 return
             }
+            MemoCache.shared.searchedMemoResults.remove(at: indexPath.row)
             self?.deleteMemo(indexPathRow: indexPathRow)
         }
         alert.addAction(cancelAction)

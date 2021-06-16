@@ -114,10 +114,6 @@ final class NoteManager: NSObject {
 }
 
 extension NoteManager: NSFetchedResultsControllerDelegate {
-    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        
-    }
-    
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         switch type {
         case .insert:
@@ -131,9 +127,5 @@ extension NoteManager: NSFetchedResultsControllerDelegate {
         @unknown default:
             print("Unexpected NSFetchedResultsChangeType")
         }
-    }
-    
-    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        
     }
 }

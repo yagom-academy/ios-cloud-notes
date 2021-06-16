@@ -15,8 +15,9 @@ class DetailMemoViewController: UIViewController {
     var memoMain = UITextView()
     var indexPath: IndexPath?
     var memoListViewController: MemoListViewController?
-    var currentContentOffset: CGPoint?
-    var currentSelectedTextRange: UITextRange?
+    var memoTitle = ""
+    var memoBody = ""
+    var allText = ""
     
     lazy var rightNavigationItem: UIButton = {
         let button = UIButton()
@@ -118,6 +119,9 @@ class DetailMemoViewController: UIViewController {
             return
         }
         setUpTextStyle(allText: allText, title: title, body: body)
+        self.memoTitle = title
+        self.allText = allText
+        self.memoBody = body
         self.indexPath = indexPath
         memoTextView.contentOffset = CGPoint(x: 0,y: 0)
     }
@@ -148,24 +152,21 @@ extension DetailMemoViewController: UITextViewDelegate {
     }
     
     func textViewDidChange(_ textView: UITextView) {
-        memoTextView.delegate = nil
-        let textRange = textView.selectedTextRange
         guard let allText = textView.text else {
             return
         }
         let separatedTextArray = textView.text.components(separatedBy: "\n")
         filterTitleAndBody(separatedTextArray: separatedTextArray) { title, body in
-            self.setUpTextStyle(allText: allText, title: title, body: body)
-            textView.selectedTextRange = textRange
-            self.memoTextView.delegate = self
+            let titleFont = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.title1)
+            let bodyFont = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.body)
+            textView.textStorage.removeAttribute(NSAttributedString.Key.font, range: (allText as NSString).range(of: self.memoTitle))
+            textView.textStorage.removeAttribute(NSAttributedString.Key.font, range: (allText as NSString).range(of: self.allText))
+            textView.textStorage.removeAttribute(NSAttributedString.Key.foregroundColor, range: (allText as NSString).range(of: self.allText))
+            textView.textStorage.addAttribute(NSAttributedString.Key.font, value: bodyFont, range: (allText as NSString).range(of: allText))
+            textView.textStorage.addAttribute(NSAttributedString.Key.font, value: titleFont, range: (allText as NSString).range(of: title))
+            textView.textStorage.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.label, range: (allText as NSString).range(of: allText))
         }
     }
-    
-    func textViewDidChangeSelection(_ textView: UITextView) {
-        self.currentContentOffset = memoTextView.contentOffset
-        self.currentSelectedTextRange = textView.selectedTextRange
-    }
-
     
     func filterTitleAndBody(separatedTextArray: [String], completion: @escaping (String, String) -> ()) {
         var separatedTextArray = separatedTextArray

@@ -14,10 +14,10 @@ class DetailMemoViewController: UIViewController {
     var memoTextView = UITextView()
     var memoMain = UITextView()
     var indexPath: IndexPath?
+    var memoTitle: String?
+    var memoBody: String?
+    var allText: String?
     var memoListViewController: MemoListViewController?
-    var memoTitle = ""
-    var memoBody = ""
-    var allText = ""
     
     lazy var rightNavigationItem: UIButton = {
         let button = UIButton()
@@ -34,7 +34,6 @@ class DetailMemoViewController: UIViewController {
         memoTextView.delegate = self
         memoTextView.contentInsetAdjustmentBehavior = .automatic
         memoTextView.textAlignment = NSTextAlignment.justified
-        memoTextView.contentOffset = CGPoint(x: 0,y: 0)
     }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -111,6 +110,7 @@ class DetailMemoViewController: UIViewController {
     }
 
     func configure(with memo: MemoListItem?, indexPath: IndexPath?) {
+        memoTextView.contentOffset = CGPoint(x: 0,y: 0) // 이 코드를 삭제하면 맨처음에 코드 실행시 텍스트뷰의 스크롤이 약간 내린상태로 시작합니다.
         guard let memo = memo, let allText = memo.allText, let title = memo.title, let body = memo.body else {
             memoTextView.text = ""
             return
@@ -119,14 +119,18 @@ class DetailMemoViewController: UIViewController {
             return
         }
         setUpTextStyle(allText: allText, title: title, body: body)
+        updateProperties(title: title, body: body, allText: allText, indexPath: indexPath)
+        memoTextView.contentOffset = CGPoint(x: 0,y: 0) // 이 코드를 삭제하면 이전 메모의 스크롤 위치 그대로 실행됩니다.
+    }
+    
+    private func updateProperties(title: String, body: String, allText: String, indexPath: IndexPath) {
         self.memoTitle = title
         self.allText = allText
         self.memoBody = body
         self.indexPath = indexPath
-        memoTextView.contentOffset = CGPoint(x: 0,y: 0)
     }
     
-    func setUpTextStyle(allText: String, title: String, body: String) {
+    private func setUpTextStyle(allText: String, title: String, body: String) {
         let titleFont = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.title1)
         let bodyFont = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.body)
         let attributedString = NSMutableAttributedString(string: allText)
@@ -156,19 +160,30 @@ extension DetailMemoViewController: UITextViewDelegate {
             return
         }
         let separatedTextArray = textView.text.components(separatedBy: "\n")
-        filterTitleAndBody(separatedTextArray: separatedTextArray) { title, body in
-            let titleFont = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.title1)
-            let bodyFont = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.body)
-            textView.textStorage.removeAttribute(NSAttributedString.Key.font, range: (allText as NSString).range(of: self.memoTitle))
-            textView.textStorage.removeAttribute(NSAttributedString.Key.font, range: (allText as NSString).range(of: self.allText))
-            textView.textStorage.removeAttribute(NSAttributedString.Key.foregroundColor, range: (allText as NSString).range(of: self.allText))
-            textView.textStorage.addAttribute(NSAttributedString.Key.font, value: bodyFont, range: (allText as NSString).range(of: allText))
-            textView.textStorage.addAttribute(NSAttributedString.Key.font, value: titleFont, range: (allText as NSString).range(of: title))
-            textView.textStorage.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.label, range: (allText as NSString).range(of: allText))
+        filterTitleAndBody(separatedTextArray: separatedTextArray) { title, _ in
+            self.removeTextViewTextAttribute(textView: textView)
+            self.addTextViewTextAttribute(textView: textView, allText: allText, title: title)
         }
     }
     
-    func filterTitleAndBody(separatedTextArray: [String], completion: @escaping (String, String) -> ()) {
+    private func removeTextViewTextAttribute(textView: UITextView) {
+        guard let allText = self.allText, let memoTitle = self.memoTitle else {
+            return
+        }
+        textView.textStorage.removeAttribute(NSAttributedString.Key.font, range: (allText as NSString).range(of: memoTitle))
+        textView.textStorage.removeAttribute(NSAttributedString.Key.font, range: (allText as NSString).range(of: allText))
+        textView.textStorage.removeAttribute(NSAttributedString.Key.foregroundColor, range: (allText as NSString).range(of: allText))
+    }
+    
+    private func addTextViewTextAttribute(textView: UITextView, allText: String, title: String) {
+        let titleFont = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.title1)
+        let bodyFont = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.body)
+        textView.textStorage.addAttribute(NSAttributedString.Key.font, value: bodyFont, range: (allText as NSString).range(of: allText))
+        textView.textStorage.addAttribute(NSAttributedString.Key.font, value: titleFont, range: (allText as NSString).range(of: title))
+        textView.textStorage.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.label, range: (allText as NSString).range(of: allText))
+    }
+    
+    private func filterTitleAndBody(separatedTextArray: [String], completion: @escaping (String, String) -> ()) {
         var separatedTextArray = separatedTextArray
         guard separatedTextArray.count > 0, let title = separatedTextArray.first(where: { $0 != "" }), let titleIndex = separatedTextArray.firstIndex(of: title) else {
             completion("", "")

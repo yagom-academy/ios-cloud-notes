@@ -47,6 +47,12 @@ class MemoListCell: UITableViewCell {
         return lastModified
     }()
     
+    func configureCell(memoData: MemoData, stringLastModified: String) {
+        title.text = memoData.title == StringLiterals.empty.data ? StringLiterals.newMemo.data : memoData.title
+        body.text = memoData.body == StringLiterals.empty.data ? StringLiterals.noContent.data : memoData.body
+        lastModified.text = stringLastModified
+    }
+    
     private func configureCellConstraints() {
         let safeArea = contentView.layoutMarginsGuide
         
@@ -66,11 +72,5 @@ class MemoListCell: UITableViewCell {
             body.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: 0)
         ])
     }
-    
-    func configureCell(memoData: MemoData, stringLastModified: String) {
-        title.text = memoData.title == "" ? "새로운 메모" : memoData.title
-        body.text = memoData.body == "" ? "내용 없음" : memoData.body
-        lastModified.text = stringLastModified
-    }
-    
+
 }

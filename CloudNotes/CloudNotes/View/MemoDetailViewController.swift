@@ -44,7 +44,7 @@ class MemoDetailViewController: UIViewController, UITextViewDelegate, MemoDetail
     
     @objc private func didTapMore() {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
+        let deleteAction = UIAlertAction(title: StringLiterals.delete.data, style: .destructive) { _ in
             if self.splitViewController?.traitCollection.horizontalSizeClass == .compact {
                 NotificationCenter.default.post(name: NotificationNames.delete.name, object: nil)
                 self.navigationController?.popViewController(animated: true)
@@ -53,13 +53,13 @@ class MemoDetailViewController: UIViewController, UITextViewDelegate, MemoDetail
                 NotificationCenter.default.post(name: NotificationNames.delete.name, object: nil)
             }
         }
-        let shareAction = UIAlertAction(title: "Share", style: .default) { _ in
+        let shareAction = UIAlertAction(title: StringLiterals.share.data, style: .default) { _ in
             guard let textViewData = self.textView.text else { return }
             let activityController = UIActivityViewController(activityItems: [textViewData],
                                                               applicationActivities: nil)
             self.present(activityController, animated: true, completion: nil)
         }
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        let cancelAction = UIAlertAction(title: StringLiterals.cancel.data, style: .cancel)
         
         alert.addAction(deleteAction)
         alert.addAction(shareAction)

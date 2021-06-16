@@ -8,7 +8,7 @@ import UIKit
 
 class MemoListViewController: UIViewController {
     private var memoListViewModel: MemoListViewModel = MemoListViewModel()
-    private let memoListViewNavigationBarTitle: String = "메모"
+    private let memoListViewNavigationBarTitle: String = StringLiterals.memo.data
     private var memoDetailViewDelegate: MemoDetailViewDelegate?
     private var tableView: UITableView = UITableView()
 
@@ -33,6 +33,41 @@ class MemoListViewController: UIViewController {
         self.tableView.reloadData()
     }
     
+    @objc private func didTapAdd() {
+        memoListViewModel.coreDataStack.createMemoData()
+        memoListViewModel.getAllMemoData()
+        if UITraitCollection.current.horizontalSizeClass == .compact {
+            memoDetailViewDelegate?.setupDetailText(data: memoListViewModel.readMemo(index: IntLiteral.First.data))
+            guard let detail = memoDetailViewDelegate as? MemoDetailViewController else { return }
+            self.navigationController?.pushViewController(detail, animated: true)
+        } else {
+            reloadTableView()
+        }
+    }
+    
+    @objc private func deleteMemo() {
+        guard let memoData = self.memoListViewModel.editingMemo else { return }
+        self.memoListViewModel.coreDataStack.deleteMemoData(data: memoData)
+        self.memoListViewModel.getAllMemoData()
+        reloadTableView()
+    }
+    
+    @objc private func updateMemo(notification: Notification) {
+        guard let textData: String = notification.object as? String else { return }
+        guard let memoData = self.memoListViewModel.editingMemo else { return }
+        let subString = textData.subString(target: textData, point: StringLiterals.lineBreak.data)
+        if subString.count == 2 {
+            self.memoListViewModel.coreDataStack.updateMemoData(titleText: subString[0],
+                                                  bodyText: subString[1],
+                                                  data: memoData)
+        } else {
+            self.memoListViewModel.coreDataStack.updateMemoData(titleText: textData,
+                                                                bodyText: StringLiterals.empty.data,
+                                                                data: memoData)
+        }
+        reloadTableView()
+    }
+ 
     private func configureMemoListView() {
         self.tableView.dataSource = self
         self.tableView.delegate = self
@@ -55,39 +90,6 @@ class MemoListViewController: UIViewController {
                                                object: nil)
     }
     
-    @objc private func didTapAdd() {
-        memoListViewModel.coreDataStack.createMemoData()
-        memoListViewModel.getAllMemoData()
-        if UITraitCollection.current.horizontalSizeClass == .compact {
-            memoDetailViewDelegate?.setupDetailText(data: memoListViewModel.readMemo(index: 0))
-            guard let detail = memoDetailViewDelegate as? MemoDetailViewController else { return }
-            self.navigationController?.pushViewController(detail, animated: true)
-        } else {
-            reloadTableView()
-        }
-    }
-    
-    @objc private func deleteMemo() {
-        guard let memoData = self.memoListViewModel.editingMemo else { return }
-        self.memoListViewModel.coreDataStack.deleteMemoData(data: memoData)
-        self.memoListViewModel.getAllMemoData()
-        reloadTableView()
-    }
-    
-    @objc private func updateMemo(notification: Notification) {
-        guard let textData: String = notification.object as? String else { return }
-        guard let memoData = self.memoListViewModel.editingMemo else { return }
-        let subString = textData.subString(target: textData, point: "\n")
-        if subString.count == 2 {
-            self.memoListViewModel.coreDataStack.updateMemoData(titleText: subString[0],
-                                                  bodyText: subString[1],
-                                                  data: memoData)
-        } else {
-            self.memoListViewModel.coreDataStack.updateMemoData(titleText: textData, bodyText: "", data: memoData)
-        }
-        reloadTableView()
-    }
- 
     private func tableViewAutoLayout() {
         let safeArea = view.safeAreaLayoutGuide
         
@@ -138,13 +140,13 @@ extension MemoListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         self.memoListViewModel.setupEditingMemo(index: indexPath.row)
         let delete = UIContextualAction(style: .normal,
-                                        title: "delete",
+                                        title: StringLiterals.delete.data,
                                         handler: {(action, view, completionHandler) in
             self.deleteMemo()
             completionHandler(true)
         })
         let share = UIContextualAction(style: .normal,
-                                       title: "share",
+                                       title: StringLiterals.share.data,
                                        handler: {(action, view, completionHandler) in
             let text = self.memoListViewModel.memoDataText(data: self.memoListViewModel.readMemo(index: indexPath.row))
             let activityController = UIActivityViewController(activityItems: [text],

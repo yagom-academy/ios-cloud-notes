@@ -22,7 +22,7 @@
 		70BECDDC2666150700F18811 /* MemoListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BECDDA2666150700F18811 /* MemoListCell.swift */; };
 		70BECDDD2666150700F18811 /* MemoListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BECDDA2666150700F18811 /* MemoListCell.swift */; };
 		70BECDDF26662C4200F18811 /* MemoListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BECDDE26662C4200F18811 /* MemoListViewModel.swift */; };
-		70FCB0EB267998EA00516791 /* StringLiteral.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70FCB0EA267998EA00516791 /* StringLiteral.swift */; };
+		70FCB0EB267998EA00516791 /* StringLiterals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70FCB0EA267998EA00516791 /* StringLiterals.swift */; };
 		70FCB0ED2679991A00516791 /* IntLiteral.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70FCB0EC2679991A00516791 /* IntLiteral.swift */; };
 		70FCB0EF2679A40800516791 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70FCB0EE2679A40800516791 /* CoreDataStack.swift */; };
 		70FCB0F22679A5CB00516791 /* ConvertDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70FCB0F12679A5CB00516791 /* ConvertDate.swift */; };
@@ -63,7 +63,7 @@
 		706601EF2678A08D006EEBB1 /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		70BECDDA2666150700F18811 /* MemoListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoListCell.swift; sourceTree = "<group>"; };
 		70BECDDE26662C4200F18811 /* MemoListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoListViewModel.swift; sourceTree = "<group>"; };
-		70FCB0EA267998EA00516791 /* StringLiteral.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringLiteral.swift; sourceTree = "<group>"; };
+		70FCB0EA267998EA00516791 /* StringLiterals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringLiterals.swift; sourceTree = "<group>"; };
 		70FCB0EC2679991A00516791 /* IntLiteral.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntLiteral.swift; sourceTree = "<group>"; };
 		70FCB0EE2679A40800516791 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		70FCB0F12679A5CB00516791 /* ConvertDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvertDate.swift; sourceTree = "<group>"; };
@@ -130,7 +130,7 @@
 				706601EB267734CC006EEBB1 /* MemoTextVIew.swift */,
 				7014D1B72671DE5D0064EB69 /* MemoError.swift */,
 				7014D1B52670F69F0064EB69 /* NotificationNames.swift */,
-				70FCB0EA267998EA00516791 /* StringLiteral.swift */,
+				70FCB0EA267998EA00516791 /* StringLiterals.swift */,
 				70FCB0EC2679991A00516791 /* IntLiteral.swift */,
 				70BECDDE26662C4200F18811 /* MemoListViewModel.swift */,
 				70FCB0EE2679A40800516791 /* CoreDataStack.swift */,
@@ -346,7 +346,7 @@
 				7014D1B62670F69F0064EB69 /* NotificationNames.swift in Sources */,
 				7014D1B32670E28A0064EB69 /* MemoData+CoreDataClass.swift in Sources */,
 				70FCB0ED2679991A00516791 /* IntLiteral.swift in Sources */,
-				70FCB0EB267998EA00516791 /* StringLiteral.swift in Sources */,
+				70FCB0EB267998EA00516791 /* StringLiterals.swift in Sources */,
 				70BECDDB2666150700F18811 /* MemoListCell.swift in Sources */,
 				70FCB0EF2679A40800516791 /* CoreDataStack.swift in Sources */,
 				C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */,

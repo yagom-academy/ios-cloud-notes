@@ -13,13 +13,17 @@ final class MemoViewController: UIViewController {
   
   private let titleTextField: UITextField = {
     let textField = UITextField()
+    // TODO: - textField.backgroundColor = UIColor.white
+    textField.backgroundColor = UIColor.green
+    textField.frame.size.height = 1
     
     return textField
   }()
   
   private let bodyTextView: UITextView = {
     let textView = UITextView()
-    textView.backgroundColor = UIColor.gray
+    // TODO: - delete: textView.backgroundColor = UIColor.red
+    textView.backgroundColor = UIColor.red
     textView.keyboardDismissMode = .onDrag
     
     return textView
@@ -29,9 +33,11 @@ final class MemoViewController: UIViewController {
     let stackView = UIStackView()
     stackView.axis = .vertical
     stackView.alignment = .fill
+    // FIXME: - stackView.distribution: 적절히 변경해야 함
     stackView.distribution = .fillEqually
     stackView.spacing = 0
-    
+    stackView.contentMode = .scaleToFill
+        
     return stackView
   }()
   
@@ -46,9 +52,14 @@ final class MemoViewController: UIViewController {
     super.viewDidLoad()
     
     configureNavigationBar()
+    
     textStackView.addArrangedSubview(titleTextField)
     textStackView.addArrangedSubview(bodyTextView)
+    
     view.addSubview(textStackView)
+    
+    // FIXME: - Autolayout programmatically: safeAreaLayoutGuide
+//    textStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
   }
   
   override func viewDidLayoutSubviews() {

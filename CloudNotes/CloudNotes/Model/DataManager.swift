@@ -19,6 +19,7 @@ class DataManager {
     
     func fetchData() {
         let request: NSFetchRequest<Memo> = Memo.fetchRequest()
+        request.sortDescriptors = [NSSortDescriptor(key: "lastModifiedDate", ascending: false)]
         
         do {
             memoList = try mainContext.fetch(request)

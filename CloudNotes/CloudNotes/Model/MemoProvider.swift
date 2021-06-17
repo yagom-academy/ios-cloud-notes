@@ -18,7 +18,9 @@ final class MemoProvider {
   
   // MARK: - For Single Tone
   static let shared: MemoProvider = MemoProvider()
-  private init() { }
+  private init() {
+    fetchMemoData()
+  }
     
   // MARK: - Core Data stack
   lazy var persistentContainer: NSPersistentCloudKitContainer = {

@@ -10,17 +10,9 @@ import Foundation
 final class MemoListViewModel {
   private var memoServiceAdapter = MemoProvider.shared
   
-  init() {
-    memoServiceAdapter.fetchMemoData()
-  }
-  
   var count: Int {
     guard let memos = memoServiceAdapter.memos else { return .zero }
     return memos.count
-  }
-  
-  func addMemo(_ memo: Memo) {
-    memoServiceAdapter.createMemoData()
   }
   
   func getMemoViewModel(for indexPath: IndexPath) -> MemoListCellModel? {

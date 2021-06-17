@@ -12,13 +12,15 @@ final class MemoListViewController: UITableViewController {
   private let titleString = "메모"
   private let tableViewModel: MemoListViewModel = MemoListViewModel()
   
+  var delegate: MemoListViewDelegate?
+  
   lazy var addButton: UIBarButtonItem = {
     let button = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addMemo))
     return button
   }()
   
   @objc func addMemo() {
-    
+    delegate?.touchAddButton()
   }
   
   override func viewDidLoad() {
@@ -64,5 +66,16 @@ final class MemoListViewController: UITableViewController {
     guard let memo = tableViewModel.getMemo(for: indexPath) else { return }
     detailViewController.configure(with: memo)
     showDetailViewController(detailViewController, sender: self)
+  }
+  
+  override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+    let deleteAction = UIContextualAction(style: .destructive, title: "Delete", handler: { _, _, _ in
+      self.delegate?.touchDeleteButton(indexPath: indexPath)
+    })
+    let shareAction = UIContextualAction(style: .normal, title: "Share", handler: {
+      _, _, _ in
+      self.delegate?.touchShareButton(indexPath: indexPath)
+    })
+    return UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
   }
 }

@@ -66,6 +66,18 @@ extension ListViewController: UITableViewDelegate {
     
     tableView.deselectRow(at: indexPath, animated: true)
   }
+  
+  func tableView(_ tableView: UITableView,
+                 trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
+  ) -> UISwipeActionsConfiguration? {
+    let deleteAction = UIContextualAction(style: .destructive, title: "삭제") { _, _, _ in
+      // TODO: - delete logic
+    }
+    let shareAction = UIContextualAction(style: .normal, title: "공유") { _, _, _ in
+      // TODO: - share logic
+    }
+    return UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
+  }
 }
 
 extension ListViewController: UITableViewDataSource {

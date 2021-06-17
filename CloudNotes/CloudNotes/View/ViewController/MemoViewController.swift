@@ -92,17 +92,53 @@ final class MemoViewController: UIViewController {
     let ellipsisImage = UIImage(systemName: "ellipsis.circle")
     let ellipsis = UIBarButtonItem(image: ellipsisImage,
                                    style: .plain,
-                                   target: self, action: nil)
+                                   target: self,
+                                   action: #selector(buttonPressed(_:)))
     navigationItem.rightBarButtonItem = ellipsis
   }
   
   @objc private func buttonPressed(_ sender: Any) {
-    guard let listView =
-            self.navigationController?.viewControllers.first as? ListViewController else {
-      return
-    }
-    listView.updateTable()
+    let actionSheet = UIAlertController()
+    actionSheet.addAction(
+      UIAlertAction(title: "Cancel",
+                    style: UIAlertAction.Style.cancel,
+                    handler: nil))
+    actionSheet.addAction(
+      UIAlertAction(title: "Share...",
+                    style: UIAlertAction.Style.default,
+                    handler: { _ in
+                      // TODO: - share logic
+                    }))
+    actionSheet.addAction(
+      UIAlertAction(title: "Delete",
+                    style: UIAlertAction.Style.destructive,
+                    handler: { _ in
+                      self.present(self.deleteAlert(),
+                                   animated: true,
+                                   completion: nil)
+                    }))
+    self.present(actionSheet,
+                 animated: true,
+                 completion: nil)
+  }
+  
+  private func deleteAlert() -> UIAlertController {
+    let alert = UIAlertController(
+      title: "진짜요?",
+      message: "정말로 삭제하시겠어요?",
+      preferredStyle: UIAlertController.Style.alert
+    )
+    alert.addAction(
+      UIAlertAction(title: "삭제",
+                    style: UIAlertAction.Style.destructive,
+                    handler: { _ in
+                      // TODO: - delete logic
+                    }))
+    alert.addAction(
+      UIAlertAction(title: "취소",
+                    style: UIAlertAction.Style.cancel,
+                    handler: nil))
     
-    self.navigationController?.popViewController(animated: true)
+    return alert
   }
 }

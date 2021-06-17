@@ -5,8 +5,11 @@
 //  Created by 윤재웅 on 2021/06/03.
 //
 
-import Foundation
+import UIKit
 
-protocol NoteDelegate {
-    func deliverToDetail(_ data: NoteData)
+protocol NoteDelegate: AnyObject {
+    func deliverToDetail(_ data: Note?, index: IndexPath)
+    func deliverToPrimary(_ data: UITextView, index: IndexPath?)
+    func clearNote()
+    func backToPrimary()
 }

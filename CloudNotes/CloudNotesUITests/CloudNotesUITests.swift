@@ -10,7 +10,7 @@ import XCTest
 final class CloudNotesUITests: XCTestCase {
     
     override class func setUp() {
-//        UIItems.app.launch()
+        UIItems.app.launch()
     }
     
     override func setUpWithError() throws {

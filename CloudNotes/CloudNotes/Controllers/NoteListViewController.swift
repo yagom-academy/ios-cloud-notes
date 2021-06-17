@@ -167,11 +167,17 @@ final class NoteListViewController: UIViewController {
     
     /// Use this method after making changes to core data stack. Changes made from core data stack will automatically reflected to diffable data source and the UI elements.
     private func applySnapshot(animatingDifferences: Bool) {
+        guard let dataSource = dataSource else {
+            return
+        }
         let sections = Section.allCases
         var updated = Snapshot()
         updated.appendSections(sections)
         updated.appendItems(noteManager.fetchedNotes)
-        dataSource?.apply(updated, animatingDifferences: animatingDifferences)
+        if let editingNote = editingNote, dataSource.snapshot().numberOfItems <= updated.numberOfItems {
+            updated.reloadItems([editingNote])
+        }
+        dataSource.apply(updated, animatingDifferences: animatingDifferences)
     }
     
     // MARK: - Configure Navigation Bar and Relevant Actions
@@ -296,7 +302,21 @@ extension NoteListViewController: UICollectionViewDelegate {
 
 // MARK: - NoteListViewController Actions Delegate (Swipe and Ellipsis Actions)
 
-extension NoteListViewController: NoteListViewControllerActionsDelegate {
+extension NoteListViewController: NoteListViewControllerDelegate {
+    
+    func applyTextUpdate(with newText: String) {
+        if let editingNote = self.editingNote {
+            noteManager.updateNote(editingNote, with: newText)
+        } else {
+            guard let newNote = dataSource?.snapshot().itemIdentifiers.first else {
+                Loggers.data.error("\(DataError.snapshotIsEmpty(location: #function))")
+                return
+            }
+            noteManager.updateNote(newNote, with: newText)
+        }
+        applySnapshot(animatingDifferences: true)
+        listCollectionView?.selectItem(at: NoteListViewController.NoteLocations.indexPathOfFirstNote, animated: false, scrollPosition: .top)
+    }
     
     func deleteTapped(at indexPath: IndexPath) {
         let deleteAlert = UIItems.AlertControllerConfiguration.delete
@@ -317,23 +337,5 @@ extension NoteListViewController: NoteListViewControllerActionsDelegate {
         let activityView = UIActivityViewController(activityItems: items, applicationActivities: nil)
         activityView.popoverPresentationController?.sourceView = self.view
         self.present(activityView, animated: true)
-    }
-}
-
-// MARK: - Note List View Controller Delegate (Update Feature)
-
-extension NoteListViewController: NoteListViewControllerDelegate {
-    func applyTextUpdate(with newText: String) {
-        if let editingNote = self.editingNote {
-            noteManager.updateNote(editingNote, with: newText)
-        } else {
-            guard let newNote = dataSource?.snapshot().itemIdentifiers.first else {
-                Loggers.data.error("\(DataError.snapshotIsEmpty(location: #function))")
-                return
-            }
-            noteManager.updateNote(newNote, with: newText)
-        }
-        applySnapshot(animatingDifferences: false)
-        listCollectionView?.selectItem(at: NoteListViewController.NoteLocations.indexPathOfFirstNote, animated: false, scrollPosition: .top)
     }
 }

@@ -13,12 +13,12 @@ final class NoteDetailViewController: UIViewController {
     // MARK: - Properties
     
     private var note: Note?
-    weak var noteListViewControllerActionsDelegate: NoteListViewControllerActionsDelegate?
+    weak var noteListViewControllerDelegate: NoteListViewControllerDelegate?
     
     // MARK: - UI Elements
     
-    private var noteTextView: NoteTextView = {
-        let noteTextView = NoteTextView()
+    private var noteTextView: UITextView = {
+        let noteTextView = UITextView()
         noteTextView.translatesAutoresizingMaskIntoConstraints = false
         noteTextView.font = UIFont.preferredFont(forTextStyle: .body)
         noteTextView.adjustsFontForContentSizeCategory = true
@@ -72,13 +72,13 @@ final class NoteDetailViewController: UIViewController {
         configureViews()
         updateTextView()
         addObserversForKeyboardHideAndShowEvents()
+        noteTextView.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         noteTextView.isEditable = false
         moveTop(of: noteTextView)
-        setTextViewDelegatesIfNeeded()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -140,23 +140,6 @@ final class NoteDetailViewController: UIViewController {
         noteTextView.resignFirstResponder()
     }
     
-    private func setTextViewDelegatesIfNeeded() {
-        guard noteTextView.delegate == nil || noteTextView.noteListViewControllerDelegate == nil else {
-            return
-        }
-        noteTextView.delegate = noteTextView
-        
-        guard let primaryViewController = splitViewController?.viewController(for: .primary) else {
-            Loggers.ui.error("\(UIError.cannotFindSplitViewController(location: #function))")
-            return
-        }
-        guard let noteListViewController = primaryViewController as? NoteListViewController else {
-            Loggers.ui.error("\(UIError.typeCastingFailed(subject: "primaryViewController", location: #function))")
-            return
-        }
-        noteTextView.noteListViewControllerDelegate = noteListViewController
-    }
-    
     // MARK: - Configure Navigation Bar and Relevant Actions
     
     private func configureNavigationBar() {
@@ -164,7 +147,7 @@ final class NoteDetailViewController: UIViewController {
     }
     
     @objc private func moreButtonTapped() {
-        guard let indexPath = noteListViewControllerActionsDelegate?.currentIndexPathOfEditingNote else {
+        guard let indexPath = noteListViewControllerDelegate?.currentIndexPathOfEditingNote else {
             Loggers.data.error("\(DataError.cannotFindIndexPath(location: #function))")
             return
         }
@@ -175,14 +158,14 @@ final class NoteDetailViewController: UIViewController {
             guard let self = self else {
                 return
             }
-            self.noteListViewControllerActionsDelegate?.activityViewTapped(at: indexPath)
+            self.noteListViewControllerDelegate?.activityViewTapped(at: indexPath)
         }
         
         let deleteAction = UIAlertAction(title: UIItems.AlertActionTitles.deleteButton, style: .destructive) { [weak self] _ in
             guard let self = self else {
                 return
             }
-            self.noteListViewControllerActionsDelegate?.deleteTapped(at: indexPath)
+            self.noteListViewControllerDelegate?.deleteTapped(at: indexPath)
         }
         
         let cancelAction = UIAlertAction(title: UIItems.AlertActionTitles.cancelButton, style: .cancel)
@@ -234,5 +217,11 @@ extension NoteDetailViewController: NoteDetailViewControllerDelegate {
     func clearText() {
         noteTextView.text = UIItems.TextView.textAfterCleared
         removeActivatedKeyboard()
+    }
+}
+
+extension NoteDetailViewController: UITextViewDelegate {
+    func textViewDidChange(_ textView: UITextView) {
+        noteListViewControllerDelegate?.applyTextUpdate(with: textView.text)
     }
 }

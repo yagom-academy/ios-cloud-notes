@@ -15,6 +15,7 @@ final class ListCell: UITableViewCell {
     let label = UILabel()
     label.textColor = .black
     label.font = .systemFont(ofSize: 17, weight: .bold)
+    
     return label
   }()
   
@@ -22,6 +23,7 @@ final class ListCell: UITableViewCell {
     let label = UILabel()
     label.textColor = .black
     label.font = .systemFont(ofSize: 14, weight: .regular)
+    
     return label
   }()
   
@@ -29,6 +31,7 @@ final class ListCell: UITableViewCell {
     let label = UILabel()
     label.textColor = .gray
     label.font = .systemFont(ofSize: 14, weight: .regular)
+    
     return label
   }()
   
@@ -58,17 +61,15 @@ final class ListCell: UITableViewCell {
     
     stackOfDateAndSummary.addArrangedSubview(dateLabel)
     stackOfDateAndSummary.addArrangedSubview(summaryLabel)
-    
     stackOfTitleAndSubtitle.addArrangedSubview(titleLabel)
     stackOfTitleAndSubtitle.addArrangedSubview(stackOfDateAndSummary)
-    
     contentView.addSubview(stackOfTitleAndSubtitle)
     
     self.accessoryType = .disclosureIndicator
   }
   
   required init?(coder decoder: NSCoder) {
-      super.init(coder: decoder)
+    super.init(coder: decoder)
   }
   
   override func layoutSubviews() {

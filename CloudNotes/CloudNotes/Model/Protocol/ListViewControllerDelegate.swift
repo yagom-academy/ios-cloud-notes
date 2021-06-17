@@ -10,5 +10,8 @@ import UIKit
 protocol ListViewControllerDelegate: AnyObject {
   func didTapMenuItem(model memoInfo: MemoInfo)
   
-  func didSwipeForDeleteMenuItem(model memoInfo: MemoInfo, completion: @escaping () -> Void)
+  func didSwipeForDeleteMenuItem(
+    model memoInfo: MemoInfo,
+    completion: @escaping () -> Void
+  )
 }

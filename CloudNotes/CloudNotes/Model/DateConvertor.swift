@@ -13,6 +13,7 @@ class DateConvertor {
     let dateFormatter = DateFormatter()
     dateFormatter.locale = Locale(identifier: Locale.current.identifier)
     dateFormatter.dateFormat = "yyyy-MM-dd"
+    
     return dateFormatter.string(from: date)
   }
   

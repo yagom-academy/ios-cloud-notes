@@ -14,7 +14,10 @@ final class ListViewController: UIViewController {
   
   private let tableView: UITableView = {
     let tableView = UITableView()
-    tableView.register(ListCell.self, forCellReuseIdentifier: ListCell.identifier)
+    tableView.register(
+      ListCell.self,
+      forCellReuseIdentifier: ListCell.identifier
+    )
     
     return tableView
   }()
@@ -36,9 +39,11 @@ final class ListViewController: UIViewController {
   }
   
   func configureNavigationBar() {
-    let addButton = UIBarButtonItem(barButtonSystemItem: .add,
-                                    target: self,
-                                    action: #selector(buttonPressed(_:)))
+    let addButton = UIBarButtonItem(
+      barButtonSystemItem: .add,
+      target: self,
+      action: #selector(buttonPressed(_:))
+    )
     navigationItem.rightBarButtonItem = addButton
   }
   
@@ -60,45 +65,70 @@ final class ListViewController: UIViewController {
 }
 
 extension ListViewController: UITableViewDelegate {
-  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+  func tableView(
+    _ tableView: UITableView,
+    didSelectRowAt indexPath: IndexPath
+  ) {
     let memoInfo = viewModel.memoInfo(at: indexPath.row)
     delegate?.didTapMenuItem(model: memoInfo)
     
-    tableView.deselectRow(at: indexPath, animated: true)
+    tableView.deselectRow(
+      at: indexPath,
+      animated: true
+    )
   }
   
-  func tableView(_ tableView: UITableView,
-                 trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
+  func tableView(
+    _ tableView: UITableView,
+    trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
   ) -> UISwipeActionsConfiguration? {
-    let deleteAction = UIContextualAction(style: .destructive, title: "삭제") { _, _, _ in
+    let deleteAction = UIContextualAction(
+      style: .destructive,
+      title: "삭제"
+    ) { _, _, _ in
       let memoInfo = self.viewModel.memoInfo(at: indexPath.row)
       self.delegate?.didSwipeForDeleteMenuItem(model: memoInfo) {
         // TODO: - delete logic: cell hidden
-//        tableView.deleteRows(at: [indexPath], with: .fade)
-//        self.tableView.reloadData()
+        //        tableView.deleteRows(at: [indexPath], with: .fade)
+        //        self.tableView.reloadData()
       }
     }
-    let shareAction = UIContextualAction(style: .normal, title: "공유") { _, _, _ in
+    let shareAction = UIContextualAction(
+      style: .normal,
+      title: "공유"
+    ) { _, _, _ in
       let memoInfoToShare = self.viewModel.memoInfo(at: indexPath.row).convertToShare()
-      let activityViewController = UIActivityViewController(activityItems: memoInfoToShare,
-                                                            applicationActivities: nil)
+      let activityViewController = UIActivityViewController(
+        activityItems: memoInfoToShare,
+        applicationActivities: nil
+      )
       activityViewController.popoverPresentationController?.sourceView = self.view
-      self.present(activityViewController, animated: true, completion: nil)
+      self.present(
+        activityViewController,
+        animated: true,
+        completion: nil
+      )
     }
     return UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
   }
 }
 
 extension ListViewController: UITableViewDataSource {
-  func tableView(_ tableView: UITableView,
-                 numberOfRowsInSection section: Int) -> Int {
+  func tableView(
+    _ tableView: UITableView,
+    numberOfRowsInSection section: Int
+  ) -> Int {
     return viewModel.numOfMemoInfoList
   }
   
-  func tableView(_ tableView: UITableView,
-                 cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    guard let cell = tableView.dequeueReusableCell(withIdentifier: ListCell.identifier,
-                                                   for: indexPath) as? ListCell else {
+  func tableView(
+    _ tableView: UITableView,
+    cellForRowAt indexPath: IndexPath
+  ) -> UITableViewCell {
+    guard let cell = tableView.dequeueReusableCell(
+      withIdentifier: ListCell.identifier,
+      for: indexPath
+    ) as? ListCell else {
       return UITableViewCell()
     }
     

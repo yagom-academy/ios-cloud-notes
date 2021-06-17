@@ -19,9 +19,11 @@ class MemoDataManager {
     let entity = NSEntityDescription.entity(forEntityName: "MemoInfo", in: context)
     if let entity = entity {
       let memo = NSManagedObject(entity: entity, insertInto: context)
-      setMemoValue(set: memo,
-                   title: MemoInfo.defaultTitle,
-                   body: MemoInfo.defaultBody) {
+      setMemoValue(
+        set: memo,
+        title: MemoInfo.defaultTitle,
+        body: MemoInfo.defaultBody
+      ) {
         completion()
       }
       
@@ -46,7 +48,11 @@ class MemoDataManager {
     return infoList
   }
   
-  func updateMemo(lastModifiedDate: Double, titleToReplace: String, bodyToReplace: String) {
+  func updateMemo(
+    lastModifiedDate: Double,
+    titleToReplace: String,
+    bodyToReplace: String
+  ) {
     guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
       return
     }
@@ -54,7 +60,10 @@ class MemoDataManager {
     
     // MARK: 수정을 fetchRequest.predicate 방식으로 진행해도 되는가..?
     let fetchRequest = NSFetchRequest<NSFetchRequestResult>.init(entityName: "MemoInfo")
-    fetchRequest.predicate = NSPredicate(format: "lastModified = %lf", lastModifiedDate)
+    fetchRequest.predicate = NSPredicate(
+      format: "lastModified = %lf",
+      lastModifiedDate
+    )
     do {
       let managedObject = try context.fetch(fetchRequest)
       if managedObject.isEmpty {
@@ -63,9 +72,10 @@ class MemoDataManager {
       guard let objectForUpdate = managedObject[0] as? NSManagedObject else {
         return
       }
-      setMemoValue(set: objectForUpdate,
-                   title: titleToReplace,
-                   body: bodyToReplace) {}
+      setMemoValue(
+        set: objectForUpdate,
+        title: titleToReplace,
+        body: bodyToReplace) {}
       
       try context.save()
     } catch {
@@ -73,10 +83,12 @@ class MemoDataManager {
     }
   }
   
-  private func setMemoValue(set memo: NSManagedObject,
-                            title: String,
-                            body: String,
-                            completion: @escaping () -> Void) {
+  private func setMemoValue(
+    set memo: NSManagedObject,
+    title: String,
+    body: String,
+    completion: @escaping () -> Void
+  ) {
     let currentDate = Date()
     let lastModified = DateConvertor().dateToNumber(date: currentDate)
     memo.setValue(lastModified, forKey: "lastModified")
@@ -94,7 +106,10 @@ class MemoDataManager {
     
     // MARK: 삭제를 fetchRequest.predicate 방식으로 진행해도 되는가..?
     let fetchRequest = NSFetchRequest<NSFetchRequestResult>.init(entityName: "MemoInfo")
-    fetchRequest.predicate = NSPredicate(format: "lastModified = %lf", lastModifiedDate)
+    fetchRequest.predicate = NSPredicate(
+      format: "lastModified = %lf",
+      lastModifiedDate
+    )
     do {
       let managedObject = try context.fetch(fetchRequest)
       guard let objectToDelete = managedObject[0] as? NSManagedObject else {

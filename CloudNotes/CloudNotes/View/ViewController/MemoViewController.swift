@@ -37,7 +37,7 @@ final class MemoViewController: UIViewController {
     stackView.distribution = .fillEqually
     stackView.spacing = 0
     stackView.contentMode = .scaleToFill
-        
+    
     return stackView
   }()
   
@@ -59,7 +59,7 @@ final class MemoViewController: UIViewController {
     view.addSubview(textStackView)
     
     // FIXME: - Autolayout programmatically: safeAreaLayoutGuide
-//    textStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+    //    textStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
   }
   
   override func viewDidLayoutSubviews() {
@@ -80,7 +80,7 @@ final class MemoViewController: UIViewController {
     guard let memoInfo = memoInfoBeforeRevising else {
       return
     }
-
+    
     if titleTextField.text != memoInfo.title
         || bodyTextView.text != memoInfo.body {
       updateMemoView()
@@ -99,12 +99,14 @@ final class MemoViewController: UIViewController {
       
       return text
     }()
-    MemoDataManager.shared.updateMemo(lastModifiedDate: lastModifiedDate,
-                                      titleToReplace: titleText,
-                                      bodyToReplace: bodyTextView.text)
+    MemoDataManager.shared.updateMemo(
+      lastModifiedDate: lastModifiedDate,
+      titleToReplace: titleText,
+      bodyToReplace: bodyTextView.text
+    )
     
-    guard let listView =
-            self.navigationController?.viewControllers.first as? ListViewController else {
+    guard let listView = self.navigationController?.viewControllers.first
+            as? ListViewController else {
       return
     }
     listView.updateTable()
@@ -119,43 +121,61 @@ final class MemoViewController: UIViewController {
   
   func configureNavigationBar() {
     let ellipsisImage = UIImage(systemName: "ellipsis.circle")
-    let ellipsis = UIBarButtonItem(image: ellipsisImage,
-                                   style: .plain,
-                                   target: self,
-                                   action: #selector(buttonPressed(_:)))
+    let ellipsis = UIBarButtonItem(
+      image: ellipsisImage,
+      style: .plain,
+      target: self,
+      action: #selector(buttonPressed(_:))
+    )
     navigationItem.rightBarButtonItem = ellipsis
   }
   
   @objc private func buttonPressed(_ sender: Any) {
     let actionSheet = UIAlertController()
     actionSheet.addAction(
-      UIAlertAction(title: "Cancel",
-                    style: UIAlertAction.Style.cancel,
-                    handler: nil))
+      UIAlertAction(
+        title: "Cancel",
+        style: UIAlertAction.Style.cancel,
+        handler: nil)
+    )
     actionSheet.addAction(
-      UIAlertAction(title: "Share...",
-                    style: UIAlertAction.Style.default,
-                    handler: { _ in
-                      guard let memoInfo = self.viewModel.memoInfo else {
-                        return
-                      }
-                      let memoInfoToShare = memoInfo.convertToShare()
-                      let activityViewController = UIActivityViewController(activityItems: memoInfoToShare,
-                                                                            applicationActivities: nil)
-                      activityViewController.popoverPresentationController?.sourceView = self.view
-                      self.present(activityViewController, animated: true, completion: nil)
-                    }))
+      UIAlertAction(
+        title: "Share...",
+        style: UIAlertAction.Style.default,
+        handler: { _ in
+          guard let memoInfo = self.viewModel.memoInfo else {
+            return
+          }
+          let memoInfoToShare = memoInfo.convertToShare()
+          let activityViewController = UIActivityViewController(
+            activityItems: memoInfoToShare,
+            applicationActivities: nil
+          )
+          activityViewController.popoverPresentationController?.sourceView = self.view
+          self.present(
+            activityViewController,
+            animated: true,
+            completion: nil
+          )
+        })
+    )
     actionSheet.addAction(
-      UIAlertAction(title: "Delete",
-                    style: UIAlertAction.Style.destructive,
-                    handler: { _ in
-                      self.present(self.deleteAlert(),
-                                   animated: true,
-                                   completion: nil)
-                    }))
-    self.present(actionSheet,
-                 animated: true,
-                 completion: nil)
+      UIAlertAction(
+        title: "Delete",
+        style: UIAlertAction.Style.destructive,
+        handler: { _ in
+          self.present(
+            self.deleteAlert(),
+            animated: true,
+            completion: nil
+          )
+        })
+    )
+    self.present(
+      actionSheet,
+      animated: true,
+      completion: nil
+    )
   }
   
   private func deleteAlert() -> UIAlertController {
@@ -165,26 +185,30 @@ final class MemoViewController: UIViewController {
       preferredStyle: UIAlertController.Style.alert
     )
     alert.addAction(
-      UIAlertAction(title: "삭제",
-                    style: UIAlertAction.Style.destructive,
-                    handler: { _ in
-                      guard let lastModifiedDate = self.viewModel.memoInfo?.lastModified else {
-                        return
-                      }
-                      MemoDataManager.shared.deleteMemo(lastModifiedDate: lastModifiedDate)
-                      
-                      guard let listView =
-                              self.navigationController?.viewControllers.first as? ListViewController else {
-                        return
-                      }
-                      listView.updateTable()
-                      
-                      self.navigationController?.popViewController(animated: true)
-                    }))
+      UIAlertAction(
+        title: "삭제",
+        style: UIAlertAction.Style.destructive,
+        handler: { _ in
+          guard let lastModifiedDate = self.viewModel.memoInfo?.lastModified else {
+            return
+          }
+          MemoDataManager.shared.deleteMemo(lastModifiedDate: lastModifiedDate)
+          
+          guard let listView = self.navigationController?.viewControllers.first
+                  as? ListViewController else {
+            return
+          }
+          listView.updateTable()
+          
+          self.navigationController?.popViewController(animated: true)
+        })
+    )
     alert.addAction(
-      UIAlertAction(title: "취소",
-                    style: UIAlertAction.Style.cancel,
-                    handler: nil))
+      UIAlertAction(
+        title: "취소",
+        style: UIAlertAction.Style.cancel,
+        handler: nil)
+    )
     
     return alert
   }

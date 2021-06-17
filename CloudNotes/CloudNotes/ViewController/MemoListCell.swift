@@ -8,6 +8,12 @@
 import UIKit
 
 final class MemoListCell: UITableViewCell {
+  enum Style {
+    static let emptyTitleText = "새로운 메세지"
+    static let emptyContentText = "추가 텍스트 없음"
+    static let emptyDateText = "날짜 기록 없음"
+  }
+  
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
     self.selectionStyle = .none
@@ -76,8 +82,32 @@ final class MemoListCell: UITableViewCell {
   }
   
   func configure(with viewModel: MemoListCellModel) {
-    titleLabel.text = viewModel.title
-    dateLabel.text = viewModel.date
-    contentLabel.text = viewModel.content
+    titleLabel.text = setTitleText(viewModel.title)
+    dateLabel.text = setDateText(viewModel.date)
+    contentLabel.text = setBodyText(viewModel.content)
+  }
+  
+  private func setTitleText(_ title: String?) -> String {
+    if let title = title {
+      return title
+    } else {
+      return Style.emptyTitleText
+    }
+  }
+  
+  private func setBodyText(_ body: String?) -> String {
+    if let body = body {
+      return body
+    } else {
+      return Style.emptyContentText
+    }
+  }
+  
+  private func setDateText(_ date: String?) -> String {
+    if let date = date {
+      return date
+    } else {
+      return Style.emptyDateText
+    }
   }
 }

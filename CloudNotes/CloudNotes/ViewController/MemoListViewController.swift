@@ -25,9 +25,13 @@ final class MemoListViewController: UITableViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    self.navigationItem.rightBarButtonItem = addButton
-    self.navigationItem.title = titleString
+    configureNavigationBarButton()
     configureTableView()
+  }
+  
+  private func configureNavigationBarButton() {
+    navigationItem.rightBarButtonItem = addButton
+    navigationItem.title = titleString
   }
   
   private func configureTableView() {

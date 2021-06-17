@@ -13,12 +13,6 @@ final class MemoListViewController: UIViewController {
 
     var memoData: MemoData = MemoData.sample
 
-    private var memos = [Memo]() {
-        didSet {
-            memos.sort { $0.lastModified > $1.lastModified }
-        }
-    }
-
     // MARK: UI
 
     private lazy var memoAddButton = UIBarButtonItem(systemItem: Style.memoAddButtonSystemItem, primaryAction: UIAction(handler: memoAddAction), menu: nil)
@@ -88,11 +82,9 @@ final class MemoListViewController: UIViewController {
         tableView.deselectRow(at: indexPathForSelectedRow, animated: true)
     }
 
-    func updateMemo(at row: Int, to memo: Memo) {
+    func updateMemo(at row: Int) {
         let reloadingIndices: [IndexPath] = (0...row).map { IndexPath(row: $0, section: 0) }
         let indexPathForUpdatedRow = IndexPath(row: Style.updatedMemoRow, section: 0)
-
-        memos[row] = memo
 
         if row == Style.updatedMemoRow {
             tableView.reloadRows(at: reloadingIndices, with: Style.reloadingRowAnimation)
@@ -105,10 +97,10 @@ final class MemoListViewController: UIViewController {
 
     @discardableResult
     private func deleteEmptyMemo() -> Bool {
-        guard let firstMemo = memos.first,
-              firstMemo.title.isEmpty else { return false }
+        guard let firstMemoInfo = memoData.memosByRecentModified.first,
+              firstMemoInfo.memo.title.isEmpty else { return false }
 
-        memos.remove(at: Style.updatedMemoRow)
+        memoData.deleteMemo(where: firstMemoInfo.id)
         tableView.deleteRows(at: [IndexPath(row: Style.updatedMemoRow, section: 0)], with: Style.inAndOutRowAnimation)
 
         return true
@@ -117,7 +109,7 @@ final class MemoListViewController: UIViewController {
     private func addMemo() {
         let indexPathForInsertedRow = IndexPath(row: Style.updatedMemoRow, section: 0)
 
-        memos.append(Memo())
+        memoData.createMemo(Memo())
         tableView.insertRows(at: [indexPathForInsertedRow], with: Style.inAndOutRowAnimation)
         tableView.selectRow(at: indexPathForInsertedRow, animated: true, scrollPosition: .none)
     }
@@ -126,7 +118,7 @@ final class MemoListViewController: UIViewController {
         let memoViewController = (splitViewController?.viewController(for: .secondary) as? MemoViewController)
 
         memoViewController?.isTextViewHidden = false
-        memoViewController?.configure(row: row, memo: memos[row])
+        memoViewController?.configure(memoInfo: memoData.memosByRecentModified[row])
         memoViewController?.textViewResignFirstResponder()
         splitViewController?.show(.secondary)
     }
@@ -146,13 +138,13 @@ final class MemoListViewController: UIViewController {
 extension MemoListViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        memos.count
+        memoData.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let memoCell = tableView.dequeueReusableCell(withIdentifier: MemoCell.reuseIdentifier,
                                                            for: indexPath) as? MemoCell else { return MemoCell() }
-        memoCell.configure(memo: memos[indexPath.row])
+        memoCell.configure(memo: memoData.memosByRecentModified[indexPath.row].memo)
 
         return memoCell
     }

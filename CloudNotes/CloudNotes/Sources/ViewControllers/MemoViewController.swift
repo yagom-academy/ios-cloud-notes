@@ -9,12 +9,13 @@ import UIKit
 
 final class MemoViewController: UIViewController {
 
+    typealias MemoInfo = (id: Int, memo: Memo)
+
     // MARK: Property
 
     var memoData: MemoData = MemoData.sample
 
-    private var row: Int?
-    private var memo: Memo?
+    private var memoInfo: MemoInfo?
 
     var isTextViewHidden: Bool {
         get { textView.isHidden }
@@ -69,9 +70,9 @@ final class MemoViewController: UIViewController {
 
     // MARK: Configure
 
-    func configure(row: Int, memo: Memo) {
-        self.row = row
-        configureTextViewText(by: memo)
+    func configure(memoInfo: MemoInfo) {
+        self.memoInfo = memoInfo
+        configureTextViewText(by: memoInfo.memo)
         resetScrollOffset()
     }
 
@@ -135,17 +136,13 @@ extension MemoViewController: UITextViewDelegate {
 
     func textViewDidChange(_ textView: UITextView) {
         guard let textViewText = textView.text,
-              let seperatedMemo = separatedMemo(from: textViewText) else { return }
-
-        self.memo = Memo(title: seperatedMemo.title, body: seperatedMemo.body)
-
+              let seperatedMemo = separatedMemo(from: textViewText),
+              let memoInfo = memoInfo else { return }
+        let row: Int = memoData.indexByRecentModified(where: memoInfo.id)
         let primaryViewController = splitViewController?.viewController(for: .primary) as? MemoListViewController
 
-        if let row = row,
-           let memo = memo {
-            primaryViewController?.updateMemo(at: row, to: memo)
-            self.row = Style.updatedMemoRow
-        }
+        memoData.updateMemo(Memo(title: seperatedMemo.title, body: seperatedMemo.body), where: memoInfo.id)
+        primaryViewController?.updateMemo(at: row)
     }
 
     private func separatedMemo(from text: String) -> (title: String, body: String)? {

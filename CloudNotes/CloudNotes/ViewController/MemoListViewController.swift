@@ -48,7 +48,7 @@ final class MemoListViewController: UITableViewController {
             as? MemoListCell else {
       return UITableViewCell()
     }
-    guard let viewModel = tableViewModel.getMemoViewModel(for: indexPath) else {
+    guard let viewModel = tableViewModel.getMemoListCellModel(for: indexPath) else {
       return UITableViewCell()
     }
     cell.configure(with: viewModel)

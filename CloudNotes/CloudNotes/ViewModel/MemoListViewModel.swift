@@ -15,7 +15,7 @@ final class MemoListViewModel {
     return memos.count
   }
   
-  func getMemoViewModel(for indexPath: IndexPath) -> MemoListCellModel? {
+  func getMemoListCellModel(for indexPath: IndexPath) -> MemoListCellModel? {
     guard let memo = memoServiceAdapter.memos?[indexPath.row] else { return nil }
     let dateString = convertDateFormat(memo.lastModified)
     let viewModel = MemoListCellModel(title: memo.title, date: dateString, content: memo.body)

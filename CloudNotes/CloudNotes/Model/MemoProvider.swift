@@ -46,7 +46,7 @@ final class MemoProvider {
   }
   
   // MARK: - Manage Memo Data
-  private var memos: [Memo]?
+  var memos: [Memo]?
   var delegate: MemoProviderDelegate?
 
   func createMemoData() {

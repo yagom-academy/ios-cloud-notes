@@ -75,15 +75,9 @@ final class MemoListCell: UITableViewCell {
     ])
   }
   
-  func configure(with viewModel: MemoViewModel) {
+  func configure(with viewModel: MemoListCellModel) {
     titleLabel.text = viewModel.title
     dateLabel.text = viewModel.date
     contentLabel.text = viewModel.content
   }
-}
-
-struct MemoViewModel {
-  let title: String
-  let date: String
-  let content: String
 }

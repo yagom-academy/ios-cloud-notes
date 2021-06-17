@@ -59,14 +59,17 @@ extension SplitViewController: MemoListViewDelegate {
 
 extension SplitViewController: MemoProviderDelegate {
   func memoDidCreate(_ memo: Memo, indexPath: IndexPath) {
-    
+    guard let memoListViewController = self.viewController(for: .primary) as? MemoListViewController,
+          let memoDetailViewController = self.viewController(for: .secondary) as? MemoDetailViewController else { return }
+    memoListViewController.tableView.reloadData()
+    showDetailViewController(memoDetailViewController, sender: self)
   }
   
   func memoDidUpdate(indexPath: IndexPath, title: String, body: String) {
-    
+    memoListViewController?.tableView.reloadData()
   }
   
   func memoDidDelete(indexPath: IndexPath) {
-    
+    memoListViewController?.tableView.reloadData()
   }
 }

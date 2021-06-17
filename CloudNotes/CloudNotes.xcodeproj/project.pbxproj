@@ -12,6 +12,7 @@
 		C305151F267B275E004AF455 /* MemoProviderDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C305151E267B275E004AF455 /* MemoProviderDelegate.swift */; };
 		C3051521267B3526004AF455 /* MemoListCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3051520267B3526004AF455 /* MemoListCellModel.swift */; };
 		C3051523267B4784004AF455 /* MemoListViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3051522267B4784004AF455 /* MemoListViewDelegate.swift */; };
+		C3051525267B752A004AF455 /* MemoDetailViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3051524267B752A004AF455 /* MemoDetailViewDelegate.swift */; };
 		C38D08882666961700E6F4D5 /* SplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38D08872666961700E6F4D5 /* SplitViewController.swift */; };
 		C38D088E2667289800E6F4D5 /* MemoListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38D088D2667289800E6F4D5 /* MemoListViewController.swift */; };
 		C38D0890266728CA00E6F4D5 /* MemoListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38D088F266728CA00E6F4D5 /* MemoListViewModel.swift */; };
@@ -51,6 +52,7 @@
 		C305151E267B275E004AF455 /* MemoProviderDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoProviderDelegate.swift; sourceTree = "<group>"; };
 		C3051520267B3526004AF455 /* MemoListCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoListCellModel.swift; sourceTree = "<group>"; };
 		C3051522267B4784004AF455 /* MemoListViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoListViewDelegate.swift; sourceTree = "<group>"; };
+		C3051524267B752A004AF455 /* MemoDetailViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoDetailViewDelegate.swift; sourceTree = "<group>"; };
 		C38D08872666961700E6F4D5 /* SplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitViewController.swift; sourceTree = "<group>"; };
 		C38D088D2667289800E6F4D5 /* MemoListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoListViewController.swift; sourceTree = "<group>"; };
 		C38D088F266728CA00E6F4D5 /* MemoListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoListViewModel.swift; sourceTree = "<group>"; };
@@ -112,6 +114,7 @@
 			children = (
 				C305151E267B275E004AF455 /* MemoProviderDelegate.swift */,
 				C3051522267B4784004AF455 /* MemoListViewDelegate.swift */,
+				C3051524267B752A004AF455 /* MemoDetailViewDelegate.swift */,
 			);
 			path = Delegate;
 			sourceTree = "<group>";
@@ -127,8 +130,8 @@
 		C346005F2668F5E2001B8F9C /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				C38D089726679FC900E6F4D5 /* MemoDetailViewModel.swift */,
 				C38D088F266728CA00E6F4D5 /* MemoListViewModel.swift */,
+				C38D089726679FC900E6F4D5 /* MemoDetailViewModel.swift */,
 				C3051520267B3526004AF455 /* MemoListCellModel.swift */,
 			);
 			path = ViewModel;
@@ -343,6 +346,7 @@
 				C38D088E2667289800E6F4D5 /* MemoListViewController.swift in Sources */,
 				C38D0890266728CA00E6F4D5 /* MemoListViewModel.swift in Sources */,
 				C38D08942667477300E6F4D5 /* MemoListCell.swift in Sources */,
+				C3051525267B752A004AF455 /* MemoDetailViewDelegate.swift in Sources */,
 				C3051517267B1F34004AF455 /* Memo+CoreDataClass.swift in Sources */,
 				C3051523267B4784004AF455 /* MemoListViewDelegate.swift in Sources */,
 				C7481C7225BBCF3900B9CA55 /* MemoDetailViewController.swift in Sources */,

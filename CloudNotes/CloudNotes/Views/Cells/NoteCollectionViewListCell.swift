@@ -8,6 +8,7 @@
 import UIKit
 
 final class NoteCollectionViewListCell: UICollectionViewListCell {
+    
     // MARK: - Properties
     static let reuseIdentifier = "NoteCollectionViewListCell"
     
@@ -24,6 +25,7 @@ final class NoteCollectionViewListCell: UICollectionViewListCell {
         let bodyLabel = UILabel()
         bodyLabel.translatesAutoresizingMaskIntoConstraints = false
         bodyLabel.font = UIFont.preferredFont(forTextStyle: .body)
+        bodyLabel.textAlignment = .left
         bodyLabel.lineBreakMode = .byTruncatingTail
         bodyLabel.textColor = .gray
         bodyLabel.adjustsFontForContentSizeCategory = true
@@ -35,13 +37,15 @@ final class NoteCollectionViewListCell: UICollectionViewListCell {
         lastModifiedDateLabel.font = UIFont.preferredFont(forTextStyle: .subheadline)
         lastModifiedDateLabel.adjustsFontForContentSizeCategory = true
         lastModifiedDateLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
+        lastModifiedDateLabel.setContentHuggingPriority(.required, for: .horizontal)
         return lastModifiedDateLabel
     }()
-    
+
     // MARK: - Namespaces
     private enum Layouts {
         static let spacingInSecondaryTextStackView: CGFloat = 15
         static let spacingInCellStackView: CGFloat = 3
+        static let contentViewCornerRadius: CGFloat = 10
     }
     
     private enum Constraints {
@@ -53,15 +57,19 @@ final class NoteCollectionViewListCell: UICollectionViewListCell {
         }
     }
     
+    private enum NoteTexts {
+        static let emptyString = ""
+        static let noTitle = "제목 없음"
+        static let noBody = "내용 없음"
+    }
+    
     // MARK: - Configure cell
     func configure(with note: Note) {
         let cellStackView = createCellStackView()
         addSubview(cellStackView)
-        
-        titleLabel.text = note.title
-        bodyLabel.text = note.body
-        lastModifiedDateLabel.text = note.lastModified.formatted
+        updateContents(note)
         accessories = [.disclosureIndicator()]
+        contentView.layer.cornerRadius = Layouts.contentViewCornerRadius
         
         NSLayoutConstraint.activate([
             cellStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constraints.CellStackView.leading),
@@ -87,5 +95,23 @@ final class NoteCollectionViewListCell: UICollectionViewListCell {
         cellStackView.spacing = Layouts.spacingInCellStackView
         
         return cellStackView
+    }
+    
+    private func updateContents(_ note: Note) {
+        titleLabel.text = note.title == NoteTexts.emptyString ? NoteTexts.noTitle : note.title
+        bodyLabel.text = note.body == NoteTexts.emptyString ? NoteTexts.noBody : note.body
+        lastModifiedDateLabel.text = note.lastModified.formatted
+    }
+    
+    // MARK: - Set cell selection effect
+    
+    override func updateConfiguration(using state: UICellConfigurationState) {
+        super.updateConfiguration(using: state)
+        
+        if state.isSelected {
+            contentView.backgroundColor = .systemBlue
+        } else {
+            contentView.backgroundColor = .systemBackground
+        }
     }
 }

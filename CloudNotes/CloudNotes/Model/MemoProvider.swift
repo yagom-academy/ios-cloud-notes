@@ -25,14 +25,13 @@ final class MemoProvider {
     let container = NSPersistentCloudKitContainer(name: "CloudNotes")
     container.loadPersistentStores(completionHandler: { (storeDescription, error) in
       if let error = error as NSError? {
-        let alert = UIAlertController(title: "Core Data Store Container", message: error.description, preferredStyle: .alert)
-        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        alert.addAction(cancel)
-        self.currentViewController?.present(alert, animated: true, completion: nil)
+        self.presentAlert("Core Data Store Container Error", error: error)
       }
     })
     return container
   }()
+  
+  private lazy var context = persistentContainer.viewContext
   
   // MARK: - Core Data Saving support
   func saveContext () {
@@ -41,30 +40,55 @@ final class MemoProvider {
       do {
         try context.save()
       } catch {
-        let alert = UIAlertController(title: "Core Data Save Error", message: error.localizedDescription, preferredStyle: .alert)
-        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        alert.addAction(cancel)
-        self.currentViewController?.present(alert, animated: true, completion: nil)
+        presentAlert("Core Data Save Error", error: error)
       }
     }
   }
   
   // MARK: - Manage Memo Data
-  private var memo: [Memo]?
+  private var memos: [Memo]?
+  var delegate: MemoProviderDelegate?
 
   func createMemoData() {
-    
+    let newMemo = Memo(context: context)
+    newMemo.lastModified = Date()
+    self.memos?.insert(newMemo, at: 0)
+    let newIndexPath = IndexPath(row: .zero, section: .zero)
+    self.delegate?.memoDidCreate(newMemo, indexPath: newIndexPath)
   }
   
   func fetchMemoData() {
-    
+    let request: NSFetchRequest<Memo> = Memo.fetchRequest()
+    let sort = NSSortDescriptor(key: "lastModified", ascending: false)
+    request.sortDescriptors = [sort]
+    do {
+      self.memos = try context.fetch(request)
+    } catch {
+      presentAlert("Memo Data Fetch Error", error: error)
+    }
   }
   
   func updateMemoData(indexPath: IndexPath, title: String, body: String) {
-    
+    let memo = memos?[indexPath.row]
+    memo?.lastModified = Date()
+    memo?.title = title
+    memo?.body = body
+    delegate?.memoDidUpdate(indexPath: indexPath, title: title, body: body)
   }
   
   func deleteMemoData(indexPath: IndexPath) {
-    
+    guard let memoToDelete = memos?[indexPath.row] else { return }
+    context.delete(memoToDelete)
+    self.memos?.remove(at: indexPath.row)
+    self.delegate?.memoDidDelete(indexPath: indexPath)
+  }
+}
+
+extension MemoProvider {
+  func presentAlert(_ title: String, error: Error) {
+    let alert = UIAlertController(title: title, message: error.localizedDescription, preferredStyle: .alert)
+    let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+    alert.addAction(cancel)
+    currentViewController?.present(alert, animated: true, completion: nil)
   }
 }

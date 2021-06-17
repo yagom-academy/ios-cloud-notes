@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		C3051517267B1F34004AF455 /* Memo+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3051515267B1F34004AF455 /* Memo+CoreDataClass.swift */; };
 		C3051518267B1F34004AF455 /* Memo+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3051516267B1F34004AF455 /* Memo+CoreDataProperties.swift */; };
-		C305151C267B24D5004AF455 /* Extension_UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C305151B267B24D5004AF455 /* Extension_UIViewController.swift */; };
+		C305151F267B275E004AF455 /* MemoProviderDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C305151E267B275E004AF455 /* MemoProviderDelegate.swift */; };
 		C38D08882666961700E6F4D5 /* SplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38D08872666961700E6F4D5 /* SplitViewController.swift */; };
 		C38D088E2667289800E6F4D5 /* MemoListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38D088D2667289800E6F4D5 /* MemoListViewController.swift */; };
 		C38D0890266728CA00E6F4D5 /* MemoListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38D088F266728CA00E6F4D5 /* MemoListViewModel.swift */; };
@@ -46,7 +46,7 @@
 /* Begin PBXFileReference section */
 		C3051515267B1F34004AF455 /* Memo+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Memo+CoreDataClass.swift"; sourceTree = "<group>"; };
 		C3051516267B1F34004AF455 /* Memo+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Memo+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		C305151B267B24D5004AF455 /* Extension_UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension_UIViewController.swift; sourceTree = "<group>"; };
+		C305151E267B275E004AF455 /* MemoProviderDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoProviderDelegate.swift; sourceTree = "<group>"; };
 		C38D08872666961700E6F4D5 /* SplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitViewController.swift; sourceTree = "<group>"; };
 		C38D088D2667289800E6F4D5 /* MemoListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoListViewController.swift; sourceTree = "<group>"; };
 		C38D088F266728CA00E6F4D5 /* MemoListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoListViewModel.swift; sourceTree = "<group>"; };
@@ -103,12 +103,12 @@
 			path = CoreData;
 			sourceTree = "<group>";
 		};
-		C305151A267B24C6004AF455 /* Extension */ = {
+		C305151D267B2747004AF455 /* Delegate */ = {
 			isa = PBXGroup;
 			children = (
-				C305151B267B24D5004AF455 /* Extension_UIViewController.swift */,
+				C305151E267B275E004AF455 /* MemoProviderDelegate.swift */,
 			);
-			path = Extension;
+			path = Delegate;
 			sourceTree = "<group>";
 		};
 		C308FA402667D1C600CA0E8B /* Model */ = {
@@ -176,7 +176,7 @@
 				C346005F2668F5E2001B8F9C /* ViewModel */,
 				C38D088C2667241600E6F4D5 /* ViewController */,
 				C7481C7925BBCF3A00B9CA55 /* Assets.xcassets */,
-				C305151A267B24C6004AF455 /* Extension */,
+				C305151D267B2747004AF455 /* Delegate */,
 				C308FA402667D1C600CA0E8B /* Model */,
 				C7481C7B25BBCF3A00B9CA55 /* LaunchScreen.storyboard */,
 				C7481C7E25BBCF3A00B9CA55 /* Info.plist */,
@@ -340,7 +340,7 @@
 				C3051517267B1F34004AF455 /* Memo+CoreDataClass.swift in Sources */,
 				C7481C7225BBCF3900B9CA55 /* MemoDetailViewController.swift in Sources */,
 				C38D089826679FC900E6F4D5 /* MemoDetailViewModel.swift in Sources */,
-				C305151C267B24D5004AF455 /* Extension_UIViewController.swift in Sources */,
+				C305151F267B275E004AF455 /* MemoProviderDelegate.swift in Sources */,
 				C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */,
 				C3051518267B1F34004AF455 /* Memo+CoreDataProperties.swift in Sources */,
 				C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */,

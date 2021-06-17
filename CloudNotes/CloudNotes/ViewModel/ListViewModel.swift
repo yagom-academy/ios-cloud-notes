@@ -5,31 +5,37 @@
 //  Created by 강경 on 2021/06/02.
 //
 
-import Foundation
+import UIKit
+import CoreData
 
 final class ListViewModel {
   private var memoInfoList: [MemoInfo] = []
   
   init() {
-    do {
-      // 임시 Data
-      guard let filePath = Bundle.main.path(forResource: "sample", ofType: "json") else {
-        throw DecodingError.PathNotFound
-      }
-      guard let data = try String(contentsOfFile: filePath).data(using: .utf8) else {
-        throw DecodingError.DataConversionFailed
-      }
-      memoInfoList = try JSONDecoder().decode([MemoInfo].self, from: data)
-    } catch {
-      print(error)
-    }
+    setMemoInfoList()
   }
   
   var numOfMemoInfoList: Int {
     return memoInfoList.count
   }
   
+  var sortedMemoInfoList: [MemoInfo] {
+    let sortedList = memoInfoList.sorted { prev, next in
+      return prev.lastModified > next.lastModified
+    }
+    
+    return sortedList
+  }
+  
+  func setMemoInfoList() {
+    do {
+      self.memoInfoList = try MemoDataManager.shared.memoInfoList()
+    } catch {
+      print(error.localizedDescription)
+    }
+  }
+  
   func memoInfo(at index: Int) -> MemoInfo {
-    return memoInfoList[index]
+    return sortedMemoInfoList[index]
   }
 }

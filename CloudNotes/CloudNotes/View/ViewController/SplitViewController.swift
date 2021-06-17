@@ -20,7 +20,7 @@ final class SplitViewController: UISplitViewController, UISplitViewControllerDel
     delegate = self
     preferredDisplayMode = .oneBesideSecondary
     
-    listViewController.title = "메모"
+    listViewController.title = ListViewController.titleText
     listViewController.delegate = self
     
     viewControllers = [
@@ -29,18 +29,33 @@ final class SplitViewController: UISplitViewController, UISplitViewControllerDel
     ]
   }
   
-  func splitViewController(_ splitViewController: UISplitViewController,
-                           collapseSecondary secondaryViewController: UIViewController,
-                           onto primaryViewController: UIViewController) -> Bool {
+  func splitViewController(
+    _ splitViewController: UISplitViewController,
+    collapseSecondary secondaryViewController: UIViewController,
+    onto primaryViewController: UIViewController
+  ) -> Bool {
     return true
   }
 }
 
 extension SplitViewController: ListViewControllerDelegate {
+  func didSwipeForDeleteMenuItem(
+    model memoInfo: MemoInfo,
+    completion: @escaping () -> Void
+  ) {
+    let lastModifiedDate = memoInfo.lastModified
+    MemoDataManager.shared.deleteMemo(lastModifiedDate: lastModifiedDate)
+    
+    completion()
+  }
+  
   func didTapMenuItem(model memoInfo: MemoInfo) {
     memoViewController.viewModel.update(model: memoInfo)
     memoViewController.updateUI()
     
-    showDetailViewController(memoViewController, sender: nil)
+    showDetailViewController(
+      memoViewController,
+      sender: nil
+    )
   }
 }

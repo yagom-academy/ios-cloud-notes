@@ -8,7 +8,7 @@
 import Foundation
 
 final class MemoListViewModel {
-  private var memoServiceAdapter = MemoProvider()
+  private var memoServiceAdapter = MemoProvider.shared
 
   private lazy var memos: [Memo]? = {
     do {
@@ -24,11 +24,11 @@ final class MemoListViewModel {
     guard let memos = memos else { return nil }
     let dateFormatter: DateFormatter = DateFormatter()
     for memo in memos {
-      let date = Date(timeIntervalSince1970: TimeInterval(memo.lastModified))
-      dateFormatter.locale = Locale(identifier: Locale.current.identifier)
-      dateFormatter.setLocalizedDateFormatFromTemplate("yyyy. MM. d")
-      let dateString = dateFormatter.string(from: date)
-      memoViewModels.append(MemoViewModel(title: memo.title, date: dateString, content: memo.body))
+//      let date = Date(timeIntervalSince1970: TimeInterval(memo.lastModified))
+//      dateFormatter.locale = Locale(identifier: Locale.current.identifier)
+//      dateFormatter.setLocalizedDateFormatFromTemplate("yyyy. MM. d")
+//      let dateString = dateFormatter.string(from: date)
+//      memoViewModels.append(MemoViewModel(title: memo.title, date: dateString, content: memo.body))
     }
     return memoViewModels
   }()

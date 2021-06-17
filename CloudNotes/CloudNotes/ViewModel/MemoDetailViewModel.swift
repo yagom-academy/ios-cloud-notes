@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CoreData
 
 final class MemoDetailViewModel {
   private enum ContentConstant {
@@ -15,11 +16,9 @@ final class MemoDetailViewModel {
   
   var delegate: MemoDetailViewModelDelegate?
   
-  private var memo: Memo = Memo(title: ContentConstant.emptyString,
-                                body: ContentConstant.emptyString,
-                                lastModified: .zero)
-  var date: Int { return memo.lastModified }
-  var content: String { return memo.title + ContentConstant.doubleNewLine + memo.body }
+  private var memo: Memo?
+  var date: Date { return (memo!.lastModified)! }
+  var content: String { return memo!.title! + ContentConstant.doubleNewLine + memo!.body! }
   
   func configure(with memo: Memo) {
     self.memo = memo

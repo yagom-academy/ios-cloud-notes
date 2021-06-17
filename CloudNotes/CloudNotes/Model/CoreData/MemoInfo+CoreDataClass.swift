@@ -13,4 +13,13 @@ import CoreData
 public class MemoInfo: NSManagedObject {
   static let defaultTitle = "새로운 메모"
   static let defaultBody = "빈 메모입니다. 내용을 작성해주세요."
+  
+  func convertToShare() -> [String] {
+    var memoInfoToShare = [String]()
+    memoInfoToShare.append(title ?? MemoInfo.defaultTitle)
+    memoInfoToShare.append("\n")
+    memoInfoToShare.append(body ?? MemoInfo.defaultBody)
+    
+    return memoInfoToShare
+  }
 }

@@ -125,7 +125,14 @@ final class MemoViewController: UIViewController {
       UIAlertAction(title: "Share...",
                     style: UIAlertAction.Style.default,
                     handler: { _ in
-                      // TODO: - share logic
+                      guard let memoInfo = self.viewModel.memoInfo else {
+                        return
+                      }
+                      let memoInfoToShare = memoInfo.convertToShare()
+                      let activityViewController = UIActivityViewController(activityItems: memoInfoToShare,
+                                                                            applicationActivities: nil)
+                      activityViewController.popoverPresentationController?.sourceView = self.view
+                      self.present(activityViewController, animated: true, completion: nil)
                     }))
     actionSheet.addAction(
       UIAlertAction(title: "Delete",

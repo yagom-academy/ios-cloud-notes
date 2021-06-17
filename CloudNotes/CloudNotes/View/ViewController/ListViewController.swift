@@ -79,7 +79,11 @@ extension ListViewController: UITableViewDelegate {
       }
     }
     let shareAction = UIContextualAction(style: .normal, title: "공유") { _, _, _ in
-      // TODO: - share logic
+      let memoInfoToShare = self.viewModel.memoInfo(at: indexPath.row).convertToShare()
+      let activityViewController = UIActivityViewController(activityItems: memoInfoToShare,
+                                                            applicationActivities: nil)
+      activityViewController.popoverPresentationController?.sourceView = self.view
+      self.present(activityViewController, animated: true, completion: nil)
     }
     return UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
   }

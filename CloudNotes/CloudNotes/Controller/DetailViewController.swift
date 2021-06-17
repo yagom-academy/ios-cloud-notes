@@ -7,7 +7,7 @@
 
 import UIKit
 
-class DetailViewController: UIViewController, SendDataDelegate, UIPopoverPresentationControllerDelegate {
+class DetailViewController: UIViewController, SendDataDelegate {
 
     var memoDetailTextView: UITextView = {
         let view = UITextView()
@@ -26,23 +26,22 @@ class DetailViewController: UIViewController, SendDataDelegate, UIPopoverPresent
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: #selector(editMemo))
         self.view.addSubview(memoDetailTextView)
         setTextViewConstraint()
-        
     }
     
-    func setRegular(first: String, last: String) {
-        let font = UIFont.italicSystemFont(ofSize: 10)
-        let font2 = UIFont.boldSystemFont(ofSize: 20)
-        let fullText = memoDetailTextView.text!
+    private func setRegular(firstSplitText: String, lastSplitText: String) {
+        let titleFontStyle = UIFont.boldSystemFont(ofSize: 20)
+        let bodyFontStyle = UIFont.italicSystemFont(ofSize: 10)
         
-
+        guard let fullText = memoDetailTextView.text else { return }
+        
         let attributedString = NSMutableAttributedString(string: fullText)
         
-        let range = (fullText as NSString).range(of: first)
-        attributedString.addAttribute(.font, value: font2, range: range)
+        let titleRange = (fullText as NSString).range(of: firstSplitText)
+        attributedString.addAttribute(.font, value: titleFontStyle, range: titleRange)
         
-        if first != last {
-            let range2 = (fullText as NSString).range(of: last)
-            attributedString.addAttribute(.font, value: font, range: range2)
+        if firstSplitText != lastSplitText {
+            let bodyRange = (fullText as NSString).range(of: lastSplitText)
+            attributedString.addAttribute(.font, value: bodyFontStyle, range: bodyRange)
         }
 
         memoDetailTextView.attributedText = attributedString
@@ -62,10 +61,10 @@ class DetailViewController: UIViewController, SendDataDelegate, UIPopoverPresent
             data.title = ""
             data.body = ""
         }
-        self.memoDetailTextView.text = "\(data.title!)\n" + "\(data.body!)"
+        self.memoDetailTextView.text = "\(data.title)\n" + "\(data.body)"
         self.currentIndex = index
         if data.title != "" && data.body != "" {
-            setRegular(first: data.title!, last: data.body!)
+            setRegular(firstSplitText: data.title, lastSplitText: data.body)
         }
     }
     
@@ -109,14 +108,15 @@ extension DetailViewController: UITextViewDelegate {
 
 extension DetailViewController {
     
-    func deleteAlert() {
+    private func deleteAlert() {
         let defaultAction = UIAlertAction(title: "삭제", style: .destructive) { (action) in
             DataManager.shared.deleteData(index: self.currentIndex)
             NotificationCenter.default.post(name: NSNotification.Name("didRecieveNotification"), object: nil, userInfo: nil )
-            if self.splitViewController?.traitCollection.horizontalSizeClass == .compact {
+            if self.splitViewController?.traitCollection.horizontalSizeClass == .compact || self.currentIndex == 0 {
                 self.splitViewController?.show(.primary)
             }
             else {
+                self.currentIndex -= 1
                 self.sendData(data: DataManager.shared.memoList[self.currentIndex], index: self.currentIndex)
             }
         }
@@ -129,7 +129,7 @@ extension DetailViewController {
         self.present(alert, animated: true)
     }
     
-    func detailActionSheet(_ sender: UIBarButtonItem) {
+    private func detailActionSheet(_ sender: UIBarButtonItem) {
         let destroyAction = UIAlertAction(title: "Delete", style: .destructive) { (action) in
             self.deleteAlert()
         }
@@ -148,7 +148,7 @@ extension DetailViewController {
         self.present(alert, animated: true)
     }
     
-    func presentShareSheet(_ sender: UIBarButtonItem) {
+    private func presentShareSheet(_ sender: UIBarButtonItem) {
         guard let sendText = self.memoDetailTextView.text else { return }
         
         let shareSheetViewController = UIActivityViewController(activityItems: [sendText], applicationActivities: nil)

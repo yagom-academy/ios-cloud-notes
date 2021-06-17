@@ -14,6 +14,8 @@
 		76A5A3CE2669003C00B21DF8 /* MemoSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A5A3CD2669003C00B21DF8 /* MemoSplitViewController.swift */; };
 		76A5A3D0266904CB00B21DF8 /* MemoListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A5A3CF266904CB00B21DF8 /* MemoListCell.swift */; };
 		76A5A3D426690AAE00B21DF8 /* SendDataDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A5A3D326690AAE00B21DF8 /* SendDataDelegate.swift */; };
+		76AC77F9267B11A000EF3243 /* Memo+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76AC77F7267B11A000EF3243 /* Memo+CoreDataClass.swift */; };
+		76AC77FA267B11A000EF3243 /* Memo+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76AC77F8267B11A000EF3243 /* Memo+CoreDataProperties.swift */; };
 		76E894072664F700006ED838 /* MemoData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76E894062664F700006ED838 /* MemoData.swift */; };
 		C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */; };
 		C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */; };
@@ -49,6 +51,8 @@
 		76A5A3CD2669003C00B21DF8 /* MemoSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoSplitViewController.swift; sourceTree = "<group>"; };
 		76A5A3CF266904CB00B21DF8 /* MemoListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoListCell.swift; sourceTree = "<group>"; };
 		76A5A3D326690AAE00B21DF8 /* SendDataDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendDataDelegate.swift; sourceTree = "<group>"; };
+		76AC77F7267B11A000EF3243 /* Memo+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Memo+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
+		76AC77F8267B11A000EF3243 /* Memo+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Memo+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
 		76E894062664F700006ED838 /* MemoData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoData.swift; sourceTree = "<group>"; };
 		C7481C6A25BBCF3900B9CA55 /* CloudNotes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CloudNotes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -136,6 +140,8 @@
 		C7481C6125BBCF3900B9CA55 = {
 			isa = PBXGroup;
 			children = (
+				76AC77F7267B11A000EF3243 /* Memo+CoreDataClass.swift */,
+				76AC77F8267B11A000EF3243 /* Memo+CoreDataProperties.swift */,
 				C7481C6C25BBCF3900B9CA55 /* CloudNotes */,
 				C7481C8625BBCF3A00B9CA55 /* CloudNotesTests */,
 				C7481C9125BBCF3A00B9CA55 /* CloudNotesUITests */,
@@ -321,12 +327,14 @@
 				76A5A3D0266904CB00B21DF8 /* MemoListCell.swift in Sources */,
 				76A5A3CE2669003C00B21DF8 /* MemoSplitViewController.swift in Sources */,
 				768952C62669E14B00AE4B6F /* CloudNoteError.swift in Sources */,
+				76AC77FA267B11A000EF3243 /* Memo+CoreDataProperties.swift in Sources */,
 				76E894072664F700006ED838 /* MemoData.swift in Sources */,
 				76A5A3C22668951000B21DF8 /* MemoListViewController.swift in Sources */,
 				C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */,
 				C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */,
 				76A5A3D426690AAE00B21DF8 /* SendDataDelegate.swift in Sources */,
 				768EDB472670ED1800D8EF18 /* DataManager.swift in Sources */,
+				76AC77F9267B11A000EF3243 /* Memo+CoreDataClass.swift in Sources */,
 				C7481C7825BBCF3900B9CA55 /* CloudNotes.xcdatamodeld in Sources */,
 				76A5A3C42668954C00B21DF8 /* DetailViewController.swift in Sources */,
 			);

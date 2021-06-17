@@ -29,12 +29,10 @@ class DataManager {
     
     func createData() {
         let newMemo = Memo(context: mainContext)
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy. MM. dd."
 
         newMemo.title = "새로운 메모"
         newMemo.body = "추가 텍스트 없음"
-        newMemo.lastModifiedDate = formatter.string(from: Date())
+        newMemo.lastModifiedDate = Date()
         
         saveContext()
         fetchData()

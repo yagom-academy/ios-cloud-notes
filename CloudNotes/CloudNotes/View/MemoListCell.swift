@@ -42,8 +42,6 @@ class MemoListCell: UITableViewCell {
         self.addSubview(memoDateCreate)
         self.addSubview(memoPreview)
         setCellContentsConstraint()
-
-        self.accessoryType = .disclosureIndicator
     }
 
     
@@ -71,9 +69,12 @@ class MemoListCell: UITableViewCell {
     }
     
     func setCellData(currentMemoData: Memo) {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy. MM. dd."
+
         self.memoTitle.text = currentMemoData.title
         self.memoPreview.text = currentMemoData.body
-        self.memoDateCreate.text = currentMemoData.lastModifiedDate
+        self.memoDateCreate.text = formatter.string(from: currentMemoData.lastModifiedDate)
         self.accessoryType = .disclosureIndicator
     }
 }

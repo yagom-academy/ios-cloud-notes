@@ -107,7 +107,7 @@ extension MemoListViewController: UITableViewDelegate {
         }
         
         let shareAction = UIContextualAction(style: .normal, title: "공유") { (action, view, completionHandler ) in
-            guard let sendText = DataManager.shared.memoList[indexPath.row].body else { return }
+            let sendText = DataManager.shared.memoList[indexPath.row].body
             
             let shareSheetViewController = UIActivityViewController(activityItems: [sendText], applicationActivities: nil)
         

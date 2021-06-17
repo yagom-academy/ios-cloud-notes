@@ -29,15 +29,7 @@ final class ListViewModel {
   
   func setMemoInfoList() {
     do {
-      guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-        throw SetMemoInfoListError.FailedToAccessAppDelegate
-      }
-      let context = appDelegate.persistentContainer.viewContext
-      
-      guard let infoList = try context.fetch(MemoInfo.fetchRequest()) as? [MemoInfo] else {
-        throw SetMemoInfoListError.FailedToGetNSManagedObjectContext
-      }
-      self.memoInfoList = infoList
+      self.memoInfoList = try MemoDataManager.shared.memoInfoList()
     } catch {
       print(error.localizedDescription)
     }

@@ -37,6 +37,13 @@ final class SplitViewController: UISplitViewController, UISplitViewControllerDel
 }
 
 extension SplitViewController: ListViewControllerDelegate {
+  func didSwipeForDeleteMenuItem(model memoInfo: MemoInfo, completion: @escaping () -> Void) {
+    let lastModifiedDate = memoInfo.lastModified
+    MemoDataManager.shared.deleteMemo(lastModifiedDate: lastModifiedDate)
+
+    completion()
+  }
+  
   func didTapMenuItem(model memoInfo: MemoInfo) {
     memoViewController.viewModel.update(model: memoInfo)
     memoViewController.updateUI()

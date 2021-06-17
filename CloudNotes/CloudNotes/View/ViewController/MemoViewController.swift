@@ -9,6 +9,7 @@ import UIKit
 
 final class MemoViewController: UIViewController {
   let viewModel = MemoViewModel()
+  var memoInfoBeforeRevising: MemoInfo? = nil
   
   private let titleTextField: UITextField = {
     let textField = UITextField()
@@ -34,6 +35,13 @@ final class MemoViewController: UIViewController {
     return stackView
   }()
   
+  override func viewWillAppear(_ animated: Bool) {
+    guard let memoInfo = self.viewModel.memoInfo else {
+      return
+    }
+    memoInfoBeforeRevising = memoInfo
+  }
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     
@@ -50,9 +58,20 @@ final class MemoViewController: UIViewController {
   }
   
   override func viewWillDisappear(_ animated: Bool) {
-    if titleTextField.text == "" && bodyTextView.text == "" {
-      // TODO: - delete logic
-    } else {
+    if titleTextField.text == MemoInfo.defaultTitle
+        && bodyTextView.text == MemoInfo.defaultBody {
+      guard let lastModifiedDate = self.viewModel.memoInfo?.lastModified else {
+        return
+      }
+      MemoDataManager.shared.deleteMemo(lastModifiedDate: lastModifiedDate)
+    }
+    
+    guard let memoInfo = memoInfoBeforeRevising else {
+      return
+    }
+
+    if titleTextField.text != memoInfo.title
+        || bodyTextView.text != memoInfo.body {
       updateMemoView()
     }
   }
@@ -84,7 +103,6 @@ final class MemoViewController: UIViewController {
     if let memoInfo = self.viewModel.memoInfo {
       titleTextField.text = memoInfo.title
       bodyTextView.text = memoInfo.body
-      bodyTextView.isEditable = true
     }
   }
   
@@ -132,7 +150,18 @@ final class MemoViewController: UIViewController {
       UIAlertAction(title: "삭제",
                     style: UIAlertAction.Style.destructive,
                     handler: { _ in
-                      // TODO: - delete logic
+                      guard let lastModifiedDate = self.viewModel.memoInfo?.lastModified else {
+                        return
+                      }
+                      MemoDataManager.shared.deleteMemo(lastModifiedDate: lastModifiedDate)
+                      
+                      guard let listView =
+                              self.navigationController?.viewControllers.first as? ListViewController else {
+                        return
+                      }
+                      listView.updateTable()
+                      
+                      self.navigationController?.popViewController(animated: true)
                     }))
     alert.addAction(
       UIAlertAction(title: "취소",

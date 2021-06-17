@@ -71,7 +71,12 @@ extension ListViewController: UITableViewDelegate {
                  trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
   ) -> UISwipeActionsConfiguration? {
     let deleteAction = UIContextualAction(style: .destructive, title: "삭제") { _, _, _ in
-      // TODO: - delete logic
+      let memoInfo = self.viewModel.memoInfo(at: indexPath.row)
+      self.delegate?.didSwipeForDeleteMenuItem(model: memoInfo) {
+        // TODO: - delete logic: cell hidden
+//        tableView.deleteRows(at: [indexPath], with: .fade)
+//        self.tableView.reloadData()
+      }
     }
     let shareAction = UIContextualAction(style: .normal, title: "공유") { _, _, _ in
       // TODO: - share logic

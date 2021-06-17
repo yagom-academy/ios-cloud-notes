@@ -33,6 +33,19 @@ class MemoDataManager {
     }
   }
   
+  func memoInfoList() throws -> [MemoInfo] {
+    guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+      throw SetMemoInfoListError.FailedToAccessAppDelegate
+    }
+    let context = appDelegate.persistentContainer.viewContext
+    
+    guard let infoList = try context.fetch(MemoInfo.fetchRequest()) as? [MemoInfo] else {
+      throw SetMemoInfoListError.FailedToGetNSManagedObjectContext
+    }
+    
+    return infoList
+  }
+  
   func updateMemo(lastModifiedDate: Double, titleToReplace: String, bodyToReplace: String) {
     guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
       return
@@ -44,6 +57,9 @@ class MemoDataManager {
     fetchRequest.predicate = NSPredicate(format: "lastModified = %lf", lastModifiedDate)
     do {
       let managedObject = try context.fetch(fetchRequest)
+      if managedObject.isEmpty {
+        return
+      }
       guard let objectForUpdate = managedObject[0] as? NSManagedObject else {
         return
       }
@@ -68,5 +84,27 @@ class MemoDataManager {
     memo.setValue(body, forKey: "body")
     
     completion()
+  }
+  
+  func deleteMemo(lastModifiedDate: Double) {
+    guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+      return
+    }
+    let context = appDelegate.persistentContainer.viewContext
+    
+    // MARK: 삭제를 fetchRequest.predicate 방식으로 진행해도 되는가..?
+    let fetchRequest = NSFetchRequest<NSFetchRequestResult>.init(entityName: "MemoInfo")
+    fetchRequest.predicate = NSPredicate(format: "lastModified = %lf", lastModifiedDate)
+    do {
+      let managedObject = try context.fetch(fetchRequest)
+      guard let objectToDelete = managedObject[0] as? NSManagedObject else {
+        return
+      }
+      context.delete(objectToDelete)
+      
+      try context.save()
+    } catch {
+      print(error.localizedDescription)
+    }
   }
 }

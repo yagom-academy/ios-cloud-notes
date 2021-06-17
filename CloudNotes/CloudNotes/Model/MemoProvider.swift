@@ -9,6 +9,13 @@ import UIKit
 import CoreData
 
 final class MemoProvider {
+  private let currentViewController = UIApplication.shared.connectedScenes
+    .filter({$0.activationState == .foregroundActive})
+    .map({$0 as? UIWindowScene})
+    .compactMap({$0})
+    .first?.windows
+    .filter({$0.isKeyWindow}).first?.rootViewController
+  
   // MARK: - For Single Tone
   static let shared: MemoProvider = MemoProvider()
   private init() { }
@@ -18,7 +25,10 @@ final class MemoProvider {
     let container = NSPersistentCloudKitContainer(name: "CloudNotes")
     container.loadPersistentStores(completionHandler: { (storeDescription, error) in
       if let error = error as NSError? {
-        fatalError("Unresolved error \(error), \(error.userInfo)")
+        let alert = UIAlertController(title: "Core Data Store Container", message: error.description, preferredStyle: .alert)
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        alert.addAction(cancel)
+        self.currentViewController?.present(alert, animated: true, completion: nil)
       }
     })
     return container
@@ -31,8 +41,10 @@ final class MemoProvider {
       do {
         try context.save()
       } catch {
-        let nserror = error as NSError
-        fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+        let alert = UIAlertController(title: "Core Data Save Error", message: error.localizedDescription, preferredStyle: .alert)
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        alert.addAction(cancel)
+        self.currentViewController?.present(alert, animated: true, completion: nil)
       }
     }
   }
@@ -40,9 +52,19 @@ final class MemoProvider {
   // MARK: - Manage Memo Data
   private var memo: [Memo]?
 
-  
-  func getMockData() throws -> [Memo]? {
+  func createMemoData() {
     
-    return nil
+  }
+  
+  func fetchMemoData() {
+    
+  }
+  
+  func updateMemoData(indexPath: IndexPath, title: String, body: String) {
+    
+  }
+  
+  func deleteMemoData(indexPath: IndexPath) {
+    
   }
 }

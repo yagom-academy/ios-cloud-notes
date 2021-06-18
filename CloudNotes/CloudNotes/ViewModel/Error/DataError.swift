@@ -8,17 +8,14 @@
 import Foundation
 
 enum DataError: Error {
-    case decodingFailed
-    case notFoundAsset
+    case FailedToGetData
 }
 
 extension DataError: LocalizedError {
     var errorDescription: String? {
         switch self {
-        case .decodingFailed:
-            return "디코딩 실패🚨"
-        case .notFoundAsset:
-            return "Asset을 찾을 수 없습니다😢"
+        case .FailedToGetData:
+            return "데이터를 가져오지 못했습니다😢"
         }
     }
 }

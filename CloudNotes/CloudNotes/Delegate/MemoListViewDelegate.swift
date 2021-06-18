@@ -11,4 +11,5 @@ protocol MemoListViewDelegate {
   func touchAddButton()
   func touchDeleteButton(indexPath: IndexPath)
   func touchShareButton(indexPath: IndexPath)
+  func deleteEmptyMemo()
 }

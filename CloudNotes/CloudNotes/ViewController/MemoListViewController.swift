@@ -29,6 +29,11 @@ final class MemoListViewController: UITableViewController {
     configureTableView()
   }
   
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    delegate?.deleteEmptyMemo()
+  }
+  
   private func configureNavigationBarButton() {
     navigationItem.rightBarButtonItem = addButton
     navigationItem.title = titleString

@@ -42,6 +42,18 @@ extension SplitViewController: UISplitViewControllerDelegate {
 }
 
 extension SplitViewController: MemoListViewDelegate {
+  func deleteEmptyMemo() {
+    guard let memo = MemoProvider.shared.memos?.first else { return }
+    let indexPath = IndexPath(row: 0, section: 0)
+    guard let title = memo.title, let body = memo.body else {
+      MemoProvider.shared.deleteMemoData(indexPath: indexPath)
+      return
+    }
+    if title.isEmpty == true && body.isEmpty == true {
+      MemoProvider.shared.deleteMemoData(indexPath: indexPath)
+    }
+  }
+  
   func touchAddButton() {
     MemoProvider.shared.createMemoData()
   }

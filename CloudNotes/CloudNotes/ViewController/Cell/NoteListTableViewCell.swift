@@ -26,7 +26,7 @@ final class NoteListTableViewCell: UITableViewCell {
         return label
     }()
     
-    private var previewBodyLabel: UILabel = {
+    private let previewBodyLabel: UILabel = {
         let label = UILabel()
         label.textColor = .systemGray
         label.font = UIFont.preferredFont(forTextStyle: .subheadline)

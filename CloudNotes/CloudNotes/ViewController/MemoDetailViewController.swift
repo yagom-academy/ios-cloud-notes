@@ -7,7 +7,9 @@
 import UIKit
 
 final class MemoDetailViewController: UIViewController {
+  private var indexPath: IndexPath?
   private let viewModel = MemoDetailViewModel()
+  var delegate: MemoDetailViewDelegate?
   
   lazy var textView: UITextView = {
     let textView = UITextView()
@@ -19,9 +21,11 @@ final class MemoDetailViewController: UIViewController {
     return textView
   }()
   
-  lazy var editButton: UIBarButtonItem = {
+  lazy var showmoreBarButton: UIBarButtonItem = {
     let button = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"),
-                    style: .plain, target: self, action: #selector(editMemo))
+                                 style: .plain,
+                                 target: self,
+                                 action: #selector(touchShowMoreButton))
     return button
   }()
   
@@ -29,8 +33,9 @@ final class MemoDetailViewController: UIViewController {
     super.viewDidLoad()
     self.view.backgroundColor = .white
     self.view.addSubview(textView)
-    self.navigationItem.rightBarButtonItem = editButton
+    self.navigationItem.rightBarButtonItem = showmoreBarButton
     self.viewModel.delegate = self
+    self.textView.delegate = self
     configureConstraints()
     configureTestViewBackgroundColor()
   }
@@ -62,17 +67,56 @@ final class MemoDetailViewController: UIViewController {
     ])
   }
   
-  func configure(with memo: Memo) {
+  func configure(with memo: Memo, indexPath: IndexPath) {
     viewModel.configure(with: memo)
+    self.indexPath = indexPath
   }
   
-  @objc func editMemo() {
-    
+  @objc func touchShowMoreButton() {
+    guard let index = indexPath else { return }
+    let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+    let share = UIAlertAction(title: "Share", style: .default, handler: { (_) in
+      self.delegate?.touchShareButton(indexPath: index)
+    })
+    let delete = UIAlertAction(title: "Delete", style: .destructive, handler: { (_) in
+      self.delegate?.touchDeleteButton(indexPath: index)
+    })
+    let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+    alert.addAction(share)
+    alert.addAction(delete)
+    alert.addAction(cancel)
+    self.present(alert, animated: true, completion: nil)
   }
 }
 
 extension MemoDetailViewController: MemoDetailViewModelDelegate {
   func changeMemo(content: String) {
     textView.text = content
+  }
+}
+
+extension MemoDetailViewController: UITextViewDelegate {
+  func textViewDidChange(_ textView: UITextView) {
+    let seperatedText = seperateTitleBody(text: textView.text)
+    guard let indexPath = indexPath else { return }
+    delegate?.textViewDidChanged(indexPath: indexPath,
+                                 title: seperatedText.title,
+                                 body: seperatedText.body)
+  }
+  
+  private func seperateTitleBody(text: String) -> (title: String, body: String) {
+    let splitString = text.split(separator: "\n", maxSplits: 1, omittingEmptySubsequences: true)
+    var title: String = String()
+    var body: String = String()
+    switch splitString.count {
+    case 1:
+      title = String(splitString[0])
+    case 2:
+      title = String(splitString[0])
+      body = String(splitString[1])
+    default:
+      break
+    }
+    return (title, body)
   }
 }

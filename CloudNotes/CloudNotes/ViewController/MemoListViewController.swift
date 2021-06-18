@@ -68,7 +68,7 @@ final class MemoListViewController: UITableViewController {
       return
     }
     guard let memo = tableViewModel.getMemo(for: indexPath) else { return }
-    detailViewController.configure(with: memo)
+    detailViewController.configure(with: memo, indexPath: indexPath)
     showDetailViewController(detailViewController, sender: self)
   }
   

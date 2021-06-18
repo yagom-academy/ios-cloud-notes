@@ -31,6 +31,7 @@ final class SplitViewController: UISplitViewController {
     self.setViewController(memoListViewController, for: .primary)
     self.setViewController(memoDetailViewController, for: .secondary)
     memoListViewController?.delegate = self
+    memoDetailViewController?.delegate = self
   }
 }
 
@@ -53,7 +54,7 @@ extension SplitViewController: MemoListViewDelegate {
     guard let memos = MemoProvider.shared.memos else { return }
     guard let title = memos[indexPath.row].title else { return }
     let activityView = UIActivityViewController(activityItems: [title], applicationActivities: nil)
-    present(activityView, animated: true, completion: nil)
+    memoListViewController?.present(activityView, animated: true, completion: nil)
   }
 }
 
@@ -71,5 +72,11 @@ extension SplitViewController: MemoProviderDelegate {
   
   func memoDidDelete(indexPath: IndexPath) {
     memoListViewController?.tableView.reloadData()
+  }
+}
+
+extension SplitViewController: MemoDetailViewDelegate {
+  func textViewDidChanged(indexPath: IndexPath, title: String, body: String) {
+    MemoProvider.shared.updateMemoData(indexPath: indexPath, title: title, body: body)
   }
 }

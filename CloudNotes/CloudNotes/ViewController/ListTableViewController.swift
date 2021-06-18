@@ -47,16 +47,14 @@ class ListTableViewController: UITableViewController {
             memoList.insert(movedItem, at: 0)
             tableView.moveRow(at: selectedIndexPath, to: IndexPath(row: 0, section: 0))
             lastClickedIndexPath = IndexPath(row: 0, section: 0)
-            print(CoreDataManager.shared.fetchMemos())
-//            CoreDataManager.shared.saveContext()
+        } else {
+            memoList[selectedIndexPath.row].title = text.subString(before: "\n")
+            memoList[selectedIndexPath.row].body = text.subString(after: "\n")
+            DispatchQueue.main.async {
+                self.tableView.reloadRows(at: [selectedIndexPath], with: .none)
+                self.tableView.selectRow(at: selectedIndexPath, animated: false, scrollPosition: .none)
+            }
         }
-        memoList[selectedIndexPath.row].title = text.subString(before: "\n")
-        memoList[selectedIndexPath.row].body = text.subString(after: "\n")
-        DispatchQueue.main.async {
-            self.tableView.reloadRows(at: [selectedIndexPath], with: .none)
-            self.tableView.selectRow(at: selectedIndexPath, animated: false, scrollPosition: .none)
-        }
-        
     }
     
     func setNavigationItem() {

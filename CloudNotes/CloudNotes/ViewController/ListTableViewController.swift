@@ -14,7 +14,6 @@ class ListTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        parseSampleData()
         memoList = CoreDataManager.shared.fetchMemos()
         setNavigationItem()
         self.tableView.register(ListTableViewCell.self, forCellReuseIdentifier: ListTableViewCell.identifier)
@@ -28,13 +27,8 @@ class ListTableViewController: UITableViewController {
            let textViewController = detailNavigationController.topViewController as? TextViewController,
            memoList.count != 0 {
             // TODO: - 메모에 아무것도 없을 때도 처리해줘야 함.
-            // 시작 했을 때 아무것도 없으면 메모가 삭제됨 그래서 점을 넣음.
-//            textViewController.textView.text = "."
             tableView.selectRow(at: IndexPath(row: 0, section: 0), animated: true, scrollPosition: .none)
             textViewController.changedTextBySelectedCell(with: memoList[0])
-//            tableView.delegate?.tableView?(tableView, didSelectRowAt: IndexPath(row: 0, section: 0))
-        } else {
-            print("텍스트튜 없음")
         }
     }
     
@@ -66,10 +60,6 @@ class ListTableViewController: UITableViewController {
         if let detailNavigationController = self.splitViewController?.viewControllers.last as? UINavigationController,
            let textViewController = detailNavigationController.topViewController as? TextViewController {
             textViewController.textView.text = ""
-//            tableView.beginUpdates()
-//            memoList.insert(CoreDataManager.shared.makeNewMeno(), at: 0)
-//            tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
-//            tableView.endUpdates()
             memoList.insert(CoreDataManager.shared.makeNewMeno(), at: 0)
             tableView.performBatchUpdates({
                 tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
@@ -127,20 +117,13 @@ extension ListTableViewController {
         if let detailNavigationController = self.splitViewController?.viewControllers.last as? UINavigationController,
            let textViewController = detailNavigationController.topViewController as? TextViewController {
             textViewController.textView.isEditable = false
-            print("마지막 textView = ", textViewController.textView.text)
-            print("최신 indexPath = ", indexPath)
-            // 클릭 되기전 마지막 텍스트뷰가 아무것도 없으면
             if textViewController.textView.text.isEmpty && lastClickedIndexPath != indexPath {
-                // 메모 리스트에서 지운다.
-                print("들어옴!!")
                 memoList.remove(at: lastClickedIndexPath.row)
                 tableView.beginUpdates()
                 tableView.deleteRows(at: [lastClickedIndexPath], with: .automatic)
                 tableView.endUpdates()
-                // 여기서 -1을 하는 이유는 최상단의 빈 메모가 지워졌기 때문
                 textViewController.changedTextBySelectedCell(with: memoList[indexPath.row - 1])
             } else {
-                // FIXME: 새로운 메모를 만들고 다시 그 셀을 클릭 했을 때 저장이 안되게 처리해야 함.
                 CoreDataManager.shared.editMemo(memo: memoList[lastClickedIndexPath.row],
                                                 title: textViewController.textView.text.subString(before: "\n"),
                                                 body: textViewController.textView.text.subString(after: "\n"))

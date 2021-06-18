@@ -24,15 +24,8 @@ class CoreDataManager {
     }
     
     func makeNewMeno() -> Memo {
-//        let newMemo = NSManagedObject(entity: entity!, insertInto: mainContext)
-//        newMemo.setValue("새로운제목", forKey: "title")
-//        newMemo.setValue("새로운 내용이다!!", forKey: "body")
-//        newMemo.setValue(Date(), forKey: "lastModified")
         let newMemo = Memo(context: mainContext)
-//        newMemo.title = "객체를 직접 만들어서 제목!!!!"
-//        newMemo.body = "객체를 직접 바디!!!!!"
         newMemo.lastModified = Date()
-//        saveContext()
         return newMemo
     }
     

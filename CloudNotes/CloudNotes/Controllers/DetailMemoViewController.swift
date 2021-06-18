@@ -165,13 +165,14 @@ extension DetailMemoViewController: UITextViewDelegate {
     }
     
     func textViewDidChange(_ textView: UITextView) {
-        guard let allText = textView.text else {
+        guard let allText = textView.text, let indexPath = self.indexPath else {
             return
         }
         let separatedTextArray = textView.text.components(separatedBy: "\n")
-        filterTitleAndBody(separatedTextArray: separatedTextArray) { title, _ in
-            self.removeTextViewTextAttribute(textView: textView)
-            self.addTextViewTextAttribute(textView: textView, allText: allText, title: title)
+        filterTitleAndBody(separatedTextArray: separatedTextArray) { [weak self] title, body in
+            self?.updateProperties(title: title, body: body, allText: allText, indexPath: indexPath)
+            self?.removeTextViewTextAttribute(textView: textView)
+            self?.addTextViewTextAttribute(textView: textView, allText: allText, title: title)
         }
     }
     

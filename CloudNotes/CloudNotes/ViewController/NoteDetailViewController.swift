@@ -6,9 +6,11 @@
 //
 
 import UIKit
+import Foundation
 
 final class NoteDetailViewController: UIViewController {
     var noteTextViewModel: NoteTextViewModel?
+    var indexPath: IndexPath?
     
     private lazy var detailNoteTextView: UITextView = {
         let textView: UITextView = UITextView()
@@ -22,11 +24,13 @@ final class NoteDetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: nil)
+        self.detailNoteTextView.delegate = self
+        self.detailNoteTextView.isEditable = false
         view.backgroundColor = .systemBackground
+        setNavigaitonItem()
         setConstraint()
         
-        noteTextViewModel?.note.bind { [weak self] _ in
+        noteTextViewModel?.noteData.bind { [weak self] _ in
             DispatchQueue.main.async {
                 self?.configureTextView()
             }
@@ -37,11 +41,10 @@ final class NoteDetailViewController: UIViewController {
         super.viewWillAppear(true)
         detailNoteTextView.isEditable = true
         detailNoteTextView.contentOffset = CGPoint(x: -20, y: -20)
-        configureTextView()
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(true)
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(false)
         detailNoteTextView.isEditable = false
     }
     
@@ -54,6 +57,12 @@ final class NoteDetailViewController: UIViewController {
         else if self.traitCollection.horizontalSizeClass == .compact {
             detailNoteTextView.backgroundColor = .systemGray3
         }
+    }
+    
+    private func setNavigaitonItem() {
+        let finishButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(didTapFinishButton))
+        let moreButton = UIBarButtonItem(image: UIImage(systemName: NoteLiteral.moreButtonImageName), style: .plain, target: self, action: #selector(didTapMoreButton))
+        self.navigationItem.rightBarButtonItems = [finishButton, moreButton]
     }
     
     private func setBackGroundColor(of textView: UITextView) {
@@ -77,7 +86,67 @@ final class NoteDetailViewController: UIViewController {
         ])
     }
     
-    func configureTextView() {
+    private func configureTextView() {
         self.detailNoteTextView.text = self.noteTextViewModel?.getTextViewData()
+    }
+    
+    @objc private func didTapMoreButton() {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let shareAction = UIAlertAction(title: NoteLiteral.shareTitle, style: .default) { action in
+            let shareNote: [Any] = [self.noteTextViewModel?.getTextViewData() as Any]
+            let activityViewController = UIActivityViewController(activityItems: shareNote, applicationActivities: nil)
+            activityViewController.popoverPresentationController?.sourceView = self.view
+            self.present(activityViewController, animated: true, completion: nil)
+        }
+        let deleteAction = UIAlertAction(title: NoteLiteral.deleteTitle, style: .destructive) { action in
+            self.showDeleteAlert { action in
+                NotificationCenter.default.post(name: UITableView.selectionDidChangeNotification, object: self.indexPath)
+                self.cleanup()
+            }
+        }
+        let cancelAction = UIAlertAction(title: NoteLiteral.cancelTitle, style: .cancel, handler: nil)
+        
+        alert.addAction(shareAction)
+        alert.addAction(deleteAction)
+        alert.addAction(cancelAction)
+        
+        if UIDevice.current.userInterfaceIdiom == .pad, let popoverController = alert.popoverPresentationController {
+            popoverController.sourceView = self.view
+            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+            popoverController.permittedArrowDirections = []
+            self.present(alert, animated: true, completion: nil)
+        } else {
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
+    
+    @objc private func didTapFinishButton() {
+        self.view.endEditing(true)
+        if detailNoteTextView.text == NoteLiteral.empty {
+            NotificationCenter.default.post(name: UITableView.selectionDidChangeNotification, object: self.indexPath)
+        }
+    }
+    
+    private func showDeleteAlert(deleteHandler: @escaping (UIAlertAction) -> Void) {
+        let deleteAlert = UIAlertController(title: nil, message: NoteLiteral.deleteMessage, preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: NoteLiteral.cancelTitle, style: .cancel, handler: nil)
+        let deleteAction = UIAlertAction(title: NoteLiteral.deleteTitle, style: .destructive, handler: deleteHandler)
+        
+        deleteAlert.addAction(cancelAction)
+        deleteAlert.addAction(deleteAction)
+        
+        self.present(deleteAlert, animated: true, completion: nil)
+    }
+    
+    private func cleanup() {
+        self.detailNoteTextView.text = NoteLiteral.empty
+        self.detailNoteTextView.isEditable = false
+    }
+}
+
+extension NoteDetailViewController: UITextViewDelegate {
+    func textViewDidChange(_ textView: UITextView) {
+        let noteInfo = ["note": textView.text, "lastModifiedDate": Date(), "indexPath": indexPath] as [String : Any?]
+        NotificationCenter.default.post(name: UITextView.textDidChangeNotification, object: noteInfo)
     }
 }

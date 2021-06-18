@@ -71,6 +71,10 @@ extension SplitViewController: MemoListViewDelegate {
 }
 
 extension SplitViewController: MemoProviderDelegate {
+  func presentAlertController(_ alert: UIAlertController) {
+    self.present(alert, animated: true, completion: nil)
+  }
+  
   func memoDidCreate(_ memo: Memo, indexPath: IndexPath) {
     guard let memoListViewController = memoListViewController,
           let memoDetailViewController = memoDetailViewController else { return }

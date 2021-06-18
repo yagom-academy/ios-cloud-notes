@@ -42,7 +42,8 @@ final class MemoProvider {
       do {
         try context.save()
       } catch {
-        presentAlert("Core Data Save Error", error: error)
+        let alert = presentAlert("Core Data Save Error", error: error)
+        delegate?.presentAlertController(alert)
       }
     }
   }
@@ -67,7 +68,8 @@ final class MemoProvider {
     do {
       self.memos = try context.fetch(request)
     } catch {
-      presentAlert("Memo Data Fetch Error", error: error)
+      let alert = presentAlert("Memo Data Fetch Error", error: error)
+      delegate?.presentAlertController(alert)
     }
   }
   
@@ -100,10 +102,10 @@ final class MemoProvider {
 }
 
 extension MemoProvider {
-  func presentAlert(_ title: String, error: Error) {
+  func presentAlert(_ title: String, error: Error) -> UIAlertController {
     let alert = UIAlertController(title: title, message: error.localizedDescription, preferredStyle: .alert)
     let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
     alert.addAction(cancel)
-    currentViewController?.present(alert, animated: true, completion: nil)
+    return alert
   }
 }

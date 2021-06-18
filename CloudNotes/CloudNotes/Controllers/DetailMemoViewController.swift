@@ -40,9 +40,9 @@ class DetailMemoViewController: UIViewController {
     }
     
     private func presentAlertForActionSheet(
-                      isCancelActionIncluded: Bool = false,
-                      preferredStyle style: UIAlertController.Style = .actionSheet,
-                      with actions: UIAlertAction ...) {
+        isCancelActionIncluded: Bool = false,
+        preferredStyle style: UIAlertController.Style = .actionSheet,
+        with actions: UIAlertAction ...) {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: style)
         actions.forEach { alert.addAction($0) }
         if isCancelActionIncluded {
@@ -106,7 +106,7 @@ class DetailMemoViewController: UIViewController {
         self.view.addSubview(memoTextView)
         setUpMemoTextView()
     }
-        
+    
     private func setUpMemoTextView() {
         let safeArea = self.view.safeAreaLayoutGuide
         self.memoTextView.translatesAutoresizingMaskIntoConstraints = false
@@ -117,7 +117,7 @@ class DetailMemoViewController: UIViewController {
             self.memoTextView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -10),
         ])
     }
-
+    
     func configure(with memo: MemoListItem?, indexPath: IndexPath?) {
         memoTextView.contentOffset = CGPoint(x: 0,y: 0)
         guard let memo = memo, let allText = memo.allText, let title = memo.title, let body = memo.body else {
@@ -143,7 +143,7 @@ class DetailMemoViewController: UIViewController {
         let titleFont = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.title1)
         let bodyFont = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.body)
         let attributedString = NSMutableAttributedString(string: allText)
-
+        
         attributedString.addAttribute(NSAttributedString.Key.font, value: bodyFont, range: (allText as NSString).range(of: allText))
         attributedString.addAttribute(NSAttributedString.Key.font, value: titleFont, range: (allText as NSString).range(of: title))
         attributedString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.label, range: (allText as NSString).range(of: allText))
@@ -195,10 +195,15 @@ extension DetailMemoViewController: UITextViewDelegate {
     
     private func filterTitleAndBody(separatedTextArray: [String], completion: @escaping (String, String) -> ()) {
         var separatedTextArray = separatedTextArray
-        guard separatedTextArray.count > 0, let title = separatedTextArray.first(where: { $0 != "" }), let titleIndex = separatedTextArray.firstIndex(of: title) else {
+        guard separatedTextArray.count > 0 else {
             completion("", "")
             return
         }
+        guard let title = separatedTextArray.first(where: { $0 != "" }), let titleIndex = separatedTextArray.firstIndex(of: title) else {
+            completion("", "")
+            return
+        }
+        
         separatedTextArray.remove(at: titleIndex)
         while separatedTextArray.count > 0, separatedTextArray[0] == ""{
             separatedTextArray.remove(at: 0)
@@ -226,13 +231,11 @@ extension UIViewController {
             return light
         }
     }
-
+    
     func locateController(controller: UIViewController) {
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            if let popoverController = controller.popoverPresentationController {
-                popoverController.sourceView = self.view
-                popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
-            }
+        if UIDevice.current.userInterfaceIdiom == .pad, let popoverController = controller.popoverPresentationController {
+            popoverController.sourceView = self.view
+            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
         }
     }
 }

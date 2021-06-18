@@ -88,26 +88,31 @@ final class MemoListCell: UITableViewCell {
   }
   
   private func setTitleText(_ title: String?) -> String {
-    if let title = title {
-      return title
-    } else {
+    guard let title = title else { return Style.emptyTitleText }
+    if title.isEmpty == true {
       return Style.emptyTitleText
     }
+    return seperateNewLine(title)
   }
   
   private func setBodyText(_ body: String?) -> String {
-    if let body = body {
-      return body
-    } else {
+    guard let body = body else { return Style.emptyContentText }
+    if body.isEmpty == true {
       return Style.emptyContentText
     }
+    return seperateNewLine(body)
   }
   
   private func setDateText(_ date: String?) -> String {
-    if let date = date {
-      return date
-    } else {
+    guard let date = date else { return Style.emptyDateText }
+    if date.isEmpty == true {
       return Style.emptyDateText
     }
+    return date
+  }
+  
+  private func seperateNewLine(_ text: String) -> String {
+    guard let seperatedText = text.split(separator: "\n").first else { return "" }
+    return String(seperatedText)
   }
 }

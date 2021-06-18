@@ -98,7 +98,6 @@ class DetailViewController: UIViewController, SendDataDelegate {
 extension DetailViewController: UITextViewDelegate {
     
     func textViewDidChange(_ textView: UITextView) {
-        
         guard let greeting = self.memoDetailTextView.text else { return }
         
         NotificationCenter.default.post(name: NSNotification.Name("didRecieveNotification"), object: nil, userInfo: ["textViewText": greeting, "currentIndex": currentIndex] )

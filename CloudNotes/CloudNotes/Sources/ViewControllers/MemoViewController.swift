@@ -9,19 +9,14 @@ import UIKit
 
 final class MemoViewController: UIViewController {
 
-    typealias MemoInfo = (id: Int, memo: Memo)
-
     // MARK: Property
 
     weak var delegate: MemoViewControllerDelegate?
     var memoData: MemoData = MemoData.sample
 
-    private var memoInfo: MemoInfo?
+    var isTextViewHidden: Bool { textView.isHidden }
 
-    var isTextViewHidden: Bool {
-        get { textView.isHidden }
-        set { textView.isHidden = newValue }
-    }
+    private var memoInfo: MemoData.MemoInfo?
 
     // MARK: UI
 
@@ -71,7 +66,7 @@ final class MemoViewController: UIViewController {
 
     // MARK: Configure
 
-    func configure(memoInfo: MemoInfo) {
+    private func configure(memoInfo: MemoData.MemoInfo) {
         self.memoInfo = memoInfo
         configureTextViewText(by: memoInfo.memo)
         resetScrollOffset()
@@ -94,9 +89,7 @@ final class MemoViewController: UIViewController {
     }
 
     private func configureTextViewText(by memo: Memo) {
-        guard false == memo.title.isEmpty else {
-            return textView.text = nil
-        }
+        guard false == memo.title.isEmpty else { return textView.text = nil }
 
         textView.text = memo.title + "\(Style.memoSeparator)" + memo.body
     }
@@ -133,8 +126,8 @@ extension MemoViewController: UITextViewDelegate {
         guard let textViewText = textView.text,
               let seperatedMemo = separatedMemo(from: textViewText),
               let memoInfo = memoInfo else { return }
-        let row: Int = memoData.indexByRecentModified(where: memoInfo.id)
 
+        let row: Int = memoData.indexByRecentModified(where: memoInfo.id)
         memoData.updateMemo(Memo(title: seperatedMemo.title, body: seperatedMemo.body), where: memoInfo.id)
         delegate?.memoViewController(self, didChangeMemoAt: row)
     }

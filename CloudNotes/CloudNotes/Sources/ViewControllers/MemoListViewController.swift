@@ -67,49 +67,32 @@ final class MemoListViewController: UIViewController {
     // MARK: Action
 
     private func memoAddAction(_ action: UIAction) {
-        deleteEmptyMemo()
+        deleteEmptyFirstMemo()
         addMemo()
         showMemo(of: Style.updatedMemoRow)
     }
 
     // MARK: Method
 
-    func updateMemoList() {
-        if deleteEmptyMemo() {
-            hideMemo()
-        }
-
+    private func updateMemoList() {
+        if deleteEmptyFirstMemo() { hideMemo() }
         guard let indexPathForSelectedRow = tableView.indexPathForSelectedRow else { return }
+
         tableView.deselectRow(at: indexPathForSelectedRow, animated: true)
     }
 
-    func updateMemo(at row: Int) {
-        let reloadingIndices: [IndexPath] = (0...row).map { IndexPath(row: $0, section: 0) }
-        let indexPathForUpdatedRow = IndexPath(row: Style.updatedMemoRow, section: 0)
-
-        if row == Style.updatedMemoRow {
-            tableView.reloadRows(at: reloadingIndices, with: Style.reloadingRowAnimation)
-        } else {
-            tableView.reloadRows(at: reloadingIndices, with: Style.reloadingRowsAnimation)
-        }
-
-        tableView.selectRow(at: indexPathForUpdatedRow, animated: true, scrollPosition: .none)
-    }
-
     @discardableResult
-    private func deleteEmptyMemo() -> Bool {
+    private func deleteEmptyFirstMemo() -> Bool {
         guard let firstMemoInfo = memoData.memosByRecentModified.first,
               firstMemoInfo.memo.title.isEmpty else { return false }
 
         memoData.deleteMemo(where: firstMemoInfo.id)
         tableView.deleteRows(at: [IndexPath(row: Style.updatedMemoRow, section: 0)], with: Style.inAndOutRowAnimation)
-
         return true
     }
 
     private func addMemo() {
         let indexPathForInsertedRow = IndexPath(row: Style.updatedMemoRow, section: 0)
-
         memoData.createMemo(Memo())
         tableView.insertRows(at: [indexPathForInsertedRow], with: Style.inAndOutRowAnimation)
         tableView.selectRow(at: indexPathForInsertedRow, animated: true, scrollPosition: .none)
@@ -139,7 +122,6 @@ extension MemoListViewController: UITableViewDataSource {
         guard let memoCell = tableView.dequeueReusableCell(withIdentifier: MemoCell.reuseIdentifier,
                                                            for: indexPath) as? MemoCell else { return MemoCell() }
         memoCell.configure(memo: memoData.memosByRecentModified[indexPath.row].memo)
-
         return memoCell
     }
 
@@ -150,7 +132,7 @@ extension MemoListViewController: UITableViewDataSource {
 extension MemoListViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if deleteEmptyMemo() {
+        if deleteEmptyFirstMemo() {
             indexPath.row > 0 ? showMemo(of: indexPath.row - 1) : hideMemo()
         } else {
             showMemo(of: indexPath.row)
@@ -165,6 +147,19 @@ extension MemoListViewController: MemoViewControllerDelegate {
 
     func memoViewController(_ memoViewController: MemoViewController, didChangeMemoAt row: Int) {
         updateMemo(at: row)
+    }
+
+    private func updateMemo(at row: Int) {
+        let reloadingIndices: [IndexPath] = (0...row).map { IndexPath(row: $0, section: 0) }
+        let indexPathForUpdatedRow = IndexPath(row: Style.updatedMemoRow, section: 0)
+
+        if row == Style.updatedMemoRow {
+            tableView.reloadRows(at: reloadingIndices, with: Style.reloadingRowAnimation)
+        } else {
+            tableView.reloadRows(at: reloadingIndices, with: Style.reloadingRowsAnimation)
+        }
+
+        tableView.selectRow(at: indexPathForUpdatedRow, animated: true, scrollPosition: .none)
     }
 
 }

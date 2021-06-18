@@ -11,6 +11,7 @@ final class MemoListViewController: UIViewController {
 
     // MARK: Property
 
+    weak var delegate: MemoListViewControllerDelegate?
     var memoData: MemoData = MemoData.sample
 
     // MARK: UI
@@ -115,19 +116,12 @@ final class MemoListViewController: UIViewController {
     }
 
     private func showMemo(of row: Int) {
-        let memoViewController = (splitViewController?.viewController(for: .secondary) as? MemoViewController)
-
-        memoViewController?.isTextViewHidden = false
-        memoViewController?.configure(memoInfo: memoData.memosByRecentModified[row])
-        memoViewController?.textViewResignFirstResponder()
+        delegate?.memoListViewController(self, willShowMemoAt: row)
         splitViewController?.show(.secondary)
     }
 
     private func hideMemo() {
-        let memoViewController = (splitViewController?.viewController(for: .secondary) as? MemoViewController)
-
-        memoViewController?.isTextViewHidden = true
-        memoViewController?.textViewResignFirstResponder()
+        delegate?.memoListViewControllerWillHideMemo(self)
         splitViewController?.hide(.secondary)
     }
 

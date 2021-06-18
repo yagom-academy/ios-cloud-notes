@@ -41,6 +41,7 @@ final class MemoSplitViewController: UISplitViewController {
     }
 
     private func configureChildren() {
+        memoListViewController.delegate = memoViewController
         memoViewController.delegate = memoListViewController
     }
 

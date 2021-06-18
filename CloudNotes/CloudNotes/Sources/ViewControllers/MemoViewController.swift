@@ -123,12 +123,6 @@ final class MemoViewController: UIViewController {
         textView.scrollIndicatorInsets = contentInset
     }
 
-    // MARK: Method
-
-    func textViewResignFirstResponder() {
-        textView.resignFirstResponder()
-    }
-
 }
 
 // MARK: - UITextViewDelegate
@@ -148,6 +142,23 @@ extension MemoViewController: UITextViewDelegate {
     private func separatedMemo(from text: String) -> (title: String, body: String)? {
         let separatedText: [Substring] = text.split(separator: Style.memoSeparator, maxSplits: 1, omittingEmptySubsequences: true)
         return (String(separatedText.first ?? ""), String(separatedText.last ?? ""))
+    }
+
+}
+
+// MARK: - MemoListViewControllerDelegate {
+
+extension MemoViewController: MemoListViewControllerDelegate {
+
+    func memoListViewControllerWillHideMemo(_ memoListViewController: MemoListViewController) {
+        textView.isHidden = true
+        textView.resignFirstResponder()
+    }
+
+    func memoListViewController(_ memoListViewController: MemoListViewController, willShowMemoAt row: Int) {
+        configure(memoInfo: memoData.memosByRecentModified[row])
+        textView.isHidden = false
+        textView.resignFirstResponder()
     }
 
 }

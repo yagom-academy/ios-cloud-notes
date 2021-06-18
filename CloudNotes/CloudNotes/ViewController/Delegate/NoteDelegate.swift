@@ -7,5 +7,5 @@
 import UIKit
 
 protocol NoteDelegate: AnyObject {
-    func showDetailNote(_ listViewController: NoteListViewController, indexPath: IndexPath)
+    func showDetailNote(_ listViewController: NoteListViewController, at indexPath: IndexPath)
 }

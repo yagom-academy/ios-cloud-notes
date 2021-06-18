@@ -32,11 +32,11 @@ extension NoteListViewModel {
         return self.notes.value.count
     }
     
-    func getNoteData(for indexPath: IndexPath) -> NoteData {
+    func getNoteData(at indexPath: IndexPath) -> NoteData {
         return notes.value[indexPath.row]
     }
     
-    func getNote(for indexPath: IndexPath) -> String {
+    func getNote(at indexPath: IndexPath) -> String {
         let note = notes.value[indexPath.row]
         guard let title = note.title, let body = note.body else { return NoteLiteral.empty }
         return (title != NoteLiteral.empty ? title + NoteLiteral.LineBreak.String : title) + body

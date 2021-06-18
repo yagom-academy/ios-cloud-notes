@@ -58,7 +58,7 @@ final class NoteListViewController: UIViewController {
     private func showFirstNote() {
         if noteListViewModel.isDataExist(), UITraitCollection.current.horizontalSizeClass == .regular {
             noteTableView.selectRow(at: [0, 0], animated: true, scrollPosition: .none)
-            noteDelegate?.showDetailNote(self, indexPath: [0, 0])
+            noteDelegate?.showDetailNote(self, at: [0, 0])
         }
     }
     
@@ -74,7 +74,7 @@ final class NoteListViewController: UIViewController {
               let indexPath = editedNote.indexPath
         else { return }
         
-        noteListViewModel.updateNote(note, lastModifiedDate, indexPath)
+        noteListViewModel.updateNote(note, lastModifiedDate, at: indexPath)
         updateCell(note, lastModifiedDate, at: indexPath)
     }
     
@@ -86,7 +86,7 @@ final class NoteListViewController: UIViewController {
     
     @objc func didTapAddButton() {
         noteListViewModel.createNote()
-        noteDelegate?.showDetailNote(self, indexPath: [0, 0])
+        noteDelegate?.showDetailNote(self, at: [0, 0])
     }
     
     func updateCell(_ note: String, _ lastModifiedDate: Date, at indexPath: IndexPath) {
@@ -114,7 +114,7 @@ extension NoteListViewController: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: NoteListTableViewCell.identifier, for: indexPath) as? NoteListTableViewCell
         else { return UITableViewCell() }
         
-        cell.configure(noteListViewModel.getNoteData(for: indexPath))
+        cell.configure(noteListViewModel.getNoteData(at: indexPath))
         
         return cell
     }
@@ -125,7 +125,7 @@ extension NoteListViewController: UITableViewDelegate {
         if UITraitCollection.current.horizontalSizeClass == .compact {
             tableView.deselectRow(at: indexPath, animated: true)
         }
-        noteDelegate?.showDetailNote(self, indexPath: indexPath)
+        noteDelegate?.showDetailNote(self, at: indexPath)
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
@@ -145,7 +145,7 @@ extension NoteListViewController: UITableViewDelegate {
         }
         
         let shareAction = UIContextualAction(style: .normal, title: NoteLiteral.shareTitle) { action, view, completionHandler in
-            let shareNote = [self.noteListViewModel.getNote(for: indexPath)]
+            let shareNote = [self.noteListViewModel.getNote(at: indexPath)]
             let activityViewController = UIActivityViewController(activityItems: shareNote, applicationActivities: nil)
             activityViewController.popoverPresentationController?.sourceView = self.view
             self.present(activityViewController, animated: true, completion: nil)

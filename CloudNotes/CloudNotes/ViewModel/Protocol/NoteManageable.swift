@@ -13,7 +13,7 @@ protocol NoteManageable {
     var notes: Observable<[NoteData]> { get set }
     func getAllNotes() throws -> [NoteData]
     func createNote()
-    func updateNote(_ note: String, _ lastModifiedDate: Date, _ indexPath: IndexPath)
+    func updateNote(_ note: String, _ lastModifiedDate: Date, at indexPath: IndexPath)
     func deleteNote(indexPath: IndexPath)
 }
 
@@ -62,7 +62,7 @@ extension NoteManageable {
         }
     }
     
-    func updateNote(_ note: String, _ lastModifiedDate: Date, _ indexPath: IndexPath) {
+    func updateNote(_ note: String, _ lastModifiedDate: Date, at indexPath: IndexPath) {
         let separatedNotes = note.split(separator: NoteLiteral.LineBreak.Character, maxSplits: 1).map { (value) -> String in
             return String(value)
         }

@@ -7,10 +7,12 @@
 
 import UIKit
 
-class MemoListViewController: UITableViewController {
+final class MemoListViewController: UITableViewController {
   private let reuseIdentifier = "memoReuseCell"
   private let titleString = "메모"
   private let tableViewModel: MemoListViewModel = MemoListViewModel()
+  
+  var delegate: MemoListViewDelegate?
   
   lazy var addButton: UIBarButtonItem = {
     let button = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addMemo))
@@ -18,14 +20,23 @@ class MemoListViewController: UITableViewController {
   }()
   
   @objc func addMemo() {
-    
+    delegate?.touchAddButton()
   }
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    self.navigationItem.rightBarButtonItem = addButton
-    self.navigationItem.title = titleString
+    configureNavigationBarButton()
     configureTableView()
+  }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    delegate?.deleteEmptyMemo()
+  }
+  
+  private func configureNavigationBarButton() {
+    navigationItem.rightBarButtonItem = addButton
+    navigationItem.title = titleString
   }
   
   private func configureTableView() {
@@ -37,19 +48,18 @@ class MemoListViewController: UITableViewController {
   // MARK: - Table view data source
   
   override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return tableViewModel.getNumberOfMemo()
+    return tableViewModel.count
   }
   
-  override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+  override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath)
+  -> UITableViewCell {
     guard let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier)
             as? MemoListCell else {
       return UITableViewCell()
     }
-    
-    guard let viewModel = tableViewModel.getMemoViewModel(for: indexPath) else {
+    guard let viewModel = tableViewModel.getMemoListCellModel(for: indexPath) else {
       return UITableViewCell()
     }
-    
     cell.configure(with: viewModel)
     return cell
   }
@@ -57,13 +67,25 @@ class MemoListViewController: UITableViewController {
   // MARK: - Table view Delegate
   
   override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    let navigationController = UINavigationController(rootViewController: MemoDetailViewController())
-    guard let memoDetailVC = navigationController.viewControllers.first as? MemoDetailViewController else {
+    guard let splitViewController = splitViewController as? SplitViewController else { return }
+    guard let detailViewController = splitViewController.viewController(for: .secondary)
+            as? MemoDetailViewController else {
       return
     }
-    
     guard let memo = tableViewModel.getMemo(for: indexPath) else { return }
-    memoDetailVC.configure(with: memo)
-    showDetailViewController(navigationController, sender: self)
+    detailViewController.configure(with: memo, indexPath: indexPath)
+    showDetailViewController(detailViewController, sender: self)
+    delegate?.deleteEmptyMemo()
+  }
+  
+  override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+    let deleteAction = UIContextualAction(style: .destructive, title: "Delete", handler: { _, _, _ in
+      self.delegate?.touchDeleteButton(indexPath: indexPath)
+    })
+    let shareAction = UIContextualAction(style: .normal, title: "Share", handler: {
+      _, _, _ in
+      self.delegate?.touchShareButton(indexPath: indexPath)
+    })
+    return UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
   }
 }

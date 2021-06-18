@@ -9,9 +9,7 @@ import UIKit
 
 class MemoListViewController: UIViewController {
     
-    private let memoTableView = UITableView()
-    private let decoder = JSONDecoder()
-    var memoData: [MemoData] = []
+    let memoTableView = UITableView()
     var delegate: SendDataDelegate?
 
     override func viewDidLoad() {
@@ -23,17 +21,43 @@ class MemoListViewController: UIViewController {
         self.memoTableView.register(MemoListCell.self, forCellReuseIdentifier: MemoListCell.identifier)
         self.view.addSubview(self.memoTableView)
         setTableViewConstraint()
-        decodeMemoData()
+        NotificationCenter.default.addObserver(self, selector: #selector(didRecieveNotification(_:)), name: NSNotification.Name("didRecieveNotification"), object: nil)
     }
 
     override func viewWillAppear(_ animated: Bool) {
         if splitViewController?.traitCollection.horizontalSizeClass == .regular {
             delegate?.isRegularTextViewColor(regular: true)
         }
+        
+        DataManager.shared.fetchData()
+        self.memoTableView.reloadData()
+    }
+    
+    @objc func didRecieveNotification(_ notification: Notification) {
+        memoTableView.reloadData()
+        
+        guard let receiveData = notification.userInfo else { return }
+        
+        guard let receiveText: String = receiveData["textViewText"] as? String else { return }
+        guard let currentIndex: Int = receiveData["currentIndex"] as? Int else { return }
+   
+        let splitText = receiveText.split(separator: "\n",maxSplits: 1).map { (value) -> String in
+            return String(value) }
+        
+        DataManager.shared.memoList[currentIndex].title = splitText.first ?? ""
+        if splitText.first != splitText.last {
+            DataManager.shared.memoList[currentIndex].body = splitText.last ?? ""
+        }
+        
+        DataManager.shared.saveContext()
+        DataManager.shared.fetchData()
+        
+
     }
     
     @objc func addNote() {
-        
+        DataManager.shared.createData()
+        self.memoTableView.reloadData()
     }
     
     private func setTableViewConstraint() {
@@ -53,35 +77,49 @@ class MemoListViewController: UIViewController {
                                                    attribute: .trailing, multiplier: 1.0, constant: 0))
     }
     
-    func decodeMemoData() {
-        guard let data = NSDataAsset(name: "sample") else { return }
-        
-        do {
-            self.memoData = try decoder.decode([MemoData].self, from: data.data)
-        }
-        catch {
-            errorAlert(errorDescription: CloudNoteError.decode.localizedDescription)
-        }
-    }
-    
-    private func errorAlert(errorDescription: String) {
-        let alert = UIAlertController(title: "경고", message: errorDescription, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        splitViewController?.present(alert, animated: true, completion: nil)
-    }
-    
 }
 
 extension MemoListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        delegate?.sendData(data: memoData[indexPath.row])
-        
-        guard let memoDetailViewController = delegate as? DetailViewController else { return }
+
+        delegate?.sendData(data: DataManager.shared.memoList[indexPath.row], index: indexPath.row)
         
         if UITraitCollection.current.horizontalSizeClass == .compact {
-            splitViewController?.showDetailViewController(UINavigationController(rootViewController: memoDetailViewController) , sender: nil)
+            splitViewController?.show(.secondary)
         }
+    }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let deleteAction = UIContextualAction(style: .destructive, title: "삭제") { (action, view, completionHandler ) in
+            
+            let defaultAction = UIAlertAction(title: "삭제", style: .destructive) { (action) in
+                DataManager.shared.deleteData(index: indexPath.row)
+                self.memoTableView.reloadData()
+            }
+            let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+            let alert = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
+            alert.addAction(defaultAction)
+            alert.addAction(cancelAction)
+
+            self.present(alert, animated: true)
+            completionHandler(true)
+        }
+        
+        let shareAction = UIContextualAction(style: .normal, title: "공유") { (action, view, completionHandler ) in
+            let sendText = DataManager.shared.memoList[indexPath.row].body
+            
+            let shareSheetViewController = UIActivityViewController(activityItems: [sendText], applicationActivities: nil)
+        
+            if let popOverController = shareSheetViewController.popoverPresentationController {
+                popOverController.sourceView = view
+            }
+            
+            self.present(shareSheetViewController, animated: true)
+            completionHandler(true)
+        }
+        
+        return UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
     }
     
 }
@@ -89,15 +127,15 @@ extension MemoListViewController: UITableViewDelegate {
 extension MemoListViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return memoData.count
+        return DataManager.shared.memoList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: MemoListCell.identifier, for: indexPath) as! MemoListCell
-        let currentMemoData = memoData[indexPath.row]
+        let currentMemoData = DataManager.shared.memoList[indexPath.row]
         
         cell.setCellData(currentMemoData: currentMemoData)
-
+        
         return cell
     }
     

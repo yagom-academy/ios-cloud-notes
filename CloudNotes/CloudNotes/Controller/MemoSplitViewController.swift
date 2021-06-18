@@ -16,20 +16,19 @@ class MemoSplitViewController: UISplitViewController, UISplitViewControllerDeleg
         setSplitView()
     }
     
-    private func setSplitView() {
+    func setSplitView() {
         let memoListViewController = MemoListViewController()
         let detailViewController = DetailViewController()
         memoListViewController.title = "메모"
         memoListViewController.delegate = detailViewController
-    
-        let memoListViewNavigationController = UINavigationController(rootViewController: memoListViewController)
-        let detailViewNavigationController = UINavigationController(rootViewController: detailViewController)
         self.preferredDisplayMode = .oneBesideSecondary
-        self.viewControllers = [memoListViewNavigationController, detailViewNavigationController]
+        self.setViewController(memoListViewController, for: .primary)
+        self.setViewController(detailViewController, for: .secondary)
+        self.preferredSplitBehavior = .tile
     }
-
-    func splitViewController(_ splitViewController: UISplitViewController, collapseSecondary secondaryViewController: UIViewController, onto primaryViewController: UIViewController) -> Bool {
-        return true
+    
+    func splitViewController(_ svc: UISplitViewController, topColumnForCollapsingToProposedTopColumn proposedTopColumn: UISplitViewController.Column) -> UISplitViewController.Column {
+        return .primary
     }
     
 }

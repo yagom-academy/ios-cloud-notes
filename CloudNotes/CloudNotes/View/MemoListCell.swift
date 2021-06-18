@@ -42,8 +42,6 @@ class MemoListCell: UITableViewCell {
         self.addSubview(memoDateCreate)
         self.addSubview(memoPreview)
         setCellContentsConstraint()
-
-        self.accessoryType = .disclosureIndicator
     }
 
     
@@ -70,12 +68,13 @@ class MemoListCell: UITableViewCell {
         memoPreview.heightAnchor.constraint(equalTo: memoDateCreate.heightAnchor, multiplier: 1).isActive = true
     }
     
-    func setCellData(currentMemoData: MemoData) {
+    func setCellData(currentMemoData: Memo) {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy. MM. dd."
+
         self.memoTitle.text = currentMemoData.title
         self.memoPreview.text = currentMemoData.body
-        self.memoDateCreate.text = currentMemoData.lastModifiedDate
+        self.memoDateCreate.text = formatter.string(from: currentMemoData.lastModifiedDate)
         self.accessoryType = .disclosureIndicator
-        self.selectionStyle = .none
     }
-    
 }

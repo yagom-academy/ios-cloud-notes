@@ -12,7 +12,7 @@ final class SplitViewController: UISplitViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.delegate = self
-        noteListViewController.noteSplitViewDelegate = self
+        noteListViewController.noteDelegate = self
         self.preferredDisplayMode = .oneBesideSecondary
         
         self.viewControllers = [
@@ -23,9 +23,10 @@ final class SplitViewController: UISplitViewController {
 }
 
 extension SplitViewController: NoteDelegate {
-    func showDetailNote(_ listViewController: NoteListViewController, data: NoteData) {
+    func showDetailNote(_ listViewController: NoteListViewController, indexPath: IndexPath) {
         let noteDetailViewController = NoteDetailViewController()
-        noteDetailViewController.noteTextViewModel = NoteTextViewModel(Observable(data))
+        noteDetailViewController.noteTextViewModel = NoteTextViewModel(noteListViewController.noteListViewModel.getNoteData(for: indexPath))
+        noteDetailViewController.indexPath = indexPath
         
         let noteDetailNavigationController = UINavigationController(rootViewController: noteDetailViewController)
         self.showDetailViewController(noteDetailNavigationController, sender: self)

@@ -203,7 +203,6 @@ extension DetailMemoViewController: UITextViewDelegate {
             completion("", "")
             return
         }
-        
         separatedTextArray.remove(at: titleIndex)
         while separatedTextArray.count > 0, separatedTextArray[0] == ""{
             separatedTextArray.remove(at: 0)

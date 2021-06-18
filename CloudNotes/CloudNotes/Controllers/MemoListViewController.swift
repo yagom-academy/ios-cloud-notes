@@ -158,7 +158,7 @@ extension MemoListViewController: UITableViewDelegate {
 
 extension MemoListViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        guard searchText != "" else {
+        if searchText == "" {
             isThereTextInSearchBar = false
             self.tableView.reloadData()
             return

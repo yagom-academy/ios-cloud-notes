@@ -6,24 +6,21 @@
 //
 
 import Foundation
-import UIKit.NSDataAsset
+import UIKit.UIApplication
+import CoreData
 
-final class NoteListViewModel {
+final class NoteListViewModel: NoteManageable {
     static let dateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale.current
         dateFormatter.dateStyle = .medium
         return dateFormatter
     }()
+    var notes: Observable<[NoteData]> = Observable([])
     
-    let notes: Observable<[Note]> = Observable([])
-    
-    init(_ notes: Observable<[Note]> = Observable([])) {
+    init(_ notes: Observable<[NoteData]> = Observable([])) {
         do {
-            guard let dataAsset = NSDataAsset(name: "sample") else { throw DataError.notFoundAsset }
-            guard let data = try? JSONDecoder().decode([Note].self, from: dataAsset.data) else { throw DataError.decodingFailed }
-            
-            self.notes.value = data
+            self.notes.value = try getAllNotes()
         } catch let error {
             print(error.localizedDescription)
         }
@@ -35,11 +32,13 @@ extension NoteListViewModel {
         return self.notes.value.count
     }
     
-    func getNoteViewModel(for indexPath: IndexPath) -> Note {
-        var note = notes.value[indexPath.row]
-        let date = Date(timeIntervalSince1970: TimeInterval(note.lastModified))
-        note.formattedLastModified = NoteListViewModel.dateFormatter.string(from: date)
-        
-        return note
+    func getNoteData(for indexPath: IndexPath) -> NoteData {
+        return notes.value[indexPath.row]
+    }
+    
+    func getNote(for indexPath: IndexPath) -> String {
+        let note = notes.value[indexPath.row]
+        guard let title = note.title, let body = note.body else { return NoteLiteral.empty }
+        return (title != NoteLiteral.empty ? title + NoteLiteral.LineBreak.String : title) + body
     }
 }

@@ -4,17 +4,21 @@
 //
 //  Created by 배은서 on 2021/06/12.
 //
+import UIKit
+import Foundation
+//import CoreData
 
 final class NoteTextViewModel {
-    let note: Observable<Note>
+    let noteData: Observable<NoteData>
     
-    init(_ note: Observable<Note>) {
-        self.note = note
+    init(_ note: NoteData) {
+        self.noteData = Observable(note)
     }
 }
 
 extension NoteTextViewModel {
     func getTextViewData() -> String {
-        return note.value.title + "\n\n" + note.value.body
+        guard let title = noteData.value.title, let body = noteData.value.body else { return NoteLiteral.empty }
+        return (title != NoteLiteral.empty ? title + NoteLiteral.LineBreak.String : title) + body
     }
 }

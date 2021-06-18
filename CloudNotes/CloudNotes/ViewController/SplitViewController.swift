@@ -72,23 +72,27 @@ extension SplitViewController: MemoListViewDelegate {
 
 extension SplitViewController: MemoProviderDelegate {
   func memoDidCreate(_ memo: Memo, indexPath: IndexPath) {
-    guard let memoListViewController = self.viewController(for: .primary) as? MemoListViewController,
-          let memoDetailViewController = self.viewController(for: .secondary) as? MemoDetailViewController else { return }
-    memoListViewController.tableView.reloadData()
+    guard let memoListViewController = memoListViewController,
+          let memoDetailViewController = memoDetailViewController else { return }
+    memoDetailViewController.configure(with: memo, indexPath: indexPath)
+    memoListViewController.tableView.insertRows(at: [indexPath], with: .automatic)
     showDetailViewController(memoDetailViewController, sender: self)
   }
   
   func memoDidUpdate(indexPath: IndexPath, title: String, body: String) {
-    memoListViewController?.tableView.reloadData()
+    let firstIndex = IndexPath(row: .zero, section: .zero)
+    memoListViewController?.tableView.moveRow(at: indexPath, to: firstIndex)
+    memoListViewController?.tableView.reloadRows(at: [firstIndex], with: .none)
   }
   
   func memoDidDelete(indexPath: IndexPath) {
-    memoListViewController?.tableView.reloadData()
+    memoListViewController?.tableView.deleteRows(at: [indexPath], with: .automatic)
   }
 }
 
 extension SplitViewController: MemoDetailViewDelegate {
   func textViewDidChanged(indexPath: IndexPath, title: String, body: String) {
     MemoProvider.shared.updateMemoData(indexPath: indexPath, title: title, body: body)
+    memoDetailViewController?.changeIndex(IndexPath(row: 0, section: 0))
   }
 }

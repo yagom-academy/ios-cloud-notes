@@ -16,7 +16,8 @@ final class MemoDetailViewModel {
   
   var delegate: MemoDetailViewModelDelegate?
   private var memo: Memo?
-  
+  var indexPath: IndexPath?
+
   var date: Date {
     guard let memo = memo else { return Date() }
     guard let date = memo.lastModified else { return Date() }
@@ -31,9 +32,14 @@ final class MemoDetailViewModel {
     return title + ContentConstant.doubleNewLine + body
   }
   
-  func configure(with memo: Memo) {
+  func configure(with memo: Memo, indexPath: IndexPath) {
     self.memo = memo
+    self.indexPath = indexPath
     delegate?.changeMemo(content: content)
+  }
+  
+  func changeIndex(_ indexPath: IndexPath) {
+    self.indexPath = indexPath
   }
 }
 

@@ -7,7 +7,6 @@
 import UIKit
 
 final class MemoDetailViewController: UIViewController {
-  private var indexPath: IndexPath?
   private let viewModel = MemoDetailViewModel()
   var delegate: MemoDetailViewDelegate?
   
@@ -68,12 +67,15 @@ final class MemoDetailViewController: UIViewController {
   }
   
   func configure(with memo: Memo, indexPath: IndexPath) {
-    viewModel.configure(with: memo)
-    self.indexPath = indexPath
+    viewModel.configure(with: memo, indexPath: indexPath)
+  }
+  
+  func changeIndex(_ indexPath: IndexPath) {
+    viewModel.changeIndex(indexPath)
   }
   
   @objc func touchShowMoreButton() {
-    guard let index = indexPath else { return }
+    guard let index = viewModel.indexPath else { return }
     let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
     let share = UIAlertAction(title: "Share", style: .default, handler: { (_) in
       self.delegate?.touchShareButton(indexPath: index)
@@ -98,7 +100,7 @@ extension MemoDetailViewController: MemoDetailViewModelDelegate {
 extension MemoDetailViewController: UITextViewDelegate {
   func textViewDidChange(_ textView: UITextView) {
     let seperatedText = seperateTitleBody(text: textView.text)
-    guard let indexPath = indexPath else { return }
+    guard let indexPath = viewModel.indexPath else { return }
     delegate?.textViewDidChanged(indexPath: indexPath,
                                  title: seperatedText.title,
                                  body: seperatedText.body)

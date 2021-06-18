@@ -72,12 +72,17 @@ final class MemoProvider {
   }
   
   func updateMemoData(indexPath: IndexPath, title: String, body: String) {
-    let memo = memos?[indexPath.row]
-    memo?.lastModified = Date()
-    memo?.title = title
-    memo?.body = body
-    saveContext()
-    delegate?.memoDidUpdate(indexPath: indexPath, title: title, body: body)
+    context.perform {
+      let memo = self.memos?[indexPath.row]
+      memo?.lastModified = Date()
+      memo?.title = title
+      memo?.body = body
+      self.saveContext()
+      self.moveArrayIndex(from: indexPath.row, to: 0)
+      DispatchQueue.main.async {
+        self.delegate?.memoDidUpdate(indexPath: indexPath, title: title, body: body)
+      }
+    }
   }
   
   func deleteMemoData(indexPath: IndexPath) {
@@ -86,6 +91,11 @@ final class MemoProvider {
     self.memos?.remove(at: indexPath.row)
     saveContext()
     self.delegate?.memoDidDelete(indexPath: indexPath)
+  }
+  
+  private func moveArrayIndex(from: Int, to: Int) {
+    guard let memo = memos?.remove(at: from) else { return }
+    memos?.insert(memo, at: to)
   }
 }
 

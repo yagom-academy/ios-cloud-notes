@@ -75,6 +75,7 @@ final class MemoListViewController: UITableViewController {
     guard let memo = tableViewModel.getMemo(for: indexPath) else { return }
     detailViewController.configure(with: memo, indexPath: indexPath)
     showDetailViewController(detailViewController, sender: self)
+    delegate?.deleteEmptyMemo()
   }
   
   override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {

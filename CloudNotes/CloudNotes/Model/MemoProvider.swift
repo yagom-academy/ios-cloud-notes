@@ -25,7 +25,7 @@ final class MemoProvider {
   // MARK: - Core Data stack
   lazy var persistentContainer: NSPersistentCloudKitContainer = {
     let container = NSPersistentCloudKitContainer(name: "CloudNotes")
-    container.loadPersistentStores(completionHandler: { (storeDescription, error) in
+    container.loadPersistentStores(completionHandler: { (_, error) in
       if let error = error as NSError? {
         self.presentAlert("Core Data Store Container Error", error: error)
       }
@@ -54,6 +54,7 @@ final class MemoProvider {
   func createMemoData() {
     let newMemo = Memo(context: context)
     newMemo.lastModified = Date()
+    saveContext()
     self.memos?.insert(newMemo, at: 0)
     let newIndexPath = IndexPath(row: .zero, section: .zero)
     self.delegate?.memoDidCreate(newMemo, indexPath: newIndexPath)
@@ -75,6 +76,7 @@ final class MemoProvider {
     memo?.lastModified = Date()
     memo?.title = title
     memo?.body = body
+    saveContext()
     delegate?.memoDidUpdate(indexPath: indexPath, title: title, body: body)
   }
   
@@ -82,6 +84,7 @@ final class MemoProvider {
     guard let memoToDelete = memos?[indexPath.row] else { return }
     context.delete(memoToDelete)
     self.memos?.remove(at: indexPath.row)
+    saveContext()
     self.delegate?.memoDidDelete(indexPath: indexPath)
   }
 }

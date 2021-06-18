@@ -13,6 +13,8 @@ final class MemoCell: UITableViewCell {
 
     static let reuseIdentifier: String = "memoCell"
 
+    private let dateFormatter = DateFormatter()
+
     // MARK: UI
 
     private let titleLabel: UILabel = {
@@ -77,7 +79,7 @@ final class MemoCell: UITableViewCell {
 
     func configure(memo: Memo) {
         self.titleLabel.text = (memo.title.isEmpty ? Style.titleLabelPlaceHolder : memo.title)
-        self.lastModifiedDateLabel.text = DateFormatter().currentLocaleString(from: memo.lastModified)
+        self.lastModifiedDateLabel.text = dateFormatter.currentLocaleString(from: memo.lastModified)
         self.oneLineBodyLabel.text = (memo.body.isEmpty ? Style.oneLineBodyLabelPlaceHolder : memo.body)
     }
 

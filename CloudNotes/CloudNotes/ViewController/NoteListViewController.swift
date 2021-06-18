@@ -57,7 +57,7 @@ final class NoteListViewController: UIViewController {
     
     private func showFirstNote() {
         if noteListViewModel.isDataExist(), UITraitCollection.current.horizontalSizeClass == .regular {
-            noteTableView.selectRow(at: IndexPath(row: 0, section: 0), animated: true, scrollPosition: .none)
+            noteTableView.selectRow(at: [0, 0], animated: true, scrollPosition: .none)
             noteDelegate?.showDetailNote(self, indexPath: [0, 0])
         }
     }

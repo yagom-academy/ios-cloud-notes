@@ -72,9 +72,15 @@ final class NoteListTableViewCell: UITableViewCell {
         ])
     }
     
-    func configure(_ note: Note) {
-        self.titleLabel.text = note.title
-        self.dateLabel.text = note.formattedLastModified
-        self.previewBodyLabel.text = note.body
+    func configure(_ note: NoteData) {
+        self.titleLabel.text = note.title == NoteLiteral.empty ? NoteLiteral.defaultTitle : note.title
+        self.dateLabel.text = NoteListViewModel.dateFormatter.string(from: note.lastModifiedDate ?? Date())
+        self.previewBodyLabel.text = note.body == NoteLiteral.empty ? NoteLiteral.defaultBody : note.body
+    }
+    
+    func update(title: String, date: Date, body: String) {
+        self.titleLabel.text = title
+        self.dateLabel.text = NoteListViewModel.dateFormatter.string(from: date)
+        self.previewBodyLabel.text = body
     }
 }

@@ -22,6 +22,17 @@ final class MemoSplitViewController: UISplitViewController {
 
     init() {
         super.init(style: .doubleColumn)
+        configure()
+        configureChildren()
+    }
+
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+
+    // MARK: Configure
+
+    private func configure() {
         delegate = self
         preferredDisplayMode = .oneBesideSecondary
         presentsWithGesture = false
@@ -29,8 +40,8 @@ final class MemoSplitViewController: UISplitViewController {
         setViewController(memoViewController, for: .secondary)
     }
 
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
+    private func configureChildren() {
+        memoViewController.delegate = memoListViewController
     }
 
 }

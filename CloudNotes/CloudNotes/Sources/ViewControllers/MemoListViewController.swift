@@ -165,6 +165,16 @@ extension MemoListViewController: UITableViewDelegate {
 
 }
 
+// MARK: - MemoViewControllerDelegate
+
+extension MemoListViewController: MemoViewControllerDelegate {
+
+    func memoViewController(_ memoViewController: MemoViewController, didChangeMemoAt row: Int) {
+        updateMemo(at: row)
+    }
+
+}
+
 // MARK: - Style
 
 extension MemoListViewController {

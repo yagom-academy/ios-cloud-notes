@@ -13,6 +13,7 @@ final class MemoViewController: UIViewController {
 
     // MARK: Property
 
+    weak var delegate: MemoViewControllerDelegate?
     var memoData: MemoData = MemoData.sample
 
     private var memoInfo: MemoInfo?
@@ -139,10 +140,9 @@ extension MemoViewController: UITextViewDelegate {
               let seperatedMemo = separatedMemo(from: textViewText),
               let memoInfo = memoInfo else { return }
         let row: Int = memoData.indexByRecentModified(where: memoInfo.id)
-        let primaryViewController = splitViewController?.viewController(for: .primary) as? MemoListViewController
 
         memoData.updateMemo(Memo(title: seperatedMemo.title, body: seperatedMemo.body), where: memoInfo.id)
-        primaryViewController?.updateMemo(at: row)
+        delegate?.memoViewController(self, didChangeMemoAt: row)
     }
 
     private func separatedMemo(from text: String) -> (title: String, body: String)? {

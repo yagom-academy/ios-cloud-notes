@@ -43,36 +43,38 @@ class MemoListTableViewCell: UITableViewCell {
     }
     
     private func setUpTitleLabel(layoutGuide: UILayoutGuide) {
-        title.font = title.font.withSize(15)
-        title.textColor = .black
+        title.font = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.title3)
+        title.textColor = .label
         title.translatesAutoresizingMaskIntoConstraints = false
         title.numberOfLines = 0
         NSLayoutConstraint.activate([
-            title.topAnchor.constraint(equalTo: layoutGuide.topAnchor, constant: 5),
-            title.leadingAnchor.constraint(equalTo: layoutGuide.leadingAnchor, constant: 10),
-            title.trailingAnchor.constraint(equalTo: layoutGuide.trailingAnchor, constant: -10),
-            title.bottomAnchor.constraint(equalTo: lastModifiedDate.topAnchor, constant: -5),
+            title.topAnchor.constraint(equalTo: layoutGuide.topAnchor, constant: 5), // Cell의 safeArea의 Top과의 거리를 임의로 5로 설정함
+            title.leadingAnchor.constraint(equalTo: layoutGuide.leadingAnchor, constant: 10), // Cell의 safeArea의 leading과의 거리를 임의로 10으로 설정함
+            title.trailingAnchor.constraint(equalTo: layoutGuide.trailingAnchor, constant: -10), // Cell의 safeArea의 trailing과의 거리를 임의로 -10으로 설정함
+            title.bottomAnchor.constraint(equalTo: lastModifiedDate.topAnchor, constant: -5), // lastModifiedDate Label의 Top과의 거리를 임의로 -5로 설정함
         ])
     }
     
     private func setUpWritedDateLabel(layoutGuide: UILayoutGuide) {
-        lastModifiedDate.textColor = .black
+        lastModifiedDate.font = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.body)
+        lastModifiedDate.textColor = .label
         lastModifiedDate.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            lastModifiedDate.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 5),
-            lastModifiedDate.leadingAnchor.constraint(equalTo: layoutGuide.leadingAnchor, constant: 10),
-            lastModifiedDate.trailingAnchor.constraint(equalTo: body.leadingAnchor, constant: -50),
-            lastModifiedDate.bottomAnchor.constraint(equalTo: layoutGuide.bottomAnchor, constant: -5),
+            lastModifiedDate.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 5), // title Label의 Bottom과의 거리를 임의로 5로 설정함
+            lastModifiedDate.leadingAnchor.constraint(equalTo: layoutGuide.leadingAnchor, constant: 10), // Cell의 safeArea의 Leading과의 거리를 임의로 10으로 설정함
+            lastModifiedDate.trailingAnchor.constraint(equalTo: body.leadingAnchor, constant: 0), // body Label의 Leading과 Cell의 safeArea의 Leading과의 거리를 lastModifiedDate의 크기를 고려하여 150으로 설정하였으므로 body Label의 Leading과의 거리를 0으로 설정함
+            lastModifiedDate.bottomAnchor.constraint(equalTo: layoutGuide.bottomAnchor, constant: -5), // Cell의 safeArea의 Bottom과의 거리를 임의로 -5로 설정함
         ])
     }
     
     private func setUpPreviewLabel(layoutGuide: UILayoutGuide) {
+        body.font = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.body)
         body.textColor = .systemGray
         body.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            body.topAnchor.constraint(equalTo: lastModifiedDate.topAnchor, constant: 0),
-            body.leadingAnchor.constraint(equalTo: layoutGuide.leadingAnchor, constant: 150),
-            body.trailingAnchor.constraint(equalTo: layoutGuide.trailingAnchor, constant: -10),
+            body.topAnchor.constraint(equalTo: lastModifiedDate.topAnchor, constant: 0), // lastModifiedDate Label의 Top과의 높이를 동일하게 해주기 위해서 0으로 설정함
+            body.leadingAnchor.constraint(equalTo: layoutGuide.leadingAnchor, constant: 150), // Cell의 safeArea의 Leading과의 거리를 lastModifiedDate의 크기를 고려해서 150으로 설정함
+            body.trailingAnchor.constraint(equalTo: layoutGuide.trailingAnchor, constant: -10), // Cell의 safeArea의 Trailing과의 거리를 임의로 -10으로 설정함
         ])
     }
     

@@ -4,7 +4,6 @@
 //
 //  Created by 최정민 on 2021/06/01.
 //
-
 import UIKit
 
 class DetailMemoViewController: UIViewController {
@@ -14,11 +13,14 @@ class DetailMemoViewController: UIViewController {
     var memoTextView = UITextView()
     var memoMain = UITextView()
     var indexPath: IndexPath?
+    var memoTitle: String?
+    var memoBody: String?
+    var allText: String?
     var memoListViewController: MemoListViewController?
     
-    lazy var rightNvigationItem: UIButton = {
+    lazy var rightNavigationItem: UIButton = {
         let button = UIButton()
-        button.setTitleColor(UIColor.systemBlue, for: .normal)
+        button.tintColor = .systemBlue
         button.setBackgroundImage(UIImage(systemName: "ellipsis.circle"), for: .normal)
         button.addTarget(self, action: #selector(showActionSheet), for: .touchDown)
         return button
@@ -27,27 +29,32 @@ class DetailMemoViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUI()
+        memoTextView.typingAttributes = [NSAttributedString.Key.font : UIFont.preferredFont(forTextStyle: UIFont.TextStyle.largeTitle), NSAttributedString.Key.foregroundColor: UIColor.red]
         memoTextView.delegate = self
         memoTextView.contentInsetAdjustmentBehavior = .automatic
         memoTextView.textAlignment = NSTextAlignment.justified
-        memoTextView.contentOffset = CGPoint(x: 0,y: 0)
+    }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        rightNavigationItem.tintColor = setDynamicTintColor(dark: UIColor.systemYellow, light: UIColor.systemBlue, traiteCollection: self.view.traitCollection)
     }
     
     private func presentAlertForActionSheet(
-                      isCancelActionIncluded: Bool = false,
-                      preferredStyle style: UIAlertController.Style = .actionSheet,
-                      with actions: UIAlertAction ...) {
+        isCancelActionIncluded: Bool = false,
+        preferredStyle style: UIAlertController.Style = .actionSheet,
+        with actions: UIAlertAction ...) {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: style)
         actions.forEach { alert.addAction($0) }
         if isCancelActionIncluded {
             let actionCancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
             alert.addAction(actionCancel)
         }
+        locateController(controller: alert)
         self.present(alert, animated: true, completion: nil)
     }
     
-    func deleteMemo(indexPath: IndexPath) {
-        CoreData.shared.deleteMemoListItem(item: MemoCache.shared.memoData[indexPath.row])
+    func deleteMemo(indexPathRow: Int) {
+        CoreData.shared.deleteMemoListItem(item: MemoCache.shared.memoDataList[indexPathRow])
         DropboxManager.shared.uploadData(files: CoreData.shared.persistenceSqliteFiles, directoryURL: CoreData.shared.directoryURL)
         self.memoListViewController?.tableView.reloadData()
         self.configure(with: nil, indexPath: nil)
@@ -58,7 +65,15 @@ class DetailMemoViewController: UIViewController {
         let cancelAction = UIAlertAction(title: "취소", style: .default) { action in
         }
         let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { [weak self] action in
-            self?.deleteMemo(indexPath: indexPath)
+            guard let isThereTextInSearchBar = self?.memoListViewController?.isThereTextInSearchBar, isThereTextInSearchBar else {
+                self?.deleteMemo(indexPathRow: indexPath.row)
+                return
+            }
+            guard let indexPathRow = MemoCache.shared.memoDataList.firstIndex(of: MemoCache.shared.searchedMemoResults[indexPath.row]) else {
+                return
+            }
+            MemoCache.shared.searchedMemoResults.remove(at: indexPath.row)
+            self?.deleteMemo(indexPathRow: indexPathRow)
         }
         alert.addAction(cancelAction)
         alert.addAction(deleteAction)
@@ -67,6 +82,7 @@ class DetailMemoViewController: UIViewController {
     
     private func shareMemo(indexPath: IndexPath) {
         let activity = UIActivityViewController(activityItems: [self.memoTextView.text], applicationActivities: nil)
+        locateController(controller: activity)
         self.present(activity, animated: true, completion: nil)
     }
     
@@ -85,12 +101,12 @@ class DetailMemoViewController: UIViewController {
     }
     
     private func setUpUI() {
-        self.view.backgroundColor = .white
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightNvigationItem)
+        self.view.backgroundColor = .systemBackground
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightNavigationItem)
         self.view.addSubview(memoTextView)
         setUpMemoTextView()
     }
-        
+    
     private func setUpMemoTextView() {
         let safeArea = self.view.safeAreaLayoutGuide
         self.memoTextView.translatesAutoresizingMaskIntoConstraints = false
@@ -101,18 +117,37 @@ class DetailMemoViewController: UIViewController {
             self.memoTextView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -10),
         ])
     }
-
+    
     func configure(with memo: MemoListItem?, indexPath: IndexPath?) {
         memoTextView.contentOffset = CGPoint(x: 0,y: 0)
-        guard let memo = memo, let allText = memo.allText else {
+        guard let memo = memo, let allText = memo.allText, let title = memo.title, let body = memo.body else {
             memoTextView.text = ""
             return
         }
         guard let indexPath = indexPath else {
             return
         }
-        memoTextView.text = allText
+        setUpTextStyle(allText: allText, title: title, body: body)
+        updateProperties(title: title, body: body, allText: allText, indexPath: indexPath)
+        memoTextView.contentOffset = CGPoint(x: 0,y: 0)
+    }
+    
+    private func updateProperties(title: String, body: String, allText: String, indexPath: IndexPath) {
+        self.memoTitle = title
+        self.allText = allText
+        self.memoBody = body
         self.indexPath = indexPath
+    }
+    
+    private func setUpTextStyle(allText: String, title: String, body: String) {
+        let titleFont = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.title1)
+        let bodyFont = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.body)
+        let attributedString = NSMutableAttributedString(string: allText)
+        
+        attributedString.addAttribute(NSAttributedString.Key.font, value: bodyFont, range: (allText as NSString).range(of: allText))
+        attributedString.addAttribute(NSAttributedString.Key.font, value: titleFont, range: (allText as NSString).range(of: title))
+        attributedString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.label, range: (allText as NSString).range(of: allText))
+        memoTextView.attributedText = attributedString
     }
 }
 
@@ -125,12 +160,46 @@ extension DetailMemoViewController: UITextViewDelegate {
         let separatedTextArray = textView.text.components(separatedBy: "\n")
         filterTitleAndBody(separatedTextArray: separatedTextArray) { title, body in
             self.updateMemoData(indexPath: indexPath, title: title, body: body, allText: allText)
+            self.configure(with: MemoCache.shared.memoDataList[indexPath.row], indexPath: indexPath)
         }
     }
     
-    func filterTitleAndBody(separatedTextArray: [String], completion: @escaping (String, String) -> ()) {
+    func textViewDidChange(_ textView: UITextView) {
+        guard let allText = textView.text, let indexPath = self.indexPath else {
+            return
+        }
+        let separatedTextArray = textView.text.components(separatedBy: "\n")
+        filterTitleAndBody(separatedTextArray: separatedTextArray) { [weak self] title, body in
+            self?.updateProperties(title: title, body: body, allText: allText, indexPath: indexPath)
+            self?.removeTextViewTextAttribute(textView: textView)
+            self?.addTextViewTextAttribute(textView: textView, allText: allText, title: title)
+        }
+    }
+    
+    private func removeTextViewTextAttribute(textView: UITextView) {
+        guard let allText = self.allText, let memoTitle = self.memoTitle else {
+            return
+        }
+        textView.textStorage.removeAttribute(NSAttributedString.Key.font, range: (allText as NSString).range(of: memoTitle))
+        textView.textStorage.removeAttribute(NSAttributedString.Key.font, range: (allText as NSString).range(of: allText))
+        textView.textStorage.removeAttribute(NSAttributedString.Key.foregroundColor, range: (allText as NSString).range(of: allText))
+    }
+    
+    private func addTextViewTextAttribute(textView: UITextView, allText: String, title: String) {
+        let titleFont = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.title1)
+        let bodyFont = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.body)
+        textView.textStorage.addAttribute(NSAttributedString.Key.font, value: bodyFont, range: (allText as NSString).range(of: allText))
+        textView.textStorage.addAttribute(NSAttributedString.Key.font, value: titleFont, range: (allText as NSString).range(of: title))
+        textView.textStorage.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.label, range: (allText as NSString).range(of: allText))
+    }
+    
+    private func filterTitleAndBody(separatedTextArray: [String], completion: @escaping (String, String) -> ()) {
         var separatedTextArray = separatedTextArray
-        guard separatedTextArray.count > 0, let title = separatedTextArray.first(where: { $0 != "" }), let titleIndex = separatedTextArray.firstIndex(of: title) else {
+        guard separatedTextArray.count > 0 else {
+            completion("", "")
+            return
+        }
+        guard let title = separatedTextArray.first(where: { $0 != "" }), let titleIndex = separatedTextArray.firstIndex(of: title) else {
             completion("", "")
             return
         }
@@ -143,13 +212,29 @@ extension DetailMemoViewController: UITextViewDelegate {
     }
     
     private func updateMemoData(indexPath: IndexPath, title: String, body: String, allText: String) {
-        MemoCache.shared.memoData[indexPath.row].title = title
-        MemoCache.shared.memoData[indexPath.row].body = body
-        MemoCache.shared.memoData[indexPath.row].lastModifiedDate = Date()
-        MemoCache.shared.memoData[indexPath.row].allText = allText
+        MemoCache.shared.memoDataList[indexPath.row].title = title
+        MemoCache.shared.memoDataList[indexPath.row].body = body
+        MemoCache.shared.memoDataList[indexPath.row].lastModifiedDate = Date()
+        MemoCache.shared.memoDataList[indexPath.row].allText = allText
         memoListViewController?.tableView.reloadData()
-        CoreData.shared.updateMemoListItem(item: MemoCache.shared.memoData[indexPath.row])
+        CoreData.shared.updateMemoListItem(item: MemoCache.shared.memoDataList[indexPath.row])
         DropboxManager.shared.uploadData(files: CoreData.shared.persistenceSqliteFiles, directoryURL: CoreData.shared.directoryURL)
     }
 }
 
+extension UIViewController {
+    func setDynamicTintColor(dark: UIColor, light: UIColor, traiteCollection: UITraitCollection) -> UIColor {
+        if traiteCollection.userInterfaceStyle == .dark {
+            return dark
+        } else {
+            return light
+        }
+    }
+    
+    func locateController(controller: UIViewController) {
+        if UIDevice.current.userInterfaceIdiom == .pad, let popoverController = controller.popoverPresentationController {
+            popoverController.sourceView = self.view
+            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+        }
+    }
+}

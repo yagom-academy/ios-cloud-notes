@@ -9,14 +9,21 @@ import UIKit
 class MemoListViewController: UIViewController {
     
     let tableView = UITableView()
+    let searchBar = UISearchBar()
     var memoSplitViewController: MemoSplitViewController?
+    var isThereTextInSearchBar = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
         DropboxManager.shared.authorize(viewController: self)
-        self.view.backgroundColor = .white
+        self.view.backgroundColor = .systemBackground
+        self.setUpSearchBar()
         self.setUpTableView()
         setUpNavigationBar()
+    }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        self.navigationItem.rightBarButtonItem?.tintColor = setDynamicTintColor(dark: UIColor.systemYellow, light: UIColor.systemBlue, traiteCollection: self.view.traitCollection)
     }
     
     @objc private func addNewMemo() {
@@ -28,7 +35,13 @@ class MemoListViewController: UIViewController {
     private func setUpNavigationBar() {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add , target: self, action: #selector(addNewMemo))
         self.navigationItem.title = "메모"
-        self.navigationController?.navigationBar.backgroundColor = .white
+    }
+    
+    private func setUpSearchBar() {
+        self.view.addSubview(searchBar)
+        searchBar.delegate = self
+        searchBar.placeholder = "Search"
+        self.setSearchBarLayout()
     }
     
     private func setUpTableView() {
@@ -39,11 +52,21 @@ class MemoListViewController: UIViewController {
         self.setTableViewLayout()
     }
     
+    private func setSearchBarLayout() {
+        let safeArea = self.view.safeAreaLayoutGuide
+        self.searchBar.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            self.searchBar.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 0),
+            self.searchBar.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 0),
+            self.searchBar.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: 0)
+        ])
+    }
+    
     private func setTableViewLayout() {
         let safeArea = self.view.safeAreaLayoutGuide
         self.tableView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            self.tableView.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 0),
+            self.tableView.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: 0),
             self.tableView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 0),
             self.tableView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: 0),
             self.tableView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: 0),
@@ -55,7 +78,15 @@ class MemoListViewController: UIViewController {
         let cancelAction = UIAlertAction(title: "취소", style: .default) { action in
         }
         let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { [weak self] action in
-            self?.memoSplitViewController?.detail.deleteMemo(indexPath: indexPath)
+            guard let isThereTextInSearchBar = self?.isThereTextInSearchBar, isThereTextInSearchBar else {
+                self?.memoSplitViewController?.detail.deleteMemo(indexPathRow: indexPath.row)
+                return
+            }
+            guard let indexPathRow = MemoCache.shared.memoDataList.firstIndex(of: MemoCache.shared.searchedMemoResults[indexPath.row]) else {
+                return
+            }
+            MemoCache.shared.searchedMemoResults.remove(at: indexPath.row)
+            self?.memoSplitViewController?.detail.deleteMemo(indexPathRow: indexPathRow)
         }
         alert.addAction(cancelAction)
         alert.addAction(deleteAction)
@@ -63,26 +94,37 @@ class MemoListViewController: UIViewController {
     }
     
     private func shareMemo(indexPath: IndexPath) {
-        let memo = MemoCache.shared.memoData[indexPath.row]
+        var memo = MemoCache.shared.memoDataList[indexPath.row]
+        if isThereTextInSearchBar {
+            memo = MemoCache.shared.searchedMemoResults[indexPath.row]
+        }
         guard let allText = memo.allText else {
             return
         }
         let text = allText
         let activity = UIActivityViewController(activityItems: [text], applicationActivities: nil)
+        locateController(controller: activity)
         self.present(activity, animated: true, completion: nil)
     }
 }
 
 extension MemoListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return MemoCache.shared.memoData.count
+        if isThereTextInSearchBar {
+            return MemoCache.shared.searchedMemoResults.count
+        }
+        return MemoCache.shared.memoDataList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier : MemoListTableViewCell.identifier) as? MemoListTableViewCell else {
             return UITableViewCell()
         }
-        cell.configure(with: MemoCache.shared.memoData[indexPath.row])
+        if isThereTextInSearchBar {
+            cell.configure(with: MemoCache.shared.searchedMemoResults[indexPath.row])
+            return cell
+        }
+        cell.configure(with: MemoCache.shared.memoDataList[indexPath.row])
         return cell
     }
 }
@@ -94,7 +136,10 @@ extension MemoListViewController: UITableViewDelegate {
         guard let memoSplitViewController = memoSplitViewController else {
             return
         }
-        memoSplitViewController.detail.configure(with: MemoCache.shared.memoData[indexPath.row], indexPath: indexPath)
+        memoSplitViewController.detail.configure(with: MemoCache.shared.memoDataList[indexPath.row], indexPath: indexPath)
+        if isThereTextInSearchBar {
+            memoSplitViewController.detail.configure(with: MemoCache.shared.searchedMemoResults[indexPath.row], indexPath: indexPath)
+        }
         memoSplitViewController.showDetailViewController(UINavigationController(rootViewController: memoSplitViewController.detail), sender: nil)
     }
     
@@ -111,3 +156,19 @@ extension MemoListViewController: UITableViewDelegate {
     }
 }
 
+extension MemoListViewController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchText == "" {
+            isThereTextInSearchBar = false
+            self.tableView.reloadData()
+            return
+        }
+        isThereTextInSearchBar = true
+        updateSearchedMemoResult(searchText: searchText)
+        self.tableView.reloadData()
+    }
+    
+    private func updateSearchedMemoResult(searchText: String) {
+        MemoCache.shared.searchedMemoResults = MemoCache.shared.memoDataList.filter({($0.allText?.contains(searchText) ?? false)})
+    }
+}

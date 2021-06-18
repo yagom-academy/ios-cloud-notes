@@ -83,7 +83,7 @@ extension SplitViewController: MemoProviderDelegate {
     showDetailViewController(memoDetailViewController, sender: self)
   }
   
-  func memoDidUpdate(indexPath: IndexPath, title: String, body: String) {
+  func memoDidUpdate(indexPath: IndexPath) {
     let firstIndex = IndexPath(row: .zero, section: .zero)
     memoListViewController?.tableView.moveRow(at: indexPath, to: firstIndex)
     memoListViewController?.tableView.reloadRows(at: [firstIndex], with: .none)

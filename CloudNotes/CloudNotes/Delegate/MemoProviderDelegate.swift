@@ -9,7 +9,7 @@ import UIKit
 
 protocol MemoProviderDelegate {
   func memoDidCreate(_ memo: Memo, indexPath: IndexPath)
-  func memoDidUpdate(indexPath: IndexPath, title: String, body: String)
+  func memoDidUpdate(indexPath: IndexPath)
   func memoDidDelete(indexPath: IndexPath)
   func presentAlertController(_ alert: UIAlertController)
 }

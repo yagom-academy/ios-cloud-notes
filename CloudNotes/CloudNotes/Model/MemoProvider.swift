@@ -27,7 +27,8 @@ final class MemoProvider {
     let container = NSPersistentCloudKitContainer(name: "CloudNotes")
     container.loadPersistentStores(completionHandler: { (_, error) in
       if let error = error as NSError? {
-        self.presentAlert("Core Data Store Container Error", error: error)
+        let alert = self.presentAlert("Core Data Store Container Error", error: error)
+        self.delegate?.presentAlertController(alert)
       }
     })
     return container
@@ -82,7 +83,7 @@ final class MemoProvider {
       self.saveContext()
       self.moveArrayIndex(from: indexPath.row, to: 0)
       DispatchQueue.main.async {
-        self.delegate?.memoDidUpdate(indexPath: indexPath, title: title, body: body)
+        self.delegate?.memoDidUpdate(indexPath: indexPath)
       }
     }
   }

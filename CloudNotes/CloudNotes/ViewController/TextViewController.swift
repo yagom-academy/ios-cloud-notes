@@ -19,6 +19,7 @@ class TextViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(textView)
+        textView.delegate = self
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: nil)
         NSLayoutConstraint.activate([
             textView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -35,13 +36,25 @@ class TextViewController: UIViewController {
         print("viewwillappear")
     }
     
+    override func viewWillLayoutSubviews() {
+        print(UITraitCollection.current.horizontalSizeClass.rawValue)
+        print(UITraitCollection.current.verticalSizeClass.rawValue)
+        print("viewWillLayoutSubviews")
+    }
+    
     override func viewDidLayoutSubviews() {
         print("viewDidLayoutSubviews")
     }
     
     func changedTextBySelectedCell(with memo: Memo) {
-        textView.text = memo.title + "\n\n"
-        textView.text.append(memo.body)
+        if let title = memo.title,
+           let body = memo.body {
+            textView.text = title + "\n"
+            textView.text.append(body)
+        } else {
+            textView.text = ""
+        }
+        textView.becomeFirstResponder()
     }
 
 }
@@ -71,4 +84,13 @@ extension TextViewController {
         textView.verticalScrollIndicatorInsets = contentInset
     }
     
+}
+
+extension TextViewController: UITextViewDelegate {
+    
+    func textViewDidChange(_ textView: UITextView) {
+        if let listViewController = splitViewController?.viewControllers.first?.children.first as? ListTableViewController {
+            listViewController.changeSelectedCellLabelValue(with: textView.text)
+        }
+    }
 }

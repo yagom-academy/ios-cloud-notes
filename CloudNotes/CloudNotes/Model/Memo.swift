@@ -7,16 +7,16 @@
 
 import Foundation
 
-struct Memo: Codable {
-    let title: String
-    let body: String
-    let lastModified: Int
-    var lastModifiedDate: String {
-        let formatter = DateFormatter()
-        let date = Date(timeIntervalSince1970: TimeInterval(lastModified))
-        formatter.locale = Locale.current
-        formatter.dateStyle = .short
-        formatter.timeStyle = .none
-        return formatter.string(from: date)
-    }
-}
+//struct Memo: Codable {
+//    let title: String
+//    let body: String
+//    let lastModified: Int
+//    var lastModifiedDate: String {
+//        let formatter = DateFormatter()
+//        let date = Date(timeIntervalSince1970: TimeInterval(lastModified))
+//        formatter.locale = Locale.current
+//        formatter.dateStyle = .short
+//        formatter.timeStyle = .none
+//        return formatter.string(from: date)
+//    }
+//}

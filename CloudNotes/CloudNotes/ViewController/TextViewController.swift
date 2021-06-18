@@ -90,7 +90,7 @@ extension TextViewController: UITextViewDelegate {
     
     func textViewDidChange(_ textView: UITextView) {
         if let listViewController = splitViewController?.viewControllers.first?.children.first as? ListTableViewController {
-            listViewController.changeSelectedCellLabelValue()
+            listViewController.changeSelectedCellLabelValue(with: textView.text)
         }
     }
 }

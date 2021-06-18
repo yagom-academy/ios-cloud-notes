@@ -38,7 +38,7 @@ class ListTableViewController: UITableViewController {
         }
     }
     
-    func changeSelectedCellLabelValue() {
+    func changeSelectedCellLabelValue(with text: String) {
         guard let selectedIndexPath = tableView.indexPathForSelectedRow else {
             return
         }
@@ -50,6 +50,13 @@ class ListTableViewController: UITableViewController {
             print(CoreDataManager.shared.fetchMemos())
 //            CoreDataManager.shared.saveContext()
         }
+        memoList[selectedIndexPath.row].title = text.subString(before: "\n")
+        memoList[selectedIndexPath.row].body = text.subString(after: "\n")
+        DispatchQueue.main.async {
+            self.tableView.reloadRows(at: [selectedIndexPath], with: .none)
+            self.tableView.selectRow(at: selectedIndexPath, animated: false, scrollPosition: .none)
+        }
+        
     }
     
     func setNavigationItem() {

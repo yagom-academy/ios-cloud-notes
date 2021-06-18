@@ -68,10 +68,10 @@ final class NoteListViewController: UIViewController {
     }
     
     @objc func didChangeNote(_ notification: Notification) {
-        guard let object = notification.object as? [String: Any?],
-              let note = object["note"] as? String,
-              let lastModifiedDate = object["lastModifiedDate"] as? Date,
-              let indexPath = object["indexPath"] as? IndexPath
+        guard let editedNote = notification.object as? (note: String?, lastModifiedDate: Date?, indexPath: IndexPath?),
+              let note = editedNote.note,
+              let lastModifiedDate = editedNote.lastModifiedDate,
+              let indexPath = editedNote.indexPath
         else { return }
         
         noteListViewModel.updateNote(note, lastModifiedDate, indexPath)

@@ -146,7 +146,7 @@ final class NoteDetailViewController: UIViewController {
 
 extension NoteDetailViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
-        let noteInfo = ["note": textView.text, "lastModifiedDate": Date(), "indexPath": indexPath] as [String : Any?]
+        let noteInfo = (textView.text, Date(), indexPath) as (note: String?, lastModifiedDate: Date?, indexPath: IndexPath?)
         NotificationCenter.default.post(name: UITextView.textDidChangeNotification, object: noteInfo)
     }
 }

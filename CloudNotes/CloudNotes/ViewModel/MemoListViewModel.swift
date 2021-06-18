@@ -8,48 +8,30 @@
 import Foundation
 
 final class MemoListViewModel {
-  private var memoServiceAdapter = MemoProvider()
-
-  private lazy var memos: [Memo]? = {
-    do {
-      let memos = try memoServiceAdapter.getMockData()
-      return memos
-    } catch {
-      return nil
-    }
-  }()
-  
-  private lazy var memoViewModels: [MemoViewModel]? = {
-    var memoViewModels: [MemoViewModel] = []
-    guard let memos = memos else { return nil }
-    let dateFormatter: DateFormatter = DateFormatter()
-    for memo in memos {
-      let date = Date(timeIntervalSince1970: TimeInterval(memo.lastModified))
-      dateFormatter.locale = Locale(identifier: Locale.current.identifier)
-      dateFormatter.setLocalizedDateFormatFromTemplate("yyyy. MM. d")
-      let dateString = dateFormatter.string(from: date)
-      memoViewModels.append(MemoViewModel(title: memo.title, date: dateString, content: memo.body))
-    }
-    return memoViewModels
-  }()
+  private var memoServiceAdapter = MemoProvider.shared
   
   var count: Int {
-    guard let memos = memos else { return .zero }
+    guard let memos = memoServiceAdapter.memos else { return .zero }
     return memos.count
   }
   
-  func addMemo(_ memo: Memo) {
-    memos?.append(memo)
-  }
-  
-  func getMemoViewModel(for indexPath: IndexPath) -> MemoViewModel? {
-    guard let memoViewModels = memoViewModels else { return nil }
-    let memoViewModel = memoViewModels[indexPath.row]
-    return memoViewModel
+  func getMemoListCellModel(for indexPath: IndexPath) -> MemoListCellModel? {
+    guard let memo = memoServiceAdapter.memos?[indexPath.row] else { return nil }
+    let dateString = convertDateFormat(memo.lastModified)
+    let viewModel = MemoListCellModel(title: memo.title, date: dateString, content: memo.body)
+    return viewModel
   }
   
   func getMemo(for indexPath: IndexPath) -> Memo? {
-    guard let memos = memos else { return nil }
+    guard let memos = memoServiceAdapter.memos else { return nil }
     return memos[indexPath.row]
+  }
+  
+  private func convertDateFormat(_ date: Date?) -> String? {
+    guard let date = date else { return nil }
+    let dateFormatter = DateFormatter()
+    dateFormatter.locale = Locale(identifier: Locale.current.identifier)
+    dateFormatter.setLocalizedDateFormatFromTemplate("yyyy. MM. d")
+    return dateFormatter.string(from: date)
   }
 }

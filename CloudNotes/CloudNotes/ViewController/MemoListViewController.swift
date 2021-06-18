@@ -12,20 +12,31 @@ final class MemoListViewController: UITableViewController {
   private let titleString = "메모"
   private let tableViewModel: MemoListViewModel = MemoListViewModel()
   
+  var delegate: MemoListViewDelegate?
+  
   lazy var addButton: UIBarButtonItem = {
     let button = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addMemo))
     return button
   }()
   
   @objc func addMemo() {
-    
+    delegate?.touchAddButton()
   }
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    self.navigationItem.rightBarButtonItem = addButton
-    self.navigationItem.title = titleString
+    configureNavigationBarButton()
     configureTableView()
+  }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    delegate?.deleteEmptyMemo()
+  }
+  
+  private func configureNavigationBarButton() {
+    navigationItem.rightBarButtonItem = addButton
+    navigationItem.title = titleString
   }
   
   private func configureTableView() {
@@ -46,7 +57,7 @@ final class MemoListViewController: UITableViewController {
             as? MemoListCell else {
       return UITableViewCell()
     }
-    guard let viewModel = tableViewModel.getMemoViewModel(for: indexPath) else {
+    guard let viewModel = tableViewModel.getMemoListCellModel(for: indexPath) else {
       return UITableViewCell()
     }
     cell.configure(with: viewModel)
@@ -62,7 +73,19 @@ final class MemoListViewController: UITableViewController {
       return
     }
     guard let memo = tableViewModel.getMemo(for: indexPath) else { return }
-    detailViewController.configure(with: memo)
+    detailViewController.configure(with: memo, indexPath: indexPath)
     showDetailViewController(detailViewController, sender: self)
+    delegate?.deleteEmptyMemo()
+  }
+  
+  override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+    let deleteAction = UIContextualAction(style: .destructive, title: "Delete", handler: { _, _, _ in
+      self.delegate?.touchDeleteButton(indexPath: indexPath)
+    })
+    let shareAction = UIContextualAction(style: .normal, title: "Share", handler: {
+      _, _, _ in
+      self.delegate?.touchShareButton(indexPath: indexPath)
+    })
+    return UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
   }
 }

@@ -8,6 +8,12 @@
 import UIKit
 
 final class MemoListCell: UITableViewCell {
+  enum Style {
+    static let emptyTitleText = "새로운 메세지"
+    static let emptyContentText = "추가 텍스트 없음"
+    static let emptyDateText = "날짜 기록 없음"
+  }
+  
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
     self.selectionStyle = .none
@@ -75,15 +81,38 @@ final class MemoListCell: UITableViewCell {
     ])
   }
   
-  func configure(with viewModel: MemoViewModel) {
-    titleLabel.text = viewModel.title
-    dateLabel.text = viewModel.date
-    contentLabel.text = viewModel.content
+  func configure(with viewModel: MemoListCellModel) {
+    titleLabel.text = setTitleText(viewModel.title)
+    dateLabel.text = setDateText(viewModel.date)
+    contentLabel.text = setBodyText(viewModel.content)
   }
-}
-
-struct MemoViewModel {
-  let title: String
-  let date: String
-  let content: String
+  
+  private func setTitleText(_ title: String?) -> String {
+    guard let title = title else { return Style.emptyTitleText }
+    if title.isEmpty == true {
+      return Style.emptyTitleText
+    }
+    return seperateNewLine(title)
+  }
+  
+  private func setBodyText(_ body: String?) -> String {
+    guard let body = body else { return Style.emptyContentText }
+    if body.isEmpty == true {
+      return Style.emptyContentText
+    }
+    return seperateNewLine(body)
+  }
+  
+  private func setDateText(_ date: String?) -> String {
+    guard let date = date else { return Style.emptyDateText }
+    if date.isEmpty == true {
+      return Style.emptyDateText
+    }
+    return date
+  }
+  
+  private func seperateNewLine(_ text: String) -> String {
+    guard let seperatedText = text.split(separator: "\n").first else { return "" }
+    return String(seperatedText)
+  }
 }

@@ -134,7 +134,11 @@ extension MemoViewController: UITextViewDelegate {
 
     private func separatedMemo(from text: String) -> (title: String, body: String)? {
         let separatedText: [Substring] = text.split(separator: Style.memoSeparator, maxSplits: 1, omittingEmptySubsequences: true)
-        return (String(separatedText.first ?? ""), String(separatedText.last ?? ""))
+        guard let separatedTitle = separatedText.first else { return nil }
+        let title = String(separatedTitle)
+        let body = separatedText.count == 2 ? String(separatedText[1]) : String()
+
+        return (title, body)
     }
 
 }

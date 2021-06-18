@@ -1,0 +1,9 @@
+disabled_rules:
+  - identifier_name
+  - nesting
+included:
+excluded:
+  - CloudNotes/Sources/AppDelegate.swift
+  - CloudNotes/Sources/SceneDelegate.swift
+
+line_length: 160

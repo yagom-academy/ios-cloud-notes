@@ -6,8 +6,6 @@
 //
 
 import Foundation
-import UIKit.UIApplication
-import CoreData
 
 final class NoteListViewModel: NoteManageable {
     static let dateFormatter: DateFormatter = {

@@ -5,8 +5,6 @@
 //  Created by 배은서 on 2021/06/11.
 //
 
-import Foundation
-
 final class Observable<T> {
     typealias Listener = (T) -> Void
     var listener: Listener?

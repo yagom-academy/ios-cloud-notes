@@ -5,8 +5,6 @@
 //  Created by 배은서 on 2021/06/17.
 //
 
-import Foundation
-
 enum NoteLiteral {
     static let defaultTitle: String = "새로운 메모"
     static let defaultBody: String = "추가 텍스트 없음"

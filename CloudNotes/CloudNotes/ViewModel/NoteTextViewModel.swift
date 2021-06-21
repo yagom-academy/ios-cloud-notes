@@ -4,9 +4,6 @@
 //
 //  Created by 배은서 on 2021/06/12.
 //
-import UIKit
-import Foundation
-//import CoreData
 
 final class NoteTextViewModel {
     let noteData: Observable<NoteData>

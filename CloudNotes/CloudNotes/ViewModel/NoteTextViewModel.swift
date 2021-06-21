@@ -6,15 +6,16 @@
 //
 
 final class NoteTextViewModel {
-    let note: Observable<NoteViewModel>
+    let noteData: Observable<NoteData>
     
-    init(_ note: Observable<NoteViewModel>) {
-        self.note = note
+    init(_ note: NoteData) {
+        self.noteData = Observable(note)
     }
 }
 
 extension NoteTextViewModel {
     func getTextViewData() -> String {
-        return note.value.title + "\n\n" + note.value.body
+        guard let title = noteData.value.title, let body = noteData.value.body else { return NoteLiteral.empty }
+        return (title != NoteLiteral.empty ? title + NoteLiteral.LineBreak.String : title) + body
     }
 }

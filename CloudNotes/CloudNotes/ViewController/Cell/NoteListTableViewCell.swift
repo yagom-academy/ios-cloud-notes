@@ -22,22 +22,23 @@ final class NoteListTableViewCell: UITableViewCell {
         label.font = UIFont.preferredFont(forTextStyle: .subheadline)
         label.textAlignment = .left
         label.setContentCompressionResistancePriority(.required, for: .horizontal)
+        label.setContentHuggingPriority(.required, for: .horizontal)
         return label
     }()
     
     private let previewBodyLabel: UILabel = {
         let label = UILabel()
         label.textColor = .systemGray
-        label.font = UIFont.preferredFont(forTextStyle: .body)
+        label.font = UIFont.preferredFont(forTextStyle: .subheadline)
         label.textAlignment = .left
         return label
     }()
     
     private lazy var descriptionStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [dateLabel, previewBodyLabel])
-        stackView.distribution = .equalSpacing
+        stackView.distribution = .fill
         stackView.axis = .horizontal
-        stackView.spacing = 20
+        stackView.spacing = 10
         return stackView
     }()
     
@@ -71,9 +72,15 @@ final class NoteListTableViewCell: UITableViewCell {
         ])
     }
     
-    func configure(_ note: NoteViewModel) {
-        self.titleLabel.text = note.title
-        self.dateLabel.text = note.formattedLastModified
-        self.previewBodyLabel.text = note.body
+    func configure(_ note: NoteData) {
+        self.titleLabel.text = note.title == NoteLiteral.empty ? NoteLiteral.defaultTitle : note.title
+        self.dateLabel.text = NoteListViewModel.dateFormatter.string(from: note.lastModifiedDate ?? Date())
+        self.previewBodyLabel.text = note.body == NoteLiteral.empty ? NoteLiteral.defaultBody : note.body
+    }
+    
+    func update(title: String, date: Date, body: String) {
+        self.titleLabel.text = title
+        self.dateLabel.text = NoteListViewModel.dateFormatter.string(from: date)
+        self.previewBodyLabel.text = body
     }
 }

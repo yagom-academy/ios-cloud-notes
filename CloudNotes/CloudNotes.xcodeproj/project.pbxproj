@@ -20,6 +20,7 @@
 		C7481C8825BBCF3A00B9CA55 /* CloudNotesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C8725BBCF3A00B9CA55 /* CloudNotesTests.swift */; };
 		C7481C9325BBCF3A00B9CA55 /* CloudNotesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C9225BBCF3A00B9CA55 /* CloudNotesUITests.swift */; };
 		D161367C26DD21C40009954F /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = D161367B26DD21C40009954F /* .swiftlint.yml */; };
+		D161368326DD2DD10009954F /* Memo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D161368226DD2DD10009954F /* Memo.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +65,7 @@
 		C7481C9425BBCF3A00B9CA55 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C9E11E4B6DB96FABBE52B253 /* Pods-CloudNotesUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudNotesUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CloudNotesUITests/Pods-CloudNotesUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		D161367B26DD21C40009954F /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
+		D161368226DD2DD10009954F /* Memo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memo.swift; sourceTree = "<group>"; };
 		E5201E24A8D8E9400E144CE0 /* Pods_CloudNotesUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CloudNotesUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -144,6 +146,7 @@
 		C7481C6C25BBCF3900B9CA55 /* CloudNotes */ = {
 			isa = PBXGroup;
 			children = (
+				D161367F26DD2DAA0009954F /* Model */,
 				D161367E26DD2CB40009954F /* AppLifeCycle */,
 				C7481C7125BBCF3900B9CA55 /* ViewController.swift */,
 				C7481C7325BBCF3900B9CA55 /* Main.storyboard */,
@@ -180,6 +183,14 @@
 				C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */,
 			);
 			path = AppLifeCycle;
+			sourceTree = "<group>";
+		};
+		D161367F26DD2DAA0009954F /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				D161368226DD2DD10009954F /* Memo.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -395,6 +406,7 @@
 				C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */,
 				C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */,
 				C7481C7825BBCF3900B9CA55 /* CloudNotes.xcdatamodeld in Sources */,
+				D161368326DD2DD10009954F /* Memo.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -24,6 +24,7 @@
 		D188909326DDF96400A08A3C /* MemoListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D188909226DDF96400A08A3C /* MemoListCell.swift */; };
 		D188909526DE143300A08A3C /* MemoPresentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D188909426DE143300A08A3C /* MemoPresentModel.swift */; };
 		D18890B826DE205200A08A3C /* sample.json in Resources */ = {isa = PBXBuildFile; fileRef = D18890B726DE205100A08A3C /* sample.json */; };
+		D18890BB26DE488D00A08A3C /* MemoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D18890BA26DE488D00A08A3C /* MemoDetailViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,7 +59,7 @@
 		C7481C7725BBCF3900B9CA55 /* CloudNotes.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CloudNotes.xcdatamodel; sourceTree = "<group>"; };
 		C7481C7925BBCF3A00B9CA55 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C7481C7C25BBCF3A00B9CA55 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		C7481C7E25BBCF3A00B9CA55 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C7481C7E25BBCF3A00B9CA55 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = CloudNotes/SupportingFiles/Info.plist; sourceTree = SOURCE_ROOT; };
 		C7481C8325BBCF3A00B9CA55 /* CloudNotesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CloudNotesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7481C8725BBCF3A00B9CA55 /* CloudNotesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudNotesTests.swift; sourceTree = "<group>"; };
 		C7481C8925BBCF3A00B9CA55 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -72,6 +73,7 @@
 		D188909226DDF96400A08A3C /* MemoListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoListCell.swift; sourceTree = "<group>"; };
 		D188909426DE143300A08A3C /* MemoPresentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoPresentModel.swift; sourceTree = "<group>"; };
 		D18890B726DE205100A08A3C /* sample.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = sample.json; path = ../../../../../../../../Downloads/sample.dataset/sample.json; sourceTree = "<group>"; };
+		D18890BA26DE488D00A08A3C /* MemoDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoDetailViewController.swift; sourceTree = "<group>"; };
 		E5201E24A8D8E9400E144CE0 /* Pods_CloudNotesUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CloudNotesUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -156,7 +158,7 @@
 				D188908E26DDF42B00A08A3C /* SupportingFiles */,
 				D161367F26DD2DAA0009954F /* Model */,
 				D188909126DDF94200A08A3C /* View */,
-				C7481C7125BBCF3900B9CA55 /* MemoViewController.swift */,
+				D18890B926DE2B2C00A08A3C /* ViewController */,
 			);
 			path = CloudNotes;
 			sourceTree = "<group>";
@@ -224,6 +226,15 @@
 				D18890B726DE205100A08A3C /* sample.json */,
 			);
 			path = JsonData;
+			sourceTree = "<group>";
+		};
+		D18890B926DE2B2C00A08A3C /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				C7481C7125BBCF3900B9CA55 /* MemoViewController.swift */,
+				D18890BA26DE488D00A08A3C /* MemoDetailViewController.swift */,
+			);
+			path = ViewController;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -436,6 +447,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C7481C7225BBCF3900B9CA55 /* MemoViewController.swift in Sources */,
+				D18890BB26DE488D00A08A3C /* MemoDetailViewController.swift in Sources */,
 				D188909526DE143300A08A3C /* MemoPresentModel.swift in Sources */,
 				C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */,
 				D188909026DDF44400A08A3C /* JSONHandler.swift in Sources */,
@@ -613,7 +625,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 6U5233X9SB;
-				INFOPLIST_FILE = CloudNotes/Info.plist;
+				INFOPLIST_FILE = CloudNotes/SupportingFiles/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -633,7 +645,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 6U5233X9SB;
-				INFOPLIST_FILE = CloudNotes/Info.plist;
+				INFOPLIST_FILE = CloudNotes/SupportingFiles/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

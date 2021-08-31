@@ -19,9 +19,10 @@ class SplitViewController: UISplitViewController {
 
 extension SplitViewController {
     func setupChildViewController() {
-        setViewController(MemoListViewController(style: .plain), for: .primary)
+        setViewController(MemoListTableViewController(style: .plain), for: .primary)
         setViewController(MemoDatailViewController(), for: .secondary)
     }
+
     func setupSplitViewDisPlayMode() {
         preferredDisplayMode = .oneBesideSecondary
         presentsWithGesture = false

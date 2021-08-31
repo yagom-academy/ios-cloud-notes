@@ -7,14 +7,29 @@
 
 import UIKit
 
-class MemoListViewController: UITableViewController, MemoContainer {
+class MemoListTableViewController: UITableViewController, MemoContainer {
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureNavigationBar()
+
     }
 
 }
 
-extension MemoListViewController {
+extension MemoListTableViewController {
+    func configureNavigationBar() {
+        navigationItem.title = "메모"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
+                                                            target: self,
+                                                            action: #selector(addButtomTap))
+    }
+
+    @objc func addButtomTap() {
+
+    }
+}
+
+extension MemoListTableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         super.tableView(tableView, numberOfRowsInSection: section)
         return memo.count

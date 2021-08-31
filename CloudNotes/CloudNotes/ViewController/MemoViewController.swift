@@ -36,7 +36,8 @@ private extension MemoViewController {
                     memoTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                     memoTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
                     memoTableView.topAnchor.constraint(equalTo: view.topAnchor),
-                    memoTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)])
+                    memoTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
     }
 }
 
@@ -50,12 +51,18 @@ extension MemoViewController: UITableViewDataSource, UITableViewDelegate {
         cell.configure(with: prepareForPresent(from: memoList[indexPath.row]))
         return cell
     }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let nextViewController = MemoDetailViewController()
+        nextViewController.configure(with: memoList[indexPath.row])
+        self.navigationController?.pushViewController(nextViewController, animated: true)
+    }
 }
 
 extension MemoViewController {
-    fileprivate func prepareForPresent(from memo: Memo) -> MemoPresentModel {
+    private func prepareForPresent(from memo: Memo) -> MemoPresentModel {
         return .init(title: memo.title,
                      body: memo.body,
-                     date: DateFormatter.localizedString(from: Date(timeIntervalSince1970: memo.lastModified), dateStyle: .long, timeStyle: .none))
+                     date: DateFormatter.localizedString(from: Date(timeIntervalSince1970: memo.lastDate), dateStyle: .long, timeStyle: .none))
     }
 }

@@ -1,6 +1,6 @@
 disabled_rules:
 included:
 excluded:
-- Pods
-- CloudNotes/AppDelegate.swift
-- CloudNotes/SceneDelegate.swift
+  - Pods
+  - CloudNotes/AppLifeCycle/AppDelegate.swift
+  - CloudNotes/AppLifeCycle/SceneDelegate.swift

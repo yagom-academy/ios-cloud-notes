@@ -14,12 +14,23 @@ class MemoListTableViewController: UITableViewController, MemoContainer {
         configureTableViewConstraints()
         registerTableViewCell()
     }
-    
+}
+
+extension MemoListTableViewController {
+    enum NameSpace {
+        enum TableView {
+            static let heightSize: CGFloat = 80
+        }
+        
+        enum NavigationItem {
+            static let title = "메모"
+        }
+    }
 }
 
 extension MemoListTableViewController {
     func configureNavigationBar() {
-        navigationItem.title = "메모"
+        navigationItem.title = NameSpace.NavigationItem.title
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
                                                             target: self,
                                                             action: #selector(addButtomTap))
@@ -36,8 +47,8 @@ extension MemoListTableViewController {
     }
     
     func configureTableViewConstraints() {
-        tableView.rowHeight = 100
-        tableView.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        tableView.rowHeight = NameSpace.TableView.heightSize
+        tableView.separatorInset = UIEdgeInsets.zero
         tableView.translatesAutoresizingMaskIntoConstraints = false
     }
 }
@@ -53,6 +64,8 @@ extension MemoListTableViewController {
                                                        for: indexPath) as? MemoListTableViewCell else {
             fatalError()
         }
+        
+        cell.configure(with: memo[indexPath.row])
         
         return cell
     }

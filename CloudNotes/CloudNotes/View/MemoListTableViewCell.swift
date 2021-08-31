@@ -12,12 +12,13 @@ class MemoListTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        configureLables()
+        configureDescriptionStackView()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
     private let titleLabel: UILabel = {
         let titleLabel = UILabel()
         titleLabel.font = UIFont.preferredFont(forTextStyle: .title3)
@@ -42,28 +43,42 @@ class MemoListTableViewCell: UITableViewCell {
         let lastModifiedLabel = UILabel()
         lastModifiedLabel.font = UIFont.preferredFont(forTextStyle: .body)
         lastModifiedLabel.textColor = .black
-        lastModifiedLabel.textAlignment = .left
+        lastModifiedLabel.textAlignment = .right
         lastModifiedLabel.translatesAutoresizingMaskIntoConstraints = false
         return lastModifiedLabel
     }()
 }
 
 extension MemoListTableViewCell {
-    func configureLables() {
+    private enum NameSpace {
+        enum DescriptionStackView {
+            static let spacing: CGFloat = 30
+            static let topAnchorConstant: CGFloat = 10
+            static let leadingAnchorConstant: CGFloat = 10
+            static let trailingAnchorConstant: CGFloat = 10
+            static let bottomAnchorConstant: CGFloat = 30
+        }
+    }
+}
+
+extension MemoListTableViewCell {
+    func configureDescriptionStackView() {
+        let descriptionStackView = UIStackView(arrangedSubviews: [lastModifiedLabel, bodyLabel])
+        descriptionStackView.axis = .horizontal
+        descriptionStackView.alignment = .fill
+        descriptionStackView.distribution = .equalSpacing
+        descriptionStackView.spacing = NameSpace.DescriptionStackView.spacing
+        descriptionStackView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(descriptionStackView)
         
-        let horizontalStackView = UIStackView()
-        horizontalStackView.axis = .horizontal
-        horizontalStackView.alignment = .fill
-        horizontalStackView.distribution = .fill
-        horizontalStackView.spacing = 10
-        horizontalStackView.addArrangedSubview(lastModifiedLabel)
-        horizontalStackView.addArrangedSubview(bodyLabel)
-        horizontalStackView.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(horizontalStackView)
-        
-        horizontalStackView.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor, constant: 10).isActive = true
-        horizontalStackView.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor, constant: 10).isActive = true
-        horizontalStackView.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor, constant: -10).isActive = true
-        horizontalStackView.bottomAnchor.constraint(equalTo: contentView.layoutMarginsGuide.bottomAnchor, constant: 20).isActive = true
+        descriptionStackView.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor, constant: NameSpace.DescriptionStackView.topAnchorConstant).isActive = true
+        descriptionStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: NameSpace.DescriptionStackView.leadingAnchorConstant).isActive = true
+        descriptionStackView.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor, constant: NameSpace.DescriptionStackView.trailingAnchorConstant).isActive = true
+        descriptionStackView.bottomAnchor.constraint(equalTo: contentView.layoutMarginsGuide.bottomAnchor, constant: NameSpace.DescriptionStackView.bottomAnchorConstant).isActive = true
+    }
+    
+    func configure(with memoItem: Memo) {
+        bodyLabel.text = memoItem.body
+        lastModifiedLabel.text = String(memoItem.lastModified)
     }
 }

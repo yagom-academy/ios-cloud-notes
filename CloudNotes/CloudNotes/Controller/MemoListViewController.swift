@@ -10,17 +10,19 @@ class MemoListViewController: UIViewController{
     
     private let tableView: UITableView = {
         let tableView = UITableView()
+        tableView.estimatedRowHeight = 50
+        tableView.rowHeight = UITableView.automaticDimension
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.register(MemoListTableViewCell.self, forCellReuseIdentifier: MemoListTableViewCell.identifier)
         return tableView
     }()
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         addSubView()
         configureTableView()
         ConfigureAutoLayout()
+        configureNavigationItem()
     }
     
     private func ConfigureAutoLayout() {
@@ -33,8 +35,15 @@ class MemoListViewController: UIViewController{
         ])
     }
     
+    private func configureNavigationItem() {
+        self.navigationItem.title = "메모"
+        let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: nil)
+        self.navigationItem.rightBarButtonItem = addButton
+    }
+    
     private func configureTableView() {
         tableView.dataSource = self
+        tableView.delegate = self
     }
     
     private func addSubView() {
@@ -57,6 +66,12 @@ extension MemoListViewController: UITableViewDataSource {
         cell.shortDiscriptionLabel.text = "아니 근데 진짜 코드로 ui 만드는거 언제 익숙해지지 진짜 이거 빨리 익혀야 좀 편하게 할텐데 오토레이아웃 잡을때마다 진짜 개빡침 오토레이아웃 공부 빨리 제대로 해야지 이거 우선도랑 CRCH도 어떻게 하는지 알아야하고 스택뷰도 잘 다뤄야지 얼른 하자 진짜"
         
         return cell
+    }
+}
+
+extension MemoListViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 70
     }
 }
 

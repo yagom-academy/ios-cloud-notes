@@ -54,7 +54,6 @@ class MemoListTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    
     private func addContentView() {
         contentView.addSubview(titleLabel)
         contentView.addSubview(dateLabel)
@@ -63,20 +62,23 @@ class MemoListTableViewCell: UITableViewCell {
     
     private func ConfigureAutoLayout() {
         let margin: CGFloat = 10
+        
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: margin),
+            titleLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: margin / 2),
             titleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: margin),
             titleLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: margin),
             
             dateLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
             dateLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: margin),
-            dateLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: margin),
+            dateLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -margin / 2),
+           
             
             shortDiscriptionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
             shortDiscriptionLabel.leadingAnchor.constraint(equalTo: self.dateLabel.trailingAnchor, constant: margin * 2),
             shortDiscriptionLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: margin),
-            shortDiscriptionLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: margin)
+            shortDiscriptionLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -margin / 2)
         ])
     }
     
 }
+

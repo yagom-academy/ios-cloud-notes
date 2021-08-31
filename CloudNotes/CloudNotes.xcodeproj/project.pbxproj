@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		5E9515A87AC25CFD8BEB56C2 /* Pods_CloudNotes_CloudNotesUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47B011E5700716AC71B6E6C6 /* Pods_CloudNotes_CloudNotesUITests.framework */; };
+		7469BA0626DE4F4800E864D4 /* MemoListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7469BA0526DE4F4800E864D4 /* MemoListTableViewCell.swift */; };
 		748315C426DE18FA0036A365 /* Contents.json in Resources */ = {isa = PBXBuildFile; fileRef = 748315C226DE18F90036A365 /* Contents.json */; };
 		748315C526DE18FA0036A365 /* sample.json in Resources */ = {isa = PBXBuildFile; fileRef = 748315C326DE18FA0036A365 /* sample.json */; };
 		748315C726DE1AFF0036A365 /* MemoListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748315C626DE1AFF0036A365 /* MemoListTableViewController.swift */; };
@@ -48,6 +49,7 @@
 		31909DB8397DAE9CABA4CFBF /* Pods_CloudNotesTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CloudNotesTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3ACD59D9599C6463287458F6 /* Pods-CloudNotesTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudNotesTests.release.xcconfig"; path = "Target Support Files/Pods-CloudNotesTests/Pods-CloudNotesTests.release.xcconfig"; sourceTree = "<group>"; };
 		47B011E5700716AC71B6E6C6 /* Pods_CloudNotes_CloudNotesUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CloudNotes_CloudNotesUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7469BA0526DE4F4800E864D4 /* MemoListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoListTableViewCell.swift; sourceTree = "<group>"; };
 		748315C226DE18F90036A365 /* Contents.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = Contents.json; path = ../../../../Downloads/sample.dataset/Contents.json; sourceTree = "<group>"; };
 		748315C326DE18FA0036A365 /* sample.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = sample.json; path = ../../../../Downloads/sample.dataset/sample.json; sourceTree = "<group>"; };
 		748315C626DE1AFF0036A365 /* MemoListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoListTableViewController.swift; sourceTree = "<group>"; };
@@ -124,6 +126,7 @@
 		748315C026DE18C00036A365 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				7469BA0526DE4F4800E864D4 /* MemoListTableViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -416,7 +419,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "${PODS_ROOT}/SwiftLint/swiftlint autocorrect\n";
+			shellScript = "${PODS_ROOT}/SwiftLint/swiftlint\n";
 		};
 		8924A7E3EC1257C60828F2C8 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -448,6 +451,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				748315CB26DE1E3E0036A365 /* Memo.swift in Sources */,
+				7469BA0626DE4F4800E864D4 /* MemoListTableViewCell.swift in Sources */,
 				748315CE26DE22DE0036A365 /* JsonManager.swift in Sources */,
 				C7481C7225BBCF3900B9CA55 /* SplitViewController.swift in Sources */,
 				748315C726DE1AFF0036A365 /* MemoListTableViewController.swift in Sources */,

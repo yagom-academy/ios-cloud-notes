@@ -9,6 +9,22 @@ import UIKit
 
 class MemoListCell: UITableViewCell {
     static let reuseIdentifier = "\(MemoListCell.self)"
+    
+    private enum Constraint {
+        enum TitleLabel {
+            static let leadingConstant: CGFloat = 5
+            static let trailingConstant: CGFloat = 5
+            static let topConstant: CGFloat = 5
+        }
+        enum DateLabel {
+            static let bottomConstant: CGFloat = -10
+            static let trailingConstant: CGFloat = 5
+        }
+        enum BodyLabel {
+            static let leadingConstant: CGFloat = 5
+            static let trailingConstant: CGFloat = -5
+        }
+    }
 
     var titleLabel: UILabel = {
         let label = UILabel()
@@ -25,7 +41,6 @@ class MemoListCell: UITableViewCell {
     }()
     var dateLabel: UILabel = {
         let label = UILabel()
-
         label.font = UIFont.preferredFont(forTextStyle: .body)
         label.adjustsFontForContentSizeCategory = true
         return label
@@ -34,7 +49,7 @@ class MemoListCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.accessoryType = .disclosureIndicator
-        setConstrains()
+        setConstraint()
     }
 
     required init?(coder: NSCoder) {
@@ -43,14 +58,16 @@ class MemoListCell: UITableViewCell {
 
     func configure(with memo: MemoPresentModel) {
         self.titleLabel.text = memo.title
-        self.dateLabel.text = "\(memo.date)"
+        self.dateLabel.text = memo.date
         self.bodyLabel.text = memo.body
     }
+
+
 }
 
 // MARK: - Layout
 extension MemoListCell {
-    private func setConstrains() {
+    private func setConstraint() {
         contentView.addSubview(titleLabel)
         contentView.addSubview(bodyLabel)
         contentView.addSubview(dateLabel)
@@ -63,15 +80,22 @@ extension MemoListCell {
         bodyLabel.translatesAutoresizingMaskIntoConstraints = false
 
         var cellConstraints: [NSLayoutConstraint] = []
-        let titleLabelConstraints = [titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5),
-                                     titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
+        let titleLabelConstraints = [titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,
+                                                                         constant: Constraint.TitleLabel.leadingConstant),
+                                     titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,
+                                                                          constant: Constraint.TitleLabel.trailingConstant),
+                                     titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor,
+                                                                     constant: Constraint.TitleLabel.topConstant),
                                      titleLabel.bottomAnchor.constraint(equalTo: dateLabel.topAnchor)]
 
         let dateLabelConstraints = [dateLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
-                                    dateLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)]
+                                    dateLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,
+                                                                      constant: Constraint.DateLabel.bottomConstant)]
 
-        let bodyLabelConstraints = [bodyLabel.leadingAnchor.constraint(equalTo: dateLabel.trailingAnchor, constant: 30),
-                                    bodyLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 10),
+        let bodyLabelConstraints = [bodyLabel.leadingAnchor.constraint(equalTo: dateLabel.trailingAnchor,
+                                                                       constant: Constraint.BodyLabel.leadingConstant),
+                                    bodyLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,
+                                                                        constant: Constraint.BodyLabel.trailingConstant),
                                     bodyLabel.bottomAnchor.constraint(equalTo: dateLabel.bottomAnchor)]
 
         cellConstraints.append(contentsOf: titleLabelConstraints)

@@ -99,6 +99,6 @@ extension MemoListTableViewCell {
     func configure(with memoItem: Memo) {
         titleLabel.text = memoItem.title
         bodyLabel.text = memoItem.body
-        lastModifiedLabel.text = String(memoItem.lastModified)
+        lastModifiedLabel.text = memoItem.locationDate
     }
 }

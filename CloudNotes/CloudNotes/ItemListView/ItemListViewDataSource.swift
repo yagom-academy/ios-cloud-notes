@@ -18,16 +18,12 @@ class ItemListViewDataSource: NSObject, UITableViewDataSource {
         guard let itemListViewCell = tableView.dequeueReusableCell(withIdentifier: ItemListViewCell.identifier) as? ItemListViewCell else {
             return UITableViewCell()
         }
-        itemListViewCell.translatesAutoresizingMaskIntoConstraints = false
         
-        itemListViewCell.titleLabel.text = "asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd"
         itemListViewCell.titleLabel.backgroundColor = .cyan
-        
-        itemListViewCell.dateLabel.text = "???"
         itemListViewCell.dateLabel.backgroundColor = .systemGreen
-        
-        itemListViewCell.descriptionLabel.text = "2020.20.20."
         itemListViewCell.descriptionLabel.backgroundColor = .gray
+        
+        itemListViewCell.configure(with: memoList[indexPath.row])
         
         return itemListViewCell
     }
@@ -45,7 +41,20 @@ class ItemListViewDataSource: NSObject, UITableViewDataSource {
         }
         
         let memoList: [Memo] = parsedAsset.map { dictionary in
-            return try! Parser.decode(from: dictionary, to: Memo.self).get()
+            let decodedDictionary = Parser.decode(from: dictionary, to: Memo.self)
+            
+            guard let memo = try? decodedDictionary.get() else {
+                let corrupted = "Corrupted"
+                let date = Date(timeIntervalSince1970: .zero)
+                
+                return Memo(
+                    title: corrupted,
+                    description: corrupted,
+                    lastUpdatedTime: date
+                )
+            }
+            
+            return memo
         }
         
         return memoList

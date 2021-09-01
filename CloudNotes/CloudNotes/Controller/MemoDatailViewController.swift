@@ -26,6 +26,10 @@ class MemoDatailViewController: UIViewController {
         configureView()
         configureMemoTextViewContentsConstraint()
     }
+    
+    deinit {
+        print("\(self) 제거되었음")
+    }
 }
 
 extension MemoDatailViewController {

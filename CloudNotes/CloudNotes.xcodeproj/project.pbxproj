@@ -151,6 +151,7 @@
 		74E169AE26DF570B00C1D42A /* Utility */ = {
 			isa = PBXGroup;
 			children = (
+				748315CC26DE22BA0036A365 /* Manager */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -181,7 +182,6 @@
 			isa = PBXGroup;
 			children = (
 				74E169AE26DF570B00C1D42A /* Utility */,
-				748315CC26DE22BA0036A365 /* Manager */,
 				748315C126DE18DB0036A365 /* TestData */,
 				748315BF26DE18BB0036A365 /* Model */,
 				748315C026DE18C00036A365 /* View */,

@@ -7,7 +7,9 @@
 
 import UIKit
 
-class MemoListTableViewController: UITableViewController, MemoContainer {
+class MemoListTableViewController: UITableViewController {
+    
+   private let memo = SampleMemo.setupSampleMemo()
     
     override func viewDidLoad() {
         super.viewDidLoad()

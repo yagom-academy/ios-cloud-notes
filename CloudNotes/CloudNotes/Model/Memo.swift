@@ -7,16 +7,6 @@
 
 import Foundation
 
-protocol MemoContainer {
-    var memo: [Memo] { get }
-}
-
-extension MemoContainer {
-    var memo: [Memo] {
-        return JsonManager.jsonDecode()
-    }
-}
-
 struct Memo: Decodable {
     let title: String
     let body: String
@@ -35,5 +25,24 @@ struct Memo: Decodable {
         case title
         case body
         case lastModified = "last_modified"
+    }
+}
+
+struct SampleMemo {
+    static func setupSampleMemo() -> [Memo] {
+        
+        guard let path = Bundle.main.path(forResource: "sample", ofType: "json") else {
+            return [Memo]()
+        }
+        
+        guard let sampleData = try? String(contentsOfFile: path).data(using: .utf8) else {
+            return [Memo]()
+        }
+        
+        guard let decodedData = JsonManager.decode(type: [Memo].self, data: sampleData) else {
+            return [Memo]()
+        }
+        
+        return decodedData
     }
 }

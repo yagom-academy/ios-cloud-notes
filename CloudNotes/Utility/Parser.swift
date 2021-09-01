@@ -39,4 +39,25 @@ struct Parser {
         }
         
     }
+    
+    
+    static func decode<Model>(
+        from data: Dictionary<String, Any>,
+        to model: Model.Type
+    ) -> Result<Model, Error> where Model: Decodable {
+
+        let decoder = JSONDecoder()
+        
+        do {
+            let data = try decoder.decode(
+                Model.self,
+                from: JSONSerialization.data(withJSONObject: data)
+            )
+            
+            return .success(data)
+        } catch {
+            return .failure(ErrorCases.notDecodable)
+        }
+        
+    }
 }

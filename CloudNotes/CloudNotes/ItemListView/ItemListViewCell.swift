@@ -13,6 +13,8 @@ class ItemListViewCell: UITableViewCell {
     lazy var titleLabel = createdTitleLabel()
     lazy var dateLabel = createdDateLabel()
     lazy var descriptionLabel = createdDescriptionLabel()
+    
+    var data: Memo?
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -20,6 +22,13 @@ class ItemListViewCell: UITableViewCell {
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+    }
+    
+    func configure(with memo: Memo) {
+        data = memo
+        titleLabel.text = memo.title
+        descriptionLabel.text = memo.description
+        dateLabel.text = memo.lastUpdatedTime.description
     }
 
 }
@@ -47,7 +56,7 @@ extension ItemListViewCell {
     }
     
     
-    func createdDateLabel() -> UILabel {
+    func createdDescriptionLabel() -> UILabel {
         let label = baseLabel
         
         label.topAnchor.constraint(equalTo: titleLabel.bottomAnchor).isActive = true
@@ -58,7 +67,7 @@ extension ItemListViewCell {
         return label
     }
     
-    func createdDescriptionLabel() -> UILabel {
+    func createdDateLabel() -> UILabel {
         let label = baseLabel
         
         label.topAnchor.constraint(equalTo: titleLabel.bottomAnchor).isActive = true

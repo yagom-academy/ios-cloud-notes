@@ -19,8 +19,9 @@ class SplitViewController: UISplitViewController {
 
 extension SplitViewController {
     func setupChildViewController() {
-        setViewController(MemoListTableViewController(style: .plain), for: .primary)
-        setViewController(MemoDatailViewController(), for: .secondary)
+        setViewController(MemoListTableViewController(isCompact: false), for: .primary)
+        setViewController(UINavigationController(rootViewController: MemoDatailViewController()), for: .secondary)
+        setViewController(UINavigationController(rootViewController: MemoListTableViewController(isCompact: true)), for: .compact)
     }
 
     func setupSplitViewDisPlayMode() {
@@ -31,6 +32,6 @@ extension SplitViewController {
 
 extension SplitViewController: UISplitViewControllerDelegate {
     func splitViewController(_ svc: UISplitViewController, topColumnForCollapsingToProposedTopColumn proposedTopColumn: UISplitViewController.Column) -> UISplitViewController.Column {
-        return .primary
+        return .compact
     }
 }

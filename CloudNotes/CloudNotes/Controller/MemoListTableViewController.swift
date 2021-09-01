@@ -8,11 +8,23 @@
 import UIKit
 
 class MemoListTableViewController: UITableViewController, MemoContainer {
+    
+    let isCompact: Bool
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureNavigationBar()
         configureTableViewConstraints()
         registerTableViewCell()
+    }
+    
+    init(isCompact: Bool) {
+        self.isCompact = isCompact
+        super.init(style: .plain)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }
 
@@ -64,9 +76,20 @@ extension MemoListTableViewController {
                                                        for: indexPath) as? MemoListTableViewCell else {
             fatalError()
         }
-        
+        cell.accessoryType = .disclosureIndicator
         cell.configure(with: memo[indexPath.row])
         
         return cell
+    }
+}
+
+extension MemoListTableViewController {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        super.tableView(tableView, didSelectRowAt: indexPath)
+        
+        if self.isCompact {
+            
+        }
+        
     }
 }

@@ -25,7 +25,6 @@ struct Memo: Decodable {
     var locationDate: String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .long
-        print(Locale.current.identifier)
         dateFormatter.locale = Locale(identifier: Locale.current.identifier)
         let date = Date(timeIntervalSince1970: TimeInterval(lastModified))
         

@@ -63,7 +63,7 @@ class MemoListTableViewCell: UITableViewCell {
     private let containerStackView: UIStackView = {
         let containerStackView = UIStackView()
         containerStackView.axis = .vertical
-        containerStackView.distribution = .equalSpacing
+        containerStackView.distribution = .fill
         containerStackView.spacing = NameSpace.ContainerStackView.spacing
         containerStackView.alignment = .fill
         containerStackView.translatesAutoresizingMaskIntoConstraints = false

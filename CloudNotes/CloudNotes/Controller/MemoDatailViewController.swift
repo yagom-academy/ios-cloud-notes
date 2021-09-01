@@ -9,11 +9,22 @@ import UIKit
 
 class MemoDatailViewController: UIViewController {
     
+    private let memoContentsTextView: UITextView = {
+        let textView = UITextView()
+        textView.textAlignment = .left
+        textView.font = UIFont.preferredFont(forTextStyle: .body)
+        textView.textColor = .black
+        textView.translatesAutoresizingMaskIntoConstraints = false
+    
+        return textView
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationItem()
+        configureView()
+        configureMemoTextViewContentsConstraint()
     }
-    
 }
 
 extension MemoDatailViewController {
@@ -25,5 +36,23 @@ extension MemoDatailViewController {
     
     @objc func didTapButton() {
         
+    }
+}
+
+extension MemoDatailViewController {
+    func configureMemoTextViewContentsConstraint() {
+        memoContentsTextView.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor).isActive = true
+        memoContentsTextView.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor).isActive = true
+        memoContentsTextView.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor).isActive = true
+        memoContentsTextView.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor).isActive = true
+    }
+    
+    func configureView() {
+        view.backgroundColor = .white
+        view.addSubview(memoContentsTextView)
+    }
+    
+    func showContents(of memo: Memo) {
+        memoContentsTextView.text = memo.body
     }
 }

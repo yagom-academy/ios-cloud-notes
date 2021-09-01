@@ -60,6 +60,7 @@ class MemoListTableViewCell: UITableViewCell {
         containerStackView.translatesAutoresizingMaskIntoConstraints = false
         return containerStackView
     }()
+    
     // MARK: initializer
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -71,6 +72,7 @@ class MemoListTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 }
+
 // MARK: NameSpace
 extension MemoListTableViewCell {
     private enum NameSpace {
@@ -83,6 +85,7 @@ extension MemoListTableViewCell {
         }
     }
 }
+
 // MARK: Setup
 extension MemoListTableViewCell {
     private func configureContainerStackView() {

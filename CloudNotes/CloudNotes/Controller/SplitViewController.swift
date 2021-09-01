@@ -16,6 +16,7 @@ class SplitViewController: UISplitViewController {
     }
     
 }
+
 // MARK: - SplitView Setup
 extension SplitViewController {
     private func setupChildViewController() {
@@ -28,6 +29,7 @@ extension SplitViewController {
         presentsWithGesture = false
     }
 }
+
 // MARK: - SplitViewController Delegate
 extension SplitViewController: UISplitViewControllerDelegate {
     func splitViewController(_ svc: UISplitViewController, topColumnForCollapsingToProposedTopColumn proposedTopColumn: UISplitViewController.Column) -> UISplitViewController.Column {

@@ -10,6 +10,7 @@ import UIKit
 class MemoListTableViewController: UITableViewController {
     // MARK: Property
     private let memo = SampleMemo.setupSampleMemo()
+    
     // MARK: View LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,6 +20,7 @@ class MemoListTableViewController: UITableViewController {
         registerTableViewCell()
     }
 }
+
 // MARK: - NameSpace
 extension MemoListTableViewController {
     private enum NameSpace {
@@ -31,6 +33,7 @@ extension MemoListTableViewController {
         }
     }
 }
+
 // MARK: - Configure Navigation
 extension MemoListTableViewController {
     private func configureNavigationBar() {
@@ -44,6 +47,7 @@ extension MemoListTableViewController {
         
     }
 }
+
 // MARK: - Setup TableView
 extension MemoListTableViewController {
     private func registerTableViewCell() {
@@ -55,6 +59,7 @@ extension MemoListTableViewController {
         tableView.separatorInset = UIEdgeInsets.zero
     }
 }
+
 // MARK: - Data Source
 extension MemoListTableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -74,6 +79,7 @@ extension MemoListTableViewController {
         return cell
     }
 }
+
 // MARK: - Delegate
 extension MemoListTableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

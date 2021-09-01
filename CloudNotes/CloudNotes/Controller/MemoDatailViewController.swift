@@ -18,6 +18,7 @@ class MemoDatailViewController: UIViewController {
         
         return textView
     }()
+    
     // MARK: View LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,6 +32,7 @@ class MemoDatailViewController: UIViewController {
         print("\(self) 제거되었음")
     }
 }
+
 // MARK: Setup Navigation
 extension MemoDatailViewController {
     private func setupNavigationItem() {
@@ -43,6 +45,7 @@ extension MemoDatailViewController {
         
     }
 }
+
 // MARK: Setup TextView And View
 extension MemoDatailViewController {
     private func configureMemoTextViewContentsConstraint() {

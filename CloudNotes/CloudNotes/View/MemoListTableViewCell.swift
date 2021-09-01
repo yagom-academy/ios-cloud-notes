@@ -8,18 +8,9 @@
 import UIKit
 
 class MemoListTableViewCell: UITableViewCell {
+    // MARK: Property
     static let identifier = "memoListTableViewCell"
-    
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        contentView.addSubview(containerStackView)
-        configureContainerStackView()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
+
     private let titleLabel: UILabel = {
         let titleLabel = UILabel()
         titleLabel.font = UIFont.preferredFont(forTextStyle: .title3)
@@ -69,8 +60,18 @@ class MemoListTableViewCell: UITableViewCell {
         containerStackView.translatesAutoresizingMaskIntoConstraints = false
         return containerStackView
     }()
+    // MARK: initializer
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        contentView.addSubview(containerStackView)
+        configureContainerStackView()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }
-
+// MARK: NameSpace
 extension MemoListTableViewCell {
     private enum NameSpace {
         enum DescriptionStackView {
@@ -82,7 +83,7 @@ extension MemoListTableViewCell {
         }
     }
 }
-
+// MARK: Setup
 extension MemoListTableViewCell {
     private func configureContainerStackView() {
         descriptionStackView.addArrangedSubview(lastModifiedLabel)

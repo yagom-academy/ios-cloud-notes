@@ -8,9 +8,9 @@
 import UIKit
 
 class MemoListTableViewController: UITableViewController {
-    
-   private let memo = SampleMemo.setupSampleMemo()
-    
+    // MARK: Property
+    private let memo = SampleMemo.setupSampleMemo()
+    // MARK: View LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
@@ -19,9 +19,9 @@ class MemoListTableViewController: UITableViewController {
         registerTableViewCell()
     }
 }
-
+// MARK: - NameSpace
 extension MemoListTableViewController {
-    enum NameSpace {
+    private enum NameSpace {
         enum TableView {
             static let heightSize: CGFloat = 80
         }
@@ -31,9 +31,9 @@ extension MemoListTableViewController {
         }
     }
 }
-
+// MARK: - Configure Navigation
 extension MemoListTableViewController {
-    func configureNavigationBar() {
+    private func configureNavigationBar() {
         navigationItem.title = NameSpace.NavigationItem.title
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
                                                             target: self,
@@ -44,18 +44,18 @@ extension MemoListTableViewController {
         
     }
 }
-
+// MARK: - Setup TableView
 extension MemoListTableViewController {
-    func registerTableViewCell() {
+    private func registerTableViewCell() {
         tableView.register(MemoListTableViewCell.self, forCellReuseIdentifier: MemoListTableViewCell.identifier)
     }
     
-    func configureTableView() {
+    private func configureTableView() {
         tableView.rowHeight = NameSpace.TableView.heightSize
         tableView.separatorInset = UIEdgeInsets.zero
     }
 }
-
+// MARK: - Data Source
 extension MemoListTableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         super.tableView(tableView, numberOfRowsInSection: section)
@@ -74,7 +74,7 @@ extension MemoListTableViewController {
         return cell
     }
 }
-
+// MARK: - Delegate
 extension MemoListTableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let detailVC = MemoDatailViewController()

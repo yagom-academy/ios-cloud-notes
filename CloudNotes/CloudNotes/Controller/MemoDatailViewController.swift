@@ -8,10 +8,22 @@
 import UIKit
 
 class MemoDatailViewController: UIViewController {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        setupNavigationItem()
     }
+    
+}
 
+extension MemoDatailViewController {
+    func setupNavigationItem() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action,
+                                                            target: self,
+                                                            action: #selector(didTapButton))
+    }
+    
+    @objc func didTapButton() {
+        
+    }
 }

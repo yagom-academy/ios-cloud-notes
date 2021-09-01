@@ -52,6 +52,12 @@ class MemoListViewController: UIViewController{
         self.navigationItem.rightBarButtonItem = addButton
     }
     
+    private func moveToDetail(indexPath: IndexPath) {
+        let detailMemoViewController = DetailMemoViewController()
+        detailMemoViewController.memo = memoList[indexPath.row]
+        self.navigationController?.pushViewController(detailMemoViewController, animated: true)
+    }
+    
     private func configureTableView() {
         tableView.dataSource = self
         tableView.delegate = self
@@ -83,6 +89,10 @@ extension MemoListViewController: UITableViewDataSource {
 extension MemoListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 70
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        moveToDetail(indexPath: indexPath)
     }
 }
 

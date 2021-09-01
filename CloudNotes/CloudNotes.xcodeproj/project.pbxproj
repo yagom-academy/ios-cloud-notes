@@ -14,7 +14,11 @@
 		6F19E353372C355DF76B3ABB /* Pods_CloudNotesTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2AF5FBC21FFB44D83A7B0D28 /* Pods_CloudNotesTests.framework */; };
 		7987172E26DF792200A22D4F /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 7987172D26DF792200A22D4F /* .swiftlint.yml */; };
 		7987173026DF863100A22D4F /* MemoTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7987172F26DF863100A22D4F /* MemoTableViewController.swift */; };
+<<<<<<< HEAD
 >>>>>>> 9171e73 (feat: MemoTableViewController를 생성)
+=======
+		7987173426DFB22500A22D4F /* MemoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7987173326DFB22500A22D4F /* MemoTableViewCell.swift */; };
+>>>>>>> 1c957d2 (feat: MemoTableViewCell 생성)
 		C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */; };
 		C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */; };
 		C7481C7225BBCF3900B9CA55 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C7125BBCF3900B9CA55 /* ViewController.swift */; };
@@ -52,6 +56,7 @@
 		5107FF04D84449A45F6783EC /* Pods-CloudNotesTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudNotesTests.debug.xcconfig"; path = "Target Support Files/Pods-CloudNotesTests/Pods-CloudNotesTests.debug.xcconfig"; sourceTree = "<group>"; };
 		7987172D26DF792200A22D4F /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		7987172F26DF863100A22D4F /* MemoTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoTableViewController.swift; sourceTree = "<group>"; };
+		7987173326DFB22500A22D4F /* MemoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoTableViewCell.swift; sourceTree = "<group>"; };
 		85B4058696B9A8A2479A8532 /* Pods-CloudNotes-CloudNotesUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudNotes-CloudNotesUITests.debug.xcconfig"; path = "Target Support Files/Pods-CloudNotes-CloudNotesUITests/Pods-CloudNotes-CloudNotesUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		8858C34BD82B473B88FA7FDF /* Pods-CloudNotes-CloudNotesUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudNotes-CloudNotesUITests.release.xcconfig"; path = "Target Support Files/Pods-CloudNotes-CloudNotesUITests/Pods-CloudNotes-CloudNotesUITests.release.xcconfig"; sourceTree = "<group>"; };
 		B4783025CFA86AF1C27AD52C /* Pods_CloudNotes_CloudNotesUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CloudNotes_CloudNotesUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -125,6 +130,7 @@
 				C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */,
 				C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */,
 				7987172F26DF863100A22D4F /* MemoTableViewController.swift */,
+				7987173326DFB22500A22D4F /* MemoTableViewCell.swift */,
 				C7481C7125BBCF3900B9CA55 /* ViewController.swift */,
 				C7481C7325BBCF3900B9CA55 /* Main.storyboard */,
 				C7481C7925BBCF3A00B9CA55 /* Assets.xcassets */,
@@ -284,6 +290,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7987173026DF863100A22D4F /* MemoTableViewController.swift in Sources */,
+				7987173426DFB22500A22D4F /* MemoTableViewCell.swift in Sources */,
 				C7481C7225BBCF3900B9CA55 /* ViewController.swift in Sources */,
 				C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */,
 				C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */,

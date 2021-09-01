@@ -7,12 +7,12 @@
 
 import UIKit
 
-class ContentsView: UIViewController {
+class ItemDetailView: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = .blue
+        view.backgroundColor = .systemGreen
         // Do any additional setup after loading the view.
     }
     

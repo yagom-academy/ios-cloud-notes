@@ -15,12 +15,12 @@ class ItemListView: UITableViewController {
         super.viewDidLoad()
         view.backgroundColor = .brown
         
+        
         tableView.register(
             ItemListViewCell.classForCoder(),
             forCellReuseIdentifier: ItemListViewCell.identifier
         )
         
         tableView.dataSource = itemListDataSource
-        
     }
 }

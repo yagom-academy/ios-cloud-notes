@@ -18,7 +18,17 @@ class ItemListViewDataSource: NSObject, UITableViewDataSource {
         guard let itemListViewCell = tableView.dequeueReusableCell(withIdentifier: ItemListViewCell.identifier) as? ItemListViewCell else {
             return UITableViewCell()
         }
-    
+        itemListViewCell.translatesAutoresizingMaskIntoConstraints = false
+        
+        itemListViewCell.titleLabel.text = "asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd"
+        itemListViewCell.titleLabel.backgroundColor = .cyan
+        
+        itemListViewCell.dateLabel.text = "???"
+        itemListViewCell.dateLabel.backgroundColor = .systemGreen
+        
+        itemListViewCell.descriptionLabel.text = "2020.20.20."
+        itemListViewCell.descriptionLabel.backgroundColor = .gray
+        
         return itemListViewCell
     }
     

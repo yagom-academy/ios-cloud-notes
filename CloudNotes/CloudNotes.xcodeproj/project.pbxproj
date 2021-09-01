@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		A830336226DE100A00EA30DC /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = A830336126DE100A00EA30DC /* .swiftlint.yml */; };
+		A830336D26DF972100EA30DC /* JSONParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = A830336C26DF972100EA30DC /* JSONParser.swift */; };
+		A830336F26DF976500EA30DC /* JSONDecodeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A830336E26DF976500EA30DC /* JSONDecodeModel.swift */; };
 		C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */; };
 		C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */; };
 		C7481C7225BBCF3900B9CA55 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C7125BBCF3900B9CA55 /* ViewController.swift */; };
@@ -38,6 +40,8 @@
 
 /* Begin PBXFileReference section */
 		A830336126DE100A00EA30DC /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
+		A830336C26DF972100EA30DC /* JSONParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONParser.swift; sourceTree = "<group>"; };
+		A830336E26DF976500EA30DC /* JSONDecodeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONDecodeModel.swift; sourceTree = "<group>"; };
 		C7481C6A25BBCF3900B9CA55 /* CloudNotes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CloudNotes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -80,6 +84,41 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A830336726DF929A00EA30DC /* View */ = {
+			isa = PBXGroup;
+			children = (
+				C7481C7325BBCF3900B9CA55 /* Main.storyboard */,
+				C7481C7B25BBCF3A00B9CA55 /* LaunchScreen.storyboard */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		A830336826DF92B100EA30DC /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				C7481C7125BBCF3900B9CA55 /* ViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		A830336926DF92B700EA30DC /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				A830336C26DF972100EA30DC /* JSONParser.swift */,
+				A830336E26DF976500EA30DC /* JSONDecodeModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		A830336A26DF92C500EA30DC /* AppLifeCycle */ = {
+			isa = PBXGroup;
+			children = (
+				C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */,
+				C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */,
+			);
+			path = AppLifeCycle;
+			sourceTree = "<group>";
+		};
 		C7481C6125BBCF3900B9CA55 = {
 			isa = PBXGroup;
 			children = (
@@ -104,12 +143,11 @@
 		C7481C6C25BBCF3900B9CA55 /* CloudNotes */ = {
 			isa = PBXGroup;
 			children = (
-				C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */,
-				C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */,
-				C7481C7125BBCF3900B9CA55 /* ViewController.swift */,
-				C7481C7325BBCF3900B9CA55 /* Main.storyboard */,
+				A830336A26DF92C500EA30DC /* AppLifeCycle */,
+				A830336926DF92B700EA30DC /* Model */,
+				A830336826DF92B100EA30DC /* Controller */,
+				A830336726DF929A00EA30DC /* View */,
 				C7481C7925BBCF3A00B9CA55 /* Assets.xcassets */,
-				C7481C7B25BBCF3A00B9CA55 /* LaunchScreen.storyboard */,
 				C7481C7E25BBCF3A00B9CA55 /* Info.plist */,
 				C7481C7625BBCF3900B9CA55 /* CloudNotes.xcdatamodeld */,
 			);
@@ -287,7 +325,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				C7481C7225BBCF3900B9CA55 /* ViewController.swift in Sources */,
+				A830336D26DF972100EA30DC /* JSONParser.swift in Sources */,
 				C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */,
+				A830336F26DF976500EA30DC /* JSONDecodeModel.swift in Sources */,
 				C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */,
 				C7481C7825BBCF3900B9CA55 /* CloudNotes.xcdatamodeld in Sources */,
 			);

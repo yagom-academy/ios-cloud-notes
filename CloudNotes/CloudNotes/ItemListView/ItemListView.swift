@@ -13,8 +13,7 @@ class ItemListView: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .brown
-        
+        navigationController?.isNavigationBarHidden = true
         
         tableView.register(
             ItemListViewCell.classForCoder(),

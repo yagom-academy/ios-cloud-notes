@@ -12,7 +12,8 @@ class MemoListTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        configureDescriptionStackView()
+        contentView.addSubview(containerStackView)
+        configureContainerStackView()
     }
     
     required init?(coder: NSCoder) {
@@ -47,37 +48,56 @@ class MemoListTableViewCell: UITableViewCell {
         lastModifiedLabel.translatesAutoresizingMaskIntoConstraints = false
         return lastModifiedLabel
     }()
+    
+    private let descriptionStackView: UIStackView = {
+        let descriptionStackView = UIStackView()
+        descriptionStackView.axis = .horizontal
+        descriptionStackView.alignment = .fill
+        descriptionStackView.distribution = .equalSpacing
+        descriptionStackView.spacing = NameSpace.DescriptionStackView.spacing
+        descriptionStackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        return descriptionStackView
+    }()
+    
+    private let containerStackView: UIStackView = {
+        let containerStackView = UIStackView()
+        containerStackView.axis = .vertical
+        containerStackView.distribution = .equalSpacing
+        containerStackView.spacing = NameSpace.ContainerStackView.spacing
+        containerStackView.alignment = .fill
+        containerStackView.translatesAutoresizingMaskIntoConstraints = false
+        return containerStackView
+    }()
 }
 
 extension MemoListTableViewCell {
     private enum NameSpace {
         enum DescriptionStackView {
             static let spacing: CGFloat = 30
-            static let topAnchorConstant: CGFloat = 10
-            static let leadingAnchorConstant: CGFloat = 10
-            static let trailingAnchorConstant: CGFloat = 10
-            static let bottomAnchorConstant: CGFloat = 30
+        }
+        
+        enum ContainerStackView {
+            static let spacing: CGFloat = 8
         }
     }
 }
 
 extension MemoListTableViewCell {
-    func configureDescriptionStackView() {
-        let descriptionStackView = UIStackView(arrangedSubviews: [lastModifiedLabel, bodyLabel])
-        descriptionStackView.axis = .horizontal
-        descriptionStackView.alignment = .fill
-        descriptionStackView.distribution = .equalSpacing
-        descriptionStackView.spacing = NameSpace.DescriptionStackView.spacing
-        descriptionStackView.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(descriptionStackView)
+    private func configureContainerStackView() {
+        descriptionStackView.addArrangedSubview(lastModifiedLabel)
+        descriptionStackView.addArrangedSubview(bodyLabel)
+        containerStackView.addArrangedSubview(titleLabel)
+        containerStackView.addArrangedSubview(descriptionStackView)
         
-        descriptionStackView.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor, constant: NameSpace.DescriptionStackView.topAnchorConstant).isActive = true
-        descriptionStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: NameSpace.DescriptionStackView.leadingAnchorConstant).isActive = true
-        descriptionStackView.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor, constant: NameSpace.DescriptionStackView.trailingAnchorConstant).isActive = true
-        descriptionStackView.bottomAnchor.constraint(equalTo: contentView.layoutMarginsGuide.bottomAnchor, constant: NameSpace.DescriptionStackView.bottomAnchorConstant).isActive = true
+        containerStackView.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor).isActive = true
+        containerStackView.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor).isActive = true
+        containerStackView.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor).isActive = true
+        containerStackView.bottomAnchor.constraint(equalTo: contentView.layoutMarginsGuide.bottomAnchor).isActive = true
     }
     
     func configure(with memoItem: Memo) {
+        titleLabel.text = memoItem.title
         bodyLabel.text = memoItem.body
         lastModifiedLabel.text = String(memoItem.lastModified)
     }

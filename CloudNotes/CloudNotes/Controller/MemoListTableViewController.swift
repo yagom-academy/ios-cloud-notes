@@ -9,22 +9,12 @@ import UIKit
 
 class MemoListTableViewController: UITableViewController, MemoContainer {
     
-    let isCompact: Bool
-    
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.delegate = self
         configureNavigationBar()
-        configureTableViewConstraints()
+        configureTableView()
         registerTableViewCell()
-    }
-    
-    init(isCompact: Bool) {
-        self.isCompact = isCompact
-        super.init(style: .plain)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 }
 
@@ -58,10 +48,9 @@ extension MemoListTableViewController {
         tableView.register(MemoListTableViewCell.self, forCellReuseIdentifier: MemoListTableViewCell.identifier)
     }
     
-    func configureTableViewConstraints() {
+    func configureTableView() {
         tableView.rowHeight = NameSpace.TableView.heightSize
         tableView.separatorInset = UIEdgeInsets.zero
-        tableView.translatesAutoresizingMaskIntoConstraints = false
     }
 }
 
@@ -86,10 +75,13 @@ extension MemoListTableViewController {
 
 extension MemoListTableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        super.tableView(tableView, didSelectRowAt: indexPath)
+        let detailVC = MemoDatailViewController()
+        detailVC.showContents(of: memo[indexPath.row])
         
-        if self.isCompact {
-            
+        if UITraitCollection.current.horizontalSizeClass == .regular {
+            self.showDetailViewController(UINavigationController(rootViewController: detailVC), sender: nil)
+        } else {
+            navigationController?.pushViewController(detailVC, animated: true)
         }
         
     }

@@ -21,6 +21,7 @@ class MemoDatailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        memoContentsTextView.contentOffset = CGPoint(x: 0, y: 0)
         setupNavigationItem()
         configureView()
         configureMemoTextViewContentsConstraint()

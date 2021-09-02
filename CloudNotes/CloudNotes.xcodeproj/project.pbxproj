@@ -3,13 +3,18 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		A830336226DE100A00EA30DC /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = A830336126DE100A00EA30DC /* .swiftlint.yml */; };
 		A830336D26DF972100EA30DC /* JSONParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = A830336C26DF972100EA30DC /* JSONParser.swift */; };
-		A830336F26DF976500EA30DC /* JSONDecodeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A830336E26DF976500EA30DC /* JSONDecodeModel.swift */; };
+		A830336F26DF976500EA30DC /* MemoDecodeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A830336E26DF976500EA30DC /* MemoDecodeModel.swift */; };
+		A83033BF26E0EBB700EA30DC /* MainTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A83033BE26E0EBB700EA30DC /* MainTableViewCell.swift */; };
+		A83033C126E10B7100EA30DC /* MemoDataGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A83033C026E10B7100EA30DC /* MemoDataGenerator.swift */; };
+		A83033C426E1146F00EA30DC /* MainVCTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A83033C326E1146F00EA30DC /* MainVCTableViewDataSource.swift */; };
+		A83033C826E11D0F00EA30DC /* LayoutGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A83033C726E11D0F00EA30DC /* LayoutGenerator.swift */; };
+		A83033CB26E11DB900EA30DC /* NamePlace.swift in Sources */ = {isa = PBXBuildFile; fileRef = A83033CA26E11DB900EA30DC /* NamePlace.swift */; };
 		C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */; };
 		C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */; };
 		C7481C7225BBCF3900B9CA55 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C7125BBCF3900B9CA55 /* MainViewController.swift */; };
@@ -40,7 +45,12 @@
 /* Begin PBXFileReference section */
 		A830336126DE100A00EA30DC /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		A830336C26DF972100EA30DC /* JSONParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONParser.swift; sourceTree = "<group>"; };
-		A830336E26DF976500EA30DC /* JSONDecodeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONDecodeModel.swift; sourceTree = "<group>"; };
+		A830336E26DF976500EA30DC /* MemoDecodeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoDecodeModel.swift; sourceTree = "<group>"; };
+		A83033BE26E0EBB700EA30DC /* MainTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableViewCell.swift; sourceTree = "<group>"; };
+		A83033C026E10B7100EA30DC /* MemoDataGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoDataGenerator.swift; sourceTree = "<group>"; };
+		A83033C326E1146F00EA30DC /* MainVCTableViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainVCTableViewDataSource.swift; sourceTree = "<group>"; };
+		A83033C726E11D0F00EA30DC /* LayoutGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutGenerator.swift; sourceTree = "<group>"; };
+		A83033CA26E11DB900EA30DC /* NamePlace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NamePlace.swift; sourceTree = "<group>"; };
 		C7481C6A25BBCF3900B9CA55 /* CloudNotes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CloudNotes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -94,6 +104,7 @@
 			isa = PBXGroup;
 			children = (
 				C7481C7125BBCF3900B9CA55 /* MainViewController.swift */,
+				A83033BE26E0EBB700EA30DC /* MainTableViewCell.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -102,7 +113,7 @@
 			isa = PBXGroup;
 			children = (
 				A830336C26DF972100EA30DC /* JSONParser.swift */,
-				A830336E26DF976500EA30DC /* JSONDecodeModel.swift */,
+				A830336E26DF976500EA30DC /* MemoDecodeModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -116,6 +127,45 @@
 			path = AppLifeCycle;
 			sourceTree = "<group>";
 		};
+		A830337A26E0AC9800EA30DC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		A83033C226E1142A00EA30DC /* DataSource */ = {
+			isa = PBXGroup;
+			children = (
+				A83033C326E1146F00EA30DC /* MainVCTableViewDataSource.swift */,
+			);
+			path = DataSource;
+			sourceTree = "<group>";
+		};
+		A83033C526E11C3800EA30DC /* Layout */ = {
+			isa = PBXGroup;
+			children = (
+				A83033C726E11D0F00EA30DC /* LayoutGenerator.swift */,
+			);
+			path = Layout;
+			sourceTree = "<group>";
+		};
+		A83033C626E11CE400EA30DC /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				A83033C026E10B7100EA30DC /* MemoDataGenerator.swift */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		A83033C926E11DAA00EA30DC /* PlaceHolder */ = {
+			isa = PBXGroup;
+			children = (
+				A83033CA26E11DB900EA30DC /* NamePlace.swift */,
+			);
+			path = PlaceHolder;
+			sourceTree = "<group>";
+		};
 		C7481C6125BBCF3900B9CA55 = {
 			isa = PBXGroup;
 			children = (
@@ -124,6 +174,7 @@
 				C7481C8625BBCF3A00B9CA55 /* CloudNotesTests */,
 				C7481C9125BBCF3A00B9CA55 /* CloudNotesUITests */,
 				C7481C6B25BBCF3900B9CA55 /* Products */,
+				A830337A26E0AC9800EA30DC /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -140,7 +191,11 @@
 		C7481C6C25BBCF3900B9CA55 /* CloudNotes */ = {
 			isa = PBXGroup;
 			children = (
+				A83033C926E11DAA00EA30DC /* PlaceHolder */,
 				A830336A26DF92C500EA30DC /* AppLifeCycle */,
+				A83033C626E11CE400EA30DC /* Data */,
+				A83033C526E11C3800EA30DC /* Layout */,
+				A83033C226E1142A00EA30DC /* DataSource */,
 				A830336926DF92B700EA30DC /* Model */,
 				A830336826DF92B100EA30DC /* Controller */,
 				A830336726DF929A00EA30DC /* View */,
@@ -186,6 +241,8 @@
 			dependencies = (
 			);
 			name = CloudNotes;
+			packageProductDependencies = (
+			);
 			productName = CloudNotes;
 			productReference = C7481C6A25BBCF3900B9CA55 /* CloudNotes.app */;
 			productType = "com.apple.product-type.application";
@@ -257,6 +314,9 @@
 				Base,
 			);
 			mainGroup = C7481C6125BBCF3900B9CA55;
+			packageReferences = (
+				A830337926E0621F00EA30DC /* XCRemoteSwiftPackageReference "SwiftLint" */,
+			);
 			productRefGroup = C7481C6B25BBCF3900B9CA55 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -321,9 +381,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				C7481C7225BBCF3900B9CA55 /* MainViewController.swift in Sources */,
+				A83033C826E11D0F00EA30DC /* LayoutGenerator.swift in Sources */,
 				A830336D26DF972100EA30DC /* JSONParser.swift in Sources */,
+				A83033CB26E11DB900EA30DC /* NamePlace.swift in Sources */,
 				C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */,
-				A830336F26DF976500EA30DC /* JSONDecodeModel.swift in Sources */,
+				A83033C426E1146F00EA30DC /* MainVCTableViewDataSource.swift in Sources */,
+				A83033C126E10B7100EA30DC /* MemoDataGenerator.swift in Sources */,
+				A83033BF26E0EBB700EA30DC /* MainTableViewCell.swift in Sources */,
+				A830336F26DF976500EA30DC /* MemoDecodeModel.swift in Sources */,
 				C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */,
 				C7481C7825BBCF3900B9CA55 /* CloudNotes.xcdatamodeld in Sources */,
 			);
@@ -644,6 +709,17 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		A830337926E0621F00EA30DC /* XCRemoteSwiftPackageReference "SwiftLint" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/SwiftLint.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCVersionGroup section */
 		C7481C7625BBCF3900B9CA55 /* CloudNotes.xcdatamodeld */ = {

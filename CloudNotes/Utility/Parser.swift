@@ -8,11 +8,11 @@
 import Foundation
 
 struct Parser {
-    
+
     enum ErrorCases: LocalizedError {
         case notDecodable
         case unknown
-        
+
         var errorDescription: String? {
             switch self {
             case .notDecodable:
@@ -22,42 +22,41 @@ struct Parser {
             }
         }
     }
-    
+
     static func decode<Model>(
         from data: Data,
         to model: Model
     ) -> Result<Model, Error> where Model: Decodable {
 
         let decoder = JSONDecoder()
-        
+
         do {
             let data = try decoder.decode(Model.self, from: data)
-            
+
             return .success(data)
         } catch {
             return .failure(ErrorCases.notDecodable)
         }
-        
+
     }
-    
-    
+
     static func decode<Model>(
-        from data: Dictionary<String, Any>,
+        from data: [String: Any],
         to model: Model.Type
     ) -> Result<Model, Error> where Model: Decodable {
 
         let decoder = JSONDecoder()
-        
+
         do {
             let data = try decoder.decode(
                 Model.self,
                 from: JSONSerialization.data(withJSONObject: data)
             )
-            
+
             return .success(data)
         } catch {
             return .failure(ErrorCases.notDecodable)
         }
-        
+
     }
 }

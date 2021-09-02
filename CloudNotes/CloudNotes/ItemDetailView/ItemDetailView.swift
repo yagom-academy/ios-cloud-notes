@@ -15,8 +15,6 @@ class ItemDetailView: UIViewController {
         view.backgroundColor = .systemGreen
         // Do any additional setup after loading the view.
     }
-    
-
     /*
     // MARK: - Navigation
 

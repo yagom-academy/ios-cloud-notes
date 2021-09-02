@@ -19,11 +19,13 @@ enum ParsingError: Error, LocalizedError {
 }
 
 struct JSONParser {
-    static func decoder<T: Decodable> (modelType: T, jsonData: Data) throws -> Result<T, ParsingError> {
+    static func decoder<T: Decodable> (modelType: T.Type, jsonData: Data) throws -> T {
         let decoder = JSONDecoder()
-        
-        guard let decodedData = try? decoder.decode(T.self, from: jsonData) else { return .failure(.decodedError)}
-        
-        return .success(decodedData)
+        do {
+            let decodedData = try decoder.decode(modelType, from: jsonData)
+            return decodedData
+        } catch {
+            throw ParsingError.decodedError
+        }
     }
 }

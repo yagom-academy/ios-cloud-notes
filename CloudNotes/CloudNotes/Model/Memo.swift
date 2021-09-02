@@ -7,10 +7,11 @@
 
 import Foundation
 
-struct Memo: Decodable {
+struct Memo: Decodable, Hashable {
     let title: String
     let body: String
     let lastModified: Int
+    let uuid = UUID()
     
     var locationDate: String {
         let dateFormatter = DateFormatter()
@@ -25,7 +26,17 @@ struct Memo: Decodable {
         case title
         case body
         case lastModified = "last_modified"
+        
     }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(uuid)
+    }
+    
+    static func == (lhs: Memo, rhs: Memo) -> Bool {
+        lhs.uuid == rhs.uuid
+    }
+    
 }
 
 struct SampleMemo {

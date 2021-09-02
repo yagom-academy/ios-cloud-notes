@@ -10,7 +10,6 @@
 		A830336226DE100A00EA30DC /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = A830336126DE100A00EA30DC /* .swiftlint.yml */; };
 		A830336D26DF972100EA30DC /* JSONParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = A830336C26DF972100EA30DC /* JSONParser.swift */; };
 		A830336F26DF976500EA30DC /* MemoDecodeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A830336E26DF976500EA30DC /* MemoDecodeModel.swift */; };
-		A83033BF26E0EBB700EA30DC /* MainTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A83033BE26E0EBB700EA30DC /* MainTableViewCell.swift */; };
 		A83033C126E10B7100EA30DC /* MemoDataGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A83033C026E10B7100EA30DC /* MemoDataGenerator.swift */; };
 		A83033C426E1146F00EA30DC /* MainVCTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A83033C326E1146F00EA30DC /* MainVCTableViewDataSource.swift */; };
 		A83033C826E11D0F00EA30DC /* LayoutGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A83033C726E11D0F00EA30DC /* LayoutGenerator.swift */; };
@@ -46,7 +45,6 @@
 		A830336126DE100A00EA30DC /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		A830336C26DF972100EA30DC /* JSONParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONParser.swift; sourceTree = "<group>"; };
 		A830336E26DF976500EA30DC /* MemoDecodeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoDecodeModel.swift; sourceTree = "<group>"; };
-		A83033BE26E0EBB700EA30DC /* MainTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableViewCell.swift; sourceTree = "<group>"; };
 		A83033C026E10B7100EA30DC /* MemoDataGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoDataGenerator.swift; sourceTree = "<group>"; };
 		A83033C326E1146F00EA30DC /* MainVCTableViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainVCTableViewDataSource.swift; sourceTree = "<group>"; };
 		A83033C726E11D0F00EA30DC /* LayoutGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutGenerator.swift; sourceTree = "<group>"; };
@@ -104,7 +102,6 @@
 			isa = PBXGroup;
 			children = (
 				C7481C7125BBCF3900B9CA55 /* MainViewController.swift */,
-				A83033BE26E0EBB700EA30DC /* MainTableViewCell.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -387,7 +384,6 @@
 				C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */,
 				A83033C426E1146F00EA30DC /* MainVCTableViewDataSource.swift in Sources */,
 				A83033C126E10B7100EA30DC /* MemoDataGenerator.swift in Sources */,
-				A83033BF26E0EBB700EA30DC /* MainTableViewCell.swift in Sources */,
 				A830336F26DF976500EA30DC /* MemoDecodeModel.swift in Sources */,
 				C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */,
 				C7481C7825BBCF3900B9CA55 /* CloudNotes.xcdatamodeld in Sources */,

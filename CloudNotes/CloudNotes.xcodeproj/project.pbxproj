@@ -20,6 +20,7 @@
 		C7481C8825BBCF3A00B9CA55 /* CloudNotesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C8725BBCF3A00B9CA55 /* CloudNotesTests.swift */; };
 		C7481C9325BBCF3A00B9CA55 /* CloudNotesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C9225BBCF3A00B9CA55 /* CloudNotesUITests.swift */; };
 		C91EF67526E13A8C0013E3D6 /* MemoListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91EF67426E13A8C0013E3D6 /* MemoListViewController.swift */; };
+		C91EF67826E1FA9D0013E3D6 /* Memo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91EF67726E1FA9D0013E3D6 /* Memo.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +65,7 @@
 		C7481C9225BBCF3A00B9CA55 /* CloudNotesUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudNotesUITests.swift; sourceTree = "<group>"; };
 		C7481C9425BBCF3A00B9CA55 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C91EF67426E13A8C0013E3D6 /* MemoListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoListViewController.swift; sourceTree = "<group>"; };
+		C91EF67726E1FA9D0013E3D6 /* Memo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memo.swift; sourceTree = "<group>"; };
 		E6AD4DA90F91540E38399744 /* Pods-CloudNotesTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudNotesTests.debug.xcconfig"; path = "Target Support Files/Pods-CloudNotesTests/Pods-CloudNotesTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -193,9 +195,18 @@
 		C91EF67326E136C50013E3D6 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				C91EF67626E1FA3B0013E3D6 /* DataStructure */,
 				C7481C7625BBCF3900B9CA55 /* CloudNotes.xcdatamodeld */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		C91EF67626E1FA3B0013E3D6 /* DataStructure */ = {
+			isa = PBXGroup;
+			children = (
+				C91EF67726E1FA9D0013E3D6 /* Memo.swift */,
+			);
+			path = DataStructure;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -403,6 +414,7 @@
 				C7481C7225BBCF3900B9CA55 /* ContainerSplitViewController.swift in Sources */,
 				C91EF67526E13A8C0013E3D6 /* MemoListViewController.swift in Sources */,
 				C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */,
+				C91EF67826E1FA9D0013E3D6 /* Memo.swift in Sources */,
 				C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */,
 				C7481C7825BBCF3900B9CA55 /* CloudNotes.xcdatamodeld in Sources */,
 			);

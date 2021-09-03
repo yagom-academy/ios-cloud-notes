@@ -1,7 +1,5 @@
 ## iOS 커리어 스타터 캠프
 
-### 동기화 메모장 프로젝트 저장소
-
-- 이 저장소를 자신의 저장소로 fork하여 프로젝트를 진행합니다
-- 자신의 브랜치에 PR을 보내는지 꼭 확인한 후 PR을 보냅니다
+### 동기화 메모장 Step1 UML
+![CloudMemoUML](https://user-images.githubusercontent.com/71247008/131958423-83f991e2-c495-43e7-a74b-2803b198c938.png)
 

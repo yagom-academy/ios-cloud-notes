@@ -11,9 +11,7 @@ class RootViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
-        bind()
     }
 
     func setup() { }
-    func bind() { }
 }

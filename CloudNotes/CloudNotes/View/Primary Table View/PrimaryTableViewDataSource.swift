@@ -9,6 +9,12 @@ import UIKit
 
 class PrimaryTableViewDataSource: NSObject {
     private var memos: [Memo] = []
+    private var dateformatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: Locale.preferredLanguages[0])
+        formatter.dateFormat = "yyyy. MM. dd"
+        return formatter
+    }()
     
     override init() {
         super.init()
@@ -46,10 +52,13 @@ extension PrimaryTableViewDataSource: UITableViewDataSource {
         }
         
         let memo = memos[indexPath.row]
-        cell.configure(title: memo.title, detail: memo.body, date: memo.lastModified)
+        
+        let date: String = dateformatter.string(from: Date(timeIntervalSince1970: memo.lastModified))
+        let text = memo.body ?? ""
+        let summary: String = String(text[text.startIndex...(text.firstIndex(of: ".") ?? text.endIndex)])
+        
+        cell.configure(title: memo.title, summary: summary, date: date)
 
         return cell
     }
-    
 }
-

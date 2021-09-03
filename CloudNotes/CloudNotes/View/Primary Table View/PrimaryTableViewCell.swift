@@ -10,7 +10,7 @@ import UIKit
 class PrimaryTableViewCell: UITableViewCell {
     static let reuseIdentifier = "primary"
     
-    let summaryLabel: UILabel = {
+    var summaryLabel: UILabel = {
         let label = UILabel()
         label.textColor = .gray
         label.font = .preferredFont(forTextStyle: .subheadline)
@@ -41,10 +41,10 @@ class PrimaryTableViewCell: UITableViewCell {
 
 extension PrimaryTableViewCell {
     
-    func configure(title: String?, detail: String?, date: Double?) {
+    func configure(title: String?, summary: String?, date: String?) {
         self.textLabel?.text = title
-        self.detailTextLabel?.text = "\(date)\(date)\(date)\(date). \(date)\(date). \(date)\(date)"
-        summaryLabel.text = detail
+        self.detailTextLabel?.text = date
+        summaryLabel.text = summary
     }
     
 }

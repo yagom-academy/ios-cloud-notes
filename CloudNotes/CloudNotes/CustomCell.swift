@@ -8,5 +8,5 @@
 import UIKit
 
 class CustomCell: UITableViewCell {
-    
+    static let cellIdentifier = "cellIdentifier"
 }

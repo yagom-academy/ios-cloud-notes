@@ -9,7 +9,7 @@ import UIKit
 
 class PrimaryTableViewDataSource: NSObject {
     
-    typealias SelectedMemoAction = (Memo) -> Void
+    typealias SelectedMemoAction = (Memo, Bool) -> Void
     
     private var memos: [Memo] = []
     private var selectedMemoAction: SelectedMemoAction?
@@ -43,7 +43,7 @@ class PrimaryTableViewDataSource: NSObject {
                 print("에러처리 필요 - 메모데이터 없음")
                 return
             }
-            selectedMemoAction?(baseMemo)
+            selectedMemoAction?(baseMemo, true)
         } catch {
             print("에러처리 필요 - 디코딩 실패")
         }
@@ -81,6 +81,6 @@ extension PrimaryTableViewDataSource: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedMemo = memos[indexPath.row]
-        selectedMemoAction?(selectedMemo)
+        selectedMemoAction?(selectedMemo, false)
     }
 }

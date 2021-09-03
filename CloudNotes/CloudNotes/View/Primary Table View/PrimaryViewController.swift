@@ -9,7 +9,7 @@ import UIKit
 
 class PrimaryViewController: UITableViewController {
     
-    typealias ShowDetailAction = (Memo) -> Void
+    typealias ShowDetailAction = (Memo, Bool) -> Void
     
     var primaryTableViewDataSource: PrimaryTableViewDataSource?
     private var showDetailAction: ShowDetailAction?
@@ -17,6 +17,9 @@ class PrimaryViewController: UITableViewController {
     init(showDetailAction: @escaping ShowDetailAction) {
         super.init(nibName: nil, bundle: nil)
         self.showDetailAction = showDetailAction
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
+                                                                 target: self,
+                                                                 action: nil)
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -26,8 +29,8 @@ class PrimaryViewController: UITableViewController {
         super.viewDidLoad()
         self.navigationItem.title = "메모"
         
-        primaryTableViewDataSource = PrimaryTableViewDataSource(showDetailAction: { seleted in
-            self.showDetailAction?(seleted)
+        primaryTableViewDataSource = PrimaryTableViewDataSource(showDetailAction: { seleted, checked in
+            self.showDetailAction?(seleted, checked)
         })
         tableView.dataSource = primaryTableViewDataSource
         tableView.delegate = primaryTableViewDataSource

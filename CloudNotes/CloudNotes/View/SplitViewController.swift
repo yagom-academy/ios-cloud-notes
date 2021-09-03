@@ -13,8 +13,8 @@ class SplitViewController: UISplitViewController {
     
     override init(style: UISplitViewController.Style) {
         super.init(style: style)
-        primaryViewController = PrimaryViewController(showDetailAction: { seleted in            
-            self.showSelectedDetail(changed: seleted)
+        primaryViewController = PrimaryViewController(showDetailAction: { seleted, checked in
+            self.showSelectedDetail(changed: seleted, isDefault: checked)
         })
         secondaryViewController = SecondaryViewController()
         
@@ -41,9 +41,11 @@ extension SplitViewController: UISplitViewControllerDelegate {
 }
 
 extension SplitViewController {
-    func showSelectedDetail(changed: Memo) {
+    func showSelectedDetail(changed: Memo, isDefault: Bool) {
         let body = changed.body
         secondaryViewController?.updateDetailView(by: body)
-        show(.secondary)
+        if !isDefault {
+            show(.secondary)
+        }
     }
 }

@@ -62,10 +62,12 @@ extension ItemListViewCell {
 
         label.accessibilityLabel = "제목 : "
 
-        label.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
-        label.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
-        label.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
-        label.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: half).isActive = true
+        NSLayoutConstraint.activate([
+            label.topAnchor.constraint(equalTo: contentView.topAnchor),
+            label.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            label.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            label.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: half)
+        ])
 
         return label
     }
@@ -76,10 +78,12 @@ extension ItemListViewCell {
 
         label.accessibilityLabel = "날짜 : "
 
-        label.topAnchor.constraint(equalTo: titleLabel.bottomAnchor).isActive = true
-        label.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor).isActive = true
-        label.widthAnchor.constraint(equalTo: titleLabel.widthAnchor, multiplier: thirtyHalfPercent).isActive = true
-        label.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: half).isActive = true
+        NSLayoutConstraint.activate([
+            label.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
+            label.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
+            label.widthAnchor.constraint(equalTo: titleLabel.widthAnchor, multiplier: thirtyHalfPercent),
+            label.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: half)
+        ])
 
         return label
     }
@@ -91,10 +95,12 @@ extension ItemListViewCell {
         label.accessibilityLabel = "내용 : "
         label.textColor = .gray
 
-        label.topAnchor.constraint(equalTo: titleLabel.bottomAnchor).isActive = true
-        label.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor).isActive = true
-        label.widthAnchor.constraint(equalTo: titleLabel.widthAnchor, multiplier: sixtyHalfPercent).isActive = true
-        label.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: half).isActive = true
+        NSLayoutConstraint.activate([
+            label.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
+            label.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor),
+            label.widthAnchor.constraint(equalTo: titleLabel.widthAnchor, multiplier: sixtyHalfPercent),
+            label.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: half)
+        ])
 
         return label
     }

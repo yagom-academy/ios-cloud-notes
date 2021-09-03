@@ -44,3 +44,11 @@ extension MemoTableViewController {
         return UITableViewCell()
     }
 }
+
+// MARK: - Table view delegate
+extension MemoTableViewController {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.navigationController?.pushViewController(DetailTextViewController(), animated: true)
+    }
+}
+

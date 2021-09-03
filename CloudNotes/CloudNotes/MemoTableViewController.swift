@@ -15,6 +15,8 @@ class MemoTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.navigationItem.title = "메모"
 
         tableView.register(MemoTableViewCell.self, forCellReuseIdentifier: "MemoTableViewCell")
         

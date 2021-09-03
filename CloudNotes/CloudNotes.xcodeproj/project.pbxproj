@@ -14,6 +14,8 @@
 		A925D20926E10CFA005C4DCF /* PrimaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A925D20826E10CFA005C4DCF /* PrimaryViewController.swift */; };
 		A925D21126E10F5D005C4DCF /* PrimaryTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A925D21026E10F5D005C4DCF /* PrimaryTableViewDataSource.swift */; };
 		A96BB99226E11062003AEA15 /* PrimaryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A96BB99126E11062003AEA15 /* PrimaryTableViewCell.swift */; };
+		A9CBB36226E206F900296A81 /* Memo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9CBB36126E206F900296A81 /* Memo.swift */; };
+		A9D8CC9226E206A1001F6BDD /* sample.json in Resources */ = {isa = PBXBuildFile; fileRef = A9D8CC9126E206A1001F6BDD /* sample.json */; };
 		C6DA0F111BBDACE89A99A8C7 /* Pods_CloudNotes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 289BFF01F8B330421875CF93 /* Pods_CloudNotes.framework */; };
 		C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */; };
 		C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */; };
@@ -53,6 +55,8 @@
 		A925D20826E10CFA005C4DCF /* PrimaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryViewController.swift; sourceTree = "<group>"; };
 		A925D21026E10F5D005C4DCF /* PrimaryTableViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryTableViewDataSource.swift; sourceTree = "<group>"; };
 		A96BB99126E11062003AEA15 /* PrimaryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryTableViewCell.swift; sourceTree = "<group>"; };
+		A9CBB36126E206F900296A81 /* Memo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memo.swift; sourceTree = "<group>"; };
+		A9D8CC9126E206A1001F6BDD /* sample.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = sample.json; sourceTree = "<group>"; };
 		A9E7B826391F8D62FED6639C /* Pods-CloudNotes.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudNotes.release.xcconfig"; path = "Pods/Target Support Files/Pods-CloudNotes/Pods-CloudNotes.release.xcconfig"; sourceTree = "<group>"; };
 		C3257E5B46CDFFFA16976639 /* Pods-CloudNotes.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudNotes.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CloudNotes/Pods-CloudNotes.debug.xcconfig"; sourceTree = "<group>"; };
 		C7481C6A25BBCF3900B9CA55 /* CloudNotes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CloudNotes.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -141,6 +145,22 @@
 			path = "Secondary Detail View";
 			sourceTree = "<group>";
 		};
+		A9D8CC9026E20693001F6BDD /* SampleFiles */ = {
+			isa = PBXGroup;
+			children = (
+				A9D8CC9126E206A1001F6BDD /* sample.json */,
+			);
+			path = SampleFiles;
+			sourceTree = "<group>";
+		};
+		A9D8CC9626E206B4001F6BDD /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				A9CBB36126E206F900296A81 /* Memo.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		BF3B150E1DCB1B4CB6045AD6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -177,9 +197,11 @@
 		C7481C6C25BBCF3900B9CA55 /* CloudNotes */ = {
 			isa = PBXGroup;
 			children = (
+				A9D8CC9026E20693001F6BDD /* SampleFiles */,
 				C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */,
 				C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */,
 				C7481C7125BBCF3900B9CA55 /* SplitViewController.swift */,
+				A9D8CC9626E206B4001F6BDD /* Model */,
 				A925D20D26E10E51005C4DCF /* View */,
 				C7481C7B25BBCF3A00B9CA55 /* LaunchScreen.storyboard */,
 				C7481C7625BBCF3900B9CA55 /* CloudNotes.xcdatamodeld */,
@@ -315,6 +337,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A925D1D526E0C3C2005C4DCF /* .swiftlint.yml in Resources */,
+				A9D8CC9226E206A1001F6BDD /* sample.json in Resources */,
 				C7481C7D25BBCF3A00B9CA55 /* LaunchScreen.storyboard in Resources */,
 				C7481C7A25BBCF3A00B9CA55 /* Assets.xcassets in Resources */,
 			);
@@ -423,6 +446,7 @@
 				A96BB99226E11062003AEA15 /* PrimaryTableViewCell.swift in Sources */,
 				A925D1FB26E10CA2005C4DCF /* SecondaryViewController.swift in Sources */,
 				C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */,
+				A9CBB36226E206F900296A81 /* Memo.swift in Sources */,
 				C7481C7825BBCF3900B9CA55 /* CloudNotes.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

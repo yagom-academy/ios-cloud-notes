@@ -10,14 +10,20 @@ import UIKit
 class ItemListView: UITableViewController {
 
     let itemListDataSource = ItemListViewDataSource()
-    let itemListDelegator = ItemListViewDelegate()
-    let basicInset = UIEdgeInsets(top: .zero, left: .zero, bottom: .zero, right: .zero)
+    var itemListDelegator: ItemListViewDelegate?
+
+    let basicInset = UIEdgeInsets(
+        top: .zero,
+        left: .zero,
+        bottom: .zero,
+        right: .zero
+    )
 
     override func viewDidLoad() {
-        let ten: CGFloat = 10
-
         super.viewDidLoad()
-        navigationController?.isNavigationBarHidden = true
+
+        let ten: CGFloat = 10
+        itemListDelegator = ItemListViewDelegate(owner: self)
 
         tableView.register(
             ItemListViewCell.classForCoder(),
@@ -30,6 +36,31 @@ class ItemListView: UITableViewController {
         tableView.separatorColor = .darkGray
         tableView.separatorInset = basicInset
 
-        tableView.contentInset = UIEdgeInsets(top: 0, left: ten, bottom: 0, right: -ten)
+        tableView.contentInset = UIEdgeInsets(
+            top: 0,
+            left: ten,
+            bottom: 0,
+            right: -ten
+        )
+    }
+
+    func showDetailViewController(with data: Memo) {
+        guard let splitViewController = splitViewController,
+              let secondary = splitViewController.viewController(for: .secondary) as? ItemDetailView else {
+            return
+        }
+
+        secondary.configure(data.title)
+
+        if UITraitCollection.current.horizontalSizeClass == .compact {
+            super.showDetailViewController(
+                secondary,
+                sender: data
+            )
+
+        } else {
+            splitViewController.show(.secondary)
+            secondary.configure(data.title)
+        }
     }
 }

@@ -9,4 +9,6 @@ import UIKit
 
 class DetailViewController: UIViewController {
     var splitView: UISplitViewController?
+    
+    let textView = UITextView()
 }

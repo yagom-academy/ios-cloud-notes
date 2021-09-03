@@ -8,10 +8,18 @@ import UIKit
 
 class SplitViewController: UISplitViewController {
     
+    var primaryViewController: PrimaryViewController?
+    var secondaryViewController: SecondaryViewController?
+    
     override init(style: UISplitViewController.Style) {
         super.init(style: style)
-        setViewController(PrimaryViewController(), for: .primary)
-        setViewController(SecondaryViewController(), for: .secondary)
+        primaryViewController = PrimaryViewController(showDetailAction: { seleted in            
+            self.showSelectedDetail(changed: seleted)
+        })
+        secondaryViewController = SecondaryViewController()
+        
+        setViewController(primaryViewController, for: .primary)
+        setViewController(secondaryViewController, for: .secondary)
         preferredDisplayMode = .oneBesideSecondary
         presentsWithGesture = false
     }
@@ -29,6 +37,14 @@ class SplitViewController: UISplitViewController {
 
 extension SplitViewController: UISplitViewControllerDelegate {
     func splitViewController(_ svc: UISplitViewController, topColumnForCollapsingToProposedTopColumn proposedTopColumn: UISplitViewController.Column) -> UISplitViewController.Column {
-        return .secondary
+        return .primary
+    }
+}
+
+extension SplitViewController {
+    func showSelectedDetail(changed: Memo) {
+        let body = changed.body
+        secondaryViewController?.updateDetailView(by: body)
+        show(.secondary)
     }
 }

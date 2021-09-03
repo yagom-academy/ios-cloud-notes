@@ -32,19 +32,15 @@ class PrimaryTableViewCell: UITableViewCell {
             summaryLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor)
         ])
     }
-    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
 }
 
 extension PrimaryTableViewCell {
-    
     func configure(title: String?, summary: String?, date: String?) {
         self.textLabel?.text = title
         self.detailTextLabel?.text = date
         summaryLabel.text = summary
     }
-    
 }

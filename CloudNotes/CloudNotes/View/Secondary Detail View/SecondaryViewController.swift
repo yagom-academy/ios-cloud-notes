@@ -9,8 +9,8 @@ import UIKit
 
 class SecondaryViewController: UIViewController {
     
-    let secondaryView = SecondaryView()
-    var memo: Memo?
+    private let secondaryView = SecondaryView()
+    private var memo: Memo?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,7 +24,7 @@ class SecondaryViewController: UIViewController {
             secondaryView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
         ])
         
-        secondaryView.textView.delegate = self
+        secondaryView.textView.delegate = secondaryView
     }
 
     /*
@@ -38,6 +38,8 @@ class SecondaryViewController: UIViewController {
     */
 }
 
-extension SecondaryViewController: UITextViewDelegate {
-    
+extension SecondaryViewController {
+    func updateDetailView(by text: String?) {
+        self.secondaryView.configure(by: text)
+    }
 }

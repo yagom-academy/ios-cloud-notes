@@ -13,6 +13,7 @@ class SecondaryView: UIView {
         let view = UITextView()
         view.textColor = .black
         view.backgroundColor = .red
+        view.text = "alksmflkmfblsm;lbmk;erj"
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -43,5 +44,16 @@ class SecondaryView: UIView {
         // Drawing code
     }
     */
+}
 
+extension SecondaryView: UITextViewDelegate {
+    
+}
+
+extension SecondaryView {
+    
+    func configure(by text: String?) {
+        self.textView.text = text
+    }
+    
 }

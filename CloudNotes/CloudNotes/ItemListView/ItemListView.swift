@@ -18,6 +18,7 @@ class ItemListView: UITableViewController {
         bottom: .zero,
         right: .zero
     )
+    var isClicked = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,23 +45,29 @@ class ItemListView: UITableViewController {
         )
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        isClicked = false
+    }
+
     func showDetailViewController(with data: Memo) {
-        guard let splitViewController = splitViewController,
+        guard isClicked == false,
+              let splitViewController = splitViewController,
               let secondary = splitViewController.viewController(for: .secondary) as? ItemDetailView else {
             return
         }
 
-        secondary.configure(data.title)
+        isClicked = true
+        secondary.configure(data)
 
-        if UITraitCollection.current.horizontalSizeClass == .compact {
-            super.showDetailViewController(
+        if AppState.isCompactSize {
+            splitViewController.showDetailViewController(
                 secondary,
                 sender: data
             )
-
         } else {
             splitViewController.show(.secondary)
-            secondary.configure(data.title)
         }
     }
 }

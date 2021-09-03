@@ -2,7 +2,7 @@
 //  MemoListPresentModel.swift
 //  CloudNotes
 //
-//  Created by WANKI KIM on 2021/08/31.
+//  Created by Luyan on 2021/08/31.
 //
 
 import Foundation

@@ -8,5 +8,13 @@ import XCTest
 @testable import CloudNotes
 
 class CloudNotesTests: XCTestCase {
-    
+    func test_ParsingManagerTest() {
+        //given
+        var data = [CloudNoteItem]()
+        //when
+        data = ParsingManager().parse(fileName: "sample")
+        //then
+        print(data)
+        XCTAssertNotNil(data)
+    }
 }

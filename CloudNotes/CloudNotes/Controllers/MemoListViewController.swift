@@ -30,6 +30,8 @@ class MemoListViewController: UIViewController {
         
         tableView.dataSource = self
         tableView.delegate = self
+        
+        view.backgroundColor = .white
     }
 }
 
@@ -55,7 +57,7 @@ extension MemoListViewController: UITableViewDelegate {
         let memo = memoList[indexPath.row]
         
         let memoDetailVC = MemoDetailViewController(memo: memo)
-        memoDetailVC.modalPresentationStyle = .fullScreen
-        present(memoDetailVC, animated: true)
+        let detailNav = UINavigationController(rootViewController: memoDetailVC)
+        self.showDetailViewController(detailNav, sender: self)
     }
 }

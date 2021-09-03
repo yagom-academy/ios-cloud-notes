@@ -27,7 +27,7 @@ class MemoDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        memoTextView.text = "\(memoTitle)\n\(memoBody)"
+        memoTextView.text = "\(memoTitle)\n\n\(memoBody)"
         updateTextFontStyle()
         updateLayout()
     }

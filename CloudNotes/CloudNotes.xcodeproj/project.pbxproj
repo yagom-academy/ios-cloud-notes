@@ -14,6 +14,7 @@
 		A925D20926E10CFA005C4DCF /* PrimaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A925D20826E10CFA005C4DCF /* PrimaryViewController.swift */; };
 		A925D21126E10F5D005C4DCF /* PrimaryTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A925D21026E10F5D005C4DCF /* PrimaryTableViewDataSource.swift */; };
 		A96BB99226E11062003AEA15 /* PrimaryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A96BB99126E11062003AEA15 /* PrimaryTableViewCell.swift */; };
+		A9B03A7526E231510062BE01 /* SecondaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9B03A7426E231510062BE01 /* SecondaryView.swift */; };
 		A9CBB36226E206F900296A81 /* Memo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9CBB36126E206F900296A81 /* Memo.swift */; };
 		C6DA0F111BBDACE89A99A8C7 /* Pods_CloudNotes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 289BFF01F8B330421875CF93 /* Pods_CloudNotes.framework */; };
 		C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */; };
@@ -54,6 +55,7 @@
 		A925D20826E10CFA005C4DCF /* PrimaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryViewController.swift; sourceTree = "<group>"; };
 		A925D21026E10F5D005C4DCF /* PrimaryTableViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryTableViewDataSource.swift; sourceTree = "<group>"; };
 		A96BB99126E11062003AEA15 /* PrimaryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryTableViewCell.swift; sourceTree = "<group>"; };
+		A9B03A7426E231510062BE01 /* SecondaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondaryView.swift; sourceTree = "<group>"; };
 		A9CBB36126E206F900296A81 /* Memo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memo.swift; sourceTree = "<group>"; };
 		A9E7B826391F8D62FED6639C /* Pods-CloudNotes.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudNotes.release.xcconfig"; path = "Pods/Target Support Files/Pods-CloudNotes/Pods-CloudNotes.release.xcconfig"; sourceTree = "<group>"; };
 		C3257E5B46CDFFFA16976639 /* Pods-CloudNotes.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudNotes.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CloudNotes/Pods-CloudNotes.debug.xcconfig"; sourceTree = "<group>"; };
@@ -120,8 +122,8 @@
 			isa = PBXGroup;
 			children = (
 				C7481C7125BBCF3900B9CA55 /* SplitViewController.swift */,
-				A925D21526E10FA3005C4DCF /* Secondary Detail View */,
 				A925D20F26E10EDF005C4DCF /* Primary Table View */,
+				A925D21526E10FA3005C4DCF /* Secondary Detail View */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -129,8 +131,8 @@
 		A925D20F26E10EDF005C4DCF /* Primary Table View */ = {
 			isa = PBXGroup;
 			children = (
-				A96BB99126E11062003AEA15 /* PrimaryTableViewCell.swift */,
 				A925D20826E10CFA005C4DCF /* PrimaryViewController.swift */,
+				A96BB99126E11062003AEA15 /* PrimaryTableViewCell.swift */,
 				A925D21026E10F5D005C4DCF /* PrimaryTableViewDataSource.swift */,
 			);
 			path = "Primary Table View";
@@ -139,6 +141,7 @@
 		A925D21526E10FA3005C4DCF /* Secondary Detail View */ = {
 			isa = PBXGroup;
 			children = (
+				A9B03A7426E231510062BE01 /* SecondaryView.swift */,
 				A925D1FA26E10CA2005C4DCF /* SecondaryViewController.swift */,
 			);
 			path = "Secondary Detail View";
@@ -434,6 +437,7 @@
 				A96BB99226E11062003AEA15 /* PrimaryTableViewCell.swift in Sources */,
 				A925D1FB26E10CA2005C4DCF /* SecondaryViewController.swift in Sources */,
 				C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */,
+				A9B03A7526E231510062BE01 /* SecondaryView.swift in Sources */,
 				A9CBB36226E206F900296A81 /* Memo.swift in Sources */,
 				C7481C7825BBCF3900B9CA55 /* CloudNotes.xcdatamodeld in Sources */,
 			);

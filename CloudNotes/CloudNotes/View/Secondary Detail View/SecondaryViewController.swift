@@ -9,11 +9,22 @@ import UIKit
 
 class SecondaryViewController: UIViewController {
     
+    let secondaryView = SecondaryView()
+    var memo: Memo?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .brown
         
-        // Do any additional setup after loading the view.
+//        self.view = secondaryView
+        self.view.addSubview(secondaryView)
+        NSLayoutConstraint.activate([
+            secondaryView.topAnchor.constraint(equalTo: self.view.topAnchor),
+            secondaryView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            secondaryView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            secondaryView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
+        ])
+        
+        secondaryView.textView.delegate = self
     }
 
     /*
@@ -25,5 +36,8 @@ class SecondaryViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+}
 
+extension SecondaryViewController: UITextViewDelegate {
+    
 }

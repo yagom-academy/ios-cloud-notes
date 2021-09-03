@@ -41,7 +41,7 @@ class PrimaryTableViewDataSource: NSObject {
     }
 }
 
-// MARK: --- TableView DataSource
+// MARK: - TableView DataSource
 extension PrimaryTableViewDataSource: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return memos.count

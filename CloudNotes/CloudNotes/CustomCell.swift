@@ -35,4 +35,13 @@ class CustomCell: UITableViewCell {
         shortDescription.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 0).isActive = true
         shortDescription.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0).isActive = true
     }
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: Self.cellIdentifier)
+        setConstraints()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }

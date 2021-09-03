@@ -13,6 +13,7 @@ class ItemListViewDelegate: NSObject, UITableViewDelegate {
     init(owner: ItemListView) {
         self.owner = owner
     }
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
         guard let myCell = tableView.cellForRow(at: indexPath) as? ItemListViewCell else {

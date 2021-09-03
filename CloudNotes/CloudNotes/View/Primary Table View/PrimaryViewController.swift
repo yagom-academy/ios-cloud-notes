@@ -18,6 +18,8 @@ class PrimaryViewController: UITableViewController {
         primaryTableViewDataSource = PrimaryTableViewDataSource()
         tableView.dataSource = primaryTableViewDataSource
         tableView.register(PrimaryTableViewCell.self, forCellReuseIdentifier: PrimaryTableViewCell.reuseIdentifier)
+        
+        tableView.rowHeight = 44
     }
 
 }

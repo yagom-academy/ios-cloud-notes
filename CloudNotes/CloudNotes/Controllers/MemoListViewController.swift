@@ -29,6 +29,7 @@ class MemoListViewController: UIViewController {
         tableView.register(MemoTableViewCell.self, forCellReuseIdentifier: MemoTableViewCell.identifier)
         
         tableView.dataSource = self
+        tableView.delegate = self
     }
 }
 
@@ -46,5 +47,12 @@ extension MemoListViewController: UITableViewDataSource {
         cell.configure(on: memo)
         
         return cell
+    }
+}
+
+extension MemoListViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let memo = memoList[indexPath.row]
+        dump(memo)
     }
 }

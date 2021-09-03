@@ -5,7 +5,7 @@
 //  Created by Yongwoo Marco on 2021/09/03.
 //
 
-struct Memo {
+struct Memo: Decodable {
     var title: String
     var body: String?
     var lastModified: Double

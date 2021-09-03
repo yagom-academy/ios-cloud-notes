@@ -41,10 +41,10 @@ class PrimaryTableViewCell: UITableViewCell {
 
 extension PrimaryTableViewCell {
     
-    func configure(title: String, detail: String, date: Int) {
+    func configure(title: String?, detail: String?, date: Double?) {
         self.textLabel?.text = title
         self.detailTextLabel?.text = "\(date)\(date)\(date)\(date). \(date)\(date). \(date)\(date)"
         summaryLabel.text = detail
     }
-
+    
 }

@@ -36,16 +36,16 @@ class MemoTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        setUp()
+        setLabelsUp()
         addSubview(titleWithDetailStackView)
-        setAnchor()
+        setStackViewAnchor()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
     
-    private func setUp() {
+    private func setLabelsUp() {
         titleLabel = UILabel()
         dateLabel = UILabel()
         previewLabel = UILabel()
@@ -63,7 +63,7 @@ class MemoTableViewCell: UITableViewCell {
         previewLabel.lineBreakMode = .byTruncatingTail
     }
     
-    private func setAnchor() {
+    private func setStackViewAnchor() {
         titleWithDetailStackView.translatesAutoresizingMaskIntoConstraints = false
         
         titleWithDetailStackView.leftAnchor.constraint(equalTo: leftAnchor, constant: 16)

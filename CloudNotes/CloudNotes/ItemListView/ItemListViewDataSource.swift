@@ -42,12 +42,11 @@ class ItemListViewDataSource: NSObject, UITableViewDataSource {
 
             guard let memo = try? decodedDictionary.get() else {
                 let corrupted = "Corrupted"
-                let date = Date(timeIntervalSince1970: .zero)
 
                 return Memo(
                     title: corrupted,
                     description: corrupted,
-                    lastUpdatedTime: date
+                    lastUpdatedTime: .zero
                 )
             }
 

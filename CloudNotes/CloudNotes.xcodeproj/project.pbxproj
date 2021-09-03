@@ -21,6 +21,7 @@
 		C7481C9325BBCF3A00B9CA55 /* CloudNotesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C9225BBCF3A00B9CA55 /* CloudNotesUITests.swift */; };
 		C91EF67526E13A8C0013E3D6 /* MemoListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91EF67426E13A8C0013E3D6 /* MemoListViewController.swift */; };
 		C91EF67826E1FA9D0013E3D6 /* Memo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91EF67726E1FA9D0013E3D6 /* Memo.swift */; };
+		C91EF67A26E205900013E3D6 /* MemoItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91EF67926E205900013E3D6 /* MemoItemTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,6 +67,7 @@
 		C7481C9425BBCF3A00B9CA55 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C91EF67426E13A8C0013E3D6 /* MemoListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoListViewController.swift; sourceTree = "<group>"; };
 		C91EF67726E1FA9D0013E3D6 /* Memo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memo.swift; sourceTree = "<group>"; };
+		C91EF67926E205900013E3D6 /* MemoItemTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoItemTableViewCell.swift; sourceTree = "<group>"; };
 		E6AD4DA90F91540E38399744 /* Pods-CloudNotesTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudNotesTests.debug.xcconfig"; path = "Target Support Files/Pods-CloudNotesTests/Pods-CloudNotesTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -188,6 +190,7 @@
 			children = (
 				C7481C7325BBCF3900B9CA55 /* Main.storyboard */,
 				C7481C7B25BBCF3A00B9CA55 /* LaunchScreen.storyboard */,
+				C91EF67926E205900013E3D6 /* MemoItemTableViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -413,6 +416,7 @@
 			files = (
 				C7481C7225BBCF3900B9CA55 /* ContainerSplitViewController.swift in Sources */,
 				C91EF67526E13A8C0013E3D6 /* MemoListViewController.swift in Sources */,
+				C91EF67A26E205900013E3D6 /* MemoItemTableViewCell.swift in Sources */,
 				C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */,
 				C91EF67826E1FA9D0013E3D6 /* Memo.swift in Sources */,
 				C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */,

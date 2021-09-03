@@ -8,18 +8,18 @@
 import UIKit
 
 class MemoListViewController: UIViewController {
-    private var listTableView: UITableView = UITableView()
-    private var memoList: [Memo] = []
+    private var listTableView = UITableView()
+    private var memoList = [Memo]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUpTableViewConstraint()
+        setUpTableViewConstraints()
     }
 }
 
 //MARK:- Set up TableView
 extension MemoListViewController {
-    private func setUpTableViewConstraint() {
+    private func setUpTableViewConstraints() {
         view.addSubview(listTableView)
         let safeArea = view.safeAreaLayoutGuide
         

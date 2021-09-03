@@ -7,7 +7,7 @@
 import UIKit
 
 class MenuViewController: UIViewController {
-    var splitView: UISplitViewController?
+    var splitView: SplitViewController?
     
     let tableView = UITableView()
     var data = [CloudNoteItem]()
@@ -25,7 +25,7 @@ class MenuViewController: UIViewController {
     func configureNavigationItem() {
         self.title = "메모"
     }
-
+    
     func configureTableView() {
         view.addSubview(tableView)
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -37,7 +37,7 @@ class MenuViewController: UIViewController {
         tableView.topAnchor.constraint(equalTo: safeArea.topAnchor).isActive = true
         tableView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor).isActive = true
     }
-
+    
 }
 
 extension MenuViewController: UITableViewDelegate, UITableViewDataSource {
@@ -59,5 +59,11 @@ extension MenuViewController: UITableViewDelegate, UITableViewDataSource {
         return 60
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let detail = splitView?.detail as! DetailViewController
+        detail.loadData(data: data, indexPath: indexPath)
+        let nv:UINavigationController = UINavigationController(rootViewController: detail)
+        self.showDetailViewController(nv, sender: self)
+    }
     
 }

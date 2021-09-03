@@ -19,14 +19,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window = UIWindow(windowScene: windowScene) // SceneDelegate의 프로퍼티에 설정해줌
         
-        let splitViewController = SplitViewController()
-        
-        let primary: PrimaryViewController = PrimaryViewController()
-        let secondray: SecondaryViewController = SecondaryViewController()
-        splitViewController.addChild(primary)
-        splitViewController.addChild(secondray)
-        
-        window?.rootViewController = UINavigationController(rootViewController: primary)
+        let splitViewController = SplitViewController(style: .doubleColumn)
+        window?.rootViewController = splitViewController
         window?.makeKeyAndVisible()
     }
 

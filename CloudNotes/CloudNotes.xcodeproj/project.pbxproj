@@ -119,6 +119,7 @@
 		A925D20D26E10E51005C4DCF /* View */ = {
 			isa = PBXGroup;
 			children = (
+				C7481C7125BBCF3900B9CA55 /* SplitViewController.swift */,
 				A925D21526E10FA3005C4DCF /* Secondary Detail View */,
 				A925D20F26E10EDF005C4DCF /* Primary Table View */,
 			);
@@ -189,7 +190,6 @@
 			children = (
 				C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */,
 				C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */,
-				C7481C7125BBCF3900B9CA55 /* SplitViewController.swift */,
 				A9D8CC9626E206B4001F6BDD /* Model */,
 				A925D20D26E10E51005C4DCF /* View */,
 				C7481C7B25BBCF3A00B9CA55 /* LaunchScreen.storyboard */,

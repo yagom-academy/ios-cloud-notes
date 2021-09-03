@@ -9,6 +9,7 @@ import UIKit
 
 class PrimaryTableViewDataSource: NSObject {
     private var memos: [Memo] = []
+    
     private var dateformatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.locale = Locale(identifier: Locale.preferredLanguages[0])
@@ -40,6 +41,7 @@ class PrimaryTableViewDataSource: NSObject {
     }
 }
 
+// MARK: --- TableView DataSource
 extension PrimaryTableViewDataSource: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return memos.count

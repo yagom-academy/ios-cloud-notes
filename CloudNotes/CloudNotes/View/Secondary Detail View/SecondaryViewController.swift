@@ -9,27 +9,40 @@ import UIKit
 
 class SecondaryViewController: UIViewController {
     
-    private let secondaryView = SecondaryView()
-    private var memo: Memo?
+    private var secondaryView: SecondaryView?
+    private var temp: Memo?
+    private var tempIndex: Int?
+    
+    init() {
+        super.init(nibName: nil, bundle: nil)
+        self.secondaryView = SecondaryView()
+    }
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        guard let secondary = secondaryView else {
+            print("에러처리 필요 - SecondaryView 초기화 실패")
+            return
+        }
 //        self.view = secondaryView
-        self.view.addSubview(secondaryView)
+        self.view.addSubview(secondary)
         NSLayoutConstraint.activate([
-            secondaryView.topAnchor.constraint(equalTo: self.view.topAnchor),
-            secondaryView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            secondaryView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            secondaryView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
+            secondary.topAnchor.constraint(equalTo: self.view.topAnchor),
+            secondary.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            secondary.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            secondary.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
         ])
         
-        secondaryView.textView.delegate = secondaryView
+        secondaryView?.textView.delegate = secondaryView
     }
 }
 
 extension SecondaryViewController {
-    func updateDetailView(by text: String?) {
-        self.secondaryView.configure(by: text)
+    func updateDetailView(by memo: Memo?) {
+        self.secondaryView?.configure(by: memo)
     }
 }

@@ -7,16 +7,17 @@
 
 import UIKit
 
+protocol SelectedCellDelegate: AnyObject {
+    func showSelectedDetail(memo: Memo, index: Int?)
+}
+
 class PrimaryViewController: UITableViewController {
-    
-    typealias ShowDetailAction = (Memo, Bool) -> Void
-    
+        
     var primaryTableViewDataSource: PrimaryTableViewDataSource?
-    private var showDetailAction: ShowDetailAction?
+    weak var delegate: SelectedCellDelegate?
     
-    init(showDetailAction: @escaping ShowDetailAction) {
+    init() {
         super.init(nibName: nil, bundle: nil)
-        self.showDetailAction = showDetailAction
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
                                                                  target: self,
                                                                  action: nil)
@@ -29,8 +30,8 @@ class PrimaryViewController: UITableViewController {
         super.viewDidLoad()
         self.navigationItem.title = "메모"
         
-        primaryTableViewDataSource = PrimaryTableViewDataSource(showDetailAction: { seleted, checked in
-            self.showDetailAction?(seleted, checked)
+        primaryTableViewDataSource = PrimaryTableViewDataSource(showDetailAction: { seleted, index in
+            self.delegate?.showSelectedDetail(memo: seleted, index: index)
         })
         tableView.dataSource = primaryTableViewDataSource
         tableView.delegate = primaryTableViewDataSource

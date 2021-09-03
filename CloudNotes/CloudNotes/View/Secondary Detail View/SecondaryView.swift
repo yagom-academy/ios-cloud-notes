@@ -9,6 +9,10 @@ import UIKit
 
 class SecondaryView: UIView {
     
+    typealias DidChanged = (Memo, Int?) -> Void
+    
+    private var selectedMemoAction: SelectedMemoAction?
+    
     let textView: UITextView = {
         let view = UITextView()
         view.textColor = .black
@@ -42,7 +46,7 @@ extension SecondaryView: UITextViewDelegate {
 }
 
 extension SecondaryView {
-    func configure(by text: String?) {
-        self.textView.text = text
+    func configure(by memo: Memo?) {
+        self.textView.text = memo?.body
     }
 }

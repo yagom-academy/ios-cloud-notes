@@ -8,10 +8,11 @@
 import UIKit
 
 class MemoListViewController: UIViewController {
-
+    private let navigationTitle = "메모"
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        self.navigationItem.title = navigationTitle
         // Do any additional setup after loading the view.
     }
     

@@ -16,6 +16,7 @@ class MenuViewController: UIViewController {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.register(CustomCell.self, forCellReuseIdentifier: CustomCell.cellIdentifier)
         data = ParsingManager().parse(fileName: "sample")
         configureTableView()
     }

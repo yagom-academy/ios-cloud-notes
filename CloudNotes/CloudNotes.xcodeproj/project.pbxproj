@@ -84,6 +84,40 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		79DADE7A26E21849007871AF /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				79DADE7826E213B0007871AF /* MockModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		79DADE7B26E2184D007871AF /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				7987172F26DF863100A22D4F /* MemoTableViewController.swift */,
+				7987173326DFB22500A22D4F /* MemoTableViewCell.swift */,
+				79DADE7126E1C7DE007871AF /* DetailTextViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		79DADE7C26E21856007871AF /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				79DADE7426E1D2B6007871AF /* Savable.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
+		79DADE7D26E2186D007871AF /* View */ = {
+			isa = PBXGroup;
+			children = (
+				C7481C7B25BBCF3A00B9CA55 /* LaunchScreen.storyboard */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		C7481C6125BBCF3900B9CA55 = {
 			isa = PBXGroup;
 			children = (
@@ -107,15 +141,13 @@
 		C7481C6C25BBCF3900B9CA55 /* CloudNotes */ = {
 			isa = PBXGroup;
 			children = (
+				79DADE7C26E21856007871AF /* Protocol */,
+				79DADE7A26E21849007871AF /* Model */,
+				79DADE7D26E2186D007871AF /* View */,
+				79DADE7B26E2184D007871AF /* Controller */,
 				C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */,
 				C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */,
-				7987172F26DF863100A22D4F /* MemoTableViewController.swift */,
-				79DADE7826E213B0007871AF /* MockModel.swift */,
-				7987173326DFB22500A22D4F /* MemoTableViewCell.swift */,
-				79DADE7126E1C7DE007871AF /* DetailTextViewController.swift */,
-				79DADE7426E1D2B6007871AF /* Savable.swift */,
 				C7481C7925BBCF3A00B9CA55 /* Assets.xcassets */,
-				C7481C7B25BBCF3A00B9CA55 /* LaunchScreen.storyboard */,
 				C7481C7E25BBCF3A00B9CA55 /* Info.plist */,
 				C7481C7625BBCF3900B9CA55 /* CloudNotes.xcdatamodeld */,
 			);

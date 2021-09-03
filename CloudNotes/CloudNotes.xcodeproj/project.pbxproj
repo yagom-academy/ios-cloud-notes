@@ -141,8 +141,8 @@
 		A925D21526E10FA3005C4DCF /* Secondary Detail View */ = {
 			isa = PBXGroup;
 			children = (
-				A9B03A7426E231510062BE01 /* SecondaryView.swift */,
 				A925D1FA26E10CA2005C4DCF /* SecondaryViewController.swift */,
+				A9B03A7426E231510062BE01 /* SecondaryView.swift */,
 			);
 			path = "Secondary Detail View";
 			sourceTree = "<group>";

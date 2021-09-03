@@ -7,15 +7,22 @@
 
 import UIKit
 
+protocol ChangedMemoDelegate: AnyObject {
+    func updateListItem(memo: Memo?, index: Int?)
+}
+
 class SecondaryViewController: UIViewController {
     
     private var secondaryView: SecondaryView?
-    private var temp: Memo?
-    private var tempIndex: Int?
+    
+    weak var delegate: ChangedMemoDelegate?
     
     init() {
         super.init(nibName: nil, bundle: nil)
-        self.secondaryView = SecondaryView()
+        secondaryView = SecondaryView { temp, index in
+            print("변경 완료 클로저")
+            self.delegate?.updateListItem(memo: temp, index: index)
+        }
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -42,7 +49,7 @@ class SecondaryViewController: UIViewController {
 }
 
 extension SecondaryViewController {
-    func updateDetailView(by memo: Memo?) {
-        self.secondaryView?.configure(by: memo)
+    func updateDetailView(by memo: Memo?, index: Int?) {
+        self.secondaryView?.configure(by: memo, index: index)
     }
 }

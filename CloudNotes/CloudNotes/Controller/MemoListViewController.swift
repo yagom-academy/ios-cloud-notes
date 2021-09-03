@@ -22,6 +22,7 @@ class MemoListViewController: UIViewController {
 extension MemoListViewController {
     private func setUpTableViewConstraints() {
         view.addSubview(listTableView)
+        listTableView.translatesAutoresizingMaskIntoConstraints = false
         let safeArea = view.safeAreaLayoutGuide
         
         listTableView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor).isActive = true

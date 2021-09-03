@@ -8,5 +8,5 @@
 import UIKit
 
 class DetailViewController: UIViewController {
-    
+    var splitView: UISplitViewController?
 }

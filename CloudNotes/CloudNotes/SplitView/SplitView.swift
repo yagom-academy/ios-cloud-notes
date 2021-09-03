@@ -12,14 +12,27 @@ class SplitView: UISplitViewController {
     let itemDetailView = ItemDetailView()
     let splitViewDelegator = SplitViewDelegate()
 
+    var isCompactSize: Bool {
+        return UITraitCollection.current.horizontalSizeClass == .compact
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        delegate = splitViewDelegator
+        preferredSplitBehavior = .tile
+        preferredDisplayMode = .automatic
 
-        view.backgroundColor = .orange
+        delegate = splitViewDelegator
 
         setViewController(itemListView, for: .primary)
         setViewController(itemDetailView, for: .secondary)
+    }
+
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        if isCompactSize {
+            navigationController?.isNavigationBarHidden = true
+        } else {
+            navigationController?.isNavigationBarHidden = false
+        }
     }
 }

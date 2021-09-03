@@ -7,16 +7,15 @@
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-
     var window: UIWindow?
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
+        let splitView = SplitViewController()
+        
         guard let windowScene = (scene as? UIWindowScene) else { return }
-        let mainViewController = MemoViewController()
-        let navigationController = UINavigationController(rootViewController: mainViewController)
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.windowScene = windowScene
-        window?.rootViewController = navigationController
+        window?.rootViewController = splitView
         window?.makeKeyAndVisible()
     }
 

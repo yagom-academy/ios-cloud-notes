@@ -113,6 +113,9 @@ fastlane/Preview.html
 fastlane/screenshots
 fastlane/test_output
 
+# SwiftLint
+SwiftLint/
+
 ### SublimeText ###
 # Cache files for Sublime Text
 *.tmlanguage.cache

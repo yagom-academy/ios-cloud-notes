@@ -22,6 +22,8 @@ class MemoDetailViewController: UIViewController {
 //MARK:- Set up memoTextView
 extension MemoDetailViewController {
     private func setUpMemoTextViewConstraints() {
+        view.addSubview(memoTextView)
+        memoTextView.translatesAutoresizingMaskIntoConstraints = false
         let safeArea = view.safeAreaLayoutGuide
         
         memoTextView.topAnchor.constraint(equalTo: safeArea.topAnchor).isActive = true

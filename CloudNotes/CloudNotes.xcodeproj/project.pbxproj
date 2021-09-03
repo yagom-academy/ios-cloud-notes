@@ -23,6 +23,7 @@
 		C91EF67826E1FA9D0013E3D6 /* Memo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91EF67726E1FA9D0013E3D6 /* Memo.swift */; };
 		C91EF67A26E205900013E3D6 /* MemoItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91EF67926E205900013E3D6 /* MemoItemTableViewCell.swift */; };
 		C91EF67C26E21C900013E3D6 /* MemoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91EF67B26E21C900013E3D6 /* MemoDetailViewController.swift */; };
+		C91EF68026E226F20013E3D6 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = C91EF67F26E226F20013E3D6 /* .swiftlint.yml */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,6 +71,7 @@
 		C91EF67726E1FA9D0013E3D6 /* Memo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memo.swift; sourceTree = "<group>"; };
 		C91EF67926E205900013E3D6 /* MemoItemTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoItemTableViewCell.swift; sourceTree = "<group>"; };
 		C91EF67B26E21C900013E3D6 /* MemoDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoDetailViewController.swift; sourceTree = "<group>"; };
+		C91EF67F26E226F20013E3D6 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		E6AD4DA90F91540E38399744 /* Pods-CloudNotesTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudNotesTests.debug.xcconfig"; path = "Target Support Files/Pods-CloudNotesTests/Pods-CloudNotesTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -127,6 +129,7 @@
 		C7481C6125BBCF3900B9CA55 = {
 			isa = PBXGroup;
 			children = (
+				C91EF67F26E226F20013E3D6 /* .swiftlint.yml */,
 				C7481C6C25BBCF3900B9CA55 /* CloudNotes */,
 				C7481C8625BBCF3A00B9CA55 /* CloudNotesTests */,
 				C7481C9125BBCF3A00B9CA55 /* CloudNotesUITests */,
@@ -226,6 +229,7 @@
 				C7481C6625BBCF3900B9CA55 /* Sources */,
 				C7481C6725BBCF3900B9CA55 /* Frameworks */,
 				C7481C6825BBCF3900B9CA55 /* Resources */,
+				C91EF67D26E225810013E3D6 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -321,6 +325,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C91EF68026E226F20013E3D6 /* .swiftlint.yml in Resources */,
 				C7481C7D25BBCF3A00B9CA55 /* LaunchScreen.storyboard in Resources */,
 				C7481C7A25BBCF3A00B9CA55 /* Assets.xcassets in Resources */,
 				C7481C7525BBCF3900B9CA55 /* Main.storyboard in Resources */,
@@ -387,6 +392,23 @@
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
+		};
+		C91EF67D26E225810013E3D6 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "${PODS_ROOT}/SwiftLint/swiftlint\n";
 		};
 		FCC72BBEF93FA8CC57617563 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;

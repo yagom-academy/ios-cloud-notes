@@ -1,0 +1,10 @@
+disabled_rules:
+- comment_spacing
+- trailing_whitespace
+- mark
+included:
+excluded:
+- Pods
+- CloudNotes/*Delegate.swift
+- CloudNotesTests
+- CloudNotesUITests

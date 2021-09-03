@@ -8,10 +8,7 @@
 import UIKit
 
 class MemoTableViewController: UITableViewController {
-    var characters = ["LinkLinkLinkLinkLinkLink",
-                      "ZeldaZeldaZeldaZeldaZeldaZelda",
-                      "GanondorfGanondorfGanondorfGanondorfGanondorf",
-                      "Midna"]
+    var mockItems: [Savable] = [MockModel(), MockModel(), MockModel(),]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,16 +26,16 @@ class MemoTableViewController: UITableViewController {
 extension MemoTableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return characters.count
+        return mockItems.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellID = "MemoTableViewCell"
         if let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath)
-            as? MemoTableViewCell {
-            cell.titleLabel.text = characters[indexPath.row]
-            cell.dateLabel.text = characters[indexPath.row]
-            cell.previewLabel.text = characters[indexPath.row]
+            as? MemoTableViewCell{
+            
+            cell.configureLabels(withModel: mockItems[indexPath.row])
+            
             return cell
         }
         return UITableViewCell()

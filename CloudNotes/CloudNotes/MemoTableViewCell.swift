@@ -8,9 +8,9 @@
 import UIKit
 
 class MemoTableViewCell: UITableViewCell {
-    var titleLabel: UILabel!
-    var dateLabel: UILabel!
-    var previewLabel: UILabel!
+    private var titleLabel: UILabel!
+    private var dateLabel: UILabel!
+    private var previewLabel: UILabel!
     
     private lazy var dateAndPreviewStackView: UIStackView = {
         let dateAndPreviewStackView = UIStackView(arrangedSubviews: [dateLabel, previewLabel])
@@ -76,6 +76,12 @@ class MemoTableViewCell: UITableViewCell {
             .isActive = true
         titleWithDetailStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8)
             .isActive = true
+    }
+    
+    func configureLabels(withModel: Savable) {
+        titleLabel.text = withModel.title
+        dateLabel.text = withModel.lastModified?.description
+        previewLabel.text = withModel.body
     }
     
     override func awakeFromNib() {

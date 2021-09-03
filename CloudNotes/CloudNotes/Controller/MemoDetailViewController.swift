@@ -23,6 +23,7 @@ class MemoDetailViewController: UIViewController {
 extension MemoDetailViewController {
     private func setUpMemoTextViewConstraints() {
         let safeArea = view.safeAreaLayoutGuide
+        
         memoTextView.topAnchor.constraint(equalTo: safeArea.topAnchor).isActive = true
         memoTextView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor).isActive = true
         memoTextView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor).isActive = true

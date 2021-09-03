@@ -22,6 +22,7 @@
 		C91EF67526E13A8C0013E3D6 /* MemoListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91EF67426E13A8C0013E3D6 /* MemoListViewController.swift */; };
 		C91EF67826E1FA9D0013E3D6 /* Memo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91EF67726E1FA9D0013E3D6 /* Memo.swift */; };
 		C91EF67A26E205900013E3D6 /* MemoItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91EF67926E205900013E3D6 /* MemoItemTableViewCell.swift */; };
+		C91EF67C26E21C900013E3D6 /* MemoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91EF67B26E21C900013E3D6 /* MemoDetailViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,6 +69,7 @@
 		C91EF67426E13A8C0013E3D6 /* MemoListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoListViewController.swift; sourceTree = "<group>"; };
 		C91EF67726E1FA9D0013E3D6 /* Memo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memo.swift; sourceTree = "<group>"; };
 		C91EF67926E205900013E3D6 /* MemoItemTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoItemTableViewCell.swift; sourceTree = "<group>"; };
+		C91EF67B26E21C900013E3D6 /* MemoDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoDetailViewController.swift; sourceTree = "<group>"; };
 		E6AD4DA90F91540E38399744 /* Pods-CloudNotesTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudNotesTests.debug.xcconfig"; path = "Target Support Files/Pods-CloudNotesTests/Pods-CloudNotesTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -181,6 +183,7 @@
 			children = (
 				C7481C7125BBCF3900B9CA55 /* ContainerSplitViewController.swift */,
 				C91EF67426E13A8C0013E3D6 /* MemoListViewController.swift */,
+				C91EF67B26E21C900013E3D6 /* MemoDetailViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -415,6 +418,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C7481C7225BBCF3900B9CA55 /* ContainerSplitViewController.swift in Sources */,
+				C91EF67C26E21C900013E3D6 /* MemoDetailViewController.swift in Sources */,
 				C91EF67526E13A8C0013E3D6 /* MemoListViewController.swift in Sources */,
 				C91EF67A26E205900013E3D6 /* MemoItemTableViewCell.swift in Sources */,
 				C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */,

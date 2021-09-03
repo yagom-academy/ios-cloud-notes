@@ -44,6 +44,9 @@ extension MenuViewController: UITableViewDelegate, UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: CustomCell.cellIdentifier, for: indexPath) as? CustomCell else {
             return UITableViewCell()
         }
+        cell.title.text = data[indexPath.row].title
+        cell.lastModification.text = "\(data[indexPath.row].lastModified)"
+        cell.shortDescription.text = data[indexPath.row].body
         return cell
     }
     

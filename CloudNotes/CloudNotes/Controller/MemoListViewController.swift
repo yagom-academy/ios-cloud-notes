@@ -9,6 +9,7 @@ import UIKit
 
 class MemoListViewController: UIViewController {
     private var listTableView: UITableView = UITableView()
+    private var memoList: [Memo] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,4 +28,17 @@ extension MemoListViewController {
         listTableView.topAnchor.constraint(equalTo: safeArea.topAnchor).isActive = true
         listTableView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor).isActive = true
     }
+}
+
+//MARK:- Conform to TableViewDataSource
+extension MemoListViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return memoList.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        return UITableViewCell()
+    }
+    
+    
 }

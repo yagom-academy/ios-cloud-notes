@@ -13,6 +13,7 @@
 		75CED3B926E2611F001E2E42 /* MemoListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75CED3B826E2611F001E2E42 /* MemoListCell.swift */; };
 		75CED3BC26E2629C001E2E42 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75CED3BB26E2629C001E2E42 /* MainViewController.swift */; };
 		75CED3BE26E26304001E2E42 /* MenuTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75CED3BD26E26304001E2E42 /* MenuTableViewController.swift */; };
+		75CED3C026E265B9001E2E42 /* DetailTextViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75CED3BF26E265B9001E2E42 /* DetailTextViewController.swift */; };
 		C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */; };
 		C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */; };
 		C7481C7225BBCF3900B9CA55 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C7125BBCF3900B9CA55 /* ViewController.swift */; };
@@ -48,6 +49,7 @@
 		75CED3B826E2611F001E2E42 /* MemoListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoListCell.swift; sourceTree = "<group>"; };
 		75CED3BB26E2629C001E2E42 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		75CED3BD26E26304001E2E42 /* MenuTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuTableViewController.swift; sourceTree = "<group>"; };
+		75CED3BF26E265B9001E2E42 /* DetailTextViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTextViewController.swift; sourceTree = "<group>"; };
 		C7481C6A25BBCF3900B9CA55 /* CloudNotes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CloudNotes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -104,6 +106,7 @@
 			children = (
 				75CED3BB26E2629C001E2E42 /* MainViewController.swift */,
 				75CED3BD26E26304001E2E42 /* MenuTableViewController.swift */,
+				75CED3BF26E265B9001E2E42 /* DetailTextViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -319,6 +322,7 @@
 			files = (
 				75CED3B726E2602F001E2E42 /* ParsingManager.swift in Sources */,
 				C7481C7225BBCF3900B9CA55 /* ViewController.swift in Sources */,
+				75CED3C026E265B9001E2E42 /* DetailTextViewController.swift in Sources */,
 				C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */,
 				C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */,
 				75CED3B926E2611F001E2E42 /* MemoListCell.swift in Sources */,

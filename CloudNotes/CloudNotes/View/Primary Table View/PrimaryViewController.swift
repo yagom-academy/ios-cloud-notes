@@ -8,13 +8,14 @@
 import UIKit
 
 protocol SelectedCellDelegate: AnyObject {
-    func showSelectedDetail(memo: Memo, index: Int?)
+    func showSelectedDetail(memo: Memo, isSelected: Bool)
 }
 
 class PrimaryViewController: UITableViewController {
         
     var primaryTableViewDataSource: PrimaryTableViewDataSource?
     weak var delegate: SelectedCellDelegate?
+    var selectedIndexPath: IndexPath?
     
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -30,11 +31,25 @@ class PrimaryViewController: UITableViewController {
         super.viewDidLoad()
         self.navigationItem.title = "메모"
         
-        primaryTableViewDataSource = PrimaryTableViewDataSource(showDetailAction: { seleted, index in
-            self.delegate?.showSelectedDetail(memo: seleted, index: index)
+        primaryTableViewDataSource = PrimaryTableViewDataSource(showDetailAction: { seleted, indexPath in
+            self.delegate?.showSelectedDetail(memo: seleted, isSelected: indexPath != nil )
+            self.selectedIndexPath = indexPath
         })
         tableView.dataSource = primaryTableViewDataSource
         tableView.delegate = primaryTableViewDataSource
         tableView.register(PrimaryTableViewCell.self, forCellReuseIdentifier: PrimaryTableViewCell.reuseIdentifier)
+    }
+}
+
+extension PrimaryViewController {
+    func updateSecondaryChanging( _ memo: Memo?) {
+        guard let indexPath = selectedIndexPath else {
+            print("에러처리 필요 - 선택된 인덱스 없음")
+            return
+        }
+        primaryTableViewDataSource?.update(memo, indexPath) {
+            self.tableView.reloadRows(at: [indexPath], with: .automatic)
+        }
+        
     }
 }

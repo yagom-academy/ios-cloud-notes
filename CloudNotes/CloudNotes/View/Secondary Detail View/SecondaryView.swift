@@ -9,12 +9,6 @@ import UIKit
 
 class SecondaryView: UIView {
     
-    typealias DidChangedMemoAction = (Memo?, Int?) -> Void
-    
-    private var tempMemo: Memo?
-    private var tempIndex: Int?
-    private var didEndEditingMemoAction: DidChangedMemoAction?
-    
     let textView: UITextView = {
         let view = UITextView()
         view.textColor = .black
@@ -22,9 +16,8 @@ class SecondaryView: UIView {
         return view
     }()
     
-    init(didChangingMemoAction: @escaping DidChangedMemoAction) {
-        super.init(frame: .zero)
-        self.didEndEditingMemoAction = didChangingMemoAction
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         addSubview(textView)
         self.translatesAutoresizingMaskIntoConstraints = false
     }
@@ -44,19 +37,8 @@ class SecondaryView: UIView {
     }
 }
 
-extension SecondaryView: UITextViewDelegate {
-    func textViewDidEndEditing(_ textView: UITextView) {
-        print("변경 완료 didEnd")
-        tempMemo?.body = textView.text
-        tempMemo?.lastModified = Date().timeIntervalSince1970
-        didEndEditingMemoAction?(tempMemo, tempIndex)
-    }
-}
-
 extension SecondaryView {
-    func configure(by memo: Memo?, index: Int?) {
-        self.tempMemo = memo
-        self.tempIndex = index
-        self.textView.text = memo?.body
+    func configure(by text: String?) {
+        self.textView.text = text
     }
 }

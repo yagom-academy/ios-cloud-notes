@@ -9,7 +9,7 @@ import UIKit
 
 class PrimaryTableViewDataSource: NSObject {
     
-    typealias SelectedMemoAction = (Memo, Int?) -> Void
+    typealias SelectedMemoAction = (Memo, IndexPath?) -> Void
     
     private var memos: [Memo] = []
     private var selectedMemoAction: SelectedMemoAction?
@@ -74,14 +74,26 @@ extension PrimaryTableViewDataSource: UITableViewDataSource {
     }
 }
 
+// MARK: - TableView Delegate
 extension PrimaryTableViewDataSource: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 44
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let index = indexPath.row
-        let selectedMemo = memos[index]
-        selectedMemoAction?(selectedMemo, index)
+        let selectedMemo = memos[indexPath.row]
+        selectedMemoAction?(selectedMemo, indexPath)
+    }
+}
+
+extension PrimaryTableViewDataSource {
+    func update( _ memo: Memo?, _ indexPath: IndexPath?, completion: @escaping () -> Void) {
+        guard let index = indexPath?.row,
+              let item = memo else {
+            print("에러처리 필요 - 데이터 없음")
+            return
+        }
+        memos[index] = item
+        completion()
     }
 }

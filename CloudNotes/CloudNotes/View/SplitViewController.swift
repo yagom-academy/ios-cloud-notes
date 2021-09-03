@@ -40,15 +40,14 @@ extension SplitViewController: UISplitViewControllerDelegate {
 }
 
 extension SplitViewController: SelectedCellDelegate, ChangedMemoDelegate {
-    func showSelectedDetail(memo: Memo, index: Int?) {
-        secondaryViewController?.updateDetailView(by: memo, index: index)
-        if index != nil {
+    func showSelectedDetail(memo: Memo, isSelected: Bool) {
+        secondaryViewController?.updateDetailView(by: memo)
+        if isSelected {
             show(.secondary)
         }
     }
     
-    func updateListItem(memo: Memo?, index: Int?) {
-        print("변경 완료 \(memo), \(index)")
-        // Primary로 전달
+    func updateListItem(memo: Memo?) {
+        primaryViewController?.updateSecondaryChanging(memo)
     }
 }

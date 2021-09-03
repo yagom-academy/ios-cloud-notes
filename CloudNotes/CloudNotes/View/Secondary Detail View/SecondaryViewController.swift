@@ -8,21 +8,19 @@
 import UIKit
 
 protocol ChangedMemoDelegate: AnyObject {
-    func updateListItem(memo: Memo?, index: Int?)
+    func updateListItem(memo: Memo?)
 }
 
 class SecondaryViewController: UIViewController {
     
     private var secondaryView: SecondaryView?
-    
+    private var tempMemo: Memo?
+    let doubleNewLine = "\n\n"
     weak var delegate: ChangedMemoDelegate?
     
     init() {
         super.init(nibName: nil, bundle: nil)
-        secondaryView = SecondaryView { temp, index in
-            print("변경 완료 클로저")
-            self.delegate?.updateListItem(memo: temp, index: index)
-        }
+        secondaryView = SecondaryView()
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -44,12 +42,30 @@ class SecondaryViewController: UIViewController {
             secondary.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
         ])
         
-        secondaryView?.textView.delegate = secondaryView
+        secondaryView?.textView.delegate = self
+    }
+}
+
+extension SecondaryViewController: UITextViewDelegate {
+    func textViewDidEndEditing(_ textView: UITextView) {
+        var split = textView.text.split(whereSeparator: \.isNewline)
+        let title = String(split.removeFirst())
+        let body = split.joined(separator: doubleNewLine)
+        
+        tempMemo?.title = title
+        tempMemo?.body = body
+        tempMemo?.lastModified = Date().timeIntervalSince1970
+        
+        delegate?.updateListItem(memo: tempMemo)
     }
 }
 
 extension SecondaryViewController {
-    func updateDetailView(by memo: Memo?, index: Int?) {
-        self.secondaryView?.configure(by: memo, index: index)
+    func updateDetailView(by memo: Memo?) {
+        self.tempMemo = memo
+        memo.flatMap { memo in
+            let text = memo.title + doubleNewLine + (memo.body ?? "")
+            self.secondaryView?.configure(by: text)
+        }
     }
 }

@@ -8,8 +8,24 @@
 import UIKit
 
 class MainViewController: UIViewController {
-
+    
+    let splitVC = UISplitViewController(style: .doubleColumn)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        configure()
     }
+    
+    private func configure() {
+        let menuVC = MenuTableViewController(style: .plain)
+        menuVC.makeTest()
+        let secondVC = DetailTextViewController()
+        secondVC.title = "Home"
+        splitVC.viewControllers = [
+            UINavigationController(rootViewController: menuVC),
+            UINavigationController(rootViewController: secondVC)
+        ]
+        present(splitVC, animated: false)
+    }
+    
 }

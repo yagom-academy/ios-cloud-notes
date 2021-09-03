@@ -14,6 +14,7 @@ class MenuViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        data = ParsingManager().parse(fileName: "sample")
         configureTableView()
     }
 

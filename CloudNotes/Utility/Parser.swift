@@ -24,23 +24,6 @@ struct Parser {
     }
 
     static func decode<Model>(
-        from data: Data,
-        to model: Model
-    ) -> Result<Model, Error> where Model: Decodable {
-
-        let decoder = JSONDecoder()
-
-        do {
-            let data = try decoder.decode(Model.self, from: data)
-
-            return .success(data)
-        } catch {
-            return .failure(ErrorCases.notDecodable)
-        }
-
-    }
-
-    static func decode<Model>(
         from data: [String: Any],
         to model: Model.Type
     ) -> Result<Model, Error> where Model: Decodable {
@@ -57,6 +40,5 @@ struct Parser {
         } catch {
             return .failure(ErrorCases.notDecodable)
         }
-
     }
 }

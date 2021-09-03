@@ -12,8 +12,6 @@ class SecondaryView: UIView {
     let textView: UITextView = {
         let view = UITextView()
         view.textColor = .black
-        view.backgroundColor = .red
-        view.text = "alksmflkmfblsm;lbmk;erj"
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -37,13 +35,6 @@ class SecondaryView: UIView {
             textView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
         ])
     }
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
-    }
-    */
 }
 
 extension SecondaryView: UITextViewDelegate {
@@ -51,9 +42,7 @@ extension SecondaryView: UITextViewDelegate {
 }
 
 extension SecondaryView {
-    
     func configure(by text: String?) {
         self.textView.text = text
     }
-    
 }

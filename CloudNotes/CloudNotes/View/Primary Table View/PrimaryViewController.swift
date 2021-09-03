@@ -32,6 +32,5 @@ class PrimaryViewController: UITableViewController {
         tableView.dataSource = primaryTableViewDataSource
         tableView.delegate = primaryTableViewDataSource
         tableView.register(PrimaryTableViewCell.self, forCellReuseIdentifier: PrimaryTableViewCell.reuseIdentifier)
-        
     }
 }

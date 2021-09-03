@@ -24,7 +24,7 @@ class MemoTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func updateLayout() {
+    private func updateLayout() {
         updateTitleLayout()
         updateLastModifiedLayout()
         updatePreviewBodyLabelLayout()

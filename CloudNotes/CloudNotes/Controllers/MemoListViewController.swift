@@ -15,16 +15,16 @@ class MemoListViewController: UIViewController {
         setupTableView()
     }
     
-    func setupTableView() {
+    private func setupTableView() {
         view.addSubview(tableView)
         
         let safeArea = view.safeAreaLayoutGuide
         tableView.translatesAutoresizingMaskIntoConstraints = false
         
         tableView.topAnchor.constraint(equalTo: safeArea.topAnchor).isActive = true
-        tableView.leftAnchor.constraint(equalTo: safeArea.leftAnchor).isActive = true
+        tableView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor).isActive = true
         tableView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor).isActive = true
-        tableView.rightAnchor.constraint(equalTo: safeArea.rightAnchor).isActive = true
+        tableView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor).isActive = true
         
         tableView.register(MemoTableViewCell.self, forCellReuseIdentifier: MemoTableViewCell.identifier)
         
@@ -53,6 +53,9 @@ extension MemoListViewController: UITableViewDataSource {
 extension MemoListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let memo = memoList[indexPath.row]
-        dump(memo)
+        
+        let memoDetailVC = MemoDetailViewController(memo: memo)
+        memoDetailVC.modalPresentationStyle = .fullScreen
+        present(memoDetailVC, animated: true)
     }
 }

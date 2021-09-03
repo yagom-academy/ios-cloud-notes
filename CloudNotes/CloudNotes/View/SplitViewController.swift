@@ -22,5 +22,15 @@ class SplitViewController: UISplitViewController {
         self.viewControllers = [master, detail]
         preferredDisplayMode = .oneBesideSecondary
         self.view.backgroundColor = .white
+        self.delegate = self
     }
+}
+
+extension SplitViewController: UISplitViewControllerDelegate {
+    func splitViewController(
+        _ splitViewController: UISplitViewController,
+        collapseSecondary secondaryViewController: UIViewController,
+        onto primaryViewController: UIViewController) -> Bool {
+            return true
+        }
 }

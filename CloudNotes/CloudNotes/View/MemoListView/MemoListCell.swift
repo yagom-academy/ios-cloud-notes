@@ -10,22 +10,20 @@ import UIKit
 class MemoListCell: UITableViewCell {
     static let reuseIdentifier = "\(MemoListCell.self)"
 
-    lazy var titleLabel: UILabel = {
+    var titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .title1)
         label.adjustsFontForContentSizeCategory = true
         return label
     }()
-
-    lazy var bodyLabel: UILabel = {
+    var bodyLabel: UILabel = {
         let label = UILabel()
         label.textColor = .gray
         label.font = UIFont.preferredFont(forTextStyle: .body)
         label.adjustsFontForContentSizeCategory = true
         return label
     }()
-
-    lazy var dateLabel: UILabel = {
+    var dateLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .body)
         label.adjustsFontForContentSizeCategory = true
@@ -39,7 +37,7 @@ class MemoListCell: UITableViewCell {
     }
 
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        fatalError()
     }
 
     func configure(with memo: MemoPresentModel) {

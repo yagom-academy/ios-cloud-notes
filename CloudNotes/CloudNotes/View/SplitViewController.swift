@@ -15,7 +15,6 @@ class SplitViewController: UISplitViewController {
     }
 
     private func setup() {
-        self.delegate = self
         let master = UINavigationController()
         let detail = UINavigationController()
         master.viewControllers = [MemoListViewController()]
@@ -24,11 +23,4 @@ class SplitViewController: UISplitViewController {
         preferredDisplayMode = .oneBesideSecondary
         self.view.backgroundColor = .white
     }
-}
-
-extension SplitViewController: UISplitViewControllerDelegate {
-    func splitViewController(_ svc: UISplitViewController, topColumnForCollapsingToProposedTopColumn proposedTopColumn: UISplitViewController.Column) -> UISplitViewController.Column {
-        return .compact
-    }
-
 }

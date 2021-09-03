@@ -26,12 +26,29 @@ class MemoDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        memoTextView.text = "\(memoTitle)\n\(memoBody)"
+        updateTextFontStyle()
         updateLayout()
+    }
+    
+    private func updateTextFontStyle() {
+        let textViewTitleFontSize = 24
+        let textViewBodyFontSize = 20
+        
+        let titleFont = UIFont.boldSystemFont(ofSize: CGFloat(textViewTitleFontSize))
+        let bodyFont = UIFont.systemFont(ofSize: CGFloat(textViewBodyFontSize))
+        
+        let attributedStr = NSMutableAttributedString(string: memoTextView.text)
+        attributedStr.addAttribute (.font, value: titleFont, range: (memoTextView.text as NSString).range(of: memoTitle))
+        attributedStr.addAttribute(.font, value: bodyFont, range: (memoTextView.text as NSString).range(of: memoBody))
+        
+        memoTextView.attributedText = attributedStr
     }
     
     private func updateLayout() {
         let commonTextViewInset = 20
+        
         view.addSubview(memoTextView)
         
         let safeArea = view.safeAreaLayoutGuide
@@ -47,9 +64,12 @@ class MemoDetailViewController: UIViewController {
         ).isActive = true
         memoTextView.bottomAnchor.constraint(
             equalTo: safeArea.bottomAnchor,
-            constant: CGFloat(commonTextViewInset)
+            constant: 0
         ).isActive = true
-        memoTextView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor).isActive = true
+        memoTextView.trailingAnchor.constraint(
+            equalTo: safeArea.trailingAnchor,
+            constant: CGFloat(commonTextViewInset*(-1))
+        ).isActive = true
         
         view.backgroundColor = .white
     }

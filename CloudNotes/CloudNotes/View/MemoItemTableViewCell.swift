@@ -17,6 +17,7 @@ class MemoItemTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        setAutoresizingMasks()
         setUpInnerStackView()
         setUpOuterStackView()
         setUpAccessoryView()
@@ -25,6 +26,14 @@ class MemoItemTableViewCell: UITableViewCell {
 
 //MARK:- Set View Components
 extension MemoItemTableViewCell {
+    private func setAutoresizingMasks() {
+        outerStackView.translatesAutoresizingMaskIntoConstraints = false
+        innerStackView.translatesAutoresizingMaskIntoConstraints = false
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        lastModifiedLabel.translatesAutoresizingMaskIntoConstraints = false
+        summaryLabel.translatesAutoresizingMaskIntoConstraints = false
+    }
+    
     private func setUpInnerStackView() {
         innerStackView.axis = .horizontal
         innerStackView.addArrangedSubview(lastModifiedLabel)

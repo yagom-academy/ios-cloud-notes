@@ -2,6 +2,6 @@
 
 ### 동기화 메모장 프로젝트 저장소
 
-- 이 저장소를 자신의 저장소로 fork하여 프로젝트를 진행합니다
-- 자신의 브랜치에 PR을 보내는지 꼭 확인한 후 PR을 보냅니다
+- Step 1-1 UML
 
+![Untitled-4](https://user-images.githubusercontent.com/57824307/131988910-26bd2b24-77b0-467a-a367-d319705b04ef.png)

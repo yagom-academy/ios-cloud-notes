@@ -8,21 +8,22 @@
 import UIKit
 
 class DetailTextViewController: UIViewController {
-
+    var memo: Savable?
+    
     private lazy var textView: UITextView = {
         let textView = UITextView()
         
         textView.font = UIFont.preferredFont(forTextStyle: .body)
+        textView.text = memo?.body
         
         return textView
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         self.view.addSubview(textView)
         setTextViewAnchor()
-        // Do any additional setup after loading the view.
     }
     
     private func setTextViewAnchor() {
@@ -38,15 +39,7 @@ class DetailTextViewController: UIViewController {
             .isActive = true
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    func configure(with memo: Savable) {
+        self.memo = memo
     }
-    */
-
 }

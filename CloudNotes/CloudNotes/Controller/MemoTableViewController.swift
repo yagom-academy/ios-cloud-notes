@@ -45,7 +45,10 @@ extension MemoTableViewController {
 // MARK: - Table view delegate
 extension MemoTableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.navigationController?.pushViewController(DetailTextViewController(), animated: true)
+        let detailViewController = DetailTextViewController()
+        
+        detailViewController.configure(with: mockItems[indexPath.row])
+
+        self.navigationController?.pushViewController(detailViewController, animated: true)
     }
 }
-

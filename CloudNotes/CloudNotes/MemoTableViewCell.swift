@@ -12,7 +12,7 @@ class MemoTableViewCell: UITableViewCell {
     var dateLabel: UILabel!
     var previewLabel: UILabel!
     
-    lazy var dateAndPreviewStackView: UIStackView = {
+    private lazy var dateAndPreviewStackView: UIStackView = {
         let dateAndPreviewStackView = UIStackView(arrangedSubviews: [dateLabel, previewLabel])
         
         dateAndPreviewStackView.translatesAutoresizingMaskIntoConstraints = false
@@ -23,7 +23,7 @@ class MemoTableViewCell: UITableViewCell {
         return dateAndPreviewStackView
     }()
     
-    lazy var titleWithDetailStackView: UIStackView = {
+    private lazy var titleWithDetailStackView: UIStackView = {
         let titleStackView = UIStackView(arrangedSubviews: [titleLabel, dateAndPreviewStackView])
         
         titleStackView.translatesAutoresizingMaskIntoConstraints = false
@@ -37,19 +37,8 @@ class MemoTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setUp()
-        
         addSubview(titleWithDetailStackView)
-        
-        titleWithDetailStackView.translatesAutoresizingMaskIntoConstraints = false
-        
-        titleWithDetailStackView.leftAnchor.constraint(equalTo: leftAnchor, constant: 16)
-            .isActive = true
-        titleWithDetailStackView.rightAnchor.constraint(equalTo: rightAnchor, constant: -16)
-            .isActive = true
-        titleWithDetailStackView.topAnchor.constraint(equalTo: topAnchor, constant: 8)
-            .isActive = true
-        titleWithDetailStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8)
-            .isActive = true
+        setAnchor()
     }
     
     required init?(coder: NSCoder) {
@@ -72,6 +61,19 @@ class MemoTableViewCell: UITableViewCell {
         previewLabel.font = UIFont.preferredFont(forTextStyle: .body)
         previewLabel.adjustsFontForContentSizeCategory = true
         previewLabel.lineBreakMode = .byTruncatingTail
+    }
+    
+    private func setAnchor() {
+        titleWithDetailStackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        titleWithDetailStackView.leftAnchor.constraint(equalTo: leftAnchor, constant: 16)
+            .isActive = true
+        titleWithDetailStackView.rightAnchor.constraint(equalTo: rightAnchor, constant: -16)
+            .isActive = true
+        titleWithDetailStackView.topAnchor.constraint(equalTo: topAnchor, constant: 8)
+            .isActive = true
+        titleWithDetailStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8)
+            .isActive = true
     }
     
     override func awakeFromNib() {

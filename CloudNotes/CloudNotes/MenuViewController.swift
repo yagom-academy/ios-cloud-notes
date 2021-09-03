@@ -14,11 +14,16 @@ class MenuViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureNavigationItem()
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(CustomCell.self, forCellReuseIdentifier: CustomCell.cellIdentifier)
         data = ParsingManager().parse(fileName: "sample")
         configureTableView()
+    }
+    
+    func configureNavigationItem() {
+        self.title = "메모"
     }
 
     func configureTableView() {

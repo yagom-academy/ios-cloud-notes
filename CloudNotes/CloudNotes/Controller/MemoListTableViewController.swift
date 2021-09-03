@@ -10,7 +10,7 @@ import UIKit
 class MemoListTableViewController: UITableViewController {
     // MARK: Property
     private let memo = SampleMemo.setupSampleMemo()
-    var dataSource: UITableViewDiffableDataSource<Section, Memo>?
+    private var dataSource: UITableViewDiffableDataSource<Section, Memo>?
     // MARK: View LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,8 +18,8 @@ class MemoListTableViewController: UITableViewController {
         configureNavigationBar()
         configureTableView()
         registerTableViewCell()
-        makeDiffableDataSource()
-        snapShot(ofMemo: memo)
+        makeTableViewDiffableDataSource()
+        snapshot(ofMemo: memo)
     }
 }
 
@@ -42,10 +42,10 @@ extension MemoListTableViewController {
         navigationItem.title = NameSpace.NavigationItem.title
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
                                                             target: self,
-                                                            action: #selector(addButtomTap))
+                                                            action: #selector(addTabButton))
     }
     
-    @objc func addButtomTap() {
+    @objc func addTabButton() {
         
     }
 }
@@ -62,26 +62,6 @@ extension MemoListTableViewController {
     }
 }
 
-// MARK: - Data Source
-//extension MemoListTableViewController {
-//    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        super.tableView(tableView, numberOfRowsInSection: section)
-//        return memo.count
-//    }
-//
-//    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        super.tableView(tableView, cellForRowAt: indexPath)
-//        guard let cell = tableView.dequeueReusableCell(withIdentifier: MemoListTableViewCell.identifier,
-//                                                       for: indexPath) as? MemoListTableViewCell else {
-//            fatalError()
-//        }
-//        cell.accessoryType = .disclosureIndicator
-//        cell.configure(with: memo[indexPath.row])
-//
-//        return cell
-//    }
-//}
-
 // MARK: - Delegate
 extension MemoListTableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -89,7 +69,7 @@ extension MemoListTableViewController {
         detailVC.showContents(of: memo[indexPath.row])
         
         if UITraitCollection.current.horizontalSizeClass == .regular {
-            self.showDetailViewController(UINavigationController(rootViewController: detailVC), sender: nil)
+            self.showDetailViewController(detailVC, sender: nil)
         } else {
             navigationController?.pushViewController(detailVC, animated: true)
         }
@@ -97,25 +77,28 @@ extension MemoListTableViewController {
     }
 }
 
+// MARK: - Data Source
 extension MemoListTableViewController {
-    enum Section {
+   private enum Section {
         case main
     }
     
-    func makeDiffableDataSource() {
+   private func makeTableViewDiffableDataSource() {
         dataSource = UITableViewDiffableDataSource<Section, Memo>(tableView: self.tableView, cellProvider: { tableView, indexPath, memo in
             
             guard let cell = tableView.dequeueReusableCell(withIdentifier: MemoListTableViewCell.identifier, for: indexPath) as? MemoListTableViewCell else { fatalError() }
+            
+            cell.accessoryType = .disclosureIndicator
             cell.configure(with: memo)
             
             return cell
         })
     }
     
-    func snapShot(ofMemo memo: [Memo]) {
+   private func snapshot(ofMemo memo: [Memo]) {
         var snapShot = NSDiffableDataSourceSnapshot<Section, Memo>()
-        snapShot.appendSections([.main])
         
+        snapShot.appendSections([.main])
         snapShot.appendItems(memo)
         dataSource?.apply(snapShot, animatingDifferences: true, completion: nil)
     }

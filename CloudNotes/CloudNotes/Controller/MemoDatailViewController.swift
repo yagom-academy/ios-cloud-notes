@@ -56,11 +56,18 @@ extension MemoDatailViewController {
     }
     
     private func configureView() {
+        
+        if UITraitCollection.current.horizontalSizeClass == .compact {
+            memoContentsTextView.backgroundColor = .systemGray
+        }
+        
         view.backgroundColor = .white
         view.addSubview(memoContentsTextView)
     }
     
     func showContents(of memo: Memo) {
-        memoContentsTextView.text = memo.body
+        memoContentsTextView.text.append(memo.title)
+        memoContentsTextView.text.append("\n\n")
+        memoContentsTextView.text.append(memo.body)
     }
 }

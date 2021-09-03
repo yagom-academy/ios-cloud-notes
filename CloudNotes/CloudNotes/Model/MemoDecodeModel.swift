@@ -9,9 +9,7 @@ import Foundation
 
 // MARK: - Model when used decoding sample JSON file
 struct MemoDecodeModel: Decodable {
-    let item: [Item]
     
-    struct Item: Decodable {
         let title: String
         let body: String
         let lastModified: Int
@@ -20,5 +18,4 @@ struct MemoDecodeModel: Decodable {
             case title, body
             case lastModified = "last_modified"
         }
-    }
 }

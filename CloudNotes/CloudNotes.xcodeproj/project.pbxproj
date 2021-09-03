@@ -12,7 +12,6 @@
 		A830336F26DF976500EA30DC /* MemoDecodeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A830336E26DF976500EA30DC /* MemoDecodeModel.swift */; };
 		A83033C126E10B7100EA30DC /* MemoDataHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A83033C026E10B7100EA30DC /* MemoDataHolder.swift */; };
 		A83033C426E1146F00EA30DC /* MainVCTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A83033C326E1146F00EA30DC /* MainVCTableViewDataSource.swift */; };
-		A83033C826E11D0F00EA30DC /* LayoutGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A83033C726E11D0F00EA30DC /* LayoutGenerator.swift */; };
 		A83033CB26E11DB900EA30DC /* NamePlace.swift in Sources */ = {isa = PBXBuildFile; fileRef = A83033CA26E11DB900EA30DC /* NamePlace.swift */; };
 		A83033CD26E1240100EA30DC /* MainTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A83033CC26E1240100EA30DC /* MainTableViewCell.swift */; };
 		A83033D026E1256300EA30DC /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A83033CF26E1256300EA30DC /* UIView.swift */; };
@@ -49,7 +48,6 @@
 		A830336E26DF976500EA30DC /* MemoDecodeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoDecodeModel.swift; sourceTree = "<group>"; };
 		A83033C026E10B7100EA30DC /* MemoDataHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoDataHolder.swift; sourceTree = "<group>"; };
 		A83033C326E1146F00EA30DC /* MainVCTableViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainVCTableViewDataSource.swift; sourceTree = "<group>"; };
-		A83033C726E11D0F00EA30DC /* LayoutGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutGenerator.swift; sourceTree = "<group>"; };
 		A83033CA26E11DB900EA30DC /* NamePlace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NamePlace.swift; sourceTree = "<group>"; };
 		A83033CC26E1240100EA30DC /* MainTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableViewCell.swift; sourceTree = "<group>"; };
 		A83033CF26E1256300EA30DC /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
@@ -136,14 +134,6 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		A83033C526E11C3800EA30DC /* Layout */ = {
-			isa = PBXGroup;
-			children = (
-				A83033C726E11D0F00EA30DC /* LayoutGenerator.swift */,
-			);
-			path = Layout;
-			sourceTree = "<group>";
-		};
 		A83033C626E11CE400EA30DC /* Data */ = {
 			isa = PBXGroup;
 			children = (
@@ -198,10 +188,9 @@
 				A83033C926E11DAA00EA30DC /* PlaceHolder */,
 				A830336A26DF92C500EA30DC /* AppLifeCycle */,
 				A83033C626E11CE400EA30DC /* Data */,
-				A83033C526E11C3800EA30DC /* Layout */,
+				A830336726DF929A00EA30DC /* View */,
 				A830336926DF92B700EA30DC /* Model */,
 				A830336826DF92B100EA30DC /* Controller */,
-				A830336726DF929A00EA30DC /* View */,
 				C7481C7925BBCF3A00B9CA55 /* Assets.xcassets */,
 				C7481C7E25BBCF3A00B9CA55 /* Info.plist */,
 				C7481C7625BBCF3900B9CA55 /* CloudNotes.xcdatamodeld */,
@@ -385,7 +374,6 @@
 			files = (
 				A83033CD26E1240100EA30DC /* MainTableViewCell.swift in Sources */,
 				C7481C7225BBCF3900B9CA55 /* MainViewController.swift in Sources */,
-				A83033C826E11D0F00EA30DC /* LayoutGenerator.swift in Sources */,
 				A830336D26DF972100EA30DC /* JSONParser.swift in Sources */,
 				A83033D026E1256300EA30DC /* UIView.swift in Sources */,
 				A83033CB26E11DB900EA30DC /* NamePlace.swift in Sources */,

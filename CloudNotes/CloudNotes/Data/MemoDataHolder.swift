@@ -11,11 +11,11 @@ class MemoDataHolder {
     static var list = generateList()
     private init() { }
     
-    private static func generateList() -> MemoDecodeModel? {
+    private static func generateList() -> [MemoDecodeModel]? {
         guard let dataAsset = NSDataAsset(name: "sample")?.data else { return nil }
         
         do {
-            let decodedData = try JSONParser.decoder(modelType: MemoDecodeModel.self, jsonData: dataAsset)
+            let decodedData = try JSONParser.decoder(modelType: [MemoDecodeModel].self, jsonData: dataAsset)
             return decodedData
         } catch {
             return nil

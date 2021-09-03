@@ -25,6 +25,7 @@
 		C91EF67C26E21C900013E3D6 /* MemoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91EF67B26E21C900013E3D6 /* MemoDetailViewController.swift */; };
 		C91EF68026E226F20013E3D6 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = C91EF67F26E226F20013E3D6 /* .swiftlint.yml */; };
 		C91EF68326E265B30013E3D6 /* ParsingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91EF68226E265B30013E3D6 /* ParsingManager.swift */; };
+		C91EF68726E2985C0013E3D6 /* DataImportable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91EF68626E2985C0013E3D6 /* DataImportable.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +75,7 @@
 		C91EF67B26E21C900013E3D6 /* MemoDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoDetailViewController.swift; sourceTree = "<group>"; };
 		C91EF67F26E226F20013E3D6 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		C91EF68226E265B30013E3D6 /* ParsingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParsingManager.swift; sourceTree = "<group>"; };
+		C91EF68626E2985C0013E3D6 /* DataImportable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataImportable.swift; sourceTree = "<group>"; };
 		E6AD4DA90F91540E38399744 /* Pods-CloudNotesTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudNotesTests.debug.xcconfig"; path = "Target Support Files/Pods-CloudNotesTests/Pods-CloudNotesTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -154,6 +156,7 @@
 		C7481C6C25BBCF3900B9CA55 /* CloudNotes */ = {
 			isa = PBXGroup;
 			children = (
+				C91EF68526E298140013E3D6 /* Protocol */,
 				C91EF67326E136C50013E3D6 /* Model */,
 				C91EF67226E136B20013E3D6 /* View */,
 				C91EF67126E136A30013E3D6 /* Controller */,
@@ -227,6 +230,14 @@
 				C91EF68226E265B30013E3D6 /* ParsingManager.swift */,
 			);
 			path = Manager;
+			sourceTree = "<group>";
+		};
+		C91EF68526E298140013E3D6 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				C91EF68626E2985C0013E3D6 /* DataImportable.swift */,
+			);
+			path = Protocol;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -456,6 +467,7 @@
 				C91EF68326E265B30013E3D6 /* ParsingManager.swift in Sources */,
 				C91EF67A26E205900013E3D6 /* MemoItemTableViewCell.swift in Sources */,
 				C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */,
+				C91EF68726E2985C0013E3D6 /* DataImportable.swift in Sources */,
 				C91EF67826E1FA9D0013E3D6 /* Memo.swift in Sources */,
 				C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */,
 				C7481C7825BBCF3900B9CA55 /* CloudNotes.xcdatamodeld in Sources */,

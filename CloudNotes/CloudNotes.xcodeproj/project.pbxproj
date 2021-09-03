@@ -18,9 +18,11 @@
 		CBDA583D6DD4F0E520D2378B /* Pods_CloudNotes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F55EA09ADFBEEFB73645C65E /* Pods_CloudNotes.framework */; };
 		D74049C78A13695C40057144 /* Pods_CloudNotes_CloudNotesUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B287BCB0F4909A329D6C7A65 /* Pods_CloudNotes_CloudNotesUITests.framework */; };
 		E65E357D26E2346B003D5D1F /* CloudNotesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C9225BBCF3A00B9CA55 /* CloudNotesUITests.swift */; };
+		E65E357F26E23B1F003D5D1F /* MemoListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65E357E26E23B1F003D5D1F /* MemoListViewController.swift */; };
+		E65E358126E23B2A003D5D1F /* MemoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65E358026E23B2A003D5D1F /* MemoDetailViewController.swift */; };
 		E68C416126E2100F000680B1 /* MemoSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68C416026E2100F000680B1 /* MemoSplitViewController.swift */; };
-		E68C416726E22C23000680B1 /* BuildFile in Resources */ = {isa = PBXBuildFile; };
-		E68C416826E22C29000680B1 /* BuildFile in Resources */ = {isa = PBXBuildFile; };
+		E68C416726E22C23000680B1 /* (null) in Resources */ = {isa = PBXBuildFile; };
+		E68C416826E22C29000680B1 /* (null) in Resources */ = {isa = PBXBuildFile; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +67,8 @@
 		C7481C9425BBCF3A00B9CA55 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D17E2C6D56A78C6222DA8A01 /* Pods-CloudNotes.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudNotes.debug.xcconfig"; path = "Target Support Files/Pods-CloudNotes/Pods-CloudNotes.debug.xcconfig"; sourceTree = "<group>"; };
 		DF8A27FA2AF6B5850E0F219B /* Pods-CloudNotesTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudNotesTests.release.xcconfig"; path = "Target Support Files/Pods-CloudNotesTests/Pods-CloudNotesTests.release.xcconfig"; sourceTree = "<group>"; };
+		E65E357E26E23B1F003D5D1F /* MemoListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoListViewController.swift; sourceTree = "<group>"; };
+		E65E358026E23B2A003D5D1F /* MemoDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoDetailViewController.swift; sourceTree = "<group>"; };
 		E68C416026E2100F000680B1 /* MemoSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoSplitViewController.swift; sourceTree = "<group>"; };
 		E68C416326E21EFA000680B1 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		F55EA09ADFBEEFB73645C65E /* Pods_CloudNotes.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CloudNotes.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -183,6 +187,8 @@
 			isa = PBXGroup;
 			children = (
 				E68C416026E2100F000680B1 /* MemoSplitViewController.swift */,
+				E65E357E26E23B1F003D5D1F /* MemoListViewController.swift */,
+				E65E358026E23B2A003D5D1F /* MemoDetailViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -310,8 +316,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E68C416726E22C23000680B1 /* BuildFile in Resources */,
-				E68C416826E22C29000680B1 /* BuildFile in Resources */,
+				E68C416726E22C23000680B1 /* (null) in Resources */,
+				E68C416826E22C29000680B1 /* (null) in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -409,8 +415,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E65E358126E23B2A003D5D1F /* MemoDetailViewController.swift in Sources */,
 				C7481C7225BBCF3900B9CA55 /* ViewController.swift in Sources */,
 				E68C416126E2100F000680B1 /* MemoSplitViewController.swift in Sources */,
+				E65E357F26E23B1F003D5D1F /* MemoListViewController.swift in Sources */,
 				C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */,
 				C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */,
 				C7481C7825BBCF3900B9CA55 /* CloudNotes.xcdatamodeld in Sources */,

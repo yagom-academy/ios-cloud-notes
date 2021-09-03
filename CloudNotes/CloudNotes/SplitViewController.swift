@@ -6,7 +6,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class SplitViewController: UISplitViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,5 +18,12 @@ class ViewController: UIViewController {
         test.translatesAutoresizingMaskIntoConstraints = false
         test.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         test.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        
+        self.delegate = self
+        self.preferredDisplayMode = .automatic
     }
+}
+
+extension SplitViewController: UISplitViewControllerDelegate {
+    
 }

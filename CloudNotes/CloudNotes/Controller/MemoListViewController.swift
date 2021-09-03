@@ -8,12 +8,13 @@
 import UIKit
 
 class MemoListViewController: UIViewController {
-    private var listTableView = UITableView()
-    private var memoList = [Memo]()
+    private let listTableView = UITableView()
+    private let memoList = [Memo]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpTableViewConstraints()
+        registerTableViewCell()
     }
 }
 
@@ -27,6 +28,10 @@ extension MemoListViewController {
         listTableView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor).isActive = true
         listTableView.topAnchor.constraint(equalTo: safeArea.topAnchor).isActive = true
         listTableView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor).isActive = true
+    }
+    
+    private func registerTableViewCell() {
+        listTableView.register(MemoItemTableViewCell.self, forCellReuseIdentifier: MemoItemTableViewCell.identifier)
     }
 }
 

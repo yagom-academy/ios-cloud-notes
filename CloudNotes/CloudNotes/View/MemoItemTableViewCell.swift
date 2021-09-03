@@ -13,6 +13,7 @@ class MemoItemTableViewCell: UITableViewCell {
     private let titleLabel = UILabel()
     private let lastModifiedLabel = UILabel()
     private let summaryLabel = UILabel()
+    static let identifier = "MemoItemTableViewCell"
     
     override func awakeFromNib() {
         super.awakeFromNib()

@@ -24,6 +24,14 @@ class MenuTableViewController: UITableViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func makeTest() {
+        guard let assetData = NSDataAsset.init(name: "sample") else { return }
+        guard let memoData = ParsingManager.decodingModel(data: assetData.data, model: [Memo].self) else {
+            return
+        }
+        memoList = memoData
+    }
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return memoList.count
     }

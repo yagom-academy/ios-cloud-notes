@@ -10,7 +10,7 @@ class MenuViewController: UIViewController {
     var splitView: UISplitViewController?
     
     let tableView = UITableView()
-    let data = [CloudNoteItem]()
+    var data = [CloudNoteItem]()
     
     override func viewDidLoad() {
         super.viewDidLoad()

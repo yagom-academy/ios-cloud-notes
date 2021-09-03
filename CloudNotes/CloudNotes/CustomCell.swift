@@ -36,9 +36,14 @@ class CustomCell: UITableViewCell {
         shortDescription.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0).isActive = true
     }
     
+    private func setAccessoryView() {
+        accessoryType = .disclosureIndicator
+    }
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: Self.cellIdentifier)
         setConstraints()
+        setAccessoryView()
     }
     
     required init?(coder: NSCoder) {

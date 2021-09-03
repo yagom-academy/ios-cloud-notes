@@ -8,12 +8,18 @@
 import UIKit
 
 class MemoTableViewController: UITableViewController {
-    var characters = ["Link", "Zelda", "Ganondorf", "Midna"]
+    var characters = ["LinkLinkLinkLinkLinkLink",
+                      "ZeldaZeldaZeldaZeldaZeldaZelda",
+                      "GanondorfGanondorfGanondorfGanondorfGanondorf",
+                      "Midna"]
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         tableView.register(MemoTableViewCell.self, forCellReuseIdentifier: "MemoTableViewCell")
+        
+        tableView.estimatedRowHeight = 100
+        tableView.rowHeight = UITableView.automaticDimension
     }
 }
 

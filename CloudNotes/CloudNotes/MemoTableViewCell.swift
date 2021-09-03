@@ -37,8 +37,10 @@ class MemoTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setLabelsUp()
-        addSubview(titleWithDetailStackView)
+        contentView.addSubview(titleWithDetailStackView)
         setStackViewAnchor()
+        
+        self.accessoryType = UITableViewCell.AccessoryType.disclosureIndicator
     }
     
     required init?(coder: NSCoder) {
@@ -66,13 +68,13 @@ class MemoTableViewCell: UITableViewCell {
     private func setStackViewAnchor() {
         titleWithDetailStackView.translatesAutoresizingMaskIntoConstraints = false
         
-        titleWithDetailStackView.leftAnchor.constraint(equalTo: leftAnchor, constant: 16)
+        titleWithDetailStackView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 16)
             .isActive = true
-        titleWithDetailStackView.rightAnchor.constraint(equalTo: rightAnchor, constant: -16)
+        titleWithDetailStackView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -16)
             .isActive = true
-        titleWithDetailStackView.topAnchor.constraint(equalTo: topAnchor, constant: 8)
+        titleWithDetailStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8)
             .isActive = true
-        titleWithDetailStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8)
+        titleWithDetailStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8)
             .isActive = true
     }
     

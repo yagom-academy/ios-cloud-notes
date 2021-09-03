@@ -17,4 +17,4 @@ excluded:
     - CloudNotesTests/CloudNotesTests.swift
     - CloudNotesUITests/CloudNotesUITests.swift
 
-line_length: 99
+line_length: 149

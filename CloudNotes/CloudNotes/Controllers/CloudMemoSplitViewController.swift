@@ -21,7 +21,17 @@ class CloudMemoSplitViewController: UISplitViewController {
         
         let primaryNav = UINavigationController(rootViewController: primaryVC)
         let secondaryNav = UINavigationController(rootViewController: secondaryVC)
-            
+        
+        primaryNav.navigationBar.topItem?.title = "메모"
         viewControllers = [primaryNav, secondaryNav]
+        
+        self.preferredDisplayMode = .automatic
+        self.delegate = self
+    }
+}
+
+extension CloudMemoSplitViewController: UISplitViewControllerDelegate {
+    func splitViewController(_ splitViewController: UISplitViewController, collapseSecondary secondaryViewController: UIViewController, onto primaryViewController: UIViewController) -> Bool {
+        return true
     }
 }

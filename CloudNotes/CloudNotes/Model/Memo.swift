@@ -8,9 +8,9 @@
 import Foundation
 
 struct Memo: Decodable {
-    let title: String
-    let body: String
-    let lastDate: Double
+    var title: String
+    var body: String
+    var lastDate: Double
 
     enum CodingKeys: String, CodingKey {
         case title

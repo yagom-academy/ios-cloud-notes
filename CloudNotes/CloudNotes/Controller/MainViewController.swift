@@ -7,15 +7,13 @@
 
 import UIKit
 
-class MainViewController: UIViewController {
-    
-    let splitVC = UISplitViewController(style: .doubleColumn)
+class MainViewController: UISplitViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        splitVC.modalPresentationStyle = .fullScreen
-        splitVC.preferredSplitBehavior = .displace
-        splitVC.preferredDisplayMode = .oneBesideSecondary
+        modalPresentationStyle = .fullScreen
+        preferredSplitBehavior = .tile
+        preferredDisplayMode = .oneBesideSecondary
         configure()
     }
     
@@ -24,21 +22,17 @@ class MainViewController: UIViewController {
         menuVC.delegate = self
         menuVC.makeTest()
         let secondVC = DetailTextViewController()
-        splitVC.viewControllers = [
-            UINavigationController(rootViewController: menuVC),
-            UINavigationController(rootViewController: secondVC)
-        ]
-        present(splitVC, animated: false)
+        viewControllers = [menuVC, secondVC]
     }
     
 }
 
 extension MainViewController: didTapButtonDelegate {
     func didTapTableItem(data: String) {
-        (splitVC.viewControllers.last as? UINavigationController)?.popViewController(animated: true)
+        (viewControllers.last as? UINavigationController)?.popViewController(animated: true)
         let detailVC = DetailTextViewController()
         detailVC.detailTextView.text = data
-        (splitVC.viewControllers.last as? UINavigationController)?.pushViewController(detailVC, animated: true)
+        (viewControllers.last as? UINavigationController)?.pushViewController(detailVC, animated: true)
     }
     
     

@@ -59,5 +59,11 @@ extension MemoListViewController: UITableViewDelegate {
         let memoDetailVC = MemoDetailViewController(memo: memo)
         let detailNav = UINavigationController(rootViewController: memoDetailVC)
         self.showDetailViewController(detailNav, sender: self)
+        
+        guard let cell = tableView.cellForRow(at: indexPath) as? MemoTableViewCell else {
+            return
+        }
+        
+        cell.backgroundColor = .white
     }
 }

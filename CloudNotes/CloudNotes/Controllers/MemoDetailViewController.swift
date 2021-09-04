@@ -30,6 +30,12 @@ class MemoDetailViewController: UIViewController {
         memoTextView.text = "\(memoTitle)\n\n\(memoBody)"
         updateTextFontStyle()
         updateLayout()
+        initTextViewScrollToTop()
+    }
+    
+    private func initTextViewScrollToTop() {
+        let contentHeight = memoTextView.contentSize.height
+        memoTextView.contentOffset = CGPoint(x: 0,y: -contentHeight)
     }
     
     private func updateTextFontStyle() {

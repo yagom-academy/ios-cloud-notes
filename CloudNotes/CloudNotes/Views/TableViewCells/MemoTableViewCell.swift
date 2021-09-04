@@ -27,7 +27,7 @@ class MemoTableViewCell: UITableViewCell {
     
     func configure(on memo: Memo) {
         memoTitleLabel.text = memo.title
-        lastModifiedLabel.text = memo.lastModified.description
+        lastModifiedLabel.text = memo.formatedLastModified
         previewBodyLabel.text = memo.previewBody
     }
 }

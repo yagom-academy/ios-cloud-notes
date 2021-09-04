@@ -10,23 +10,34 @@ import Foundation
 struct Memo {
     static private let maximumPreviewCount = 50
     
-    let title: String
-    let body: String
-    let lastModified: Double
-    var previewBody: String {
-        if body.count < Memo.maximumPreviewCount {
-            return body
+    var title: String
+    var body: String {
+        willSet (newVal) {
+            previewBody = generatePreviewText(from: newVal)
         }
-        
-        let previewEndIdx = body.index(body.startIndex,
-                                       offsetBy: Memo.maximumPreviewCount)
-        return body[body.startIndex...previewEndIdx].description
     }
+    private var lastModified: Double {
+        willSet (newVal) {
+            formatedLastModified = DateManager.transfromFormatedDate(from: newVal)
+        }
+    }
+    var previewBody: String = ""
+    var formatedLastModified: String?
     
     init(title: String, body: String, lastModified: Double) {
         self.title = title
         self.body = body
         self.lastModified = lastModified
+        self.previewBody = generatePreviewText(from: body)
+        self.formatedLastModified = DateManager.transfromFormatedDate(from: lastModified)
+    }
+    
+    private func generatePreviewText(from text: String) -> String {
+        if text.count < Memo.maximumPreviewCount { return text }
+        
+        let previewEndIdx = text.index(text.startIndex,
+                                       offsetBy: Memo.maximumPreviewCount)
+        return text[text.startIndex...previewEndIdx].description
     }
 }
 

@@ -18,16 +18,14 @@ class MainViewController: UISplitViewController {
     }
     
     private func configure() {
-        let menuVC = MenuTableViewController(style: .plain)
-        menuVC.delegate = self
-        delegate = self
-        menuVC.makeTest()
         let secondVC = DetailTextViewController()
-        
+        let menuVC = MenuTableViewController(style: .plain, buttonDelegate: secondVC)
+        delegate = self
+        secondVC.detailTextViewControllerDelegate = self
+        menuVC.makeTest()
         setViewController(menuVC, for: .primary)
         setViewController(secondVC, for: .secondary)
     }
-    
 }
 
 extension MainViewController: UISplitViewControllerDelegate {
@@ -37,10 +35,8 @@ extension MainViewController: UISplitViewControllerDelegate {
     }
 }
 
-extension MainViewController: MenuTableViewControllerDelegate {
-    func didTapTableItem(data: String) {
-        let detailVC = viewController(for: .secondary) as? DetailTextViewController
-        detailVC?.detailTextView.text = data
+extension MainViewController: DetailTextViewControllerDelegate {
+    func showDetailTextView() {
         show(.secondary)
     }
 }

@@ -7,9 +7,14 @@
 
 import UIKit
 
+protocol DetailTextViewControllerDelegate: AnyObject {
+    func showDetailTextView()
+}
+
 class DetailTextViewController: UIViewController {
     
-    static var identifier = "DetailTextViewController"
+    static let identifier = "DetailTextViewController"
+    weak var detailTextViewControllerDelegate: DetailTextViewControllerDelegate?
     
     let detailTextView: UITextView = {
         let detailTextView = UITextView()
@@ -34,5 +39,12 @@ class DetailTextViewController: UIViewController {
             detailTextView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             detailTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
+    }
+}
+
+extension DetailTextViewController: MenuTableViewControllerDelegate {
+    func didTapTableItem(data: String) {
+        detailTextView.text = data
+        detailTextViewControllerDelegate?.showDetailTextView()
     }
 }

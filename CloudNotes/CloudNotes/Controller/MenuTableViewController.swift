@@ -16,8 +16,9 @@ class MenuTableViewController: UITableViewController {
     weak var delegate: MenuTableViewControllerDelegate?
     var memoList = [Memo]()
     
-    override init(style: UITableView.Style) {
+    init(style: UITableView.Style, buttonDelegate: MenuTableViewControllerDelegate) {
         super.init(style: style)
+        delegate = buttonDelegate
         title = "메모"
         let plusButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: nil)
         navigationItem.rightBarButtonItem = plusButton

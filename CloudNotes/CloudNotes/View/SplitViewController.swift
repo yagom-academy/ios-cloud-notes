@@ -7,7 +7,6 @@
 import UIKit
 
 class SplitViewController: UISplitViewController {
-    
     var primaryViewController: PrimaryViewController?
     var secondaryViewController: SecondaryViewController?
     

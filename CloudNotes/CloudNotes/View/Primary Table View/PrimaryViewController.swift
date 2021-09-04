@@ -12,16 +12,13 @@ protocol SelectedCellDelegate: AnyObject {
 }
 
 class PrimaryViewController: UITableViewController {
-        
     var primaryTableViewDataSource: PrimaryTableViewDataSource?
     weak var delegate: SelectedCellDelegate?
-    var selectedIndexPath: IndexPath?
+    private var selectedIndexPath: IndexPath?
     
     init() {
         super.init(nibName: nil, bundle: nil)
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
-                                                                 target: self,
-                                                                 action: nil)
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: nil)
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -31,8 +28,8 @@ class PrimaryViewController: UITableViewController {
         super.viewDidLoad()
         self.navigationItem.title = "메모"
         
-        primaryTableViewDataSource = PrimaryTableViewDataSource(showDetailAction: { seleted, indexPath in
-            self.delegate?.showSelectedDetail(memo: seleted, isSelected: indexPath != nil )
+        primaryTableViewDataSource = PrimaryTableViewDataSource(showDetailAction: { seleted, indexPath, check in
+            self.delegate?.showSelectedDetail(memo: seleted, isSelected: check)
             self.selectedIndexPath = indexPath
         })
         tableView.dataSource = primaryTableViewDataSource
@@ -50,6 +47,5 @@ extension PrimaryViewController {
         primaryTableViewDataSource?.update(memo, indexPath) {
             self.tableView.reloadRows(at: [indexPath], with: .automatic)
         }
-        
     }
 }

@@ -12,7 +12,6 @@ protocol ChangedMemoDelegate: AnyObject {
 }
 
 class SecondaryViewController: UIViewController {
-    
     private var secondaryView: SecondaryView?
     private var tempMemo: Memo?
     let doubleNewLine = "\n\n"
@@ -62,6 +61,9 @@ extension SecondaryViewController: UITextViewDelegate {
 
 extension SecondaryViewController {
     func updateDetailView(by memo: Memo?) {
+        if tempMemo != nil {
+            delegate?.updateListItem(memo: tempMemo)
+        }
         self.tempMemo = memo
         memo.flatMap { memo in
             let text = memo.title + doubleNewLine + (memo.body ?? "")

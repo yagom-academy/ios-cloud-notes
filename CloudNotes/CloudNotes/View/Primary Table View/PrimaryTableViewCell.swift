@@ -8,7 +8,7 @@
 import UIKit
 
 class PrimaryTableViewCell: UITableViewCell {
-    static let reuseIdentifier = "primary"
+    static let reuseIdentifier = "PrimaryViewCell"
     
     var summaryLabel: UILabel = {
         let label = UILabel()
@@ -27,8 +27,7 @@ class PrimaryTableViewCell: UITableViewCell {
         self.addSubview(summaryLabel)
         NSLayoutConstraint.activate([
             summaryLabel.topAnchor.constraint(equalTo: textLabel?.bottomAnchor ?? self.contentView.topAnchor),
-            summaryLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor,
-                                                 constant: self.contentView.bounds.width / 5 * 2),
+            summaryLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: self.contentView.bounds.width / 5 * 2),
             summaryLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor)
         ])
     }

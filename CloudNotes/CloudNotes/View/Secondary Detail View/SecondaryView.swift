@@ -8,10 +8,10 @@
 import UIKit
 
 class SecondaryView: UIView {
-    
     let textView: UITextView = {
         let view = UITextView()
         view.textColor = .black
+        view.font = .preferredFont(forTextStyle: .body)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()

@@ -7,13 +7,13 @@
 
 import UIKit
 
-protocol didTapButtonDelegate: AnyObject {
+protocol MenuTableViewControllerDelegate: AnyObject {
     func didTapTableItem(data: String)
 }
 
 class MenuTableViewController: UITableViewController {
     
-    weak var delegate: didTapButtonDelegate?
+    weak var delegate: MenuTableViewControllerDelegate?
     var memoList = [Memo]()
     
     override init(style: UITableView.Style) {

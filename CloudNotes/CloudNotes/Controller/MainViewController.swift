@@ -29,7 +29,7 @@ class MainViewController: UISplitViewController {
     
 }
 
-extension MainViewController: didTapButtonDelegate {
+extension MainViewController: MenuTableViewControllerDelegate {
     func didTapTableItem(data: String) {
         let detailVC = viewController(for: .secondary) as? DetailTextViewController
         detailVC?.detailTextView.text = data

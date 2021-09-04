@@ -10,11 +10,6 @@ import UIKit
 class DetailTextViewController: UIViewController {
     
     static var identifier = "DetailTextViewController"
-    var memoData: Memo? {
-        didSet {
-            detailTextView.text = memoData?.description
-        }
-    }
     
     let detailTextView: UITextView = {
         let detailTextView = UITextView()

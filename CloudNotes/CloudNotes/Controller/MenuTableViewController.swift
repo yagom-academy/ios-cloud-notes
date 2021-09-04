@@ -7,8 +7,13 @@
 
 import UIKit
 
+protocol didTapButtonDelegate: AnyObject {
+    func didTapTableItem(data: String)
+}
+
 class MenuTableViewController: UITableViewController {
     
+    weak var delegate: didTapButtonDelegate?
     var memoList = [Memo]()
     
     override init(style: UITableView.Style) {
@@ -51,8 +56,7 @@ class MenuTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let detailView = DetailTextViewController()
-        detailView.memoData = memoList[indexPath.row]
-        self.navigationController?.pushViewController(detailView, animated: true)
+        let detailText = memoList[indexPath.row].description
+        delegate?.didTapTableItem(data: detailText)
     }
 }

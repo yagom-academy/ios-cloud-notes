@@ -21,6 +21,7 @@ class MainViewController: UIViewController {
     
     private func configure() {
         let menuVC = MenuTableViewController(style: .plain)
+        menuVC.delegate = self
         menuVC.makeTest()
         let secondVC = DetailTextViewController()
         secondVC.title = "Home"
@@ -30,5 +31,16 @@ class MainViewController: UIViewController {
         ]
         present(splitVC, animated: false)
     }
+    
+}
+
+extension MainViewController: didTapButtonDelegate {
+    func didTapTableItem(data: String) {
+        (splitVC.viewControllers.last as? UINavigationController)?.popViewController(animated: true)
+        let detailVC = DetailTextViewController()
+        detailVC.detailTextView.text = data
+        (splitVC.viewControllers.last as? UINavigationController)?.pushViewController(detailVC, animated: true)
+    }
+    
     
 }

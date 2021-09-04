@@ -68,7 +68,7 @@ class MemoDetailViewController: UIViewController {
         ).isActive = true
         memoTextView.trailingAnchor.constraint(
             equalTo: safeArea.trailingAnchor,
-            constant: CGFloat(commonTextViewInset*(-1))
+            constant: CGFloat(commonTextViewInset.nagative)
         ).isActive = true
         
         view.backgroundColor = .white

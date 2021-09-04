@@ -45,39 +45,47 @@ extension MemoTableViewCell {
     }
     
     private func updateLayout() {
-        updateTitleLayout()
-        updateLastModifiedLayout()
-        updatePreviewBodyLabelLayout()
+        let cellLeadingConstant = 20
+        let cellTrailingConstant = 10
+        let cellVerticalConstant = 5
+        
+        updateTitleLayout(leadingConstant: cellLeadingConstant,
+                          verticalConstant: cellVerticalConstant,
+                          tailingConstant: cellTrailingConstant)
+        updateLastModifiedLayout(leadingConstant: cellLeadingConstant,
+                                 verticalConstant: cellVerticalConstant)
+        updatePreviewBodyLabelLayout(verticalConstant: cellVerticalConstant,
+                                     tailingConstant: cellTrailingConstant)
         self.accessoryType = .disclosureIndicator
     }
     
-    private func updateTitleLayout() {
+    private func updateTitleLayout(leadingConstant: Int, verticalConstant: Int, tailingConstant: Int) {
         memoTitleLabel.translatesAutoresizingMaskIntoConstraints = false
         
         contentView.addSubview(memoTitleLabel)
         memoTitleLabel.leadingAnchor.constraint(
             equalTo: contentView.leadingAnchor,
-            constant: 20
+            constant: CGFloat(leadingConstant)
         ).isActive = true
         
         memoTitleLabel.topAnchor.constraint(
             equalTo: contentView.topAnchor,
-            constant: 5
+            constant: CGFloat(verticalConstant)
         ).isActive = true
         
         memoTitleLabel.trailingAnchor.constraint(
             equalTo: contentView.trailingAnchor,
-            constant: -10
+            constant: CGFloat(tailingConstant.nagative)
         ).isActive = true
     }
     
-    private func updateLastModifiedLayout() {
+    private func updateLastModifiedLayout(leadingConstant: Int, verticalConstant: Int) {
         lastModifiedLabel.translatesAutoresizingMaskIntoConstraints = false
         
         contentView.addSubview(lastModifiedLabel)
         lastModifiedLabel.leadingAnchor.constraint(
             equalTo: contentView.leadingAnchor,
-            constant: 20
+            constant: CGFloat(leadingConstant)
         ).isActive = true
         
         lastModifiedLabel.topAnchor.constraint(
@@ -87,11 +95,11 @@ extension MemoTableViewCell {
         
         lastModifiedLabel.bottomAnchor.constraint(
             equalTo: contentView.bottomAnchor,
-            constant: -5
+            constant: CGFloat(verticalConstant.nagative)
         ).isActive = true
     }
     
-    private func updatePreviewBodyLabelLayout() {
+    private func updatePreviewBodyLabelLayout(verticalConstant: Int, tailingConstant: Int) {
         previewBodyLabel.translatesAutoresizingMaskIntoConstraints = false
         
         contentView.addSubview(previewBodyLabel)
@@ -107,12 +115,12 @@ extension MemoTableViewCell {
         
         previewBodyLabel.bottomAnchor.constraint(
             equalTo: contentView.bottomAnchor,
-            constant: -5
+            constant: CGFloat(verticalConstant.nagative)
         ).isActive = true
         
         previewBodyLabel.trailingAnchor.constraint(
             equalTo: contentView.trailingAnchor,
-            constant: -10
+            constant: CGFloat(tailingConstant.nagative)
         ).isActive = true
     }
 }

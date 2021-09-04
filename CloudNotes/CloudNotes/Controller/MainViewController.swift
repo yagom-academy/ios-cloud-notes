@@ -22,18 +22,17 @@ class MainViewController: UISplitViewController {
         menuVC.delegate = self
         menuVC.makeTest()
         let secondVC = DetailTextViewController()
-        viewControllers = [menuVC, secondVC]
+        
+        setViewController(menuVC, for: .primary)
+        setViewController(secondVC, for: .secondary)
     }
     
 }
 
 extension MainViewController: didTapButtonDelegate {
     func didTapTableItem(data: String) {
-        (viewControllers.last as? UINavigationController)?.popViewController(animated: true)
-        let detailVC = DetailTextViewController()
-        detailVC.detailTextView.text = data
-        (viewControllers.last as? UINavigationController)?.pushViewController(detailVC, animated: true)
+        let detailVC = viewController(for: .secondary) as? DetailTextViewController
+        detailVC?.detailTextView.text = data
+        show(.secondary)
     }
-    
-    
 }

@@ -25,7 +25,7 @@ class CloudMemoSplitViewController: UISplitViewController {
         primaryNav.navigationBar.topItem?.title = "메모"
         viewControllers = [primaryNav, secondaryNav]
         
-        self.preferredDisplayMode = .automatic
+        self.preferredDisplayMode = .oneBesideSecondary
         self.delegate = self
     }
 }

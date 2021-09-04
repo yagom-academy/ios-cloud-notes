@@ -20,6 +20,7 @@ class MainViewController: UISplitViewController {
     private func configure() {
         let menuVC = MenuTableViewController(style: .plain)
         menuVC.delegate = self
+        delegate = self
         menuVC.makeTest()
         let secondVC = DetailTextViewController()
         
@@ -27,6 +28,13 @@ class MainViewController: UISplitViewController {
         setViewController(secondVC, for: .secondary)
     }
     
+}
+
+extension MainViewController: UISplitViewControllerDelegate {
+    func splitViewController(_ svc: UISplitViewController,
+                             topColumnForCollapsingToProposedTopColumn proposedTopColumn: UISplitViewController.Column) -> UISplitViewController.Column {
+        return .primary
+    }
 }
 
 extension MainViewController: MenuTableViewControllerDelegate {

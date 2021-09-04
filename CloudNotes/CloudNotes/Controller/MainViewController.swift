@@ -13,6 +13,9 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        splitVC.modalPresentationStyle = .fullScreen
+        splitVC.preferredSplitBehavior = .displace
+        splitVC.preferredDisplayMode = .oneBesideSecondary
         configure()
     }
     

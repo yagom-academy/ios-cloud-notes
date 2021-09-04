@@ -40,5 +40,7 @@ class SecondaryView: UIView {
 extension SecondaryView {
     func configure(by text: String?) {
         self.textView.text = text
+        let beginning = textView.beginningOfDocument
+        textView.selectedTextRange = textView.textRange(from: beginning, to: beginning)
     }
 }

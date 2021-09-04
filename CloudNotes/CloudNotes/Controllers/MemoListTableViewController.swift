@@ -10,12 +10,13 @@ private let reusableIdentifier = "cell"
 
 class MemoListTableViewController: UITableViewController {
 
-    let items = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
+    var parsedData = [SampleData]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         print("tableView did Load")
+        decoding()
         configureTableView()
         configureNavigationBar()
     }
@@ -23,6 +24,18 @@ class MemoListTableViewController: UITableViewController {
     @objc func pushContentPage() {
         let contentViewController = ContentViewController()
         navigationController?.pushViewController(contentViewController, animated: true)
+    }
+
+    func decoding() {
+        guard let url = Bundle.main.url(forResource: "sample", withExtension: "json") else { return }
+        do {
+            let decoder = JSONDecoder()
+            let data = try Data(contentsOf: url)
+            let parsedData = try decoder.decode([SampleData].self, from: data)
+            self.parsedData = parsedData
+        } catch {
+            print(String(describing: error))
+        }
     }
 
     func configureTableView() {
@@ -38,17 +51,20 @@ class MemoListTableViewController: UITableViewController {
 
 extension MemoListTableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return items.count
+        return parsedData.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: reusableIdentifier, for: indexPath) as? TableCell else { return UITableViewCell() }
-        let item = items[indexPath.row]
-        cell.item = item
+
+        let title = parsedData[indexPath.row].title
+        let content = parsedData[indexPath.row].body
+        let date = parsedData[indexPath.row].lastModified
+        cell.configure(title: title, content: content, date: "\(date)")
         return cell
     }
 
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100
+        65
     }
 }

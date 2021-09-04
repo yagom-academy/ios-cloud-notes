@@ -24,7 +24,6 @@ class MainViewController: UIViewController {
         menuVC.delegate = self
         menuVC.makeTest()
         let secondVC = DetailTextViewController()
-        secondVC.title = "Home"
         splitVC.viewControllers = [
             UINavigationController(rootViewController: menuVC),
             UINavigationController(rootViewController: secondVC)

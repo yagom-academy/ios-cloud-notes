@@ -19,10 +19,9 @@ class MenuTableViewController: UITableViewController {
     override init(style: UITableView.Style) {
         super.init(style: style)
         title = "메모"
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.register(MemoListCell.self,
-                           forCellReuseIdentifier: MemoListCell.identifier)
+        let plusButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: nil)
+        navigationItem.rightBarButtonItem = plusButton
+        tableView.register(MemoListCell.self, forCellReuseIdentifier: MemoListCell.identifier)
     }
     
     required init?(coder: NSCoder) {

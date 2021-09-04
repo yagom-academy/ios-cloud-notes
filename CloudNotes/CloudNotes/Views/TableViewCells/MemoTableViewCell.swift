@@ -18,10 +18,30 @@ class MemoTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         updateLayout()
+        updateFontStyle()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func configure(on memo: Memo) {
+        memoTitleLabel.text = memo.title
+        lastModifiedLabel.text = memo.lastModified.description
+        previewBodyLabel.text = memo.previewBody
+    }
+}
+
+extension MemoTableViewCell {
+    private func updateFontStyle() {
+        let titleFontSize = 20
+        let defaultFontSize = 16
+        
+        memoTitleLabel.font =  UIFont.boldSystemFont(ofSize: CGFloat(titleFontSize))
+        lastModifiedLabel.font = UIFont.systemFont(ofSize: CGFloat(defaultFontSize))
+        previewBodyLabel.font = UIFont.systemFont(ofSize: CGFloat(defaultFontSize))
+        
+        previewBodyLabel.textColor = .gray
     }
     
     private func updateLayout() {
@@ -31,32 +51,23 @@ class MemoTableViewCell: UITableViewCell {
         self.accessoryType = .disclosureIndicator
     }
     
-    func configure(on memo: Memo) {
-        memoTitleLabel.text = memo.title
-        memoTitleLabel.backgroundColor = .orange
-        lastModifiedLabel.text = memo.lastModified.description
-        previewBodyLabel.text = memo.previewBody
-    }
-}
-
-extension MemoTableViewCell {
     private func updateTitleLayout() {
         memoTitleLabel.translatesAutoresizingMaskIntoConstraints = false
         
         contentView.addSubview(memoTitleLabel)
         memoTitleLabel.leadingAnchor.constraint(
             equalTo: contentView.leadingAnchor,
-            constant: 0
+            constant: 20
         ).isActive = true
         
         memoTitleLabel.topAnchor.constraint(
             equalTo: contentView.topAnchor,
-            constant: 0
+            constant: 5
         ).isActive = true
         
         memoTitleLabel.trailingAnchor.constraint(
             equalTo: contentView.trailingAnchor,
-            constant: 0
+            constant: -10
         ).isActive = true
     }
     
@@ -66,7 +77,7 @@ extension MemoTableViewCell {
         contentView.addSubview(lastModifiedLabel)
         lastModifiedLabel.leadingAnchor.constraint(
             equalTo: contentView.leadingAnchor,
-            constant: 0
+            constant: 20
         ).isActive = true
         
         lastModifiedLabel.topAnchor.constraint(
@@ -76,7 +87,7 @@ extension MemoTableViewCell {
         
         lastModifiedLabel.bottomAnchor.constraint(
             equalTo: contentView.bottomAnchor,
-            constant: 0
+            constant: -5
         ).isActive = true
     }
     
@@ -96,12 +107,12 @@ extension MemoTableViewCell {
         
         previewBodyLabel.bottomAnchor.constraint(
             equalTo: contentView.bottomAnchor,
-            constant: 0
+            constant: -5
         ).isActive = true
         
         previewBodyLabel.trailingAnchor.constraint(
             equalTo: contentView.trailingAnchor,
-            constant: 0
+            constant: -10
         ).isActive = true
     }
 }

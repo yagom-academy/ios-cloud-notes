@@ -8,7 +8,7 @@
 import Foundation
 
 struct Memo {
-    static private let maximumPreviewCount = 30
+    static private let maximumPreviewCount = 50
     
     let title: String
     let body: String

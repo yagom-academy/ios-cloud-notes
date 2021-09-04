@@ -72,5 +72,9 @@ class MemoDetailViewController: UIViewController {
         ).isActive = true
         
         view.backgroundColor = .white
+        
+        let item = memoTextView.inputAssistantItem
+        item.leadingBarButtonGroups = []
+        item.trailingBarButtonGroups = []
     }
 }

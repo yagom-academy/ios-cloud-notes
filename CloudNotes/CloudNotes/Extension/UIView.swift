@@ -8,7 +8,7 @@
 import UIKit
 
 extension UIView {
-    func setAnchor(top: NSLayoutYAxisAnchor?, bottom: NSLayoutYAxisAnchor?, leading: NSLayoutXAxisAnchor?, trailing: NSLayoutXAxisAnchor?, layoutMargins: NSDirectionalEdgeInsets = .zero, size: CGSize = .zero) {
+    func pinFullScreen(top: NSLayoutYAxisAnchor?, bottom: NSLayoutYAxisAnchor?, leading: NSLayoutXAxisAnchor?, trailing: NSLayoutXAxisAnchor?, layoutMargins: NSDirectionalEdgeInsets = .zero, size: CGSize = .zero) {
         translatesAutoresizingMaskIntoConstraints = false
         
         top.flatMap { topAnchor.constraint(equalTo: $0, constant: layoutMargins.top).isActive = true

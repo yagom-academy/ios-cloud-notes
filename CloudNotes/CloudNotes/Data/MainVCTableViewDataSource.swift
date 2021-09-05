@@ -15,15 +15,15 @@ class MainVCTableViewDataSource: NSObject, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: CellId.defaultCell.description, for: indexPath) as? MainTableViewCell else { return UITableViewCell() }
+        
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: CellId.defaultCell.description, for: indexPath) as? MainTableViewCell else { return UITableViewCell()
+        }
+        
         let list = memoList?[indexPath.row]
-        cell.dateLabel.text = "2020.20.20"
-        cell.titleLabel.text = list?.title
-        cell.bodyLabel.text = list?.body
-        cell.accessoryType = .disclosureIndicator
+        let cellContent = CellContentDataHolder(title: list?.title, date: "2020.20.20", body: list?.body)
+        cell.configure(cellContent)
+        
         return cell
     }
-    
-    
- }
+}
+

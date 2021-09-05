@@ -8,12 +8,11 @@
 import UIKit
 
 class MainTableViewCell: UITableViewCell {
-    var titleLabel: UILabel!
-    var bodyLabel: UILabel!
-    var dateLabel: UILabel!
-    var dateAndBodyStackView: UIStackView!
-    var memoList: MemoDecodeModel?
-    
+    private var titleLabel: UILabel!
+    private var bodyLabel: UILabel!
+    private var dateLabel: UILabel!
+    private var dateAndBodyStackView: UIStackView!
+
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupTitleLabelLayout()
@@ -27,6 +26,13 @@ class MainTableViewCell: UITableViewCell {
 }
 
 extension MainTableViewCell {
+    func configure(_ dataHolder: CellContentDataHolder) {
+        titleLabel.text = dataHolder.titleLabelText
+        bodyLabel.text = dataHolder.bodyLabelText
+        dateLabel.text = dataHolder.dateLabelText
+        self.accessoryType = dataHolder.accessoryType
+    }
+    
     private func setupTitleLabelLayout() {
         titleLabel = UILabel()
         contentView.addSubview(titleLabel)
@@ -52,11 +58,11 @@ extension MainTableViewCell {
         dateAndBodyStackView.distribution = .equalCentering
         dateAndBodyStackView.spacing = 40
         
-//        dateAndBodyStackView.setPosition(top: titleLabel.bottomAnchor,
-//                                         bottom: contentView.bottomAnchor,
-//                                         leading: contentView.leadingAnchor,
-//                                         trailing: contentView.trailingAnchor,
-//                                         trailingConstant: -20)
+        //        dateAndBodyStackView.setPosition(top: titleLabel.bottomAnchor,
+        //                                         bottom: contentView.bottomAnchor,
+        //                                         leading: contentView.leadingAnchor,
+        //                                         trailing: contentView.trailingAnchor,
+        //                                         trailingConstant: -20)
         
         dateAndBodyStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
         dateAndBodyStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
@@ -70,5 +76,19 @@ extension MainTableViewCell {
         dateLabel.font = UIFont.preferredFont(forTextStyle: .body)
         bodyLabel.font = UIFont.preferredFont(forTextStyle: .caption1)
         bodyLabel.textColor = .gray
+    }
+}
+
+class CellContentDataHolder {
+    var titleLabelText: String?
+    var dateLabelText: String?
+    var bodyLabelText: String?
+    var accessoryType: UITableViewCell.AccessoryType
+    
+    init(title: String?, date: String?, body: String?, accessoryType: UITableViewCell.AccessoryType = .disclosureIndicator) {
+        self.titleLabelText = title
+        self.dateLabelText = date
+        self.bodyLabelText = body
+        self.accessoryType = accessoryType
     }
 }

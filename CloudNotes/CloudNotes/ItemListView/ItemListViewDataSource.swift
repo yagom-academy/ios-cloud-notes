@@ -8,7 +8,7 @@
 import UIKit
 
 class ItemListViewDataSource: NSObject, UITableViewDataSource {
-    lazy var memoList: [Memo] = loadMemoListForTest() ?? []
+    private lazy var memoList: [Memo] = loadMemoListForTest() ?? []
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return memoList.count

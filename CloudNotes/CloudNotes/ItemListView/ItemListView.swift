@@ -9,16 +9,16 @@ import UIKit
 
 class ItemListView: UITableViewController {
 
-    let itemListDataSource = ItemListViewDataSource()
-    var itemListDelegator: ItemListViewDelegate?
+    private let itemListDataSource = ItemListViewDataSource()
+    private var itemListDelegator: ItemListViewDelegate?
 
-    let basicInset = UIEdgeInsets(
+    private let basicInset = UIEdgeInsets(
         top: .zero,
         left: .zero,
         bottom: .zero,
         right: .zero
     )
-    var isClicked = false
+    private var isClicked = false
 
     override func viewDidLoad() {
         super.viewDidLoad()

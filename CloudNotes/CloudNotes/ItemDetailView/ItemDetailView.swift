@@ -9,7 +9,8 @@ import UIKit
 
 class ItemDetailView: UIViewController {
 
-    lazy var textView: UITextView = createdTextView()
+    private lazy var textView: UITextView = createdTextView()
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         textView.isScrollEnabled = false
@@ -31,10 +32,11 @@ class ItemDetailView: UIViewController {
 }
 
 extension ItemDetailView {
-    func createdTextView() -> UITextView {
+    private func createdTextView() -> UITextView {
         let txtView = UITextView()
         txtView.translatesAutoresizingMaskIntoConstraints = false
         txtView.font = UIFont.preferredFont(forTextStyle: .body)
+
         view.addSubview(txtView)
 
         let safeArea = view.safeAreaLayoutGuide
@@ -44,8 +46,6 @@ extension ItemDetailView {
             txtView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
             txtView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
         ])
-
-        txtView.setContentOffset(CGPoint(x: 0, y: Int.max), animated: false)
 
         return txtView
     }

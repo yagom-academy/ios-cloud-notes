@@ -10,9 +10,9 @@ import UIKit
 class ItemListViewCell: UITableViewCell {
     static let identifier = "ItemListViewCell"
 
-    lazy var titleLabel = createdTitleLabel()
-    lazy var dateLabel = createdDateLabel()
-    lazy var descriptionLabel = createdDescriptionLabel()
+    private lazy var titleLabel = createdTitleLabel()
+    private lazy var dateLabel = createdDateLabel()
+    private lazy var descriptionLabel = createdDescriptionLabel()
 
     private let dateFormatter = DateFormatter()
     private let half: CGFloat = 0.5

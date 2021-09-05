@@ -8,7 +8,7 @@
 import UIKit
 
 class ItemListViewDelegate: NSObject, UITableViewDelegate {
-    weak var owner: ItemListView?
+    private weak var owner: ItemListView?
 
     init(owner: ItemListView) {
         self.owner = owner
@@ -16,10 +16,11 @@ class ItemListViewDelegate: NSObject, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
-        guard let myCell = tableView.cellForRow(at: indexPath) as? ItemListViewCell else {
+        guard let myCell = tableView.cellForRow(at: indexPath) as? ItemListViewCell,
+              let data = myCell.data else {
             return
         }
 
-        owner?.showDetailViewController(with: myCell.data!)
+        owner?.showDetailViewController(with: data)
     }
 }

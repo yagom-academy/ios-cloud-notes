@@ -8,11 +8,11 @@ import UIKit
 
 class SplitView: UISplitViewController {
 
-    let itemListView = ItemListView()
-    let itemDetailView = ItemDetailView()
-    let splitViewDelegator = SplitViewDelegate()
+    private let itemListView = ItemListView()
+    private let itemDetailView = ItemDetailView()
+    private let splitViewDelegator = SplitViewDelegate()
 
-    var isCompactSize: Bool {
+    private var isCompactSize: Bool {
         return UITraitCollection.current.horizontalSizeClass == .compact
     }
 

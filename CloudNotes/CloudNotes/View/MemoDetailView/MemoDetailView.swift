@@ -19,12 +19,11 @@ class MemoDetailView: RootView {
 
     override func setup() {
         super.setup()
-        addSubview(detailTextView)
+        addSubviews(detailTextView)
     }
 
     override func setupUI() {
         super.setupUI()
-        detailTextView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
                     detailTextView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
                     detailTextView.trailingAnchor.constraint(equalTo: self.trailingAnchor),

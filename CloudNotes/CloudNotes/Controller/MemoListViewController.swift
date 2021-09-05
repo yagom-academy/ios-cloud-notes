@@ -7,9 +7,13 @@
 import UIKit
 
 class MemoListViewController: UIViewController{
-    
-    var memoList: [Memo] = []
-    weak var splitViewDelegate: SplitViewDelegate?
+
+    var memoList: [Memo] = [] {
+        didSet {
+            self.tableView.reloadData()
+        }
+    }
+    weak var delegate: MemoListDelegate?
     
     let tableView: UITableView = {
         let tableView = UITableView()
@@ -54,20 +58,13 @@ class MemoListViewController: UIViewController{
         self.navigationItem.rightBarButtonItem = addButton
     }
     
-    private func moveToDetail(indexPath: IndexPath) {
-        let detailMemoViewController = DetailMemoViewController()
-        detailMemoViewController.memo = memoList[indexPath.row]
-        self.navigationController?.pushViewController(detailMemoViewController, animated: true)
-    }
-    
     @objc func addMemo() {
-        let newMemo = Memo(title: "", body: "", date: 1234)
+        let newMemo = Memo(title: "", body: "", date: Date().timeIntervalSince1970)
         self.memoList.append(newMemo)
         self.tableView.reloadData()
-        splitViewDelegate?.addMemo(data: newMemo)
+        delegate?.addMemo(data: newMemo, index: IndexPath(row: memoList.endIndex-1, section: 0))
         
     }
-    
     private func configureTableView() {
         tableView.dataSource = self
         tableView.delegate = self
@@ -89,8 +86,8 @@ extension MemoListViewController: UITableViewDataSource {
         }
         
         cell.titleLabel.text = memoList[indexPath.row].title
-        cell.dateLabel.text = memoList[indexPath.row].date.description
         cell.shortDiscriptionLabel.text = memoList[indexPath.row].body
+        cell.dateLabel.text = DateFormatter.localizedString(from: Date(timeIntervalSince1970: memoList[indexPath.row].date), dateStyle: .long, timeStyle: .none)
         
         return cell
     }
@@ -102,8 +99,8 @@ extension MemoListViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.splitViewDelegate?.isFisrtCellSelection = true
-        self.splitViewDelegate?.selectCell(data: memoList[indexPath.row], index: indexPath)
+        self.delegate?.isFisrtCellSelection = true
+        self.delegate?.selectCell(data: memoList[indexPath.row], index: indexPath)
     }
 }
 

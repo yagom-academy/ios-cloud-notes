@@ -7,13 +7,13 @@
 
 import Foundation
 
-protocol SplitViewDelegate: NSObject {
+protocol MemoListDelegate: NSObject {
     var isFisrtCellSelection: Bool { set get }
     
     func selectCell(data: Memo, index: IndexPath)
-    func addMemo(data: Memo)
+    func addMemo(data: Memo, index: IndexPath)
 }
 
-protocol Memorizable: NSObject {
+protocol DetailMemoDelegate: NSObject {
     func saveMemo(with newMemo: Memo, index: IndexPath)
 }

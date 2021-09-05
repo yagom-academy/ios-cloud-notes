@@ -24,12 +24,12 @@ class SplitViewController: UISplitViewController {
     
     private func configureSplitView() {
         self.delegate = self
+        memoListViewController.delegate = self
+        detailMemoViewController.delegate = self
         preferredDisplayMode = .oneBesideSecondary
         presentsWithGesture = false
         setViewController(memoListViewController, for: .primary)
         setViewController(detailMemoViewController, for: .secondary)
-        memoListViewController.splitViewDelegate = self
-        detailMemoViewController.delegate = self
     }
     
     override func viewDidLoad() {
@@ -45,12 +45,13 @@ extension SplitViewController: UISplitViewControllerDelegate {
             isFisrtCellSelection = true
             return .primary
         } else {
+            isFisrtCellSelection = true
             return .secondary
         }
     }
 }
 
-extension SplitViewController: SplitViewDelegate {
+extension SplitViewController: MemoListDelegate {
   
     func selectCell(data: Memo, index: IndexPath) {
         detailMemoViewController.index = index
@@ -58,16 +59,19 @@ extension SplitViewController: SplitViewDelegate {
         showDetailViewController(detailMemoViewController, sender: nil)
     }
     
-    func addMemo(data: Memo) {
+    func addMemo(data: Memo, index: IndexPath) {
+        detailMemoViewController.index = index
         detailMemoViewController.memo = data
         showDetailViewController(detailMemoViewController, sender: nil)
     }
 }
 
-extension SplitViewController: Memorizable {
+extension SplitViewController: DetailMemoDelegate {
+    
     func saveMemo(with newMemo: Memo, index: IndexPath) {
-        memoListViewController.memoList[index.row] = newMemo
+        memoListViewController.memoList[index.row].title = newMemo.title
+        memoListViewController.memoList[index.row].body = newMemo.body
+        memoListViewController.memoList[index.row].date = newMemo.date
         memoListViewController.tableView.reloadData()
     }
 }
-

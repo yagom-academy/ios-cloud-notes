@@ -9,12 +9,12 @@ import UIKit
 
 class DetailMemoViewController: UIViewController {
     
-    weak var delegate: Memorizable?
+    weak var delegate: DetailMemoDelegate?
     var index = IndexPath()
 
     var memo: Memo? {
         didSet {
-            setMemo()
+            updateMemo()
         }
     }
     
@@ -33,17 +33,13 @@ class DetailMemoViewController: UIViewController {
         return bodyTextView
     }()
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         titleTextView.delegate = self
         bodyTextView.delegate = self
         view.backgroundColor = .white
         addSubView()
-        setMemo()
+        updateMemo()
         ConfigureAutoLayout()
         configureNavigationItem()
     }
@@ -53,7 +49,7 @@ class DetailMemoViewController: UIViewController {
         self.navigationItem.rightBarButtonItem = addButton
     }
     
-    private func setMemo() {
+    private func updateMemo() {
         titleTextView.text = memo?.title
         bodyTextView.text = memo?.body
     }
@@ -82,9 +78,10 @@ class DetailMemoViewController: UIViewController {
 
 extension DetailMemoViewController: UITextViewDelegate {
     func textViewDidEndEditing(_ textView: UITextView) {
-        memo?.title = titleTextView.text
-        memo?.body = bodyTextView.text
-        memo?.date = 1234
+        
+        let newMemo = Memo(title: titleTextView.text, body: bodyTextView.text, date: Date().timeIntervalSince1970)
+        
+        memo = newMemo
         
         guard let savedMemo = memo else { return }
         delegate?.saveMemo(with: savedMemo, index: self.index)

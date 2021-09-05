@@ -81,10 +81,8 @@ extension MemoListViewController {
 }
 
 extension MemoListViewController: Memorizable {
-    func saveMemo(with newMemo: Memo, index: Int) {
-        memoList[index].title = newMemo.title
-        memoList[index].body = newMemo.body
-        memoList[index].lastDate = newMemo.lastDate
+    func updateMemo(with newMemo: Memo, index: Int) {
+        memoList[index].update(with: newMemo)
         memoView.memoTableView.reloadData()
     }
 }

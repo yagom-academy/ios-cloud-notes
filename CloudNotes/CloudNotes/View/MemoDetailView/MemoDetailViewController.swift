@@ -8,7 +8,7 @@
 import UIKit
 
 protocol Memorizable: NSObject {
-    func saveMemo(with newMemo: Memo, index: Int)
+    func updateMemo(with newMemo: Memo, index: Int)
 }
 
 class MemoDetailViewController: RootViewController {
@@ -56,6 +56,6 @@ extension MemoDetailViewController: UITextViewDelegate {
         if minumumLine <= textView.text.lines.count {
             body = textView.text.lines[(minumumLine - 1)...].joined(separator: "\n")
         }
-        delegate?.saveMemo(with: Memo(title: title, body: body, lastDate: Date().timeIntervalSince1970), index: index)
+        delegate?.updateMemo(with: Memo(title: title, body: body, lastDate: Date().timeIntervalSince1970), index: index)
     }
 }

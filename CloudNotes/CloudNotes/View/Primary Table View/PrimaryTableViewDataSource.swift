@@ -10,9 +10,8 @@ import UIKit
 class PrimaryTableViewDataSource: NSObject {
     typealias SelectedMemoAction = (Memo, IndexPath, Bool) -> Void
     
-    private var memos: [Memo] = []
     private var selectedMemoAction: SelectedMemoAction?
-    
+    private var memos: [Memo] = []
     private var dateformatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.locale = Locale(identifier: Locale.preferredLanguages[0])
@@ -35,9 +34,8 @@ class PrimaryTableViewDataSource: NSObject {
         }
 
         do {
-            let decoded = try decoder.decode([Memo].self, from: dataAsset.data)
-            memos = decoded
-            
+            memos = try decoder.decode([Memo].self, from: dataAsset.data)
+
             guard let baseMemo = memos.first else {
                 print("에러처리 필요 - 메모데이터 없음")
                 return

@@ -14,7 +14,7 @@ protocol ChangedMemoDelegate: AnyObject {
 class SecondaryViewController: UIViewController {
     private var secondaryView: SecondaryView?
     private var tempMemo: Memo?
-    let doubleNewLine = "\n\n"
+    private let twiceLineBreaks = "\n\n"
     weak var delegate: ChangedMemoDelegate?
     
     init() {
@@ -32,7 +32,7 @@ class SecondaryViewController: UIViewController {
             print("에러처리 필요 - SecondaryView 초기화 실패")
             return
         }
-//        self.view = secondaryView
+//        self.view = secondary
         self.view.addSubview(secondary)
         NSLayoutConstraint.activate([
             secondary.topAnchor.constraint(equalTo: self.view.topAnchor),
@@ -46,10 +46,14 @@ class SecondaryViewController: UIViewController {
 }
 
 extension SecondaryViewController: UITextViewDelegate {
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        secondaryView?.textView.resignFirstResponder()
+    }
+    
     func textViewDidEndEditing(_ textView: UITextView) {
         var split = textView.text.split(whereSeparator: \.isNewline)
         let title = String(split.removeFirst())
-        let body = split.joined(separator: doubleNewLine)
+        let body = split.joined(separator: twiceLineBreaks)
         
         tempMemo?.title = title
         tempMemo?.body = body

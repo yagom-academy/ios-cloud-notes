@@ -12,6 +12,7 @@ class SecondaryView: UIView {
         let view = UITextView()
         view.textColor = .black
         view.font = .preferredFont(forTextStyle: .body)
+        view.keyboardDismissMode = .interactive
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()

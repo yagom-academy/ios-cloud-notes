@@ -12,13 +12,14 @@ protocol SelectedCellDelegate: AnyObject {
 }
 
 class PrimaryViewController: UITableViewController {
-    var primaryTableViewDataSource: PrimaryTableViewDataSource?
     weak var delegate: SelectedCellDelegate?
+    private var primaryTableViewDataSource: PrimaryTableViewDataSource?
     private var selectedIndexPath: IndexPath?
     
     init() {
         super.init(nibName: nil, bundle: nil)
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: nil)
+        self.navigationItem.title = "메모"
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -26,8 +27,6 @@ class PrimaryViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.title = "메모"
-        
         primaryTableViewDataSource = PrimaryTableViewDataSource(showDetailAction: { seleted, indexPath, check in
             self.delegate?.showSelectedDetail(memo: seleted, isSelected: check)
             self.selectedIndexPath = indexPath

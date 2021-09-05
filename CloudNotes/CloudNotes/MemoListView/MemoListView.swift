@@ -12,16 +12,34 @@ class MemoListView: UITableViewController {
     private let memoListDataSource = MemoListViewDataSource()
     private var memoListDelegator: MemoListViewDelegate?
 
-    private let basicInset = UIEdgeInsets(
-        top: .zero,
-        left: .zero,
-        bottom: .zero,
-        right: .zero
-    )
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        configureTableView()
+        configureNavigationItem()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        let title = "메모"
+        navigationItem.title = title
+    }
+
+    func showDetailViewController(with data: Memo?) {
+        guard let splitViewController = splitViewController as? SplitView else {
+            return
+        }
+
+        splitViewController.showDetailViewController(with: data)
+    }
+
+    private func configureTableView() {
+        let basicInset = UIEdgeInsets(
+            top: .zero,
+            left: .zero,
+            bottom: .zero,
+            right: .zero
+        )
         let ten: CGFloat = 10
 
         memoListDelegator = MemoListViewDelegate(owner: self)
@@ -42,20 +60,17 @@ class MemoListView: UITableViewController {
         )
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        let title = "메모"
-        navigationItem.title = title
+    private func configureNavigationItem() {
+        let addButton = UIBarButtonItem(
+            barButtonSystemItem: .add,
+            target: self,
+            action: #selector(showDetailViewControllerWithBlankPage)
+        )
 
-        let btn = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: nil)
-        navigationItem.rightBarButtonItem = btn
+        navigationItem.rightBarButtonItem = addButton
     }
 
-    func showDetailViewController(with data: Memo?) {
-        guard let splitViewController = splitViewController as? SplitView else {
-            return
-        }
-
-        splitViewController.showDetailViewController(with: data)
+    @objc private func showDetailViewControllerWithBlankPage() {
+        self.showDetailViewController(with: nil)
     }
 }

@@ -8,7 +8,7 @@
 import UIKit
 
 protocol SelectedCellDelegate: AnyObject {
-    func showSelectedDetail(memo: Memo, isSelected: Bool)
+    func showSelectedDetail(_ memo: Memo, isSelected: Bool)
 }
 
 class PrimaryViewController: UITableViewController {
@@ -27,8 +27,8 @@ class PrimaryViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        primaryTableViewDataSource = PrimaryTableViewDataSource(showDetailAction: { seleted, indexPath, check in
-            self.delegate?.showSelectedDetail(memo: seleted, isSelected: check)
+        primaryTableViewDataSource = PrimaryTableViewDataSource(showDetailAction: { seletedMemo, indexPath, check in
+            self.delegate?.showSelectedDetail(seletedMemo, isSelected: check)
             self.selectedIndexPath = indexPath
         })
         tableView.dataSource = primaryTableViewDataSource
@@ -38,7 +38,7 @@ class PrimaryViewController: UITableViewController {
 }
 
 extension PrimaryViewController {
-    func updateSecondaryChanging( _ memo: Memo?) {
+    func updateSecondaryChanging(by memo: Memo) {
         guard let indexPath = selectedIndexPath else {
             print("에러처리 필요 - 선택된 인덱스 없음")
             return

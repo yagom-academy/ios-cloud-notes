@@ -8,6 +8,10 @@
 import UIKit
 
 class SecondaryView: UIView {
+    typealias EndEditingAction = (String) -> Void
+    
+    private var endEditingAction: EndEditingAction?
+    
     let textView: UITextView = {
         let view = UITextView()
         view.textColor = .black
@@ -17,10 +21,12 @@ class SecondaryView: UIView {
         return view
     }()
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    init(endEditingAction: @escaping EndEditingAction) {
+        super.init(frame: .zero)
+        self.endEditingAction = endEditingAction
         addSubview(textView)
         self.translatesAutoresizingMaskIntoConstraints = false
+        textView.delegate = self
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -34,6 +40,16 @@ class SecondaryView: UIView {
             textView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             textView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
         ])
+    }
+}
+
+extension SecondaryView: UITextViewDelegate {
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        textView.resignFirstResponder()
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        endEditingAction?(textView.text)
     }
 }
 

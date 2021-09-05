@@ -39,14 +39,14 @@ extension SplitViewController: UISplitViewControllerDelegate {
 }
 
 extension SplitViewController: SelectedCellDelegate, ChangedMemoDelegate {
-    func showSelectedDetail(memo: Memo, isSelected: Bool) {
+    func showSelectedDetail(_ memo: Memo, isSelected: Bool) {
         secondaryViewController?.updateDetailView(by: memo)
         if isSelected {
             show(.secondary)
         }
     }
     
-    func updateListItem(memo: Memo?) {
-        primaryViewController?.updateSecondaryChanging(memo)
+    func updateListItem(_ memo: Memo) {
+        primaryViewController?.updateSecondaryChanging(by: memo)
     }
 }

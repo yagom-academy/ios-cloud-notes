@@ -8,7 +8,7 @@
 import UIKit
 
 protocol ChangedMemoDelegate: AnyObject {
-    func updateListItem(memo: Memo?)
+    func updateListItem(_ memo: Memo)
 }
 
 class SecondaryViewController: UIViewController {
@@ -19,7 +19,9 @@ class SecondaryViewController: UIViewController {
     
     init() {
         super.init(nibName: nil, bundle: nil)
-        secondaryView = SecondaryView()
+        secondaryView = SecondaryView(endEditingAction: { editedData in
+            self.updateMemo(by: editedData)
+        })
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -40,32 +42,25 @@ class SecondaryViewController: UIViewController {
             secondary.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
             secondary.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
         ])
-        
-        secondaryView?.textView.delegate = self
-    }
-}
-
-extension SecondaryViewController: UITextViewDelegate {
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        secondaryView?.textView.resignFirstResponder()
-    }
-    
-    func textViewDidEndEditing(_ textView: UITextView) {
-        var split = textView.text.split(whereSeparator: \.isNewline)
-        let title = String(split.removeFirst())
-        let body = split.joined(separator: twiceLineBreaks)
-        let nowDate = Date().timeIntervalSince1970
-        
-        tempMemo?.updateMemo(title, body, nowDate)
-        
-        delegate?.updateListItem(memo: tempMemo)
     }
 }
 
 extension SecondaryViewController {
+    func updateMemo(by editedText: String) {
+        guard var temp = tempMemo else { return }
+        var split = editedText.split(whereSeparator: \.isNewline)
+        let title = String(split.removeFirst())
+        let body = split.joined(separator: twiceLineBreaks)
+        let nowDate = Date().timeIntervalSince1970
+        
+        temp.updateMemo(title, body, nowDate)
+        
+        delegate?.updateListItem(temp)
+    }
+    
     func updateDetailView(by memo: Memo?) {
-        if tempMemo != nil {
-            delegate?.updateListItem(memo: tempMemo)
+        if let temp = tempMemo {
+            delegate?.updateListItem(temp)
         }
         self.tempMemo = memo
         memo.flatMap { memo in

@@ -27,26 +27,13 @@ class MainTableViewCell: UITableViewCell {
         subTitleLabel = UILabel()
         dateLabel = UILabel()
         detailButton = UIButton()
-        makeButtonLayout()
         contentView.addSubview(titleLabel)
         makeHorizontalStackVeiw()
-        
-        setupLayout()
+        setupTitleLabelLayout()
         
         titleLabel.font = UIFont.preferredFont(forTextStyle: .title3)
         titleLabel.adjustsFontForContentSizeCategory = true
-        //makeVerticalStackVeiw()
     }
-    
-    //    override func updateConfiguration(using state: UICellConfigurationState) {
-    //        super.updateConfiguration(using: state)
-    //
-    //        var configuration = defaultContentConfiguration()
-    //
-    //
-    //        configuration.secondaryText = "\(memoList?.lastModified)"
-    //        contentConfiguration = configuration
-    //    }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -54,7 +41,7 @@ class MainTableViewCell: UITableViewCell {
 }
 
 extension MainTableViewCell {
-    private func setupLayout() {
+    private func setupTitleLabelLayout() {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 10).isActive = true
         titleLabel.bottomAnchor.constraint(equalTo: dateAndSubStackView.topAnchor).isActive = true
@@ -71,37 +58,33 @@ extension MainTableViewCell {
         titleDateSubStackView.distribution = .equalSpacing
         titleDateSubStackView.alignment = .leading
         //titleDateSubStackView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor).isActive = true
-        titleDateSubStackView.setAnchor(top: contentView.topAnchor, bottom: dateAndSubStackView.bottomAnchor, leading: contentView.leadingAnchor, trailing: nil)
+        titleDateSubStackView.setAnchor(top: contentView.topAnchor, bottom: contentView.bottomAnchor, leading: contentView.leadingAnchor, trailing: contentView.trailingAnchor)
     }
     
     private func makeHorizontalStackVeiw() {
+        
         dateAndSubStackView = UIStackView(arrangedSubviews: [self.dateLabel, self.subTitleLabel])
-        subTitleLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         dateLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
-        dateLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        
         contentView.addSubview(dateAndSubStackView)
         dateAndSubStackView.translatesAutoresizingMaskIntoConstraints = false
         dateAndSubStackView.axis = .horizontal
         dateAndSubStackView.distribution = .equalCentering
-        //dateAndSubStackView.alignment = .center
-        
         dateAndSubStackView.spacing = 40
         dateAndSubStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
-        dateAndSubStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
-        dateAndSubStackView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor).isActive = true
+        dateAndSubStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20).isActive = true
+        dateAndSubStackView.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor).isActive = true
         dateAndSubStackView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor).isActive = true
-        
-        
     }
-    
-    
-    private func makeButtonLayout() {
-        self.detailButton = UIButton()
-        contentView.addSubview(detailButton)
-        detailButton.setAnchor(top: contentView.topAnchor,
-                               bottom: contentView.bottomAnchor,
-                               leading: nil,
-                               trailing: contentView.trailingAnchor)
-    }
+//    private func makeButtonLayout() {
+//        self.detailButton = UIButton()
+//        detailButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
+//        detailButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
+//        contentView.addSubview(detailButton)
+//        detailButton.setAnchor(top: contentView.topAnchor,
+//                               bottom: contentView.bottomAnchor,
+//                               leading: safeAreaLayoutGuide.leadingAnchor,
+//                               trailing: contentView.trailingAnchor)
+//    }
     
 }

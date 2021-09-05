@@ -21,7 +21,7 @@ class MainVCTableViewDataSource: NSObject, UITableViewDataSource {
         cell.dateLabel.text = "2020.20.20"
         cell.titleLabel.text = list?.title
         cell.subTitleLabel.text = list?.body
-        
+        cell.accessoryType = .disclosureIndicator
         return cell
     }
     

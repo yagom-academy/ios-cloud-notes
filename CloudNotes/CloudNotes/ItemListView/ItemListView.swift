@@ -18,7 +18,6 @@ class ItemListView: UITableViewController {
         bottom: .zero,
         right: .zero
     )
-    private var isClicked = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,8 +45,6 @@ class ItemListView: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         let title = "메모"
-
-        isClicked = false
         navigationController?.navigationItem.title = title
 
         let btn = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: nil)
@@ -55,12 +52,10 @@ class ItemListView: UITableViewController {
     }
 
     func showDetailViewController(with data: Memo?) {
-        guard isClicked == false,
-              let splitViewController = splitViewController as? SplitView else {
+        guard let splitViewController = splitViewController as? SplitView else {
             return
         }
 
-        isClicked = true
         splitViewController.sendDataToDetailVC(data)
     }
 }

@@ -7,9 +7,14 @@
 
 import UIKit
 
-class ItemDetailView: UIViewController {
+class MemoDetailView: UIViewController {
 
     private lazy var textView: UITextView = createdTextView()
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        textView.becomeFirstResponder()
+    }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -26,12 +31,18 @@ class ItemDetailView: UIViewController {
     }
 
     func configure(_ memo: Memo) {
+        let titlePrefix = "제목 : "
+        let descriptionPrefix = "내용 : "
         let doubledNewLine = "\n\n"
+
+        textView.accessibilityLabel = titlePrefix + memo.title
+        textView.accessibilityValue = descriptionPrefix + memo.description
+
         textView.text = memo.title + doubledNewLine + memo.description
     }
 }
 
-extension ItemDetailView {
+extension MemoDetailView {
     private func createdTextView() -> UITextView {
         let txtView = UITextView()
         txtView.translatesAutoresizingMaskIntoConstraints = false
@@ -51,9 +62,6 @@ extension ItemDetailView {
     }
 }
 
+extension MemoDetailView: UITextViewDelegate {
 
-extension ItemDetailView: UITextViewDelegate {
-    func textViewDidBeginEditing(_ textView: UITextView) {
-//        textView.keyboardAppearance 
-    }
 }

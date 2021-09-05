@@ -1,5 +1,5 @@
 //
-//  ItemListViewCell.swift
+//  MemoListViewCell.swift
 //  CloudNotes
 //
 //  Created by kjs on 2021/09/01.
@@ -7,8 +7,8 @@
 
 import UIKit
 
-class ItemListViewCell: UITableViewCell {
-    static let identifier = "ItemListViewCell"
+class MemoListViewCell: UITableViewCell {
+    static let identifier = "MemoListViewCell"
 
     private lazy var titleLabel = createdTitleLabel()
     private lazy var dateLabel = createdDateLabel()
@@ -42,7 +42,7 @@ class ItemListViewCell: UITableViewCell {
 
 }
 
-extension ItemListViewCell {
+extension MemoListViewCell {
 
     private var baseLabel: UILabel {
         let label = UILabel()

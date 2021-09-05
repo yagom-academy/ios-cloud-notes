@@ -8,8 +8,8 @@ import UIKit
 
 class SplitView: UISplitViewController {
 
-    private let itemListView = ItemListView()
-    private let itemDetailView = ItemDetailView()
+    private let memoListView = MemoListView()
+    private let memoDetailView = MemoDetailView()
     private let splitViewDelegator = SplitViewDelegate()
 
     private var isCompactSize: Bool {
@@ -20,12 +20,12 @@ class SplitView: UISplitViewController {
         super.viewDidLoad()
 
         preferredSplitBehavior = .tile
-        preferredDisplayMode = .automatic
+        preferredDisplayMode = .oneBesideSecondary
 
         delegate = splitViewDelegator
 
-        setViewController(itemListView, for: .primary)
-        setViewController(itemDetailView, for: .secondary)
+        setViewController(memoListView, for: .primary)
+        setViewController(memoDetailView, for: .secondary)
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -38,7 +38,7 @@ class SplitView: UISplitViewController {
 
     func sendDataToDetailVC(_ data: Memo?) {
         if let memo = data {
-            itemDetailView.configure(memo)
+            memoDetailView.configure(memo)
         }
 
         show(.secondary)

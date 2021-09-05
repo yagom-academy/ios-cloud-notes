@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ItemListViewDataSource: NSObject, UITableViewDataSource {
+class MemoListViewDataSource: NSObject, UITableViewDataSource {
     private lazy var memoList: [Memo] = loadMemoListForTest() ?? []
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -15,15 +15,15 @@ class ItemListViewDataSource: NSObject, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let itemListViewCell = tableView.dequeueReusableCell(
-                withIdentifier: ItemListViewCell.identifier) as? ItemListViewCell
+        guard let memoListViewCell = tableView.dequeueReusableCell(
+                withIdentifier: MemoListViewCell.identifier) as? MemoListViewCell
         else {
             return UITableViewCell()
         }
 
-        itemListViewCell.configure(with: memoList[indexPath.row])
+        memoListViewCell.configure(with: memoList[indexPath.row])
 
-        return itemListViewCell
+        return memoListViewCell
     }
 
     private func loadMemoListForTest() -> [Memo]? {

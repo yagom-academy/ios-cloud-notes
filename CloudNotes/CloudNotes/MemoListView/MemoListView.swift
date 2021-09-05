@@ -7,10 +7,10 @@
 
 import UIKit
 
-class ItemListView: UITableViewController {
+class MemoListView: UITableViewController {
 
-    private let itemListDataSource = ItemListViewDataSource()
-    private var itemListDelegator: ItemListViewDelegate?
+    private let memoListDataSource = MemoListViewDataSource()
+    private var memoListDelegator: MemoListViewDelegate?
 
     private let basicInset = UIEdgeInsets(
         top: .zero,
@@ -24,12 +24,12 @@ class ItemListView: UITableViewController {
 
         let ten: CGFloat = 10
 
-        itemListDelegator = ItemListViewDelegate(owner: self)
-        tableView.dataSource = itemListDataSource
-        tableView.delegate = itemListDelegator
+        memoListDelegator = MemoListViewDelegate(owner: self)
+        tableView.dataSource = memoListDataSource
+        tableView.delegate = memoListDelegator
         tableView.register(
-            ItemListViewCell.classForCoder(),
-            forCellReuseIdentifier: ItemListViewCell.identifier
+            MemoListViewCell.classForCoder(),
+            forCellReuseIdentifier: MemoListViewCell.identifier
         )
 
         tableView.separatorColor = .darkGray

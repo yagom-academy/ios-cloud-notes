@@ -28,7 +28,9 @@ class SplitView: UISplitViewController {
         setViewController(memoDetailView, for: .secondary)
     }
 
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+    override func traitCollectionDidChange(
+        _ previousTraitCollection: UITraitCollection?
+    ) {
         if isCompactSize {
             navigationController?.isNavigationBarHidden = true
         } else {
@@ -36,10 +38,8 @@ class SplitView: UISplitViewController {
         }
     }
 
-    func sendDataToDetailVC(_ data: Memo?) {
-        if let memo = data {
-            memoDetailView.configure(memo)
-        }
+    func showDetailViewController(with data: Memo?) {
+        memoDetailView.configure(with: data)
 
         show(.secondary)
     }

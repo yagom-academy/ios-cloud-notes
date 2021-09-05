@@ -17,7 +17,11 @@ class MemoDetailView: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        textView.becomeFirstResponder()
+
+        if textView.text.isEmpty {
+            textView.becomeFirstResponder()
+        }
+
         textView.isScrollEnabled = false
     }
 
@@ -30,7 +34,7 @@ class MemoDetailView: UIViewController {
         textView.text = nil
     }
 
-    func configure(_ memo: Memo?) {
+    func configure(with memo: Memo?) {
         guard let memo = memo else {
             textView.clear()
             return

@@ -56,6 +56,6 @@ class MemoListView: UITableViewController {
             return
         }
 
-        splitViewController.sendDataToDetailVC(data)
+        splitViewController.showDetailViewController(with: data)
     }
 }

@@ -16,7 +16,6 @@ class MainViewController: UIViewController {
         view.addSubview(tableView)
         tableView.dataSource = tableViewDataSource
         tableView.register(MainTableViewCell.self, forCellReuseIdentifier: CellId.defaultCell.description)
-        tableView.delegate = self
     }
     
     override func viewDidLayoutSubviews() {
@@ -24,15 +23,8 @@ class MainViewController: UIViewController {
         tableView.cellLayoutMarginsFollowReadableWidth = false
         tableView.frame = view.bounds
         tableView.rowHeight = UITableView.automaticDimension
-        tableView.estimatedRowHeight = 80
     }
     
     
     
-}
-
-extension MainViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        50
-    }
 }

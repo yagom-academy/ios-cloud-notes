@@ -20,7 +20,7 @@ class MainVCTableViewDataSource: NSObject, UITableViewDataSource {
         let list = memoList?[indexPath.row]
         cell.dateLabel.text = "2020.20.20"
         cell.titleLabel.text = list?.title
-        cell.subTitleLabel.text = list?.body
+        cell.bodyLabel.text = list?.body
         cell.accessoryType = .disclosureIndicator
         return cell
     }

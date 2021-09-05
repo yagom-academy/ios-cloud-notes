@@ -9,30 +9,16 @@ import UIKit
 
 class MainTableViewCell: UITableViewCell {
     var titleLabel: UILabel!
-    var subTitleLabel: UILabel!
+    var bodyLabel: UILabel!
     var dateLabel: UILabel!
-    var detailButton: UIButton!
-    
-    var dateAndSubStackView: UIStackView!
-    var titleDateSubStackView: UIStackView!
-    var labelsStackView: UIStackView!
-    var wholeStackView: UIStackView!
-    
+    var dateAndBodyStackView: UIStackView!
     var memoList: MemoDecodeModel?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
-        titleLabel = UILabel()
-        subTitleLabel = UILabel()
-        dateLabel = UILabel()
-        detailButton = UIButton()
-        contentView.addSubview(titleLabel)
-        makeHorizontalStackVeiw()
         setupTitleLabelLayout()
-        
-        titleLabel.font = UIFont.preferredFont(forTextStyle: .title3)
-        titleLabel.adjustsFontForContentSizeCategory = true
+        makeHorizontalStackVeiw()
+        setLabelStyle()
     }
     
     required init?(coder: NSCoder) {
@@ -42,49 +28,47 @@ class MainTableViewCell: UITableViewCell {
 
 extension MainTableViewCell {
     private func setupTitleLabelLayout() {
+        titleLabel = UILabel()
+        contentView.addSubview(titleLabel)
+        
+        //titleLabel.setPosition(top: nil, bottom: dateAndBodyStackView.topAnchor, leading: safeAreaLayoutGuide.leadingAnchor, leadingConstant: 10, trailing: safeAreaLayoutGuide.trailingAnchor)
+        
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 10).isActive = true
-        titleLabel.bottomAnchor.constraint(equalTo: dateAndSubStackView.topAnchor).isActive = true
-        titleLabel.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor).isActive = true
+        titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
         titleLabel.textAlignment = .left
         
     }
     
-    private func makeVerticalStackVeiw() {
-        
-        titleDateSubStackView = UIStackView(arrangedSubviews: [self.titleLabel, self.dateAndSubStackView])
-        titleDateSubStackView.translatesAutoresizingMaskIntoConstraints = false
-        titleDateSubStackView.axis = .vertical
-        titleDateSubStackView.distribution = .equalSpacing
-        titleDateSubStackView.alignment = .leading
-        //titleDateSubStackView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor).isActive = true
-        titleDateSubStackView.setAnchor(top: contentView.topAnchor, bottom: contentView.bottomAnchor, leading: contentView.leadingAnchor, trailing: contentView.trailingAnchor)
-    }
-    
     private func makeHorizontalStackVeiw() {
-        
-        dateAndSubStackView = UIStackView(arrangedSubviews: [self.dateLabel, self.subTitleLabel])
+        dateLabel = UILabel()
+        bodyLabel = UILabel()
+        dateAndBodyStackView = UIStackView(arrangedSubviews: [self.dateLabel, self.bodyLabel])
         dateLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
         
-        contentView.addSubview(dateAndSubStackView)
-        dateAndSubStackView.translatesAutoresizingMaskIntoConstraints = false
-        dateAndSubStackView.axis = .horizontal
-        dateAndSubStackView.distribution = .equalCentering
-        dateAndSubStackView.spacing = 40
-        dateAndSubStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
-        dateAndSubStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20).isActive = true
-        dateAndSubStackView.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor).isActive = true
-        dateAndSubStackView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor).isActive = true
+        contentView.addSubview(dateAndBodyStackView)
+        dateAndBodyStackView.translatesAutoresizingMaskIntoConstraints = false
+        dateAndBodyStackView.axis = .horizontal
+        dateAndBodyStackView.distribution = .equalCentering
+        dateAndBodyStackView.spacing = 40
+        
+//        dateAndBodyStackView.setPosition(top: titleLabel.bottomAnchor,
+//                                         bottom: contentView.bottomAnchor,
+//                                         leading: contentView.leadingAnchor,
+//                                         trailing: contentView.trailingAnchor,
+//                                         trailingConstant: -20)
+        
+        dateAndBodyStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
+        dateAndBodyStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
+        dateAndBodyStackView.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor).isActive = true
+        dateAndBodyStackView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor).isActive = true
     }
-//    private func makeButtonLayout() {
-//        self.detailButton = UIButton()
-//        detailButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
-//        detailButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
-//        contentView.addSubview(detailButton)
-//        detailButton.setAnchor(top: contentView.topAnchor,
-//                               bottom: contentView.bottomAnchor,
-//                               leading: safeAreaLayoutGuide.leadingAnchor,
-//                               trailing: contentView.trailingAnchor)
-//    }
     
+    func setLabelStyle() {
+        titleLabel.font = UIFont.preferredFont(forTextStyle: .title3)
+        titleLabel.adjustsFontForContentSizeCategory = true
+        dateLabel.font = UIFont.preferredFont(forTextStyle: .body)
+        bodyLabel.font = UIFont.preferredFont(forTextStyle: .caption1)
+        bodyLabel.textColor = .gray
+    }
 }

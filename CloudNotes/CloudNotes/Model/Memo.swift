@@ -18,3 +18,11 @@ struct Memo: Decodable {
         case lastDate = "last_modified"
     }
 }
+
+extension Memo {
+    mutating func update(with memo: Memo) {
+        self.title = memo.title
+        self.body = memo.body
+        self.lastDate = memo.lastDate
+    }
+}

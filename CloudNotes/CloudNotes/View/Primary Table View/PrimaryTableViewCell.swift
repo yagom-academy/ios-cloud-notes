@@ -37,7 +37,7 @@ class PrimaryTableViewCell: UITableViewCell {
 }
 
 extension PrimaryTableViewCell {
-    func configure(title: String?, summary: String?, date: String?) {
+    func configure(_ title: String?, _ summary: String?, _ date: String?) {
         self.textLabel?.text = title
         self.detailTextLabel?.text = date
         summaryLabel.text = summary

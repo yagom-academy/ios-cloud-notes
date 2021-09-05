@@ -62,10 +62,11 @@ extension PrimaryTableViewDataSource: UITableViewDataSource {
         let memo = memos[indexPath.row]
         
         let date: String = dateformatter.string(from: Date(timeIntervalSince1970: memo.lastModified))
-        let text = memo.body ?? ""
-        let summary: String = String(text[text.startIndex...(text.firstIndex(of: ".") ?? text.endIndex)])
+        let body = memo.body
+        let endIndex = body.firstIndex(of: ".") ?? body.endIndex
+        let summary: String = String(body.prefix(upTo: endIndex))
         
-        cell.configure(title: memo.title, summary: summary, date: date)
+        cell.configure(memo.title, summary, date)
 
         return cell
     }

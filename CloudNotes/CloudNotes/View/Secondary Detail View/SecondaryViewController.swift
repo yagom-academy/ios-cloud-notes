@@ -54,10 +54,9 @@ extension SecondaryViewController: UITextViewDelegate {
         var split = textView.text.split(whereSeparator: \.isNewline)
         let title = String(split.removeFirst())
         let body = split.joined(separator: twiceLineBreaks)
+        let nowDate = Date().timeIntervalSince1970
         
-        tempMemo?.title = title
-        tempMemo?.body = body
-        tempMemo?.lastModified = Date().timeIntervalSince1970
+        tempMemo?.updateMemo(title, body, nowDate)
         
         delegate?.updateListItem(memo: tempMemo)
     }
@@ -70,7 +69,7 @@ extension SecondaryViewController {
         }
         self.tempMemo = memo
         memo.flatMap { memo in
-            let text = memo.title + doubleNewLine + (memo.body ?? "")
+            let text = memo.title + twiceLineBreaks + memo.body
             self.secondaryView?.configure(by: text)
         }
     }

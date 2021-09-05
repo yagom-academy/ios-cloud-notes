@@ -65,11 +65,11 @@ class MemoListTableViewCell: UITableViewCell {
         
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: margin / 2),
-            titleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: margin),
+            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: margin),
             titleLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: margin),
             
             dateLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
-            dateLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: margin),
+            dateLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: margin),
             dateLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -margin / 2),
            
             

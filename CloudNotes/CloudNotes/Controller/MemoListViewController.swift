@@ -9,8 +9,9 @@ import UIKit
 class MemoListViewController: UIViewController{
     
     var memoList: [Memo] = []
+    weak var splitViewDelegate: SplitViewDelegate?
     
-    private let tableView: UITableView = {
+    let tableView: UITableView = {
         let tableView = UITableView()
         tableView.estimatedRowHeight = 50
         tableView.rowHeight = UITableView.automaticDimension
@@ -29,6 +30,7 @@ class MemoListViewController: UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         addSubView()
         configureTableView()
         ConfigureAutoLayout()
@@ -40,15 +42,15 @@ class MemoListViewController: UIViewController{
         let safeArea = view.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: safeArea.topAnchor),
-            tableView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
     }
     
     private func configureNavigationItem() {
         self.navigationItem.title = "메모"
-        let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: nil)
+        let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addMemo))
         self.navigationItem.rightBarButtonItem = addButton
     }
     
@@ -56,6 +58,14 @@ class MemoListViewController: UIViewController{
         let detailMemoViewController = DetailMemoViewController()
         detailMemoViewController.memo = memoList[indexPath.row]
         self.navigationController?.pushViewController(detailMemoViewController, animated: true)
+    }
+    
+    @objc func addMemo() {
+        let newMemo = Memo(title: "", body: "", date: 1234)
+        self.memoList.append(newMemo)
+        self.tableView.reloadData()
+        splitViewDelegate?.addMemo(data: newMemo)
+        
     }
     
     private func configureTableView() {
@@ -92,7 +102,8 @@ extension MemoListViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        moveToDetail(indexPath: indexPath)
+        self.splitViewDelegate?.isFisrtCellSelection = true
+        self.splitViewDelegate?.selectCell(data: memoList[indexPath.row], index: indexPath)
     }
 }
 

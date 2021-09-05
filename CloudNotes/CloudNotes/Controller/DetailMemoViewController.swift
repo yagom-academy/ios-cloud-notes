@@ -8,8 +8,15 @@
 import UIKit
 
 class DetailMemoViewController: UIViewController {
+    
+    weak var delegate: Memorizable?
+    var index = IndexPath()
 
-    var memo: Memo?
+    var memo: Memo? {
+        didSet {
+            setMemo()
+        }
+    }
     
     private var titleTextView: UITextView = {
         let titleTextView = UITextView()
@@ -26,12 +33,24 @@ class DetailMemoViewController: UIViewController {
         return bodyTextView
     }()
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        titleTextView.delegate = self
+        bodyTextView.delegate = self
         view.backgroundColor = .white
         addSubView()
         setMemo()
         ConfigureAutoLayout()
+        configureNavigationItem()
+    }
+    
+    private func configureNavigationItem() {
+        let addButton = UIBarButtonItem(barButtonSystemItem: .compose, target: self, action: nil)
+        self.navigationItem.rightBarButtonItem = addButton
     }
     
     private func setMemo() {
@@ -49,14 +68,25 @@ class DetailMemoViewController: UIViewController {
         let margin: CGFloat = 10
         NSLayoutConstraint.activate([
             titleTextView.topAnchor.constraint(equalTo: safeArea.topAnchor),
-            titleTextView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
+            titleTextView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             titleTextView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
             
             bodyTextView.topAnchor.constraint(equalTo: titleTextView.bottomAnchor, constant:
             margin),
-            bodyTextView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
+            bodyTextView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             bodyTextView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
             bodyTextView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -margin)
         ])
+    }
+}
+
+extension DetailMemoViewController: UITextViewDelegate {
+    func textViewDidEndEditing(_ textView: UITextView) {
+        memo?.title = titleTextView.text
+        memo?.body = bodyTextView.text
+        memo?.date = 1234
+        
+        guard let savedMemo = memo else { return }
+        delegate?.saveMemo(with: savedMemo, index: self.index)
     }
 }

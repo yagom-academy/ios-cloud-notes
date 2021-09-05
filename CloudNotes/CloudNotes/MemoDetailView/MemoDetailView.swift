@@ -13,11 +13,11 @@ class MemoDetailView: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        textView.becomeFirstResponder()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        textView.becomeFirstResponder()
         textView.isScrollEnabled = false
     }
 
@@ -30,14 +30,18 @@ class MemoDetailView: UIViewController {
         textView.text = nil
     }
 
-    func configure(_ memo: Memo) {
+    func configure(_ memo: Memo?) {
+        guard let memo = memo else {
+            textView.clear()
+            return
+        }
+
         let titlePrefix = "제목 : "
         let descriptionPrefix = "내용 : "
         let doubledNewLine = "\n\n"
 
         textView.accessibilityLabel = titlePrefix + memo.title
         textView.accessibilityValue = descriptionPrefix + memo.description
-
         textView.text = memo.title + doubledNewLine + memo.description
     }
 }

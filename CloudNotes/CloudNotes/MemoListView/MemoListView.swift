@@ -45,7 +45,7 @@ class MemoListView: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         let title = "메모"
-        navigationController?.navigationItem.title = title
+        navigationItem.title = title
 
         let btn = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: nil)
         navigationItem.rightBarButtonItem = btn

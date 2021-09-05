@@ -12,10 +12,6 @@ class SplitView: UISplitViewController {
     private let memoDetailView = MemoDetailView()
     private let splitViewDelegator = SplitViewDelegate()
 
-    private var isCompactSize: Bool {
-        return UITraitCollection.current.horizontalSizeClass == .compact
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -26,16 +22,6 @@ class SplitView: UISplitViewController {
 
         setViewController(memoListView, for: .primary)
         setViewController(memoDetailView, for: .secondary)
-    }
-
-    override func traitCollectionDidChange(
-        _ previousTraitCollection: UITraitCollection?
-    ) {
-        if isCompactSize {
-            navigationController?.isNavigationBarHidden = true
-        } else {
-            navigationController?.isNavigationBarHidden = false
-        }
     }
 
     func showDetailViewController(with data: Memo?) {

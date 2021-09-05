@@ -13,6 +13,13 @@ class MemoDetailView: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        let deleteButton = UIBarButtonItem(
+            barButtonSystemItem: .trash,
+            target: self,
+            action: #selector(deleteMemo)
+        )
+        navigationItem.rightBarButtonItem = deleteButton
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -47,6 +54,27 @@ class MemoDetailView: UIViewController {
         textView.accessibilityLabel = titlePrefix + memo.title
         textView.accessibilityValue = descriptionPrefix + memo.description
         textView.text = memo.title + doubledNewLine + memo.description
+    }
+
+    @objc private func deleteMemo() {
+        let title = "정말 삭제하시겠습니까?"
+        let delete = "삭제"
+        let cancel = "취소"
+
+        let alert = UIAlertController(
+            title: title,
+            message: nil,
+            preferredStyle: .alert
+        )
+        let cancelAction = UIAlertAction(title: cancel, style: .cancel)
+        let deleteAction = UIAlertAction(title: delete, style: .destructive) { _ in
+
+        }
+
+        alert.addAction(cancelAction)
+        alert.addAction(deleteAction)
+
+        present(alert, animated: false, completion: nil)
     }
 }
 

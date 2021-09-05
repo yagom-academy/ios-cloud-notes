@@ -12,6 +12,7 @@ class MainTableViewCell: UITableViewCell {
     private var bodyLabel: UILabel!
     private var dateLabel: UILabel!
     private var dateAndBodyStackView: UIStackView!
+    var dataHolder: MemoDataHolder?
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -36,9 +37,7 @@ extension MainTableViewCell {
     private func setupTitleLabelLayout() {
         titleLabel = UILabel()
         contentView.addSubview(titleLabel)
-        
-        //titleLabel.setPosition(top: nil, bottom: dateAndBodyStackView.topAnchor, leading: safeAreaLayoutGuide.leadingAnchor, leadingConstant: 10, trailing: safeAreaLayoutGuide.trailingAnchor)
-        
+    
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 10).isActive = true
         titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
@@ -57,13 +56,7 @@ extension MainTableViewCell {
         dateAndBodyStackView.axis = .horizontal
         dateAndBodyStackView.distribution = .equalCentering
         dateAndBodyStackView.spacing = 40
-        
-        //        dateAndBodyStackView.setPosition(top: titleLabel.bottomAnchor,
-        //                                         bottom: contentView.bottomAnchor,
-        //                                         leading: contentView.leadingAnchor,
-        //                                         trailing: contentView.trailingAnchor,
-        //                                         trailingConstant: -20)
-        
+    
         dateAndBodyStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
         dateAndBodyStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
         dateAndBodyStackView.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor).isActive = true

@@ -8,9 +8,9 @@
 import Foundation
 
 struct CloudNoteItem: Decodable {
-    let title: String
-    let body: String
-    let lastModified: Int
+    var title: String
+    var body: String
+    var lastModified: Int
     
     enum CodingKeys: String, CodingKey {
         case title, body

@@ -12,13 +12,18 @@ class MenuViewController: UIViewController {
     let tableView = UITableView()
     var data = [CloudNoteItem]()
     
+    override func loadView() {
+        super.loadView()
+        data = ParsingManager().parse(fileName: "sample")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureNavigationItem()
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(CustomCell.self, forCellReuseIdentifier: CustomCell.cellIdentifier)
-        data = ParsingManager().parse(fileName: "sample")
+//        data = ParsingManager().parse(fileName: "sample")
         configureTableView()
     }
     
@@ -36,6 +41,10 @@ class MenuViewController: UIViewController {
         tableView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor).isActive = true
         tableView.topAnchor.constraint(equalTo: safeArea.topAnchor).isActive = true
         tableView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor).isActive = true
+    }
+    
+    func loadData(detail: String, indexPath: IndexPath) {
+        self.data[indexPath.row].body = detail
     }
     
 }
@@ -62,8 +71,8 @@ extension MenuViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let detail = splitView?.detail as! DetailViewController
         detail.loadData(data: data, indexPath: indexPath)
-        let nv:UINavigationController = UINavigationController(rootViewController: detail)
-        self.showDetailViewController(nv, sender: self)
+        let navi :UINavigationController = UINavigationController(rootViewController: detail)
+        self.showDetailViewController(navi, sender: self)
     }
     
 }

@@ -9,8 +9,15 @@ import UIKit
 
 class DetailViewController: UIViewController {
     var splitView: SplitViewController?
+    var indexPath: IndexPath?
     
     let textView = UITextView()
+    lazy var text = textView.text {
+        didSet {
+            let menu = splitView?.menu as! MenuViewController
+            menu.loadData(detail: text!, indexPath: indexPath!)
+        }
+    }
     
     func configureTextView() {
         view.addSubview(textView)
@@ -24,14 +31,9 @@ class DetailViewController: UIViewController {
         textView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: 0).isActive = true
     }
     
-//    public func loadData(_ dic:NSDictionary) {
-//          self.title = dic["name"] as? String ?? "상세화면"
-//          self.detailText.text = dic["date"] as? String ?? "상세화면 입니다."
-//
-//      }
-    
     public func loadData(data: [CloudNoteItem], indexPath: IndexPath) {
         self.textView.text = data[indexPath.row].body
+        self.indexPath = indexPath
     }
     
     override func viewDidLoad() {

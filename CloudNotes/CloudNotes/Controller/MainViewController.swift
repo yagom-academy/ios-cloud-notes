@@ -12,27 +12,27 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .red
+        view.backgroundColor = .systemPink
         view.addSubview(tableView)
         tableView.dataSource = tableViewDataSource
         tableView.register(MainTableViewCell.self, forCellReuseIdentifier: CellId.defaultCell.description)
+        tableView.delegate = self
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-
         tableView.cellLayoutMarginsFollowReadableWidth = false
-
-//        tableView.setAnchor(top: self.view.topAnchor,
-//                            bottom: self.view.bottomAnchor,
-//                            leading: self.view.leadingAnchor,
-//                            trailing: self.view.trailingAnchor,
-//                            layoutMargins: self.view.directionalLayoutMargins)
         tableView.frame = view.bounds
-        
-//        tableView.setAnchor(top: view.safeAreaLayoutGuide.topAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor, trailing: view.safeAreaLayoutGuide.trailingAnchor)
-    
-        
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 80
     }
     
+    
+    
+}
+
+extension MainViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        50
+    }
 }

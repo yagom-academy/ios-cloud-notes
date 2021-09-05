@@ -9,20 +9,51 @@ import UIKit
 
 class ItemDetailView: UIViewController {
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        view.backgroundColor = .systemGreen
-        // Do any additional setup after loading the view.
+    lazy var textView: UITextView = createdTextView()
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        textView.isScrollEnabled = false
     }
-    /*
-    // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        textView.isScrollEnabled = true
     }
-    */
 
+    override func viewDidDisappear(_ animated: Bool) {
+        textView.text = nil
+    }
+
+    func configure(_ memo: Memo) {
+        let doubledNewLine = "\n\n"
+        textView.text = memo.title + doubledNewLine + memo.description
+    }
+}
+
+extension ItemDetailView {
+    func createdTextView() -> UITextView {
+        let txtView = UITextView()
+        txtView.translatesAutoresizingMaskIntoConstraints = false
+        txtView.font = UIFont.preferredFont(forTextStyle: .body)
+        view.addSubview(txtView)
+
+        let safeArea = view.safeAreaLayoutGuide
+        NSLayoutConstraint.activate([
+            txtView.topAnchor.constraint(equalTo: safeArea.topAnchor),
+            txtView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
+            txtView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
+            txtView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
+        ])
+
+        txtView.setContentOffset(CGPoint(x: 0, y: Int.max), animated: false)
+
+        return txtView
+    }
+}
+
+
+extension ItemDetailView: UITextViewDelegate {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+//        textView.keyboardAppearance 
+    }
 }

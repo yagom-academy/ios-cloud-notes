@@ -28,11 +28,19 @@ class SplitView: UISplitViewController {
         setViewController(itemDetailView, for: .secondary)
     }
 
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         if isCompactSize {
             navigationController?.isNavigationBarHidden = true
         } else {
             navigationController?.isNavigationBarHidden = false
         }
+    }
+
+    func sendDataToDetailVC(_ data: Memo?) {
+        if let memo = data {
+            itemDetailView.configure(memo)
+        }
+
+        show(.secondary)
     }
 }

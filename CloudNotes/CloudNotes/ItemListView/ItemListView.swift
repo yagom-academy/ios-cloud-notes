@@ -24,19 +24,17 @@ class ItemListView: UITableViewController {
         super.viewDidLoad()
 
         let ten: CGFloat = 10
-        itemListDelegator = ItemListViewDelegate(owner: self)
 
+        itemListDelegator = ItemListViewDelegate(owner: self)
+        tableView.dataSource = itemListDataSource
+        tableView.delegate = itemListDelegator
         tableView.register(
             ItemListViewCell.classForCoder(),
             forCellReuseIdentifier: ItemListViewCell.identifier
         )
 
-        tableView.dataSource = itemListDataSource
-        tableView.delegate = itemListDelegator
-
         tableView.separatorColor = .darkGray
         tableView.separatorInset = basicInset
-
         tableView.contentInset = UIEdgeInsets(
             top: 0,
             left: ten,
@@ -47,27 +45,22 @@ class ItemListView: UITableViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        let title = "메모"
 
         isClicked = false
+        navigationController?.navigationItem.title = title
+
+        let btn = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: nil)
+        navigationItem.rightBarButtonItem = btn
     }
 
-    func showDetailViewController(with data: Memo) {
+    func showDetailViewController(with data: Memo?) {
         guard isClicked == false,
-              let splitViewController = splitViewController,
-              let secondary = splitViewController.viewController(for: .secondary) as? ItemDetailView else {
+              let splitViewController = splitViewController as? SplitView else {
             return
         }
 
         isClicked = true
-        secondary.configure(data)
-
-        if AppState.isCompactSize {
-            splitViewController.showDetailViewController(
-                secondary,
-                sender: data
-            )
-        } else {
-            splitViewController.show(.secondary)
-        }
+        splitViewController.sendDataToDetailVC(data)
     }
 }

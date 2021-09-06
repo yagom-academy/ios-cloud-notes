@@ -1,5 +1,5 @@
 //
-//  LocalJSONDataModule.swift
+//  AssetJSONDataModule.swift
 //  CloudNotes
 //
 //  Created by JINHONG AN on 2021/09/06.
@@ -14,27 +14,27 @@ enum AssetError: Error, LocalizedError {
     var errorDescription: String? {
         switch self {
         case .assetNotFound:
-            return "데이터를 찾을 수 없습니다."
+            return "해당 에셋 파일을 찾을 수 없습니다."
         }
     }
 }
 
-struct LocalJSONDataModule<T: Decodable>: DataImportable {
+struct AssetJSONDataModule: DataImportable {
     private let assetName: String
     
     init(assetName: String) {
         self.assetName = assetName
     }
     
-    func importData(completionHandler: @escaping (T?, Error?) -> Void) {
+    func importData<T: Decodable>(completionHandler: @escaping (T?, Error?) -> Void) {
         guard let sampleDataAsset = NSDataAsset(name: assetName) else {
             completionHandler(nil, AssetError.assetNotFound)
             return
         }
         
         do {
-            let decodedData = try JSONDecoder().decode(T.self, from: sampleDataAsset.data)
-            completionHandler(decodedData, nil)
+            let decodingResult = try JSONDecoder().decode(T.self, from: sampleDataAsset.data)
+            completionHandler(decodingResult, nil)
         } catch {
             completionHandler(nil, error)
         }

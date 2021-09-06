@@ -28,6 +28,9 @@ class MemoTableViewController: UITableViewController {
         super.viewDidLoad()
         
         self.navigationItem.title = "메모"
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
+                                                                    target: self,
+                                                                    action: nil)
 
         tableView.register(MemoTableViewCell.self, forCellReuseIdentifier: "MemoTableViewCell")
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -40,7 +43,6 @@ class MemoTableViewController: UITableViewController {
 // MARK: - Table view data source
 extension MemoTableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         return mockItems.count
     }
 

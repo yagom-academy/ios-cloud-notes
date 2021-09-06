@@ -23,6 +23,7 @@
 		E68C416126E2100F000680B1 /* MemoSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68C416026E2100F000680B1 /* MemoSplitViewController.swift */; };
 		E68C416726E22C23000680B1 /* (null) in Resources */ = {isa = PBXBuildFile; };
 		E68C416826E22C29000680B1 /* (null) in Resources */ = {isa = PBXBuildFile; };
+		E69774B226E608F4008C14B7 /* SampleNotes.swift in Sources */ = {isa = PBXBuildFile; fileRef = E69774B126E608F4008C14B7 /* SampleNotes.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,6 +72,7 @@
 		E65E358026E23B2A003D5D1F /* MemoDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoDetailViewController.swift; sourceTree = "<group>"; };
 		E68C416026E2100F000680B1 /* MemoSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoSplitViewController.swift; sourceTree = "<group>"; };
 		E68C416326E21EFA000680B1 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
+		E69774B126E608F4008C14B7 /* SampleNotes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleNotes.swift; sourceTree = "<group>"; };
 		F55EA09ADFBEEFB73645C65E /* Pods_CloudNotes.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CloudNotes.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -143,6 +145,7 @@
 		C7481C6C25BBCF3900B9CA55 /* CloudNotes */ = {
 			isa = PBXGroup;
 			children = (
+				E69774B026E6087A008C14B7 /* DataStructure */,
 				E68C415F26E20FBD000680B1 /* Controller */,
 				C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */,
 				C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */,
@@ -191,6 +194,14 @@
 				E65E358026E23B2A003D5D1F /* MemoDetailViewController.swift */,
 			);
 			path = Controller;
+			sourceTree = "<group>";
+		};
+		E69774B026E6087A008C14B7 /* DataStructure */ = {
+			isa = PBXGroup;
+			children = (
+				E69774B126E608F4008C14B7 /* SampleNotes.swift */,
+			);
+			path = DataStructure;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -418,6 +429,7 @@
 				E65E358126E23B2A003D5D1F /* MemoDetailViewController.swift in Sources */,
 				C7481C7225BBCF3900B9CA55 /* ViewController.swift in Sources */,
 				E68C416126E2100F000680B1 /* MemoSplitViewController.swift in Sources */,
+				E69774B226E608F4008C14B7 /* SampleNotes.swift in Sources */,
 				E65E357F26E23B1F003D5D1F /* MemoListViewController.swift in Sources */,
 				C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */,
 				C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */,

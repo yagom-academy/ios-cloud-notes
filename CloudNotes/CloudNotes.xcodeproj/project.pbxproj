@@ -7,12 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5DB6F007D5D17326CCD92AD2 /* Pods_CloudNotesTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58A7E709BD59E1F50A9582C6 /* Pods_CloudNotesTests.framework */; };
 		7959893026E111C30031DF70 /* Memo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7959892F26E111C30031DF70 /* Memo.swift */; };
 		7959893526E11CE10031DF70 /* MemoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7959893426E11CE10031DF70 /* MemoTableViewCell.swift */; };
 		7959893726E2024A0031DF70 /* MemoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7959893626E2024A0031DF70 /* MemoDetailViewController.swift */; };
 		7959893926E234730031DF70 /* CloudMemoSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7959893826E234730031DF70 /* CloudMemoSplitViewController.swift */; };
 		7959893C26E397E90031DF70 /* Int+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7959893B26E397E90031DF70 /* Int+Extension.swift */; };
 		7959893F26E3BE260031DF70 /* DateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7959893E26E3BE260031DF70 /* DateManager.swift */; };
+		A46C267EC844A5B0D83D5F7B /* Pods_CloudNotes_CloudNotesUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2D0DA3C7A473187568A17ED /* Pods_CloudNotes_CloudNotesUITests.framework */; };
+		ADCFC7F349F2AD44A9B127D0 /* Pods_CloudNotes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 783C50EEEF74C68339A526A8 /* Pods_CloudNotes.framework */; };
 		C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */; };
 		C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */; };
 		C7481C7225BBCF3900B9CA55 /* MemoListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C7125BBCF3900B9CA55 /* MemoListViewController.swift */; };
@@ -42,12 +45,19 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0C3F7CFC27EF7DB06B1258C4 /* Pods-CloudNotes-CloudNotesUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudNotes-CloudNotesUITests.release.xcconfig"; path = "Target Support Files/Pods-CloudNotes-CloudNotesUITests/Pods-CloudNotes-CloudNotesUITests.release.xcconfig"; sourceTree = "<group>"; };
+		476EC1244590AC3481246D33 /* Pods-CloudNotesTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudNotesTests.debug.xcconfig"; path = "Target Support Files/Pods-CloudNotesTests/Pods-CloudNotesTests.debug.xcconfig"; sourceTree = "<group>"; };
+		58A7E709BD59E1F50A9582C6 /* Pods_CloudNotesTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CloudNotesTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		67DB8262834F99BCE6C29550 /* Pods-CloudNotes.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudNotes.release.xcconfig"; path = "Target Support Files/Pods-CloudNotes/Pods-CloudNotes.release.xcconfig"; sourceTree = "<group>"; };
+		783C50EEEF74C68339A526A8 /* Pods_CloudNotes.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CloudNotes.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7959892F26E111C30031DF70 /* Memo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memo.swift; sourceTree = "<group>"; };
 		7959893426E11CE10031DF70 /* MemoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoTableViewCell.swift; sourceTree = "<group>"; };
 		7959893626E2024A0031DF70 /* MemoDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoDetailViewController.swift; sourceTree = "<group>"; };
 		7959893826E234730031DF70 /* CloudMemoSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudMemoSplitViewController.swift; sourceTree = "<group>"; };
 		7959893B26E397E90031DF70 /* Int+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extension.swift"; sourceTree = "<group>"; };
 		7959893E26E3BE260031DF70 /* DateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateManager.swift; sourceTree = "<group>"; };
+		BA1023FD05070302AD6445D5 /* Pods-CloudNotes.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudNotes.debug.xcconfig"; path = "Target Support Files/Pods-CloudNotes/Pods-CloudNotes.debug.xcconfig"; sourceTree = "<group>"; };
+		C24A86013753CFD63054B9B6 /* Pods-CloudNotes-CloudNotesUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudNotes-CloudNotesUITests.debug.xcconfig"; path = "Target Support Files/Pods-CloudNotes-CloudNotesUITests/Pods-CloudNotes-CloudNotesUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		C7481C6A25BBCF3900B9CA55 /* CloudNotes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CloudNotes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -63,6 +73,8 @@
 		C7481C8E25BBCF3A00B9CA55 /* CloudNotesUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CloudNotesUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7481C9225BBCF3A00B9CA55 /* CloudNotesUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudNotesUITests.swift; sourceTree = "<group>"; };
 		C7481C9425BBCF3A00B9CA55 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F2D0DA3C7A473187568A17ED /* Pods_CloudNotes_CloudNotesUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CloudNotes_CloudNotesUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		FE2C7020F5F8179E22CB8C4D /* Pods-CloudNotesTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudNotesTests.release.xcconfig"; path = "Target Support Files/Pods-CloudNotesTests/Pods-CloudNotesTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,6 +82,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ADCFC7F349F2AD44A9B127D0 /* Pods_CloudNotes.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -77,6 +90,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5DB6F007D5D17326CCD92AD2 /* Pods_CloudNotesTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -84,6 +98,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A46C267EC844A5B0D83D5F7B /* Pods_CloudNotes_CloudNotesUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -147,6 +162,8 @@
 				C7481C8625BBCF3A00B9CA55 /* CloudNotesTests */,
 				C7481C9125BBCF3A00B9CA55 /* CloudNotesUITests */,
 				C7481C6B25BBCF3900B9CA55 /* Products */,
+				E5FFF6D5902C425FD93E8C4A /* Pods */,
+				EA598E56E055B581921D80E0 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -197,6 +214,30 @@
 			path = CloudNotesUITests;
 			sourceTree = "<group>";
 		};
+		E5FFF6D5902C425FD93E8C4A /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				BA1023FD05070302AD6445D5 /* Pods-CloudNotes.debug.xcconfig */,
+				67DB8262834F99BCE6C29550 /* Pods-CloudNotes.release.xcconfig */,
+				C24A86013753CFD63054B9B6 /* Pods-CloudNotes-CloudNotesUITests.debug.xcconfig */,
+				0C3F7CFC27EF7DB06B1258C4 /* Pods-CloudNotes-CloudNotesUITests.release.xcconfig */,
+				476EC1244590AC3481246D33 /* Pods-CloudNotesTests.debug.xcconfig */,
+				FE2C7020F5F8179E22CB8C4D /* Pods-CloudNotesTests.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		EA598E56E055B581921D80E0 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				783C50EEEF74C68339A526A8 /* Pods_CloudNotes.framework */,
+				F2D0DA3C7A473187568A17ED /* Pods_CloudNotes_CloudNotesUITests.framework */,
+				58A7E709BD59E1F50A9582C6 /* Pods_CloudNotesTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -204,6 +245,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C7481C9725BBCF3A00B9CA55 /* Build configuration list for PBXNativeTarget "CloudNotes" */;
 			buildPhases = (
+				DCC59C1A6310788961E902D6 /* [CP] Check Pods Manifest.lock */,
 				C7481C6625BBCF3900B9CA55 /* Sources */,
 				C7481C6725BBCF3900B9CA55 /* Frameworks */,
 				C7481C6825BBCF3900B9CA55 /* Resources */,
@@ -221,6 +263,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C7481C9A25BBCF3A00B9CA55 /* Build configuration list for PBXNativeTarget "CloudNotesTests" */;
 			buildPhases = (
+				0F5B5FC2F465644644D8D7DD /* [CP] Check Pods Manifest.lock */,
 				C7481C7F25BBCF3A00B9CA55 /* Sources */,
 				C7481C8025BBCF3A00B9CA55 /* Frameworks */,
 				C7481C8125BBCF3A00B9CA55 /* Resources */,
@@ -239,6 +282,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C7481C9D25BBCF3A00B9CA55 /* Build configuration list for PBXNativeTarget "CloudNotesUITests" */;
 			buildPhases = (
+				C3B585EE0490069DE9E351E5 /* [CP] Check Pods Manifest.lock */,
 				C7481C8A25BBCF3A00B9CA55 /* Sources */,
 				C7481C8B25BBCF3A00B9CA55 /* Frameworks */,
 				C7481C8C25BBCF3A00B9CA55 /* Resources */,
@@ -321,6 +365,75 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		0F5B5FC2F465644644D8D7DD /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-CloudNotesTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C3B585EE0490069DE9E351E5 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-CloudNotes-CloudNotesUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DCC59C1A6310788961E902D6 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-CloudNotes-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		C7481C6625BBCF3900B9CA55 /* Sources */ = {
@@ -509,6 +622,7 @@
 		};
 		C7481C9825BBCF3A00B9CA55 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BA1023FD05070302AD6445D5 /* Pods-CloudNotes.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -527,6 +641,7 @@
 		};
 		C7481C9925BBCF3A00B9CA55 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 67DB8262834F99BCE6C29550 /* Pods-CloudNotes.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -545,6 +660,7 @@
 		};
 		C7481C9B25BBCF3A00B9CA55 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 476EC1244590AC3481246D33 /* Pods-CloudNotesTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -566,6 +682,7 @@
 		};
 		C7481C9C25BBCF3A00B9CA55 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FE2C7020F5F8179E22CB8C4D /* Pods-CloudNotesTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -587,6 +704,7 @@
 		};
 		C7481C9E25BBCF3A00B9CA55 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C24A86013753CFD63054B9B6 /* Pods-CloudNotes-CloudNotesUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -606,6 +724,7 @@
 		};
 		C7481C9F25BBCF3A00B9CA55 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0C3F7CFC27EF7DB06B1258C4 /* Pods-CloudNotes-CloudNotesUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;

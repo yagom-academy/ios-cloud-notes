@@ -35,7 +35,6 @@ class MemoDetailView: UIViewController {
         super.viewDidAppear(animated)
         textView.isScrollEnabled = true
 
-//        textView.resignFirstResponder()
         textView.becomeFirstResponder()
     }
 

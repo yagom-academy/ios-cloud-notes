@@ -8,5 +8,5 @@
 import Foundation
 
 protocol DataImportable {
-    func importData() -> Data
+    func importData(completionHandler: @escaping (Data?, Error?) -> Void)
 }

@@ -9,22 +9,22 @@ import UIKit
 
 class MemoListViewController: UIViewController {
     private let navigationTitle = "메모"
+    let memoListTableView = UITableView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title = navigationTitle
-        // Do any additional setup after loading the view.
+        view.addSubview(memoListTableView)
+        setLayoutForTableView()
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    private func setLayoutForTableView() {
+        memoListTableView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([memoListTableView.topAnchor.constraint(equalTo: view.topAnchor),
+                                     memoListTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+                                     memoListTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                                     memoListTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ])
     }
-    */
-
 }
+

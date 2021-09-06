@@ -26,6 +26,7 @@
 		E69774B226E608F4008C14B7 /* SampleNotes.swift in Sources */ = {isa = PBXBuildFile; fileRef = E69774B126E608F4008C14B7 /* SampleNotes.swift */; };
 		E69774B526E60C3C008C14B7 /* ParsingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E69774B426E60C3C008C14B7 /* ParsingManager.swift */; };
 		E69774B826E60E9D008C14B7 /* ParsingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E69774B726E60E9D008C14B7 /* ParsingError.swift */; };
+		E69774BA26E65BA1008C14B7 /* MemoCustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E69774B926E65BA1008C14B7 /* MemoCustomCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,6 +78,7 @@
 		E69774B126E608F4008C14B7 /* SampleNotes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleNotes.swift; sourceTree = "<group>"; };
 		E69774B426E60C3C008C14B7 /* ParsingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParsingManager.swift; sourceTree = "<group>"; };
 		E69774B726E60E9D008C14B7 /* ParsingError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParsingError.swift; sourceTree = "<group>"; };
+		E69774B926E65BA1008C14B7 /* MemoCustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoCustomCell.swift; sourceTree = "<group>"; };
 		F55EA09ADFBEEFB73645C65E /* Pods_CloudNotes.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CloudNotes.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -198,6 +200,7 @@
 				E68C416026E2100F000680B1 /* MemoSplitViewController.swift */,
 				E65E357E26E23B1F003D5D1F /* MemoListViewController.swift */,
 				E65E358026E23B2A003D5D1F /* MemoDetailViewController.swift */,
+				E69774B926E65BA1008C14B7 /* MemoCustomCell.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -457,6 +460,7 @@
 				C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */,
 				C7481C7825BBCF3900B9CA55 /* CloudNotes.xcdatamodeld in Sources */,
 				E69774B526E60C3C008C14B7 /* ParsingManager.swift in Sources */,
+				E69774BA26E65BA1008C14B7 /* MemoCustomCell.swift in Sources */,
 				E69774B826E60E9D008C14B7 /* ParsingError.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

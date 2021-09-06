@@ -8,5 +8,5 @@
 import Foundation
 
 protocol DataImportable {
-    func importData(completionHandler: @escaping (Data?, Error?) -> Void)
+    func importData<T: Decodable>(completionHandler: @escaping (T?, Error?) -> Void)
 }

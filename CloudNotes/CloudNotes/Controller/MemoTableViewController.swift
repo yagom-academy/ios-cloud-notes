@@ -46,7 +46,7 @@ extension MemoTableViewController {
         if let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath)
             as? MemoTableViewCell{
             
-            cell.configureLabels(withModel: mockItems[indexPath.row])
+            cell.configureLabels(with: mockItems[indexPath.row])
             
             return cell
         }

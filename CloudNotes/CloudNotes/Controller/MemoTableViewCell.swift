@@ -9,6 +9,7 @@ import UIKit
 
 class MemoTableViewCell: UITableViewCell {
     
+    // MARK: - Properties
     private var titleLabel: UILabel!
     private var dateLabel: UILabel!
     private var previewLabel: UILabel!
@@ -35,11 +36,13 @@ class MemoTableViewCell: UITableViewCell {
         return titleStackView
     }()
     
+    // MARK: - Initializer
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        setLabelsUp()
+        
+        configureLabelsView()
         contentView.addSubview(titleWithDetailStackView)
-        setStackViewAnchor()
+        configureStackViewAnchor()
         
         self.accessoryType = UITableViewCell.AccessoryType.disclosureIndicator
     }
@@ -48,7 +51,8 @@ class MemoTableViewCell: UITableViewCell {
         super.init(coder: coder)
     }
     
-    private func setLabelsUp() {
+    // MARK: - Methods
+    private func configureLabelsView() {
         titleLabel = UILabel()
         dateLabel = UILabel()
         previewLabel = UILabel()
@@ -66,7 +70,14 @@ class MemoTableViewCell: UITableViewCell {
         previewLabel.lineBreakMode = .byTruncatingTail
     }
     
-    private func setStackViewAnchor() {
+    func configureLabels(with model: Savable) {
+        titleLabel.text = model.title
+        dateLabel.text = model.lastModified?.description
+        previewLabel.text = model.body
+    }
+    
+    // MARK: - Auto Layout
+    private func configureStackViewAnchor() {
         titleWithDetailStackView.translatesAutoresizingMaskIntoConstraints = false
         
         titleWithDetailStackView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 16)
@@ -78,22 +89,4 @@ class MemoTableViewCell: UITableViewCell {
         titleWithDetailStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8)
             .isActive = true
     }
-    
-    func configureLabels(withModel: Savable) {
-        titleLabel.text = withModel.title
-        dateLabel.text = withModel.lastModified?.description
-        previewLabel.text = withModel.body
-    }
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-    
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-        
-        // Configure the view for the selected state
-    }
-    
 }

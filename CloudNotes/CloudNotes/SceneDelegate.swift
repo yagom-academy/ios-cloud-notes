@@ -15,10 +15,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
         let splitView = CloudNoteSplitViewController(style: .doubleColumn)
-        let firstViewController = UINavigationController(rootViewController: ListTableViewController(style: .plain))
-        let secondViewController = UINavigationController(rootViewController: MemoScrollViewController())
-        
-        splitView.viewControllers = [firstViewController, secondViewController]
         window?.rootViewController = splitView
         window?.makeKeyAndVisible()
     }

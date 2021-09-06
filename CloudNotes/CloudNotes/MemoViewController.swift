@@ -7,6 +7,6 @@
 
 import UIKit
 
-class MemoScrollViewController: UIViewController {
+class MemoViewController: UIViewController {
     
 }

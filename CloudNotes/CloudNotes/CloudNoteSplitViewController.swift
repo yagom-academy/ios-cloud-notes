@@ -7,9 +7,15 @@
 import UIKit
 
 class CloudNoteSplitViewController: UISplitViewController {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        setupView()
+    }
+    
+    private func setupView() {
+        let listView = ListViewController()
+        let memoView = MemoViewController()
+        self.viewControllers = [listView, memoView]
     }
 }

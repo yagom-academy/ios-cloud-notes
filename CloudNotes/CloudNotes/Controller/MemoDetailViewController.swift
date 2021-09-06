@@ -7,7 +7,7 @@
 
 import UIKit
 
-class DetailTextViewController: UIViewController {
+class MemoDetailViewController: UIViewController {
     
     // MARK: - Properties
     private var memo: Savable?

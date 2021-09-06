@@ -57,7 +57,7 @@ extension MemoTableViewController {
 // MARK: - Table view delegate
 extension MemoTableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let detailViewController = DetailTextViewController()
+        let detailViewController = MemoDetailViewController()
         
         if self.isCompact {
             detailViewController.configure(with: mockItems[indexPath.row])

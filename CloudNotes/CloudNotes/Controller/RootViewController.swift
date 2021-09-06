@@ -24,7 +24,7 @@ class RootViewController: UIViewController {
         let memoListVC = MemoTableViewController(isCompact: false)
         splitVC.setViewController(memoListVC, for: .primary)
         
-        let memoDetailVC = DetailTextViewController()
+        let memoDetailVC = MemoDetailViewController()
         let memoDetailNavgation = UINavigationController(rootViewController: memoDetailVC)
         splitVC.setViewController(memoDetailNavgation, for: .secondary)
         

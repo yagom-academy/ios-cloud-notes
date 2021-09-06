@@ -136,13 +136,10 @@
 		C7481C6C25BBCF3900B9CA55 /* CloudNotes */ = {
 			isa = PBXGroup;
 			children = (
-				C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */,
-				C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */,
-				D46FEAA926E6539800B328A7 /* PrimaryChildViewController.swift */,
-				D46FEAAE26E653AB00B328A7 /* SecondaryChildViewController.swift */,
-				C7481C7125BBCF3900B9CA55 /* SplitViewController.swift */,
+				D46FEAD526E6673100B328A7 /* AppLifeCycle */,
+				D46FEADA26E6676800B328A7 /* View */,
+				D46FEAD426E6672700B328A7 /* Controller */,
 				C7481C7925BBCF3A00B9CA55 /* Assets.xcassets */,
-				C7481C7B25BBCF3A00B9CA55 /* LaunchScreen.storyboard */,
 				C7481C7E25BBCF3A00B9CA55 /* Info.plist */,
 				C7481C7625BBCF3900B9CA55 /* CloudNotes.xcdatamodeld */,
 			);
@@ -165,6 +162,33 @@
 				C7481C9425BBCF3A00B9CA55 /* Info.plist */,
 			);
 			path = CloudNotesUITests;
+			sourceTree = "<group>";
+		};
+		D46FEAD426E6672700B328A7 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				D46FEAA926E6539800B328A7 /* PrimaryChildViewController.swift */,
+				D46FEAAE26E653AB00B328A7 /* SecondaryChildViewController.swift */,
+				C7481C7125BBCF3900B9CA55 /* SplitViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		D46FEAD526E6673100B328A7 /* AppLifeCycle */ = {
+			isa = PBXGroup;
+			children = (
+				C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */,
+				C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */,
+			);
+			path = AppLifeCycle;
+			sourceTree = "<group>";
+		};
+		D46FEADA26E6676800B328A7 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				C7481C7B25BBCF3A00B9CA55 /* LaunchScreen.storyboard */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		E863BBD8CD313E586EBB02C9 /* Frameworks */ = {

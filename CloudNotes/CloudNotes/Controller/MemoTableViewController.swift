@@ -9,14 +9,25 @@ import UIKit
 
 class MemoTableViewController: UITableViewController {
     var mockItems: [Savable] = [MockModel(), MockModel(), MockModel(),]
-
+    let isCompact: Bool
+    
+    init(isCompact: Bool) {
+        self.isCompact = isCompact
+        super.init(style: UITableView.Style.plain)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.navigationItem.title = "메모"
 
         tableView.register(MemoTableViewCell.self, forCellReuseIdentifier: "MemoTableViewCell")
-        
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+
         tableView.estimatedRowHeight = 100
         tableView.rowHeight = UITableView.automaticDimension
     }
@@ -47,8 +58,13 @@ extension MemoTableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let detailViewController = DetailTextViewController()
         
-        detailViewController.configure(with: mockItems[indexPath.row])
-
-        self.navigationController?.pushViewController(detailViewController, animated: true)
+        if self.isCompact {
+            detailViewController.configure(with: mockItems[indexPath.row])
+            self.navigationController?.pushViewController(detailViewController, animated: true)
+        } else {
+            detailViewController.configure(with: mockItems[indexPath.row])
+            let navigation = UINavigationController(rootViewController: detailViewController)
+            self.showDetailViewController(navigation, sender: self)
+        }
     }
 }

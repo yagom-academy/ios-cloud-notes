@@ -77,6 +77,7 @@ class DetailMemoViewController: UIViewController {
 }
 
 extension DetailMemoViewController: UITextViewDelegate {
+    
     func textViewDidEndEditing(_ textView: UITextView) {
         
         let newMemo = Memo(title: titleTextView.text, body: bodyTextView.text, date: Date().timeIntervalSince1970)

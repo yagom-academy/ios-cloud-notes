@@ -63,8 +63,8 @@ class MemoListViewController: UIViewController{
         self.memoList.append(newMemo)
         self.tableView.reloadData()
         delegate?.addMemo(data: newMemo, index: IndexPath(row: memoList.endIndex-1, section: 0))
-        
     }
+    
     private func configureTableView() {
         tableView.dataSource = self
         tableView.delegate = self

@@ -46,7 +46,7 @@ class MemoDetailViewController: UIViewController {
         let bodyFont = UIFont.systemFont(ofSize: CGFloat(textViewBodyFontSize))
         
         let attributedStr = NSMutableAttributedString(string: memoTextView.text)
-        attributedStr.addAttribute (.font, value: titleFont, range: (memoTextView.text as NSString).range(of: memoTitle))
+        attributedStr.addAttribute (.font, value: titleFont, range: (memoTextView.text as NSString).range(of: "\(memoTitle)\n"))
         attributedStr.addAttribute(.font, value: bodyFont, range: (memoTextView.text as NSString).range(of: memoBody))
         
         memoTextView.attributedText = attributedStr

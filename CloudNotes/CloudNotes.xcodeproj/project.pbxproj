@@ -24,7 +24,8 @@
 		E68C416726E22C23000680B1 /* (null) in Resources */ = {isa = PBXBuildFile; };
 		E68C416826E22C29000680B1 /* (null) in Resources */ = {isa = PBXBuildFile; };
 		E69774B226E608F4008C14B7 /* SampleNotes.swift in Sources */ = {isa = PBXBuildFile; fileRef = E69774B126E608F4008C14B7 /* SampleNotes.swift */; };
-		E69774B526E60C3C008C14B7 /* ParshingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E69774B426E60C3C008C14B7 /* ParshingManager.swift */; };
+		E69774B526E60C3C008C14B7 /* ParsingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E69774B426E60C3C008C14B7 /* ParsingManager.swift */; };
+		E69774B826E60E9D008C14B7 /* ParsingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E69774B726E60E9D008C14B7 /* ParsingError.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,7 +75,8 @@
 		E68C416026E2100F000680B1 /* MemoSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoSplitViewController.swift; sourceTree = "<group>"; };
 		E68C416326E21EFA000680B1 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		E69774B126E608F4008C14B7 /* SampleNotes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleNotes.swift; sourceTree = "<group>"; };
-		E69774B426E60C3C008C14B7 /* ParshingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParshingManager.swift; sourceTree = "<group>"; };
+		E69774B426E60C3C008C14B7 /* ParsingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParsingManager.swift; sourceTree = "<group>"; };
+		E69774B726E60E9D008C14B7 /* ParsingError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParsingError.swift; sourceTree = "<group>"; };
 		F55EA09ADFBEEFB73645C65E /* Pods_CloudNotes.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CloudNotes.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -147,6 +149,7 @@
 		C7481C6C25BBCF3900B9CA55 /* CloudNotes */ = {
 			isa = PBXGroup;
 			children = (
+				E69774B626E60E56008C14B7 /* Enumeration */,
 				E69774B326E60C1B008C14B7 /* Manager */,
 				E69774B026E6087A008C14B7 /* DataStructure */,
 				E68C415F26E20FBD000680B1 /* Controller */,
@@ -210,9 +213,17 @@
 		E69774B326E60C1B008C14B7 /* Manager */ = {
 			isa = PBXGroup;
 			children = (
-				E69774B426E60C3C008C14B7 /* ParshingManager.swift */,
+				E69774B426E60C3C008C14B7 /* ParsingManager.swift */,
 			);
 			path = Manager;
+			sourceTree = "<group>";
+		};
+		E69774B626E60E56008C14B7 /* Enumeration */ = {
+			isa = PBXGroup;
+			children = (
+				E69774B726E60E9D008C14B7 /* ParsingError.swift */,
+			);
+			path = Enumeration;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -445,7 +456,8 @@
 				C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */,
 				C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */,
 				C7481C7825BBCF3900B9CA55 /* CloudNotes.xcdatamodeld in Sources */,
-				E69774B526E60C3C008C14B7 /* ParshingManager.swift in Sources */,
+				E69774B526E60C3C008C14B7 /* ParsingManager.swift in Sources */,
+				E69774B826E60E9D008C14B7 /* ParsingError.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct ParshingManager {
+struct ParsingManager {
     private let jsonDecoder = JSONDecoder()
     
     func decode<T: Decodable>(from fileName: String, to destinationType: T.Type) {

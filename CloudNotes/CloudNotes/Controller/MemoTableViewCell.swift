@@ -8,6 +8,7 @@
 import UIKit
 
 class MemoTableViewCell: UITableViewCell {
+    
     private var titleLabel: UILabel!
     private var dateLabel: UILabel!
     private var previewLabel: UILabel!

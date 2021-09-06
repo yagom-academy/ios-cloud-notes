@@ -8,6 +8,7 @@
 import Foundation
 
 protocol Savable {
+    
     var title: String? { get set }
     var body: String? { get set }
     var lastModified: Int? { get set }

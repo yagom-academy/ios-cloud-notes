@@ -8,6 +8,7 @@
 import UIKit
 
 class DetailTextViewController: UIViewController {
+    
     var memo: Savable?
     
     private lazy var titleTextView: UITextView = {

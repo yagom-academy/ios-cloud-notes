@@ -8,11 +8,12 @@
 import Foundation
 
 struct MockModel: Savable {
+    
     var title: String? = {
-        return ["AAAA", "BBBB", "CCCC"].randomElement()
+        return ["AAAAAAAAAA", "BBBBBBBBBBBBBBBBBBBBBBBB", "CCCC"].randomElement()
     }()
     var body: String? = {
-        return ["AAAA", "BBBB", "CCCC"].randomElement()
+        return ["AAAAAAAAAA", "BBBBBBBBBBBBBBBBBBBBBBBB", "CCCC"].randomElement()
     }()
     var lastModified: Int? = {
         return [20210101, 20210202, 20210303].randomElement()

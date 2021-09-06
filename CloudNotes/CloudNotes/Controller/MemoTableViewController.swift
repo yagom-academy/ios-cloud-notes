@@ -8,6 +8,7 @@
 import UIKit
 
 class MemoTableViewController: UITableViewController {
+    
     var mockItems: [Savable] = [MockModel(), MockModel(), MockModel(),]
     let isCompact: Bool
     

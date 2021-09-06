@@ -9,9 +9,9 @@ import Foundation
 
 class DateManager {
     private static let formatter: DateFormatter = {
-       let f = DateFormatter()
-        f.dateFormat = "yyyy. MM. dd"
-        return f
+       let dateFommatter = DateFormatter()
+        dateFommatter.dateFormat = "yyyy. MM. dd"
+        return dateFommatter
     }()
 
     static func transfromFormatedDate(from timeInterval: Double) -> String? {

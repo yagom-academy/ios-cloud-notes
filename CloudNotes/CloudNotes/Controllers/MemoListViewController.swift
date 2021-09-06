@@ -41,7 +41,8 @@ extension MemoListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: MemoTableViewCell.identifier, for: indexPath) as? MemoTableViewCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: MemoTableViewCell.identifier,
+                                                       for: indexPath) as? MemoTableViewCell else {
             return UITableViewCell()
         }
         

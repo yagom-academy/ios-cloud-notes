@@ -35,7 +35,7 @@ class MemoDetailViewController: UIViewController {
     
     private func initTextViewScrollToTop() {
         let contentHeight = memoTextView.contentSize.height
-        memoTextView.contentOffset = CGPoint(x: 0,y: -contentHeight)
+        memoTextView.contentOffset = CGPoint(x: 0, y: -contentHeight)
     }
     
     private func updateTextFontStyle() {
@@ -46,8 +46,10 @@ class MemoDetailViewController: UIViewController {
         let bodyFont = UIFont.systemFont(ofSize: CGFloat(textViewBodyFontSize))
         
         let attributedStr = NSMutableAttributedString(string: memoTextView.text)
-        attributedStr.addAttribute (.font, value: titleFont, range: (memoTextView.text as NSString).range(of: "\(memoTitle)\n"))
-        attributedStr.addAttribute(.font, value: bodyFont, range: (memoTextView.text as NSString).range(of: memoBody))
+        attributedStr.addAttribute(.font, value: titleFont,
+                                   range: (memoTextView.text as NSString).range(of: "\(memoTitle)\n"))
+        attributedStr.addAttribute(.font, value: bodyFont,
+                                   range: (memoTextView.text as NSString).range(of: memoBody))
         
         memoTextView.attributedText = attributedStr
     }

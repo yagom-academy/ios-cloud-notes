@@ -14,6 +14,7 @@
 		7959893926E234730031DF70 /* CloudMemoSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7959893826E234730031DF70 /* CloudMemoSplitViewController.swift */; };
 		7959893C26E397E90031DF70 /* Int+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7959893B26E397E90031DF70 /* Int+Extension.swift */; };
 		7959893F26E3BE260031DF70 /* DateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7959893E26E3BE260031DF70 /* DateManager.swift */; };
+		79B760C926E641260095DB8B /* Memo+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79B760C826E641260095DB8B /* Memo+Extension.swift */; };
 		A46C267EC844A5B0D83D5F7B /* Pods_CloudNotes_CloudNotesUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2D0DA3C7A473187568A17ED /* Pods_CloudNotes_CloudNotesUITests.framework */; };
 		ADCFC7F349F2AD44A9B127D0 /* Pods_CloudNotes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 783C50EEEF74C68339A526A8 /* Pods_CloudNotes.framework */; };
 		C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */; };
@@ -56,6 +57,7 @@
 		7959893826E234730031DF70 /* CloudMemoSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudMemoSplitViewController.swift; sourceTree = "<group>"; };
 		7959893B26E397E90031DF70 /* Int+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extension.swift"; sourceTree = "<group>"; };
 		7959893E26E3BE260031DF70 /* DateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateManager.swift; sourceTree = "<group>"; };
+		79B760C826E641260095DB8B /* Memo+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Memo+Extension.swift"; sourceTree = "<group>"; };
 		BA1023FD05070302AD6445D5 /* Pods-CloudNotes.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudNotes.debug.xcconfig"; path = "Target Support Files/Pods-CloudNotes/Pods-CloudNotes.debug.xcconfig"; sourceTree = "<group>"; };
 		C24A86013753CFD63054B9B6 /* Pods-CloudNotes-CloudNotesUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudNotes-CloudNotesUITests.debug.xcconfig"; path = "Target Support Files/Pods-CloudNotes-CloudNotesUITests/Pods-CloudNotes-CloudNotesUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		C7481C6A25BBCF3900B9CA55 /* CloudNotes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CloudNotes.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -143,6 +145,7 @@
 			isa = PBXGroup;
 			children = (
 				7959893B26E397E90031DF70 /* Int+Extension.swift */,
+				79B760C826E641260095DB8B /* Memo+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -459,6 +462,7 @@
 			files = (
 				7959893726E2024A0031DF70 /* MemoDetailViewController.swift in Sources */,
 				7959893F26E3BE260031DF70 /* DateManager.swift in Sources */,
+				79B760C926E641260095DB8B /* Memo+Extension.swift in Sources */,
 				7959893926E234730031DF70 /* CloudMemoSplitViewController.swift in Sources */,
 				C7481C7225BBCF3900B9CA55 /* MemoListViewController.swift in Sources */,
 				7959893C26E397E90031DF70 /* Int+Extension.swift in Sources */,

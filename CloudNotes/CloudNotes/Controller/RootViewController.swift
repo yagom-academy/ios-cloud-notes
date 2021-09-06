@@ -19,6 +19,7 @@ class RootViewController: UIViewController {
         splitVC.view.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         splitVC.preferredDisplayMode = UISplitViewController.DisplayMode.oneBesideSecondary
         splitVC.preferredSplitBehavior = .tile
+        splitVC.presentsWithGesture = false
         splitVC.didMove(toParent: self)
         
         let memoListVC = MemoTableViewController(isCompact: false)

@@ -14,10 +14,13 @@ class MemoDetailView: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        let systemImageName = "ellipsis.circle"
+        let circleImage = UIImage(systemName: systemImageName)
         let deleteButton = UIBarButtonItem(
-            barButtonSystemItem: .trash,
+            image: circleImage,
+            style: .plain,
             target: self,
-            action: #selector(deleteMemo)
+            action: #selector(confirmToDeleteMemo)
         )
         navigationItem.rightBarButtonItem = deleteButton
     }
@@ -25,16 +28,15 @@ class MemoDetailView: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        if textView.text.isEmpty {
-            textView.becomeFirstResponder()
-        }
-
         textView.isScrollEnabled = false
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         textView.isScrollEnabled = true
+
+//        textView.resignFirstResponder()
+        textView.becomeFirstResponder()
     }
 
     override func viewDidDisappear(_ animated: Bool) {
@@ -56,7 +58,7 @@ class MemoDetailView: UIViewController {
         textView.text = memo.title + doubledNewLine + memo.description
     }
 
-    @objc private func deleteMemo() {
+    @objc private func confirmToDeleteMemo() {
         let title = "정말 삭제하시겠습니까?"
         let delete = "삭제"
         let cancel = "취소"
@@ -81,6 +83,7 @@ class MemoDetailView: UIViewController {
 extension MemoDetailView {
     private func createdTextView() -> UITextView {
         let txtView = UITextView()
+        txtView.tag = 1
         txtView.translatesAutoresizingMaskIntoConstraints = false
         txtView.font = UIFont.preferredFont(forTextStyle: .body)
 
@@ -93,6 +96,8 @@ extension MemoDetailView {
             txtView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
             txtView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
         ])
+
+        txtView.delegate = self
 
         return txtView
     }

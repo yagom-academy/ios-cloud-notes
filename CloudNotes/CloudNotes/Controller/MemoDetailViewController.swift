@@ -8,22 +8,26 @@
 import UIKit
 
 class MemoDetailViewController: UIViewController {
+    let textView = UITextView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        self.view.addSubview(textView)
+        configureTextView()
+        setLayoutForTextView()
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    private func configureTextView() {
+        textView.translatesAutoresizingMaskIntoConstraints = false
+        textView.autocorrectionType = .no
+        textView.backgroundColor = .secondarySystemBackground
+        textView.textColor = .secondaryLabel
     }
-    */
-
+    
+    private func setLayoutForTextView() {
+        NSLayoutConstraint.activate([textView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                                     textView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                                     textView.topAnchor.constraint(equalTo: view.topAnchor),
+                                     textView.bottomAnchor.constraint(equalTo: view.bottomAnchor)])
+    }
 }

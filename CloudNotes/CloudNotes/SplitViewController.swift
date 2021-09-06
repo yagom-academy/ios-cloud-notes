@@ -11,7 +11,6 @@ class SplitViewController: UISplitViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
         setUpSplitView()
         initChildViewControllers()
     }
@@ -29,5 +28,6 @@ class SplitViewController: UISplitViewController {
     func setUpSplitView() {
         preferredDisplayMode = .oneBesideSecondary
         preferredSplitBehavior = .tile
+        presentsWithGesture = false
     }
 }

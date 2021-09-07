@@ -1,5 +1,5 @@
 //
-//  CloudNotes - ViewController.swift
+//  CloudNotes - SplitView.swift
 //  Created by yagom.
 //  Copyright © yagom. All rights reserved.
 //

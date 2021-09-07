@@ -1,5 +1,5 @@
 //
-//  HeaderController.swift
+//  MemoListView.swift
 //  CloudNotes
 //
 //  Created by kjs on 2021/08/31.
@@ -71,6 +71,6 @@ class MemoListView: UITableViewController {
     }
 
     @objc private func showDetailViewControllerWithBlankPage() {
-        self.showDetailViewController(with: nil)
+        showDetailViewController(with: nil)
     }
 }

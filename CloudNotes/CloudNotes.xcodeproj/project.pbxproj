@@ -27,6 +27,7 @@
 		C91EF68726E2985C0013E3D6 /* DataImportable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91EF68626E2985C0013E3D6 /* DataImportable.swift */; };
 		C91EF68926E298DB0013E3D6 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91EF68826E298DB0013E3D6 /* DataManager.swift */; };
 		C91EF68B26E646BB0013E3D6 /* AssetJSONDataModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91EF68A26E646BB0013E3D6 /* AssetJSONDataModule.swift */; };
+		C91EF68F26E7DF790013E3D6 /* CellSelectionHandleable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91EF68E26E7DF790013E3D6 /* CellSelectionHandleable.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,6 +79,7 @@
 		C91EF68626E2985C0013E3D6 /* DataImportable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataImportable.swift; sourceTree = "<group>"; };
 		C91EF68826E298DB0013E3D6 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		C91EF68A26E646BB0013E3D6 /* AssetJSONDataModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetJSONDataModule.swift; sourceTree = "<group>"; };
+		C91EF68E26E7DF790013E3D6 /* CellSelectionHandleable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellSelectionHandleable.swift; sourceTree = "<group>"; };
 		E6AD4DA90F91540E38399744 /* Pods-CloudNotesTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudNotesTests.debug.xcconfig"; path = "Target Support Files/Pods-CloudNotesTests/Pods-CloudNotesTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -239,6 +241,7 @@
 			isa = PBXGroup;
 			children = (
 				C91EF68626E2985C0013E3D6 /* DataImportable.swift */,
+				C91EF68E26E7DF790013E3D6 /* CellSelectionHandleable.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -470,6 +473,7 @@
 				C91EF68B26E646BB0013E3D6 /* AssetJSONDataModule.swift in Sources */,
 				C91EF67A26E205900013E3D6 /* MemoItemTableViewCell.swift in Sources */,
 				C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */,
+				C91EF68F26E7DF790013E3D6 /* CellSelectionHandleable.swift in Sources */,
 				C91EF68726E2985C0013E3D6 /* DataImportable.swift in Sources */,
 				C91EF67826E1FA9D0013E3D6 /* Memo.swift in Sources */,
 				C91EF68926E298DB0013E3D6 /* DataManager.swift in Sources */,

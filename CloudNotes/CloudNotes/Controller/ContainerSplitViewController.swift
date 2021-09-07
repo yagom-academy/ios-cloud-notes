@@ -19,6 +19,7 @@ class ContainerSplitViewController: UISplitViewController {
         super.viewDidLoad()
         bringData()
         embedViewControllers()
+        primaryViewController.cellSelectionDelegate = self
     }
 
 }
@@ -56,8 +57,8 @@ extension ContainerSplitViewController {
     }
 }
 
-//MARK:- Data Transfer
-extension ContainerSplitViewController {
+//MARK:- Conforms to CellSellectionHandleable
+extension ContainerSplitViewController: CellSellectionHandleable {
     func handOver(data memoItem: Memo) {
         secondaryViewController.configure(with: memoItem)
         show(.secondary)

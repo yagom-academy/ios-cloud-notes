@@ -10,6 +10,7 @@ import UIKit
 class MemoListViewController: UIViewController {
     private let listTableView = UITableView()
     private var memoList = [Memo]()
+    weak var cellSelectionDelegate: CellSellectionHandleable?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -87,9 +88,6 @@ extension MemoListViewController: UITableViewDataSource {
 //MARK:- Conform to TableViewDelegate
 extension MemoListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let splitViewController = splitViewController as? ContainerSplitViewController else {
-            return
-        }
-        splitViewController.handOver(data: memoList[indexPath.row])
+        cellSelectionDelegate?.handOver(data: memoList[indexPath.row])
     }
 }

@@ -20,8 +20,8 @@ class MemoListViewDataSource: NSObject, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let memoListViewCell = tableView.dequeueReusableCell(
-                withIdentifier: MemoListViewCell.identifier) as? MemoListViewCell
-        else {
+                withIdentifier: MemoListViewCell.identifier
+        ) as? MemoListViewCell else {
             return UITableViewCell()
         }
 

@@ -20,8 +20,8 @@ class SecondaryView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = .white
-        addSubview(textView)
         self.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(textView)
         textView.delegate = self
     }
     required init?(coder: NSCoder) {
@@ -52,7 +52,6 @@ extension SecondaryView: UITextViewDelegate {
 extension SecondaryView {
     func configure(by text: String?) {
         self.textView.text = text
-        let beginning = textView.beginningOfDocument
-        textView.selectedTextRange = textView.textRange(from: beginning, to: beginning)
+        textView.setContentOffset(.zero, animated: true)
     }
 }

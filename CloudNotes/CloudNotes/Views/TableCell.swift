@@ -28,6 +28,7 @@ class TableCell: UITableViewCell {
        let label = UILabel()
         label.lineBreakMode = .byTruncatingTail
         label.numberOfLines = 1
+        label.textColor = .systemGray
         return label
     }()
 

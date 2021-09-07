@@ -24,6 +24,14 @@ class MemoDetailViewController: UIViewController {
         super.viewDidLoad()
         setUpMemoTextViewConstraints()
     }
+    
+    override func viewWillLayoutSubviews() {
+        if traitCollection.horizontalSizeClass == .compact {
+            memoTextView.backgroundColor = .systemGray
+        } else {
+            memoTextView.backgroundColor = .white
+        }
+    }
 
 }
 

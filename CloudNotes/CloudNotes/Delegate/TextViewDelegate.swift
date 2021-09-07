@@ -17,6 +17,6 @@ class TextViewDelegate: NSObject, UITextViewDelegate {
         let myInt = Int(timeInterval)
         
         MemoDataHolder.list?[indexPath?.row ?? .zero ].lastModified = myInt
-       // tableView?.reloadData()
+        tableView?.reloadData()
     }
 }

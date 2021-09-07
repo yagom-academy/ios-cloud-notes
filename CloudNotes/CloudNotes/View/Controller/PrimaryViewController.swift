@@ -22,7 +22,6 @@ class PrimaryViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tableView.reloadData()
-        print(#function)
     }
     
     override func viewDidLayoutSubviews() {
@@ -44,15 +43,10 @@ extension PrimaryViewController: UITableViewDelegate {
             $0.textView.text = "\(MemoDataHolder.list?[indexPath.row].title ?? emptyString)" + lineBreaker + lineBreaker + "\(MemoDataHolder.list?[indexPath.row].body ?? emptyString)"
             $0.textViewDelegate.indexPath = indexPath
             $0.textViewDelegate.tableView = tableView
+            // 네비게이션 2개???  back, 메모
             splitViewController?.show(.secondary)
         }
     }
-    
-
-//    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-//        tableView.reloadData()
-//    }
-    
 }
 
 extension PrimaryViewController {

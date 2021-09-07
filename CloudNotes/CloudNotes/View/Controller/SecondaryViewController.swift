@@ -20,12 +20,21 @@ class SecondaryViewController: UIViewController {
         setSecondaryVCNavigationBar()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        print(#function)
+    }
+    
     override func viewWillLayoutSubviews() {
         textView.setPosition(top: view.safeAreaLayoutGuide.topAnchor,
                              bottom: view.safeAreaLayoutGuide.bottomAnchor,
                              leading: view.safeAreaLayoutGuide.leadingAnchor,
                              trailing: view.safeAreaLayoutGuide.trailingAnchor)
     }
+    
+    deinit {
+        print(#function)
+    }
+    
 }
 
 extension SecondaryViewController {
@@ -39,3 +48,4 @@ extension SecondaryViewController {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(image: UIImage(systemName: "ellipsis.circle"))
     }
 }
+//뷰컨의 소멸시점에! viewWillDissapear

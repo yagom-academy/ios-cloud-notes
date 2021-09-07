@@ -53,7 +53,7 @@ class MemoListView: UITableViewController {
             top: .zero,
             left: horizontalMargin,
             bottom: .zero,
-            right: horizontalMargin
+            right: -horizontalMargin
         )
     }
 

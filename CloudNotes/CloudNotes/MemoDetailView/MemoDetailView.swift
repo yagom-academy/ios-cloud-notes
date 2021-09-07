@@ -13,16 +13,9 @@ class MemoDetailView: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = UIColor.systemBackground
 
-        let systemImageName = "ellipsis.circle"
-        let circleImage = UIImage(systemName: systemImageName)
-        let deleteButton = UIBarButtonItem(
-            image: circleImage,
-            style: .plain,
-            target: self,
-            action: #selector(confirmToDeleteMemo)
-        )
-        navigationItem.rightBarButtonItem = deleteButton
+        configureDeleteButton()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -99,6 +92,18 @@ extension MemoDetailView {
         txtView.delegate = self
 
         return txtView
+    }
+
+    private func configureDeleteButton() {
+        let systemImageName = "ellipsis.circle"
+        let circleImage = UIImage(systemName: systemImageName)
+        let deleteButton = UIBarButtonItem(
+            image: circleImage,
+            style: .plain,
+            target: self,
+            action: #selector(confirmToDeleteMemo)
+        )
+        navigationItem.rightBarButtonItem = deleteButton
     }
 }
 

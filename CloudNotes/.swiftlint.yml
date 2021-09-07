@@ -1,0 +1,20 @@
+disabled_rules:
+    - comment_spacing
+    - vertical_whitespace
+    - trailing_whitespace
+
+opt_in_rules:
+    - closure_body_length
+    - closure_spacing
+    - collection_alignment
+    - file_name_no_space
+    - force_unwrapping
+    - vertical_parameter_alignment_on_call
+
+excluded:
+    - CloudNotes/SceneDelegate.swift
+    - CloudNotes/AppDelegate.swift
+    - CloudNotesTests/CloudNotesTests.swift
+    - CloudNotesUITests/CloudNotesUITests.swift
+
+line_length: 149

@@ -28,7 +28,6 @@ class SplitViewController: UISplitViewController {
         super.viewDidLoad()
         self.delegate = self
         primaryViewController?.delegate = self
-        secondaryViewController?.delegate = self
     }
 }
 
@@ -38,15 +37,11 @@ extension SplitViewController: UISplitViewControllerDelegate {
     }
 }
 
-extension SplitViewController: SelectedCellDelegate, ChangedMemoDelegate {
+extension SplitViewController: SelectedCellDelegate {
     func showSelectedDetail(_ memo: Memo, isSelected: Bool) {
         secondaryViewController?.updateDetailView(by: memo)
         if isSelected {
             show(.secondary)
         }
-    }
-    
-    func updateListItem(_ memo: Memo) {
-        primaryViewController?.updateSecondaryChanging(by: memo)
     }
 }

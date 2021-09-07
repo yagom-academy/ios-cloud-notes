@@ -19,11 +19,7 @@ class SecondaryViewController: UIViewController {
     
     init() {
         super.init(nibName: nil, bundle: nil)
-        secondaryView = SecondaryView(
-            endEditingAction: { editedData in
-                self.updateMemo(by: editedData)
-            }
-        )
+        secondaryView = SecondaryView()
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -61,9 +57,9 @@ extension SecondaryViewController {
     }
     
     func updateDetailView(by memo: Memo?) {
-        if let temp = tempMemo {
-            delegate?.updateListItem(temp)
-        }
+//        if let temp = tempMemo {
+//            delegate?.updateListItem(temp)
+//        }
         self.tempMemo = memo
         memo.flatMap { memo in
             let text = memo.title + twiceLineBreaks + memo.body

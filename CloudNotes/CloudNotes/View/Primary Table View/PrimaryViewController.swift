@@ -16,23 +16,17 @@ class PrimaryViewController: UITableViewController {
     private var primaryTableViewDataSource: PrimaryTableViewDataSource?
     private var selectedIndexPath: IndexPath?
     
-    init() {
-        super.init(nibName: nil, bundle: nil)
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: nil)
+        self.navigationItem.title = "메모"
+        
         primaryTableViewDataSource = PrimaryTableViewDataSource(
             showDetailAction: { seletedMemo, indexPath, check in
                 self.delegate?.showSelectedDetail(seletedMemo, isSelected: check)
                 self.selectedIndexPath = indexPath
             }
         )
-    }
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: nil)
-        self.navigationItem.title = "메모"
         
         tableView.dataSource = primaryTableViewDataSource
         tableView.delegate = primaryTableViewDataSource

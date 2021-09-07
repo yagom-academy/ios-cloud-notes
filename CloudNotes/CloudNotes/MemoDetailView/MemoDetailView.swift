@@ -70,7 +70,7 @@ class MemoDetailView: UIViewController {
     }
 }
 
-//MARK: - Draw View
+// MARK: - Draw View
 extension MemoDetailView {
     private func createdTextView() -> UITextView {
         let txtView = UITextView()
@@ -87,8 +87,6 @@ extension MemoDetailView {
             txtView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
         ])
 
-        txtView.delegate = self
-
         return txtView
     }
 
@@ -103,8 +101,4 @@ extension MemoDetailView {
         )
         navigationItem.rightBarButtonItem = deleteButton
     }
-}
-
-extension MemoDetailView: UITextViewDelegate {
-
 }

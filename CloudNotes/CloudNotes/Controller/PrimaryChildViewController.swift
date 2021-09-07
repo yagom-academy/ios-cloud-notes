@@ -22,8 +22,18 @@ class PrimaryChildViewController: UITableViewController {
         let notesTitle = "메모"
         title = notesTitle
         tableView.register(NotesTableViewCell.self, forCellReuseIdentifier: cellIdentifier)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
+                                                            target: self,
+                                                            action: #selector(addButtonTapped))
+        
     }
     
+    @objc func addButtonTapped() {
+        notes?.append(Note(title: "", body: "", lastModified: Date().timeIntervalSince1970))
+        tableView.reloadData()
+        showContentDetails(of: notes?.last)
+    }
+
     private func initNotes() {
         let sampleDataFileName = "sample"
         let sampleData = NSDataAsset(name: sampleDataFileName)?.data
@@ -35,6 +45,17 @@ class PrimaryChildViewController: UITableViewController {
         case .failure(let error):
             print(error)
         }
+    }
+    
+    private func showContentDetails(of note: Note?) {
+        guard let note = note else { return }
+        
+        let detailRootViewController = SecondaryChildViewController()
+        let detailViewController = UINavigationController(
+            rootViewController: detailRootViewController)
+        
+        detailRootViewController.initContent(of: note)
+        showDetailViewController(detailViewController, sender: self)
     }
 }
 
@@ -55,12 +76,6 @@ extension PrimaryChildViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let detailRootViewController = SecondaryChildViewController()
-        let detailViewController = UINavigationController(
-            rootViewController: detailRootViewController
-        )
-        guard let note = notes?[indexPath.row] else { return }
-        detailRootViewController.initContent(of: note)
-        showDetailViewController(detailViewController, sender: self)
+        showContentDetails(of: notes?[indexPath.row])
     }
 }

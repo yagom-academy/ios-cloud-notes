@@ -8,25 +8,40 @@ import XCTest
 @testable import CloudNotes
 
 class CloudNotesTests: XCTestCase {
-
+    
     override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        
     }
 
     override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        // Given
+        
+        // When
+        
+        // Then
+        
     }
 
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
+    func test_이름이sample인파일의데이터를_parse함수로Note배열타입으로파싱하면_인덱스3인항목의title은네번째다() {
+        // Given
+        let sampleFileName = "sample"
+        let sampleData = NSDataAsset(name: sampleFileName)?.data
+        let expectedValue = "네번째"
+        let targetIndex = 3
+        
+        // When
+        let parsedResult = sampleData?.parse(type: [Note].self)
+        var outcome: String?
+        
+        switch parsedResult {
+        case .success(let parsedData):
+            outcome = parsedData[targetIndex].title
+        default:
+            XCTFail("sample 데이터의 파싱에 실패했습니다")
         }
+            
+        // Then
+        XCTAssertEqual(expectedValue, outcome)
     }
 
 }

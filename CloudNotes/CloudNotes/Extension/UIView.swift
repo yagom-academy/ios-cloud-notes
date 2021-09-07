@@ -8,26 +8,6 @@
 import UIKit
 
 extension UIView {
-    func pinFullScreen(top: NSLayoutYAxisAnchor?,
-                       bottom: NSLayoutYAxisAnchor?,
-                       leading: NSLayoutXAxisAnchor?,
-                       trailing: NSLayoutXAxisAnchor?,
-                       layoutMargins: NSDirectionalEdgeInsets = .zero) {
-        translatesAutoresizingMaskIntoConstraints = false
-        
-        top.flatMap { topAnchor.constraint(equalTo: $0, constant: layoutMargins.top).isActive = true
-        }
-        
-        bottom.flatMap {
-            bottomAnchor.constraint(equalTo: $0, constant: -layoutMargins.bottom).isActive = true
-        }
-        
-        leading.flatMap { leadingAnchor.constraint(equalTo: $0, constant: directionalLayoutMargins.leading).isActive = true
-        }
-        
-        trailing.flatMap { trailingAnchor.constraint(equalTo: $0, constant: -directionalLayoutMargins.trailing).isActive = true }
-    }
-    
     func setPosition(top: NSLayoutYAxisAnchor?,
                      topConstant: CGFloat = .zero,
                      bottom: NSLayoutYAxisAnchor?,

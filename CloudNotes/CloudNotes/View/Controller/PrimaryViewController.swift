@@ -30,13 +30,13 @@ class PrimaryViewController: UIViewController {
 extension PrimaryViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        giveDataToTextView(indexPath, tableView)
+        giveDataToSecondaryVC(indexPath, tableView)
         splitViewController?.show(.secondary)
     }
 }
 
 extension PrimaryViewController {
-    private func giveDataToTextView(_ indexPath: IndexPath, _ tableView: UITableView) {
+    private func giveDataToSecondaryVC(_ indexPath: IndexPath, _ tableView: UITableView) {
         let secondVC = splitViewController?.viewController(for: .secondary) as? SecondaryViewController
         let lineBreaker = "\n"
         let emptyString = ""

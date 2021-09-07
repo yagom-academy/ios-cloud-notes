@@ -9,12 +9,20 @@ import UIKit
 
 class MemoDetailViewController: UIViewController {
     private let memoTextView = UITextView()
-    private var memoItem: Memo?
+    private var memoItem: Memo? {
+        didSet {
+            guard let memoItem = memoItem else {
+                memoTextView.text = nil
+                return
+            }
+            let mergedContents = merge(contents: memoItem.title, memoItem.body)
+            memoTextView.text = mergedContents
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpMemoTextViewConstraints()
-        setUpMemoContents()
     }
 
 }
@@ -32,17 +40,12 @@ extension MemoDetailViewController {
         memoTextView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor).isActive = true
     }
     
-    private func setUpMemoContents() {
-        guard let memoItem = memoItem else {
-            return
-        }
-        let mergedContents = merge(contents: memoItem.title, memoItem.body)
-        memoTextView.text = mergedContents
+    func configure(with memoItem: Memo?) {
+        self.memoItem = memoItem
     }
     
     private func merge(contents: String...) -> String {
-        let emptyString = ""
         let lineBreak = "\n"
-        return contents.reduce(emptyString) { $0 + lineBreak + lineBreak + $1 }
+        return contents.joined(separator: lineBreak + lineBreak)
     }
 }

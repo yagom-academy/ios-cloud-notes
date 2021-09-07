@@ -55,3 +55,11 @@ extension ContainerSplitViewController {
         setViewController(secondaryViewController, for: .secondary)
     }
 }
+
+//MARK:- Data Transfer
+extension ContainerSplitViewController {
+    func handOver(data memoItem: Memo) {
+        secondaryViewController.configure(with: memoItem)
+        show(.secondary)
+    }
+}

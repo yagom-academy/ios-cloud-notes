@@ -16,6 +16,7 @@ class MemoListViewController: UIViewController {
         setUpTableViewConstraints()
         registerTableViewCell()
         listTableView.dataSource = self
+        listTableView.delegate = self
     }
 }
 
@@ -66,5 +67,14 @@ extension MemoListViewController: UITableViewDataSource {
         cell.configure(with: memoList[indexPath.row])
         return cell
     }
-    
+}
+
+//MARK:- Conform to TableViewDelegate
+extension MemoListViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let splitViewController = splitViewController as? ContainerSplitViewController else {
+            return
+        }
+        splitViewController.handOver(data: memoList[indexPath.row])
+    }
 }

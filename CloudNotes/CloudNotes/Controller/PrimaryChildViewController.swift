@@ -52,6 +52,8 @@ class PrimaryChildViewController: UITableViewController {
         let detailViewController = UINavigationController(
             rootViewController: detailRootViewController
         )
+        guard let note = notes?[indexPath.row] else { return }
+        detailRootViewController.initContent(of: note)
         showDetailViewController(detailViewController, sender: self)
     }
 }

@@ -28,7 +28,7 @@ class MemoListViewCell: UITableViewCell {
     }
 
     required init?(coder: NSCoder) {
-        super.init(coder: coder)
+        fatalError("Error: Cell is created on wrong way")
     }
 
     func configure(with memo: Memo) {

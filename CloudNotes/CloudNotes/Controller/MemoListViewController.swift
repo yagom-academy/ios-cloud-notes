@@ -25,7 +25,7 @@ class MemoListViewController: UIViewController {
         memoListTableView.register(MemoCustomCell.classForCoder(), forCellReuseIdentifier: "CustomCell")
     }
     
-    @objc func touchUpPlusButton() {
+    @objc private func touchUpPlusButton() {
     }
     
     private func setLayoutForTableView() {

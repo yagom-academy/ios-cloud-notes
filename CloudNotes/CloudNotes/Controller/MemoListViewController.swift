@@ -17,9 +17,11 @@ class MemoListViewController: UIViewController {
         super.viewDidLoad()
         self.navigationItem.title = navigationTitle
         view.addSubview(memoListTableView)
+        fetchDataToMemoList(by: "sample")
         setLayoutForTableView()
         memoListTableView.dataSource = self
-        fetchDataToMemoList(by: "sample")
+//        memoListTableView.delegate = self
+        memoListTableView.register(MemoCustomCell.classForCoder(), forCellReuseIdentifier: "CustomCell")
     }
     
     private func setLayoutForTableView() {
@@ -40,6 +42,14 @@ class MemoListViewController: UIViewController {
             break
         }
     }
+    
+    private func convertDataFormat(of date: Double) -> String {
+        let date = Date(timeIntervalSince1970: date)
+        let dateFormatter = DateFormatter()
+        dateFormatter.timeZone = TimeZone(abbreviation: "KST")
+        dateFormatter.dateFormat = "yyyy.MM.dd"
+        return dateFormatter.string(from: date)
+    }
 }
 
 extension MemoListViewController: UITableViewDataSource {
@@ -48,6 +58,12 @@ extension MemoListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        UITableViewCell()
+        guard let customCell = tableView.dequeueReusableCell(withIdentifier: "CustomCell", for: indexPath) as? MemoCustomCell else {
+            return UITableViewCell()
+        }
+        var currentMemo = memoList[indexPath.row]
+        customCell.configureContent(from: currentMemo, with: convertDataFormat(of: currentMemo.lastModified))
+        return customCell
     }
 }
+

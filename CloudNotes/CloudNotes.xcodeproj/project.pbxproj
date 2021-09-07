@@ -149,12 +149,12 @@
 		C7481C6C25BBCF3900B9CA55 /* CloudNotes */ = {
 			isa = PBXGroup;
 			children = (
+				E67E55C026E7761600338691 /* View */,
 				E69774B626E60E56008C14B7 /* Enumeration */,
 				E69774B326E60C1B008C14B7 /* Manager */,
 				E69774B026E6087A008C14B7 /* DataStructure */,
 				E68C415F26E20FBD000680B1 /* Controller */,
 				C7481C7925BBCF3A00B9CA55 /* Assets.xcassets */,
-				C7481C7B25BBCF3A00B9CA55 /* LaunchScreen.storyboard */,
 				C7481C7E25BBCF3A00B9CA55 /* Info.plist */,
 				C7481C7625BBCF3900B9CA55 /* CloudNotes.xcdatamodeld */,
 			);
@@ -189,6 +189,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		E67E55C026E7761600338691 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				E69774B926E65BA1008C14B7 /* MemoCustomCell.swift */,
+				C7481C7B25BBCF3A00B9CA55 /* LaunchScreen.storyboard */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		E68C415F26E20FBD000680B1 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
@@ -197,7 +206,6 @@
 				E68C416026E2100F000680B1 /* MemoSplitViewController.swift */,
 				E65E357E26E23B1F003D5D1F /* MemoListViewController.swift */,
 				E65E358026E23B2A003D5D1F /* MemoDetailViewController.swift */,
-				E69774B926E65BA1008C14B7 /* MemoCustomCell.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";

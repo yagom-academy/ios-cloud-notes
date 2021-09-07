@@ -90,4 +90,10 @@ class MemoCustomCell: UITableViewCell {
                                      veticalStackView.topAnchor.constraint(equalTo: contentView.topAnchor)
         ])
     }
+
+    func configureContent(from memo: Memo, with date: String) {
+        titleLabel.text = memo.title
+        bodyLabel.text = memo.body
+        lastModifiedLabel.text = date
+    }
 }

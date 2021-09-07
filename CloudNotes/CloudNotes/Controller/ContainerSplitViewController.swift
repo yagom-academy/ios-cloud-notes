@@ -44,6 +44,7 @@ extension ContainerSplitViewController {
 extension ContainerSplitViewController {
     private func setDataToViewControllers(with memoList: [Memo]) {
         primaryViewController.setUpList(with: memoList)
+        secondaryViewController.configure(with: memoList.first)
     }
 }
 

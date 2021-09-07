@@ -14,11 +14,17 @@ class PrimaryChildViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        initTableView()
         initNotes()
+    }
+    
+    private func initTableView() {
+        let notesTitle = "메모"
+        title = notesTitle
         tableView.register(NotesTableViewCell.self, forCellReuseIdentifier: cellIdentifier)
     }
     
-    func initNotes() {
+    private func initNotes() {
         let sampleDataFileName = "sample"
         let sampleData = NSDataAsset(name: sampleDataFileName)?.data
         let parsedData = sampleData.parse(type: [Note].self)
@@ -30,9 +36,10 @@ class PrimaryChildViewController: UITableViewController {
             print(error)
         }
     }
+}
 
+extension PrimaryChildViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         return notes?.count ?? 0
     }
     

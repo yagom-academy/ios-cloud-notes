@@ -8,7 +8,11 @@
 import UIKit
 
 extension UIView {
-    func pinFullScreen(top: NSLayoutYAxisAnchor?, bottom: NSLayoutYAxisAnchor?, leading: NSLayoutXAxisAnchor?, trailing: NSLayoutXAxisAnchor?, layoutMargins: NSDirectionalEdgeInsets = .zero, size: CGSize = .zero) {
+    func pinFullScreen(top: NSLayoutYAxisAnchor?,
+                       bottom: NSLayoutYAxisAnchor?,
+                       leading: NSLayoutXAxisAnchor?,
+                       trailing: NSLayoutXAxisAnchor?,
+                       layoutMargins: NSDirectionalEdgeInsets = .zero) {
         translatesAutoresizingMaskIntoConstraints = false
         
         top.flatMap { topAnchor.constraint(equalTo: $0, constant: layoutMargins.top).isActive = true
@@ -22,12 +26,16 @@ extension UIView {
         }
         
         trailing.flatMap { trailingAnchor.constraint(equalTo: $0, constant: -directionalLayoutMargins.trailing).isActive = true }
-        
-        widthAnchor.constraint(equalToConstant: size.width).isActive = true
-        heightAnchor.constraint(equalToConstant: size.height).isActive = true
     }
     
-    func setPosition(top: NSLayoutYAxisAnchor?, topConstant: CGFloat = .zero, bottom: NSLayoutYAxisAnchor?, bottomConstant: CGFloat = .zero, leading: NSLayoutXAxisAnchor?, leadingConstant: CGFloat = .zero, trailing: NSLayoutXAxisAnchor?, trailingConstant: CGFloat = .zero, size: CGSize = .zero) {
+    func setPosition(top: NSLayoutYAxisAnchor?,
+                     topConstant: CGFloat = .zero,
+                     bottom: NSLayoutYAxisAnchor?,
+                     bottomConstant: CGFloat = .zero,
+                     leading: NSLayoutXAxisAnchor?,
+                     leadingConstant: CGFloat = .zero,
+                     trailing: NSLayoutXAxisAnchor?,
+                     trailingConstant: CGFloat = .zero) {
         translatesAutoresizingMaskIntoConstraints = false
         
         top.flatMap { topAnchor.constraint(equalTo: $0, constant: topConstant).isActive = true
@@ -41,9 +49,5 @@ extension UIView {
         }
         
         trailing.flatMap { trailingAnchor.constraint(equalTo: $0, constant: trailingConstant).isActive = true }
-        
-        widthAnchor.constraint(equalToConstant: size.width).isActive = true
-        heightAnchor.constraint(equalToConstant: size.height).isActive = true
     }
-    
 }

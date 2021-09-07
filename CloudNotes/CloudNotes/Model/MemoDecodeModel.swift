@@ -8,10 +8,10 @@
 import Foundation
 
 // MARK: - Model when used decoding sample JSON file
-struct MemoDecodeModel: Decodable {
+class MemoDecodeModel: Decodable {
     let title: String
     let body: String
-    let lastModified: Int
+    var lastModified: Int
     
     enum CodingKeys: String, CodingKey {
         case title, body

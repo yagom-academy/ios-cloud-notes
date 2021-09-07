@@ -8,15 +8,34 @@
 import UIKit
 
 class SecondaryViewController: UIViewController {
-    var textView: UITextView!
-    var text: String?
+    var textView = UITextView()
+    let textViewDelegate = TextViewDelegate()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        textView = UITextView()
+        view.backgroundColor = .white
         view.addSubview(textView)
-        textView.setPosition(top: view.safeAreaLayoutGuide.topAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor, trailing: view.safeAreaLayoutGuide.trailingAnchor)
-        textView.frame = view.bounds
-        textView.text = text
+        self.textView.delegate = textViewDelegate
+        setTextViewStyle()
+        setSecondaryVCNavigationBar()
+    }
+    
+    override func viewWillLayoutSubviews() {
+        textView.setPosition(top: view.safeAreaLayoutGuide.topAnchor,
+                             bottom: view.safeAreaLayoutGuide.bottomAnchor,
+                             leading: view.safeAreaLayoutGuide.leadingAnchor,
+                             trailing: view.safeAreaLayoutGuide.trailingAnchor)
+    }
+}
+
+extension SecondaryViewController {
+    private func setTextViewStyle() {
+        textView.textAlignment = .natural
+        textView.adjustsFontForContentSizeCategory = true
+        textView.font = UIFont.preferredFont(forTextStyle: .body)
+    }
+    
+    private func setSecondaryVCNavigationBar() {
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(image: UIImage(systemName: "ellipsis.circle"))
     }
 }

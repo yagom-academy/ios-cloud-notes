@@ -9,6 +9,7 @@ import UIKit
 
 class MemoDataHolder {
     static var list = generateList()
+    
     private init() { }
     
     private static func generateList() -> [MemoDecodeModel]? {

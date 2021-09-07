@@ -7,28 +7,23 @@
 
 import UIKit
 
-class SplitViewController: UISplitViewController, UISplitViewControllerDelegate {
+class SplitViewController: UISplitViewController {
+    private let detailVC = SecondaryViewController()
+    private let primaryVC = PrimaryViewController()
+    private let splitViewDelegate = SplitViewDelegate()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        preferredPrimaryColumnWidthFraction = 1/3
-        
-        preferredDisplayMode = UISplitViewController.DisplayMode.allVisible
-        
-        let detailVC = SecondaryViewController()
-        let primaryVC = PrimaryViewController()
+        decideSpliveVCPreferences()
+        self.delegate = splitViewDelegate
+    }
+}
+
+extension SplitViewController {
+    private func decideSpliveVCPreferences() {
+        preferredDisplayMode = .oneBesideSecondary
+        preferredSplitBehavior = .displace
         setViewController(primaryVC, for: .primary)
         setViewController(detailVC, for: .secondary)
-        self.delegate = self
-    }
-    
-    func splitViewController(_: UISplitViewController, collapseSecondary: UIViewController, onto: UIViewController) -> Bool {
-        guard let naviVC = self.viewController(for: .secondary) as? UINavigationController, let detailVC = naviVC.topViewController as? SecondaryViewController else { return false }
-        
-        return detailVC.navigationItem == nil
-    }
-    
-    func splitViewController(_ svc: UISplitViewController, topColumnForCollapsingToProposedTopColumn proposedTopColumn: UISplitViewController.Column) -> UISplitViewController.Column {
-        return .primary
     }
 }

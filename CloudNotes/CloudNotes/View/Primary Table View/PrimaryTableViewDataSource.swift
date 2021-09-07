@@ -12,12 +12,6 @@ class PrimaryTableViewDataSource: NSObject {
     
     private var selectedMemoAction: SelectedMemoAction?
     private var memos: [Memo] = []
-    private var dateformatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: Locale.preferredLanguages[0])
-        formatter.dateFormat = "yyyy. MM. dd"
-        return formatter
-    }()
     
     init(showDetailAction: @escaping SelectedMemoAction) {
         super.init()
@@ -58,15 +52,8 @@ extension PrimaryTableViewDataSource: UITableViewDataSource {
                                                        for: indexPath) as? PrimaryTableViewCell else {
             return UITableViewCell()
         }
-        
         let memo = memos[indexPath.row]
-        
-        let date: String = dateformatter.string(from: Date(timeIntervalSince1970: memo.lastModified))
-        let body = memo.body
-        let endIndex = body.firstIndex(of: ".") ?? body.endIndex
-        let summary: String = String(body.prefix(upTo: endIndex))
-        
-        cell.configure(memo.title, summary, date)
+        cell.configure(by: memo)
 
         return cell
     }

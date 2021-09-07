@@ -35,10 +35,10 @@ class SecondaryView: UIView {
     override func updateConstraints() {
         super.updateConstraints()
         NSLayoutConstraint.activate([
-            textView.topAnchor.constraint(equalTo: self.topAnchor),
-            textView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            textView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            textView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+            textView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
+            textView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor),
+            textView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor),
+            textView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
 }

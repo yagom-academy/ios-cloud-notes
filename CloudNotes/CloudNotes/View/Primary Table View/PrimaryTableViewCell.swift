@@ -9,7 +9,12 @@ import UIKit
 
 class PrimaryTableViewCell: UITableViewCell {
     static let reuseIdentifier = "PrimaryViewCell"
-    
+    static let dateformatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: Locale.preferredLanguages[0])
+        formatter.dateFormat = "yyyy. MM. dd"
+        return formatter
+    }()
     var summaryLabel: UILabel = {
         let label = UILabel()
         label.textColor = .gray
@@ -37,9 +42,14 @@ class PrimaryTableViewCell: UITableViewCell {
 }
 
 extension PrimaryTableViewCell {
-    func configure(_ title: String?, _ summary: String?, _ date: String?) {
-        self.textLabel?.text = title
-        self.detailTextLabel?.text = date
+    func configure(by memo: Memo) {
+        let date: Date = Date(timeIntervalSince1970: memo.lastModified)
+        let dateString: String = PrimaryTableViewCell.dateformatter.string(from: date)
+        let body = memo.body
+        let endIndex = body.firstIndex(of: ".") ?? body.endIndex
+        let summary: String = String(body.prefix(upTo: endIndex))
+        self.textLabel?.text = memo.title
+        self.detailTextLabel?.text = dateString
         summaryLabel.text = summary
     }
 }

@@ -52,7 +52,14 @@ class MemoCustomCell: UITableViewCell {
         lastModifiedLabel.adjustsFontForContentSizeCategory = true
     }
     
+    private func setHorizontalCompressionResistance() {
+        lastModifiedLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        bodyLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+    }
+    
     private func makeHorizontalStackView() {
+        setHorizontalCompressionResistance()
+
         horizontalStackView = UIStackView(arrangedSubviews: [lastModifiedLabel, bodyLabel])
         horizontalStackView.alignment = .fill
         horizontalStackView.distribution = .fill

@@ -15,15 +15,19 @@ class SplitView: UISplitViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        delegate = splitViewDelegator
+
         preferredSplitBehavior = .tile
         preferredDisplayMode = .oneBesideSecondary
 
-        delegate = splitViewDelegator
-
         setViewController(memoListView, for: .primary)
         setViewController(memoDetailView, for: .secondary)
-    }
 
+        memoListView.messenger = self
+    }
+}
+
+extension SplitView: MessengerBetweenController {
     func showDetailViewController(with data: Memo?) {
         memoDetailView.configure(with: data)
 

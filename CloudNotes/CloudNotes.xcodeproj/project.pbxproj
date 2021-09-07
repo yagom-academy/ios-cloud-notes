@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6329130626E737510050C9E7 /* MessengerBetweenController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6329130526E737510050C9E7 /* MessengerBetweenController.swift */; };
 		63314D7A26E4FAE50049FB26 /* UITextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63314D7926E4FAE50049FB26 /* UITextView.swift */; };
 		637208B426E1359C00744419 /* MemoListViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637208B326E1359C00744419 /* MemoListViewDelegate.swift */; };
 		6380924526DF943000075575 /* SplitViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6380924426DF943000075575 /* SplitViewDelegate.swift */; };
@@ -43,6 +44,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6329130526E737510050C9E7 /* MessengerBetweenController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessengerBetweenController.swift; sourceTree = "<group>"; };
 		63314D7926E4FAE50049FB26 /* UITextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextView.swift; sourceTree = "<group>"; };
 		637208B326E1359C00744419 /* MemoListViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoListViewDelegate.swift; sourceTree = "<group>"; };
 		6380924426DF943000075575 /* SplitViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitViewDelegate.swift; sourceTree = "<group>"; };
@@ -124,6 +126,7 @@
 			children = (
 				C7481C7125BBCF3900B9CA55 /* SplitView.swift */,
 				6380924426DF943000075575 /* SplitViewDelegate.swift */,
+				6329130526E737510050C9E7 /* MessengerBetweenController.swift */,
 			);
 			path = SplitView;
 			sourceTree = "<group>";
@@ -383,6 +386,7 @@
 				637208B426E1359C00744419 /* MemoListViewDelegate.swift in Sources */,
 				63A619C126DE06F50065AC84 /* MemoDetailView.swift in Sources */,
 				C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */,
+				6329130626E737510050C9E7 /* MessengerBetweenController.swift in Sources */,
 				63A619C726DE18DD0065AC84 /* Memo.swift in Sources */,
 				63314D7A26E4FAE50049FB26 /* UITextView.swift in Sources */,
 				63A619BF26DE06E90065AC84 /* MemoListView.swift in Sources */,

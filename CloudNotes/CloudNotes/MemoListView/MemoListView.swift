@@ -11,6 +11,7 @@ class MemoListView: UITableViewController {
 
     private let memoListDataSource = MemoListViewDataSource()
     private var memoListDelegator: MemoListViewDelegate?
+    var messenger: MessengerBetweenController?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,11 +27,7 @@ class MemoListView: UITableViewController {
     }
 
     func showDetailViewController(with data: Memo?) {
-        guard let splitViewController = splitViewController as? SplitView else {
-            return
-        }
-
-        splitViewController.showDetailViewController(with: data)
+        messenger?.showDetailViewController(with: data)
     }
 
     private func configureTableView() {

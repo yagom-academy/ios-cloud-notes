@@ -16,7 +16,7 @@ class SplitViewController: UISplitViewController {
         initChildViewControllers()
     }
     
-    func initChildViewControllers() {
+    private func initChildViewControllers() {
         let primaryViewController = PrimaryChildViewController()
         let secondaryViewController = SecondaryChildViewController()
         let primaryChild = UINavigationController(rootViewController: primaryViewController)
@@ -26,7 +26,7 @@ class SplitViewController: UISplitViewController {
         setViewController(secondaryChild, for: .secondary)
     }
     
-    func setUpSplitView() {
+    private func setUpSplitView() {
         preferredDisplayMode = .oneBesideSecondary
         preferredSplitBehavior = .tile
         presentsWithGesture = false

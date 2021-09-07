@@ -9,6 +9,9 @@ import UIKit
 
 class MemoListViewController: UIViewController {
     private let navigationTitle = "메모"
+    private let sampleAsset = "sample"
+    private let lineBreak = "\n\n"
+
     private var memoList: [Memo] = []
     private let parsingManager = ParsingManager()
     let memoListTableView = UITableView()
@@ -18,11 +21,11 @@ class MemoListViewController: UIViewController {
         self.navigationItem.title = navigationTitle
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(touchUpPlusButton))
         view.addSubview(memoListTableView)
-        fetchDataToMemoList(by: "sample")
+        fetchDataToMemoList(by: sampleAsset)
         setLayoutForTableView()
         memoListTableView.dataSource = self
         memoListTableView.delegate = self
-        memoListTableView.register(MemoCustomCell.classForCoder(), forCellReuseIdentifier: "CustomCell")
+        memoListTableView.register(MemoCustomCell.classForCoder(), forCellReuseIdentifier: MemoCustomCell.cellIdentifier)
     }
     
     @objc private func touchUpPlusButton() {
@@ -62,7 +65,7 @@ extension MemoListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let customCell = tableView.dequeueReusableCell(withIdentifier: "CustomCell", for: indexPath) as? MemoCustomCell else {
+        guard let customCell = tableView.dequeueReusableCell(withIdentifier: MemoCustomCell.cellIdentifier, for: indexPath) as? MemoCustomCell else {
             return UITableViewCell()
         }
         let currentMemo = memoList[indexPath.row]
@@ -73,8 +76,6 @@ extension MemoListViewController: UITableViewDataSource {
 
 extension MemoListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let lineBreak = "\r\n\r\n"
-        
         guard let detailVC = splitViewController?.viewController(for: .secondary) as? MemoDetailViewController else { return }
         detailVC.memoDeatailTextView.text = memoList[indexPath.row].title + lineBreak + memoList[indexPath.row].body
         splitViewController?.show(.secondary)

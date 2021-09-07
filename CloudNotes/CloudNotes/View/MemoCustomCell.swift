@@ -14,10 +14,10 @@ class MemoCustomCell: UITableViewCell {
     var horizontalStackView: UIStackView!
     var veticalStackView: UIStackView!
     
-    private let cellIdentifier = "CustomCell"
+    static let cellIdentifier = "CustomCell"
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: cellIdentifier)
+        super.init(style: style, reuseIdentifier: MemoCustomCell.cellIdentifier)
         self.accessoryType = .disclosureIndicator
         makeTitleLabel()
         makeBodyLabel()

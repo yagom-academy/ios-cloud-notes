@@ -8,6 +8,8 @@ import UIKit
 
 class ContainerSplitViewController: UISplitViewController {
     private let columnStyle = UISplitViewController.Style.doubleColumn
+    private let primaryViewController = MemoListViewController()
+    private let secondaryViewController = MemoDetailViewController()
     
     required init?(coder: NSCoder) {
         super.init(style: columnStyle)
@@ -15,18 +17,40 @@ class ContainerSplitViewController: UISplitViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        bringData()
         embedViewControllers()
     }
 
 }
 
+//MARK:- Bring the data what want to show
+extension ContainerSplitViewController {
+    private func bringData() {
+        let dataModule = AssetJSONDataModule(assetName: "sample")
+        let dataManager = DataManager(dataImportModule: dataModule)
+        
+        dataManager.obtainData { (result: Result<[Memo], Error>) in
+            switch result {
+            case .success(let memos):
+                self.setDataToViewControllers(with: memos)
+            case .failure(let error):
+                break
+            }
+        }
+    }
+}
+
+//MARK:- Set up the data what want to show
+extension ContainerSplitViewController {
+    private func setDataToViewControllers(with memoList: [Memo]) {
+        primaryViewController.setUpList(with: memoList)
+    }
+}
+
 //MARK:- Embed Inner ViewControllers
 extension ContainerSplitViewController {
     private func embedViewControllers() {
-        let primaryViewController = MemoListViewController()
         setViewController(primaryViewController, for: .primary)
-        
-        let secondaryViewController = MemoDetailViewController()
         setViewController(secondaryViewController, for: .secondary)
     }
 }

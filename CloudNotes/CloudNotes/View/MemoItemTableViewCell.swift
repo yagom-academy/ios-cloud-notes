@@ -50,6 +50,7 @@ extension MemoItemTableViewCell {
         innerStackView.axis = .horizontal
         innerStackView.addArrangedSubview(lastModifiedLabel)
         innerStackView.addArrangedSubview(summaryLabel)
+        summaryLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         innerStackView.distribution = .fill
         innerStackView.alignment = .fill
         innerStackView.spacing = 20

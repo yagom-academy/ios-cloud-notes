@@ -10,7 +10,7 @@ import Foundation
 struct Note: Decodable {
     let title: String
     let body: String
-    let lastModified: Int
+    let lastModified: Double
     
     enum CodingKeys: String, CodingKey {
         case title, body

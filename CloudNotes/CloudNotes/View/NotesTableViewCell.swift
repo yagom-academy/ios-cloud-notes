@@ -47,7 +47,13 @@ class NotesTableViewCell: UITableViewCell {
         return stackView
     }()
     
-    func initCellLayout() {
+    func initCell(with note: Note) {
+        initCellLayout()
+        initCellStyle()
+        initCellContent(with: note)
+    }
+    
+    private func initCellLayout() {
         outerStackView.addArrangedSubview(titleLabel)
         outerStackView.addArrangedSubview(innerStackView)
         
@@ -56,18 +62,20 @@ class NotesTableViewCell: UITableViewCell {
 
         lastModifiedLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
     }
+
+    private func initCellStyle() {
+        titleLabel.font = UIFont.preferredFont(forTextStyle: .title2)
+        lastModifiedLabel.font = UIFont.preferredFont(forTextStyle: .subheadline)
+        bodyLabel.font = UIFont.preferredFont(forTextStyle: .footnote)
+        bodyLabel.textColor = .gray
+        self.accessoryType = .disclosureIndicator
+    }
 }
 
 extension NotesTableViewCell: DateFormattable {
-    func initCell(with note: Note) {
-        initCellContent(with: note)
-        initCellLayout()
-    }
-    
-    func initCellContent(with note: Note) {
+    private func initCellContent(with note: Note) {
         titleLabel.text = note.title
         bodyLabel.text = note.body
         lastModifiedLabel.text = format(lastModified: note.lastModified)
     }
-
 }

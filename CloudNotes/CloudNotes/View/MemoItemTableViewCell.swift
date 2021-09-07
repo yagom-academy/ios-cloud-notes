@@ -62,3 +62,19 @@ extension MemoItemTableViewCell {
         accessoryType = AccessoryType.disclosureIndicator
     }
 }
+
+//MARK:- Configure Contents
+extension MemoItemTableViewCell {
+    func configure(with memoItem: Memo) {
+        clearAllContents()
+        titleLabel.text = memoItem.title
+        lastModifiedLabel.text = memoItem.lastModified.description
+        summaryLabel.text = memoItem.body
+    }
+    
+    private func clearAllContents() {
+        titleLabel.text = nil
+        lastModifiedLabel.text = nil
+        summaryLabel.text = nil
+    }
+}

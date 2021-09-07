@@ -22,6 +22,9 @@ class MemoCustomCell: UITableViewCell {
         makeTitleLabel()
         makeBodyLabel()
         makeLastModifiedLabel()
+        makeHorizontalStackView()
+        makeVerticalStackView()
+        setLayoutForStackView()
     }
     
     required init?(coder: NSCoder) {
@@ -59,7 +62,7 @@ class MemoCustomCell: UITableViewCell {
     
     private func makeHorizontalStackView() {
         setHorizontalCompressionResistance()
-
+        
         horizontalStackView = UIStackView(arrangedSubviews: [lastModifiedLabel, bodyLabel])
         horizontalStackView.alignment = .fill
         horizontalStackView.distribution = .fill
@@ -77,5 +80,14 @@ class MemoCustomCell: UITableViewCell {
         veticalStackView.spacing = 1
         veticalStackView.axis = .vertical
         contentView.addSubview(veticalStackView)
+    }
+    
+    private func setLayoutForStackView() {
+        NSLayoutConstraint.activate([
+                                     veticalStackView.leadingAnchor.constraint(equalTo:contentView.leadingAnchor),
+                                     veticalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+                                     veticalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+                                     veticalStackView.topAnchor.constraint(equalTo: contentView.topAnchor)
+        ])
     }
 }

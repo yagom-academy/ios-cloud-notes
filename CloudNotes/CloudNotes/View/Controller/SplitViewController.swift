@@ -18,7 +18,6 @@ class SplitViewController: UISplitViewController {
         self.delegate = splitViewDelegate
     }
 }
-// 뷰컨이 두개 -  width가 레귤러, 
 
 extension SplitViewController {
     private func decideSpliveVCPreferences() {

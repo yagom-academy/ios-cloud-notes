@@ -18,12 +18,7 @@ class PrimaryViewController: UIViewController {
         tableView.delegate = self
         setNavigationBarItem()
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        tableView.reloadData()
-    }
-    
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         tableView.cellLayoutMarginsFollowReadableWidth = false
@@ -35,6 +30,13 @@ class PrimaryViewController: UIViewController {
 extension PrimaryViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        giveDataToTextView(indexPath, tableView)
+        splitViewController?.show(.secondary)
+    }
+}
+
+extension PrimaryViewController {
+    private func giveDataToTextView(_ indexPath: IndexPath, _ tableView: UITableView) {
         let secondVC = splitViewController?.viewController(for: .secondary) as? SecondaryViewController
         let lineBreaker = "\n"
         let emptyString = ""
@@ -43,13 +45,9 @@ extension PrimaryViewController: UITableViewDelegate {
             $0.textView.text = "\(MemoDataHolder.list?[indexPath.row].title ?? emptyString)" + lineBreaker + lineBreaker + "\(MemoDataHolder.list?[indexPath.row].body ?? emptyString)"
             $0.textViewDelegate.indexPath = indexPath
             $0.textViewDelegate.tableView = tableView
-            // 네비게이션 2개???  back, 메모
-            splitViewController?.show(.secondary)
         }
     }
-}
-
-extension PrimaryViewController {
+    
     private func setNavigationBarItem() {
         let navigationBarTitle = "메모"
         title = navigationBarTitle

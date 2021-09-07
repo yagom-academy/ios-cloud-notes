@@ -8,7 +8,6 @@
 import UIKit
 
 class MainVCTableViewDataSource: NSObject, UITableViewDataSource {
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return MemoDataHolder.list?.count ?? .zero
     }

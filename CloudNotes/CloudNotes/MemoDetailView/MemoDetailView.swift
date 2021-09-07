@@ -74,7 +74,6 @@ class MemoDetailView: UIViewController {
 extension MemoDetailView {
     private func createdTextView() -> UITextView {
         let txtView = UITextView()
-        txtView.tag = 1
         txtView.translatesAutoresizingMaskIntoConstraints = false
         txtView.font = UIFont.preferredFont(forTextStyle: .body)
 

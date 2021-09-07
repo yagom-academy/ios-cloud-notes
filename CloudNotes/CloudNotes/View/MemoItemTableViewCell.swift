@@ -22,6 +22,18 @@ class MemoItemTableViewCell: UITableViewCell {
         setUpOuterStackView()
         setUpAccessoryView()
     }
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        setAutoresizingMasks()
+        setUpInnerStackView()
+        setUpOuterStackView()
+        setUpAccessoryView()
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
 }
 
 //MARK:- Set View Components
@@ -45,6 +57,7 @@ extension MemoItemTableViewCell {
 
     private func setUpOuterStackView() {
         let marginGuide = contentView.layoutMarginsGuide
+        contentView.addSubview(outerStackView)
         outerStackView.topAnchor.constraint(equalTo: marginGuide.topAnchor).isActive = true
         outerStackView.bottomAnchor.constraint(equalTo: marginGuide.bottomAnchor).isActive = true
         outerStackView.leadingAnchor.constraint(equalTo: marginGuide.leadingAnchor).isActive = true

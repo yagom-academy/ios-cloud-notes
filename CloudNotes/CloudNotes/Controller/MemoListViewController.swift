@@ -15,6 +15,8 @@ class MemoListViewController: UIViewController {
         super.viewDidLoad()
         setUpTableViewConstraints()
         registerTableViewCell()
+        setUpNavigationTitle()
+        setUpNavigationItem()
         listTableView.dataSource = self
         listTableView.delegate = self
     }
@@ -35,6 +37,19 @@ extension MemoListViewController {
     
     private func registerTableViewCell() {
         listTableView.register(MemoItemTableViewCell.self, forCellReuseIdentifier: MemoItemTableViewCell.identifier)
+    }
+}
+
+//MARK:- Set up NavigationBar
+extension MemoListViewController {
+    private func setUpNavigationTitle() {
+        let title = "메모"
+        navigationItem.title = title
+        navigationItem.backButtonTitle = title
+    }
+    
+    private func setUpNavigationItem() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(systemItem: .add)
     }
 }
 

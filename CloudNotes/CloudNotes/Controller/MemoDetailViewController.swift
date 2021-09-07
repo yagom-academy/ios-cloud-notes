@@ -23,6 +23,7 @@ class MemoDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpMemoTextViewConstraints()
+        setUpNavigationItem()
     }
     
     override func viewWillLayoutSubviews() {
@@ -55,5 +56,15 @@ extension MemoDetailViewController {
     private func merge(contents: String...) -> String {
         let lineBreak = "\n"
         return contents.joined(separator: lineBreak + lineBreak)
+    }
+}
+
+//MARK:- Set up NavigationBar
+extension MemoDetailViewController {
+    private func setUpNavigationItem() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"),
+                                                            style: .plain,
+                                                            target: nil,
+                                                            action: nil)
     }
 }

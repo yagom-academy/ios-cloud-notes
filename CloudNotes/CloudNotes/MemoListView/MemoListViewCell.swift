@@ -42,6 +42,7 @@ class MemoListViewCell: UITableViewCell {
 
 }
 
+//MARK: - Draw View
 extension MemoListViewCell {
 
     private var baseLabel: UILabel {

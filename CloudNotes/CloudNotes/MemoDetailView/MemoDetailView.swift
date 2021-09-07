@@ -70,6 +70,7 @@ class MemoDetailView: UIViewController {
     }
 }
 
+//MARK: - Draw View
 extension MemoDetailView {
     private func createdTextView() -> UITextView {
         let txtView = UITextView()

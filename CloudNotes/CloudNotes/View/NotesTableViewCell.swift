@@ -47,6 +47,17 @@ class NotesTableViewCell: UITableViewCell {
         return stackView
     }()
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        separatorInset.left = {
+            let portraitInset: CGFloat = 10
+            let landscapeInset: CGFloat = 140
+            
+            return UIDevice.current.orientation == .portrait ? portraitInset : landscapeInset
+        }()
+    }
+    
     func initCell(with note: Note) {
         initCellLayout()
         initCellStyle()

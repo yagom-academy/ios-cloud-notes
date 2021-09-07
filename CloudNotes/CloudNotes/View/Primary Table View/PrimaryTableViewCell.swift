@@ -32,7 +32,8 @@ class PrimaryTableViewCell: UITableViewCell {
         self.addSubview(summaryLabel)
         NSLayoutConstraint.activate([
             summaryLabel.topAnchor.constraint(equalTo: textLabel?.bottomAnchor ?? self.contentView.topAnchor),
-            summaryLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: self.contentView.bounds.width / 5 * 2),
+            summaryLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor,
+                                                  constant: self.contentView.bounds.width / 5 * 2),
             summaryLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor)
         ])
     }
@@ -46,7 +47,7 @@ extension PrimaryTableViewCell {
         let date: Date = Date(timeIntervalSince1970: memo.lastModified)
         let dateString: String = PrimaryTableViewCell.dateformatter.string(from: date)
         let body = memo.body
-        let endIndex = body.firstIndex(of: ".") ?? body.endIndex
+        let endIndex = body.firstIndex(of: "\n") ?? body.endIndex
         let summary: String = String(body.prefix(upTo: endIndex))
         self.textLabel?.text = memo.title
         self.detailTextLabel?.text = dateString

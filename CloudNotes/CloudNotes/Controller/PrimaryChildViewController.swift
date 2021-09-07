@@ -13,7 +13,7 @@ class PrimaryChildViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         initNotes()
         tableView.register(NotesTableViewCell.self, forCellReuseIdentifier: cellIdentifier)
     }
@@ -42,7 +42,7 @@ class PrimaryChildViewController: UITableViewController {
                 as? NotesTableViewCell,
               let note = notes?[indexPath.row] else { return UITableViewCell() }
         
-        cell.updateContents(with: note)
+        cell.initCell(with: note)
         
         return cell
     }

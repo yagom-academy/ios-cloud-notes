@@ -11,6 +11,8 @@ class MemoCustomCell: UITableViewCell {
     var titleLabel: UILabel!
     var bodyLabel: UILabel!
     var lastModifiedLabel: UILabel!
+    var horizontalStackView: UIStackView!
+    var veticalStackView: UIStackView!
     
     private let cellIdentifier = "CustomCell"
     
@@ -48,5 +50,25 @@ class MemoCustomCell: UITableViewCell {
         lastModifiedLabel.font = UIFont.preferredFont(forTextStyle: .title3)
         lastModifiedLabel.textColor = .black
         lastModifiedLabel.adjustsFontForContentSizeCategory = true
+    }
+    
+    private func makeHorizontalStackView() {
+        horizontalStackView = UIStackView(arrangedSubviews: [lastModifiedLabel, bodyLabel])
+        horizontalStackView.alignment = .fill
+        horizontalStackView.distribution = .fill
+        horizontalStackView.translatesAutoresizingMaskIntoConstraints = false
+        horizontalStackView.spacing = 50
+        horizontalStackView.axis = .horizontal
+        contentView.addSubview(horizontalStackView)
+    }
+    
+    private func makeVerticalStackView() {
+        veticalStackView = UIStackView(arrangedSubviews: [titleLabel, horizontalStackView])
+        veticalStackView.alignment = .fill
+        veticalStackView.distribution = .fill
+        veticalStackView.translatesAutoresizingMaskIntoConstraints = false
+        veticalStackView.spacing = 1
+        veticalStackView.axis = .vertical
+        contentView.addSubview(veticalStackView)
     }
 }

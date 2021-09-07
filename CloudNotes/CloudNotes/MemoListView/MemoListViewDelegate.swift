@@ -8,9 +8,9 @@
 import UIKit
 
 class MemoListViewDelegate: NSObject, UITableViewDelegate {
-    private weak var owner: MemoListView?
+    private weak var owner: MemoListViewController?
 
-    init(owner: MemoListView) {
+    init(owner: MemoListViewController) {
         self.owner = owner
     }
 

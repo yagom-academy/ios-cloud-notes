@@ -1,5 +1,5 @@
 //
-//  MemoListView.swift
+//  MemoListViewController.swift
 //  CloudNotes
 //
 //  Created by kjs on 2021/08/31.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MemoListView: UITableViewController {
+class MemoListViewController: UITableViewController {
 
     private let memoListDataSource = MemoListViewDataSource()
     private var memoListDelegator: MemoListViewDelegate?

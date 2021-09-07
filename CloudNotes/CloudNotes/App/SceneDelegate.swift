@@ -58,7 +58,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     private func setWindow(windowScene: UIWindowScene) {
         window = UIWindow(windowScene: windowScene)
-        window?.rootViewController = SplitView(style: .doubleColumn)
+        window?.rootViewController = SplitViewController(style: .doubleColumn)
         window?.makeKeyAndVisible()
     }
 

@@ -1,5 +1,5 @@
 //
-//  MemoDetailView.swift
+//  MemoDetailViewController.swift
 //  CloudNotes
 //
 //  Created by kjs on 2021/08/31.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MemoDetailView: UIViewController {
+class MemoDetailViewController: UIViewController {
 
     private lazy var textView: UITextView = createdTextView()
 
@@ -71,7 +71,7 @@ class MemoDetailView: UIViewController {
 }
 
 // MARK: - Draw View
-extension MemoDetailView {
+extension MemoDetailViewController {
     private func createdTextView() -> UITextView {
         let txtView = UITextView()
         txtView.translatesAutoresizingMaskIntoConstraints = false

@@ -77,7 +77,7 @@ extension MemoListViewCell {
         return stackView
     }
 
-    private func configureLayout(){
+    private func configureLayout() {
         titleLabel = baseLabel
         dateLabel = baseLabel
         descriptionLabel = baseLabel

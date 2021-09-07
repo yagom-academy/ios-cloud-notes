@@ -1,15 +1,15 @@
 //
-//  CloudNotes - SplitView.swift
+//  CloudNotes - SplitViewController.swift
 //  Created by yagom.
 //  Copyright © yagom. All rights reserved.
 //
 
 import UIKit
 
-class SplitView: UISplitViewController {
+class SplitViewController: UISplitViewController {
 
-    private let memoListView = MemoListView()
-    private let memoDetailView = MemoDetailView()
+    private let memoListView = MemoListViewController()
+    private let memoDetailView = MemoDetailViewController()
     private let splitViewDelegator = SplitViewDelegate()
 
     override func viewDidLoad() {
@@ -27,7 +27,7 @@ class SplitView: UISplitViewController {
     }
 }
 
-extension SplitView: MessengerBetweenController {
+extension SplitViewController: MessengerBetweenController {
     func showDetailViewController(with data: Memo?) {
         memoDetailView.configure(with: data)
 

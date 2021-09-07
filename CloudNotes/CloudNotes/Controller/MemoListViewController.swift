@@ -20,7 +20,7 @@ class MemoListViewController: UIViewController {
         fetchDataToMemoList(by: "sample")
         setLayoutForTableView()
         memoListTableView.dataSource = self
-//        memoListTableView.delegate = self
+        memoListTableView.delegate = self
         memoListTableView.register(MemoCustomCell.classForCoder(), forCellReuseIdentifier: "CustomCell")
     }
     
@@ -67,3 +67,12 @@ extension MemoListViewController: UITableViewDataSource {
     }
 }
 
+extension MemoListViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let lineBreak = "\r\n\r\n"
+        
+        guard let detailVC = splitViewController?.viewController(for: .secondary) as? MemoDetailViewController else { return }
+        detailVC.memoDeatailTextView.text = memoList[indexPath.row].title + lineBreak + memoList[indexPath.row].body
+        splitViewController?.show(.secondary)
+    }
+}

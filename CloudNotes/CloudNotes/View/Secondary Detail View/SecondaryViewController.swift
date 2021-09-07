@@ -19,9 +19,11 @@ class SecondaryViewController: UIViewController {
     
     init() {
         super.init(nibName: nil, bundle: nil)
-        secondaryView = SecondaryView(endEditingAction: { editedData in
-            self.updateMemo(by: editedData)
-        })
+        secondaryView = SecondaryView(
+            endEditingAction: { editedData in
+                self.updateMemo(by: editedData)
+            }
+        )
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

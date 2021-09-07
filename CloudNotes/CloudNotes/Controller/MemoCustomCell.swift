@@ -16,6 +16,7 @@ class MemoCustomCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: cellIdentifier)
+        self.accessoryType = .disclosureIndicator
         makeTitleLabel()
         makeBodyLabel()
         makeLastModifiedLabel()

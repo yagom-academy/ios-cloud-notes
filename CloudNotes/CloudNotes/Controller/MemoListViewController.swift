@@ -9,7 +9,7 @@ import UIKit
 
 class MemoListViewController: UIViewController {
     private let listTableView = UITableView()
-    private let memoList = [Memo]()
+    private var memoList = [Memo]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,6 +36,21 @@ extension MemoListViewController {
     }
 }
 
+//MARK:- configure memoList
+extension MemoListViewController {
+    func setUpList(with newList: [Memo]) {
+        memoList = newList
+        reloadAllTableViewData()
+    }
+}
+
+//MARK:- Update TableView
+extension MemoListViewController {
+    private func reloadAllTableViewData() {
+        listTableView.reloadData()
+    }
+}
+
 //MARK:- Conform to TableViewDataSource
 extension MemoListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -45,6 +60,5 @@ extension MemoListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         return UITableViewCell()
     }
-    
     
 }

@@ -10,6 +10,10 @@ import UIKit
 class MemoListViewDataSource: NSObject, UITableViewDataSource {
     private lazy var memoList: [Memo] = loadMemoListForTest() ?? []
 
+    var lastIndexPath: IndexPath {
+        return IndexPath(row: memoList.count, section: .zero)
+    }
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return memoList.count
     }

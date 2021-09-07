@@ -61,9 +61,7 @@ class MemoDetailView: UIViewController {
             preferredStyle: .alert
         )
         let cancelAction = UIAlertAction(title: cancel, style: .cancel)
-        let deleteAction = UIAlertAction(title: delete, style: .destructive) { _ in
-
-        }
+        let deleteAction = UIAlertAction(title: delete, style: .destructive)
 
         alert.addAction(cancelAction)
         alert.addAction(deleteAction)

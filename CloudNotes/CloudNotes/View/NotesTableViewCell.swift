@@ -12,12 +12,21 @@ class NotesTableViewCell: UITableViewCell {
     private var lastModifiedLabel = UILabel()
     private var bodyLabel = UILabel()
     
+    enum Constraints {
+        static let innerStackViewSpacing: CGFloat = 25
+        static let leadingInset: CGFloat = 10
+        static let trailingInset: CGFloat = -10
+        static let topInset: CGFloat = 5
+        static let bottomInset: CGFloat = -5
+        static let portraitInset: CGFloat = 10
+        static let landscapeInset: CGFloat = 140
+    }
+    
     private var innerStackView: UIStackView = {
         let stackView = UIStackView()
-        let innerStackViewSpacing: CGFloat = 25
         
         stackView.axis = .horizontal
-        stackView.spacing = innerStackViewSpacing
+        stackView.spacing = Constraints.innerStackViewSpacing
         stackView.distribution = .fill
         stackView.alignment = .lastBaseline
         
@@ -26,23 +35,19 @@ class NotesTableViewCell: UITableViewCell {
     
     private lazy var outerStackView: UIStackView = {
         let stackView = UIStackView()
-        let leadingInset: CGFloat = 10
-        let trailingInset: CGFloat = -10
-        let topInset: CGFloat = 5
-        let bottomInset: CGFloat = -5
-        
+
         stackView.axis = .vertical
         contentView.addSubview(stackView)
         
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,
-                                           constant: leadingInset).isActive = true
+                                           constant: Constraints.leadingInset).isActive = true
         stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,
-                                            constant: trailingInset).isActive = true
+                                            constant: Constraints.trailingInset).isActive = true
         stackView.topAnchor.constraint(equalTo: contentView.topAnchor,
-                                       constant: topInset).isActive = true
+                                       constant: Constraints.topInset).isActive = true
         stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,
-                                          constant: bottomInset).isActive = true
+                                          constant: Constraints.bottomInset).isActive = true
         
         return stackView
     }()
@@ -51,10 +56,9 @@ class NotesTableViewCell: UITableViewCell {
         super.layoutSubviews()
         
         separatorInset.left = {
-            let portraitInset: CGFloat = 10
-            let landscapeInset: CGFloat = 140
-            
-            return UIDevice.current.orientation == .portrait ? portraitInset : landscapeInset
+            return UIDevice.current.orientation == .portrait
+                ? Constraints.portraitInset
+                : Constraints.landscapeInset
         }()
     }
     

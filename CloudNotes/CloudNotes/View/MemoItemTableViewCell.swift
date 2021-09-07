@@ -81,7 +81,7 @@ extension MemoItemTableViewCell {
     func configure(with memoItem: Memo) {
         clearAllContents()
         titleLabel.text = memoItem.title
-        lastModifiedLabel.text = memoItem.lastModified.description
+        lastModifiedLabel.text = convertToFormattedDate(from: memoItem.lastModified)
         summaryLabel.text = memoItem.body
     }
     
@@ -89,5 +89,15 @@ extension MemoItemTableViewCell {
         titleLabel.text = nil
         lastModifiedLabel.text = nil
         summaryLabel.text = nil
+    }
+    
+    private func convertToFormattedDate(from interval: TimeInterval) -> String {
+        let date = Date(timeIntervalSince1970: interval)
+        let dateFormatter = DateFormatter()
+        
+        dateFormatter.dateStyle = .medium
+        dateFormatter.timeStyle = .none
+        dateFormatter.locale = Locale.current
+        return dateFormatter.string(from: date)
     }
 }

@@ -72,8 +72,29 @@ class MemoTableViewCell: UITableViewCell {
     
     func configureLabels(with model: Savable) {
         titleLabel.text = model.title
-        dateLabel.text = model.lastModified?.description
         previewLabel.text = model.body
+        
+        guard let lastModified = model.lastModified?.description else {
+            return
+        }
+        dateLabel.text = changeDateFormat(lastModified)
+    }
+    
+    private func changeDateFormat(_ time: String) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .medium
+        dateFormatter.timeStyle = .none
+        
+        let usersLocale = Locale.current
+        dateFormatter.locale = usersLocale
+        
+        guard let time = Double(time) else {
+            print("Error - Time is not a double type.")
+            return time
+        }
+        let date = Date(timeIntervalSince1970: time)
+        
+        return dateFormatter.string(from: date)
     }
     
     // MARK: - Auto Layout

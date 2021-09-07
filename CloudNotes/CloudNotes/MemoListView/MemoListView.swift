@@ -40,7 +40,7 @@ class MemoListView: UITableViewController {
             bottom: .zero,
             right: .zero
         )
-        let ten: CGFloat = 10
+        let horizontalMargin: CGFloat = 10
 
         memoListDelegator = MemoListViewDelegate(owner: self)
         tableView.dataSource = memoListDataSource
@@ -53,10 +53,10 @@ class MemoListView: UITableViewController {
         tableView.separatorColor = .darkGray
         tableView.separatorInset = basicInset
         tableView.contentInset = UIEdgeInsets(
-            top: 0,
-            left: ten,
-            bottom: 0,
-            right: -ten
+            top: .zero,
+            left: horizontalMargin,
+            bottom: .zero,
+            right: horizontalMargin
         )
     }
 

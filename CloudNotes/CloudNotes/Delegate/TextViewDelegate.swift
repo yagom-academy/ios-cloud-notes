@@ -11,7 +11,7 @@ class TextViewDelegate: NSObject, UITextViewDelegate {
     var indexPath: IndexPath?
     var tableView: UITableView?
     
-    func textViewDidBeginEditing(_ textView: UITextView) {
+    func textViewDidChange(_ textView: UITextView) {
         let someDate = Date()
         let timeInterval = someDate.timeIntervalSince1970
         let myInt = Int(timeInterval)

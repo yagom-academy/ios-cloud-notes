@@ -19,7 +19,13 @@ class MemoListTableViewController: UITableViewController {
         decoding()
         configureTableView()
         configureNavigationBar()
+
+        tableView.rowHeight = UITableView.automaticDimension
     }
+
+//    override func viewDidLayoutSubviews() {
+//        tableView.rowHeight = UITableView.automaticDimension
+//    }
 
     @objc func pushContentPage() {
         let contentViewController = ContentViewController()

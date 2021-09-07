@@ -10,7 +10,7 @@ import Foundation
 struct Memo: Decodable {
     let title: String
     let body: String
-    let lastModified: Date
+    let lastModified: Double
     
     enum CodingKeys: String, CodingKey {
         case title

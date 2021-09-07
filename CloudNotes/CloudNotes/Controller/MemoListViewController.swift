@@ -12,16 +12,20 @@ class MemoListViewController: UIViewController {
     private var memoList: [Memo] = []
     private let parsingManager = ParsingManager()
     let memoListTableView = UITableView()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title = navigationTitle
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(touchUpPlusButton))
         view.addSubview(memoListTableView)
         fetchDataToMemoList(by: "sample")
         setLayoutForTableView()
         memoListTableView.dataSource = self
         memoListTableView.delegate = self
         memoListTableView.register(MemoCustomCell.classForCoder(), forCellReuseIdentifier: "CustomCell")
+    }
+    
+    @objc func touchUpPlusButton() {
     }
     
     private func setLayoutForTableView() {
@@ -61,7 +65,7 @@ extension MemoListViewController: UITableViewDataSource {
         guard let customCell = tableView.dequeueReusableCell(withIdentifier: "CustomCell", for: indexPath) as? MemoCustomCell else {
             return UITableViewCell()
         }
-        var currentMemo = memoList[indexPath.row]
+        let currentMemo = memoList[indexPath.row]
         customCell.configureContent(from: currentMemo, with: convertDataFormat(of: currentMemo.lastModified))
         return customCell
     }

@@ -84,7 +84,7 @@ class MemoCustomCell: UITableViewCell {
     
     private func setLayoutForStackView() {
         NSLayoutConstraint.activate([
-                                     veticalStackView.leadingAnchor.constraint(equalTo:contentView.leadingAnchor),
+            veticalStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
                                      veticalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
                                      veticalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
                                      veticalStackView.topAnchor.constraint(equalTo: contentView.topAnchor)

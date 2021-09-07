@@ -22,6 +22,10 @@ class SecondaryViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationItem.rightBarButtonItems = [
+            UIBarButtonItem(barButtonSystemItem: .done, target: nil, action: #selector(resignFromTextView)),
+            UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: nil, action: nil)
+        ]
         secondaryView.flatMap(self.view.addSubview(_:))
         secondaryView.flatMap({ secondary in
             NSLayoutConstraint.activate([
@@ -50,5 +54,12 @@ extension SecondaryViewController {
             let text = memo.title + twiceLineBreaks + memo.body
             self.secondaryView?.configure(by: text)
         }
+    }
+}
+
+// MARK: - Keyboard Notification
+extension SecondaryViewController {
+    @objc func resignFromTextView() {
+        secondaryView?.textView.resignFirstResponder()
     }
 }

@@ -23,6 +23,11 @@ class SecondaryView: UIView {
         self.translatesAutoresizingMaskIntoConstraints = false
         addSubview(textView)
         textView.delegate = self
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWasShown),
+                                               name: UIResponder.keyboardDidShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillBeHidden),
+                                               name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -41,7 +46,7 @@ class SecondaryView: UIView {
 
 extension SecondaryView: UITextViewDelegate {
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        textView.resignFirstResponder()
+//        textView.resignFirstResponder()
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
@@ -53,5 +58,31 @@ extension SecondaryView {
     func configure(by text: String?) {
         self.textView.text = text
         textView.setContentOffset(.zero, animated: true)
+    }
+}
+
+// MARK: - Keyboard Notification
+extension SecondaryView {
+    @objc func keyboardWasShown(_ notification: Notification) {
+        if let info = notification.userInfo,
+           let keyboardSize = info[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect {
+            let contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardSize.height, right: 0)
+            textView.contentInset = contentInset
+            textView.scrollIndicatorInsets = contentInset
+            
+            var currentFrame = self.frame
+            currentFrame.size.height -= keyboardSize.height
+            if !currentFrame.contains(textView.contentOffset) {
+                let selectedRange = textView.selectedRange
+                textView.scrollRangeToVisible(selectedRange)
+            }
+        }
+    }
+    
+    @objc func keyboardWillBeHidden(_ notification: Notification) {
+        let contentInsets = UIEdgeInsets.zero
+        textView.contentInset = contentInsets
+        textView.scrollIndicatorInsets = contentInsets
+        textView.resignFirstResponder()
     }
 }

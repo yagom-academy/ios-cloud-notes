@@ -12,6 +12,13 @@ class MemoListTableViewController: UITableViewController {
 
     var parsedData = [SampleData]()
 
+    let formatter: DateFormatter = {
+       let f = DateFormatter()
+        f.dateStyle = .short
+        f.locale = Locale(identifier: "ko_kr")
+        return f
+    }()
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -22,10 +29,6 @@ class MemoListTableViewController: UITableViewController {
 
         tableView.rowHeight = UITableView.automaticDimension
     }
-
-//    override func viewDidLayoutSubviews() {
-//        tableView.rowHeight = UITableView.automaticDimension
-//    }
 
     @objc func pushContentPage() {
         let contentViewController = ContentViewController()
@@ -65,7 +68,7 @@ extension MemoListTableViewController {
 
         let title = parsedData[indexPath.row].title
         let content = parsedData[indexPath.row].body
-        let date = parsedData[indexPath.row].lastModified
+        let date = formatter.string(from: Date(timeIntervalSince1970: Double(parsedData[indexPath.row].lastModified)))
         cell.configure(title: title, content: content, date: "\(date)")
         return cell
     }

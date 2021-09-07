@@ -34,7 +34,10 @@ class SplitViewController: UISplitViewController {
 }
 
 extension SplitViewController: UISplitViewControllerDelegate {
-    func splitViewController(_ svc: UISplitViewController, topColumnForCollapsingToProposedTopColumn proposedTopColumn: UISplitViewController.Column) -> UISplitViewController.Column {
+    func splitViewController(
+        _ svc: UISplitViewController,
+        topColumnForCollapsingToProposedTopColumn proposedTopColumn: UISplitViewController.Column
+    ) -> UISplitViewController.Column {
         return .primary
     }
 }

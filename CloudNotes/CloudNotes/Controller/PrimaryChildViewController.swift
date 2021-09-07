@@ -19,13 +19,16 @@ class PrimaryChildViewController: UITableViewController {
         return 10
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView,
+                            cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         return UITableViewCell()
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let detailRootViewController = SecondaryChildViewController()
-        let detailViewController = UINavigationController(rootViewController: detailRootViewController)
+        let detailViewController = UINavigationController(
+            rootViewController: detailRootViewController
+        )
         showDetailViewController(detailViewController, sender: self)
     }
 

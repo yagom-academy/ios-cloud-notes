@@ -15,6 +15,7 @@ class MemoListViewController: UIViewController {
         super.viewDidLoad()
         setUpTableViewConstraints()
         registerTableViewCell()
+        listTableView.dataSource = self
     }
 }
 
@@ -58,7 +59,12 @@ extension MemoListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return UITableViewCell()
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: MemoItemTableViewCell.identifier, for: indexPath)
+                as? MemoItemTableViewCell else {
+            return MemoItemTableViewCell()
+        }
+        cell.configure(with: memoList[indexPath.row])
+        return cell
     }
     
 }

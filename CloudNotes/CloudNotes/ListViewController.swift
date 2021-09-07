@@ -18,6 +18,7 @@ class ListViewController: UIViewController {
     private func setUp() {
         tableView = UITableView()
         view.addSubview(tableView)
+        title = "메모"
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(ListTableViewCell.classForCoder(), forCellReuseIdentifier: ListTableViewCell.cellIdentifier)

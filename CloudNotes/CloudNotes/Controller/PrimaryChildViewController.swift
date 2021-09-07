@@ -9,11 +9,13 @@ import UIKit
 
 class PrimaryChildViewController: UITableViewController {
     private var notes: [Note]?
+    let cellIdentifier = "notesCell"
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         initNotes()
+        tableView.register(NotesTableViewCell.self, forCellReuseIdentifier: cellIdentifier)
     }
     
     func initNotes() {
@@ -31,12 +33,18 @@ class PrimaryChildViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 10
+        return notes?.count ?? 0
     }
     
     override func tableView(_ tableView: UITableView,
                             cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return UITableViewCell()
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier)
+                as? NotesTableViewCell,
+              let note = notes?[indexPath.row] else { return UITableViewCell() }
+        
+        cell.updateContents(with: note)
+        
+        return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -46,5 +54,4 @@ class PrimaryChildViewController: UITableViewController {
         )
         showDetailViewController(detailViewController, sender: self)
     }
-
 }

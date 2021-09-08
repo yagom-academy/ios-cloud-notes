@@ -20,6 +20,5 @@ class MemoViewController: UIViewController {
         textView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         textView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         textView.font = UIFont.preferredFont(forTextStyle: .body)
-        textView.text = "wowwowowowowow"
     }
 }

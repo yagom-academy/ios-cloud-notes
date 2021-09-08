@@ -14,25 +14,19 @@ class ListTableViewCell: UITableViewCell {
     
     static let cellIdentifier = "\(ListTableViewCell.self)"
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        setUpLabels()
-        addSubViews()
-        setUpConstraints()
+    override func prepareForReuse() {
+        titleLabel.text = ""
+        descriptionLabel.text = ""
+        dateLabel.text = ""
     }
     
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        setUpLabels()
-    }
-    
-    private func addSubViews() {
+    func addSubViews() {
         contentView.addSubview(titleLabel)
         contentView.addSubview(descriptionLabel)
         contentView.addSubview(dateLabel)
     }
     
-    private func setUpConstraints() {
+    func setUpConstraints() {
         self.accessoryType = .disclosureIndicator
         
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -42,7 +36,7 @@ class ListTableViewCell: UITableViewCell {
         titleLabel.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 10).isActive = true
         titleLabel.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor, constant: 5).isActive = true
         titleLabel.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor, constant: -40).isActive = true
-
+        
         descriptionLabel.leftAnchor.constraint(equalTo: dateLabel.rightAnchor, constant: 30).isActive = true
         descriptionLabel.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor).isActive = true
         descriptionLabel.centerYAnchor.constraint(equalTo: dateLabel.centerYAnchor).isActive = true
@@ -51,17 +45,18 @@ class ListTableViewCell: UITableViewCell {
         dateLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 5).isActive = true
     }
     
-    private func setUpLabels() {
+    func setUpLabels(model: [MemoList], indexPath: IndexPath) {
+        let item = model[indexPath.item]
         titleLabel = UILabel()
-        titleLabel.text = "나는야 타이틀 레이블이다 빨리 파싱해줘"
+        titleLabel.text = item.title
         titleLabel.font = UIFont.preferredFont(forTextStyle: .title3)
         
         dateLabel = UILabel()
-        dateLabel.text = "2021.08.10"
+        dateLabel.text = String(item.lastModified)
         dateLabel.font = UIFont.preferredFont(forTextStyle: .body)
         
         descriptionLabel = UILabel()
-        descriptionLabel.text = "파싱해줘어어엉어엉어엉어"
+        descriptionLabel.text = item.body
         descriptionLabel.font = UIFont.preferredFont(forTextStyle: .body)
         descriptionLabel.textColor = .lightGray
     }

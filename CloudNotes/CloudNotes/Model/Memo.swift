@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Memo: Decodable {
+class Memo: Decodable {
     var title: String
     var body: String
     var lastDate: Double
@@ -17,10 +17,16 @@ struct Memo: Decodable {
         case body
         case lastDate = "last_modified"
     }
+
+    init(title: String, body: String, lastDate: Double) {
+        self.title = title
+        self.body = body
+        self.lastDate = lastDate
+    }
 }
 
 extension Memo {
-    mutating func update(with memo: Memo) {
+    func update(with memo: Memo) {
         self.title = memo.title
         self.body = memo.body
         self.lastDate = memo.lastDate

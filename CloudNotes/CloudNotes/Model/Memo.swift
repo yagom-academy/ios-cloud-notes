@@ -13,15 +13,6 @@ struct Memo: Decodable, Hashable {
     let lastModified: Int
     let uuid = UUID()
     
-    var locationDate: String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .long
-        dateFormatter.locale = Locale(identifier: Locale.current.identifier)
-        let date = Date(timeIntervalSince1970: TimeInterval(lastModified))
-        
-        return dateFormatter.string(from: date)
-    }
-    
     enum CodingKeys: String, CodingKey {
         case title
         case body

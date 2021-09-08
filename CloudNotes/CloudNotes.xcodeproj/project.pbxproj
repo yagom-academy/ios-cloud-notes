@@ -23,6 +23,7 @@
 		D46AF97326E790A600E5D748 /* NotesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46AF97226E790A600E5D748 /* NotesTableViewCell.swift */; };
 		D46AF99626E88DBA00E5D748 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46AF99526E88DBA00E5D748 /* String.swift */; };
 		D46AF99626E88DBA00E5D748 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46AF99526E88DBA00E5D748 /* String+Extension.swift */; };
+		D46AF9A126E895E800E5D748 /* UITextView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46AF9A026E895E800E5D748 /* UITextView+Extension.swift */; };
 		D46FEA1E26E21C2100B328A7 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = D46FEA1D26E21C2100B328A7 /* .swiftlint.yml */; };
 		D46FEAAA26E6539800B328A7 /* PrimaryChildViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46FEAA926E6539800B328A7 /* PrimaryChildViewController.swift */; };
 		D46FEAAF26E653AB00B328A7 /* SecondaryChildViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46FEAAE26E653AB00B328A7 /* SecondaryChildViewController.swift */; };
@@ -75,6 +76,7 @@
 		D46AF97226E790A600E5D748 /* NotesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesTableViewCell.swift; sourceTree = "<group>"; };
 		D46AF99526E88DBA00E5D748 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		D46AF99526E88DBA00E5D748 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
+		D46AF9A026E895E800E5D748 /* UITextView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+Extension.swift"; sourceTree = "<group>"; };
 		D46FEA1D26E21C2100B328A7 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		D46FEAA926E6539800B328A7 /* PrimaryChildViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryChildViewController.swift; sourceTree = "<group>"; };
 		D46FEAAE26E653AB00B328A7 /* SecondaryChildViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondaryChildViewController.swift; sourceTree = "<group>"; };
@@ -201,6 +203,7 @@
 			children = (
 				D46AF92526E73EFE00E5D748 /* Decodable+Extension.swift */,
 				D46AF99526E88DBA00E5D748 /* String+Extension.swift */,
+				D46AF9A026E895E800E5D748 /* UITextView+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -472,6 +475,7 @@
 				D46AF99626E88DBA00E5D748 /* String+Extension.swift in Sources */,
 				C7481C7825BBCF3900B9CA55 /* CloudNotes.xcdatamodeld in Sources */,
 				D46AF97326E790A600E5D748 /* NotesTableViewCell.swift in Sources */,
+				D46AF9A126E895E800E5D748 /* UITextView+Extension.swift in Sources */,
 				D46FEAAF26E653AB00B328A7 /* SecondaryChildViewController.swift in Sources */,
 				D46FEAAA26E6539800B328A7 /* PrimaryChildViewController.swift in Sources */,
 			);

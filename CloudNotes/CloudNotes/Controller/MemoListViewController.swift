@@ -24,6 +24,12 @@ class MemoListViewController: UIViewController{
         return tableView
     }()
     
+    private lazy var dateFormatter: DateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        return dateFormatter
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -84,9 +90,6 @@ extension MemoListViewController: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: MemoListTableViewCell.identifier, for: indexPath) as? MemoListTableViewCell else {
             return UITableViewCell()
         }
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
         
         cell.titleLabel.text = memoList[indexPath.row].title
         cell.shortDiscriptionLabel.text = memoList[indexPath.row].body

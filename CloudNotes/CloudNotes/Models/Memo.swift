@@ -33,10 +33,10 @@ struct Memo {
     }
     
     private func generatePreviewText(from text: String) -> String {
-        if text.count < Memo.maximumPreviewCount { return text }
+        guard text.count > Memo.maximumPreviewCount else { return text }
         
-        let previewEndIdx = text.index(text.startIndex,
+        let previewEndIndex = text.index(text.startIndex,
                                        offsetBy: Memo.maximumPreviewCount)
-        return text[text.startIndex...previewEndIdx].description
+        return text[text.startIndex...previewEndIndex].description
     }
 }

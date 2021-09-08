@@ -62,7 +62,7 @@ class MemoListViewController: UIViewController{
         let newMemo = Memo(title: "", body: "", date: Date().timeIntervalSince1970)
         self.memoList.append(newMemo)
         self.tableView.reloadData()
-        delegate?.addMemo(data: newMemo, index: IndexPath(row: memoList.endIndex-1, section: 0))
+        delegate?.showDetail(data: newMemo, index: IndexPath(row: memoList.endIndex-1, section: 0))
     }
     
     private func configureTableView() {
@@ -100,7 +100,7 @@ extension MemoListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.delegate?.isFisrtCellSelection = true
-        self.delegate?.selectCell(data: memoList[indexPath.row], index: indexPath)
+        self.delegate?.showDetail(data: memoList[indexPath.row], index: indexPath)
     }
 }
 

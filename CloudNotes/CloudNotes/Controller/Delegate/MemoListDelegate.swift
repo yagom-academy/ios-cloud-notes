@@ -10,8 +10,7 @@ import Foundation
 protocol MemoListDelegate: NSObject {
     var isFisrtCellSelection: Bool { set get }
     
-    func selectCell(data: Memo, index: IndexPath)
-    func addMemo(data: Memo, index: IndexPath)
+    func showDetail(data: Memo, index: IndexPath)
 }
 
 protocol DetailMemoDelegate: NSObject {

@@ -51,14 +51,8 @@ extension SplitViewController: UISplitViewControllerDelegate {
 }
 
 extension SplitViewController: MemoListDelegate {
-  
-    func selectCell(data: Memo, index: IndexPath) {
-        detailMemoViewController.index = index
-        detailMemoViewController.memo = data
-        showDetailViewController(detailMemoViewController, sender: nil)
-    }
     
-    func addMemo(data: Memo, index: IndexPath) {
+    func showDetail(data: Memo, index: IndexPath) {
         detailMemoViewController.index = index
         detailMemoViewController.memo = data
         showDetailViewController(detailMemoViewController, sender: nil)

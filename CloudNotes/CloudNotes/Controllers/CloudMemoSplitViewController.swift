@@ -15,17 +15,17 @@ class CloudMemoSplitViewController: UISplitViewController {
     }
     
     private func initContentHierarchy() {
-        let primaryVC = MemoListViewController()
-        let secondaryVC = MemoDetailViewController(memo: Memo.generateMemoList()[0])
+        let primaryViewController = MemoListViewController()
+        let secondaryViewController = MemoDetailViewController(memo: Memo.generateMemoList()[0])
         
-        let primaryNav = UINavigationController(rootViewController: primaryVC)
-        let secondaryNav = UINavigationController(rootViewController: secondaryVC)
+        let primaryNavigationController = UINavigationController(rootViewController: primaryViewController)
+        let secondaryNavigationController = UINavigationController(rootViewController: secondaryViewController)
         
-        primaryNav.navigationBar.topItem?.title = "메모"
-        primaryNav.navigationBar.topItem?.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
+        primaryNavigationController.navigationBar.topItem?.title = "메모"
+        primaryNavigationController.navigationBar.topItem?.rightBarButtonItem =  UIBarButtonItem(barButtonSystemItem: .add,
                                                                        target: self,
                                                                        action: #selector(addMemoAction))
-        viewControllers = [primaryNav, secondaryNav]
+        viewControllers = [primaryNavigationController, secondaryNavigationController]
         
         self.preferredDisplayMode = .oneBesideSecondary
         self.delegate = self

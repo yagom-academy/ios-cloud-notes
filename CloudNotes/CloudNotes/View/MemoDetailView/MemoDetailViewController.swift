@@ -8,28 +8,44 @@
 import UIKit
 
 protocol Memorizable: NSObject {
-    func updateMemo(with newMemo: Memo, index: Int)
+    func update()
 }
 
-class MemoDetailViewController: RootViewController {
+class MemoDetailViewController: UIViewController, RootViewControllerable {
     weak var delegate: Memorizable?
     private var memo: Memo?
-    private var index: Int?
     private let memoView = MemoDetailView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setup()
         configureTextField()
     }
 
-    override func setup() {
+    func setup() {
         self.view = memoView
         memoView.detailTextView.delegate = self
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardShow), name: UIResponder.keyboardDidShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
 
-    func configure(with memo: Memo, index: Int) {
+    @objc func keyboardShow(_ notification: Notification) {
+        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+            let keyboardHeight = keyboardFrame.cgRectValue.height
+            let contentInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: keyboardHeight, right: 0.0)
+            memoView.detailTextView.contentInset = contentInsets
+            memoView.detailTextView.verticalScrollIndicatorInsets = contentInsets
+        }
+    }
+
+    @objc func keyboardHide(_ notification: Notification) {
+        let contentInsets = UIEdgeInsets.zero
+        memoView.detailTextView.contentInset = contentInsets
+        memoView.detailTextView.verticalScrollIndicatorInsets = contentInsets
+    }
+
+    func configure(with memo: Memo) {
         self.memo = memo
-        self.index = index
     }
 }
 
@@ -49,13 +65,13 @@ private extension MemoDetailViewController {
 
 extension MemoDetailViewController: UITextViewDelegate {
     func textViewDidEndEditing(_ textView: UITextView) {
-        guard let index = index else { return }
         let minumumLine = 3
         let title = textView.text.lines[0]
         var body = ""
         if minumumLine <= textView.text.lines.count {
             body = textView.text.lines[(minumumLine - 1)...].joined(separator: "\n")
         }
-        delegate?.updateMemo(with: Memo(title: title, body: body, lastDate: Date().timeIntervalSince1970), index: index)
+        memo?.update(with: Memo(title: title, body: body, lastDate: Date().timeIntervalSince1970))
+        delegate?.update()
     }
 }

@@ -8,6 +8,7 @@
 import UIKit
 
 class MemoDetailViewController: UIViewController {
+    //MARK: Properties
     private let lineBreak = "\n"
     private let memoTextView = UITextView()
     private var memoItem: Memo? {
@@ -22,6 +23,7 @@ class MemoDetailViewController: UIViewController {
     }
     weak var memoModifyingDelegate: MemoChangeHandleable?
 
+    //MARK: Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpMemoTextViewConstraints()
@@ -29,6 +31,7 @@ class MemoDetailViewController: UIViewController {
         memoTextView.delegate = self
     }
     
+    //MARK: UI Update Cycle
     override func viewWillLayoutSubviews() {
         if traitCollection.horizontalSizeClass == .compact {
             memoTextView.backgroundColor = .systemGray

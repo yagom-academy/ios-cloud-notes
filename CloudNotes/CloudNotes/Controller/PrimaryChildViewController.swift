@@ -28,12 +28,6 @@ class PrimaryChildViewController: UITableViewController {
         
     }
     
-    @objc func addButtonTapped() {
-        notes?.append(Note(title: "", body: "", lastModified: Date().timeIntervalSince1970))
-        tableView.reloadData()
-        showContentDetails(of: notes?.last)
-    }
-
     private func initNotes() {
         let sampleDataFileName = "sample"
         let sampleData = NSDataAsset(name: sampleDataFileName)?.data
@@ -47,6 +41,17 @@ class PrimaryChildViewController: UITableViewController {
         }
     }
     
+    @objc private func addButtonTapped() {
+        addNewNote()
+        scrollDownToTableBottom()
+        showContentDetails(of: notes?.last)
+    }
+    
+    private func addNewNote() {
+        notes?.append(Note(title: "", body: "", lastModified: Date().timeIntervalSince1970))
+        tableView.reloadData()
+    }
+
     private func showContentDetails(of note: Note?) {
         guard let note = note else { return }
         
@@ -56,6 +61,13 @@ class PrimaryChildViewController: UITableViewController {
         
         detailRootViewController.initContent(of: note)
         showDetailViewController(detailViewController, sender: self)
+    }
+    
+    func scrollDownToTableBottom() {
+        guard let rowCount = notes?.count else { return }
+        let bottomRowIndex = rowCount - 1
+        let bottomRowIndexPath = IndexPath(row: bottomRowIndex, section: .zero)
+        tableView.scrollToRow(at: bottomRowIndexPath, at: .bottom, animated: true)
     }
 }
 

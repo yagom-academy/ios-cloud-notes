@@ -11,25 +11,19 @@ struct Memo {
     static private let maximumPreviewCount = 50
     
     var title: String
-    var body: String {
-        willSet (newVal) {
-            previewBody = generatePreviewText(from: newVal)
-        }
+    var body: String
+    private var lastModified: TimeInterval
+    var previewBody: String {
+        return generatePreviewText(from: body)
     }
-    private var lastModified: Double {
-        willSet (newVal) {
-            formatedLastModified = DateManager.transfromFormatedDate(from: newVal)
-        }
+    var formatedLastModified: String? {
+        return DateManager.transfromFormatedDate(from: lastModified)
     }
-    var previewBody: String = ""
-    var formatedLastModified: String?
     
-    init(title: String, body: String, lastModified: Double) {
+    init(title: String, body: String, lastModified: TimeInterval) {
         self.title = title
         self.body = body
         self.lastModified = lastModified
-        self.previewBody = generatePreviewText(from: body)
-        self.formatedLastModified = DateManager.transfromFormatedDate(from: lastModified)
     }
     
     private func generatePreviewText(from text: String) -> String {

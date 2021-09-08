@@ -14,7 +14,7 @@ class DateManager {
         return dateFommatter
     }()
 
-    static func transfromFormatedDate(from timeInterval: Double) -> String? {
+    static func transfromFormatedDate(from timeInterval: TimeInterval) -> String? {
         let date = Date(timeIntervalSince1970: timeInterval)
         return formatter.string(for: date)
     }

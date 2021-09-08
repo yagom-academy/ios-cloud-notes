@@ -49,7 +49,7 @@ class PrimaryChildViewController: UITableViewController {
     }
 
     private func addNewNote() {
-        notes?.append(Note(title: "", body: "", lastModified: Date().timeIntervalSince1970))
+        notes?.append(Note(title: String.empty, body: String.empty, lastModified: Date().timeIntervalSince1970))
         tableView.reloadData()
     }
     
@@ -79,7 +79,7 @@ class PrimaryChildViewController: UITableViewController {
 
 extension PrimaryChildViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return notes?.count ?? 0
+        return notes?.count ?? .zero
     }
     
     override func tableView(_ tableView: UITableView,

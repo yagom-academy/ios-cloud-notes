@@ -10,4 +10,5 @@ import Foundation
 extension String {
     static let lineBreak = "\n"
     static let doubleLineBreaks = lineBreak + lineBreak
+    static let empty = ""
 }

@@ -60,7 +60,7 @@ class SecondaryChildViewController: UIViewController {
 
     private func scrollToContentTop() {
         let contentHeight = bodyTextView.contentSize.height
-        let contentOffset = CGPoint(x: 0, y: -contentHeight)
+        let contentOffset = CGPoint(x: .zero, y: -contentHeight)
         bodyTextView.setContentOffset(contentOffset, animated: true)
     }
 }
@@ -69,8 +69,8 @@ extension SecondaryChildViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         guard let indexPath = indexPath else { return }
 
-        delegate?.update(note: Note(title: textView.title ?? "",
-                                    body: textView.body ?? "",
+        delegate?.update(note: Note(title: textView.title ?? String.empty,
+                                    body: textView.body ?? String.empty,
                                     lastModified: Date().timeIntervalSince1970),
                          at: indexPath)
     }

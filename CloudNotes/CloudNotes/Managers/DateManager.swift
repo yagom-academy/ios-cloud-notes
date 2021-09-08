@@ -10,7 +10,8 @@ import Foundation
 class DateManager {
     private static let formatter: DateFormatter = {
        let dateFommatter = DateFormatter()
-        dateFommatter.dateFormat = "yyyy. MM. dd"
+        dateFommatter.locale = Locale(identifier: "ko_KR")
+        dateFommatter.dateStyle = .medium
         return dateFommatter
     }()
 

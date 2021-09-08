@@ -19,6 +19,7 @@ class SecondaryChildViewController: UIViewController {
         showContent(of: note)
         styleContent()
         layoutContent()
+        scrollToContentTop()
     }
 
     private func showContent(of note: Note) {
@@ -41,5 +42,11 @@ class SecondaryChildViewController: UIViewController {
             equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
         bodyTextView.bottomAnchor.constraint(
             equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+    }
+
+    private func scrollToContentTop() {
+        let contentHeight = bodyTextView.contentSize.height
+        let contentOffset = CGPoint(x: 0, y: -contentHeight)
+        bodyTextView.setContentOffset(contentOffset, animated: true)
     }
 }

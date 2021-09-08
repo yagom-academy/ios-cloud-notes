@@ -8,6 +8,7 @@
 import UIKit
 
 class MemoItemTableViewCell: UITableViewCell {
+    //MARK: Properties
     private let outerStackView = UIStackView()
     private let innerStackView = UIStackView()
     private let titleLabel = UILabel()
@@ -15,14 +16,7 @@ class MemoItemTableViewCell: UITableViewCell {
     private let summaryLabel = UILabel()
     static let identifier = "MemoItemTableViewCell"
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        setAutoresizingMasks()
-        setUpInnerStackView()
-        setUpOuterStackView()
-        setUpAccessoryView()
-    }
-    
+    //MARK: Initialized Programmatically
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setAutoresizingMasks()
@@ -31,8 +25,17 @@ class MemoItemTableViewCell: UITableViewCell {
         setUpAccessoryView()
     }
     
+    //MARK: Initialized Non Programmatically
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+    }
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        setAutoresizingMasks()
+        setUpInnerStackView()
+        setUpOuterStackView()
+        setUpAccessoryView()
     }
 }
 

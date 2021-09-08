@@ -21,13 +21,13 @@ class ContainerSplitViewController: UISplitViewController {
         bringData()
         primaryViewController.cellSelectionDelegate = self
     }
-
 }
 
 //MARK:- Embed Inner ViewControllers
 extension ContainerSplitViewController {
     private func embedViewControllers() {
         setViewController(primaryViewController, for: .primary)
+        show(.primary)
     }
 }
 
@@ -52,7 +52,6 @@ extension ContainerSplitViewController {
 extension ContainerSplitViewController {
     private func setDataToViewControllers(with memoList: [Memo]) {
         primaryViewController.setUpList(with: memoList)
-        show(.primary)
     }
 }
 

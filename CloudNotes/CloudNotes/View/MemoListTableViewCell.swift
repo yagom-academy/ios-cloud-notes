@@ -10,7 +10,7 @@ import UIKit
 class MemoListTableViewCell: UITableViewCell {
     // MARK: Property
     static let identifier = "memoListTableViewCell"
-
+    
     private let titleLabel: UILabel = {
         let titleLabel = UILabel()
         titleLabel.font = UIFont.preferredFont(forTextStyle: .title3)
@@ -23,7 +23,7 @@ class MemoListTableViewCell: UITableViewCell {
     private let bodyLabel: UILabel = {
         let bodyLabel = UILabel()
         bodyLabel.font = UIFont.preferredFont(forTextStyle: .body)
-        bodyLabel.textColor = .black
+        bodyLabel.textColor = .systemGray
         bodyLabel.textAlignment = .left
         bodyLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         bodyLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
@@ -104,5 +104,11 @@ extension MemoListTableViewCell {
         titleLabel.text = memoItem.title
         bodyLabel.text = memoItem.body
         lastModifiedLabel.text = DateFormatter.localizedString(of: memoItem.lastModified)
+    }
+    
+    override func prepareForReuse() {
+        titleLabel.text = nil
+        bodyLabel.text = nil
+        lastModifiedLabel.text = nil
     }
 }

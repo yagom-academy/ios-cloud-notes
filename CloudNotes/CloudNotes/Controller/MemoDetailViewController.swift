@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MemoDatailViewController: UIViewController {
+class MemoDetailViewController: UIViewController {
     // MARK: Property
     private let memoContentsTextView: UITextView = {
         let textView = UITextView()
@@ -29,12 +29,21 @@ class MemoDatailViewController: UIViewController {
     }
     
     deinit {
-        print("\(self) 제거되었음")
+        debugPrint("\(self) 제거됨")
+    }
+}
+
+extension MemoDetailViewController {
+    enum NameSpace {
+        enum TextView {
+            static let space = "\n"
+            static let doubleSpace = space + space
+        }
     }
 }
 
 // MARK: Setup Navigation
-extension MemoDatailViewController {
+extension MemoDetailViewController {
     private func setupNavigationItem() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action,
                                                             target: self,
@@ -47,7 +56,7 @@ extension MemoDatailViewController {
 }
 
 // MARK: Setup TextView And View
-extension MemoDatailViewController {
+extension MemoDetailViewController {
     private func configureMemoTextViewContentsConstraint() {
         memoContentsTextView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
         memoContentsTextView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
@@ -66,8 +75,7 @@ extension MemoDatailViewController {
     }
     
     func showContents(of memo: Memo) {
-        memoContentsTextView.text.append(memo.title)
-        memoContentsTextView.text.append("\n\n")
-        memoContentsTextView.text.append(memo.body)
+        let appendedText = memo.title + NameSpace.TextView.doubleSpace + memo.body
+        memoContentsTextView.text = appendedText
     }
 }

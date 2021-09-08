@@ -19,7 +19,7 @@ class MemoListTableViewController: UITableViewController {
         configureTableView()
         registerTableViewCell()
         makeTableViewDiffableDataSource()
-        snapshot(ofMemo: memo)
+        snapshots(ofMemo: memo)
     }
 }
 
@@ -65,7 +65,7 @@ extension MemoListTableViewController {
 // MARK: - Delegate
 extension MemoListTableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let detailVC = MemoDatailViewController()
+        let detailVC = MemoDetailViewController()
         detailVC.showContents(of: memo[indexPath.row])
         
         if UITraitCollection.current.horizontalSizeClass == .regular {
@@ -79,12 +79,13 @@ extension MemoListTableViewController {
 
 // MARK: - Data Source
 extension MemoListTableViewController {
-   private enum Section {
+    private enum Section {
         case main
     }
     
-   private func makeTableViewDiffableDataSource() {
-        dataSource = UITableViewDiffableDataSource<Section, Memo>(tableView: self.tableView, cellProvider: { tableView, indexPath, memo in
+    private func makeTableViewDiffableDataSource() {
+        dataSource = UITableViewDiffableDataSource<Section, Memo>(tableView: tableView,
+                                                                  cellProvider: { tableView, indexPath, memo in
             
             guard let cell = tableView.dequeueReusableCell(withIdentifier: MemoListTableViewCell.identifier, for: indexPath) as? MemoListTableViewCell else { fatalError() }
             
@@ -95,11 +96,13 @@ extension MemoListTableViewController {
         })
     }
     
-   private func snapshot(ofMemo memo: [Memo]) {
+    private func snapshots(ofMemo memo: [Memo]) {
         var snapShot = NSDiffableDataSourceSnapshot<Section, Memo>()
         
         snapShot.appendSections([.main])
         snapShot.appendItems(memo)
-        dataSource?.apply(snapShot, animatingDifferences: true, completion: nil)
+        DispatchQueue.global().async { [weak self] in
+            self?.dataSource?.apply(snapShot, animatingDifferences: true, completion: nil)
+        }
     }
 }

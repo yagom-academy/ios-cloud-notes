@@ -31,6 +31,7 @@ class MemoDetailViewController: UIViewController {
         updateTextFontStyle()
         updateLayout()
         initTextViewScrollToTop()
+        clearBarButtonGroupsForInputAssistantItem()
     }
     
     private func initTextViewScrollToTop() {
@@ -80,7 +81,9 @@ class MemoDetailViewController: UIViewController {
         ).isActive = true
         
         view.backgroundColor = .white
-        
+    }
+    
+    private func clearBarButtonGroupsForInputAssistantItem() {
         let item = memoTextView.inputAssistantItem
         item.leadingBarButtonGroups = []
         item.trailingBarButtonGroups = []

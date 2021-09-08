@@ -17,7 +17,8 @@ struct Memo {
         return generatePreviewText(from: body)
     }
     var formatedLastModified: String? {
-        return DateManager.transfromFormatedDate(from: lastModified)
+        let date = Date(timeIntervalSince1970: lastModified)
+        return date.transfromFormattedType()
     }
     
     init(title: String, body: String, lastModified: TimeInterval) {

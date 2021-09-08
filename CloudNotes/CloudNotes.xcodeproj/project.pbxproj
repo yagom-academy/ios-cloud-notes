@@ -123,6 +123,27 @@
 			path = SampleData;
 			sourceTree = "<group>";
 		};
+		9B85270926E878EC00B4BE9D /* View */ = {
+			isa = PBXGroup;
+			children = (
+				C7481C7125BBCF3900B9CA55 /* CloudNoteSplitViewController.swift */,
+				9BAB68F026E228F200AFE8F5 /* MemoViewController.swift */,
+				9BAB68EE26E227D900AFE8F5 /* ListViewController.swift */,
+				9BAB68F226E22B9400AFE8F5 /* ListTableViewCell.swift */,
+				C7481C7B25BBCF3A00B9CA55 /* LaunchScreen.storyboard */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		9B85270A26E8790200B4BE9D /* SupportingFiles */ = {
+			isa = PBXGroup;
+			children = (
+				C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */,
+				C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */,
+			);
+			path = SupportingFiles;
+			sourceTree = "<group>";
+		};
 		C7481C6125BBCF3900B9CA55 = {
 			isa = PBXGroup;
 			children = (
@@ -149,13 +170,8 @@
 		C7481C6C25BBCF3900B9CA55 /* CloudNotes */ = {
 			isa = PBXGroup;
 			children = (
-				C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */,
-				C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */,
-				C7481C7125BBCF3900B9CA55 /* CloudNoteSplitViewController.swift */,
-				9BAB68F026E228F200AFE8F5 /* MemoViewController.swift */,
-				9BAB68EE26E227D900AFE8F5 /* ListViewController.swift */,
-				9BAB68F226E22B9400AFE8F5 /* ListTableViewCell.swift */,
-				C7481C7B25BBCF3A00B9CA55 /* LaunchScreen.storyboard */,
+				9B85270A26E8790200B4BE9D /* SupportingFiles */,
+				9B85270926E878EC00B4BE9D /* View */,
 				C7481C7E25BBCF3A00B9CA55 /* Info.plist */,
 				C7481C7625BBCF3900B9CA55 /* CloudNotes.xcdatamodeld */,
 				9B774C2426E6789C00952218 /* SampleData */,

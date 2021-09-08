@@ -51,15 +51,14 @@ extension MemoTableViewCell {
         
         updateTitleLayout(leadingConstant: cellLeadingConstant,
                           verticalConstant: cellVerticalConstant,
-                          tailingConstant: cellTrailingConstant)
-        updateLastModifiedLayout(leadingConstant: cellLeadingConstant,
-                                 verticalConstant: cellVerticalConstant)
+                          trailingConstant: cellTrailingConstant)
+        updateLastModifiedLayout(verticalConstant: cellVerticalConstant)
         updatePreviewBodyLabelLayout(verticalConstant: cellVerticalConstant,
                                      tailingConstant: cellTrailingConstant)
         self.accessoryType = .disclosureIndicator
     }
     
-    private func updateTitleLayout(leadingConstant: Int, verticalConstant: Int, tailingConstant: Int) {
+    private func updateTitleLayout(leadingConstant: Int, verticalConstant: Int, trailingConstant: Int) {
         memoTitleLabel.translatesAutoresizingMaskIntoConstraints = false
         
         contentView.addSubview(memoTitleLabel)
@@ -75,22 +74,20 @@ extension MemoTableViewCell {
         
         memoTitleLabel.trailingAnchor.constraint(
             equalTo: contentView.trailingAnchor,
-            constant: CGFloat(tailingConstant.nagative)
+            constant: CGFloat(trailingConstant.nagative)
         ).isActive = true
     }
     
-    private func updateLastModifiedLayout(leadingConstant: Int, verticalConstant: Int) {
+    private func updateLastModifiedLayout(verticalConstant: Int) {
         lastModifiedLabel.translatesAutoresizingMaskIntoConstraints = false
         
         contentView.addSubview(lastModifiedLabel)
         lastModifiedLabel.leadingAnchor.constraint(
-            equalTo: contentView.leadingAnchor,
-            constant: CGFloat(leadingConstant)
+            equalTo: memoTitleLabel.leadingAnchor
         ).isActive = true
         
         lastModifiedLabel.topAnchor.constraint(
-            equalTo: memoTitleLabel.bottomAnchor,
-            constant: 0
+            equalTo: memoTitleLabel.bottomAnchor
         ).isActive = true
         
         lastModifiedLabel.bottomAnchor.constraint(

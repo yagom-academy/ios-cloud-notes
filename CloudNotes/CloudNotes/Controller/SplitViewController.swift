@@ -44,7 +44,6 @@ extension SplitViewController: UISplitViewControllerDelegate {
         if isFisrtCellSelection == false {
             return .primary
         } else {
-            isFisrtCellSelection = true
             return .secondary
         }
     }

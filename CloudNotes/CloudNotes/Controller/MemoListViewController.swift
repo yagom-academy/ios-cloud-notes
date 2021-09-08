@@ -24,14 +24,6 @@ class MemoListViewController: UIViewController{
         return tableView
     }()
     
-    func makeTest() {
-        guard let assetData = NSDataAsset.init(name: "sample") else { return }
-        guard let memoData = ParsingManager.decodingModel(data: assetData.data, model: [Memo].self) else {
-            return
-        }
-        memoList = memoData
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -40,6 +32,14 @@ class MemoListViewController: UIViewController{
         ConfigureAutoLayout()
         configureNavigationItem()
         makeTest()
+    }
+    
+    private func makeTest() {
+        guard let assetData = NSDataAsset.init(name: "sample") else { return }
+        guard let memoData = ParsingManager.decodingModel(data: assetData.data, model: [Memo].self) else {
+            return
+        }
+        memoList = memoData
     }
     
     private func ConfigureAutoLayout() {

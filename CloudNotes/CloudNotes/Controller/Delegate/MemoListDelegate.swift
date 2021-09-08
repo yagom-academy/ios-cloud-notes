@@ -7,12 +7,12 @@
 
 import Foundation
 
-protocol MemoListDelegate: NSObject {
+protocol MemoListDelegate: AnyObject {
     var isFisrtCellSelection: Bool { set get }
     
     func showDetail(data: Memo, index: IndexPath)
 }
 
-protocol DetailMemoDelegate: NSObject {
+protocol DetailMemoDelegate: AnyObject {
     func saveMemo(with newMemo: Memo, index: IndexPath)
 }

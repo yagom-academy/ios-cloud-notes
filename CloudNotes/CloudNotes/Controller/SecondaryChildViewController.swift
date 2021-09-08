@@ -8,6 +8,7 @@
 import UIKit
 
 class SecondaryChildViewController: UIViewController {
+    weak var delegate: NoteUpdater?
     private var bodyTextView = UITextView()
 
     override func viewDidLoad() {

@@ -60,6 +60,7 @@ class PrimaryChildViewController: UITableViewController {
             rootViewController: detailRootViewController)
         
         detailRootViewController.initContent(of: note)
+        detailRootViewController.delegate = self
         showDetailViewController(detailViewController, sender: self)
     }
     
@@ -89,5 +90,15 @@ extension PrimaryChildViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         showContentDetails(of: notes?[indexPath.row])
+    }
+}
+
+extension PrimaryChildViewController: NoteUpdater {
+    func update(note: Note, at indexPath: IndexPath) {
+        let index = indexPath.row
+        notes?[index].title = note.title
+        notes?[index].body = note.body
+        notes?[index].lastModified = note.lastModified
+        tableView.reloadData()
     }
 }

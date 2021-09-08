@@ -13,11 +13,7 @@ extension UITextView {
     }
     
     private var bodyStartIndex: Int {
-        let bodyTexts = texts?[1...]
-        if let emptyLineIndex = bodyTexts?.firstIndex(where: { $0.isEmpty }) {
-            return emptyLineIndex + 1
-        }
-        return 1
+        return texts?[1].isEmpty == false ? 1 : 2
     }
     
     var title: String? {

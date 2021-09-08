@@ -10,9 +10,9 @@ import UIKit
 class MemoListViewCell: UITableViewCell {
     static let identifier = "MemoListViewCell"
 
-    private var titleLabel: UILabel?
-    private var dateLabel: UILabel?
-    private var descriptionLabel: UILabel?
+    private let titleLabel = UILabel()
+    private let dateLabel = UILabel()
+    private let descriptionLabel = UILabel()
 
     private let dateFormatter = DateFormatter()
     private let half: CGFloat = 0.5
@@ -25,6 +25,11 @@ class MemoListViewCell: UITableViewCell {
         accessoryType = AccessoryType.disclosureIndicator
 
         dateFormatter.dateFormat = "yyyy.MM.dd."
+
+        configureTitleLabel()
+        configureDateLabel()
+        configureDescriptionLabel()
+        configureLayout()
     }
 
     required init?(coder: NSCoder) {
@@ -35,58 +40,32 @@ class MemoListViewCell: UITableViewCell {
         data = memo
         let lastedUpdatedTime = Date(timeIntervalSince1970: memo.lastUpdatedTime)
 
-        titleLabel?.text = memo.title
-        descriptionLabel?.text = memo.description
-        dateLabel?.text = dateFormatter.string(from: lastedUpdatedTime)
+        titleLabel.text = memo.title
+        descriptionLabel.text = memo.description
+        dateLabel.text = dateFormatter.string(from: lastedUpdatedTime)
     }
 
 }
 
 // MARK: - Draw View
 extension MemoListViewCell {
-    private var baseLabel: UILabel {
-        let label = UILabel()
-
-        label.font = UIFont.preferredFont(forTextStyle: .body)
-        label.textAlignment = .left
-
-        contentView.addSubview(label)
-
-        return label
+    private func configureTitleLabel() {
+        titleLabel.font = UIFont.preferredFont(forTextStyle: .title3)
     }
 
-    private func createdStackView(
-        insertedAt superView: UIView? = nil,
-        with contents: UIView?...,
-        axis: NSLayoutConstraint.Axis,
-        spacing: CGFloat,
-        distribution: UIStackView.Distribution,
-        alignment: UIStackView.Alignment
-    ) -> UIStackView {
-        let optionalUnwrappedContents = contents.compactMap { $0 }
-        let stackView = UIStackView(arrangedSubviews: optionalUnwrappedContents)
-        stackView.axis = axis
-        stackView.spacing = spacing
-        stackView.distribution = distribution
-        stackView.alignment = alignment
+    private func configureDateLabel() {
+        dateLabel.font = UIFont.preferredFont(forTextStyle: .body)
+        dateLabel.setContentHuggingPriority(.required, for: .horizontal)
+        dateLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
+    }
 
-        if let superView = superView {
-            superView.addSubview(stackView)
-        }
-
-        return stackView
+    private func configureDescriptionLabel() {
+        descriptionLabel.font = UIFont.preferredFont(forTextStyle: .body)
+        descriptionLabel.textColor = UIColor.gray
     }
 
     private func configureLayout() {
-        titleLabel = baseLabel
-        dateLabel = baseLabel
-        descriptionLabel = baseLabel
-
-        titleLabel?.font = UIFont.preferredFont(forTextStyle: .title3)
-        dateLabel?.setContentCompressionResistancePriority(.required, for: .horizontal)
-        dateLabel?.setContentHuggingPriority(.required, for: .horizontal)
-
-        let hStackView = createdStackView(
+        let innerStackView = createdStackView(
             with: dateLabel, descriptionLabel,
             axis: .horizontal,
             spacing: 12,
@@ -94,24 +73,38 @@ extension MemoListViewCell {
             alignment: .fill
         )
 
-        let vStackView = createdStackView(
-            insertedAt: contentView,
-            with: titleLabel, hStackView,
+        let containerStackView = createdStackView(
+            with: titleLabel, innerStackView,
             axis: .vertical,
             spacing: 6,
             distribution: .fill,
             alignment: .fill
         )
 
-        contentView.addSubview(vStackView)
-
-        vStackView.translatesAutoresizingMaskIntoConstraints = false
-
+        contentView.addSubview(containerStackView)
+        containerStackView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            vStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            vStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            vStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            vStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+            containerStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            containerStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            containerStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            containerStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
         ])
+    }
+
+    private func createdStackView(
+        with contents: UIView...,
+        axis: NSLayoutConstraint.Axis,
+        spacing: CGFloat,
+        distribution: UIStackView.Distribution,
+        alignment: UIStackView.Alignment
+    ) -> UIStackView {
+        let stackView = UIStackView(arrangedSubviews: contents)
+
+        stackView.axis = axis
+        stackView.spacing = spacing
+        stackView.distribution = distribution
+        stackView.alignment = alignment
+
+        return stackView
     }
 }

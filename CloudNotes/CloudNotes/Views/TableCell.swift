@@ -8,8 +8,8 @@
 import UIKit
 
 class TableCell: UITableViewCell {
-
-    lazy var titleLabel: UILabel = {
+    // MARK: - property
+    private lazy var titleLabel: UILabel = {
        let label = UILabel()
         label.lineBreakMode = .byTruncatingTail
         label.numberOfLines = 1
@@ -17,14 +17,14 @@ class TableCell: UITableViewCell {
         return label
     }()
 
-    lazy var dateLabel: UILabel = {
+    private lazy var dateLabel: UILabel = {
        let label = UILabel()
         let priority = UILayoutPriority(1000)
         label.setContentCompressionResistancePriority(priority, for: .horizontal)
         return label
     }()
 
-    lazy var firstLineOfContentLabel: UILabel = {
+    private lazy var firstLineOfContentLabel: UILabel = {
        let label = UILabel()
         label.lineBreakMode = .byTruncatingTail
         label.numberOfLines = 1
@@ -32,6 +32,7 @@ class TableCell: UITableViewCell {
         return label
     }()
 
+    // MARK: - initializer
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         cellComponentConfigure()
@@ -41,7 +42,11 @@ class TableCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func cellComponentConfigure() {
+}
+
+extension TableCell {
+    // MARK: - Method
+    private func cellComponentConfigure() {
         backgroundColor = .systemBackground
         addSubview(titleLabel)
         addSubview(dateLabel)

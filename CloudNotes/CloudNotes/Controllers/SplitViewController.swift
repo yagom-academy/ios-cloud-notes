@@ -8,15 +8,16 @@
 import UIKit
 
 class SplitViewController: UISplitViewController {
+    static let shared = SplitViewController()
 
+    // MARK: - Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
             delegate = self
-        // Do any additional setup after loading the view.
     }
-
 }
 
+// MARK: - Protocol Conform
 extension SplitViewController: UISplitViewControllerDelegate {
     func splitViewController(_ splitViewController: UISplitViewController, collapseSecondary secondaryViewController: UIViewController, onto primaryViewController: UIViewController) -> Bool {
         true

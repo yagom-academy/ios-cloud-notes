@@ -9,13 +9,14 @@ import UIKit
 
 class MemoDetailViewController: UIViewController {
 
-    private lazy var textView: UITextView = createdTextView()
+    private let textView = UITextView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.systemBackground
 
         configureDeleteButton()
+        configureTextView()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -26,9 +27,8 @@ class MemoDetailViewController: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        textView.isScrollEnabled = true
 
-        textView.becomeFirstResponder()
+        textView.isScrollEnabled = true
     }
 
     func configure(with memo: Memo?) {
@@ -68,27 +68,23 @@ class MemoDetailViewController: UIViewController {
 
 // MARK: - Draw View
 extension MemoDetailViewController {
-    private func createdTextView() -> UITextView {
-        let txtView = UITextView()
-        txtView.translatesAutoresizingMaskIntoConstraints = false
-        txtView.font = UIFont.preferredFont(forTextStyle: .body)
+    private func configureTextView() {
+        textView.translatesAutoresizingMaskIntoConstraints = false
+        textView.font = UIFont.preferredFont(forTextStyle: .body)
 
-        view.addSubview(txtView)
+        view.addSubview(textView)
 
         let safeArea = view.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
-            txtView.topAnchor.constraint(equalTo: safeArea.topAnchor),
-            txtView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
-            txtView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
-            txtView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
+            textView.topAnchor.constraint(equalTo: safeArea.topAnchor),
+            textView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
+            textView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
+            textView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor)
         ])
-
-        return txtView
     }
 
     private func configureDeleteButton() {
-        let systemImageName = "ellipsis.circle"
-        let circleImage = UIImage(systemName: systemImageName)
+        let circleImage = UIImage(systemName: "ellipsis.circle")
         let deleteButton = UIBarButtonItem(
             image: circleImage,
             style: .plain,

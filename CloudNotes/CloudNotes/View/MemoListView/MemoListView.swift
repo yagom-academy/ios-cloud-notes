@@ -7,21 +7,28 @@
 
 import UIKit
 
-class MemoListView: RootView {
-
+class MemoListView: UIView, RootViewable {
     lazy var memoTableView: UITableView = {
         let tableView = UITableView()
         return tableView
     }()
 
-    override func setup() {
-        super.setup()
-        memoTableView.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(memoTableView)
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setup()
+        setupUI()
     }
 
-    override func setupUI() {
-        super.setupUI()
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    func setup() {
+        addSubviews(memoTableView)
+    }
+
+    func setupUI() {
+        self.backgroundColor = .clear
         NSLayoutConstraint.activate([
             memoTableView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor),
             memoTableView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor),

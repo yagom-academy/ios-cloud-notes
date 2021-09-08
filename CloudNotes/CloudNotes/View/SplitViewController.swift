@@ -7,14 +7,14 @@
 
 import UIKit
 
-class SplitViewController: UISplitViewController {
+class SplitViewController: UISplitViewController, RootViewControllerable {
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
     }
 
-    private func setup() {
+    func setup() {
         let master = UINavigationController()
         let detail = UINavigationController()
         master.viewControllers = [MemoListViewController()]

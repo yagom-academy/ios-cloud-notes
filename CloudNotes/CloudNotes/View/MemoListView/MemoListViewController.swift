@@ -6,16 +6,17 @@
 
 import UIKit
 
-class MemoListViewController: RootViewController {
+class MemoListViewController: UIViewController, RootViewControllerable {
     var memoList: [Memo] = []
     private let memoView = MemoListView(frame: .zero)
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setup()
         prepareMemo()
     }
 
-    override func setup() {
+    func setup() {
         self.view = memoView
         memoView.memoTableView.register(MemoListCell.self, forCellReuseIdentifier: MemoListCell.reuseIdentifier)
         memoView.memoTableView.delegate = self
@@ -35,13 +36,13 @@ class MemoListViewController: RootViewController {
     @objc func addTapped() {
         memoList.append(Memo(title: "", body: "", lastDate: Date().timeIntervalSince1970))
         memoView.memoTableView.reloadData()
+        let detailViewController = MemoDetailViewController()
         memoList.last.flatMap {
-            let detailViewController = MemoDetailViewController()
-            detailViewController.configure(with: $0, index: memoList.index(before: memoList.endIndex))
-            let nextViewController = UINavigationController()
-            nextViewController.viewControllers = [detailViewController]
-            self.showDetailViewController(nextViewController, sender: self)
+            detailViewController.configure(with: $0)
         }
+        let nextViewController = UINavigationController()
+        nextViewController.viewControllers = [detailViewController]
+        self.showDetailViewController(nextViewController, sender: self)
         scrollToBottom()
     }
 
@@ -64,7 +65,7 @@ extension MemoListViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let detailViewController = MemoDetailViewController()
-        detailViewController.configure(with: memoList[indexPath.row], index: indexPath.row)
+        detailViewController.configure(with: memoList[indexPath.row])
         let nextViewController = UINavigationController()
         nextViewController.viewControllers = [detailViewController]
         detailViewController.delegate = self
@@ -81,8 +82,7 @@ extension MemoListViewController {
 }
 
 extension MemoListViewController: Memorizable {
-    func updateMemo(with newMemo: Memo, index: Int) {
-        memoList[index].update(with: newMemo)
+    func update() {
         memoView.memoTableView.reloadData()
     }
 }

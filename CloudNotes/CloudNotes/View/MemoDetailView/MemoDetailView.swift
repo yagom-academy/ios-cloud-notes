@@ -7,23 +7,32 @@
 
 import UIKit
 
-class MemoDetailView: RootView {
+class MemoDetailView: UIView, RootViewable {
     lazy var detailTextView: UITextView = {
-        let textView = UITextView()
+        let textView = UITextView(frame: .zero)
         textView.backgroundColor = UIColor.systemGray4
         textView.font = UIFont.preferredFont(forTextStyle: .body)
         textView.adjustsFontForContentSizeCategory = true
-        textView.allowsEditingTextAttributes = true
+        textView.allowsEditingTextAttributes = false
+
         return textView
     }()
 
-    override func setup() {
-        super.setup()
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setup()
+        setupUI()
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError()
+    }
+
+    func setup() {
         addSubviews(detailTextView)
     }
 
-    override func setupUI() {
-        super.setupUI()
+    func setupUI() {
         NSLayoutConstraint.activate([
                     detailTextView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
                     detailTextView.trailingAnchor.constraint(equalTo: self.trailingAnchor),

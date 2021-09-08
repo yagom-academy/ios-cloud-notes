@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MemoListCell: UITableViewCell {
+class MemoListCell: UITableViewCell, RootViewable {
     static let reuseIdentifier = "\(MemoListCell.self)"
 
     var titleLabel: UILabel = {
@@ -27,12 +27,14 @@ class MemoListCell: UITableViewCell {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .body)
         label.adjustsFontForContentSizeCategory = true
+
         return label
     }()
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.accessoryType = .disclosureIndicator
+        setup()
         setupUI()
     }
 
@@ -52,7 +54,7 @@ extension MemoListCell {
     private enum Constraint {
         enum TitleLabel {
             static let leadingConstant: CGFloat = 5
-            static let trailingConstant: CGFloat = 5
+            static let trailingConstant: CGFloat = -5
             static let topConstant: CGFloat = 5
         }
         enum DateLabel {
@@ -65,35 +67,29 @@ extension MemoListCell {
         }
     }
 
-    private func setupUI() {
+    func setup() {
         contentView.addSubviews(titleLabel, bodyLabel, dateLabel)
+    }
 
+    func setupUI() {
         dateLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         bodyLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
 
-        var cellConstraints: [NSLayoutConstraint] = []
-        let titleLabelConstraints = [titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,
+        NSLayoutConstraint.activate([titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,
                                                                          constant: Constraint.TitleLabel.leadingConstant),
                                      titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,
                                                                           constant: Constraint.TitleLabel.trailingConstant),
                                      titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor,
                                                                      constant: Constraint.TitleLabel.topConstant),
-                                     titleLabel.bottomAnchor.constraint(equalTo: dateLabel.topAnchor)]
+                                     titleLabel.bottomAnchor.constraint(equalTo: dateLabel.topAnchor)])
 
-        let dateLabelConstraints = [dateLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
-                                    dateLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,
-                                                                      constant: Constraint.DateLabel.bottomConstant)]
-
-        let bodyLabelConstraints = [bodyLabel.leadingAnchor.constraint(equalTo: dateLabel.trailingAnchor,
-                                                                       constant: Constraint.BodyLabel.leadingConstant),
-                                    bodyLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,
-                                                                        constant: Constraint.BodyLabel.trailingConstant),
-                                    bodyLabel.bottomAnchor.constraint(equalTo: dateLabel.bottomAnchor)]
-
-        cellConstraints.append(contentsOf: titleLabelConstraints)
-        cellConstraints.append(contentsOf: dateLabelConstraints)
-        cellConstraints.append(contentsOf: bodyLabelConstraints)
-
-        NSLayoutConstraint.activate(cellConstraints)
+        NSLayoutConstraint.activate([dateLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
+                                     dateLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,
+                                                                       constant: Constraint.DateLabel.bottomConstant)])
+        NSLayoutConstraint.activate([bodyLabel.leadingAnchor.constraint(equalTo: dateLabel.trailingAnchor,
+                                                                        constant: Constraint.BodyLabel.leadingConstant),
+                                     bodyLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,
+                                                                         constant: Constraint.BodyLabel.trailingConstant),
+                                     bodyLabel.bottomAnchor.constraint(equalTo: dateLabel.bottomAnchor)])
     }
 }

@@ -43,9 +43,17 @@ extension ContainerSplitViewController {
             case .success(let memos):
                 self.setDataToViewControllers(with: memos)
             case .failure(let error):
+                self.presentAlert(about: error)
                 break
             }
         }
+    }
+    
+    private func presentAlert(about error: Error) {
+        let alertController = UIAlertController(title: "오류 발생", message: error.localizedDescription, preferredStyle: .alert)
+        let confirmButton = UIAlertAction(title: "확인", style: .default, handler: nil)
+        alertController.addAction(confirmButton)
+        present(alertController, animated: true, completion: nil)
     }
 }
 

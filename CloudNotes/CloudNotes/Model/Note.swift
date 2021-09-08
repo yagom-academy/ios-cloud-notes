@@ -8,9 +8,9 @@
 import Foundation
 
 struct Note: Decodable {
-    let title: String
-    let body: String
-    let lastModified: Double
+    var title: String
+    var body: String
+    var lastModified: Double
     
     enum CodingKeys: String, CodingKey {
         case title, body

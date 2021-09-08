@@ -43,32 +43,37 @@ class PrimaryChildViewController: UITableViewController {
     
     @objc private func addButtonTapped() {
         addNewNote()
-        scrollDownToTableBottom()
-        showContentDetails(of: notes?.last)
+        let newIndexPath = findNewNoteIndexPath()
+        scrollDownToTableBottom(to: newIndexPath)
+        showContentDetails(of: notes?.last, at: newIndexPath)
     }
-    
+
     private func addNewNote() {
         notes?.append(Note(title: "", body: "", lastModified: Date().timeIntervalSince1970))
         tableView.reloadData()
     }
+    
+    private func findNewNoteIndexPath() -> IndexPath {
+        guard let rowCount = notes?.count else { return IndexPath(row: .zero, section: .zero) }
+        let lastRowIndex = rowCount - 1
+        
+        return IndexPath(row: lastRowIndex, section: .zero)
+    }
 
-    private func showContentDetails(of note: Note?) {
+    private func scrollDownToTableBottom(to bottomIndexPath: IndexPath) {
+        tableView.scrollToRow(at: bottomIndexPath, at: .bottom, animated: true)
+    }
+
+    private func showContentDetails(of note: Note?, at indexPath: IndexPath) {
         guard let note = note else { return }
         
         let detailRootViewController = SecondaryChildViewController()
         let detailViewController = UINavigationController(
             rootViewController: detailRootViewController)
         
-        detailRootViewController.initContent(of: note)
+        detailRootViewController.initContent(of: note, at: indexPath)
         detailRootViewController.delegate = self
         showDetailViewController(detailViewController, sender: self)
-    }
-    
-    func scrollDownToTableBottom() {
-        guard let rowCount = notes?.count else { return }
-        let bottomRowIndex = rowCount - 1
-        let bottomRowIndexPath = IndexPath(row: bottomRowIndex, section: .zero)
-        tableView.scrollToRow(at: bottomRowIndexPath, at: .bottom, animated: true)
     }
 }
 
@@ -89,7 +94,7 @@ extension PrimaryChildViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        showContentDetails(of: notes?[indexPath.row])
+        showContentDetails(of: notes?[indexPath.row], at: indexPath)
     }
 }
 

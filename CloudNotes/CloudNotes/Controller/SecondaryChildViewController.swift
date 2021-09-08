@@ -10,13 +10,16 @@ import UIKit
 class SecondaryChildViewController: UIViewController {
     weak var delegate: NoteUpdater?
     private var bodyTextView = UITextView()
+    private var indexPath: IndexPath?
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        bodyTextView.delegate = self
     }
     
-    func initContent(of note: Note) {
+    func initContent(of note: Note, at indexPath: IndexPath) {
+        self.indexPath = indexPath
         showContent(of: note)
         styleContent()
         layoutContent()
@@ -49,5 +52,16 @@ class SecondaryChildViewController: UIViewController {
         let contentHeight = bodyTextView.contentSize.height
         let contentOffset = CGPoint(x: 0, y: -contentHeight)
         bodyTextView.setContentOffset(contentOffset, animated: true)
+    }
+}
+
+extension SecondaryChildViewController: UITextViewDelegate {
+    func textViewDidChange(_ textView: UITextView) {
+        guard let indexPath = indexPath else { return }
+
+        delegate?.update(note: Note(title: textView.title ?? "",
+                                    body: textView.body ?? "",
+                                    lastModified: Date().timeIntervalSince1970),
+                         at: indexPath)
     }
 }

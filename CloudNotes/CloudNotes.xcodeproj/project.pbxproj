@@ -211,9 +211,9 @@
 		D46FEAD426E6672700B328A7 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				C7481C7125BBCF3900B9CA55 /* SplitViewController.swift */,
 				D46FEAA926E6539800B328A7 /* PrimaryChildViewController.swift */,
 				D46FEAAE26E653AB00B328A7 /* SecondaryChildViewController.swift */,
-				C7481C7125BBCF3900B9CA55 /* SplitViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";

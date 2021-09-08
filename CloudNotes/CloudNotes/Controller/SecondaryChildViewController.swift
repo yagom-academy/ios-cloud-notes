@@ -19,11 +19,21 @@ class SecondaryChildViewController: UIViewController {
     }
     
     func initContent(of note: Note, at indexPath: IndexPath) {
-        self.indexPath = indexPath
+        setUpDetailView(indexPath: indexPath)
         showContent(of: note)
         styleContent()
         layoutContent()
         scrollToContentTop()
+    }
+    
+    private func setUpDetailView(indexPath: IndexPath) {
+        self.indexPath = indexPath
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            image: UIImage(systemName: "ellipsis.circle"),
+            style: .plain,
+            target: self,
+            action: nil
+        )
     }
 
     private func showContent(of note: Note) {

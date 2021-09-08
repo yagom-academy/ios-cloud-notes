@@ -22,14 +22,9 @@ class MemoDetailViewController: UIViewController {
     // MARK: View LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        memoContentsTextView.contentOffset = CGPoint(x: 0, y: 0)
         setupNavigationItem()
         configureView()
         configureMemoTextViewContentsConstraint()
-    }
-    
-    deinit {
-        debugPrint("\(self) 제거됨")
     }
 }
 
@@ -58,10 +53,12 @@ extension MemoDetailViewController {
 // MARK: Setup TextView And View
 extension MemoDetailViewController {
     private func configureMemoTextViewContentsConstraint() {
-        memoContentsTextView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-        memoContentsTextView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
-        memoContentsTextView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
-        memoContentsTextView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+        NSLayoutConstraint.activate([
+            memoContentsTextView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            memoContentsTextView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            memoContentsTextView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            memoContentsTextView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        ])
     }
     
     private func configureView() {
@@ -77,5 +74,6 @@ extension MemoDetailViewController {
     func showContents(of memo: Memo) {
         let appendedText = memo.title + NameSpace.TextView.doubleSpace + memo.body
         memoContentsTextView.text = appendedText
+        memoContentsTextView.layoutIfNeeded()
     }
 }

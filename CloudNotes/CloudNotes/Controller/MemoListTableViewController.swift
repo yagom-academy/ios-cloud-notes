@@ -84,8 +84,7 @@ extension MemoListTableViewController {
     }
     
     private func makeTableViewDiffableDataSource() {
-        dataSource = UITableViewDiffableDataSource<Section, Memo>(tableView: tableView,
-                                                                  cellProvider: { tableView, indexPath, memo in
+        dataSource = UITableViewDiffableDataSource<Section, Memo>(tableView: tableView) { tableView, indexPath, memo in
             
             guard let cell = tableView.dequeueReusableCell(withIdentifier: MemoListTableViewCell.identifier, for: indexPath) as? MemoListTableViewCell else { fatalError() }
             
@@ -93,7 +92,7 @@ extension MemoListTableViewController {
             cell.configure(with: memo)
             
             return cell
-        })
+        }
     }
     
     private func snapshots(ofMemo memo: [Memo]) {

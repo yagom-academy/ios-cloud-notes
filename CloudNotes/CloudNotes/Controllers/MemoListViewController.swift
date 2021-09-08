@@ -48,25 +48,17 @@ extension MemoListViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        let memo = memoList[indexPath.row]
-        cell.configure(on: memo)
-        
+        cell.configure(on: memoList[indexPath.row])
         return cell
     }
 }
 
 extension MemoListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let memo = memoList[indexPath.row]
+        tableView.deselectRow(at: indexPath, animated: true)
         
-        let memoDetailVC = MemoDetailViewController(memo: memo)
+        let memoDetailVC = MemoDetailViewController(memo: memoList[indexPath.row])
         let detailNav = UINavigationController(rootViewController: memoDetailVC)
         self.showDetailViewController(detailNav, sender: self)
-        
-        guard let cell = tableView.cellForRow(at: indexPath) as? MemoTableViewCell else {
-            return
-        }
-        
-        cell.backgroundColor = .white
     }
 }

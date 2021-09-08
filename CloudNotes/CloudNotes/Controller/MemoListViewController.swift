@@ -8,11 +8,13 @@
 import UIKit
 
 class MemoListViewController: UIViewController {
+    //MARK: Properties
     private let listTableView = UITableView()
     private var memoList = [Memo]()
     private var selectedIndexPath: IndexPath?
     weak var cellSelectionDelegate: CellSellectionHandleable?
     
+    //MARK: Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpTableViewConstraints()

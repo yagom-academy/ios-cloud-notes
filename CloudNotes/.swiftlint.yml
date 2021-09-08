@@ -4,5 +4,5 @@ disabled_rules:
 included:
 excluded:
 - Pods
-- CloudNotes/AppDelegate.swift
-- CloudNotes/SceneDelegate.swift
+- CloudNotes/SupportingFiles/AppDelegate.swift
+- CloudNotes/SupportingFiles/SceneDelegate.swift

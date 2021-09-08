@@ -26,6 +26,11 @@ class MemoDetailViewController: UIViewController {
         configureView()
         configureMemoTextViewContentsConstraint()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        congifureTextViewBackGroundColor()
+    }
 }
 
 extension MemoDetailViewController {
@@ -62,13 +67,16 @@ extension MemoDetailViewController {
     }
     
     private func configureView() {
-        
-        if UITraitCollection.current.horizontalSizeClass == .compact {
-            memoContentsTextView.backgroundColor = .systemGray
-        }
-        
         view.backgroundColor = .white
         view.addSubview(memoContentsTextView)
+    }
+    
+    private func congifureTextViewBackGroundColor() {
+        if UITraitCollection.current.horizontalSizeClass == .compact {
+            memoContentsTextView.backgroundColor = .systemGray
+        } else {
+            memoContentsTextView.backgroundColor = .white
+        }
     }
     
     func showContents(of memo: Memo) {

@@ -11,6 +11,7 @@ class MemoListTableViewController: UITableViewController {
     // MARK: Property
     private let memo = SampleMemo.setupSampleMemo()
     private var dataSource: UITableViewDiffableDataSource<Section, Memo>?
+    weak var delegate: MemoListDelegate?
     // MARK: View LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,15 +66,7 @@ extension MemoListTableViewController {
 // MARK: - Delegate
 extension MemoListTableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let detailVC = MemoDetailViewController()
-        detailVC.showContents(of: memo[indexPath.row])
-        
-        if UITraitCollection.current.horizontalSizeClass == .regular {
-            self.showDetailViewController(detailVC, sender: nil)
-        } else {
-            navigationController?.pushViewController(detailVC, animated: true)
-        }
-        
+        delegate?.didTapTableViewCell(memo[indexPath.row])
     }
 }
 

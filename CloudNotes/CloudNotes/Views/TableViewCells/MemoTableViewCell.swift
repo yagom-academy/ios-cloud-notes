@@ -74,7 +74,7 @@ extension MemoTableViewCell {
         
         memoTitleLabel.trailingAnchor.constraint(
             equalTo: contentView.trailingAnchor,
-            constant: CGFloat(trailingConstant.nagative)
+            constant: CGFloat(-trailingConstant)
         ).isActive = true
     }
     
@@ -92,7 +92,7 @@ extension MemoTableViewCell {
         
         lastModifiedLabel.bottomAnchor.constraint(
             equalTo: contentView.bottomAnchor,
-            constant: CGFloat(verticalConstant.nagative)
+            constant: CGFloat(-verticalConstant)
         ).isActive = true
     }
     
@@ -112,12 +112,12 @@ extension MemoTableViewCell {
         
         previewBodyLabel.bottomAnchor.constraint(
             equalTo: contentView.bottomAnchor,
-            constant: CGFloat(verticalConstant.nagative)
+            constant: CGFloat(-verticalConstant)
         ).isActive = true
         
         previewBodyLabel.trailingAnchor.constraint(
             equalTo: contentView.trailingAnchor,
-            constant: CGFloat(tailingConstant.nagative)
+            constant: CGFloat(-tailingConstant)
         ).isActive = true
     }
 }

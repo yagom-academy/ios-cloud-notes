@@ -31,10 +31,6 @@ class MemoDetailViewController: UIViewController {
         textView.becomeFirstResponder()
     }
 
-    override func viewDidDisappear(_ animated: Bool) {
-        textView.text = nil
-    }
-
     func configure(with memo: Memo?) {
         guard let memo = memo else {
             textView.clear()

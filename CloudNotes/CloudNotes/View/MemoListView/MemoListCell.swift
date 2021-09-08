@@ -86,7 +86,8 @@ extension MemoListCell {
         NSLayoutConstraint.activate([dateLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
                                      dateLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,
                                                                        constant: Constraint.DateLabel.bottomConstant)])
-        NSLayoutConstraint.activate([bodyLabel.leadingAnchor.constraint(equalTo: dateLabel.trailingAnchor,
+        NSLayoutConstraint.activate([bodyLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
+                                        bodyLabel.leadingAnchor.constraint(equalTo: dateLabel.trailingAnchor,
                                                                         constant: Constraint.BodyLabel.leadingConstant),
                                      bodyLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,
                                                                          constant: Constraint.BodyLabel.trailingConstant),

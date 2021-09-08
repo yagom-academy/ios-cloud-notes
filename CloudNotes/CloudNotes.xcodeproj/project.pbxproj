@@ -28,6 +28,7 @@
 		C91EF68926E298DB0013E3D6 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91EF68826E298DB0013E3D6 /* DataManager.swift */; };
 		C91EF68B26E646BB0013E3D6 /* AssetJSONDataModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91EF68A26E646BB0013E3D6 /* AssetJSONDataModule.swift */; };
 		C91EF68F26E7DF790013E3D6 /* CellSelectionHandleable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91EF68E26E7DF790013E3D6 /* CellSelectionHandleable.swift */; };
+		C91EF69126E7E5510013E3D6 /* MemoChangeHandleable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91EF69026E7E5510013E3D6 /* MemoChangeHandleable.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -80,6 +81,7 @@
 		C91EF68826E298DB0013E3D6 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		C91EF68A26E646BB0013E3D6 /* AssetJSONDataModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetJSONDataModule.swift; sourceTree = "<group>"; };
 		C91EF68E26E7DF790013E3D6 /* CellSelectionHandleable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellSelectionHandleable.swift; sourceTree = "<group>"; };
+		C91EF69026E7E5510013E3D6 /* MemoChangeHandleable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoChangeHandleable.swift; sourceTree = "<group>"; };
 		E6AD4DA90F91540E38399744 /* Pods-CloudNotesTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudNotesTests.debug.xcconfig"; path = "Target Support Files/Pods-CloudNotesTests/Pods-CloudNotesTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -242,6 +244,7 @@
 			children = (
 				C91EF68626E2985C0013E3D6 /* DataImportable.swift */,
 				C91EF68E26E7DF790013E3D6 /* CellSelectionHandleable.swift */,
+				C91EF69026E7E5510013E3D6 /* MemoChangeHandleable.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -478,6 +481,7 @@
 				C91EF67826E1FA9D0013E3D6 /* Memo.swift in Sources */,
 				C91EF68926E298DB0013E3D6 /* DataManager.swift in Sources */,
 				C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */,
+				C91EF69126E7E5510013E3D6 /* MemoChangeHandleable.swift in Sources */,
 				C7481C7825BBCF3900B9CA55 /* CloudNotes.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

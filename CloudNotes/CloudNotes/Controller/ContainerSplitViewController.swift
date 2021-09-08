@@ -20,6 +20,7 @@ class ContainerSplitViewController: UISplitViewController {
         embedViewControllers()
         bringData()
         primaryViewController.cellSelectionDelegate = self
+        secondaryViewController.memoModifyingDelegate = self
     }
 }
 
@@ -63,5 +64,12 @@ extension ContainerSplitViewController: CellSellectionHandleable {
             setViewController(secondaryViewController, for: .secondary)
         }
         show(.secondary)
+    }
+}
+
+//MARK:- Conforms to MemoChangeHandleable
+extension ContainerSplitViewController: MemoChangeHandleable {
+    func processModified(data memoItem: Memo) {
+        primaryViewController.reflectChange(with: memoItem)
     }
 }

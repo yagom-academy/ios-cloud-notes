@@ -10,6 +10,7 @@ import UIKit
 class MemoListViewController: UIViewController {
     private let listTableView = UITableView()
     private var memoList = [Memo]()
+    private var selectedIndexPath: IndexPath?
     weak var cellSelectionDelegate: CellSellectionHandleable?
     
     override func viewDidLoad() {
@@ -60,12 +61,24 @@ extension MemoListViewController {
         memoList = newList
         reloadAllTableViewData()
     }
+    
+    func reflectChange(with memoItem: Memo) {
+        guard let selectedIndexPath = selectedIndexPath else {
+            return
+        }
+        memoList[selectedIndexPath.row] = memoItem
+        reloadTableViewData(at: selectedIndexPath)
+    }
 }
 
 //MARK:- Update TableView
 extension MemoListViewController {
     private func reloadAllTableViewData() {
         listTableView.reloadData()
+    }
+    
+    private func reloadTableViewData(at indexPath: IndexPath) {
+        listTableView.reloadRows(at: [indexPath], with: .automatic)
     }
 }
 
@@ -89,5 +102,6 @@ extension MemoListViewController: UITableViewDataSource {
 extension MemoListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         cellSelectionDelegate?.handOver(data: memoList[indexPath.row])
+        selectedIndexPath = indexPath
     }
 }

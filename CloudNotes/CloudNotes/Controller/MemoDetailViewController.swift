@@ -8,6 +8,7 @@
 import UIKit
 
 class MemoDetailViewController: UIViewController {
+    private let lineBreak = "\n"
     private let memoTextView = UITextView()
     private var memoItem: Memo? {
         didSet {
@@ -19,11 +20,13 @@ class MemoDetailViewController: UIViewController {
             memoTextView.text = mergedContents
         }
     }
+    weak var memoModifyingDelegate: MemoChangeHandleable?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpMemoTextViewConstraints()
         setUpNavigationItem()
+        memoTextView.delegate = self
     }
     
     override func viewWillLayoutSubviews() {
@@ -54,7 +57,6 @@ extension MemoDetailViewController {
     }
     
     private func merge(contents: String...) -> String {
-        let lineBreak = "\n"
         return contents.joined(separator: lineBreak + lineBreak)
     }
 }
@@ -66,5 +68,17 @@ extension MemoDetailViewController {
                                                             style: .plain,
                                                             target: nil,
                                                             action: nil)
+    }
+}
+
+//MARK:- Conforms to TextViewDelegate
+extension MemoDetailViewController: UITextViewDelegate {
+    func textViewDidChange(_ textView: UITextView) {
+        var itemContents = textView.text.components(separatedBy: lineBreak + lineBreak)
+        let title = itemContents.removeFirst()
+        let body = itemContents.joined(separator: lineBreak + lineBreak)
+        let revisedMemo = Memo(title: title, body: body, lastModified: Date().timeIntervalSince1970)
+        
+        memoModifyingDelegate?.processModified(data: revisedMemo)
     }
 }

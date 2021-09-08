@@ -1,5 +1,5 @@
 //
-//  CloudNotes - ViewController.swift
+//  CloudNotes - ContainerSplitViewController.swift
 //  Created by yagom. 
 //  Copyright © yagom. All rights reserved.
 // 
@@ -17,11 +17,18 @@ class ContainerSplitViewController: UISplitViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        bringData()
         embedViewControllers()
+        bringData()
         primaryViewController.cellSelectionDelegate = self
     }
 
+}
+
+//MARK:- Embed Inner ViewControllers
+extension ContainerSplitViewController {
+    private func embedViewControllers() {
+        setViewController(primaryViewController, for: .primary)
+    }
 }
 
 //MARK:- Bring the data what want to show
@@ -45,15 +52,7 @@ extension ContainerSplitViewController {
 extension ContainerSplitViewController {
     private func setDataToViewControllers(with memoList: [Memo]) {
         primaryViewController.setUpList(with: memoList)
-        secondaryViewController.configure(with: memoList.first)
-    }
-}
-
-//MARK:- Embed Inner ViewControllers
-extension ContainerSplitViewController {
-    private func embedViewControllers() {
-        setViewController(primaryViewController, for: .primary)
-        setViewController(secondaryViewController, for: .secondary)
+        show(.primary)
     }
 }
 
@@ -61,6 +60,9 @@ extension ContainerSplitViewController {
 extension ContainerSplitViewController: CellSellectionHandleable {
     func handOver(data memoItem: Memo) {
         secondaryViewController.configure(with: memoItem)
+        if viewController(for: .secondary) == .none {
+            setViewController(secondaryViewController, for: .secondary)
+        }
         show(.secondary)
     }
 }

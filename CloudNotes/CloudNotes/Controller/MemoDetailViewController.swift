@@ -26,11 +26,6 @@ class MemoDetailViewController: UIViewController {
         configureView()
         configureMemoTextViewContentsConstraint()
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        congifureTextViewBackGroundColor()
-    }
 }
 
 extension MemoDetailViewController {
@@ -83,5 +78,11 @@ extension MemoDetailViewController {
         let appendedText = memo.title + NameSpace.TextView.doubleSpace + memo.body
         memoContentsTextView.text = appendedText
         memoContentsTextView.layoutIfNeeded()
+    }
+}
+
+extension MemoDetailViewController {
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        congifureTextViewBackGroundColor()
     }
 }

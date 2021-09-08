@@ -7,19 +7,7 @@
 
 import UIKit
 
-class RootView: UIView {
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setup()
-        setupUI()
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError()
-    }
-
-    func setup() { }
-    func setupUI() {
-        backgroundColor = .clear
-    }
+protocol RootViewable {
+    func setup()
+    func setupUI()
 }

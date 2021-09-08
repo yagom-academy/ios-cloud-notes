@@ -92,9 +92,14 @@ class NotesTableViewCell: UITableViewCell {
 }
 
 extension NotesTableViewCell: DateFormattable {
+    enum NotePlacholder {
+        static let title = "제목"
+        static let body = "내용이 비어있습니다"
+    }
+    
     private func initCellContent(with note: Note) {
-        titleLabel.text = note.title
-        bodyLabel.text = note.body
+        titleLabel.text = note.title.isEmpty ? NotePlacholder.title : note.title
+        bodyLabel.text = note.body.isEmpty ? NotePlacholder.body : note.body
         lastModifiedLabel.text = format(lastModified: note.lastModified)
     }
 }

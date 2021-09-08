@@ -28,7 +28,7 @@ class DetailMemoViewController: UIViewController {
     
     private var bodyTextView: UITextView = {
         let bodyTextView = UITextView()
-        bodyTextView.font = UIFont.systemFont(ofSize: 15)
+        bodyTextView.font = UIFont.systemFont(ofSize: 20)
         bodyTextView.translatesAutoresizingMaskIntoConstraints = false
         return bodyTextView
     }()
@@ -42,6 +42,28 @@ class DetailMemoViewController: UIViewController {
         updateMemo()
         ConfigureAutoLayout()
         configureNavigationItem()
+        //registerNotification()
+    }
+    
+    private func registerNotification() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShown), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc private func keyboardWillShown(notification: NSNotification) {
+        guard let userInfo = notification.userInfo,
+              let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
+        
+        let contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardFrame.size.height, right: 0)
+        
+        bodyTextView.contentInset = contentInset
+        bodyTextView.scrollIndicatorInsets = contentInset
+    }
+    
+    @objc private func keyboardWillHide() {
+        let contentInset = UIEdgeInsets.zero
+        bodyTextView.contentInset = contentInset
+        bodyTextView.scrollIndicatorInsets = contentInset
     }
     
     private func configureNavigationItem() {

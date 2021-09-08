@@ -7,7 +7,12 @@
 import UIKit
 
 class MemoListViewController: UIViewController {
-    private let tableView = UITableView()
+    lazy private var tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.register(MemoTableViewCell.self, forCellReuseIdentifier: MemoTableViewCell.identifier)
+        return tableView
+    }()
     private let memoList = Memo.generateMemoList()
     
     override func viewDidLoad() {
@@ -19,14 +24,11 @@ class MemoListViewController: UIViewController {
         view.addSubview(tableView)
         
         let safeArea = view.safeAreaLayoutGuide
-        tableView.translatesAutoresizingMaskIntoConstraints = false
         
         tableView.topAnchor.constraint(equalTo: safeArea.topAnchor).isActive = true
         tableView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor).isActive = true
         tableView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor).isActive = true
         tableView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor).isActive = true
-        
-        tableView.register(MemoTableViewCell.self, forCellReuseIdentifier: MemoTableViewCell.identifier)
         
         tableView.dataSource = self
         tableView.delegate = self

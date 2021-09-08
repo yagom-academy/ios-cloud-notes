@@ -7,14 +7,17 @@
 import UIKit
 
 class ContainerSplitViewController: UISplitViewController {
+    //MARK: Properties
     private let columnStyle = UISplitViewController.Style.doubleColumn
     private let primaryViewController = MemoListViewController()
     private let secondaryViewController = MemoDetailViewController()
     
+    //MARK: Initializer
     required init?(coder: NSCoder) {
         super.init(style: columnStyle)
     }
     
+    //MARK: Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         embedViewControllers()

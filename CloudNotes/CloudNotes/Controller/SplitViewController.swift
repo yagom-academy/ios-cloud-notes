@@ -9,7 +9,7 @@ import UIKit
 
 class SplitViewController: UISplitViewController {
 
-    var isFisrtCellSelection = false
+    var isFirstCellSelection = false
     private let memoListViewController = MemoListViewController()
     private let detailMemoViewController = DetailMemoViewController()
     
@@ -41,7 +41,7 @@ class SplitViewController: UISplitViewController {
 extension SplitViewController: UISplitViewControllerDelegate {
     
     func splitViewController(_ svc: UISplitViewController, topColumnForCollapsingToProposedTopColumn proposedTopColumn: UISplitViewController.Column) -> UISplitViewController.Column {
-        if isFisrtCellSelection == false {
+        if isFirstCellSelection == false {
             return .primary
         } else {
             return .secondary

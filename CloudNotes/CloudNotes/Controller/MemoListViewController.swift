@@ -85,9 +85,12 @@ extension MemoListViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        
         cell.titleLabel.text = memoList[indexPath.row].title
         cell.shortDiscriptionLabel.text = memoList[indexPath.row].body
-        cell.dateLabel.text = DateFormatter.localizedString(from: Date(timeIntervalSince1970: memoList[indexPath.row].date), dateStyle: .long, timeStyle: .none)
+        cell.dateLabel.text = dateFormatter.string(from: Date(timeIntervalSince1970: memoList[indexPath.row].date))
         
         return cell
     }
@@ -99,7 +102,7 @@ extension MemoListViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.delegate?.isFisrtCellSelection = true
+        self.delegate?.isFirstCellSelection = true
         self.delegate?.showDetail(data: memoList[indexPath.row], index: indexPath)
     }
 }

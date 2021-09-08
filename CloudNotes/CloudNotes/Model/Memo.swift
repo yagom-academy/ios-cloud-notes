@@ -10,7 +10,7 @@ import Foundation
 struct Memo: Codable {
     var title: String
     var body: String
-    var date: Double
+    var date: TimeInterval
     
     enum CodingKeys: String, CodingKey {
         case title

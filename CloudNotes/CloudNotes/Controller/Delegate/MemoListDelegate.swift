@@ -8,7 +8,7 @@
 import Foundation
 
 protocol MemoListDelegate: AnyObject {
-    var isFisrtCellSelection: Bool { set get }
+    var isFirstCellSelection: Bool { set get }
     
     func showDetail(data: Memo, index: IndexPath)
 }

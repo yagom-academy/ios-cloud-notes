@@ -22,7 +22,7 @@ class SecondaryChildViewController: UIViewController {
     }
 
     private func showContent(of note: Note) {
-        bodyTextView.text = note.body
+        bodyTextView.text = note.title + String.doubleLineBreaks + note.body
     }
     
     private func styleContent() {

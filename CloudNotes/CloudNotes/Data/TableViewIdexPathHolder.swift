@@ -16,3 +16,12 @@ class TableViewIdexPathHolder {
         self.tableView = tableView
     }
 }
+
+//class MemoDataHolder {
+//    var data: String?
+//    
+//    init(data: String?) {
+//        self.data = data
+//    }
+//}
+

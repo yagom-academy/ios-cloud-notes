@@ -121,6 +121,7 @@
 			children = (
 				A85B476C26E4D9000070417B /* SplitViewController.swift */,
 				C7481C7125BBCF3900B9CA55 /* PrimaryViewController.swift */,
+				A8588C1E26E637A500F61A73 /* TextViewDelegate.swift */,
 				A85B476A26E4CA480070417B /* SecondaryViewController.swift */,
 			);
 			path = Controller;
@@ -189,7 +190,6 @@
 			isa = PBXGroup;
 			children = (
 				A8588C1C26E636F900F61A73 /* SplitViewDelegate.swift */,
-				A8588C1E26E637A500F61A73 /* TextViewDelegate.swift */,
 			);
 			path = Delegate;
 			sourceTree = "<group>";

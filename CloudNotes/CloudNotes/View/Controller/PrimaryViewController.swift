@@ -41,13 +41,8 @@ extension PrimaryViewController {
         let lineBreaker = "\n"
         let emptyString = ""
         let tableViewIndexPathHolder = TableViewIdexPathHolder(indexPath: indexPath, tableView: tableView)
-        // 여기서 클릭하면 정보 전달
-        secondVC.flatMap {
-            $0.textView.text = "\(MemoData.list?[indexPath.row].title ?? emptyString)" + lineBreaker + lineBreaker + "\(MemoData.list?[indexPath.row].body ?? emptyString)"
-            $0.textViewDelegate.holder = tableViewIndexPathHolder
-//            $0.textViewDelegate.indexPath = tableViewIndexPathHolder.indexPath
-//            $0.textViewDelegate.tableView = tableViewIndexPathHolder.tableView
-        }
+        secondVC?.textViewDelegate.holder = tableViewIndexPathHolder
+        secondVC?.textView.text = "\(MemoData.list?[indexPath.row].title ?? emptyString)" + lineBreaker + lineBreaker + "\(MemoData.list?[indexPath.row].body ?? emptyString)"
     }
     
     private func setNavigationBarItem() {

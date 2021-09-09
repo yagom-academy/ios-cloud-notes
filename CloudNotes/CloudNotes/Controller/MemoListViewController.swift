@@ -31,7 +31,7 @@ class MemoListViewController: UIViewController {
         self.navigationItem.title = navigationTitle
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(touchUpPlusButton))
     }
-    
+    //TODO: - show memoDetailTextView when it`s touched
     @objc private func touchUpPlusButton() {
     }
     
@@ -50,7 +50,7 @@ class MemoListViewController: UIViewController {
         case .success(let result):
             memoList.append(contentsOf: result)
         case .failure(let error):
-            break
+            error.localizedDescription
         }
     }
 }

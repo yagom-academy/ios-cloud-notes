@@ -6,6 +6,7 @@
 //
 
 import CoreData
+import UIKit
 
 final class CoreDataCloudMemo {
     static let shared = CoreDataCloudMemo()
@@ -34,7 +35,7 @@ final class CoreDataCloudMemo {
         }
     }
     
-    func createMemo(title: String?, body: String?, writeTime: Date) {
+    func createMemo(title: String?, body: String?, writeTime: Date?) {
         let newMemo = CloudMemo(context: fetchedController.managedObjectContext)
         newMemo.title = title
         newMemo.body = body
@@ -43,9 +44,8 @@ final class CoreDataCloudMemo {
         fetchedController.managedObjectContext.insert(newMemo)
     }
     
-    func deleteMemo(at memo: CloudMemo) {
-        fetchedController.managedObjectContext.delete(memo)
+    func deleteMemo(at indexPath: IndexPath) {
+        let deleteMemo = fetchedController.object(at: indexPath)
+        fetchedController.managedObjectContext.delete(deleteMemo)
     }
-    
-
 }

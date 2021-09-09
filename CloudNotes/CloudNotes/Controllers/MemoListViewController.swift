@@ -57,8 +57,8 @@ extension MemoListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        let memoDetailVC = MemoDetailViewController(memo: memoList[indexPath.row])
-        let detailNav = UINavigationController(rootViewController: memoDetailVC)
-        self.showDetailViewController(detailNav, sender: self)
+        let memoDetailViewController = MemoDetailViewController(memo: memoList[indexPath.row])
+        let secondaryNavigationController = UINavigationController(rootViewController: memoDetailViewController)
+        self.showDetailViewController(secondaryNavigationController, sender: self)
     }
 }

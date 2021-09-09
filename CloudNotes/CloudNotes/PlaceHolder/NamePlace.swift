@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum CellId {
+enum CellID {
     case defaultCell
     
     var description: String {

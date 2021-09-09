@@ -12,6 +12,8 @@
 		A925D1D526E0C3C2005C4DCF /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = A925D1D426E0C3C2005C4DCF /* .swiftlint.yml */; };
 		A925D1FB26E10CA2005C4DCF /* SecondaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A925D1FA26E10CA2005C4DCF /* SecondaryViewController.swift */; };
 		A925D20926E10CFA005C4DCF /* PrimaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A925D20826E10CFA005C4DCF /* PrimaryViewController.swift */; };
+		A926875426EA40C50068DAF3 /* MemoDataAccessObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = A926875326EA40C50068DAF3 /* MemoDataAccessObject.swift */; };
+		A926875626EA41FC0068DAF3 /* MemoManagedObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = A926875526EA41FC0068DAF3 /* MemoManagedObject.swift */; };
 		A96BB99226E11062003AEA15 /* PrimaryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A96BB99126E11062003AEA15 /* PrimaryTableViewCell.swift */; };
 		A9B03A7526E231510062BE01 /* SecondaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9B03A7426E231510062BE01 /* SecondaryView.swift */; };
 		A9CBB36226E206F900296A81 /* Memo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9CBB36126E206F900296A81 /* Memo.swift */; };
@@ -51,6 +53,8 @@
 		A925D1D426E0C3C2005C4DCF /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		A925D1FA26E10CA2005C4DCF /* SecondaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondaryViewController.swift; sourceTree = "<group>"; };
 		A925D20826E10CFA005C4DCF /* PrimaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryViewController.swift; sourceTree = "<group>"; };
+		A926875326EA40C50068DAF3 /* MemoDataAccessObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoDataAccessObject.swift; sourceTree = "<group>"; };
+		A926875526EA41FC0068DAF3 /* MemoManagedObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoManagedObject.swift; sourceTree = "<group>"; };
 		A96BB99126E11062003AEA15 /* PrimaryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryTableViewCell.swift; sourceTree = "<group>"; };
 		A9B03A7426E231510062BE01 /* SecondaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondaryView.swift; sourceTree = "<group>"; };
 		A9CBB36126E206F900296A81 /* Memo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memo.swift; sourceTree = "<group>"; };
@@ -142,10 +146,19 @@
 			path = "Secondary Detail View";
 			sourceTree = "<group>";
 		};
+		A926875226EA40780068DAF3 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				A926875326EA40C50068DAF3 /* MemoDataAccessObject.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
 		A9D8CC9626E206B4001F6BDD /* Model */ = {
 			isa = PBXGroup;
 			children = (
 				A9CBB36126E206F900296A81 /* Memo.swift */,
+				A926875526EA41FC0068DAF3 /* MemoManagedObject.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -190,6 +203,7 @@
 				C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */,
 				A9D8CC9626E206B4001F6BDD /* Model */,
 				A925D20D26E10E51005C4DCF /* View */,
+				A926875226EA40780068DAF3 /* Controller */,
 				C7481C7B25BBCF3A00B9CA55 /* LaunchScreen.storyboard */,
 				C7481C7925BBCF3A00B9CA55 /* Assets.xcassets */,
 				C7481C7E25BBCF3A00B9CA55 /* Info.plist */,
@@ -430,6 +444,8 @@
 				A96BB99226E11062003AEA15 /* PrimaryTableViewCell.swift in Sources */,
 				A925D1FB26E10CA2005C4DCF /* SecondaryViewController.swift in Sources */,
 				C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */,
+				A926875626EA41FC0068DAF3 /* MemoManagedObject.swift in Sources */,
+				A926875426EA40C50068DAF3 /* MemoDataAccessObject.swift in Sources */,
 				A9B03A7526E231510062BE01 /* SecondaryView.swift in Sources */,
 				A9CBB36226E206F900296A81 /* Memo.swift in Sources */,
 			);

@@ -8,7 +8,7 @@
 import UIKit
 
 protocol PrimaryListDelegate: AnyObject {
-    func showSelectedDetail(by memo: Memo)
+    func showSelectedDetail(by memo: Memorable)
 }
 
 class PrimaryViewController: UITableViewController {

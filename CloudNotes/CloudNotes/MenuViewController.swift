@@ -23,7 +23,6 @@ class MenuViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(CustomCell.self, forCellReuseIdentifier: CustomCell.cellIdentifier)
-//        data = ParsingManager().parse(fileName: "sample")
         configureTableView()
     }
     
@@ -69,7 +68,9 @@ extension MenuViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let detail = splitView?.detail as! DetailViewController
+        guard let detail = splitView?.detail as? DetailViewController else {
+            return
+        }
         detail.loadData(data: data, indexPath: indexPath)
         let navi :UINavigationController = UINavigationController(rootViewController: detail)
         self.showDetailViewController(navi, sender: self)

@@ -1,0 +1,8 @@
+excluded:
+- CloudNotes/AppDelegate.swift
+- CloudNotes/SceneDelegate.swift
+- Pods
+disabled_rules:
+- colon
+- line_length
+- trailing_whitespace

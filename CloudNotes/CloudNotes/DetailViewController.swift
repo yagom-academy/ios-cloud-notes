@@ -14,7 +14,9 @@ class DetailViewController: UIViewController {
     let textView = UITextView()
     lazy var text = textView.text {
         didSet {
-            let menu = splitView?.menu as! MenuViewController
+            guard let menu = splitView?.menu as? MenuViewController else {
+                return
+            }
             menu.loadData(detail: text!, indexPath: indexPath!)
         }
     }
@@ -31,7 +33,7 @@ class DetailViewController: UIViewController {
         textView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: 0).isActive = true
     }
     
-    public func loadData(data: [CloudNoteItem], indexPath: IndexPath) {
+    func loadData(data: [CloudNoteItem], indexPath: IndexPath) {
         self.textView.text = data[indexPath.row].body
         self.indexPath = indexPath
     }

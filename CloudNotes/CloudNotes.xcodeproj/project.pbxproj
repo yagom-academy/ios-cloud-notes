@@ -17,6 +17,7 @@
 		748315C926DE1B170036A365 /* MemoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748315C826DE1B170036A365 /* MemoDetailViewController.swift */; };
 		748315CB26DE1E3E0036A365 /* Memo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748315CA26DE1E3E0036A365 /* Memo.swift */; };
 		748315CE26DE22DE0036A365 /* JsonManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748315CD26DE22DE0036A365 /* JsonManager.swift */; };
+		74CEF12D26EA390100205FE4 /* CoreDataCloudMemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74CEF12C26EA390100205FE4 /* CoreDataCloudMemo.swift */; };
 		74D0563126E8860800FCE290 /* Contents.json in Resources */ = {isa = PBXBuildFile; fileRef = 74D0562F26E8860800FCE290 /* Contents.json */; };
 		74D0563226E8860800FCE290 /* sample.json in Resources */ = {isa = PBXBuildFile; fileRef = 74D0563026E8860800FCE290 /* sample.json */; };
 		74EC3CBF26E859FB0022AD52 /* Extention + DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74EC3CBE26E859FB0022AD52 /* Extention + DateFormatter.swift */; };
@@ -63,6 +64,7 @@
 		748315C826DE1B170036A365 /* MemoDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoDetailViewController.swift; sourceTree = "<group>"; };
 		748315CA26DE1E3E0036A365 /* Memo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memo.swift; sourceTree = "<group>"; };
 		748315CD26DE22DE0036A365 /* JsonManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonManager.swift; sourceTree = "<group>"; };
+		74CEF12C26EA390100205FE4 /* CoreDataCloudMemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataCloudMemo.swift; sourceTree = "<group>"; };
 		74D0562F26E8860800FCE290 /* Contents.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Contents.json; sourceTree = "<group>"; };
 		74D0563026E8860800FCE290 /* sample.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = sample.json; sourceTree = "<group>"; };
 		74EC3CBE26E859FB0022AD52 /* Extention + DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extention + DateFormatter.swift"; sourceTree = "<group>"; };
@@ -121,6 +123,7 @@
 				C7481C7625BBCF3900B9CA55 /* CloudNotes.xcdatamodeld */,
 				7404A89426EA2C49007950AD /* CloudMemo+CoreDataClass.swift */,
 				7404A89526EA2C49007950AD /* CloudMemo+CoreDataProperties.swift */,
+				74CEF12C26EA390100205FE4 /* CoreDataCloudMemo.swift */,
 			);
 			path = CoreData;
 			sourceTree = "<group>";
@@ -519,6 +522,7 @@
 				7404A89726EA2C49007950AD /* CloudMemo+CoreDataProperties.swift in Sources */,
 				C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */,
 				C7481C7825BBCF3900B9CA55 /* CloudNotes.xcdatamodeld in Sources */,
+				74CEF12D26EA390100205FE4 /* CoreDataCloudMemo.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

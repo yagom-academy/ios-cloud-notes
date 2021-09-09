@@ -27,22 +27,8 @@ final class CoreDataStack {
     
     // MARK: initializer
     private init() { }
-    
-    // MARK: Function
-    func saveContext () {
-        guard managedContext.hasChanges else {
-            return
-        }
-        
-        do {
-            try managedContext.save()
-        } catch {
-            let nserror = error as NSError
-            fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
-        }
-    }
-    
-    func makeFetchedResultsController(fetchRequest: NSFetchRequest<NSFetchRequestResult>, sectionNameKeyPath: String?, cacheName: String?) -> NSFetchedResultsController<NSFetchRequestResult> {
+
+    func makeFetchedResultsController<T: NSFetchRequestResult>(fetchRequest: NSFetchRequest<T>, sectionNameKeyPath: String?, cacheName: String?) -> NSFetchedResultsController<T> {
         let controller = NSFetchedResultsController(fetchRequest: fetchRequest,
                                                     managedObjectContext: managedContext,
                                                     sectionNameKeyPath: sectionNameKeyPath,

@@ -42,7 +42,7 @@ extension PrimaryViewController {
         let emptyString = ""
         
         secondVC.flatMap {
-            $0.textView.text = "\(MemoDataHolder.list?[indexPath.row].title ?? emptyString)" + lineBreaker + lineBreaker + "\(MemoDataHolder.list?[indexPath.row].body ?? emptyString)"
+            $0.textView.text = "\(MemoData.list?[indexPath.row].title ?? emptyString)" + lineBreaker + lineBreaker + "\(MemoData.list?[indexPath.row].body ?? emptyString)"
             $0.textViewDelegate.indexPath = indexPath
             $0.textViewDelegate.tableView = tableView
         }

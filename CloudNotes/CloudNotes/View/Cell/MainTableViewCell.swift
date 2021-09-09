@@ -8,10 +8,10 @@
 import UIKit
 
 class MainTableViewCell: UITableViewCell {
-    private var titleLabel: UILabel!
-    private var bodyLabel: UILabel!
-    private var dateLabel: UILabel!
-    private var dateAndBodyStackView: UIStackView!
+    private var titleLabel: UILabel = UILabel()
+    private var bodyLabel: UILabel = UILabel()
+    private var dateLabel: UILabel = UILabel()
+    private var dateAndBodyStackView: UIStackView = UIStackView()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -44,8 +44,6 @@ extension MainTableViewCell {
     }
     
     private func makeHorizontalStackVeiw() {
-        dateLabel = UILabel()
-        bodyLabel = UILabel()
         dateAndBodyStackView = UIStackView(arrangedSubviews: [self.dateLabel, self.bodyLabel])
         dateLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
         

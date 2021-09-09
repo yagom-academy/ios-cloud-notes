@@ -13,7 +13,7 @@ class PrimaryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(tableView)
-        tableView.register(MainTableViewCell.self, forCellReuseIdentifier: CellID.defaultCell.description)
+        tableView.register(MainTableViewCell.self, forCellReuseIdentifier: CellID.defaultCell.identifier)
         tableView.dataSource = tableViewDataSource
         tableView.delegate = self
         setNavigationBarItem()

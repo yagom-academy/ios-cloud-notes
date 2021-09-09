@@ -14,7 +14,7 @@ class MainVCTableViewDataSource: NSObject, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: CellID.defaultCell.description, for: indexPath) as? MainTableViewCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: CellID.defaultCell.identifier, for: indexPath) as? MainTableViewCell else {
             return UITableViewCell()
         }
         

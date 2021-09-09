@@ -10,7 +10,7 @@ import Foundation
 enum CellID {
     case defaultCell
     
-    var description: String {
+    var identifier: String {
         switch self {
         case .defaultCell:
             return "cell"

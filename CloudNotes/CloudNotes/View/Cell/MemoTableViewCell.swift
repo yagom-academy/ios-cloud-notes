@@ -14,6 +14,14 @@ class MemoTableViewCell: UITableViewCell {
     private var dateLabel: UILabel!
     private var previewLabel: UILabel!
     
+    var cellViewModel: MemoCellViewModel? {
+        didSet {
+            titleLabel.text = cellViewModel?.title
+            dateLabel.text = cellViewModel?.lastModified.description
+            previewLabel.text = cellViewModel?.body
+        }
+    }
+
     private lazy var dateAndPreviewStackView: UIStackView = {
         let dateAndPreviewStackView = UIStackView(arrangedSubviews: [dateLabel, previewLabel])
         
@@ -68,33 +76,6 @@ class MemoTableViewCell: UITableViewCell {
         previewLabel.font = UIFont.preferredFont(forTextStyle: .body)
         previewLabel.adjustsFontForContentSizeCategory = true
         previewLabel.lineBreakMode = .byTruncatingTail
-    }
-    
-    func configureLabels(with model: Savable) {
-        titleLabel.text = model.title
-        previewLabel.text = model.body
-        
-        guard let lastModified = model.lastModified?.description else {
-            return
-        }
-        dateLabel.text = changeDateFormat(lastModified)
-    }
-    
-    private func changeDateFormat(_ time: String) -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .medium
-        dateFormatter.timeStyle = .none
-        
-        let usersLocale = Locale.current
-        dateFormatter.locale = usersLocale
-        
-        guard let time = Double(time) else {
-            print("Error - Time is not a double type.")
-            return time
-        }
-        let date = Date(timeIntervalSince1970: time)
-        
-        return dateFormatter.string(from: date)
     }
     
     // MARK: - Auto Layout

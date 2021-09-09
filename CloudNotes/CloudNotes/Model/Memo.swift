@@ -7,7 +7,8 @@
 
 import Foundation
 
-struct Memo: Savable, Decodable {
+struct Memo: Decodable {
+    
     var title: String?
     var body: String?
     var lastModified: Int?

@@ -10,7 +10,7 @@ import UIKit
 class MemoDetailViewController: UIViewController {
     
     // MARK: - Properties
-    private var memo: Savable?
+    private var memo: MemoCellViewModel?
     
     private let scrollView = UIScrollView()
     
@@ -39,32 +39,30 @@ class MemoDetailViewController: UIViewController {
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        view.addSubview(scrollView)
-        changeBackgroundColor(of: scrollView, by: .white)
-        configureScrollViewAnchor()
-        
-        
-        scrollView.addSubview(titleTextView)
-        configureTitleViewAnchor()
-        
 
-        scrollView.addSubview(bodyTextView)
+        configureScrollViewAnchor()
+        configureTitleViewAnchor()
         configureBodyViewAnchor()
     }
     
     // MARK: - Methods
-    func configure(with memo: Savable) {
+    func configure(with memo: MemoCellViewModel) {
         self.memo = memo
     }
-    
+
     private func changeBackgroundColor(of view: UIView, by color: UIColor) {
         view.backgroundColor = color
     }
+}
+
+// MARK: - Auto Layout
+extension MemoDetailViewController {
     
-    // MARK: - Auto Layout
     private func configureScrollViewAnchor() {
         let safeArea = view.safeAreaLayoutGuide
+        
+        view.addSubview(scrollView)
+        changeBackgroundColor(of: scrollView, by: .white)
         
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -75,6 +73,8 @@ class MemoDetailViewController: UIViewController {
     }
     
     private func configureTitleViewAnchor() {
+        scrollView.addSubview(titleTextView)
+        
         titleTextView.translatesAutoresizingMaskIntoConstraints = false
         
         titleTextView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor).isActive = true
@@ -84,6 +84,8 @@ class MemoDetailViewController: UIViewController {
     }
     
     private func configureBodyViewAnchor() {
+        scrollView.addSubview(bodyTextView)
+        
         bodyTextView.translatesAutoresizingMaskIntoConstraints = false
         
         bodyTextView.topAnchor.constraint(equalTo: titleTextView.bottomAnchor).isActive = true

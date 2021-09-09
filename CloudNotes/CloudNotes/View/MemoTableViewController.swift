@@ -11,12 +11,10 @@ class MemoTableViewController: UITableViewController {
     
     // MARK: - Properties
     private let isCompact: Bool
-    private var dataSource = MemoTableViewModel()
-    fileprivate var memos = [Savable]() {
-        didSet {
-            tableView.reloadData()
-        }
-    }
+    
+    lazy var viewModel = {
+        MemoViewModel()
+    }()
     
     // MARK: - Initializer
     init(isCompact: Bool) {
@@ -31,9 +29,13 @@ class MemoTableViewController: UITableViewController {
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        dataSource.delegate = self
-        
+
+        initView()
+        initViewModel()
+    }
+    
+    // MARK: - Methods
+    func initView() {
         self.navigationItem.title = "메모"
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
                                                                  target: self,
@@ -45,32 +47,29 @@ class MemoTableViewController: UITableViewController {
         tableView.estimatedRowHeight = 100
         tableView.rowHeight = UITableView.automaticDimension
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        dataSource.requestData()
-    }
-}
 
-// MARK: - MemoTableViewModelDelegate
-extension MemoTableViewController: MemoTableViewModelDelegate {
-    func didUpdateData(data: [Savable]) {
-        memos = data
+    func initViewModel() {
+        viewModel.decodeData()
+        viewModel.reloadTableView = { [weak self] in
+            DispatchQueue.main.async {
+                self?.tableView.reloadData()
+            }
+        }
     }
 }
 
 // MARK: - Table view data source
 extension MemoTableViewController {
+
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return memos.count
+        return viewModel.memoCellViewModels.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellID = "MemoTableViewCell"
         if let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath)
             as? MemoTableViewCell{
-            cell.configureLabels(with: memos[indexPath.row])
+            cell.cellViewModel = viewModel.getCellViewModel(at: indexPath)
             
             return cell
         }
@@ -80,14 +79,15 @@ extension MemoTableViewController {
 
 // MARK: - Table view delegate
 extension MemoTableViewController {
+    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let detailViewController = MemoDetailViewController()
         
         if self.isCompact {
-            detailViewController.configure(with: memos[indexPath.row])
+            detailViewController.configure(with: viewModel.memoCellViewModels[indexPath.row])
             self.navigationController?.pushViewController(detailViewController, animated: true)
         } else {
-            detailViewController.configure(with: memos[indexPath.row])
+            detailViewController.configure(with: viewModel.memoCellViewModels[indexPath.row])
             let navigation = UINavigationController(rootViewController: detailViewController)
             self.showDetailViewController(navigation, sender: self)
         }

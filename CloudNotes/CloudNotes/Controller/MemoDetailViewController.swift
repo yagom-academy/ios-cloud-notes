@@ -8,7 +8,7 @@
 import UIKit
 
 class MemoDetailViewController: UIViewController {
-    let memoDeatailTextView = UITextView()
+    private let memoDeatailTextView = UITextView()
 
     override func viewDidLoad() {
         super.viewDidLoad()

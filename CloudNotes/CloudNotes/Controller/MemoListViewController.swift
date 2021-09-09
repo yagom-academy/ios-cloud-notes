@@ -14,7 +14,7 @@ class MemoListViewController: UIViewController {
 
     private var memoList: [Memo] = []
     private let parsingManager = ParsingManager()
-    let memoListTableView = UITableView()
+    private let memoListTableView = UITableView()
     
     override func viewDidLoad() {
         super.viewDidLoad()

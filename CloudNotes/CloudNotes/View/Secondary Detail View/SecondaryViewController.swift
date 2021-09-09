@@ -9,7 +9,6 @@ import UIKit
 
 class SecondaryViewController: UIViewController {
     private var secondaryView: SecondaryView?
-    private var tempMemo: Memo?
     private let twiceLineBreaks = "\n\n"
     
     init() {
@@ -39,21 +38,18 @@ class SecondaryViewController: UIViewController {
 }
 
 extension SecondaryViewController {
-    func updateMemo(by editedText: String) {
-        guard var temp = tempMemo else { return }
-        var split = editedText.split(whereSeparator: \.isNewline)
-        let title = String(split.removeFirst())
-        let body = split.joined(separator: twiceLineBreaks)
-        let nowDate = Date().timeIntervalSince1970
-        
-        temp.updateMemo(title, body, nowDate)
-    }
+//    func updateMemo(by editedText: String) {
+//        var split = editedText.split(whereSeparator: \.isNewline)
+//        let title = String(split.removeFirst())
+//        let body = split.joined(separator: twiceLineBreaks)
+//        let nowDate = Date().timeIntervalSince1970
+//
+//        let updatedMemo = Memo(title: title, body: body, lastModified: nowDate)
+//    }
     
-    func updateDetailView(by memo: Memo?) {
-        memo.flatMap { memo in
-            let text = memo.title + twiceLineBreaks + memo.body
-            self.secondaryView?.configure(by: text)
-        }
+    func updateDetailView(by memo: Memo) {
+        let text = memo.title + twiceLineBreaks + memo.body
+        self.secondaryView?.configure(by: text)
     }
 }
 

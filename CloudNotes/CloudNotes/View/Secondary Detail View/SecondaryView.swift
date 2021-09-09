@@ -36,7 +36,7 @@ class SecondaryView: UIView {
     override func updateConstraints() {
         super.updateConstraints()
         NSLayoutConstraint.activate([
-            textView.topAnchor.constraint(equalTo: self.topAnchor),
+            textView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
             textView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             textView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor),
             textView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor)
@@ -58,6 +58,7 @@ extension SecondaryView {
     func configure(by text: String?) {
         self.textView.text = text
         textView.setContentOffset(.zero, animated: true)
+        textView.resignFirstResponder()
     }
 }
 

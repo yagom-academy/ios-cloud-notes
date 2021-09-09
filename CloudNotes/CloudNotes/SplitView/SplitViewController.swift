@@ -5,12 +5,14 @@
 //
 
 import UIKit
+import CoreData
 
 class SplitViewController: UISplitViewController {
 
     private let memoListView = MemoListViewController()
     private let memoDetailView = MemoDetailViewController()
     private let splitViewDelegator = SplitViewDelegate()
+    var coreDataContainer: NSPersistentContainer?
 
     override func viewDidLoad() {
         super.viewDidLoad()

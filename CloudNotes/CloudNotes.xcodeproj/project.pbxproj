@@ -200,11 +200,11 @@
 		C7481C6C25BBCF3900B9CA55 /* CloudNotes */ = {
 			isa = PBXGroup;
 			children = (
+				63599FA426DE5D3500CE4B54 /* App */,
 				6380924626DFAC9700075575 /* SplitView */,
 				6380924726DFACAA00075575 /* MemoListView */,
 				6380924A26DFAED000075575 /* MemoDetailView */,
 				63599FA526DE5D4B00CE4B54 /* CoreData */,
-				63599FA426DE5D3500CE4B54 /* App */,
 			);
 			path = CloudNotes;
 			sourceTree = "<group>";

@@ -18,16 +18,19 @@ extension UIView {
                      trailingConstant: CGFloat = .zero) {
         translatesAutoresizingMaskIntoConstraints = false
         
-        top.flatMap { topAnchor.constraint(equalTo: $0, constant: topConstant).isActive = true
+        top.flatMap {
+            topAnchor.constraint(equalTo: $0, constant: topConstant).isActive = true
         }
         
         bottom.flatMap {
             bottomAnchor.constraint(equalTo: $0, constant: bottomConstant).isActive = true
         }
         
-        leading.flatMap { leadingAnchor.constraint(equalTo: $0, constant: leadingConstant).isActive = true
+        leading.flatMap {
+            leadingAnchor.constraint(equalTo: $0, constant: leadingConstant).isActive = true
         }
         
-        trailing.flatMap { trailingAnchor.constraint(equalTo: $0, constant: trailingConstant).isActive = true }
+        trailing.flatMap {
+            trailingAnchor.constraint(equalTo: $0, constant: trailingConstant).isActive = true }
     }
 }

@@ -23,6 +23,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let menu = MenuViewController()
         let detail = DetailViewController()
         
+        splitView.preferredDisplayMode = .oneBesideSecondary
         let rootNavi:UINavigationController = UINavigationController.init(rootViewController: menu)
         let detailNavi:UINavigationController = UINavigationController.init(rootViewController: detail)
         splitView.viewControllers = [rootNavi, detailNavi]

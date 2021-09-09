@@ -7,7 +7,9 @@ disabled_rules: # Default Rules에서 비활성화할 규칙
     #- force_cast
     
     # 강제 언래핑은 피해야합니다. https://realm.github.io/SwiftLint/force_unwrapping.html
-    #- force_unwrapping
+    - force_unwrapping
+    - force_cast
+    - weak_delegate
 
     #- mark
     - line_length

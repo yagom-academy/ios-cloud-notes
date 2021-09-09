@@ -53,14 +53,6 @@ class MemoListViewController: UIViewController {
             break
         }
     }
-    
-    private func convertDataFormat(of date: Double) -> String {
-        let date = Date(timeIntervalSince1970: date)
-        let dateFormatter = DateFormatter()
-        dateFormatter.timeZone = TimeZone(abbreviation: "KST")
-        dateFormatter.dateFormat = "yyyy.MM.dd"
-        return dateFormatter.string(from: date)
-    }
 }
 
 extension MemoListViewController: UITableViewDataSource {
@@ -73,7 +65,7 @@ extension MemoListViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         let currentMemo = memoList[indexPath.row]
-        customCell.configureContent(from: currentMemo, with: convertDataFormat(of: currentMemo.lastModified))
+        customCell.configureContent(from: currentMemo, with: DateFormatter.convertDoubleTypeToDate(of: currentMemo.lastModified))
         return customCell
     }
 }

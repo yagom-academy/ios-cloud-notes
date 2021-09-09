@@ -74,9 +74,6 @@ extension PrimaryViewController {
         }
         do {
             let result = try decoder.decode([Memo].self, from: dataAsset.data)
-            if let firstMemo = result.first {
-//                secondaryViewController?.updateDetailView(by: firstMemo)
-            }
             return result
         } catch {
             print("에러처리 필요 - 디코딩 실패")

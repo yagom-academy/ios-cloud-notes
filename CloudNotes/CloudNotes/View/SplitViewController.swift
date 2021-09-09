@@ -12,6 +12,10 @@ class SplitViewController: UISplitViewController {
         
     override init(style: UISplitViewController.Style) {
         super.init(style: style)
+        
+        preferredDisplayMode = .oneBesideSecondary
+        presentsWithGesture = false
+        
         primaryViewController = PrimaryViewController()
         secondaryViewController = SecondaryViewController()
     }
@@ -24,8 +28,6 @@ class SplitViewController: UISplitViewController {
         
         setViewController(primaryViewController, for: .primary)
         setViewController(secondaryViewController, for: .secondary)
-        preferredDisplayMode = .oneBesideSecondary
-        presentsWithGesture = false
         
         self.delegate = self
         primaryViewController?.rootViewDelegate = self

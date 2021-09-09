@@ -18,14 +18,18 @@ class MemoListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.title = navigationTitle
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(touchUpPlusButton))
         view.addSubview(memoListTableView)
+        makeNavigationItem()
         fetchDataToMemoList(by: sampleAsset)
         setLayoutForTableView()
         memoListTableView.dataSource = self
         memoListTableView.delegate = self
         memoListTableView.register(MemoCustomCell.classForCoder(), forCellReuseIdentifier: MemoCustomCell.cellIdentifier)
+    }
+    
+    private func makeNavigationItem() {
+        self.navigationItem.title = navigationTitle
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(touchUpPlusButton))
     }
     
     @objc private func touchUpPlusButton() {

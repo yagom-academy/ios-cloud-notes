@@ -7,13 +7,11 @@
 
 import UIKit
 
-class MemoDataHolder {
-    var testViewText: String?
+class TableViewIdexPathHolder {
     var indexPath: IndexPath?
     var tableView: UITableView?
     
-    init(testViewText: String?, indexPath: IndexPath?, tableView: UITableView?) {
-        self.testViewText = testViewText
+    init(indexPath: IndexPath?, tableView: UITableView?) {
         self.indexPath = indexPath
         self.tableView = tableView
     }

@@ -8,14 +8,17 @@
 import UIKit
 
 class TextViewDelegate: NSObject, UITextViewDelegate {
-    var indexPath: IndexPath?
-    var tableView: UITableView?
+    private var indexPath: IndexPath?
+    private var tableView: UITableView?
+    var holder: TableViewIdexPathHolder?
     
     func textViewDidChange(_ textView: UITextView) {
         let someDate = Date()
         let timeInterval = someDate.timeIntervalSince1970
         let myInt = Int(timeInterval)
-
+        indexPath = holder?.indexPath
+        tableView = holder?.tableView
+        
         MemoData.list?[indexPath?.row ?? .zero ].lastModified = myInt
         tableView?.reloadData()
     }

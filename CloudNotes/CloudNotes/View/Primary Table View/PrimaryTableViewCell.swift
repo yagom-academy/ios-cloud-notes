@@ -8,7 +8,6 @@
 import UIKit
 
 class PrimaryTableViewCell: UITableViewCell {
-    static let reuseIdentifier = "PrimaryViewCell"
     static let dateformatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.locale = Locale(identifier: Locale.preferredLanguages[0])

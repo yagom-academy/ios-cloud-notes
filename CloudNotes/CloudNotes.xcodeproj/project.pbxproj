@@ -121,9 +121,7 @@
 		A925D20D26E10E51005C4DCF /* View */ = {
 			isa = PBXGroup;
 			children = (
-				C7481C7125BBCF3900B9CA55 /* SplitViewController.swift */,
-				A925D20F26E10EDF005C4DCF /* Primary Table View */,
-				A925D21526E10FA3005C4DCF /* Secondary Detail View */,
+				A926875A26EA4B9D0068DAF3 /* Container Split View */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -152,6 +150,16 @@
 				A926875326EA40C50068DAF3 /* MemoDataAccessObject.swift */,
 			);
 			path = Controller;
+			sourceTree = "<group>";
+		};
+		A926875A26EA4B9D0068DAF3 /* Container Split View */ = {
+			isa = PBXGroup;
+			children = (
+				C7481C7125BBCF3900B9CA55 /* SplitViewController.swift */,
+				A925D20F26E10EDF005C4DCF /* Primary Table View */,
+				A925D21526E10FA3005C4DCF /* Secondary Detail View */,
+			);
+			path = "Container Split View";
 			sourceTree = "<group>";
 		};
 		A9D8CC9626E206B4001F6BDD /* Model */ = {

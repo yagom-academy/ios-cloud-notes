@@ -8,7 +8,7 @@
 import UIKit
 import CoreData
 
-class MemoDataAccessObject {
+class MemoDataAccessObject: NSObject {
     lazy var context: NSManagedObjectContext = {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         return appDelegate.persistentContainer.viewContext
@@ -16,19 +16,19 @@ class MemoDataAccessObject {
     
     func fetchData() -> [Memorable] {
         var memoList = [MemoData]()
+        let keys = MemoData.MemoKeys.self
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: self.className)
         
-        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "MemoManagedObject")
-        
-        let lastModifiedDesc = NSSortDescriptor(key: "lastModified", ascending: false)
+        let lastModifiedDesc = NSSortDescriptor(key: keys.lastModified.key, ascending: false)
         fetchRequest.sortDescriptors = [lastModifiedDesc]
         
         do {
             let fetchedSet = try self.context.fetch(fetchRequest)
             
             for record in fetchedSet {
-                guard let title = record.value(forKey: "title") as? String,
-                      let body = record.value(forKey: "body") as? String,
-                      let lastModified = record.value(forKey: "lastModified") as? Double else {
+                guard let title = record.value(forKey: keys.title.key) as? String,
+                      let body = record.value(forKey: keys.body.key) as? String,
+                      let lastModified = record.value(forKey: keys.lastModified.key) as? Double else {
                     continue
                 }
                 

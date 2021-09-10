@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		A82B6F5826EA215400ED0070 /* TextViewRelatedDataHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A82B6F5726EA215400ED0070 /* TextViewRelatedDataHolder.swift */; };
+		A82B6F5A26EB38A500ED0070 /* DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A82B6F5926EB38A500ED0070 /* DateFormatter.swift */; };
 		A830336226DE100A00EA30DC /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = A830336126DE100A00EA30DC /* .swiftlint.yml */; };
 		A830336D26DF972100EA30DC /* JSONParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = A830336C26DF972100EA30DC /* JSONParser.swift */; };
 		A830336F26DF976500EA30DC /* MemoDecodeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A830336E26DF976500EA30DC /* MemoDecodeModel.swift */; };
@@ -16,7 +17,6 @@
 		A83033CB26E11DB900EA30DC /* NamePlace.swift in Sources */ = {isa = PBXBuildFile; fileRef = A83033CA26E11DB900EA30DC /* NamePlace.swift */; };
 		A83033CD26E1240100EA30DC /* MainTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A83033CC26E1240100EA30DC /* MainTableViewCell.swift */; };
 		A83033D026E1256300EA30DC /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A83033CF26E1256300EA30DC /* UIView.swift */; };
-		A8588C1926E6330400F61A73 /* DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8588C1826E6330400F61A73 /* DateFormatter.swift */; };
 		A8588C1D26E636F900F61A73 /* SplitViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8588C1C26E636F900F61A73 /* SplitViewDelegate.swift */; };
 		A85B476B26E4CA480070417B /* SecondaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A85B476A26E4CA480070417B /* SecondaryViewController.swift */; };
 		A85B476D26E4D9000070417B /* SplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A85B476C26E4D9000070417B /* SplitViewController.swift */; };
@@ -50,6 +50,7 @@
 
 /* Begin PBXFileReference section */
 		A82B6F5726EA215400ED0070 /* TextViewRelatedDataHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewRelatedDataHolder.swift; sourceTree = "<group>"; };
+		A82B6F5926EB38A500ED0070 /* DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatter.swift; sourceTree = "<group>"; };
 		A830336126DE100A00EA30DC /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		A830336C26DF972100EA30DC /* JSONParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONParser.swift; sourceTree = "<group>"; };
 		A830336E26DF976500EA30DC /* MemoDecodeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoDecodeModel.swift; sourceTree = "<group>"; };
@@ -58,7 +59,6 @@
 		A83033CA26E11DB900EA30DC /* NamePlace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NamePlace.swift; sourceTree = "<group>"; };
 		A83033CC26E1240100EA30DC /* MainTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableViewCell.swift; sourceTree = "<group>"; };
 		A83033CF26E1256300EA30DC /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
-		A8588C1826E6330400F61A73 /* DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatter.swift; sourceTree = "<group>"; };
 		A8588C1C26E636F900F61A73 /* SplitViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitViewDelegate.swift; sourceTree = "<group>"; };
 		A85B476A26E4CA480070417B /* SecondaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondaryViewController.swift; sourceTree = "<group>"; };
 		A85B476C26E4D9000070417B /* SplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitViewController.swift; sourceTree = "<group>"; };
@@ -171,6 +171,7 @@
 			isa = PBXGroup;
 			children = (
 				A83033CF26E1256300EA30DC /* UIView.swift */,
+				A82B6F5926EB38A500ED0070 /* DateFormatter.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -178,7 +179,6 @@
 		A8588C1A26E6364600F61A73 /* Formatter */ = {
 			isa = PBXGroup;
 			children = (
-				A8588C1826E6330400F61A73 /* DateFormatter.swift */,
 			);
 			path = Formatter;
 			sourceTree = "<group>";
@@ -414,6 +414,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A82B6F5A26EB38A500ED0070 /* DateFormatter.swift in Sources */,
 				A83033CD26E1240100EA30DC /* MainTableViewCell.swift in Sources */,
 				C7481C7225BBCF3900B9CA55 /* PrimaryViewController.swift in Sources */,
 				A830336D26DF972100EA30DC /* JSONParser.swift in Sources */,
@@ -427,7 +428,6 @@
 				A83033C126E10B7100EA30DC /* MemoData.swift in Sources */,
 				A85B476D26E4D9000070417B /* SplitViewController.swift in Sources */,
 				A830336F26DF976500EA30DC /* MemoDecodeModel.swift in Sources */,
-				A8588C1926E6330400F61A73 /* DateFormatter.swift in Sources */,
 				C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */,
 				A82B6F5826EA215400ED0070 /* TextViewRelatedDataHolder.swift in Sources */,
 				C7481C7825BBCF3900B9CA55 /* CloudNotes.xcdatamodeld in Sources */,

@@ -19,7 +19,7 @@ class MainVCTableViewDataSource: NSObject, UITableViewDataSource {
         }
         
         let list = MemoData.list?[indexPath.row]
-        let date = CustomDateFormatter(lastModifiedDateInt: list?.lastModified).dateString
+        let date = DateFormatter().updateLastModifiedDate(list?.lastModified)
         let cellContent = CellContentDataHolder(title: list?.title, date: date, body: list?.body)
         
         cell.configure(cellContent)

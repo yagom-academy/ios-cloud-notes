@@ -23,7 +23,7 @@ class NoteDetailViewController: UIViewController {
         showContent(of: note)
         styleContent()
         layoutContent()
-        scrollToContentTop()
+        bodyTextView.layoutIfNeeded()
     }
     
     private func setUpDetailView(indexPath: IndexPath) {
@@ -54,12 +54,6 @@ class NoteDetailViewController: UIViewController {
             bodyTextView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             bodyTextView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
-    }
-
-    private func scrollToContentTop() {
-        let contentHeight = bodyTextView.contentSize.height
-        let contentOffset = CGPoint(x: .zero, y: -contentHeight)
-        bodyTextView.setContentOffset(contentOffset, animated: true)
     }
 }
 

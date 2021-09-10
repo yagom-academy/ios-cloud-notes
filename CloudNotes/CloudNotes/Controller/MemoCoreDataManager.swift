@@ -18,15 +18,13 @@ class MemoCoreDataManager {
     
     func fetchData() -> [Memorable] {
         var memoList = [MemoData]()
-        let keys = MemoData.MemoKeys.self
-        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: self.className)
+        let fetchRequest: NSFetchRequest<MemoManagedObject> = MemoManagedObject.fetchRequest()
         
         let lastModifiedDesc = NSSortDescriptor(key: keys.lastModified.key, ascending: false)
         fetchRequest.sortDescriptors = [lastModifiedDesc]
         
         do {
             let fetchedSet = try self.context.fetch(fetchRequest)
-            
             for record in fetchedSet {
                 guard let title = record.value(forKey: keys.title.key) as? String,
                       let body = record.value(forKey: keys.body.key) as? String,
@@ -72,15 +70,14 @@ class MemoCoreDataManager {
     }
     
     func editData(by data: MemoData) -> Bool {
-        let keys = MemoData.MemoKeys.self
-        guard let objectID = data.objectID else {
-            NSLog("에러처리 필요 - MemoDataAccessObject.editData : 수정할 객체 objectID 없음")
+        guard let objectID = data.objectID,
+              let object = self.context.object(with: objectID) as? MemoManagedObject else {
+            NSLog("에러처리 필요 - MemoDataAccessObject.editData : 수정할 객체 object 바인딩 실패")
             return false
         }
-        let object = self.context.object(with: objectID)
-        object.setValue(data.title, forKey: keys.title.key)
-        object.setValue(data.body, forKey: keys.body.key)
-        object.setValue(data.lastModified, forKey: keys.lastModified.key)
+        object.title = data.title
+        object.body = data.body
+        object.lastModified = data.lastModified
         do {
             try self.context.save()
             return true

@@ -58,11 +58,7 @@ class MemoDataAccessObject: NSObject {
     }
     
     func deleteData(objectID: NSManagedObjectID) -> Bool {
-        let keys = MemoData.MemoKeys.self
-        guard let object = NSEntityDescription.insertNewObject(forEntityName: keys.modelName.key, into: self.context) as? MemoManagedObject else {
-            print("에러처리 필요 - MemoDataAccessObject.insertData")
-            return false
-        }
+        let object = self.context.object(with: objectID)
         self.context.delete(object)
         do {
             try self.context.save()

@@ -80,14 +80,13 @@ extension MemoTableViewCell {
         
         titleWithDetailStackView.translatesAutoresizingMaskIntoConstraints = false
         
-        titleWithDetailStackView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 16)
-            .isActive = true
-        titleWithDetailStackView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -16)
-            .isActive = true
-        titleWithDetailStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8)
-            .isActive = true
-        titleWithDetailStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8)
-            .isActive = true
+        let leadingConstraint = titleWithDetailStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16)
+        let trailingConstraint = titleWithDetailStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16)
+        let topConstraint = titleWithDetailStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8)
+        let bottomConstraint = titleWithDetailStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8)
+        
+        let stackViewConstraints = [leadingConstraint, trailingConstraint, topConstraint, bottomConstraint]
+        NSLayoutConstraint.activate(stackViewConstraints)
     }
     
     func configureAccessoryView() {

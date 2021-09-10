@@ -39,7 +39,7 @@ class MemoDetailViewController: UIViewController {
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         configureScrollViewAnchor()
         configureTitleViewAnchor()
         configureBodyViewAnchor()
@@ -49,7 +49,7 @@ class MemoDetailViewController: UIViewController {
     func configure(with memo: MemoCellViewModel) {
         self.memo = memo
     }
-
+    
     private func changeBackgroundColor(of view: UIView, by color: UIColor) {
         view.backgroundColor = color
     }
@@ -66,10 +66,16 @@ extension MemoDetailViewController {
         
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         
-        scrollView.topAnchor.constraint(equalTo: safeArea.topAnchor).isActive = true
-        scrollView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor).isActive = true
-        scrollView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor).isActive = true
-        scrollView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor).isActive = true
+        let leadingConstraint = scrollView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor)
+        let trailingConstraint = scrollView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor)
+        let topConstraint = scrollView.topAnchor.constraint(equalTo: safeArea.topAnchor)
+        let bottomConstraint = scrollView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
+        
+        let scrollViewConstraints = [leadingConstraint,
+                                     trailingConstraint,
+                                     topConstraint,
+                                     bottomConstraint]
+        NSLayoutConstraint.activate(scrollViewConstraints)
     }
     
     private func configureTitleViewAnchor() {
@@ -77,10 +83,16 @@ extension MemoDetailViewController {
         
         titleTextView.translatesAutoresizingMaskIntoConstraints = false
         
-        titleTextView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor).isActive = true
-        titleTextView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor).isActive = true
-        titleTextView.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor).isActive = true
-        titleTextView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor).isActive = true
+        let leadingConstraint = titleTextView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor)
+        let trailingConstraint = titleTextView.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor)
+        let topConstraint = titleTextView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor)
+        let widthConstraint = titleTextView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor)
+        
+        let titleTextViewConstraints = [leadingConstraint,
+                                        trailingConstraint,
+                                        topConstraint,
+                                        widthConstraint]
+        NSLayoutConstraint.activate(titleTextViewConstraints)
     }
     
     private func configureBodyViewAnchor() {
@@ -88,10 +100,17 @@ extension MemoDetailViewController {
         
         bodyTextView.translatesAutoresizingMaskIntoConstraints = false
         
-        bodyTextView.topAnchor.constraint(equalTo: titleTextView.bottomAnchor).isActive = true
-        bodyTextView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor).isActive = true
-        bodyTextView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor).isActive = true
-        bodyTextView.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor).isActive = true
-        bodyTextView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor).isActive = true
+        let leadingConstraint = bodyTextView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor)
+        let trailingConstraint = bodyTextView.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor)
+        let topConstraint = bodyTextView.topAnchor.constraint(equalTo: titleTextView.bottomAnchor)
+        let bottomConstraint = bodyTextView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor)
+        let widthConstraint = bodyTextView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor)
+        
+        let bodyTextViewConstraints = [leadingConstraint,
+                                       trailingConstraint,
+                                       topConstraint,
+                                       bottomConstraint,
+                                       widthConstraint]
+        NSLayoutConstraint.activate(bodyTextViewConstraints)
     }
 }

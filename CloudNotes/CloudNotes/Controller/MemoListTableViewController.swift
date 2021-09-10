@@ -43,11 +43,11 @@ extension MemoListTableViewController {
         navigationItem.title = NameSpace.NavigationItem.title
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
                                                             target: self,
-                                                            action: #selector(addTabButton))
+                                                            action: #selector(didAddButtonTap))
     }
     
-    @objc func addTabButton() {
-        
+    @objc func didAddButtonTap() {
+        delegate?.didTapAddButton()
     }
 }
 

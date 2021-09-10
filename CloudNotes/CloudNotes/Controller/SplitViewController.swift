@@ -10,7 +10,7 @@ class SplitViewController: UISplitViewController {
     // MARK: Property
     private let memoListViewController = MemoListTableViewController()
     private let memoDetailViewController = MemoDetailViewController()
-    
+
     // MARK: View LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,5 +46,10 @@ extension SplitViewController: MemoListDelegate {
     func didTapTableViewCell(_ memo: Memo) {
         memoDetailViewController.showContents(of: memo)
         show(.secondary)
+    }
+    
+    func didTapAddButton() {
+        let composeMemoViewController = ComposeMemoViewController()
+        present(composeMemoViewController, animated: true, completion: nil)
     }
 }

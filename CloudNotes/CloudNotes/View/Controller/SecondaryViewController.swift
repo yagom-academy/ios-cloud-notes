@@ -8,19 +8,20 @@
 import UIKit
 
 class SecondaryViewController: UIViewController {
-    var textView = UITextView()
-    var holder: TableViewIdexPathHolder?
+    private var textView = UITextView()
+    var holder: TextViewRelatedDataHolder?
      
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
-        view.addSubview(textView)
+        self.view.backgroundColor = .white
+        self.view.addSubview(textView)
         self.textView.delegate = self
         setTextViewStyle()
         setSecondaryVCNavigationBar()
     }
     
-    func configure(_ holder: TableViewIdexPathHolder) {
+    func configure(_ holder: TextViewRelatedDataHolder) {
+        self.holder = holder
         textView.text = holder.textViewText
     }
     

@@ -39,7 +39,7 @@ extension PrimaryViewController: UITableViewDelegate {
         let lineBreaker = "\n"
         let emptyString = ""
         let transferedText = "\(MemoData.list?[indexPath.row].title ?? emptyString)" + lineBreaker + lineBreaker + "\(MemoData.list?[indexPath.row].body ?? emptyString)"
-        let tableViewIndexPathHolder = TableViewIdexPathHolder(indexPath: indexPath, tableView: tableView, textViewText: transferedText)
+        let tableViewIndexPathHolder = TextViewRelatedDataHolder(indexPath: indexPath, tableView: tableView, textViewText: transferedText)
         secondVC?.configure(tableViewIndexPathHolder)
     }
 }

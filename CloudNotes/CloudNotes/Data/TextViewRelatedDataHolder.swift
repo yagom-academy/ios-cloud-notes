@@ -7,7 +7,7 @@
 
 import UIKit
 
-class TableViewIdexPathHolder {
+class TextViewRelatedDataHolder {
     var indexPath: IndexPath?
     var tableView: UITableView?
     var textViewText : String?

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class NotesTableViewCell: UITableViewCell {
+class NoteCell: UITableViewCell {
     private var titleLabel = UILabel()
     private var lastModifiedLabel = UILabel()
     private var bodyLabel = UILabel()
@@ -89,7 +89,7 @@ class NotesTableViewCell: UITableViewCell {
     }
 }
 
-extension NotesTableViewCell: DateFormattable {
+extension NoteCell: DateFormattable {
     enum NotePlacholder {
         static let title = "제목"
         static let body = "내용이 비어있습니다"

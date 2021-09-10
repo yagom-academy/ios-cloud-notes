@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SecondaryChildViewController: UIViewController {
+class NoteDetailViewController: UIViewController {
     weak var delegate: NoteUpdater?
     private var bodyTextView = UITextView()
     private var indexPath: IndexPath?
@@ -63,7 +63,7 @@ class SecondaryChildViewController: UIViewController {
     }
 }
 
-extension SecondaryChildViewController: UITextViewDelegate {
+extension NoteDetailViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         guard let indexPath = indexPath else { return }
 

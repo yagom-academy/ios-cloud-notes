@@ -7,9 +7,9 @@
 
 import UIKit
 
-class PrimaryChildViewController: UITableViewController {
+class NoteListViewController: UITableViewController {
     private var notes: [Note] = []
-    let cellIdentifier = "notesCell"
+    let cellIdentifier = "noteCell"
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,7 +21,7 @@ class PrimaryChildViewController: UITableViewController {
     private func initTableView() {
         let notesTitle = "메모"
         title = notesTitle
-        tableView.register(NotesTableViewCell.self, forCellReuseIdentifier: cellIdentifier)
+        tableView.register(NoteCell.self, forCellReuseIdentifier: cellIdentifier)
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
                                                             target: self,
                                                             action: #selector(addButtonTapped))
@@ -73,7 +73,7 @@ class PrimaryChildViewController: UITableViewController {
     private func showContentDetails(of note: Note?, at indexPath: IndexPath) {
         guard let note = note else { return }
         
-        let detailRootViewController = SecondaryChildViewController()
+        let detailRootViewController = NoteDetailViewController()
         let detailViewController = UINavigationController(
             rootViewController: detailRootViewController)
         
@@ -83,14 +83,14 @@ class PrimaryChildViewController: UITableViewController {
     }
 }
 
-extension PrimaryChildViewController {
+extension NoteListViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return notes.count
     }
     
     override func tableView(_ tableView: UITableView,
                             cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as? NotesTableViewCell,
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as? NoteCell,
               indexPath.row < notes.count else { return UITableViewCell() }
 
         cell.initCell(with: notes[indexPath.row])
@@ -103,7 +103,7 @@ extension PrimaryChildViewController {
     }
 }
 
-extension PrimaryChildViewController: NoteUpdater {
+extension NoteListViewController: NoteUpdater {
     func update(note: Note, at indexPath: IndexPath) {
         let index = indexPath.row
         notes[index].title = note.title

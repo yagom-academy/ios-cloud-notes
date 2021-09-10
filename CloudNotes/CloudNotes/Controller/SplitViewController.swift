@@ -17,8 +17,8 @@ class SplitViewController: UISplitViewController {
     }
     
     private func initChildViewControllers() {
-        let primaryViewController = PrimaryChildViewController()
-        let secondaryViewController = SecondaryChildViewController()
+        let primaryViewController = NoteListViewController()
+        let secondaryViewController = NoteDetailViewController()
         let primaryChild = UINavigationController(rootViewController: primaryViewController)
         let secondaryChild = UINavigationController(rootViewController: secondaryViewController)
         

@@ -7,7 +7,7 @@
 
 import CoreData
 
-protocol Memorable {
+protocol MemoModel {
     var title: String { get set }
     var body: String { get set }
     var lastModified: Double { get set }
@@ -15,7 +15,7 @@ protocol Memorable {
     mutating func updateMemo(_ title: String, _ body: String, _ lastModified: Double)
 }
 
-struct Memo: Decodable, Memorable {
+struct MemoSample: Decodable, MemoModel {
     var title: String
     var body: String
     var lastModified: Double

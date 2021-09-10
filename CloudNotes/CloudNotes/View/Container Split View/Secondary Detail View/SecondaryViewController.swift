@@ -47,7 +47,7 @@ extension SecondaryViewController {
 //        let updatedMemo = Memo(title: title, body: body, lastModified: nowDate)
 //    }
     
-    func updateDetailView(by memo: Memorable) {
+    func updateDetailView(by memo: MemoModel) {
         let text = memo.title + twiceLineBreaks + memo.body
         self.secondaryView?.configure(by: text)
     }

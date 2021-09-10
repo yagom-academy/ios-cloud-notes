@@ -9,7 +9,7 @@ import UIKit
 import CoreData
 
 protocol PrimaryListDelegate: AnyObject {
-    func showSelectedDetail(by memo: Memorable)
+    func showSelectedDetail(by memo: MemoModel)
 }
 
 class PrimaryViewController: UITableViewController {
@@ -75,7 +75,7 @@ extension PrimaryViewController {
 }
 
 extension PrimaryViewController {
-    private func readDataAsset() -> [Memo] {
+    private func readDataAsset() -> [MemoModel] {
         let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase
         guard let dataAsset = NSDataAsset(name: "sample") else {
@@ -83,7 +83,7 @@ extension PrimaryViewController {
             return []
         }
         do {
-            let result = try decoder.decode([Memo].self, from: dataAsset.data)
+            let result = try decoder.decode([MemoSample].self, from: dataAsset.data)
             return result
         } catch {
             NSLog("에러처리 필요 - PrimaryViewController.readDataAsset : 디코딩 실패")

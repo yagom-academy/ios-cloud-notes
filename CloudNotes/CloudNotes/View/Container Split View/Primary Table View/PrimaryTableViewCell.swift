@@ -42,7 +42,7 @@ class PrimaryTableViewCell: UITableViewCell {
 }
 
 extension PrimaryTableViewCell {
-    func configure(by memo: Memo) {
+    func configure(by memo: MemoModel) {
         let date: Date = Date(timeIntervalSince1970: memo.lastModified)
         let dateString: String = PrimaryTableViewCell.dateformatter.string(from: date)
         let body = memo.body

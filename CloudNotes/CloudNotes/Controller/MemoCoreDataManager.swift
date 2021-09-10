@@ -16,7 +16,8 @@ class MemoCoreDataManager {
         return appDelegate.persistentContainer.viewContext
     }()
     
-    func fetchData() -> [Memorable] {
+    func fetchData() -> [MemoModel] {
+        print("MemoCoreDataManager.fetchData - start")
         var memoList = [MemoData]()
         let fetchRequest: NSFetchRequest<MemoManagedObject> = MemoManagedObject.fetchRequest()
         

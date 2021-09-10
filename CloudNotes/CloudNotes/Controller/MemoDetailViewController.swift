@@ -20,6 +20,8 @@ class MemoDetailViewController: UIViewController, TextViewConstraintProtocol {
         return textView
     }()
     
+    private var currentMemo: CloudMemo?
+    
     // MARK: View LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,6 +32,10 @@ class MemoDetailViewController: UIViewController, TextViewConstraintProtocol {
     override func viewWillAppear(_ animated: Bool) {
         setupTextViewConstraintFullScreen(memoContentsTextView, superView: view)
         configureMemoTextView()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        currentMemo?.title = memoContentsTextView.text
     }
 }
 
@@ -75,14 +81,9 @@ extension MemoDetailViewController {
         }
     }
     
-    func showContents(of memo: Memo?) {
-        
-        guard let title = memo?.title, let body = memo?.body else {
-            memoContentsTextView.text = nil
-            return
-        }
-        let appendedText = title + NameSpace.TextView.doubleSpace + body
-        memoContentsTextView.text = appendedText
+    func configure(_ memo: CloudMemo?) {
+        currentMemo = memo
+        memoContentsTextView.text = currentMemo?.title
     }
 }
 

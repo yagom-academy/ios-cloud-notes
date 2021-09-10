@@ -11,7 +11,7 @@ protocol CoreDatable {
     var context: NSManagedObjectContext { get }
     
     func contextSave()
-    func createItem<T: NSManagedObject>(_ item: T)
+    func createItem<T: NSManagedObject>(_ item: T?)
     func deleteItem(objectID: NSManagedObjectID)
     func updateItem(_ item: NSManagedObject, handler: (NSManagedObject) -> Void)
 }
@@ -30,7 +30,9 @@ extension CoreDatable {
         
     }
     
-    func createItem<T: NSManagedObject>(_ item: T) {
+    func createItem<T: NSManagedObject>(_ item: T?) {
+        guard let item = item else { return }
+        
         context.insert(item)
     }
     

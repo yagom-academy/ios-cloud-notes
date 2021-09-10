@@ -10,7 +10,6 @@ import CoreData
 
 class MemoListTableViewController: UITableViewController {
     // MARK: Property
-    private let memo = SampleMemo.setupSampleMemo()
     private var dataSource: MemoListDiffableDataSource?
     weak var delegate: MemoListDelegate?
     // MARK: View LifeCycle
@@ -21,6 +20,8 @@ class MemoListTableViewController: UITableViewController {
         configureTableView()
         registerTableViewCell()
         makeTableViewDiffableDataSource()
+        CoreDataCloudMemo.shared.fetchedController.delegate = self
+        CoreDataCloudMemo.shared.fetchCloudMemo()
     }
 }
 
@@ -66,7 +67,8 @@ extension MemoListTableViewController {
 // MARK: - Delegate
 extension MemoListTableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        delegate?.didTapTableViewCell(memo[indexPath.row])
+        let object = CoreDataCloudMemo.shared.fetchedController.object(at: indexPath)
+        delegate?.didTapTableViewCell(object)
     }
 }
 
@@ -85,10 +87,29 @@ extension MemoListTableViewController {
     }
 }
 
-extension MemoListTableViewController: CoreDataCloudMemoDelegate {
-    func didSnapshotFinished(_ snapshot: NSDiffableDataSourceSnapshot<String, CloudMemo>) {
-        dataSource?.apply(snapshot, animatingDifferences: true) {
-            CoreDataCloudMemo.shared.contextSave()
+extension MemoListTableViewController: NSFetchedResultsControllerDelegate {
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChangeContentWith snapshot: NSDiffableDataSourceSnapshotReference) {
+        var newSnapshot = NSDiffableDataSourceSnapshot<String, CloudMemo>()
+        
+        snapshot.sectionIdentifiers.forEach { section in
+            guard let section = section as? String else { return }
+            
+            newSnapshot.appendSections([section])
+            
+            let items = snapshot.itemIdentifiersInSection(withIdentifier: section).compactMap { objectID -> CloudMemo? in
+                guard let objectID = objectID as? NSManagedObjectID else { return nil }
+                
+                guard let item =  CoreDataCloudMemo.shared.fetchedController.managedObjectContext.object(with: objectID) as? CloudMemo else { return nil }
+                
+                return item
+            }
+            newSnapshot.appendItems(items, toSection: section)
+            newSnapshot.reloadItems(items)
+        }
+        DispatchQueue.global().async { [weak self] in
+            self?.dataSource?.apply(newSnapshot, animatingDifferences: true) {
+                CoreDataCloudMemo.shared.contextSave()
+            }
         }
     }
 }

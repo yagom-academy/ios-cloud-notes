@@ -8,17 +8,13 @@
 import CoreData
 import UIKit
 
-final class CoreDataCloudMemo: NSObject, CoreDatable {
+final class CoreDataCloudMemo: CoreDatable {
     static let shared = CoreDataCloudMemo()
     var context: NSManagedObjectContext
-    var fetchedController: NSFetchedResultsController<CloudMemo> {
-        didSet {
-            fetchedController.delegate = self
-        }
-    }
-    weak var delegate: CoreDataCloudMemoDelegate?
+    var fetchedController: NSFetchedResultsController<CloudMemo>
     
-    private override init() {
+    private init() {
+        
         let request: NSFetchRequest<CloudMemo> = CloudMemo.fetchRequest()
         request.sortDescriptors = [NSSortDescriptor(key: #keyPath(CloudMemo.lastModified),
                                                     ascending: true)]
@@ -28,7 +24,6 @@ final class CoreDataCloudMemo: NSObject, CoreDatable {
                                                                               cacheName: nil)
         
         context = fetchedController.managedObjectContext
-        super.init()
     }
     
     func fetchCloudMemo() {
@@ -38,26 +33,10 @@ final class CoreDataCloudMemo: NSObject, CoreDatable {
             print("불러오기 실패")
         }
     }
-}
-
-extension CoreDataCloudMemo: NSFetchedResultsControllerDelegate {
-    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChangeContentWith snapshot: NSDiffableDataSourceSnapshotReference) {
-        var newSnapshot = NSDiffableDataSourceSnapshot<String, CloudMemo>()
-        
-        snapshot.sectionIdentifiers.forEach { section in
-            guard let section = section as? String else { return }
-            
-            newSnapshot.appendSections([section])
-            
-            let items = snapshot.itemIdentifiersInSection(withIdentifier: section).compactMap { objectID -> CloudMemo? in
-                guard let objectID = objectID as? NSManagedObjectID else { return nil }
-                
-                guard let item =  CoreDataCloudMemo.shared.fetchedController.managedObjectContext.object(with: objectID) as? CloudMemo else { return nil }
-                
-                return item
-            }
-            newSnapshot.appendItems(items, toSection: section)
-        }
-        delegate?.didSnapshotFinished(newSnapshot)
+    
+    func createNewMemo() -> CloudMemo {
+        let memo = CloudMemo(context: context)
+        CoreDataCloudMemo.shared.createItem(memo)
+        return memo
     }
 }

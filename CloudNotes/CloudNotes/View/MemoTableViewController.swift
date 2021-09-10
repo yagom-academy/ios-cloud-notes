@@ -35,6 +35,19 @@ class MemoTableViewController: UITableViewController {
     }
     
     // MARK: - Methods
+    func initViewModel() {
+        viewModel.decodeData()
+        viewModel.reloadTableView = { [weak self] in
+            DispatchQueue.main.async {
+                self?.tableView.reloadData()
+            }
+        }
+    }
+}
+
+// MARK: - View methods
+extension MemoTableViewController {
+    
     func initView() {
         self.navigationItem.title = "메모"
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
@@ -46,15 +59,6 @@ class MemoTableViewController: UITableViewController {
         
         tableView.estimatedRowHeight = 100
         tableView.rowHeight = UITableView.automaticDimension
-    }
-
-    func initViewModel() {
-        viewModel.decodeData()
-        viewModel.reloadTableView = { [weak self] in
-            DispatchQueue.main.async {
-                self?.tableView.reloadData()
-            }
-        }
     }
 }
 

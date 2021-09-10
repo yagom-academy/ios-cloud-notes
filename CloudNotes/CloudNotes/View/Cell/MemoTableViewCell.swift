@@ -61,6 +61,14 @@ class MemoTableViewCell: UITableViewCell {
 // MARK: - View methods
 extension MemoTableViewCell {
     
+    func configureAccessoryView() {
+        self.accessoryType = UITableViewCell.AccessoryType.disclosureIndicator
+    }
+}
+
+// MARK: - Auto Layout
+extension MemoTableViewCell {
+    
     func configureLabelsView() {
         titleLabel.font = UIFont.preferredFont(forTextStyle: .title2)
         titleLabel.adjustsFontForContentSizeCategory = true
@@ -87,9 +95,5 @@ extension MemoTableViewCell {
         
         let stackViewConstraints = [leadingConstraint, trailingConstraint, topConstraint, bottomConstraint]
         NSLayoutConstraint.activate(stackViewConstraints)
-    }
-    
-    func configureAccessoryView() {
-        self.accessoryType = UITableViewCell.AccessoryType.disclosureIndicator
     }
 }

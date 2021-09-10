@@ -49,6 +49,10 @@ class MemoDetailViewController: UIViewController {
     func configure(with memo: MemoCellViewModel) {
         self.memo = memo
     }
+}
+
+// MARK: - View methods
+extension MemoDetailViewController {
     
     private func changeBackgroundColor(of view: UIView, by color: UIColor) {
         view.backgroundColor = color

@@ -40,18 +40,16 @@ class NotesTableViewCell: UITableViewCell {
         contentView.addSubview(stackView)
         
         stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.leadingAnchor
-            .constraint(equalTo: contentView.leadingAnchor,
-                        constant: Constraints.outerStackViewLeadingInset).isActive = true
-        stackView.trailingAnchor
-            .constraint(equalTo: contentView.trailingAnchor,
-                        constant: Constraints.outerStackViewTrailingInset).isActive = true
-        stackView.topAnchor
-            .constraint(equalTo: contentView.topAnchor,
-                        constant: Constraints.outerStackViewTopInset).isActive = true
-        stackView.bottomAnchor
-            .constraint(equalTo: contentView.bottomAnchor,
-                        constant: Constraints.outerStackViewBottomInset).isActive = true
+        NSLayoutConstraint.activate([
+        stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,
+                                           constant: Constraints.outerStackViewLeadingInset),
+        stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,
+                                            constant: Constraints.outerStackViewTrailingInset),
+        stackView.topAnchor.constraint(equalTo: contentView.topAnchor,
+                                       constant: Constraints.outerStackViewTopInset),
+        stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,
+                                          constant: Constraints.outerStackViewBottomInset)
+        ])
 
         return stackView
     }()

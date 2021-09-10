@@ -48,14 +48,12 @@ class SecondaryChildViewController: UIViewController {
     private func layoutContent() {
         view.addSubview(bodyTextView)
         bodyTextView.translatesAutoresizingMaskIntoConstraints = false
-        bodyTextView.leadingAnchor.constraint(
-            equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
-        bodyTextView.trailingAnchor.constraint(
-            equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
-        bodyTextView.topAnchor.constraint(
-            equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-        bodyTextView.bottomAnchor.constraint(
-            equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+        NSLayoutConstraint.activate([
+            bodyTextView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            bodyTextView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            bodyTextView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            bodyTextView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        ])
     }
 
     private func scrollToContentTop() {

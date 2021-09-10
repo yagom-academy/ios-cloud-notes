@@ -8,8 +8,9 @@
 import CoreData
 import UIKit
 
-final class CoreDataCloudMemo {
+final class CoreDataCloudMemo: CoreDatable {
     static let shared = CoreDataCloudMemo()
+    var context: NSManagedObjectContext
     var fetchedController: NSFetchedResultsController<CloudMemo>
     
     private init() {
@@ -20,32 +21,14 @@ final class CoreDataCloudMemo {
                                                                               sectionNameKeyPath:
                                                                                 nil,
                                                                               cacheName: nil)
+        context = fetchedController.managedObjectContext
     }
     
-    func contextSave() {
-        guard fetchedController.managedObjectContext.hasChanges else {
-            return
-        }
-        
+    func fetchCloudMemo() {
         do {
-            try fetchedController.managedObjectContext.save()
+            try fetchedController.performFetch()
         } catch {
-            fetchedController.managedObjectContext.rollback()
-            debugPrint("저장실패")
+            print("불러오기 실패")
         }
-    }
-    
-    func createMemo(title: String?, body: String?, writeTime: Date?) {
-        let newMemo = CloudMemo(context: fetchedController.managedObjectContext)
-        newMemo.title = title
-        newMemo.body = body
-        newMemo.lastModified = writeTime
-        
-        fetchedController.managedObjectContext.insert(newMemo)
-    }
-    
-    func deleteMemo(at indexPath: IndexPath) {
-        let deleteMemo = fetchedController.object(at: indexPath)
-        fetchedController.managedObjectContext.delete(deleteMemo)
     }
 }

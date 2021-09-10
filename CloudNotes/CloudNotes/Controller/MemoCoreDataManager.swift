@@ -7,8 +7,10 @@
 
 import UIKit
 import CoreData
-
-class MemoDataAccessObject: NSObject {
+class MemoCoreDataManager {
+    static let shared = MemoCoreDataManager()
+    private let entityName = "Memo"
+    
     lazy var context: NSManagedObjectContext = {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         return appDelegate.persistentContainer.viewContext

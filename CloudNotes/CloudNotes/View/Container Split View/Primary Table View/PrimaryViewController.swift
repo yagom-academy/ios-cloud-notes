@@ -16,6 +16,7 @@ class PrimaryViewController: UITableViewController {
     weak var rootViewDelegate: PrimaryListDelegate?
     private var selectedIndexPath: IndexPath?
     private let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    private let coreManager = MemoCoreDataManager.shared
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)

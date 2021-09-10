@@ -12,12 +12,10 @@ class CellContentDataHolder {
     var dateLabelText: String?
     var bodyLabelText: String?
     var dateText: String?
-    var accessoryType: UITableViewCell.AccessoryType
     
-    init(title: String?, date: String?, body: String?, accessoryType: UITableViewCell.AccessoryType = .disclosureIndicator) {
+    init(title: String?, date: String?, body: String?) {
         self.titleLabelText = title
         self.dateLabelText = date
         self.bodyLabelText = body
-        self.accessoryType = accessoryType
     }
 }

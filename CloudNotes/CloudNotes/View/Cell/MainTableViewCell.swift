@@ -12,9 +12,10 @@ class MainTableViewCell: UITableViewCell {
     private var bodyLabel: UILabel = UILabel()
     private var dateLabel: UILabel = UILabel()
     private var dateAndBodyStackView: UIStackView = UIStackView()
-    
+        
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        self.accessoryType = .disclosureIndicator
         setupTitleLabelLayout()
         makeHorizontalStackVeiw()
         setLabelStyle()
@@ -30,7 +31,6 @@ extension MainTableViewCell {
         titleLabel.text = dataHolder.titleLabelText
         bodyLabel.text = dataHolder.bodyLabelText
         dateLabel.text = dataHolder.dateLabelText
-        self.accessoryType = dataHolder.accessoryType
     }
     
     private func setupTitleLabelLayout() {

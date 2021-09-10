@@ -19,7 +19,7 @@
 		C7481C9325BBCF3A00B9CA55 /* CloudNotesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C9225BBCF3A00B9CA55 /* CloudNotesUITests.swift */; };
 		D46AF92626E73EFE00E5D748 /* Decodable+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46AF92526E73EFE00E5D748 /* Decodable+Extension.swift */; };
 		D46AF93E26E74F2400E5D748 /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46AF93D26E74F2400E5D748 /* Note.swift */; };
-		D46AF95526E75DD200E5D748 /* DateFormattable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46AF95426E75DD200E5D748 /* DateFormattable.swift */; };
+		D46AF95526E75DD200E5D748 /* CurrentLocaleDateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46AF95426E75DD200E5D748 /* CurrentLocaleDateFormatter.swift */; };
 		D46AF97326E790A600E5D748 /* NoteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46AF97226E790A600E5D748 /* NoteCell.swift */; };
 		D46AF98C26E86C7700E5D748 /* NoteUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46AF98B26E86C7700E5D748 /* NoteUpdater.swift */; };
 		D46AF99626E88DBA00E5D748 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46AF99526E88DBA00E5D748 /* String+Extension.swift */; };
@@ -72,7 +72,7 @@
 		D0A845614855D6749682479E /* Pods_CloudNotesTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CloudNotesTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D46AF92526E73EFE00E5D748 /* Decodable+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Decodable+Extension.swift"; sourceTree = "<group>"; };
 		D46AF93D26E74F2400E5D748 /* Note.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Note.swift; sourceTree = "<group>"; };
-		D46AF95426E75DD200E5D748 /* DateFormattable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormattable.swift; sourceTree = "<group>"; };
+		D46AF95426E75DD200E5D748 /* CurrentLocaleDateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentLocaleDateFormatter.swift; sourceTree = "<group>"; };
 		D46AF97226E790A600E5D748 /* NoteCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteCell.swift; sourceTree = "<group>"; };
 		D46AF98B26E86C7700E5D748 /* NoteUpdater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteUpdater.swift; sourceTree = "<group>"; };
 		D46AF99526E88DBA00E5D748 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
@@ -184,7 +184,7 @@
 		D46AF92426E73EE400E5D748 /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
-				D46AF95426E75DD200E5D748 /* DateFormattable.swift */,
+				D46AF95426E75DD200E5D748 /* CurrentLocaleDateFormatter.swift */,
 				D46AF98B26E86C7700E5D748 /* NoteUpdater.swift */,
 			);
 			path = Protocol;
@@ -471,7 +471,7 @@
 				C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */,
 				D46AF93E26E74F2400E5D748 /* Note.swift in Sources */,
 				C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */,
-				D46AF95526E75DD200E5D748 /* DateFormattable.swift in Sources */,
+				D46AF95526E75DD200E5D748 /* CurrentLocaleDateFormatter.swift in Sources */,
 				D46AF99626E88DBA00E5D748 /* String+Extension.swift in Sources */,
 				C7481C7825BBCF3900B9CA55 /* CloudNotes.xcdatamodeld in Sources */,
 				D46AF97326E790A600E5D748 /* NoteCell.swift in Sources */,

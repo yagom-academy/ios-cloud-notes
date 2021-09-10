@@ -8,11 +8,10 @@ import XCTest
 @testable import CloudNotes
 
 class CloudNotesTests: XCTestCase {
-    var sut_dateFormatter: DateFormattable?
-    class MockForDateFormattable: DateFormattable {}
+    var sut_dateFormatter: CurrentLocaleDateFormatter?
     
     override func setUpWithError() throws {
-        sut_dateFormatter = MockForDateFormattable()
+        sut_dateFormatter = CurrentLocaleDateFormatter()
     }
 
     override func tearDownWithError() throws {
@@ -41,24 +40,19 @@ class CloudNotesTests: XCTestCase {
         XCTAssertEqual(expectedValue, outcome)
     }
 
-    func test_sample파일의0번인덱스항목의lastModified구했을때_DateFormattable의format함수로포맷하면_2020점공백12점공백23이다() {
+    func test_DateFormatter로Locale은current고dateType은long으로포맷하면_CurrentLocaleDateFormatter로포맷한것과_같다() {
         // Given
-        let expectedValue = "2020. 12. 23"
-        let targetIndex = 0
-        let sampleFileName = "sample"
-        let sampleData = NSDataAsset(name: sampleFileName)?.data
-        let parsedResult = sampleData?.parse(type: [Note].self)
-        var lastModified: Double?
-        
-        switch parsedResult {
-        case .success(let parsedData):
-            lastModified = parsedData[targetIndex].lastModified
-        default:
-            XCTFail("sample 데이터의 파싱에 실패했습니다")
-        }
+        let date = Date()
+        let dateFormatter: DateFormatter = {
+            let dateFormatter = DateFormatter()
+            dateFormatter.locale = Locale.current
+            dateFormatter.dateStyle = .long
+            return dateFormatter
+        }()
+        let expectedValue = dateFormatter.string(from: date)
         
         // When
-        let outcome = sut_dateFormatter?.format(lastModified: lastModified ?? 0)
+        let outcome = sut_dateFormatter?.format(lastModified: date.timeIntervalSince1970)
         
         // Then
         XCTAssertEqual(expectedValue, outcome)

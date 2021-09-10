@@ -25,7 +25,6 @@ class PrimaryChildViewController: UITableViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
                                                             target: self,
                                                             action: #selector(addButtonTapped))
-        
     }
     
     private func initNotes() {
@@ -49,7 +48,9 @@ class PrimaryChildViewController: UITableViewController {
     }
 
     private func addNewNote() {
-        notes?.append(Note(title: String.empty, body: String.empty, lastModified: Date().timeIntervalSince1970))
+        notes?.append(Note(title: String.empty,
+                           body: String.empty,
+                           lastModified: Date().timeIntervalSince1970))
         tableView.reloadData()
     }
     

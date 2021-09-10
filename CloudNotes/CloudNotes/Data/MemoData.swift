@@ -9,9 +9,7 @@ import UIKit
 
 class MemoData {
     static var list = generateList()
-    
-    private init() { }
-    
+        
     private static func generateList() -> [MemoDecodeModel]? {
         guard let dataAsset = NSDataAsset(name: "sample")?.data else { return nil }
         

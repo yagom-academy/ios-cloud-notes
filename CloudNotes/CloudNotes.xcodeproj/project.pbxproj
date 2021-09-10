@@ -18,7 +18,6 @@
 		A83033D026E1256300EA30DC /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A83033CF26E1256300EA30DC /* UIView.swift */; };
 		A8588C1926E6330400F61A73 /* DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8588C1826E6330400F61A73 /* DateFormatter.swift */; };
 		A8588C1D26E636F900F61A73 /* SplitViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8588C1C26E636F900F61A73 /* SplitViewDelegate.swift */; };
-		A8588C1F26E637A500F61A73 /* TextViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8588C1E26E637A500F61A73 /* TextViewDelegate.swift */; };
 		A85B476B26E4CA480070417B /* SecondaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A85B476A26E4CA480070417B /* SecondaryViewController.swift */; };
 		A85B476D26E4D9000070417B /* SplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A85B476C26E4D9000070417B /* SplitViewController.swift */; };
 		A85B477126E628760070417B /* CellContentDataHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A85B477026E628760070417B /* CellContentDataHolder.swift */; };
@@ -61,7 +60,6 @@
 		A83033CF26E1256300EA30DC /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
 		A8588C1826E6330400F61A73 /* DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatter.swift; sourceTree = "<group>"; };
 		A8588C1C26E636F900F61A73 /* SplitViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitViewDelegate.swift; sourceTree = "<group>"; };
-		A8588C1E26E637A500F61A73 /* TextViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewDelegate.swift; sourceTree = "<group>"; };
 		A85B476A26E4CA480070417B /* SecondaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondaryViewController.swift; sourceTree = "<group>"; };
 		A85B476C26E4D9000070417B /* SplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitViewController.swift; sourceTree = "<group>"; };
 		A85B477026E628760070417B /* CellContentDataHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellContentDataHolder.swift; sourceTree = "<group>"; };
@@ -121,7 +119,6 @@
 			children = (
 				A85B476C26E4D9000070417B /* SplitViewController.swift */,
 				C7481C7125BBCF3900B9CA55 /* PrimaryViewController.swift */,
-				A8588C1E26E637A500F61A73 /* TextViewDelegate.swift */,
 				A85B476A26E4CA480070417B /* SecondaryViewController.swift */,
 			);
 			path = Controller;
@@ -418,7 +415,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				A83033CD26E1240100EA30DC /* MainTableViewCell.swift in Sources */,
-				A8588C1F26E637A500F61A73 /* TextViewDelegate.swift in Sources */,
 				C7481C7225BBCF3900B9CA55 /* PrimaryViewController.swift in Sources */,
 				A830336D26DF972100EA30DC /* JSONParser.swift in Sources */,
 				A85B476B26E4CA480070417B /* SecondaryViewController.swift in Sources */,

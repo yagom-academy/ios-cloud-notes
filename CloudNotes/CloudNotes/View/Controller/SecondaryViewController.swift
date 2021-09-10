@@ -9,22 +9,36 @@ import UIKit
 
 class SecondaryViewController: UIViewController {
     var textView = UITextView()
-    let textViewDelegate = TextViewDelegate()
-    
+    var holder: TableViewIdexPathHolder?
+     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         view.addSubview(textView)
-        self.textView.delegate = textViewDelegate
+        self.textView.delegate = self
         setTextViewStyle()
         setSecondaryVCNavigationBar()
     }
-  
+    
+    func configure(_ holder: TableViewIdexPathHolder) {
+        textView.text = holder.textViewText
+    }
+    
     override func viewWillLayoutSubviews() {
         textView.setPosition(top: view.safeAreaLayoutGuide.topAnchor,
                              bottom: view.safeAreaLayoutGuide.bottomAnchor,
                              leading: view.safeAreaLayoutGuide.leadingAnchor,
                              trailing: view.safeAreaLayoutGuide.trailingAnchor)
+    }
+}
+
+extension SecondaryViewController: UITextViewDelegate {
+    func textViewDidChange(_ textView: UITextView) {
+        let someDate = Date()
+        let timeInterval = someDate.timeIntervalSince1970
+        let myInt = Int(timeInterval)
+        MemoData.list?[holder?.indexPath?.row ?? .zero ].lastModified = myInt
+        holder?.tableView?.reloadData()
     }
 }
 

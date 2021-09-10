@@ -33,18 +33,18 @@ extension PrimaryViewController: UITableViewDelegate {
         giveDataToSecondaryVC(indexPath, tableView)
         splitViewController?.show(.secondary)
     }
-}
-
-extension PrimaryViewController {
+    
     private func giveDataToSecondaryVC(_ indexPath: IndexPath, _ tableView: UITableView) {
         let secondVC = splitViewController?.viewController(for: .secondary) as? SecondaryViewController
         let lineBreaker = "\n"
         let emptyString = ""
-        let tableViewIndexPathHolder = TableViewIdexPathHolder(indexPath: indexPath, tableView: tableView)
-        secondVC?.textViewDelegate.holder = tableViewIndexPathHolder
-        secondVC?.textView.text = "\(MemoData.list?[indexPath.row].title ?? emptyString)" + lineBreaker + lineBreaker + "\(MemoData.list?[indexPath.row].body ?? emptyString)"
+        let transferedText = "\(MemoData.list?[indexPath.row].title ?? emptyString)" + lineBreaker + lineBreaker + "\(MemoData.list?[indexPath.row].body ?? emptyString)"
+        let tableViewIndexPathHolder = TableViewIdexPathHolder(indexPath: indexPath, tableView: tableView, textViewText: transferedText)
+        secondVC?.configure(tableViewIndexPathHolder)
     }
-    
+}
+
+extension PrimaryViewController {
     private func setNavigationBarItem() {
         let navigationBarTitle = "메모"
         title = navigationBarTitle

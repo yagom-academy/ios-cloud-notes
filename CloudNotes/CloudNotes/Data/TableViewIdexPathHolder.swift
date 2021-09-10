@@ -10,18 +10,13 @@ import UIKit
 class TableViewIdexPathHolder {
     var indexPath: IndexPath?
     var tableView: UITableView?
+    var textViewText : String?
     
-    init(indexPath: IndexPath?, tableView: UITableView?) {
+    init(indexPath: IndexPath?, tableView: UITableView?, textViewText: String?) {
         self.indexPath = indexPath
         self.tableView = tableView
+        self.textViewText = textViewText
     }
 }
 
-//class MemoDataHolder {
-//    var data: String?
-//    
-//    init(data: String?) {
-//        self.data = data
-//    }
-//}
 

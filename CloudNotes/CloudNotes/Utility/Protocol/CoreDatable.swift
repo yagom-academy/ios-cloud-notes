@@ -12,7 +12,7 @@ protocol CoreDatable {
     
     func contextSave()
     func createItem<T: NSManagedObject>(_ item: T?)
-    func deleteItem(objectID: NSManagedObjectID)
+    func deleteItem(object: NSManagedObject)
     func updateItem(_ item: NSManagedObject, handler: (NSManagedObject) -> Void)
 }
 
@@ -36,8 +36,8 @@ extension CoreDatable {
         context.insert(item)
     }
     
-    func deleteItem(objectID: NSManagedObjectID) {
-        context.object(with: objectID)
+    func deleteItem(object: NSManagedObject) {
+        context.delete(object)
     }
     
     func updateItem(_ item: NSManagedObject, handler: (NSManagedObject) -> Void) {

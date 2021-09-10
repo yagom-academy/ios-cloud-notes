@@ -16,11 +16,11 @@ class MemoListTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
+        CoreDataCloudMemo.shared.fetchedController.delegate = self
         configureNavigationBar()
         configureTableView()
         registerTableViewCell()
         makeTableViewDiffableDataSource()
-        CoreDataCloudMemo.shared.fetchedController.delegate = self
         CoreDataCloudMemo.shared.fetchCloudMemo()
     }
 }
@@ -30,6 +30,8 @@ extension MemoListTableViewController {
     private enum NameSpace {
         enum TableView {
             static let heightSize: CGFloat = 80
+            static let deleteText = "Delete"
+            static let shareText = "Share"
         }
         
         enum NavigationItem {
@@ -63,6 +65,10 @@ extension MemoListTableViewController {
         tableView.separatorInset = UIEdgeInsets.zero
     }
 }
+// MARK: - Functions
+extension MemoListTableViewController {
+    
+}
 
 // MARK: - Delegate
 extension MemoListTableViewController {
@@ -70,20 +76,21 @@ extension MemoListTableViewController {
         let object = CoreDataCloudMemo.shared.fetchedController.object(at: indexPath)
         delegate?.didTapTableViewCell(object)
     }
-}
-
-// MARK: - Data Source
-extension MemoListTableViewController {
-    private func makeTableViewDiffableDataSource() {
-        dataSource = MemoListDiffableDataSource(tableView: tableView) { tableView, indexPath, memo in
+    
+    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let deleteAction = UIContextualAction(style: .destructive,
+                                              title: NameSpace.TableView.deleteText) { _, _, _ in
             
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: MemoListTableViewCell.identifier, for: indexPath) as? MemoListTableViewCell else { fatalError() }
-            
-            cell.accessoryType = .disclosureIndicator
-            cell.configure(with: memo)
-            
-            return cell
+            let currentObject = CoreDataCloudMemo.shared.fetchedController.object(at: indexPath)
+            CoreDataCloudMemo.shared.deleteItem(object: currentObject)
         }
+        
+        let shareAction = UIContextualAction(style: .normal,
+                                             title: NameSpace.TableView.shareText) { _, _, _ in
+            
+        }
+        
+        return UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
     }
 }
 
@@ -110,6 +117,21 @@ extension MemoListTableViewController: NSFetchedResultsControllerDelegate {
             self?.dataSource?.apply(newSnapshot, animatingDifferences: true) {
                 CoreDataCloudMemo.shared.contextSave()
             }
+        }
+    }
+}
+
+// MARK: - Data Source
+extension MemoListTableViewController {
+    private func makeTableViewDiffableDataSource() {
+        dataSource = MemoListDiffableDataSource(tableView: tableView) { tableView, indexPath, memo in
+            
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: MemoListTableViewCell.identifier, for: indexPath) as? MemoListTableViewCell else { fatalError() }
+            
+            cell.accessoryType = .disclosureIndicator
+            cell.configure(with: memo)
+            
+            return cell
         }
     }
 }

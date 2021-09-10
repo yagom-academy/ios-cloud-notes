@@ -26,8 +26,7 @@ class RootViewController: UIViewController {
         splitViewController.setViewController(memoListViewController, for: .primary)
         
         let memoDetailViewController = MemoDetailViewController()
-        let memoDetailNavgation = UINavigationController(rootViewController: memoDetailViewController)
-        splitViewController.setViewController(memoDetailNavgation, for: .secondary)
+        splitViewController.setViewController(memoDetailViewController, for: .secondary)
         
         let memoListCompactViewController = MemoTableViewController(isCompact: true)
         let memoListCompactNavigation = UINavigationController(rootViewController: memoListCompactViewController)

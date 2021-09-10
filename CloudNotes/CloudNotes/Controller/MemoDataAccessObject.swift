@@ -40,4 +40,20 @@ class MemoDataAccessObject: NSObject {
         }
         return memoList
     }
+    
+    func insertData(_ data: MemoData) {
+        let keys = MemoData.MemoKeys.self
+        guard let object = NSEntityDescription.insertNewObject(forEntityName: keys.modelName.key, into: self.context) as? MemoManagedObject else {
+            print("에러처리 필요 - MemoDataAccessObject.insertData")
+            return
+        }
+        object.setValue(data.title, forKey: keys.title.key)
+        object.setValue(data.body, forKey: keys.body.key)
+        object.setValue(data.lastModified, forKey: keys.lastModified.key)
+        do {
+            try self.context.save()
+        } catch {
+            NSLog("에러처리 필요 - MemoDataAccessObject.insertData : %s", error.localizedDescription)
+        }
+    }
 }

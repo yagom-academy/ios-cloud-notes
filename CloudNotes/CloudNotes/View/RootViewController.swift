@@ -12,25 +12,25 @@ class RootViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let splitVC = UISplitViewController(style: .doubleColumn)
-        self.addChild(splitVC)
-        self.view.addSubview(splitVC.view)
-        splitVC.view.frame = self.view.bounds
-        splitVC.view.autoresizingMask = [.flexibleHeight, .flexibleWidth]
-        splitVC.preferredDisplayMode = UISplitViewController.DisplayMode.oneBesideSecondary
-        splitVC.preferredSplitBehavior = .tile
-        splitVC.presentsWithGesture = false
-        splitVC.didMove(toParent: self)
+        let splitViewController = UISplitViewController(style: .doubleColumn)
+        self.addChild(splitViewController)
+        self.view.addSubview(splitViewController.view)
+        splitViewController.view.frame = self.view.bounds
+        splitViewController.view.autoresizingMask = [.flexibleHeight, .flexibleWidth]
+        splitViewController.preferredDisplayMode = UISplitViewController.DisplayMode.oneBesideSecondary
+        splitViewController.preferredSplitBehavior = .tile
+        splitViewController.presentsWithGesture = false
+        splitViewController.didMove(toParent: self)
         
-        let memoListVC = MemoTableViewController(isCompact: false)
-        splitVC.setViewController(memoListVC, for: .primary)
+        let memoListViewController = MemoTableViewController(isCompact: false)
+        splitViewController.setViewController(memoListViewController, for: .primary)
         
-        let memoDetailVC = MemoDetailViewController()
-        let memoDetailNavgation = UINavigationController(rootViewController: memoDetailVC)
-        splitVC.setViewController(memoDetailNavgation, for: .secondary)
+        let memoDetailViewController = MemoDetailViewController()
+        let memoDetailNavgation = UINavigationController(rootViewController: memoDetailViewController)
+        splitViewController.setViewController(memoDetailNavgation, for: .secondary)
         
-        let memoListCompactVC = MemoTableViewController(isCompact: true)
-        let memoListCompactNavigation = UINavigationController(rootViewController: memoListCompactVC)
-        splitVC.setViewController(memoListCompactNavigation, for: .compact)
+        let memoListCompactViewController = MemoTableViewController(isCompact: true)
+        let memoListCompactNavigation = UINavigationController(rootViewController: memoListCompactViewController)
+        splitViewController.setViewController(memoListCompactNavigation, for: .compact)
     }
 }

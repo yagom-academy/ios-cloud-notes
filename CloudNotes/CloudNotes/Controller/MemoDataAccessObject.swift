@@ -56,4 +56,20 @@ class MemoDataAccessObject: NSObject {
             NSLog("에러처리 필요 - MemoDataAccessObject.insertData : %s", error.localizedDescription)
         }
     }
+    
+    func deleteData(objectID: NSManagedObjectID) -> Bool {
+        let keys = MemoData.MemoKeys.self
+        guard let object = NSEntityDescription.insertNewObject(forEntityName: keys.modelName.key, into: self.context) as? MemoManagedObject else {
+            print("에러처리 필요 - MemoDataAccessObject.insertData")
+            return false
+        }
+        self.context.delete(object)
+        do {
+            try self.context.save()
+            return true
+        } catch {
+            NSLog("에러처리 필요 - MemoDataAccessObject.deleteData : %s", error.localizedDescription)
+            return false
+        }
+    }
 }

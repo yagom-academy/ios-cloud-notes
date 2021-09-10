@@ -10,6 +10,8 @@ import UIKit
 class SecondaryViewController: UIViewController {
     private var secondaryView: SecondaryView?
     private let twiceLineBreaks = "\n\n"
+    private let hidableDoneButton = UIBarButtonItem(barButtonSystemItem: .done, target: nil, action: #selector(resignFromTextView))
+    private let seeMoreStaticButton = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: nil, action: nil)
     
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -19,12 +21,20 @@ class SecondaryViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        print("SecondaryViewController - viewWillAppear")
+        setBarButtons(isHide: true)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        print("SecondaryViewController - viewWillDisappear")
+        resignFromTextView()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.rightBarButtonItems = [
-            UIBarButtonItem(barButtonSystemItem: .done, target: nil, action: #selector(resignFromTextView)),
-            UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: nil, action: nil)
-        ]
         secondaryView.flatMap(self.view.addSubview(_:))
         secondaryView.flatMap({ secondary in
             NSLayoutConstraint.activate([
@@ -34,6 +44,25 @@ class SecondaryViewController: UIViewController {
                 secondary.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
             ])
         })
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWasShown),
+                                               name: UIResponder.keyboardDidShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillBeHidden),
+                                               name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+}
+
+// MARK: - Keyboard Notification
+extension SecondaryViewController {
+    @objc func keyboardWasShown(_ notification: Notification) {
+        setBarButtons(isHide: false)
+    }
+    
+    @objc func keyboardWillBeHidden(_ notification: Notification) {
+        setBarButtons(isHide: true)
+    }
+    
+    func setBarButtons(isHide: Bool) {
+        self.navigationItem.rightBarButtonItems = isHide ? [seeMoreStaticButton] : [hidableDoneButton, seeMoreStaticButton]
     }
 }
 

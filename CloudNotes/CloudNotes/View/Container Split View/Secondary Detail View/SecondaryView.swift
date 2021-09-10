@@ -54,14 +54,6 @@ extension SecondaryView: UITextViewDelegate {
     }
 }
 
-extension SecondaryView {
-    func configure(by text: String?) {
-        self.textView.text = text
-        textView.setContentOffset(.zero, animated: true)
-        textView.resignFirstResponder()
-    }
-}
-
 // MARK: - Keyboard Notification
 extension SecondaryView {
     @objc func keyboardWasShown(_ notification: Notification) {
@@ -85,5 +77,13 @@ extension SecondaryView {
         textView.contentInset = contentInsets
         textView.scrollIndicatorInsets = contentInsets
         textView.resignFirstResponder()
+    }
+}
+
+extension SecondaryView {
+    func configure(by text: String?) {
+        self.textView.text = text
+        textView.setContentOffset(.zero, animated: true)
+//        textView.resignFirstResponder()
     }
 }

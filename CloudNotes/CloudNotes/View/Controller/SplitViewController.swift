@@ -10,7 +10,7 @@ import CoreData
 
 class SplitViewController: UISplitViewController {
     var container: NSPersistentContainer?
-
+    
     private let detailVC = SecondaryViewController()
     private let primaryVC = PrimaryViewController()
     private let splitViewDelegate = SplitViewDelegate()
@@ -21,8 +21,8 @@ class SplitViewController: UISplitViewController {
         self.delegate = splitViewDelegate
         
         guard container != nil else {
-                   fatalError("This view needs a persistent container.")
-               }
+            fatalError("This view needs a persistent container.")
+        }
     }
 }
 

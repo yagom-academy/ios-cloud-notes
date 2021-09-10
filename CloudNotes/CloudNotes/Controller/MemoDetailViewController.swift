@@ -75,8 +75,13 @@ extension MemoDetailViewController {
         }
     }
     
-    func showContents(of memo: Memo) {
-        let appendedText = memo.title + NameSpace.TextView.doubleSpace + memo.body
+    func showContents(of memo: Memo?) {
+        
+        guard let title = memo?.title, let body = memo?.body else {
+            memoContentsTextView.text = nil
+            return
+        }
+        let appendedText = title + NameSpace.TextView.doubleSpace + body
         memoContentsTextView.text = appendedText
     }
 }

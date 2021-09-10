@@ -43,13 +43,13 @@ extension SplitViewController: UISplitViewControllerDelegate {
 }
 
 extension SplitViewController: MemoListDelegate {
-    func didTapTableViewCell(_ memo: Memo) {
+    func didTapTableViewCell(_ memo: Memo?) {
         memoDetailViewController.showContents(of: memo)
         show(.secondary)
     }
     
     func didTapAddButton() {
-        let composeMemoViewController = ComposeMemoViewController()
-        present(UINavigationController(rootViewController: composeMemoViewController), animated: true)
+        memoDetailViewController.showContents(of: nil)
+        show(.secondary)
     }
 }

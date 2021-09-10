@@ -48,9 +48,10 @@ class PrimaryChildViewController: UITableViewController {
     }
 
     private func addNewNote() {
-        notes?.append(Note(title: String.empty,
+        let newNote = Note(title: String.empty,
                            body: String.empty,
-                           lastModified: Date().timeIntervalSince1970))
+                           lastModified: Date().timeIntervalSince1970)
+        notes?.append(newNote)
         tableView.reloadData()
     }
     

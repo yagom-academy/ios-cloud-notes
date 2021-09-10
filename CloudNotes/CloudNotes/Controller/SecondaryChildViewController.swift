@@ -67,9 +67,10 @@ extension SecondaryChildViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         guard let indexPath = indexPath else { return }
 
-        delegate?.update(note: Note(title: textView.title ?? String.empty,
-                                    body: textView.body ?? String.empty,
-                                    lastModified: Date().timeIntervalSince1970),
-                         at: indexPath)
+        let targetNote = Note(title: textView.title ?? String.empty,
+                              body: textView.body ?? String.empty,
+                              lastModified: Date().timeIntervalSince1970)
+        
+        delegate?.update(note: targetNote, at: indexPath)
     }
 }

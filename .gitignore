@@ -1,9 +1,7 @@
 ### CocoaPods ###
 /CloudNotes/Pods/
+/CloudNotes/Podfile.lock
+/CloudNotes/CloudNotes.xcworkspace/
 
-### macOS ###
-# General
+### macOS General ###
 .DS_Store
-
-## User settings
-*/xcuserdata/

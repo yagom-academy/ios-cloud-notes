@@ -8,14 +8,17 @@
 import Foundation
 
 extension DateFormatter {
-    static func localizedString(of lastModifier: Int) -> String {
+    static func localizedString(of lastModifier: Date?) -> String {
+        guard let lastModifier = lastModifier else {
+            return ""
+        }
+        
         let currentLanguage = Locale.preferredLanguages.first
         let dateFormatter = DateFormatter()
-        let date = Date(timeIntervalSince1970: TimeInterval(lastModifier))
         
         dateFormatter.dateStyle = .long
         dateFormatter.locale = Locale(identifier: currentLanguage ?? "en_US")
         
-        return dateFormatter.string(from: date)
+        return dateFormatter.string(from: lastModifier)
     }
 }

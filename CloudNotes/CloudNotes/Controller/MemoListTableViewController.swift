@@ -6,11 +6,12 @@
 //
 
 import UIKit
+import CoreData
 
 class MemoListTableViewController: UITableViewController {
     // MARK: Property
     private let memo = SampleMemo.setupSampleMemo()
-    private var dataSource: UITableViewDiffableDataSource<Section, Memo>?
+    private var dataSource: MemoListDiffableDataSource?
     weak var delegate: MemoListDelegate?
     // MARK: View LifeCycle
     override func viewDidLoad() {
@@ -20,7 +21,6 @@ class MemoListTableViewController: UITableViewController {
         configureTableView()
         registerTableViewCell()
         makeTableViewDiffableDataSource()
-        snapshots(ofMemo: memo)
     }
 }
 
@@ -72,12 +72,8 @@ extension MemoListTableViewController {
 
 // MARK: - Data Source
 extension MemoListTableViewController {
-    private enum Section {
-        case main
-    }
-    
     private func makeTableViewDiffableDataSource() {
-        dataSource = UITableViewDiffableDataSource<Section, Memo>(tableView: tableView) { tableView, indexPath, memo in
+        dataSource = MemoListDiffableDataSource(tableView: tableView) { tableView, indexPath, memo in
             
             guard let cell = tableView.dequeueReusableCell(withIdentifier: MemoListTableViewCell.identifier, for: indexPath) as? MemoListTableViewCell else { fatalError() }
             
@@ -87,14 +83,12 @@ extension MemoListTableViewController {
             return cell
         }
     }
-    
-    private func snapshots(ofMemo memo: [Memo]) {
-        var snapShot = NSDiffableDataSourceSnapshot<Section, Memo>()
-        
-        snapShot.appendSections([.main])
-        snapShot.appendItems(memo)
-        DispatchQueue.global().async { [weak self] in
-            self?.dataSource?.apply(snapShot, animatingDifferences: true, completion: nil)
+}
+
+extension MemoListTableViewController: CoreDataCloudMemoDelegate {
+    func didSnapshotFinished(_ snapshot: NSDiffableDataSourceSnapshot<String, CloudMemo>) {
+        dataSource?.apply(snapshot, animatingDifferences: true) {
+            CoreDataCloudMemo.shared.contextSave()
         }
     }
 }

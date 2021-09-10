@@ -36,7 +36,7 @@ class MemoDataAccessObject: NSObject {
                 memoList.append(memoData)
             }
         } catch {
-            print("에러처리 필요 - MemoDataAccessObject.fetchData : %s", error.localizedDescription)
+            NSLog("에러처리 필요 - MemoDataAccessObject.fetchData : %s", error.localizedDescription)
         }
         return memoList
     }

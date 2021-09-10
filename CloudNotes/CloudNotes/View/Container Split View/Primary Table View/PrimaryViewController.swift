@@ -69,14 +69,14 @@ extension PrimaryViewController {
         let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase
         guard let dataAsset = NSDataAsset(name: "sample") else {
-            print("에러처리 필요 - 파일 바인딩 실패")
+            NSLog("에러처리 필요 - PrimaryViewController.readDataAsset : 파일 바인딩 실패")
             return []
         }
         do {
             let result = try decoder.decode([Memo].self, from: dataAsset.data)
             return result
         } catch {
-            print("에러처리 필요 - 디코딩 실패")
+            NSLog("에러처리 필요 - PrimaryViewController.readDataAsset : 디코딩 실패")
             return []
         }
     }

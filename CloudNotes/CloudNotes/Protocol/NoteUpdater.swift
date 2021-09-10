@@ -7,6 +7,6 @@
 
 import Foundation
 
-protocol NoteUpdater: class {
+protocol NoteUpdater: AnyObject {
     func update(note: Note, at indexPath: IndexPath)
 }

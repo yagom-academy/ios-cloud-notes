@@ -68,4 +68,24 @@ class MemoDataAccessObject: NSObject {
             return false
         }
     }
+    
+    func editData(by data: MemoData) -> Bool {
+        let keys = MemoData.MemoKeys.self
+        guard let objectID = data.objectID else {
+            NSLog("에러처리 필요 - MemoDataAccessObject.editData : 수정할 객체 objectID 없음")
+            return false
+        }
+        let object = self.context.object(with: objectID)
+        object.setValue(data.title, forKey: keys.title.key)
+        object.setValue(data.body, forKey: keys.body.key)
+        object.setValue(data.lastModified, forKey: keys.lastModified.key)
+        do {
+            try self.context.save()
+            return true
+        } catch {
+            self.context.rollback()
+            NSLog("에러처리 필요 - MemoDataAccessObject.editData : %s", error.localizedDescription)
+            return false
+        }
+    }
 }

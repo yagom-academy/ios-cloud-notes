@@ -12,22 +12,22 @@ protocol Memorable {
     var body: String { get set }
     var lastModified: Double { get set }
     
-    func updateMemo(_ title: String, _ body: String, _ lastModified: Double)
+    mutating func updateMemo(_ title: String, _ body: String, _ lastModified: Double)
 }
 
-class Memo: Decodable, Memorable {
+struct Memo: Decodable, Memorable {
     var title: String
     var body: String
     var lastModified: Double
     
-    func updateMemo(_ title: String, _ body: String, _ lastModified: Double) {
+    mutating func updateMemo(_ title: String, _ body: String, _ lastModified: Double) {
         self.title = title
         self.body = body
         self.lastModified = lastModified
     }
 }
 
-class MemoData: Memorable {
+struct MemoData: Memorable {
     enum MemoKeys {
         case modelName
         case title
@@ -60,7 +60,7 @@ class MemoData: Memorable {
         self.objectID = objectID
     }
     
-    func updateMemo(_ title: String, _ body: String, _ lastModified: Double) {
+    mutating func updateMemo(_ title: String, _ body: String, _ lastModified: Double) {
         self.title = title
         self.body = body
         self.lastModified = lastModified

@@ -50,6 +50,8 @@ extension SplitViewController: MemoListDelegate {
     
     func didTapAddButton() {
         let composeMemoViewController = ComposeMemoViewController()
-        present(composeMemoViewController, animated: true, completion: nil)
+        present(UINavigationController(rootViewController: composeMemoViewController),
+                animated: true,
+                completion: nil)
     }
 }

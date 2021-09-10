@@ -15,7 +15,8 @@ class MemoDetailViewController: UIViewController {
         textView.font = UIFont.preferredFont(forTextStyle: .body)
         textView.textColor = .black
         textView.translatesAutoresizingMaskIntoConstraints = false
-        
+        textView.scrollsToTop = true
+
         return textView
     }()
     
@@ -24,7 +25,11 @@ class MemoDetailViewController: UIViewController {
         super.viewDidLoad()
         setupNavigationItem()
         configureView()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
         configureMemoTextViewContentsConstraint()
+        configureMemoTextView()
     }
 }
 
@@ -33,6 +38,7 @@ extension MemoDetailViewController {
         enum TextView {
             static let space = "\n"
             static let doubleSpace = space + space
+            static let zeroContentRange = NSRange(location: 0, length: 0)
         }
     }
 }
@@ -61,6 +67,11 @@ extension MemoDetailViewController {
         ])
     }
     
+    private func configureMemoTextView() {
+        memoContentsTextView.scrollRangeToVisible(NameSpace.TextView.zeroContentRange)
+        congifureTextViewBackGroundColor()
+    }
+    
     private func configureView() {
         view.backgroundColor = .white
         view.addSubview(memoContentsTextView)
@@ -77,7 +88,6 @@ extension MemoDetailViewController {
     func showContents(of memo: Memo) {
         let appendedText = memo.title + NameSpace.TextView.doubleSpace + memo.body
         memoContentsTextView.text = appendedText
-        memoContentsTextView.layoutIfNeeded()
     }
 }
 

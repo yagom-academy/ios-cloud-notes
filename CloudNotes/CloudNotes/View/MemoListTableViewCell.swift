@@ -82,6 +82,7 @@ extension MemoListTableViewCell {
         
         enum ContainerStackView {
             static let spacing: CGFloat = 8
+            static let leadingConstraint: CGFloat = 8
         }
     }
 }
@@ -96,7 +97,7 @@ extension MemoListTableViewCell {
         
         NSLayoutConstraint.activate([
             containerStackView.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor),
-            containerStackView.leadingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.leadingAnchor),
+            containerStackView.leadingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.leadingAnchor, constant: NameSpace.ContainerStackView.leadingConstraint),
             containerStackView.trailingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.trailingAnchor),
             containerStackView.bottomAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.bottomAnchor)
         ])

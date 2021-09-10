@@ -27,27 +27,7 @@ struct Memo: Decodable, Memorable {
     }
 }
 
-struct MemoData: Memorable {
-    enum MemoKeys {
-        case modelName
-        case title
-        case body
-        case lastModified
-        
-        var key: String {
-            switch self {
-            case .modelName:
-                return "Memo"
-            case .title:
-                return "title"
-            case .body:
-                return "body"
-            case .lastModified:
-                return "lastModified"
-            }
-        }
-    }
-    
+struct MemoData: MemoModel {
     var title: String
     var body: String
     var lastModified: Double

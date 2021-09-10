@@ -20,7 +20,15 @@ class PrimaryViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.appDelegate.listResource = readDataAsset()
+        print("fetch Data")
+        appDelegate.listResource = coreManager.fetchData()
+        if appDelegate.listResource.isEmpty {
+            print("데이터가 없어서 Sample 데이터로 저장")
+            appDelegate.listResource = readDataAsset()
+            for data in appDelegate.listResource {
+                coreManager.insertData(data)
+            }
+        }
     }
     
     override func viewDidLoad() {

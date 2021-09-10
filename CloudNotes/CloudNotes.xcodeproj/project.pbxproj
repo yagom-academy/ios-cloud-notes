@@ -185,13 +185,6 @@
 			path = Extension;
 			sourceTree = "<group>";
 		};
-		A8588C1A26E6364600F61A73 /* Formatter */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Formatter;
-			sourceTree = "<group>";
-		};
 		A8588C1B26E636E300F61A73 /* Delegate */ = {
 			isa = PBXGroup;
 			children = (
@@ -236,7 +229,6 @@
 				A830336A26DF92C500EA30DC /* AppLifeCycle */,
 				A83033C926E11DAA00EA30DC /* PlaceHolder */,
 				A83033CE26E1254600EA30DC /* Extension */,
-				A8588C1A26E6364600F61A73 /* Formatter */,
 				A830336926DF92B700EA30DC /* Model */,
 				A8588C1B26E636E300F61A73 /* Delegate */,
 				A83033C626E11CE400EA30DC /* Data */,

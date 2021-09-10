@@ -22,7 +22,7 @@ extension DateFormatter {
         formatter.timeStyle = .none
         formatter.locale = Locale(identifier: "ko_KR")
         formatter.setLocalizedDateFormatFromTemplate("yyyy-MM-dd")
-
+        
         return formatter
     }
 }

@@ -33,7 +33,7 @@ extension SecondaryViewController: UITextViewDelegate {
         let someDate = Date()
         let timeInterval = someDate.timeIntervalSince1970
         let myInt = Int(timeInterval)
-        MemoData.list?[holder?.indexPath?.row ?? .zero ].lastModified = myInt
+        MemoData.list[holder?.indexPath?.row ?? .zero ].lastModified = myInt
         self.holder?.tableView?.reloadData()
     }
 }

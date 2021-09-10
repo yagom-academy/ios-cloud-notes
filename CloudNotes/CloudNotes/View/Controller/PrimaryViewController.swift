@@ -36,8 +36,7 @@ extension PrimaryViewController: UITableViewDelegate {
     private func giveDataToSecondaryVC(_ indexPath: IndexPath, _ tableView: UITableView) {
         let secondVC = splitViewController?.viewController(for: .secondary) as? SecondaryViewController
         let lineBreaker = "\n"
-        let emptyString = ""
-        let transferedText = "\(MemoData.list?[indexPath.row].title ?? emptyString)" + lineBreaker + lineBreaker + "\(MemoData.list?[indexPath.row].body ?? emptyString)"
+        let transferedText = "\(MemoData.list[indexPath.row].title)" + lineBreaker + lineBreaker + "\(MemoData.list[indexPath.row].body)"
         let tableViewIndexPathHolder = TextViewRelatedDataHolder(indexPath: indexPath, tableView: tableView, textViewText: transferedText)
         secondVC?.configure(tableViewIndexPathHolder)
     }

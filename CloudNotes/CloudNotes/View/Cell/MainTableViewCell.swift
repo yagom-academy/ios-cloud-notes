@@ -16,9 +16,9 @@ class MainTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.accessoryType = .disclosureIndicator
-        setupTitleLabelLayout()
-        makeHorizontalStackVeiw()
-        setLabelStyle()
+        self.setupTitleLabelLayout()
+        self.makeHorizontalStackVeiw()
+        self.setLabelStyle()
     }
     
     required init?(coder: NSCoder) {
@@ -28,15 +28,15 @@ class MainTableViewCell: UITableViewCell {
 
 extension MainTableViewCell {
     func configure(_ dataHolder: CellContentDataHolder) {
-        titleLabel.text = dataHolder.titleLabelText
-        bodyLabel.text = dataHolder.bodyLabelText
-        dateLabel.text = dataHolder.dateLabelText
+        self.titleLabel.text = dataHolder.titleLabelText
+        self.bodyLabel.text = dataHolder.bodyLabelText
+        self.dateLabel.text = dataHolder.dateLabelText
     }
     
     private func setupTitleLabelLayout() {
-        titleLabel = UILabel()
-        contentView.addSubview(titleLabel)
-        titleLabel.setPosition(top: nil,
+        self.titleLabel = UILabel()
+        self.contentView.addSubview(titleLabel)
+        self.titleLabel.setPosition(top: nil,
                                bottom: nil,
                                leading: safeAreaLayoutGuide.leadingAnchor,
                                leadingConstant: 10,
@@ -44,25 +44,25 @@ extension MainTableViewCell {
     }
     
     private func makeHorizontalStackVeiw() {
-        dateAndBodyStackView = UIStackView(arrangedSubviews: [self.dateLabel, self.bodyLabel])
-        dateLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        self.dateAndBodyStackView = UIStackView(arrangedSubviews: [self.dateLabel, self.bodyLabel])
+        self.dateLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
         
-        contentView.addSubview(dateAndBodyStackView)
-        dateAndBodyStackView.setPosition(top: titleLabel.bottomAnchor,
+        self.contentView.addSubview(dateAndBodyStackView)
+        self.dateAndBodyStackView.setPosition(top: titleLabel.bottomAnchor,
                                          bottom: contentView.bottomAnchor,
                                          leading: titleLabel.leadingAnchor,
                                          trailing: contentView.trailingAnchor)
-        dateAndBodyStackView.axis = .horizontal
-        dateAndBodyStackView.distribution = .equalCentering
-        dateAndBodyStackView.spacing = 40
+        self.dateAndBodyStackView.axis = .horizontal
+        self.dateAndBodyStackView.distribution = .equalCentering
+        self.dateAndBodyStackView.spacing = 40
     }
     
     private func setLabelStyle() {
-        setDynamicType(titleLabel, .title3)
-        setDynamicType(dateLabel, .body)
-        setDynamicType(bodyLabel, .caption1)
-        titleLabel.textAlignment = .left
-        bodyLabel.textColor = .gray
+        self.setDynamicType(titleLabel, .title3)
+        self.setDynamicType(dateLabel, .body)
+        self.setDynamicType(bodyLabel, .caption1)
+        self.titleLabel.textAlignment = .left
+        self.bodyLabel.textColor = .gray
     }
     
     private func setDynamicType(_ label: UILabel, _ font: UIFont.TextStyle) {

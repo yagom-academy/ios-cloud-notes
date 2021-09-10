@@ -14,16 +14,16 @@ class SplitViewController: UISplitViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        decideSpliveVCPreferences()
+        self.decideSpliveVCPreferences()
         self.delegate = splitViewDelegate
     }
 }
 
 extension SplitViewController {
     private func decideSpliveVCPreferences() {
-        preferredDisplayMode = .oneBesideSecondary
-        preferredSplitBehavior = .displace
-        setViewController(primaryVC, for: .primary)
-        setViewController(detailVC, for: .secondary)
+        self.preferredDisplayMode = .oneBesideSecondary
+        self.preferredSplitBehavior = .displace
+        self.setViewController(primaryVC, for: .primary)
+        self.setViewController(detailVC, for: .secondary)
     }
 }

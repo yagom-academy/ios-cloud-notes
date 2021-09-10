@@ -104,6 +104,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A82B6F5B26EB4AB200ED0070 /* Holder */ = {
+			isa = PBXGroup;
+			children = (
+				A82B6F5726EA215400ED0070 /* TextViewRelatedDataHolder.swift */,
+				A85B477026E628760070417B /* CellContentDataHolder.swift */,
+			);
+			path = Holder;
+			sourceTree = "<group>";
+		};
 		A830336726DF929A00EA30DC /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -152,9 +161,9 @@
 		A83033C626E11CE400EA30DC /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				A82B6F5B26EB4AB200ED0070 /* Holder */,
 				A83033C326E1146F00EA30DC /* MainVCTableViewDataSource.swift */,
 				A83033C026E10B7100EA30DC /* MemoData.swift */,
-				A82B6F5726EA215400ED0070 /* TextViewRelatedDataHolder.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -195,7 +204,6 @@
 			isa = PBXGroup;
 			children = (
 				A83033CC26E1240100EA30DC /* MainTableViewCell.swift */,
-				A85B477026E628760070417B /* CellContentDataHolder.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";

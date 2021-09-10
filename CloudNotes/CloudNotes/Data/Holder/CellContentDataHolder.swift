@@ -11,7 +11,6 @@ class CellContentDataHolder {
     var titleLabelText: String?
     var dateLabelText: String?
     var bodyLabelText: String?
-    var dateText: String?
     
     init(title: String?, date: String?, body: String?) {
         self.titleLabelText = title

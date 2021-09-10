@@ -18,5 +18,3 @@ class TextViewRelatedDataHolder {
         self.textViewText = textViewText
     }
 }
-
-

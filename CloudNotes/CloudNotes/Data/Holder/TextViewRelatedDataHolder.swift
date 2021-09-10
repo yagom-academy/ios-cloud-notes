@@ -7,7 +7,7 @@
 
 import UIKit
 
-class TextViewRelatedDataHolder {
+struct TextViewRelatedDataHolder {
     var indexPath: IndexPath?
     var tableView: UITableView?
     var textViewText : String?

@@ -8,7 +8,7 @@
 import UIKit
 
 class PrimaryChildViewController: UITableViewController {
-    private var notes: [Note]?
+    private var notes: [Note] = []
     let cellIdentifier = "notesCell"
 
     override func viewDidLoad() {
@@ -44,22 +44,26 @@ class PrimaryChildViewController: UITableViewController {
         addNewNote()
         let newIndexPath = findNewNoteIndexPath()
         scrollDownToTableBottom(to: newIndexPath)
-        showContentDetails(of: notes?.last, at: newIndexPath)
+        showContentDetails(of: notes.last, at: newIndexPath)
     }
 
     private func addNewNote() {
         let newNote = Note(title: String.empty,
                            body: String.empty,
                            lastModified: Date().timeIntervalSince1970)
-        notes?.append(newNote)
+        notes.append(newNote)
         tableView.reloadData()
     }
     
     private func findNewNoteIndexPath() -> IndexPath {
-        guard let rowCount = notes?.count else { return IndexPath(row: .zero, section: .zero) }
-        let lastRowIndex = rowCount - 1
+        let rowCount = notes.count
         
-        return IndexPath(row: lastRowIndex, section: .zero)
+        if rowCount == 0 {
+            return IndexPath(row: .zero, section: .zero)
+        } else {
+            let lastRowIndex = rowCount - 1
+            return IndexPath(row: lastRowIndex, section: .zero)
+        }
     }
 
     private func scrollDownToTableBottom(to bottomIndexPath: IndexPath) {
@@ -81,31 +85,30 @@ class PrimaryChildViewController: UITableViewController {
 
 extension PrimaryChildViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return notes?.count ?? .zero
+        return notes.count
     }
     
     override func tableView(_ tableView: UITableView,
                             cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier)
-                as? NotesTableViewCell,
-              let note = notes?[indexPath.row] else { return UITableViewCell() }
-        
-        cell.initCell(with: note)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as? NotesTableViewCell,
+              indexPath.row < notes.count else { return UITableViewCell() }
+
+        cell.initCell(with: notes[indexPath.row])
         
         return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        showContentDetails(of: notes?[indexPath.row], at: indexPath)
+        showContentDetails(of: notes[indexPath.row], at: indexPath)
     }
 }
 
 extension PrimaryChildViewController: NoteUpdater {
     func update(note: Note, at indexPath: IndexPath) {
         let index = indexPath.row
-        notes?[index].title = note.title
-        notes?[index].body = note.body
-        notes?[index].lastModified = note.lastModified
+        notes[index].title = note.title
+        notes[index].body = note.body
+        notes[index].lastModified = note.lastModified
         tableView.reloadData()
     }
 }

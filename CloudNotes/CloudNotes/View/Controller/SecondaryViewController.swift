@@ -10,26 +10,21 @@ import UIKit
 class SecondaryViewController: UIViewController {
     private var textView = UITextView()
     var holder: TextViewRelatedDataHolder?
-     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
         self.view.addSubview(textView)
         self.textView.delegate = self
-        setTextViewStyle()
-        setSecondaryVCNavigationBar()
+        self.setTextViewStyle()
+        self.setSecondaryVCNavigationBar()
     }
-    
-    func configure(_ holder: TextViewRelatedDataHolder) {
-        self.holder = holder
-        textView.text = holder.textViewText
-    }
-    
+
     override func viewWillLayoutSubviews() {
-        textView.setPosition(top: view.safeAreaLayoutGuide.topAnchor,
-                             bottom: view.safeAreaLayoutGuide.bottomAnchor,
-                             leading: view.safeAreaLayoutGuide.leadingAnchor,
-                             trailing: view.safeAreaLayoutGuide.trailingAnchor)
+        self.textView.setPosition(top: view.safeAreaLayoutGuide.topAnchor,
+                                  bottom: view.safeAreaLayoutGuide.bottomAnchor,
+                                  leading: view.safeAreaLayoutGuide.leadingAnchor,
+                                  trailing: view.safeAreaLayoutGuide.trailingAnchor)
     }
 }
 
@@ -39,15 +34,24 @@ extension SecondaryViewController: UITextViewDelegate {
         let timeInterval = someDate.timeIntervalSince1970
         let myInt = Int(timeInterval)
         MemoData.list?[holder?.indexPath?.row ?? .zero ].lastModified = myInt
-        holder?.tableView?.reloadData()
+        self.holder?.tableView?.reloadData()
     }
 }
 
 extension SecondaryViewController {
+    func configure(_ holder: TextViewRelatedDataHolder) {
+        self.holder = holder
+        updateTextViewText()
+    }
+    
+    private func updateTextViewText() {
+        self.textView.text = self.holder?.textViewText
+    }
+    
     private func setTextViewStyle() {
-        textView.textAlignment = .natural
-        textView.adjustsFontForContentSizeCategory = true
-        textView.font = UIFont.preferredFont(forTextStyle: .body)
+        self.textView.textAlignment = .natural
+        self.textView.adjustsFontForContentSizeCategory = true
+        self.textView.font = UIFont.preferredFont(forTextStyle: .body)
     }
     
     private func setSecondaryVCNavigationBar() {

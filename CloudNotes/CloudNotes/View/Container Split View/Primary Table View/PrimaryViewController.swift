@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreData
 
 protocol PrimaryListDelegate: AnyObject {
     func showSelectedDetail(by memo: Memorable)

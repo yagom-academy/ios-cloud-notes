@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ComposeMemoViewController: UIViewController {
+class ComposeMemoViewController: UIViewController, TextViewConstraintProtocol {
     // MARK: Property
     let composeMemoTextView: UITextView = {
         let textView = UITextView()
@@ -24,27 +24,40 @@ class ComposeMemoViewController: UIViewController {
     // MARK: View LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupNavigationItem()
         configureView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        configureMemoTextViewContentsConstraint()
+        setupTextViewConstraintFullScreen(composeMemoTextView, superView: view)
     }
 }
 
 // MARK: Setup TextView And View
 extension ComposeMemoViewController {
-    private func configureMemoTextViewContentsConstraint() {
-        NSLayoutConstraint.activate([
-            composeMemoTextView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            composeMemoTextView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            composeMemoTextView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            composeMemoTextView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
-        ])
-    }
-    
     private func configureView() {
         view.backgroundColor = .white
         view.addSubview(composeMemoTextView)
     }
+}
+
+extension ComposeMemoViewController {
+    
+    private func setupNavigationItem() {
+        setupRightBarButtonItem()
+        setupLeftBarButtonItem()
+    }
+    
+    private func setupRightBarButtonItem() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem.generateBarButtonItem(barButtonSystemItem: .save)
+    }
+    
+    private func setupLeftBarButtonItem() {
+        navigationItem.leftBarButtonItem = UIBarButtonItem.generateBarButtonItem(barButtonSystemItem: .cancel)
+    }
+    
+    @objc func didTapButton() {
+        
+    }
+    
 }

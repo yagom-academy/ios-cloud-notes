@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MemoDetailViewController: UIViewController {
+class MemoDetailViewController: UIViewController, TextViewConstraintProtocol {
     // MARK: Property
     private let memoContentsTextView: UITextView = {
         let textView = UITextView()
@@ -28,7 +28,7 @@ class MemoDetailViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        configureMemoTextViewContentsConstraint()
+        setupTextViewConstraintFullScreen(memoContentsTextView, superView: view)
         configureMemoTextView()
     }
 }
@@ -58,17 +58,7 @@ extension MemoDetailViewController {
 
 // MARK: Setup TextView And View
 extension MemoDetailViewController {
-    private func configureMemoTextViewContentsConstraint() {
-        NSLayoutConstraint.activate([
-            memoContentsTextView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            memoContentsTextView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            memoContentsTextView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            memoContentsTextView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
-        ])
-    }
-    
     private func configureMemoTextView() {
-        memoContentsTextView.scrollRangeToVisible(NameSpace.TextView.zeroContentRange)
         congifureTextViewBackGroundColor()
     }
     

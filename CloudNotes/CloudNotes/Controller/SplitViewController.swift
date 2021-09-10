@@ -50,8 +50,7 @@ extension SplitViewController: MemoListDelegate {
     }
     
     func didTapAddButton() {
-        let newMemo = CoreDataCloudMemo.shared.createNewMemo()
-        memoDetailViewController.configure(newMemo)
-        show(.secondary)
+        let composeViewController = ComposeTextViewController()
+        present(composeViewController, animated: true, completion: nil)
     }
 }

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MemoDetailViewController: UIViewController, TextSeparatable {
+class MemoDetailViewController: UIViewController, TextSeparatable, TextViewContraintable {
     // MARK: Property
     private let memoContentsTextView: UITextView = {
         let textView = UITextView()
@@ -31,7 +31,7 @@ class MemoDetailViewController: UIViewController, TextSeparatable {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        setupTextViewConstraint()
+        setupTextViewFullScreen(memoContentsTextView, superView: view)
         configureMemoTextView()
     }
 }
@@ -65,16 +65,7 @@ extension MemoDetailViewController {
         memoContentsTextView.delegate = self
         congifureTextViewBackGroundColor()
     }
-    
-    func setupTextViewConstraint() {
-        NSLayoutConstraint.activate([
-            memoContentsTextView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            memoContentsTextView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            memoContentsTextView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            memoContentsTextView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
-        ])
-    }
-    
+
     private func configureView() {
         view.backgroundColor = .white
         view.addSubview(memoContentsTextView)

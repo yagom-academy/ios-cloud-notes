@@ -1,0 +1,51 @@
+//
+//  ComposeTextViewController.swift
+//  CloudNotes
+//
+//  Created by KimJaeYoun on 2021/09/10.
+//
+
+import UIKit
+
+class ComposeTextViewController: UIViewController, TextViewContraintable {
+    
+    // MARK: Property
+    private var composeTextView: UITextView = {
+        let textView = UITextView()
+        textView.textAlignment = .left
+        textView.font = UIFont.preferredFont(forTextStyle: .body)
+        textView.textColor = .black
+        textView.translatesAutoresizingMaskIntoConstraints = false
+        textView.scrollsToTop = true
+        textView.autocorrectionType = .no
+        
+        return textView
+    }()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupNavigationItems()
+    }
+}
+
+extension ComposeTextViewController {
+    
+    func setupNavigationItems() {
+        let rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save,
+                                                 target: self,
+                                                 action: #selector(didTapSaveButton))
+        let leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel,
+                                                 target: self,
+                                                 action: #selector(didTapSaveButton))
+        navigationItem.leftBarButtonItem = leftBarButtonItem
+        navigationItem.rightBarButtonItem = rightBarButtonItem
+    }
+    
+    @objc func didTapSaveButton(_ sender: UIButton) {
+        if sender.tag == 1 {
+            print(123)
+        } else {
+            dismiss(animated: true, completion: nil)
+        }
+    }
+}

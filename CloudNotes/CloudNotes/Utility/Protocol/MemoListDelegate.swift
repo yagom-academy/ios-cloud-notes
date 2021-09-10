@@ -8,6 +8,6 @@
 import Foundation
 
 protocol MemoListDelegate: AnyObject {
-    func didTapTableViewCell(_ memo: CloudMemo?)
+    func didTapTableViewCell(at indexPath: IndexPath)
     func didTapAddButton()
 }

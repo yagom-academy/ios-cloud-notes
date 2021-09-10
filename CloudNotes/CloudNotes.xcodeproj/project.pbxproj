@@ -18,7 +18,7 @@
 		748315CB26DE1E3E0036A365 /* Memo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748315CA26DE1E3E0036A365 /* Memo.swift */; };
 		748315CE26DE22DE0036A365 /* JsonManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748315CD26DE22DE0036A365 /* JsonManager.swift */; };
 		7491841A26EB516800BDCBCF /* MemoListDiffableDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7491841926EB516800BDCBCF /* MemoListDiffableDataSource.swift */; };
-		74A0152726EB321400B6BB3B /* Extension +  UIBarButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A0152626EB321400B6BB3B /* Extension +  UIBarButtonItem.swift */; };
+		7491842026EB829500BDCBCF /* TextSeparatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7491841F26EB829500BDCBCF /* TextSeparatable.swift */; };
 		74CEF12D26EA390100205FE4 /* CoreDataCloudMemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74CEF12C26EA390100205FE4 /* CoreDataCloudMemo.swift */; };
 		74CEF13226EAECC600205FE4 /* CoreDatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74CEF13126EAECC600205FE4 /* CoreDatable.swift */; };
 		74D0563126E8860800FCE290 /* Contents.json in Resources */ = {isa = PBXBuildFile; fileRef = 74D0562F26E8860800FCE290 /* Contents.json */; };
@@ -68,7 +68,7 @@
 		748315CA26DE1E3E0036A365 /* Memo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memo.swift; sourceTree = "<group>"; };
 		748315CD26DE22DE0036A365 /* JsonManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonManager.swift; sourceTree = "<group>"; };
 		7491841926EB516800BDCBCF /* MemoListDiffableDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoListDiffableDataSource.swift; sourceTree = "<group>"; };
-		74A0152626EB321400B6BB3B /* Extension +  UIBarButtonItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension +  UIBarButtonItem.swift"; sourceTree = "<group>"; };
+		7491841F26EB829500BDCBCF /* TextSeparatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextSeparatable.swift; sourceTree = "<group>"; };
 		74CEF12C26EA390100205FE4 /* CoreDataCloudMemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataCloudMemo.swift; sourceTree = "<group>"; };
 		74CEF13126EAECC600205FE4 /* CoreDatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDatable.swift; sourceTree = "<group>"; };
 		74D0562F26E8860800FCE290 /* Contents.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Contents.json; sourceTree = "<group>"; };
@@ -147,6 +147,7 @@
 			children = (
 				7461EFCA26E8CAA300CCBC84 /* MemoListDelegate.swift */,
 				74CEF13126EAECC600205FE4 /* CoreDatable.swift */,
+				7491841F26EB829500BDCBCF /* TextSeparatable.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -218,7 +219,6 @@
 			isa = PBXGroup;
 			children = (
 				74EC3CBE26E859FB0022AD52 /* Extension + DateFormatter.swift */,
-				74A0152626EB321400B6BB3B /* Extension +  UIBarButtonItem.swift */,
 			);
 			path = Extention;
 			sourceTree = "<group>";
@@ -528,6 +528,7 @@
 				748315CB26DE1E3E0036A365 /* Memo.swift in Sources */,
 				7469BA0626DE4F4800E864D4 /* MemoListTableViewCell.swift in Sources */,
 				7491841A26EB516800BDCBCF /* MemoListDiffableDataSource.swift in Sources */,
+				7491842026EB829500BDCBCF /* TextSeparatable.swift in Sources */,
 				74CEF13226EAECC600205FE4 /* CoreDatable.swift in Sources */,
 				748315CE26DE22DE0036A365 /* JsonManager.swift in Sources */,
 				C7481C7225BBCF3900B9CA55 /* SplitViewController.swift in Sources */,
@@ -537,7 +538,6 @@
 				7404A89926EA2CFD007950AD /* CoreDataStack.swift in Sources */,
 				7461EFCB26E8CAA300CCBC84 /* MemoListDelegate.swift in Sources */,
 				748315C926DE1B170036A365 /* MemoDetailViewController.swift in Sources */,
-				74A0152726EB321400B6BB3B /* Extension +  UIBarButtonItem.swift in Sources */,
 				74EC3CBF26E859FB0022AD52 /* Extension + DateFormatter.swift in Sources */,
 				7404A89726EA2C49007950AD /* CloudMemo+CoreDataProperties.swift in Sources */,
 				C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */,

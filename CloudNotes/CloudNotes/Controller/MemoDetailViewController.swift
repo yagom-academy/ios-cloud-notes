@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MemoDetailViewController: UIViewController {
+class MemoDetailViewController: UIViewController, TextSeparatable {
     // MARK: Property
     private let memoContentsTextView: UITextView = {
         let textView = UITextView()
@@ -33,10 +33,6 @@ class MemoDetailViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         setupTextViewConstraint()
         configureMemoTextView()
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        currentMemo?.title = memoContentsTextView.text
     }
 }
 
@@ -66,6 +62,7 @@ extension MemoDetailViewController {
 // MARK: Setup TextView And View
 extension MemoDetailViewController {
     private func configureMemoTextView() {
+        memoContentsTextView.delegate = self
         congifureTextViewBackGroundColor()
     }
     
@@ -93,12 +90,28 @@ extension MemoDetailViewController {
     
     func configure(_ memo: CloudMemo?) {
         currentMemo = memo
-        memoContentsTextView.text = currentMemo?.title
+        showMemo()
+    }
+    
+    func showMemo() {
+        if let title = currentMemo?.title, let body = currentMemo?.body {
+            let appendedMemo = title + NameSpace.TextView.space + body
+            memoContentsTextView.text = appendedMemo
+        }
     }
 }
 
+// MARK: - Screen Transition Supports
 extension MemoDetailViewController {
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         congifureTextViewBackGroundColor()
+    }
+}
+
+extension MemoDetailViewController: UITextViewDelegate {
+    func textViewDidChange(_ textView: UITextView) {
+        let texts = separateText(memoContentsTextView.text)
+        currentMemo?.title = texts.title
+        currentMemo?.body = texts.body
     }
 }

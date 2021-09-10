@@ -43,8 +43,9 @@ extension SplitViewController: UISplitViewControllerDelegate {
 }
 
 extension SplitViewController: MemoListDelegate {
-    func didTapTableViewCell(_ memo: CloudMemo?) {
-        memoDetailViewController.configure(memo)
+    func didTapTableViewCell(at indexPath: IndexPath) {
+        let currentObject = CoreDataCloudMemo.shared.fetchedController.object(at: indexPath)
+        memoDetailViewController.configure(currentObject)
         show(.secondary)
     }
     

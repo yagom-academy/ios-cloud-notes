@@ -65,16 +65,11 @@ extension MemoListTableViewController {
         tableView.separatorInset = UIEdgeInsets.zero
     }
 }
-// MARK: - Functions
-extension MemoListTableViewController {
-    
-}
 
 // MARK: - Delegate
 extension MemoListTableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let object = CoreDataCloudMemo.shared.fetchedController.object(at: indexPath)
-        delegate?.didTapTableViewCell(object)
+        delegate?.didTapTableViewCell(at: indexPath)
     }
     
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {

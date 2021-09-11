@@ -15,10 +15,10 @@ class MemoSplitViewController: UISplitViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.preferredDisplayMode = .oneBesideSecondary
-        self.preferredSplitBehavior = .tile
+        preferredDisplayMode = .oneBesideSecondary
+        preferredSplitBehavior = .tile
         assignColumnsToChildVC(primary: primary, secondary: secondary, supplementary: nil)
-        self.delegate = self
+        delegate = self
         primary.delegate = self
         secondary.delegate = self
     }

@@ -15,7 +15,7 @@ class MemoDetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.addSubview(memoDeatailTextView)
+        view.addSubview(memoDeatailTextView)
         configureTextView()
         setLayoutForTextView()
         memoDeatailTextView.delegate = self

@@ -25,8 +25,8 @@ class MemoListViewController: UIViewController {
     }
     
     private func makeNavigationItem() {
-        self.navigationItem.title = navigationTitle
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(touchUpPlusButton))
+        navigationItem.title = navigationTitle
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(touchUpPlusButton))
     }
     
     private func setTableViewToMemoListVC() {

@@ -40,7 +40,7 @@ class DetailMemoViewController: UIViewController {
         view.backgroundColor = .white
         addSubView()
         updateMemo()
-        ConfigureAutoLayout()
+        configureAutoLayout()
         configureNavigationItem()
         //registerNotification()
     }
@@ -81,7 +81,7 @@ class DetailMemoViewController: UIViewController {
         view.addSubview(bodyTextView)
     }
     
-    private func ConfigureAutoLayout() {
+    private func configureAutoLayout() {
         let safeArea = view.safeAreaLayoutGuide
         let margin: CGFloat = 10
         NSLayoutConstraint.activate([

@@ -32,11 +32,17 @@ class MemoListTableViewCell: UITableViewCell {
         return shortDiscriptionLabel
     }()
     
+    private lazy var dateFormatter: DateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        return dateFormatter
+    }()
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         addContentView()
-        ConfigureAutoLayout()
+        configureAutoLayout()
     }
     
     required init?(coder: NSCoder) {
@@ -49,7 +55,13 @@ class MemoListTableViewCell: UITableViewCell {
         contentView.addSubview(shortDiscriptionLabel)
     }
     
-    private func ConfigureAutoLayout() {
+    func configureCell(with data: Memo) {
+        titleLabel.text = data.title
+        shortDiscriptionLabel.text = data.body
+        dateLabel.text = dateFormatter.string(from: Date(timeIntervalSince1970: data.date))
+    }
+    
+    private func configureAutoLayout() {
         let margin: CGFloat = 10
         
         NSLayoutConstraint.activate([

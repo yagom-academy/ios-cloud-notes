@@ -35,7 +35,7 @@ class MemoListViewController: UIViewController{
         
         addSubView()
         configureTableView()
-        ConfigureAutoLayout()
+        configureAutoLayout()
         configureNavigationItem()
         makeTest()
     }
@@ -48,7 +48,7 @@ class MemoListViewController: UIViewController{
         memoList = memoData
     }
     
-    private func ConfigureAutoLayout() {
+    private func configureAutoLayout() {
         let safeArea = view.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: safeArea.topAnchor),
@@ -91,9 +91,7 @@ extension MemoListViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        cell.titleLabel.text = memoList[indexPath.row].title
-        cell.shortDiscriptionLabel.text = memoList[indexPath.row].body
-        cell.dateLabel.text = dateFormatter.string(from: Date(timeIntervalSince1970: memoList[indexPath.row].date))
+        cell.configureCell(with: memoList[indexPath.row])
         
         return cell
     }

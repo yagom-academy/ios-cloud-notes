@@ -12,10 +12,13 @@ class PrimaryViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //MARK: - TableView property and Method
         self.view.addSubview(tableView)
         self.tableView.register(MainTableViewCell.self, forCellReuseIdentifier: CellID.defaultCell.identifier)
         self.tableView.dataSource = tableViewDataSource
         self.tableView.delegate = self
+        
+        //MARK: - NavigationBar Style Setting
         self.setNavigationBarItem()
     }
 
@@ -27,6 +30,7 @@ class PrimaryViewController: UIViewController {
     }
 }
 
+//MARK: - TablviewDelegate Method
 extension PrimaryViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.giveDataToSecondaryVC(indexPath, tableView)
@@ -42,15 +46,20 @@ extension PrimaryViewController: UITableViewDelegate {
     }
 }
 
+//MARK:- NavigationBar related Method
 extension PrimaryViewController {
     private func setNavigationBarItem() {
         let navigationBarTitle = "메모"
         self.title = navigationBarTitle
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: nil, action: #selector(didTabButton))
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(didTabButton))
     }
     
     @objc func didTabButton() {
-        let detailVC = SecondaryViewController()
-        self.showDetailViewController(detailVC, sender: nil)
+        guard let secondVC = self.splitViewController?.viewController(for: .secondary) as? SecondaryViewController else {
+            return
+        }
+        let emptyHolder = TextViewRelatedDataHolder(indexPath: nil, tableView: nil, textViewText: nil)
+        secondVC.configure(emptyHolder)
+        self.splitViewController?.show(.secondary)
     }
 }

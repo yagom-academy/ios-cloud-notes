@@ -9,6 +9,7 @@ import UIKit
 
 class MemoListTableViewCell: UITableViewCell {
     static let identifier = "MemoListCell"
+    private let textMaximumCount = 40
     
     let titleLabel: UILabel = {
         let titleLabel = UILabel()
@@ -41,7 +42,7 @@ class MemoListTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        addContentView()
+        addSubView()
         configureAutoLayout()
     }
     
@@ -49,7 +50,14 @@ class MemoListTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func addContentView() {
+    private func editShortText(text: String) -> String {
+        guard text.count > textMaximumCount else { return text }
+        let endIndex = text.index(text.startIndex, offsetBy: textMaximumCount)
+        return text[text.startIndex...endIndex].description + "..."
+        
+    }
+    
+    private func addSubView() {
         contentView.addSubview(titleLabel)
         contentView.addSubview(dateLabel)
         contentView.addSubview(shortDiscriptionLabel)
@@ -57,7 +65,7 @@ class MemoListTableViewCell: UITableViewCell {
     
     func configureCell(with data: Memo) {
         titleLabel.text = data.title
-        shortDiscriptionLabel.text = data.body
+        shortDiscriptionLabel.text = editShortText(text: data.body)
         dateLabel.text = dateFormatter.string(from: Date(timeIntervalSince1970: data.date))
     }
     
@@ -65,19 +73,19 @@ class MemoListTableViewCell: UITableViewCell {
         let margin: CGFloat = 10
         
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: margin / 2),
+            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: margin / 2),
             titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: margin),
-            titleLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: margin),
+            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             
             dateLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
             dateLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: margin),
-            dateLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -margin / 2),
+            dateLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -margin / 2),
            
             
-            shortDiscriptionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
-            shortDiscriptionLabel.leadingAnchor.constraint(equalTo: self.dateLabel.trailingAnchor, constant: margin * 2),
-            shortDiscriptionLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: margin),
-            shortDiscriptionLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -margin / 2)
+            shortDiscriptionLabel.topAnchor.constraint(equalTo: dateLabel.topAnchor),
+            shortDiscriptionLabel.leadingAnchor.constraint(equalTo: dateLabel.trailingAnchor, constant: margin),
+            shortDiscriptionLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -margin),
+            shortDiscriptionLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -margin / 2)
         ])
     }
     

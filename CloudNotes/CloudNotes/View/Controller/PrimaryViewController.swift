@@ -18,7 +18,7 @@ class PrimaryViewController: UIViewController {
         return context
     }()
     
-    var memos: [Memo]?
+    static var memos: [Memo]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,7 +27,7 @@ class PrimaryViewController: UIViewController {
         self.tableView.register(MainTableViewCell.self, forCellReuseIdentifier: CellID.defaultCell.identifier)
         self.tableView.dataSource = tableViewDataSource
         self.tableView.delegate = self
-        
+        self.fetchCoreDataItems()
         //MARK: - NavigationBar Style Setting
         self.setNavigationBarItem()
     }
@@ -78,7 +78,7 @@ extension PrimaryViewController {
     //MARK: - Fetch CoreData Method
     func fetchCoreDataItems() {
         do {
-            self.memos = try self.context.fetch(Memo.fetchRequest())
+            PrimaryViewController.memos = try self.context.fetch(Memo.fetchRequest())
             DispatchQueue.main.async {
                 self.tableView.reloadData()
             }

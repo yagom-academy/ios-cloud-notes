@@ -17,10 +17,6 @@ class SplitViewController: UISplitViewController {
         super.viewDidLoad()
         self.decideSpliveVCPreferences()
         self.delegate = splitViewDelegate
-        
-        guard container != nil else {
-            fatalError("This view needs a persistent container.")
-        }
     }
 }
 

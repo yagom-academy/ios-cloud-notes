@@ -10,13 +10,15 @@ import CoreData
 class PrimaryViewController: UIViewController {
     private let tableView = UITableView()
     private let tableViewDataSource = MainVCTableViewDataSource()
-    let context = { () -> NSManagedObjectContext in
+    private let context: NSManagedObjectContext = { () -> NSManagedObjectContext in
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             return NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
         }
         let context = appDelegate.persistentContainer.viewContext
         return context
-    }
+    }()
+    
+    var memos: [Memo]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,7 +31,7 @@ class PrimaryViewController: UIViewController {
         //MARK: - NavigationBar Style Setting
         self.setNavigationBarItem()
     }
-
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         self.tableView.cellLayoutMarginsFollowReadableWidth = false
@@ -69,5 +71,36 @@ extension PrimaryViewController {
         let emptyHolder = TextViewRelatedDataHolder(indexPath: nil, tableView: nil, textViewText: nil)
         secondVC.configure(emptyHolder)
         self.splitViewController?.show(.secondary)
+    }
+}
+
+extension PrimaryViewController {
+    //MARK: - Fetch CoreData Method
+    func fetchCoreDataItems() {
+        do {
+            self.memos = try self.context.fetch(Memo.fetchRequest())
+        } catch {
+            print(CoreDataError.fetchError.errorDescription)
+        }
+    }
+}
+
+enum CoreDataError: Error, LocalizedError {
+    case fetchError
+    case saveError
+    case deletError
+    case updateError
+    
+    var errorDescription: String? {
+        switch self {
+        case .fetchError:
+            return "fetch에 실패했습니다."
+        case .saveError:
+            return "save에 실패했습니다."
+        case .deletError:
+            return "delet에 실패했습니다."
+        case .updateError:
+            return "update에 실패했습니다."
+        }
     }
 }

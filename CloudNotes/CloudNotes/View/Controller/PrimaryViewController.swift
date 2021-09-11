@@ -5,10 +5,18 @@
 // 
 
 import UIKit
+import CoreData
 
 class PrimaryViewController: UIViewController {
     private let tableView = UITableView()
     private let tableViewDataSource = MainVCTableViewDataSource()
+    let context = { () -> NSManagedObjectContext in
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            return NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
+        }
+        let context = appDelegate.persistentContainer.viewContext
+        return context
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

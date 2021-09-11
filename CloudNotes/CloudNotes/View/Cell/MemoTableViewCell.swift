@@ -17,7 +17,7 @@ class MemoTableViewCell: UITableViewCell {
     var cellViewModel: MemoCellViewModel? {
         didSet {
             titleLabel.text = cellViewModel?.title
-            dateLabel.text = cellViewModel?.lastModified.description
+            dateLabel.text = cellViewModel?.lastModified
             previewLabel.text = cellViewModel?.body
         }
     }

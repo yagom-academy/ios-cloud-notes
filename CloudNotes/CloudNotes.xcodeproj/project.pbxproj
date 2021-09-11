@@ -21,10 +21,10 @@
 		E65E358126E23B2A003D5D1F /* MemoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65E358026E23B2A003D5D1F /* MemoDetailViewController.swift */; };
 		E67D9BA626ECF3D700570B51 /* MemoSendable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E67D9BA526ECF3D700570B51 /* MemoSendable.swift */; };
 		E67D9BA826ECFEB500570B51 /* UIAlertController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E67D9BA726ECFEB500570B51 /* UIAlertController+Extension.swift */; };
+		E67D9BAA26ED02C900570B51 /* DateFormattingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E67D9BA926ED02C900570B51 /* DateFormattingManager.swift */; };
 		E68C416126E2100F000680B1 /* MemoSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68C416026E2100F000680B1 /* MemoSplitViewController.swift */; };
 		E68C416726E22C23000680B1 /* (null) in Resources */ = {isa = PBXBuildFile; };
 		E68C416826E22C29000680B1 /* (null) in Resources */ = {isa = PBXBuildFile; };
-		E690524C26EA3D52009224E3 /* DataFormatter+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E690524B26EA3D52009224E3 /* DataFormatter+Extension.swift */; };
 		E69774B226E608F4008C14B7 /* Memo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E69774B126E608F4008C14B7 /* Memo.swift */; };
 		E69774B526E60C3C008C14B7 /* ParsingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E69774B426E60C3C008C14B7 /* ParsingManager.swift */; };
 		E69774B826E60E9D008C14B7 /* ParsingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E69774B726E60E9D008C14B7 /* ParsingError.swift */; };
@@ -76,9 +76,9 @@
 		E65E358026E23B2A003D5D1F /* MemoDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoDetailViewController.swift; sourceTree = "<group>"; };
 		E67D9BA526ECF3D700570B51 /* MemoSendable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoSendable.swift; sourceTree = "<group>"; };
 		E67D9BA726ECFEB500570B51 /* UIAlertController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertController+Extension.swift"; sourceTree = "<group>"; };
+		E67D9BA926ED02C900570B51 /* DateFormattingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormattingManager.swift; sourceTree = "<group>"; };
 		E68C416026E2100F000680B1 /* MemoSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoSplitViewController.swift; sourceTree = "<group>"; };
 		E68C416326E21EFA000680B1 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
-		E690524B26EA3D52009224E3 /* DataFormatter+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DataFormatter+Extension.swift"; sourceTree = "<group>"; };
 		E69774B126E608F4008C14B7 /* Memo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memo.swift; sourceTree = "<group>"; };
 		E69774B426E60C3C008C14B7 /* ParsingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParsingManager.swift; sourceTree = "<group>"; };
 		E69774B726E60E9D008C14B7 /* ParsingError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParsingError.swift; sourceTree = "<group>"; };
@@ -229,7 +229,6 @@
 		E690524A26EA3D31009224E3 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
-				E690524B26EA3D52009224E3 /* DataFormatter+Extension.swift */,
 				E67D9BA726ECFEB500570B51 /* UIAlertController+Extension.swift */,
 			);
 			path = Extension;
@@ -247,6 +246,7 @@
 			isa = PBXGroup;
 			children = (
 				E69774B426E60C3C008C14B7 /* ParsingManager.swift */,
+				E67D9BA926ED02C900570B51 /* DateFormattingManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -485,8 +485,8 @@
 				E68C416126E2100F000680B1 /* MemoSplitViewController.swift in Sources */,
 				E69774B226E608F4008C14B7 /* Memo.swift in Sources */,
 				E65E357F26E23B1F003D5D1F /* MemoListViewController.swift in Sources */,
+				E67D9BAA26ED02C900570B51 /* DateFormattingManager.swift in Sources */,
 				C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */,
-				E690524C26EA3D52009224E3 /* DataFormatter+Extension.swift in Sources */,
 				C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */,
 				C7481C7825BBCF3900B9CA55 /* CloudNotes.xcdatamodeld in Sources */,
 				E67D9BA826ECFEB500570B51 /* UIAlertController+Extension.swift in Sources */,

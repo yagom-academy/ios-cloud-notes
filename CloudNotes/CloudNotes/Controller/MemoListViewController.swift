@@ -13,6 +13,7 @@ class MemoListViewController: UIViewController {
     private let lineBreak = "\n\n"
     private var memoList: [Memo] = []
     private let parsingManager = ParsingManager()
+    private let dateFormattingManager = DateFormattingManager()
     private let memoListTableView = UITableView()
     private var selectedIndexPath: IndexPath?
     var delegate: MemoSendable?
@@ -66,7 +67,7 @@ class MemoListViewController: UIViewController {
         guard let customCell = memoListTableView.dequeueReusableCell(withIdentifier: MemoCustomCell.cellIdentifier, for: indexPath) as? MemoCustomCell else {
             return
         }
-        customCell.configureContent(from: memo, with: DateFormatter.convertDoubleTypeToDate(of: memo.lastModified))
+        customCell.configureContent(from: memo, with: dateFormattingManager.convertDoubleTypeToDate(of: memo.lastModified))
         memoListTableView.reloadRows(at: [indexPath], with: .none)
     }
 }
@@ -81,7 +82,7 @@ extension MemoListViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         let currentMemo = memoList[indexPath.row]
-        customCell.configureContent(from: currentMemo, with: DateFormatter.convertDoubleTypeToDate(of: currentMemo.lastModified))
+        customCell.configureContent(from: currentMemo, with: dateFormattingManager.convertDoubleTypeToDate(of: currentMemo.lastModified))
         return customCell
     }
 }

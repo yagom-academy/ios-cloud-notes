@@ -9,12 +9,10 @@ import UIKit
 import CoreData
 
 class SplitViewController: UISplitViewController {
-    var container: NSPersistentContainer?
-    
     private let detailVC = SecondaryViewController()
     private let primaryVC = PrimaryViewController()
     private let splitViewDelegate = SplitViewDelegate()
-    
+     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.decideSpliveVCPreferences()

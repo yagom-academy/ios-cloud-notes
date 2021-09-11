@@ -49,13 +49,14 @@ class MemoListViewController: UIViewController {
         ])
     }
     
-    private func fetchDataToMemoList(by asset: String) {
-        let parsedData = parsingManager.decode(from: asset, to: [Memo].self)
+    private func fetchDataToMemoList(by assetName: String) {
+        let parsedData = parsingManager.decode(from: assetName, to: [Memo].self)
         switch parsedData {
         case .success(let result):
             memoList.append(contentsOf: result)
         case .failure(let error):
-            print(error.errorDescription)
+            let okAction = UIAlertAction(title: "확인", style: .default, handler: nil)
+            UIAlertController.showAlert(title: "오류가 발생하였습니다.", message: error.errorDescription, preferredStyle: .alert, actions: [okAction], animated: true, viewController: self)
         }
     }
     

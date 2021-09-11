@@ -20,6 +20,7 @@
 		E65E357F26E23B1F003D5D1F /* MemoListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65E357E26E23B1F003D5D1F /* MemoListViewController.swift */; };
 		E65E358126E23B2A003D5D1F /* MemoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65E358026E23B2A003D5D1F /* MemoDetailViewController.swift */; };
 		E67D9BA626ECF3D700570B51 /* MemoSendable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E67D9BA526ECF3D700570B51 /* MemoSendable.swift */; };
+		E67D9BA826ECFEB500570B51 /* UIAlertController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E67D9BA726ECFEB500570B51 /* UIAlertController+Extension.swift */; };
 		E68C416126E2100F000680B1 /* MemoSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68C416026E2100F000680B1 /* MemoSplitViewController.swift */; };
 		E68C416726E22C23000680B1 /* (null) in Resources */ = {isa = PBXBuildFile; };
 		E68C416826E22C29000680B1 /* (null) in Resources */ = {isa = PBXBuildFile; };
@@ -74,6 +75,7 @@
 		E65E357E26E23B1F003D5D1F /* MemoListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoListViewController.swift; sourceTree = "<group>"; };
 		E65E358026E23B2A003D5D1F /* MemoDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoDetailViewController.swift; sourceTree = "<group>"; };
 		E67D9BA526ECF3D700570B51 /* MemoSendable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoSendable.swift; sourceTree = "<group>"; };
+		E67D9BA726ECFEB500570B51 /* UIAlertController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertController+Extension.swift"; sourceTree = "<group>"; };
 		E68C416026E2100F000680B1 /* MemoSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoSplitViewController.swift; sourceTree = "<group>"; };
 		E68C416326E21EFA000680B1 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		E690524B26EA3D52009224E3 /* DataFormatter+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DataFormatter+Extension.swift"; sourceTree = "<group>"; };
@@ -228,6 +230,7 @@
 			isa = PBXGroup;
 			children = (
 				E690524B26EA3D52009224E3 /* DataFormatter+Extension.swift */,
+				E67D9BA726ECFEB500570B51 /* UIAlertController+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -486,6 +489,7 @@
 				E690524C26EA3D52009224E3 /* DataFormatter+Extension.swift in Sources */,
 				C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */,
 				C7481C7825BBCF3900B9CA55 /* CloudNotes.xcdatamodeld in Sources */,
+				E67D9BA826ECFEB500570B51 /* UIAlertController+Extension.swift in Sources */,
 				E69774B526E60C3C008C14B7 /* ParsingManager.swift in Sources */,
 				E67D9BA626ECF3D700570B51 /* MemoSendable.swift in Sources */,
 				E69774BA26E65BA1008C14B7 /* MemoCustomCell.swift in Sources */,

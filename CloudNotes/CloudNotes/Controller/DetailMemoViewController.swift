@@ -42,7 +42,7 @@ class DetailMemoViewController: UIViewController {
         updateMemo()
         configureAutoLayout()
         configureNavigationItem()
-        //registerNotification()
+        registerNotification()
     }
     
     private func registerNotification() {

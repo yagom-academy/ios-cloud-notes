@@ -10,8 +10,13 @@ import UIKit
 class SecondaryViewController: UIViewController {
     private var secondaryView: SecondaryView?
     private let twiceLineBreaks = "\n\n"
-    private let hidableDoneButton = UIBarButtonItem(barButtonSystemItem: .done, target: nil, action: #selector(resignFromTextView))
-    private let seeMoreStaticButton = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: nil, action: nil)
+    private let hidableDoneButton = UIBarButtonItem(barButtonSystemItem: .done,
+                                                    target: nil,
+                                                    action: #selector(resignFromTextView))
+    private let seeMoreStaticButton = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"),
+                                                      style: .plain,
+                                                      target: nil,
+                                                      action: #selector(tappingSeeMoreButton))
     
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -51,7 +56,7 @@ class SecondaryViewController: UIViewController {
     }
 }
 
-// MARK: - Keyboard Notification
+// MARK: - Keyboard Notification & Actions
 extension SecondaryViewController {
     @objc func keyboardWasShown(_ notification: Notification) {
         setBarButtons(isHide: false)
@@ -59,6 +64,28 @@ extension SecondaryViewController {
     
     @objc func keyboardWillBeHidden(_ notification: Notification) {
         setBarButtons(isHide: true)
+    }
+    
+    @objc func resignFromTextView() {
+        secondaryView?.textView.resignFirstResponder()
+    }
+    // MARK: Alerts
+    @objc func tappingSeeMoreButton() {
+        resignFromTextView()
+        let sheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        sheet.addAction(UIAlertAction(title: "Share...", style: .default, handler: { _ in }))
+        sheet.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: selectedDelete))
+        sheet.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        self.present(sheet, animated: true, completion: nil)
+    }
+    
+    func selectedDelete(action: UIAlertAction) {
+        let alert = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: "취소", style: .default))
+        alert.addAction(UIAlertAction(title: "삭제", style: .destructive, handler: { _ in }))
+        self.present(alert, animated: true)
     }
     
     func setBarButtons(isHide: Bool) {
@@ -79,12 +106,5 @@ extension SecondaryViewController {
     func updateDetailView(by memo: MemoModel) {
         let text = memo.title + twiceLineBreaks + memo.body
         self.secondaryView?.configure(by: text)
-    }
-}
-
-// MARK: - Keyboard Notification
-extension SecondaryViewController {
-    @objc func resignFromTextView() {
-        secondaryView?.textView.resignFirstResponder()
     }
 }

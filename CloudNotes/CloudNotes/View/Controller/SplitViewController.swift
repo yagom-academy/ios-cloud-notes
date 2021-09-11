@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import CoreData
 
 class SplitViewController: UISplitViewController {
     private let detailVC = SecondaryViewController()

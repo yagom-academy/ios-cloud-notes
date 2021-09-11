@@ -6,9 +6,12 @@
 //
 
 import UIKit
+import CoreData
 
-class SecondaryViewController: UIViewController {
+class SecondaryViewController: UIViewController, CoreDataUsable {
     private var textView = UITextView()
+    private let context = CoreDataManager.context
+    
     var holder: TextViewRelatedDataHolder?
     
     override func viewDidLoad() {
@@ -33,8 +36,10 @@ extension SecondaryViewController: UITextViewDelegate {
         let someDate = Date()
         let timeInterval = someDate.timeIntervalSince1970
         let myInt = Int(timeInterval)
-        MemoData.list[holder?.indexPath?.row ?? .zero ].lastModified = myInt
-        self.holder?.tableView?.reloadData()
+        
+        let newMemo = Memo(context: self.context)
+        newMemo.lastModifiedDate = Int64(myInt)
+        self.fetchCoreDataItems(context, holder?.tableView ?? UITableView())
     }
 }
 

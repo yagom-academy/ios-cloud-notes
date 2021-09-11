@@ -7,18 +7,28 @@
 import UIKit
 import CoreData
 
-class PrimaryViewController: UIViewController {
+protocol CoreDataUsable {
+    func fetchCoreDataItems(_ context: NSManagedObjectContext, _ tableview: UITableView)
+}
+
+extension CoreDataUsable {
+    func fetchCoreDataItems(_ context: NSManagedObjectContext, _ tableview: UITableView) {
+        do {
+            CoreDataManager.memos = try context.fetch(Memo.fetchRequest())
+            DispatchQueue.main.async {
+                tableview.reloadData()
+            }
+        } catch {
+            print(CoreDataError.fetchError.errorDescription)
+        }
+    }
+}
+
+class PrimaryViewController: UIViewController, CoreDataUsable {
     private let tableView = UITableView()
     private let tableViewDataSource = MainVCTableViewDataSource()
-    private let context: NSManagedObjectContext = { () -> NSManagedObjectContext in
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            return NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
-        }
-        let context = appDelegate.persistentContainer.viewContext
-        return context
-    }()
-    
-    static var memos: [Memo]?
+    private let context = CoreDataManager.context
+    private var memos = CoreDataManager.memos
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,7 +37,8 @@ class PrimaryViewController: UIViewController {
         self.tableView.register(MainTableViewCell.self, forCellReuseIdentifier: CellID.defaultCell.identifier)
         self.tableView.dataSource = tableViewDataSource
         self.tableView.delegate = self
-        self.fetchCoreDataItems()
+        self.fetchCoreDataItems(context, tableView)
+        
         //MARK: - NavigationBar Style Setting
         self.setNavigationBarItem()
     }
@@ -50,7 +61,7 @@ extension PrimaryViewController: UITableViewDelegate {
     private func giveDataToSecondaryVC(_ indexPath: IndexPath, _ tableView: UITableView) {
         let secondVC = splitViewController?.viewController(for: .secondary) as? SecondaryViewController
         let lineBreaker = "\n"
-        let transferedText = "\(MemoData.list[indexPath.row].title)" + lineBreaker + lineBreaker + "\(MemoData.list[indexPath.row].body)"
+        let transferedText = "\(self.memos?[indexPath.row].title ?? "")" + lineBreaker + lineBreaker + "\(self.memos?[indexPath.row].body ?? "")"
         let tableViewIndexPathHolder = TextViewRelatedDataHolder(indexPath: indexPath, tableView: tableView, textViewText: transferedText)
         secondVC?.configure(tableViewIndexPathHolder)
     }
@@ -71,19 +82,5 @@ extension PrimaryViewController {
         let emptyHolder = TextViewRelatedDataHolder(indexPath: nil, tableView: nil, textViewText: nil)
         secondVC.configure(emptyHolder)
         self.splitViewController?.show(.secondary)
-    }
-}
-
-extension PrimaryViewController {
-    //MARK: - Fetch CoreData Method
-    func fetchCoreDataItems() {
-        do {
-            PrimaryViewController.memos = try self.context.fetch(Memo.fetchRequest())
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
-        } catch {
-            print(CoreDataError.fetchError.errorDescription)
-        }
     }
 }

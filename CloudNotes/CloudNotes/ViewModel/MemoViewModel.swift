@@ -1,5 +1,5 @@
 //
-//  MemoTableViewModel.swift
+//  MemoViewModel.swift
 //  CloudNotes
 //
 //  Created by Dasoll Park on 2021/09/07.

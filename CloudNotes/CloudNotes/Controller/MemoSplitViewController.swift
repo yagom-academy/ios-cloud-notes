@@ -8,19 +8,36 @@
 import UIKit
 
 class MemoSplitViewController: UISplitViewController {
-
+    private let primary = MemoListViewController()
+    private let secondary = MemoDetailViewController()
+    private var modiryCell: UITableViewCell?
+    private let linebreak = "\n\n"
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.preferredDisplayMode = .oneBesideSecondary
         self.preferredSplitBehavior = .tile
-        assignColumnsToChildVC(primary: MemoListViewController(), secondary: MemoDetailViewController(), supplementary: nil)
+        assignColumnsToChildVC(primary: primary, secondary: secondary, supplementary: nil)
         self.delegate = self
+        primary.delegate = self
+        secondary.delegate = self
     }
     
     private func assignColumnsToChildVC(primary: UIViewController, secondary: UIViewController, supplementary: UINavigationController?) {
         setViewController(primary, for: .primary)
         setViewController(secondary, for: .secondary)
         setViewController(supplementary, for: .supplementary)
+    }
+}
+
+extension MemoSplitViewController: MemoSendable {
+    func sendToListVC(memo: Memo) {
+        primary.configureModifiedCell(by: memo)
+    }
+    
+    func sendToDetailVC(memo: Memo) {
+        secondary.configureTextView(by: memo)
+        show(.secondary)
     }
 }
 

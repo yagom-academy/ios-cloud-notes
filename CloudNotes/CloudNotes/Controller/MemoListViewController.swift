@@ -11,25 +11,30 @@ class MemoListViewController: UIViewController {
     private let navigationTitle = "메모"
     private let sampleAsset = "sample"
     private let lineBreak = "\n\n"
-
     private var memoList: [Memo] = []
     private let parsingManager = ParsingManager()
     private let memoListTableView = UITableView()
-    
+    private var selectedIndexPath: IndexPath?
+    var delegate: MemoSendable?
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.addSubview(memoListTableView)
         makeNavigationItem()
         fetchDataToMemoList(by: sampleAsset)
-        setLayoutForTableView()
-        memoListTableView.dataSource = self
-        memoListTableView.delegate = self
-        memoListTableView.register(MemoCustomCell.classForCoder(), forCellReuseIdentifier: MemoCustomCell.cellIdentifier)
+        setTableViewToMemoListVC()
     }
     
     private func makeNavigationItem() {
         self.navigationItem.title = navigationTitle
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(touchUpPlusButton))
+    }
+    
+    private func setTableViewToMemoListVC() {
+        view.addSubview(memoListTableView)
+        memoListTableView.dataSource = self
+        memoListTableView.delegate = self
+        memoListTableView.register(MemoCustomCell.classForCoder(), forCellReuseIdentifier: MemoCustomCell.cellIdentifier)
+        setLayoutForTableView()
     }
     //TODO: - show memoDetailTextView when it`s touched
     @objc private func touchUpPlusButton() {
@@ -50,8 +55,18 @@ class MemoListViewController: UIViewController {
         case .success(let result):
             memoList.append(contentsOf: result)
         case .failure(let error):
-            error.localizedDescription
+            print(error.errorDescription)
         }
+    }
+    
+    func configureModifiedCell(by memo: Memo) {
+        guard let indexPath = selectedIndexPath else { return }
+        memoList[indexPath.row] = memo
+        guard let customCell = memoListTableView.dequeueReusableCell(withIdentifier: MemoCustomCell.cellIdentifier, for: indexPath) as? MemoCustomCell else {
+            return
+        }
+        customCell.configureContent(from: memo, with: DateFormatter.convertDoubleTypeToDate(of: memo.lastModified))
+        memoListTableView.reloadRows(at: [indexPath], with: .none)
     }
 }
 
@@ -72,8 +87,7 @@ extension MemoListViewController: UITableViewDataSource {
 
 extension MemoListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let detailVC = splitViewController?.viewController(for: .secondary) as? MemoDetailViewController else { return }
-        detailVC.memoDeatailTextView.text = memoList[indexPath.row].title + lineBreak + memoList[indexPath.row].body
-        splitViewController?.show(.secondary)
+        selectedIndexPath = indexPath
+        delegate?.sendToDetailVC(memo: memoList[indexPath.row])
     }
 }

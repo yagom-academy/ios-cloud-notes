@@ -8,8 +8,7 @@
 import Foundation
 
 extension DateFormatter {
-    static func convertDoubleTypeToDate(of date: Double) -> String {
-        let date = Date(timeIntervalSince1970: date)
+    static func convertDoubleTypeToDate(of date: Date) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.timeZone = TimeZone(abbreviation: "KST")
         dateFormatter.dateFormat = "yyyy.MM.dd"

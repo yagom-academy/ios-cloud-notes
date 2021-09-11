@@ -79,6 +79,9 @@ extension PrimaryViewController {
     func fetchCoreDataItems() {
         do {
             self.memos = try self.context.fetch(Memo.fetchRequest())
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
         } catch {
             print(CoreDataError.fetchError.errorDescription)
         }

@@ -8,7 +8,7 @@ import UIKit
 
 class ContentViewController: UIViewController {
     // MARK: - Property
-    var textView: UITextView?
+    private var textView: UITextView?
     var memo: String?
 
     // MARK: - Life Cycle
@@ -28,7 +28,7 @@ class ContentViewController: UIViewController {
 // MARK: - Method
 extension ContentViewController {
     @discardableResult
-    func configureTextView() -> UITextView {
+    private func configureTextView() -> UITextView {
         let textView = UITextView()
         textView.backgroundColor = UIColor.lightGray
         view.addSubview(textView)
@@ -37,15 +37,15 @@ extension ContentViewController {
         return textView
     }
 
-    func applyAdaptiveLayoutByDevice(textView: () -> UITextView) {
+    private func applyAdaptiveLayoutByDevice(textView: () -> UITextView) {
         if UITraitCollection.current.userInterfaceIdiom == .phone {
             textView().font = UIFont.systemFont(ofSize: 20, weight: .bold)
         } else {
-            textView().font = UIFont.systemFont(ofSize: 20, weight: .bold)
+            textView().font = UIFont.systemFont(ofSize: 25, weight: .bold)
         }
     }
 
-    func configureNavigationBar() {
+    private func configureNavigationBar() {
         let itemImage = UIImage(systemName: "ellipsis.circle")
         let rightBarButtonItem = UIBarButtonItem(image: itemImage, style: .plain, target: nil, action: nil)
         navigationItem.setRightBarButton(rightBarButtonItem, animated: true)

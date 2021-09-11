@@ -7,10 +7,10 @@
 
 import UIKit
 
-class TableCell: UITableViewCell {
+class MemoListTableViewCell: UITableViewCell {
     // MARK: - property
     private lazy var titleLabel: UILabel = {
-       let label = UILabel()
+        let label = UILabel()
         label.lineBreakMode = .byTruncatingTail
         label.numberOfLines = 1
         label.font = UIFont.boldSystemFont(ofSize: 20)
@@ -18,14 +18,14 @@ class TableCell: UITableViewCell {
     }()
 
     private lazy var dateLabel: UILabel = {
-       let label = UILabel()
+        let label = UILabel()
         let priority = UILayoutPriority(1000)
         label.setContentCompressionResistancePriority(priority, for: .horizontal)
         return label
     }()
 
     private lazy var firstLineOfContentLabel: UILabel = {
-       let label = UILabel()
+        let label = UILabel()
         label.lineBreakMode = .byTruncatingTail
         label.numberOfLines = 1
         label.textColor = .systemGray
@@ -35,7 +35,8 @@ class TableCell: UITableViewCell {
     // MARK: - initializer
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        cellComponentConfigure()
+        configureCellComponent()
+        addConstraintCellComponent()
     }
 
     required init?(coder: NSCoder) {
@@ -44,14 +45,17 @@ class TableCell: UITableViewCell {
 
 }
 
-extension TableCell {
+extension MemoListTableViewCell {
     // MARK: - Method
-    private func cellComponentConfigure() {
+    private func configureCellComponent() {
         backgroundColor = .systemBackground
+        self.accessoryType = .disclosureIndicator
         addSubview(titleLabel)
         addSubview(dateLabel)
         addSubview(firstLineOfContentLabel)
+    }
 
+    private func addConstraintCellComponent() {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         dateLabel.translatesAutoresizingMaskIntoConstraints = false
         firstLineOfContentLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -83,9 +87,6 @@ extension TableCell {
             firstLineOfContentLabelLeadingConstraint,
             firstLineOfContentLabelBottomConstraint
         ])
-
-        self.accessoryType = .disclosureIndicator
-
     }
 
     func configure(title: String, content: String, date: String) {

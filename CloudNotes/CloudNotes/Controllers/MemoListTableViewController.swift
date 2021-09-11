@@ -7,26 +7,25 @@
 import UIKit
 
 // MARK: - Global Variable
-private let reusableIdentifier = "cell"
-private var parsedDatas = [SampleData]()
 
 class MemoListTableViewController: UITableViewController {
+
     // MARK: - Property
+    private let reusableIdentifier = "cell"
+    private var parsedDatas = [SampleData]()
     weak var delegate: MemoListTableViewControllerDelegate?
 
     // MARK: - Date Formatter
-    let formatter: DateFormatter = {
-       let f = DateFormatter()
-        f.dateStyle = .short
-        f.locale = Locale(identifier: "ko_kr")
-        return f
+    private let dateFormatter: DateFormatter = {
+       let formatter = DateFormatter()
+        formatter.dateStyle = .short
+        formatter.locale = Locale(identifier: "ko_kr")
+        return formatter
     }()
 
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        print("tableView did Load")
         decoding()
         configureTableView()
         configureNavigationBar()
@@ -35,19 +34,32 @@ class MemoListTableViewController: UITableViewController {
 }
 extension MemoListTableViewController {
     // MARK: - Method
-    @objc func pushContentPage() {
-        let contentView = ContentViewController()
-        navigationController?.pushViewController(contentView, animated: true)
+    @objc private func pushContentPage() {
+        let contentViewController = ContentViewController()
+        navigationController?.pushViewController(contentViewController, animated: true)
     }
 
-    func configureTableView() {
-        tableView.register(TableCell.self, forCellReuseIdentifier: reusableIdentifier)
+    private func configureTableView() {
+        tableView.register(MemoListTableViewCell.self, forCellReuseIdentifier: reusableIdentifier)
     }
 
-    func configureNavigationBar() {
+    private func configureNavigationBar() {
         navigationItem.title = "메모"
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(pushContentPage))
     }
+
+    private func decoding() {
+        guard let url = Bundle.main.url(forResource: "sample", withExtension: "json") else { fatalError()}
+        do {
+            let decoder = JSONDecoder()
+            let data = try Data(contentsOf: url)
+            let parsedData = try decoder.decode([SampleData].self, from: data)
+            parsedDatas = parsedData
+        } catch {
+            print(String(describing: error))
+        }
+    }
+
 }
 
 // MARK: - TableView Delegate Method
@@ -57,12 +69,12 @@ extension MemoListTableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: reusableIdentifier, for: indexPath) as? TableCell else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: reusableIdentifier, for: indexPath) as? MemoListTableViewCell else { return UITableViewCell() }
 
         let title = parsedDatas[indexPath.row].title
         let content = parsedDatas[indexPath.row].body
 
-        let date = formatter.string(from: Date(timeIntervalSince1970: Double(parsedDatas[indexPath.row].lastModified)))
+        let date = dateFormatter.string(from: Date(timeIntervalSince1970: Double(parsedDatas[indexPath.row].lastModified)))
         cell.configure(title: title, content: content, date: "\(date)")
         return cell
     }
@@ -75,25 +87,12 @@ extension MemoListTableViewController {
         (splitViewController?.viewControllers.last as? UINavigationController)?.popToRootViewController(animated: false)
         let body = parsedDatas[indexPath.row].body
         delegate?.didTapMemo(self, memo: body)
+
         let destination = UINavigationController()
         let contentViewController = ContentViewController()
         contentViewController.memo = body
         destination.viewControllers = [contentViewController]
-        self.showDetailViewController(destination, sender: self)
-    }
-}
 
-// MARK: - Extension method in UIViewController hierachy
-extension UIViewController {
-    func decoding() {
-        guard let url = Bundle.main.url(forResource: "sample", withExtension: "json") else { fatalError()}
-        do {
-            let decoder = JSONDecoder()
-            let data = try Data(contentsOf: url)
-            let parsedData = try decoder.decode([SampleData].self, from: data)
-            parsedDatas = parsedData
-        } catch {
-            print(String(describing: error))
-        }
+        self.showDetailViewController(destination, sender: self)
     }
 }

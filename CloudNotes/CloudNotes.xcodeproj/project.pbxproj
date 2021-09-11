@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		1BFBA7AB1A7F595317AE6E51 /* Pods_CloudNotesTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2FDDF8F0F3D737F7EF16DD5 /* Pods_CloudNotesTests.framework */; };
 		2B1DE3CE26E26E76007EE40A /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 2B1DE3CD26E26E76007EE40A /* .swiftlint.yml */; };
-		2B1DE3D326E398BB007EE40A /* TableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1DE3D226E398BB007EE40A /* TableCell.swift */; };
+		2B1DE3D326E398BB007EE40A /* MemoListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1DE3D226E398BB007EE40A /* MemoListTableViewCell.swift */; };
 		2B1DE3D526E3D04A007EE40A /* ContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1DE3D426E3D04A007EE40A /* ContentViewController.swift */; };
 		2B45493B26E3E06E00C73674 /* sample.json in Resources */ = {isa = PBXBuildFile; fileRef = 2B45493A26E3E06E00C73674 /* sample.json */; };
 		2B45493F26E3E0A900C73674 /* SampleDatas.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B45493E26E3E0A900C73674 /* SampleDatas.swift */; };
@@ -49,7 +49,7 @@
 /* Begin PBXFileReference section */
 		1AB640E857FB856A153A13C5 /* Pods_CloudNotes.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CloudNotes.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B1DE3CD26E26E76007EE40A /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
-		2B1DE3D226E398BB007EE40A /* TableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableCell.swift; sourceTree = "<group>"; };
+		2B1DE3D226E398BB007EE40A /* MemoListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoListTableViewCell.swift; sourceTree = "<group>"; };
 		2B1DE3D426E3D04A007EE40A /* ContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewController.swift; sourceTree = "<group>"; };
 		2B45493A26E3E06E00C73674 /* sample.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = sample.json; sourceTree = "<group>"; };
 		2B45493E26E3E0A900C73674 /* SampleDatas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleDatas.swift; sourceTree = "<group>"; };
@@ -122,7 +122,7 @@
 		2B1DE3D026E3989A007EE40A /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				2B1DE3D226E398BB007EE40A /* TableCell.swift */,
+				2B1DE3D226E398BB007EE40A /* MemoListTableViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -481,7 +481,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2B1DE3D326E398BB007EE40A /* TableCell.swift in Sources */,
+				2B1DE3D326E398BB007EE40A /* MemoListTableViewCell.swift in Sources */,
 				2B45493F26E3E0A900C73674 /* SampleDatas.swift in Sources */,
 				2B59571D26E8FE9D0054469D /* Extension+UIView.swift in Sources */,
 				C7481C7225BBCF3900B9CA55 /* MemoListTableViewController.swift in Sources */,

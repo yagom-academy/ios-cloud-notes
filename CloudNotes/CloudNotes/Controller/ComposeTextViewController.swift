@@ -22,9 +22,17 @@ class ComposeTextViewController: UIViewController, TextViewContraintable {
         return textView
     }()
     
+    weak var delegate: ComposeTextViewControllerDelegate?
+    
+    // MARK: View LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationItems()
+        configureView()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        setupTextViewFullScreen(composeTextView, superView: view)
     }
 }
 
@@ -33,19 +41,27 @@ extension ComposeTextViewController {
     func setupNavigationItems() {
         let rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save,
                                                  target: self,
-                                                 action: #selector(didTapSaveButton))
+                                                 action: #selector(didTapButton))
         let leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel,
                                                  target: self,
-                                                 action: #selector(didTapSaveButton))
+                                                 action: #selector(didTapButton))
         navigationItem.leftBarButtonItem = leftBarButtonItem
         navigationItem.rightBarButtonItem = rightBarButtonItem
     }
     
-    @objc func didTapSaveButton(_ sender: UIButton) {
-        if sender.tag == 1 {
-            print(123)
+    @objc func didTapButton(_ sender: UIButton) {
+        if sender == navigationItem.leftBarButtonItem {
+            dismiss(animated: true, completion: nil)
         } else {
+            delegate?.didTapSaveButton(composeTextView.text)
             dismiss(animated: true, completion: nil)
         }
+    }
+}
+
+extension ComposeTextViewController {
+    func configureView() {
+        view.backgroundColor = .white
+        view.addSubview(composeTextView)
     }
 }

@@ -34,9 +34,11 @@ final class CoreDataCloudMemo: CoreDatable {
         }
     }
     
-    func createNewMemo() -> CloudMemo {
+    func createNewMemo(title: String?, body: String?, lastModifier: Date?) {
         let memo = CloudMemo(context: context)
-        CoreDataCloudMemo.shared.createItem(memo)
-        return memo
+        memo.title = title
+        memo.body = body
+        memo.lastModified = lastModifier
+        CoreDataCloudMemo.shared.context.insert(memo)
     }
 }

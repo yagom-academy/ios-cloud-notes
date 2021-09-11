@@ -6,7 +6,7 @@
 
 import UIKit
 
-class SplitViewController: UISplitViewController {
+class SplitViewController: UISplitViewController, TextSeparatable {
     // MARK: Property
     private let memoListViewController = MemoListTableViewController()
     private let memoDetailViewController = MemoDetailViewController()
@@ -51,6 +51,16 @@ extension SplitViewController: MemoListDelegate {
     
     func didTapAddButton() {
         let composeViewController = ComposeTextViewController()
-        present(composeViewController, animated: true, completion: nil)
+        composeViewController.delegate = self
+        present(UINavigationController(rootViewController: composeViewController), animated: true, completion: nil)
+    }
+}
+
+extension SplitViewController: ComposeTextViewControllerDelegate {
+    func didTapSaveButton(_ text: String) {
+        let texts = separateText(text)
+        CoreDataCloudMemo.shared.createNewMemo(title: texts.title,
+                                               body: texts.body,
+                                               lastModifier: Date())
     }
 }

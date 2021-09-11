@@ -11,7 +11,6 @@ protocol CoreDatable {
     var context: NSManagedObjectContext { get }
     
     func contextSave()
-    func createItem<T: NSManagedObject>(_ item: T?)
     func deleteItem(object: NSManagedObject)
     func updateItem(_ item: NSManagedObject, handler: (NSManagedObject) -> Void)
 }
@@ -28,12 +27,6 @@ extension CoreDatable {
             context.rollback()
         }
         
-    }
-    
-    func createItem<T: NSManagedObject>(_ item: T?) {
-        guard let item = item else { return }
-        
-        context.insert(item)
     }
     
     func deleteItem(object: NSManagedObject) {

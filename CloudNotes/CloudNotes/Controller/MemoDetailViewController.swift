@@ -104,5 +104,6 @@ extension MemoDetailViewController: UITextViewDelegate {
         let texts = separateText(memoContentsTextView.text)
         currentMemo?.title = texts.title
         currentMemo?.body = texts.body
+        currentMemo?.lastModified = Date()
     }
 }

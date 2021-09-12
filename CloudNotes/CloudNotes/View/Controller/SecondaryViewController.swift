@@ -36,10 +36,23 @@ extension SecondaryViewController: UITextViewDelegate {
         let someDate = Date()
         let timeInterval = someDate.timeIntervalSince1970
         let myInt = Int(timeInterval)
-        let currentMemo = MemoDataManager.memos[holder?.indexPath?.row ?? .zero]
+        
+        let enterString = "\n"
+        let bodyStartIndex = 1
+        let currentMemo = textView.text.components(separatedBy: enterString)
+        let currentMemoTitle = currentMemo.first
+        let currentMemoBodyArray = currentMemo[bodyStartIndex...]
+        if currentMemoBodyArray.isEmpty {
+            return
+        }
+        
+        let currentMemoBody = currentMemoBodyArray.reduce(currentMemo[bodyStartIndex]) { $0 + enterString + $1 }
+        let currentMemoData = MemoDataManager.memos[holder?.indexPath?.row ?? .zero]
+        
         do {
-            currentMemo.title = textView.text
-            currentMemo.lastModifiedDate = Int64(myInt)
+            currentMemoData.title = currentMemoTitle
+            currentMemoData.body = currentMemoBody
+            currentMemoData.lastModifiedDate = Int64(myInt)
             try self.context.save()
         } catch {
             print(CoreDataError.saveError.errorDescription)

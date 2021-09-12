@@ -18,7 +18,7 @@ struct Memo {
     }
     var formatedLastModified: String? {
         let date = Date(timeIntervalSince1970: lastModified)
-        return date.transfromFormattedType()
+        return date.transformFormattedType()
     }
     
     init(title: String, body: String, lastModified: TimeInterval) {

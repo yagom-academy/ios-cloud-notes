@@ -21,7 +21,7 @@ extension Formattable {
 }
 
 extension Date: Formattable {
-    func transfromFormattedType() -> String? {
+    func transformFormattedType() -> String? {
         return formatter.string(for: self)
     }
 }

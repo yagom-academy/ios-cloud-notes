@@ -36,8 +36,15 @@ extension SecondaryViewController: UITextViewDelegate {
         let someDate = Date()
         let timeInterval = someDate.timeIntervalSince1970
         let myInt = Int(timeInterval)
-        let currentMemo = MemoDataManager.memos?[holder?.indexPath?.row ?? .zero]
-        currentMemo?.lastModifiedDate = Int64(myInt)
+        let currentMemo = MemoDataManager.memos[holder?.indexPath?.row ?? .zero]
+        do {
+            currentMemo.title = textView.text
+            currentMemo.lastModifiedDate = Int64(myInt)
+            try self.context.save()
+        } catch {
+            print(CoreDataError.saveError.errorDescription)
+        }
+        
         self.fetchCoreDataItems(context, holder?.tableView ?? UITableView())
     }
 }

@@ -9,7 +9,14 @@ import UIKit
 import CoreData
 
 class MemoDataManager {
-    static var memos: [Memo]?
+    static var memos: [Memo] = { () -> [Memo] in
+        do {
+            let test = try context.fetch(Memo.fetchRequest()) as [Memo]
+            return test
+        } catch {
+            return []
+        }
+    }()
     
     static let context: NSManagedObjectContext = { () -> NSManagedObjectContext in
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {

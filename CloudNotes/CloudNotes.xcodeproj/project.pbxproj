@@ -3,14 +3,27 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A82B6F5826EA215400ED0070 /* TextViewRelatedDataHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A82B6F5726EA215400ED0070 /* TextViewRelatedDataHolder.swift */; };
+		A82B6F5A26EB38A500ED0070 /* DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A82B6F5926EB38A500ED0070 /* DateFormatter.swift */; };
+		A830336226DE100A00EA30DC /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = A830336126DE100A00EA30DC /* .swiftlint.yml */; };
+		A830336D26DF972100EA30DC /* JSONParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = A830336C26DF972100EA30DC /* JSONParser.swift */; };
+		A830336F26DF976500EA30DC /* MemoDecodeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A830336E26DF976500EA30DC /* MemoDecodeModel.swift */; };
+		A83033C126E10B7100EA30DC /* MemoData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A83033C026E10B7100EA30DC /* MemoData.swift */; };
+		A83033C426E1146F00EA30DC /* MainVCTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A83033C326E1146F00EA30DC /* MainVCTableViewDataSource.swift */; };
+		A83033CB26E11DB900EA30DC /* NamePlace.swift in Sources */ = {isa = PBXBuildFile; fileRef = A83033CA26E11DB900EA30DC /* NamePlace.swift */; };
+		A83033CD26E1240100EA30DC /* MainTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A83033CC26E1240100EA30DC /* MainTableViewCell.swift */; };
+		A83033D026E1256300EA30DC /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A83033CF26E1256300EA30DC /* UIView.swift */; };
+		A8588C1D26E636F900F61A73 /* SplitViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8588C1C26E636F900F61A73 /* SplitViewDelegate.swift */; };
+		A85B476B26E4CA480070417B /* SecondaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A85B476A26E4CA480070417B /* SecondaryViewController.swift */; };
+		A85B476D26E4D9000070417B /* SplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A85B476C26E4D9000070417B /* SplitViewController.swift */; };
+		A85B477126E628760070417B /* CellContentDataHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A85B477026E628760070417B /* CellContentDataHolder.swift */; };
 		C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */; };
 		C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */; };
-		C7481C7225BBCF3900B9CA55 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C7125BBCF3900B9CA55 /* ViewController.swift */; };
-		C7481C7525BBCF3900B9CA55 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C7481C7325BBCF3900B9CA55 /* Main.storyboard */; };
+		C7481C7225BBCF3900B9CA55 /* PrimaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C7125BBCF3900B9CA55 /* PrimaryViewController.swift */; };
 		C7481C7825BBCF3900B9CA55 /* CloudNotes.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C7481C7625BBCF3900B9CA55 /* CloudNotes.xcdatamodeld */; };
 		C7481C7A25BBCF3A00B9CA55 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C7481C7925BBCF3A00B9CA55 /* Assets.xcassets */; };
 		C7481C7D25BBCF3A00B9CA55 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C7481C7B25BBCF3A00B9CA55 /* LaunchScreen.storyboard */; };
@@ -36,11 +49,24 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A82B6F5726EA215400ED0070 /* TextViewRelatedDataHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewRelatedDataHolder.swift; sourceTree = "<group>"; };
+		A82B6F5926EB38A500ED0070 /* DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatter.swift; sourceTree = "<group>"; };
+		A830336126DE100A00EA30DC /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
+		A830336C26DF972100EA30DC /* JSONParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONParser.swift; sourceTree = "<group>"; };
+		A830336E26DF976500EA30DC /* MemoDecodeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoDecodeModel.swift; sourceTree = "<group>"; };
+		A83033C026E10B7100EA30DC /* MemoData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoData.swift; sourceTree = "<group>"; };
+		A83033C326E1146F00EA30DC /* MainVCTableViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainVCTableViewDataSource.swift; sourceTree = "<group>"; };
+		A83033CA26E11DB900EA30DC /* NamePlace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NamePlace.swift; sourceTree = "<group>"; };
+		A83033CC26E1240100EA30DC /* MainTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableViewCell.swift; sourceTree = "<group>"; };
+		A83033CF26E1256300EA30DC /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
+		A8588C1C26E636F900F61A73 /* SplitViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitViewDelegate.swift; sourceTree = "<group>"; };
+		A85B476A26E4CA480070417B /* SecondaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondaryViewController.swift; sourceTree = "<group>"; };
+		A85B476C26E4D9000070417B /* SplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitViewController.swift; sourceTree = "<group>"; };
+		A85B477026E628760070417B /* CellContentDataHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellContentDataHolder.swift; sourceTree = "<group>"; };
 		C7481C6A25BBCF3900B9CA55 /* CloudNotes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CloudNotes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		C7481C7125BBCF3900B9CA55 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		C7481C7425BBCF3900B9CA55 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		C7481C7125BBCF3900B9CA55 /* PrimaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryViewController.swift; sourceTree = "<group>"; };
 		C7481C7725BBCF3900B9CA55 /* CloudNotes.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CloudNotes.xcdatamodel; sourceTree = "<group>"; };
 		C7481C7925BBCF3A00B9CA55 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C7481C7C25BBCF3A00B9CA55 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -78,13 +104,112 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A82B6F5B26EB4AB200ED0070 /* Holder */ = {
+			isa = PBXGroup;
+			children = (
+				A82B6F5726EA215400ED0070 /* TextViewRelatedDataHolder.swift */,
+				A85B477026E628760070417B /* CellContentDataHolder.swift */,
+			);
+			path = Holder;
+			sourceTree = "<group>";
+		};
+		A830336726DF929A00EA30DC /* View */ = {
+			isa = PBXGroup;
+			children = (
+				A8588C2226E7268D00F61A73 /* Cell */,
+				C7481C7B25BBCF3A00B9CA55 /* LaunchScreen.storyboard */,
+				A830336826DF92B100EA30DC /* Controller */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		A830336826DF92B100EA30DC /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				A85B476C26E4D9000070417B /* SplitViewController.swift */,
+				C7481C7125BBCF3900B9CA55 /* PrimaryViewController.swift */,
+				A85B476A26E4CA480070417B /* SecondaryViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		A830336926DF92B700EA30DC /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				A830336E26DF976500EA30DC /* MemoDecodeModel.swift */,
+				A830336C26DF972100EA30DC /* JSONParser.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		A830336A26DF92C500EA30DC /* AppLifeCycle */ = {
+			isa = PBXGroup;
+			children = (
+				C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */,
+				C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */,
+			);
+			path = AppLifeCycle;
+			sourceTree = "<group>";
+		};
+		A830337A26E0AC9800EA30DC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		A83033C626E11CE400EA30DC /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				A82B6F5B26EB4AB200ED0070 /* Holder */,
+				A83033C326E1146F00EA30DC /* MainVCTableViewDataSource.swift */,
+				A83033C026E10B7100EA30DC /* MemoData.swift */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		A83033C926E11DAA00EA30DC /* PlaceHolder */ = {
+			isa = PBXGroup;
+			children = (
+				A83033CA26E11DB900EA30DC /* NamePlace.swift */,
+			);
+			path = PlaceHolder;
+			sourceTree = "<group>";
+		};
+		A83033CE26E1254600EA30DC /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				A83033CF26E1256300EA30DC /* UIView.swift */,
+				A82B6F5926EB38A500ED0070 /* DateFormatter.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		A8588C1B26E636E300F61A73 /* Delegate */ = {
+			isa = PBXGroup;
+			children = (
+				A8588C1C26E636F900F61A73 /* SplitViewDelegate.swift */,
+			);
+			path = Delegate;
+			sourceTree = "<group>";
+		};
+		A8588C2226E7268D00F61A73 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				A83033CC26E1240100EA30DC /* MainTableViewCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
 		C7481C6125BBCF3900B9CA55 = {
 			isa = PBXGroup;
 			children = (
+				A830336126DE100A00EA30DC /* .swiftlint.yml */,
 				C7481C6C25BBCF3900B9CA55 /* CloudNotes */,
 				C7481C8625BBCF3A00B9CA55 /* CloudNotesTests */,
 				C7481C9125BBCF3A00B9CA55 /* CloudNotesUITests */,
 				C7481C6B25BBCF3900B9CA55 /* Products */,
+				A830337A26E0AC9800EA30DC /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -101,12 +226,14 @@
 		C7481C6C25BBCF3900B9CA55 /* CloudNotes */ = {
 			isa = PBXGroup;
 			children = (
-				C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */,
-				C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */,
-				C7481C7125BBCF3900B9CA55 /* ViewController.swift */,
-				C7481C7325BBCF3900B9CA55 /* Main.storyboard */,
+				A830336A26DF92C500EA30DC /* AppLifeCycle */,
+				A83033C926E11DAA00EA30DC /* PlaceHolder */,
+				A83033CE26E1254600EA30DC /* Extension */,
+				A830336926DF92B700EA30DC /* Model */,
+				A8588C1B26E636E300F61A73 /* Delegate */,
+				A83033C626E11CE400EA30DC /* Data */,
+				A830336726DF929A00EA30DC /* View */,
 				C7481C7925BBCF3A00B9CA55 /* Assets.xcassets */,
-				C7481C7B25BBCF3A00B9CA55 /* LaunchScreen.storyboard */,
 				C7481C7E25BBCF3A00B9CA55 /* Info.plist */,
 				C7481C7625BBCF3900B9CA55 /* CloudNotes.xcdatamodeld */,
 			);
@@ -141,12 +268,15 @@
 				C7481C6625BBCF3900B9CA55 /* Sources */,
 				C7481C6725BBCF3900B9CA55 /* Frameworks */,
 				C7481C6825BBCF3900B9CA55 /* Resources */,
+				A830336026DE082E00EA30DC /* ShellScript */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = CloudNotes;
+			packageProductDependencies = (
+			);
 			productName = CloudNotes;
 			productReference = C7481C6A25BBCF3900B9CA55 /* CloudNotes.app */;
 			productType = "com.apple.product-type.application";
@@ -218,6 +348,9 @@
 				Base,
 			);
 			mainGroup = C7481C6125BBCF3900B9CA55;
+			packageReferences = (
+				A830337926E0621F00EA30DC /* XCRemoteSwiftPackageReference "SwiftLint" */,
+			);
 			productRefGroup = C7481C6B25BBCF3900B9CA55 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -234,9 +367,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A830336226DE100A00EA30DC /* .swiftlint.yml in Resources */,
 				C7481C7D25BBCF3A00B9CA55 /* LaunchScreen.storyboard in Resources */,
 				C7481C7A25BBCF3A00B9CA55 /* Assets.xcassets in Resources */,
-				C7481C7525BBCF3900B9CA55 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -256,14 +389,47 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		A830336026DE082E00EA30DC /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		C7481C6625BBCF3900B9CA55 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C7481C7225BBCF3900B9CA55 /* ViewController.swift in Sources */,
+				A82B6F5A26EB38A500ED0070 /* DateFormatter.swift in Sources */,
+				A83033CD26E1240100EA30DC /* MainTableViewCell.swift in Sources */,
+				C7481C7225BBCF3900B9CA55 /* PrimaryViewController.swift in Sources */,
+				A830336D26DF972100EA30DC /* JSONParser.swift in Sources */,
+				A85B476B26E4CA480070417B /* SecondaryViewController.swift in Sources */,
+				A8588C1D26E636F900F61A73 /* SplitViewDelegate.swift in Sources */,
+				A83033D026E1256300EA30DC /* UIView.swift in Sources */,
+				A83033CB26E11DB900EA30DC /* NamePlace.swift in Sources */,
+				A85B477126E628760070417B /* CellContentDataHolder.swift in Sources */,
 				C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */,
+				A83033C426E1146F00EA30DC /* MainVCTableViewDataSource.swift in Sources */,
+				A83033C126E10B7100EA30DC /* MemoData.swift in Sources */,
+				A85B476D26E4D9000070417B /* SplitViewController.swift in Sources */,
+				A830336F26DF976500EA30DC /* MemoDecodeModel.swift in Sources */,
 				C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */,
+				A82B6F5826EA215400ED0070 /* TextViewRelatedDataHolder.swift in Sources */,
 				C7481C7825BBCF3900B9CA55 /* CloudNotes.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -300,14 +466,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		C7481C7325BBCF3900B9CA55 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				C7481C7425BBCF3900B9CA55 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		C7481C7B25BBCF3A00B9CA55 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -446,7 +604,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "";
+				PRODUCT_BUNDLE_IDENTIFIER = tacocat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -464,7 +622,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "";
+				PRODUCT_BUNDLE_IDENTIFIER = tacocat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -591,6 +749,17 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		A830337926E0621F00EA30DC /* XCRemoteSwiftPackageReference "SwiftLint" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/SwiftLint.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCVersionGroup section */
 		C7481C7625BBCF3900B9CA55 /* CloudNotes.xcdatamodeld */ = {

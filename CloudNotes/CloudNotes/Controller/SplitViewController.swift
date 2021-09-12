@@ -15,8 +15,8 @@ class SplitViewController: UISplitViewController, TextSeparatable {
     override func viewDidLoad() {
         super.viewDidLoad()
         delegate = self
-        setupChildViewController()
-        setupSplitViewDisPlayMode()
+        setupChildViewControllers()
+        setupSplitViewDisplayMode()
         makeTableViewDiffableDataSource()
         CoreDataCloudMemo.shared.perforFetchCloudMemo()
     }
@@ -25,14 +25,14 @@ class SplitViewController: UISplitViewController, TextSeparatable {
 
 // MARK: - SplitView Setup
 extension SplitViewController {
-    private func setupChildViewController() {
+    private func setupChildViewControllers() {
         memoListViewController.delegate = self
         memoDetailViewController.delegate = self
         setViewController(memoListViewController, for: .primary)
         setViewController(memoDetailViewController, for: .secondary)
     }
     
-    private func setupSplitViewDisPlayMode() {
+    private func setupSplitViewDisplayMode() {
         preferredDisplayMode = .oneBesideSecondary
         presentsWithGesture = false
     }

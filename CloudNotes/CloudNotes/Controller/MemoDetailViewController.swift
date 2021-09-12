@@ -55,7 +55,8 @@ extension MemoDetailViewController {
     }
     
     @objc func didTapButton() {
-        
+        let alertController = UIAlertController.generateSeeMoreAlertController(deleteHandler: <#T##(UIAlertAction) -> Void#>, shareHandler: <#T##(UIAlertAction) -> Void#>)
+        present(alertController, animated: true, completion: nil)
     }
 }
 

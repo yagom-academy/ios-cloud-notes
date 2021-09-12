@@ -49,12 +49,10 @@ extension ComposeTextViewController {
     }
     
     @objc func didTapButton(_ sender: UIButton) {
-        if sender == navigationItem.leftBarButtonItem {
-            dismiss(animated: true, completion: nil)
-        } else {
+        if sender == navigationItem.rightBarButtonItem {
             delegate?.didTapSaveButton(composeTextView.text)
-            dismiss(animated: true, completion: nil)
         }
+        dismiss(animated: true, completion: nil)
     }
 }
 

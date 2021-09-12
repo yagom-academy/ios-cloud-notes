@@ -8,9 +8,9 @@
 import UIKit
 
 extension UIView {
-    func setConstraintEqualToAnchor(view: UIView) {
+    func setConstraintEqualToAnchor(superView: UIView) {
         self.translatesAutoresizingMaskIntoConstraints = false
-        let margin = view.layoutMarginsGuide
+        let margin = superView.layoutMarginsGuide
         let top = self.topAnchor.constraint(equalTo: margin.topAnchor)
         let leading = self.leadingAnchor.constraint(equalTo: margin.leadingAnchor)
         let trailng = self.trailingAnchor.constraint(equalTo: margin.trailingAnchor)

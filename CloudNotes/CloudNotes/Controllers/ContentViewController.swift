@@ -8,7 +8,16 @@ import UIKit
 
 class ContentViewController: UIViewController {
     // MARK: - Property
-    private var textView: UITextView?
+    private var textView: UITextView = {
+        var textView = UITextView()
+        textView.backgroundColor = .lightGray
+        if UITraitCollection.current.userInterfaceIdiom == .phone {
+            textView.font = .systemFont(ofSize: 20, weight: .bold)
+        } else {
+            textView.font = .systemFont(ofSize: 25, weight: .bold)
+        }
+        return textView
+    }()
     var memo: String?
 
     // MARK: - Life Cycle
@@ -16,9 +25,10 @@ class ContentViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .lightGray
         configureNavigationBar()
-        applyAdaptiveLayoutByDevice(textView: configureTextView)
+        configureTextView()
 
-        if let memoListTableViewController = splitViewController?.viewControllers.first?.children.first as? MemoListTableViewController {
+        if let navigationController = splitViewController?.viewControllers.first,
+           let memoListTableViewController = navigationController.children.first as? MemoListTableViewController {
             memoListTableViewController.delegate = self
         }
     }
@@ -27,22 +37,11 @@ class ContentViewController: UIViewController {
 
 // MARK: - Method
 extension ContentViewController {
-    @discardableResult
-    private func configureTextView() -> UITextView {
-        let textView = UITextView()
-        textView.backgroundColor = UIColor.lightGray
-        view.addSubview(textView)
-        textView.setConstraintEqualToAnchor(view: self.view)
-        textView.text = memo
-        return textView
-    }
 
-    private func applyAdaptiveLayoutByDevice(textView: () -> UITextView) {
-        if UITraitCollection.current.userInterfaceIdiom == .phone {
-            textView().font = UIFont.systemFont(ofSize: 20, weight: .bold)
-        } else {
-            textView().font = UIFont.systemFont(ofSize: 25, weight: .bold)
-        }
+    private func configureTextView() {
+        view.addSubview(textView)
+        textView.setConstraintEqualToAnchor(superView: view)
+        textView.text = memo
     }
 
     private func configureNavigationBar() {
@@ -55,6 +54,6 @@ extension ContentViewController {
 // MARK: - CustomDelegate Conform
 extension ContentViewController: MemoListTableViewControllerDelegate {
     func didTapMemo(_ vc: UITableViewController, memo: String) {
-        textView?.text = memo
+        textView.text = memo
     }
 }

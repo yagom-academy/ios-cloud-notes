@@ -9,6 +9,8 @@ import UIKit
 
 class MemoDetailViewController: UIViewController, TextSeparatable, TextViewContraintable {
     // MARK: Property
+    weak var delegate: MemoDetailViewControllerDelegate?
+    private var indexPath: IndexPath?
     private let memoContentsTextView: UITextView = {
         let textView = UITextView()
         textView.textAlignment = .left
@@ -20,8 +22,6 @@ class MemoDetailViewController: UIViewController, TextSeparatable, TextViewContr
         
         return textView
     }()
-    
-    private var currentMemo: CloudMemo?
     
     // MARK: View LifeCycle
     override func viewDidLoad() {
@@ -79,16 +79,12 @@ extension MemoDetailViewController {
         }
     }
     
-    func configure(_ memo: CloudMemo?) {
-        currentMemo = memo
-        showMemo()
-    }
-    
-    func showMemo() {
-        if let title = currentMemo?.title, let body = currentMemo?.body {
+    func configureMemoContents(title: String?, body: String?, lastModifier: Date?, indexPath: IndexPath) {
+        if let title = title, let body = body {
             let appendedMemo = title + NameSpace.TextView.space + body
             memoContentsTextView.text = appendedMemo
         }
+        self.indexPath = indexPath
     }
 }
 
@@ -99,11 +95,11 @@ extension MemoDetailViewController {
     }
 }
 
+// MARK: - Delegate
 extension MemoDetailViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         let texts = separateText(memoContentsTextView.text)
-        currentMemo?.title = texts.title
-        currentMemo?.body = texts.body
-        currentMemo?.lastModified = Date()
+        delegate?.contentsDidChanged(at: indexPath ?? IndexPath(),
+                                     contetnsText: texts)
     }
 }

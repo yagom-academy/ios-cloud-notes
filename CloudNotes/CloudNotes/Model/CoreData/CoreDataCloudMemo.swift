@@ -38,4 +38,8 @@ final class CoreDataCloudMemo: CoreDatable {
         memo.body = body
         memo.lastModified = lastModifier
     }
+    
+    func getCloudMemo(at indexPath: IndexPath) -> CloudMemo {
+        return fetchedController.object(at: indexPath)
+    }
 }

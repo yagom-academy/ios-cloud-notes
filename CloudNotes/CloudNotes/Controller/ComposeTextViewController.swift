@@ -10,6 +10,7 @@ import UIKit
 class ComposeTextViewController: UIViewController, TextViewContraintable {
     
     // MARK: Property
+    weak var delegate: ComposeTextViewControllerDelegate?
     private var composeTextView: UITextView = {
         let textView = UITextView()
         textView.textAlignment = .left
@@ -21,8 +22,6 @@ class ComposeTextViewController: UIViewController, TextViewContraintable {
         
         return textView
     }()
-    
-    weak var delegate: ComposeTextViewControllerDelegate?
     
     // MARK: View LifeCycle
     override func viewDidLoad() {

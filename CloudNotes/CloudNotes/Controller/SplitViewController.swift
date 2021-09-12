@@ -27,6 +27,7 @@ class SplitViewController: UISplitViewController, TextSeparatable {
 extension SplitViewController {
     private func setupChildViewController() {
         memoListViewController.delegate = self
+        memoDetailViewController.delegate = self
         setViewController(memoListViewController, for: .primary)
         setViewController(memoDetailViewController, for: .secondary)
     }
@@ -44,10 +45,14 @@ extension SplitViewController: UISplitViewControllerDelegate {
     }
 }
 
+// MARK: - MemoList Delegate
 extension SplitViewController: MemoListDelegate {
     func didTapTableViewCell(at indexPath: IndexPath) {
         let currentObject = CoreDataCloudMemo.shared.fetchedController.object(at: indexPath)
-        memoDetailViewController.configure(currentObject)
+        memoDetailViewController.configureMemoContents(title: currentObject.title,
+                                                       body: currentObject.body,
+                                                       lastModifier: currentObject.lastModified,
+                                                       indexPath: indexPath)
         show(.secondary)
     }
     
@@ -63,12 +68,22 @@ extension SplitViewController: MemoListDelegate {
     }
 }
 
+// MARK: - ComposeTextViewController Delegate
 extension SplitViewController: ComposeTextViewControllerDelegate {
     func didTapSaveButton(_ text: String) {
         let texts = separateText(text)
         CoreDataCloudMemo.shared.createNewMemo(title: texts.title,
                                                body: texts.body,
                                                lastModifier: Date())
+    }
+}
+
+// MARK: - MemoDetailViewController Delegate
+extension SplitViewController: MemoDetailViewControllerDelegate {
+    func contentsDidChanged(at indexPath: IndexPath, contetnsText: (title: String?, body: String?)) {
+        let currentMemo = CoreDataCloudMemo.shared.getCloudMemo(at: indexPath)
+        currentMemo.title = contetnsText.title
+        currentMemo.body = contetnsText.body
     }
 }
 
@@ -80,10 +95,9 @@ extension SplitViewController {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: MemoListTableViewCell.identifier, for: indexPath) as? MemoListTableViewCell else { fatalError() }
             
             cell.accessoryType = .disclosureIndicator
-            cell.configure(with: memo)
+            cell.configure(title: memo.title, body: memo.body, lastModifier: memo.lastModified)
             
             return cell
         }
     }
-    
 }

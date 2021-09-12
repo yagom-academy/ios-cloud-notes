@@ -103,10 +103,10 @@ extension MemoListTableViewCell {
         ])
     }
     
-    func configure(with memoItem: CloudMemo) {
-        titleLabel.text = memoItem.title
-        bodyLabel.text = memoItem.body
-        lastModifiedLabel.text = DateFormatter.localizedString(of: memoItem.lastModified)
+    func configure(title: String?, body: String?, lastModifier: Date?) {
+        titleLabel.text = title
+        bodyLabel.text = body
+        lastModifiedLabel.text = DateFormatter.localizedString(of: lastModifier)
     }
     
     override func prepareForReuse() {

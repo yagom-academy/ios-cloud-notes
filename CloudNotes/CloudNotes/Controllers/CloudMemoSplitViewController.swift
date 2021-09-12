@@ -29,6 +29,8 @@ class CloudMemoSplitViewController: UISplitViewController {
         viewControllers = [primaryNavigationController, secondaryNavigationController]
         self.preferredDisplayMode = .oneBesideSecondary
         self.delegate = self
+        
+        primaryViewController.splitViewDelegate = self
     }
     
     private func generateNewMemo() -> Memo {
@@ -58,11 +60,17 @@ extension CloudMemoSplitViewController: UISplitViewControllerDelegate {
 extension CloudMemoSplitViewController {
     @objc
     func addMemoAction() {
+        showDetailViewController(generateNewMemo())
+    }
+}
+
+extension CloudMemoSplitViewController: CustomSplitViewDelegate {
+    func showDetailViewController(_ memo: Memo) {
         guard let primaryNavigationController = viewControllers.first else {
             return
         }
         
-        let memoDetailViewController = MemoDetailViewController(memo: generateNewMemo())
+        let memoDetailViewController = MemoDetailViewController(memo: memo)
         let secondaryNavigationController = UINavigationController(rootViewController: memoDetailViewController)
         primaryNavigationController.showDetailViewController(secondaryNavigationController, sender: self)
     }

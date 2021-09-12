@@ -7,6 +7,8 @@
 import UIKit
 
 class MemoListViewController: UIViewController {
+    weak var splitViewDelegate: CustomSplitViewDelegate?
+    
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -57,8 +59,6 @@ extension MemoListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        let memoDetailViewController = MemoDetailViewController(memo: memoList[indexPath.row])
-        let secondaryNavigationController = UINavigationController(rootViewController: memoDetailViewController)
-        self.showDetailViewController(secondaryNavigationController, sender: self)
+        splitViewDelegate?.showDetailViewController(memoList[indexPath.row])
     }
 }

@@ -22,7 +22,7 @@ class SecondaryViewController: UIViewController, CoreDataUsable {
         self.setTextViewStyle()
         self.setSecondaryVCNavigationBar()
     }
-
+    
     override func viewWillLayoutSubviews() {
         self.textView.setPosition(top: view.safeAreaLayoutGuide.topAnchor,
                                   bottom: view.safeAreaLayoutGuide.bottomAnchor,

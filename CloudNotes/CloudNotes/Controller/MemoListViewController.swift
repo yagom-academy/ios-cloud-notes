@@ -10,10 +10,15 @@ class MemoListViewController: UIViewController{
 
     var memoList: [Memo] = [] {
         didSet {
-            self.tableView.reloadData()
+            if let index = selectedIndexPath {
+                self.tableView.reloadRows(at: [index], with: .automatic)
+            } else {
+                tableView.reloadData()
+            }
         }
     }
     weak var delegate: MemoListDelegate?
+    private var selectedIndexPath: IndexPath?
     
     let tableView: UITableView = {
         let tableView = UITableView()
@@ -67,7 +72,6 @@ class MemoListViewController: UIViewController{
     @objc func addMemo() {
         let newMemo = Memo(title: "", body: "", date: Date().timeIntervalSince1970)
         self.memoList.append(newMemo)
-        self.tableView.reloadData()
         delegate?.showDetail(data: newMemo, index: IndexPath(row: memoList.endIndex-1, section: 0))
     }
     
@@ -104,6 +108,7 @@ extension MemoListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.delegate?.isFirstCellSelection = true
+        self.selectedIndexPath = indexPath
         self.delegate?.showDetail(data: memoList[indexPath.row], index: indexPath)
     }
 }

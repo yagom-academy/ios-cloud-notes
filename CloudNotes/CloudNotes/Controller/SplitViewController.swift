@@ -64,6 +64,6 @@ extension SplitViewController: DetailMemoDelegate {
         memoListViewController.memoList[index.row].title = newMemo.title
         memoListViewController.memoList[index.row].body = newMemo.body
         memoListViewController.memoList[index.row].date = newMemo.date
-        memoListViewController.tableView.reloadData()
+        memoListViewController.tableView.reloadRows(at: [index], with: .automatic)
     }
 }

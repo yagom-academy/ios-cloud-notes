@@ -10,4 +10,5 @@ import Foundation
 protocol MemoListDelegate: AnyObject {
     func didTapTableViewCell(at indexPath: IndexPath)
     func didTapAddButton()
+    func didTapDeleteButton(at indexPath: IndexPath)
 }

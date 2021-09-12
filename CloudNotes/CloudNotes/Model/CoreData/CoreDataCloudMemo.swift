@@ -6,7 +6,6 @@
 //
 
 import CoreData
-import UIKit
 
 final class CoreDataCloudMemo: CoreDatable {
     static let shared = CoreDataCloudMemo()
@@ -14,10 +13,9 @@ final class CoreDataCloudMemo: CoreDatable {
     var fetchedController: NSFetchedResultsController<CloudMemo>
     
     private init() {
-        
         let request: NSFetchRequest<CloudMemo> = CloudMemo.fetchRequest()
         request.sortDescriptors = [NSSortDescriptor(key: #keyPath(CloudMemo.lastModified),
-                                                    ascending: true)]
+                                                    ascending: false)]
         fetchedController = CoreDataStack.shared.makeFetchedResultsController(fetchRequest: request,
                                                                               sectionNameKeyPath:
                                                                                 nil,
@@ -26,7 +24,7 @@ final class CoreDataCloudMemo: CoreDatable {
         context = fetchedController.managedObjectContext
     }
     
-    func fetchCloudMemo() {
+    func perforFetchCloudMemo() {
         do {
             try fetchedController.performFetch()
         } catch {
@@ -39,6 +37,5 @@ final class CoreDataCloudMemo: CoreDatable {
         memo.title = title
         memo.body = body
         memo.lastModified = lastModifier
-        CoreDataCloudMemo.shared.context.insert(memo)
     }
 }

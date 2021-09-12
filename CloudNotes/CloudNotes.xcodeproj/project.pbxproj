@@ -16,7 +16,6 @@
 		747CFCA126EC6A39009E8B2A /* ComposeTextViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 747CFCA026EC6A39009E8B2A /* ComposeTextViewControllerDelegate.swift */; };
 		748315C726DE1AFF0036A365 /* MemoListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748315C626DE1AFF0036A365 /* MemoListTableViewController.swift */; };
 		748315C926DE1B170036A365 /* MemoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748315C826DE1B170036A365 /* MemoDetailViewController.swift */; };
-		748315CB26DE1E3E0036A365 /* Memo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748315CA26DE1E3E0036A365 /* Memo.swift */; };
 		748315CE26DE22DE0036A365 /* JsonManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748315CD26DE22DE0036A365 /* JsonManager.swift */; };
 		7491841A26EB516800BDCBCF /* MemoListDiffableDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7491841926EB516800BDCBCF /* MemoListDiffableDataSource.swift */; };
 		7491842026EB829500BDCBCF /* TextSeparatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7491841F26EB829500BDCBCF /* TextSeparatable.swift */; };
@@ -69,7 +68,6 @@
 		747CFCA026EC6A39009E8B2A /* ComposeTextViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeTextViewControllerDelegate.swift; sourceTree = "<group>"; };
 		748315C626DE1AFF0036A365 /* MemoListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoListTableViewController.swift; sourceTree = "<group>"; };
 		748315C826DE1B170036A365 /* MemoDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoDetailViewController.swift; sourceTree = "<group>"; };
-		748315CA26DE1E3E0036A365 /* Memo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memo.swift; sourceTree = "<group>"; };
 		748315CD26DE22DE0036A365 /* JsonManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonManager.swift; sourceTree = "<group>"; };
 		7491841926EB516800BDCBCF /* MemoListDiffableDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoListDiffableDataSource.swift; sourceTree = "<group>"; };
 		7491841F26EB829500BDCBCF /* TextSeparatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextSeparatable.swift; sourceTree = "<group>"; };
@@ -175,7 +173,6 @@
 			isa = PBXGroup;
 			children = (
 				7404A89326EA2BFA007950AD /* CoreData */,
-				748315CA26DE1E3E0036A365 /* Memo.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -535,7 +532,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				7491842426EB9D7200BDCBCF /* TextViewContraintable.swift in Sources */,
-				748315CB26DE1E3E0036A365 /* Memo.swift in Sources */,
 				7469BA0626DE4F4800E864D4 /* MemoListTableViewCell.swift in Sources */,
 				7491841A26EB516800BDCBCF /* MemoListDiffableDataSource.swift in Sources */,
 				7491842026EB829500BDCBCF /* TextSeparatable.swift in Sources */,

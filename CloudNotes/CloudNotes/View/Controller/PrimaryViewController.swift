@@ -14,7 +14,7 @@ protocol CoreDataUsable {
 extension CoreDataUsable {
     func fetchCoreDataItems(_ context: NSManagedObjectContext, _ tableview: UITableView) {
         do {
-            CoreDataManager.memos = try context.fetch(Memo.fetchRequest())
+            MemoDataManager.memos = try context.fetch(Memo.fetchRequest())
             DispatchQueue.main.async {
                 tableview.reloadData()
             }
@@ -27,8 +27,8 @@ extension CoreDataUsable {
 class PrimaryViewController: UIViewController, CoreDataUsable {
     private let tableView = UITableView()
     private let tableViewDataSource = MainVCTableViewDataSource()
-    private let context = CoreDataManager.context
-    private var memos = CoreDataManager.memos
+    private let context = MemoDataManager.context
+    private var memos = MemoDataManager.memos
     
     override func viewDidLoad() {
         super.viewDidLoad()

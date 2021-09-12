@@ -10,7 +10,7 @@ import CoreData
 
 class SecondaryViewController: UIViewController, CoreDataUsable {
     private var textView = UITextView()
-    private let context = CoreDataManager.context
+    private let context = MemoDataManager.context
     
     var holder: TextViewRelatedDataHolder?
     
@@ -33,12 +33,12 @@ class SecondaryViewController: UIViewController, CoreDataUsable {
 
 extension SecondaryViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
+        // 텍스트가 변할 때마다
         let someDate = Date()
         let timeInterval = someDate.timeIntervalSince1970
         let myInt = Int(timeInterval)
-        
-        let newMemo = Memo(context: self.context)
-        newMemo.lastModifiedDate = Int64(myInt)
+        let currentMemo = MemoDataManager.memos?[holder?.indexPath?.row ?? .zero]
+        currentMemo?.lastModifiedDate = Int64(myInt)
         self.fetchCoreDataItems(context, holder?.tableView ?? UITableView())
     }
 }

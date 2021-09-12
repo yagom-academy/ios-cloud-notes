@@ -8,7 +8,7 @@
 import UIKit
 import CoreData
 
-class CoreDataManager {
+class MemoDataManager {
     static var memos: [Memo]?
     
     static let context: NSManagedObjectContext = { () -> NSManagedObjectContext in

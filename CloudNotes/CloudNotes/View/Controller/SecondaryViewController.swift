@@ -33,7 +33,6 @@ class SecondaryViewController: UIViewController, CoreDataUsable {
 
 extension SecondaryViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
-        // 텍스트가 변할 때마다
         let someDate = Date()
         let timeInterval = someDate.timeIntervalSince1970
         let myInt = Int(timeInterval)

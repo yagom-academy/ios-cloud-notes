@@ -93,6 +93,6 @@ extension MemoListTableViewController {
         contentViewController.memo = body
         destination.viewControllers = [contentViewController]
 
-        self.showDetailViewController(destination, sender: self)
+        showDetailViewController(destination, sender: self)
     }
 }

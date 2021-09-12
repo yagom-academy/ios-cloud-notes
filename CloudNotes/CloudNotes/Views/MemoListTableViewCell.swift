@@ -89,8 +89,8 @@ extension MemoListTableViewCell {
     }
 
     func configure(title: String, content: String, date: String) {
-        self.titleLabel.text = title
-        self.dateLabel.text = date
-        self.firstLineOfContentLabel.text = content
+        titleLabel.text = title
+        dateLabel.text = date
+        firstLineOfContentLabel.text = content
     }
 }

@@ -10,27 +10,29 @@ import UIKit
 class MemoDetailViewController: UIViewController {
     
     // MARK: - Properties
-    private var memo: MemoCellViewModel?
+    private var memoCellViewModel: MemoCellViewModel? {
+        didSet {
+            updateMemoCellViewModel()
+        }
+    }
     
     private let scrollView = UIScrollView()
     
-    private lazy var titleTextView: UITextView = {
+    private var titleTextView: UITextView = {
         let textView = UITextView()
         
         textView.font = UIFont.preferredFont(forTextStyle: .title3)
         textView.adjustsFontForContentSizeCategory = true
-        textView.text = memo?.title
         textView.isScrollEnabled = false
         
         return textView
     }()
     
-    private lazy var bodyTextView: UITextView = {
+    private var bodyTextView: UITextView = {
         let textView = UITextView()
         
         textView.font = UIFont.preferredFont(forTextStyle: .body)
         textView.adjustsFontForContentSizeCategory = true
-        textView.text = memo?.body
         textView.isScrollEnabled = false
         
         return textView
@@ -47,7 +49,12 @@ class MemoDetailViewController: UIViewController {
     
     // MARK: - Methods
     func configure(with memo: MemoCellViewModel) {
-        self.memo = memo
+        self.memoCellViewModel = memo
+    }
+    
+    private func updateMemoCellViewModel() {
+        titleTextView.text = memoCellViewModel?.title
+        bodyTextView.text = memoCellViewModel?.body
     }
 }
 

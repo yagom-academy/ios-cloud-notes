@@ -73,7 +73,7 @@ extension MemoTableViewController {
         let cellID = "MemoTableViewCell"
         if let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath)
             as? MemoTableViewCell{
-            cell.cellViewModel = viewModel.getCellViewModel(at: indexPath)
+            cell.memoCellViewModel = viewModel.getCellViewModel(at: indexPath)
             
             return cell
         }

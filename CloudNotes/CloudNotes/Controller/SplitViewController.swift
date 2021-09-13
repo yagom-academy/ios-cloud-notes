@@ -55,6 +55,7 @@ extension SplitViewController: MemoListDelegate {
         detailMemoViewController.index = index
         detailMemoViewController.memo = data
         showDetailViewController(detailMemoViewController, sender: nil)
+        
     }
 }
 

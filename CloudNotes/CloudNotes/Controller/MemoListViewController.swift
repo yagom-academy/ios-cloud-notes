@@ -8,15 +8,8 @@ import UIKit
 
 class MemoListViewController: UIViewController{
 
-    var memoList: [Memo] = [] {
-        didSet {
-            if let index = selectedIndexPath {
-                self.tableView.reloadRows(at: [index], with: .automatic)
-            } else {
-                tableView.reloadData()
-            }
-        }
-    }
+    var memoList: [Memo] = []
+    
     weak var delegate: MemoListDelegate?
     private var selectedIndexPath: IndexPath?
     
@@ -72,7 +65,10 @@ class MemoListViewController: UIViewController{
     @objc func addMemo() {
         let newMemo = Memo(title: "", body: "", date: Date().timeIntervalSince1970)
         self.memoList.append(newMemo)
-        delegate?.showDetail(data: newMemo, index: IndexPath(row: memoList.endIndex-1, section: 0))
+        
+        let addIndex = IndexPath(row: memoList.count-1, section: 0)
+        self.tableView.insertRows(at: [addIndex], with: .automatic)
+        delegate?.showDetail(data: newMemo, index: addIndex)
     }
     
     private func configureTableView() {

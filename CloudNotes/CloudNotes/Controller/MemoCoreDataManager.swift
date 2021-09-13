@@ -9,7 +9,7 @@ import UIKit
 import CoreData
 class MemoCoreDataManager {
     static let shared = MemoCoreDataManager()
-    private let entityName = "Memo"
+    private let entityName = "Memo", sortDesc = "lastModified"
     
     lazy var context: NSManagedObjectContext = {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -17,11 +17,10 @@ class MemoCoreDataManager {
     }()
     
     func fetchData() -> [MemoModel] {
-        print("MemoCoreDataManager.fetchData - start")
         var memoList = [MemoData]()
         let fetchRequest: NSFetchRequest<MemoManagedObject> = MemoManagedObject.fetchRequest()
         
-        let lastModifiedDesc = NSSortDescriptor(key: "lastModified", ascending: false)
+        let lastModifiedDesc = NSSortDescriptor(key: sortDesc, ascending: false)
         fetchRequest.sortDescriptors = [lastModifiedDesc]
         
         do {

@@ -16,7 +16,7 @@ class MemoItemTableViewCell: UITableViewCell {
     private let summaryLabel = UILabel()
     static let identifier = "MemoItemTableViewCell"
     
-    //MARK: Initialized Programmatically
+    //MARK: Initializers
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setAutoresizingMasks()
@@ -25,17 +25,8 @@ class MemoItemTableViewCell: UITableViewCell {
         setUpAccessoryView()
     }
     
-    //MARK: Initialized Non Programmatically
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-    }
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        setAutoresizingMasks()
-        setUpInnerStackView()
-        setUpOuterStackView()
-        setUpAccessoryView()
     }
 }
 

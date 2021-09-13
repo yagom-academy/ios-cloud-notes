@@ -6,7 +6,7 @@
 
 import UIKit
 
-class SplitViewController: UISplitViewController, TextSeparatable {
+final class SplitViewController: UISplitViewController, TextSeparatable {
     // MARK: Property
     private let memoListViewController = MemoListTableViewController()
     private let memoDetailViewController = MemoDetailViewController()

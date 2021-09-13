@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MemoDetailViewController: UIViewController, TextSeparatable, TextViewContraintable {
+final class MemoDetailViewController: UIViewController, TextSeparatable, TextViewContraintable {
     // MARK: Property
     weak var delegate: MemoDetailViewControllerDelegate?
     private var indexPath: IndexPath?

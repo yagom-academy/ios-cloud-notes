@@ -7,10 +7,8 @@
 
 import CoreData
 
-final class CoreDataStack {
+class CoreDataStack {
     // MARK: Property
-    static let shared = CoreDataStack()
-    
     lazy var persistentContainer: NSPersistentCloudKitContainer = {
         let container = NSPersistentCloudKitContainer(name: "CloudNotes")
         container.loadPersistentStores { (_, error) in
@@ -26,8 +24,8 @@ final class CoreDataStack {
     }()
     
     // MARK: initializer
-    private init() { }
-
+    init() { }
+    
     func makeFetchedResultsController<T: NSFetchRequestResult>(fetchRequest: NSFetchRequest<T>, sectionNameKeyPath: String?, cacheName: String?) -> NSFetchedResultsController<T> {
         let controller = NSFetchedResultsController(fetchRequest: fetchRequest,
                                                     managedObjectContext: managedContext,

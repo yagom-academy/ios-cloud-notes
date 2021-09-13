@@ -7,8 +7,7 @@
 
 import UIKit
 
-class ComposeTextViewController: UIViewController, TextViewContraintable {
-    
+final class ComposeTextViewController: UIViewController, TextViewContraintable {
     // MARK: Property
     weak var delegate: ComposeTextViewControllerDelegate?
     private var composeTextView: UITextView = {

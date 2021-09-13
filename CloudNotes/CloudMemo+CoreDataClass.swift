@@ -10,6 +10,6 @@ import Foundation
 import CoreData
 
 @objc(CloudMemo)
-public class CloudMemo: NSManagedObject {
+public final class CloudMemo: NSManagedObject {
 
 }

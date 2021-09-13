@@ -8,7 +8,7 @@
 import UIKit
 import CoreData
 
-class MemoListDiffableDataSource: UITableViewDiffableDataSource<String, CloudMemo> {
+final class MemoListDiffableDataSource: UITableViewDiffableDataSource<String, CloudMemo> {
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }

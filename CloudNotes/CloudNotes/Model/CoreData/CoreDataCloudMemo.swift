@@ -16,7 +16,7 @@ final class CoreDataCloudMemo: CoreDatable {
         let request: NSFetchRequest<CloudMemo> = CloudMemo.fetchRequest()
         request.sortDescriptors = [NSSortDescriptor(key: #keyPath(CloudMemo.lastModified),
                                                     ascending: false)]
-        fetchedController = CoreDataStack.shared.makeFetchedResultsController(fetchRequest: request,
+        fetchedController = CoreDataStack().makeFetchedResultsController(fetchRequest: request,
                                                                               sectionNameKeyPath:
                                                                                 nil,
                                                                               cacheName: nil)

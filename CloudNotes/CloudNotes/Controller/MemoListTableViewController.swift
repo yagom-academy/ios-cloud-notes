@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MemoListTableViewController: UITableViewController {
+final class MemoListTableViewController: UITableViewController {
     // MARK: Property
     weak var delegate: MemoListDelegate?
     // MARK: View LifeCycle

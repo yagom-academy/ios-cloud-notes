@@ -8,7 +8,7 @@ import UIKit
 
 class ContentViewController: UIViewController {
     // MARK: - Property
-    private var textView: UITextView = {
+    private var contentTextView: UITextView = {
         var textView = UITextView()
         textView.backgroundColor = .lightGray
         if UITraitCollection.current.userInterfaceIdiom == .phone {
@@ -26,6 +26,8 @@ class ContentViewController: UIViewController {
         view.backgroundColor = .lightGray
         configureNavigationBar()
         configureTextView()
+        scrollWhenContentTextViewDidAppear()
+        scrollWhenKeyboardWillAppear()
 
         if let navigationController = splitViewController?.viewControllers.first,
            let memoListTableViewController = navigationController.children.first as? MemoListTableViewController {
@@ -39,9 +41,10 @@ class ContentViewController: UIViewController {
 extension ContentViewController {
 
     private func configureTextView() {
-        view.addSubview(textView)
-        textView.setConstraintEqualToAnchor(superView: view)
-        textView.text = memo
+        view.addSubview(contentTextView)
+        contentTextView.setConstraintEqualToAnchor(superView: view)
+
+        contentTextView.text = memo
     }
 
     private func configureNavigationBar() {
@@ -49,11 +52,34 @@ extension ContentViewController {
         let rightBarButtonItem = UIBarButtonItem(image: itemImage, style: .plain, target: nil, action: nil)
         navigationItem.setRightBarButton(rightBarButtonItem, animated: true)
     }
+
+    private func scrollWhenContentTextViewDidAppear() {
+        contentTextView.scrollsToTop = true
+        let contentTextViewHeight = contentTextView.contentSize.height
+        let contentTextViewOffSet = contentTextView.contentOffset.x
+        let contentOffSet = contentTextViewHeight - contentTextViewOffSet
+        contentTextView.contentOffset = CGPoint(x: 0, y: -contentOffSet)
+    }
+
+    private func scrollWhenKeyboardWillAppear() {
+        NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) { notification in
+            if let rect = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect {
+                let height = rect.height
+                var inset = self.contentTextView.contentInset
+                inset.bottom = height
+                self.contentTextView.contentInset = inset
+
+                inset = self.contentTextView.verticalScrollIndicatorInsets
+                inset.bottom = height
+                self.contentTextView.verticalScrollIndicatorInsets = inset
+            }
+        }
+    }
 }
 
 // MARK: - CustomDelegate Conform
 extension ContentViewController: MemoListTableViewControllerDelegate {
     func didTapMemo(_ vc: UITableViewController, memo: String) {
-        textView.text = memo
+        contentTextView.text = memo
     }
 }

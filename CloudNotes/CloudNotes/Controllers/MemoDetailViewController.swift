@@ -27,7 +27,7 @@ class MemoDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        memoTextView.text = "\(memoTitle)\n\n\(memoBody)"
+        memoTextView.text = "\(memoTitle)\n\(memoBody)"
         updateTextFontStyle()
         updateLayout()
         initTextViewScrollToTop()
@@ -46,13 +46,15 @@ class MemoDetailViewController: UIViewController {
         let titleFont = UIFont.boldSystemFont(ofSize: CGFloat(textViewTitleFontSize))
         let bodyFont = UIFont.systemFont(ofSize: CGFloat(textViewBodyFontSize))
         
-        let attributedStr = NSMutableAttributedString(string: memoTextView.text)
-        attributedStr.addAttribute(.font, value: titleFont,
-                                   range: (memoTextView.text as NSString).range(of: "\(memoTitle)\n"))
-        attributedStr.addAttribute(.font, value: bodyFont,
-                                   range: (memoTextView.text as NSString).range(of: memoBody))
+        let titleAttributes: [NSAttributedString.Key: Any] = [.font: titleFont]
+        let bodyAttributes: [NSAttributedString.Key: Any] = [.font: bodyFont]
         
-        memoTextView.attributedText = attributedStr
+        let titleAttributedText = NSMutableAttributedString(string: "\(memoTitle)\n", attributes: titleAttributes)
+        let bodyAttributedText = NSAttributedString(string: memoBody, attributes: bodyAttributes)
+        
+        titleAttributedText.append(bodyAttributedText)
+        
+        memoTextView.attributedText = titleAttributedText
     }
     
     private func updateLayout() {

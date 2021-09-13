@@ -60,7 +60,7 @@ class PrimaryViewController: UITableViewController {
         super.viewDidLoad()
         
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: nil)
-        self.navigationItem.title = "메모"
+        self.navigationItem.title = MemoTableStrings.viewTitle.description
     
         tableView.dataSource = self
         tableView.delegate = self
@@ -103,7 +103,7 @@ extension PrimaryViewController {
     private func readDataAsset() -> [MemoModel] {
         let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase
-        guard let dataAsset = NSDataAsset(name: "sample") else {
+        guard let dataAsset = NSDataAsset(name: MemoTableStrings.assetSampleFileName.description) else {
             NSLog("에러처리 필요 - PrimaryViewController.readDataAsset : 파일 바인딩 실패")
             return []
         }

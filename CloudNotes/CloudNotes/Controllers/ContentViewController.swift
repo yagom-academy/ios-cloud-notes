@@ -65,13 +65,13 @@ extension ContentViewController {
         NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) { notification in
             if let rect = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect {
                 let height = rect.height
-                var inset = self.contentTextView.contentInset
-                inset.bottom = height
-                self.contentTextView.contentInset = inset
+                var contentInset = self.contentTextView.contentInset
+                contentInset.bottom = height
+                self.contentTextView.contentInset = contentInset
 
-                inset = self.contentTextView.verticalScrollIndicatorInsets
-                inset.bottom = height
-                self.contentTextView.verticalScrollIndicatorInsets = inset
+                contentInset = self.contentTextView.verticalScrollIndicatorInsets
+                contentInset.bottom = height
+                self.contentTextView.verticalScrollIndicatorInsets = contentInset
             }
         }
     }

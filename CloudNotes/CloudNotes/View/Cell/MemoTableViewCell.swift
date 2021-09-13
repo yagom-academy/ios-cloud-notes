@@ -54,7 +54,7 @@ class MemoTableViewCell: UITableViewCell {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
-    
+
     // MARK: - Methods
     private func updateMemoCellViewModel() {
         titleLabel.text = memoCellViewModel?.title
@@ -65,7 +65,7 @@ class MemoTableViewCell: UITableViewCell {
 
 // MARK: - View methods
 extension MemoTableViewCell {
-    
+
     func configureAccessoryView() {
         self.accessoryType = UITableViewCell.AccessoryType.disclosureIndicator
     }
@@ -73,7 +73,7 @@ extension MemoTableViewCell {
 
 // MARK: - Auto Layout
 extension MemoTableViewCell {
-    
+
     func configureLabelsView() {
         titleLabel.font = UIFont.preferredFont(forTextStyle: .title2)
         titleLabel.adjustsFontForContentSizeCategory = true
@@ -87,17 +87,21 @@ extension MemoTableViewCell {
         previewLabel.adjustsFontForContentSizeCategory = true
         previewLabel.lineBreakMode = .byTruncatingTail
     }
-    
+
     func configureStackViewAnchor() {
         contentView.addSubview(titleWithDetailStackView)
-        
+
         titleWithDetailStackView.translatesAutoresizingMaskIntoConstraints = false
-        
-        let leadingConstraint = titleWithDetailStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16)
-        let trailingConstraint = titleWithDetailStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16)
-        let topConstraint = titleWithDetailStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8)
-        let bottomConstraint = titleWithDetailStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8)
-        
+
+        let leadingConstraint = titleWithDetailStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,
+                                                                                  constant: 16)
+        let trailingConstraint = titleWithDetailStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,
+                                                                                    constant: -16)
+        let topConstraint = titleWithDetailStackView.topAnchor.constraint(equalTo: contentView.topAnchor,
+                                                                          constant: 8)
+        let bottomConstraint = titleWithDetailStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,
+                                                                                constant: -8)
+
         let stackViewConstraints = [leadingConstraint, trailingConstraint, topConstraint, bottomConstraint]
         NSLayoutConstraint.activate(stackViewConstraints)
     }

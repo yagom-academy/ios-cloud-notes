@@ -8,7 +8,7 @@
 import Foundation
 
 struct MemoCellViewModel {
-    
+
     var title: String
     var body: String
     var lastModified: String

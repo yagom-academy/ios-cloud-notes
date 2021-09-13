@@ -13,6 +13,31 @@ protocol PrimaryListDelegate: AnyObject {
 }
 
 class PrimaryViewController: UITableViewController {
+    private enum MemoTableStrings: CustomStringConvertible {
+        case viewTitle
+        case delete
+        case cancel
+        case assetSampleFileName
+        case askingDeleteTitle
+        case askingDeleteMessage
+        
+        var description: String {
+            switch self {
+            case .viewTitle:
+                return "메모"
+            case .delete:
+                return "삭제"
+            case .cancel:
+                return "취소"
+            case .assetSampleFileName:
+                return "sample"
+            case .askingDeleteTitle:
+                return "진짜요?"
+            case .askingDeleteMessage:
+                return "정말로 삭제하시겠어요?"
+            }
+        }
+    }
     weak var rootViewDelegate: PrimaryListDelegate?
     private var selectedIndexPath: IndexPath?
     private let appDelegate = UIApplication.shared.delegate as! AppDelegate

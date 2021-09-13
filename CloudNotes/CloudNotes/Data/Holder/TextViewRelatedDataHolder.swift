@@ -15,6 +15,11 @@ struct TextViewRelatedDataHolder {
     init(indexPath: IndexPath?, tableView: UITableView?, textViewText: String?) {
         self.indexPath = indexPath
         self.tableView = tableView
-        self.textViewText = textViewText
+        
+        if textViewText?.elementsEqual("\n") == true {
+            self.textViewText = nil
+        } else {
+            self.textViewText = textViewText
+        }
     }
 }

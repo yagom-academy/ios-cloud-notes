@@ -35,24 +35,25 @@ extension SecondaryViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         let someDate = Date()
         let timeInterval = someDate.timeIntervalSince1970
-        let myInt = Int(timeInterval)
+        let todayDateData = Int(timeInterval)
         
-        let enterString = "\n"
+        let lineBreaker = "\n"
         let bodyStartIndex = 1
-        let currentMemo = textView.text.components(separatedBy: enterString)
+        
+        let currentMemo = textView.text.components(separatedBy: lineBreaker)
         let currentMemoTitle = currentMemo.first
         let currentMemoBodyArray = currentMemo[bodyStartIndex...]
-        if currentMemoBodyArray.isEmpty {
-            return
+        var currentMemoBody = currentMemoBodyArray.reduce("") { $0 + lineBreaker + $1 }
+        if !currentMemoBody.isEmpty {
+            currentMemoBody.removeFirst()
         }
         
-        let currentMemoBody = currentMemoBodyArray.reduce("") { $0 + enterString + $1 }
         let currentMemoData = MemoDataManager.memos[holder?.indexPath?.row ?? .zero]
         
         do {
             currentMemoData.title = currentMemoTitle
             currentMemoData.body = currentMemoBody
-            currentMemoData.lastModifiedDate = Int64(myInt)
+            currentMemoData.lastModifiedDate = Int64(todayDateData)
             try self.context.save()
         } catch {
             print(CoreDataError.saveError.errorDescription)

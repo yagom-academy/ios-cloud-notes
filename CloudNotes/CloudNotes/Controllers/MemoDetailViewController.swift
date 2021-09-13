@@ -10,6 +10,7 @@ import UIKit
 class MemoDetailViewController: UIViewController {
     private let memoTitle: String
     private let memoBody: String
+    private let titleSeperator = "\n"
     
     private let memoTextView = UITextView()
     
@@ -27,7 +28,7 @@ class MemoDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        memoTextView.text = "\(memoTitle)\n\(memoBody)"
+        memoTextView.text = "\(memoTitle)\(titleSeperator)\(memoBody)"
         updateTextFontStyle()
         updateLayout()
         initTextViewScrollToTop()
@@ -49,7 +50,7 @@ class MemoDetailViewController: UIViewController {
         let titleAttributes: [NSAttributedString.Key: Any] = [.font: titleFont]
         let bodyAttributes: [NSAttributedString.Key: Any] = [.font: bodyFont]
         
-        let titleAttributedText = NSMutableAttributedString(string: "\(memoTitle)\n", attributes: titleAttributes)
+        let titleAttributedText = NSMutableAttributedString(string: "\(memoTitle)\(titleSeperator)", attributes: titleAttributes)
         let bodyAttributedText = NSAttributedString(string: memoBody, attributes: bodyAttributes)
         
         titleAttributedText.append(bodyAttributedText)

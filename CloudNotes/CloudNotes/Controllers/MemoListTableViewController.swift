@@ -84,7 +84,6 @@ extension MemoListTableViewController {
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        (splitViewController?.viewControllers.last as? UINavigationController)?.popToRootViewController(animated: false)
         let body = parsedDatas[indexPath.row].body
         delegate?.didTapMemo(self, memo: body)
 

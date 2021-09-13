@@ -46,7 +46,7 @@ extension SecondaryViewController: UITextViewDelegate {
             return
         }
         
-        let currentMemoBody = currentMemoBodyArray.reduce(currentMemo[bodyStartIndex]) { $0 + enterString + $1 }
+        let currentMemoBody = currentMemoBodyArray.reduce("") { $0 + enterString + $1 }
         let currentMemoData = MemoDataManager.memos[holder?.indexPath?.row ?? .zero]
         
         do {

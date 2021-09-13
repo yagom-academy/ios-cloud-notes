@@ -51,11 +51,11 @@ extension MemoDetailViewController {
     private func setupNavigationItem() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action,
                                                             target: self,
-                                                            action: #selector(didTapButton))
+                                                            action: #selector(didTapSeeMoreButton))
     }
     
-    @objc func didTapButton() {
-        
+    @objc func didTapSeeMoreButton() {
+        delegate?.didTapSeeMoreButton()
     }
 }
 

@@ -11,6 +11,7 @@ class SplitViewController: UISplitViewController, TextSeparatable {
     private let memoListViewController = MemoListTableViewController()
     private let memoDetailViewController = MemoDetailViewController()
     private var dataSource: MemoListDiffableDataSource?
+    
     // MARK: View LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -84,6 +85,18 @@ extension SplitViewController: MemoDetailViewControllerDelegate {
         let currentMemo = CoreDataCloudMemo.shared.getCloudMemo(at: indexPath)
         currentMemo.title = contetnsText.title
         currentMemo.body = contetnsText.body
+    }
+    
+    func didTapSeeMoreButton() {
+        let cancelAction = UIAlertAction.generateUIAlertAction(kind: .cancel, alertStyle: .cancel, completionHandler: nil)
+        let shareAction = UIAlertAction.generateUIAlertAction(kind: .share, alertStyle: .default, completionHandler: nil)
+        let deleteAction = UIAlertAction.generateUIAlertAction(kind: .delete, alertStyle: .destructive) { alertAction in
+           
+        }
+        
+        let alertController = UIAlertController.generateAlertController(title: nil, message: nil, alertActions: [cancelAction, shareAction, deleteAction])
+        
+        present(alertController, animated: true, completion: nil)
     }
 }
 

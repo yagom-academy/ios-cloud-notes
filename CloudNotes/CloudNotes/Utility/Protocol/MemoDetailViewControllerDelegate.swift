@@ -9,4 +9,5 @@ import Foundation
 
 protocol MemoDetailViewControllerDelegate: AnyObject {
     func contentsDidChanged(at indexPath: IndexPath, contetnsText: (title: String?, body: String?))
+    func didTapSeeMoreButton()
 }

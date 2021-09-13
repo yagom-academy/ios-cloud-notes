@@ -13,16 +13,13 @@ extension UIAlertController {
         static let share = "Share..."
         static let cancel = "Cancel"
     }
-    static func generateSeeMoreAlertController(deleteHandler: @escaping (UIAlertAction) -> Void,
-                                               shareHandler: @escaping (UIAlertAction) -> Void) -> UIAlertController {
-        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        alert.addAction(UIAlertAction(title: NameSpace.delete, style: .destructive, handler: { alert in
-            deleteHandler(alert)
-        }))
-        alert.addAction(UIAlertAction(title: NameSpace.share, style: .default, handler: { alert in
-            shareHandler(alert)
-        }))
-        alert.addAction(UIAlertAction(title: NameSpace.cancel, style: .cancel, handler: nil))
+    
+    static func generateAlertController(title: String?, message: String?, alertActions: [UIAlertAction]?) -> UIAlertController {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
+
+        alertActions?.forEach { alertAction in
+            alert.addAction(alertAction)
+        }
         
         return alert
     }

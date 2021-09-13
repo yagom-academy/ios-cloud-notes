@@ -27,13 +27,13 @@ struct DataManager {
     
     func obtainData<T: Decodable>(completionHandler: @escaping (Result<T, Error>) -> Void) {
         dataImportModule.importData { (data: T?, error: Error?) in
-            if let data = data {
-                DispatchQueue.main.async {
-                    completionHandler(.success(data))
-                }
-            } else if let error = error {
+            if let error = error {
                 DispatchQueue.main.async {
                     completionHandler(.failure(error))
+                }
+            } else if let data = data {
+                DispatchQueue.main.async {
+                    completionHandler(.success(data))
                 }
             } else {
                 DispatchQueue.main.async {

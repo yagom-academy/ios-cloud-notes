@@ -8,7 +8,7 @@
 import UIKit
 import CoreData
 
-class MemoDataManager {
+final class MemoDataManager {
     static var memos: [Memo] = { () -> [Memo] in
         do {
             let test = try context.fetch(Memo.fetchRequest()) as [Memo]

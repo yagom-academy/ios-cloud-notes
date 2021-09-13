@@ -24,7 +24,7 @@ extension CoreDataUsable {
     }
 }
 
-class PrimaryViewController: UIViewController, CoreDataUsable {
+final class PrimaryViewController: UIViewController, CoreDataUsable {
     private let tableView = UITableView()
     private let tableViewDataSource = MainVCTableViewDataSource()
     private let context = MemoDataManager.context
@@ -60,9 +60,11 @@ extension PrimaryViewController: UITableViewDelegate {
     
     private func giveDataToSecondaryVC(_ indexPath: IndexPath, _ tableView: UITableView) {
         let secondVC = splitViewController?.viewController(for: .secondary) as? SecondaryViewController
+        
         let lineBreaker = "\n"
         let transferedText = "\(self.memos[indexPath.row].title ?? "")" + lineBreaker + "\(self.memos[indexPath.row].body ?? "")"
         let tableViewIndexPathHolder = TextViewRelatedDataHolder(indexPath: indexPath, tableView: tableView, textViewText: transferedText)
+        
         secondVC?.configure(tableViewIndexPathHolder)
     }
 }

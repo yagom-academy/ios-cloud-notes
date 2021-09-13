@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SplitViewController: UISplitViewController {
+final class SplitViewController: UISplitViewController {
     private let detailVC = SecondaryViewController()
     private let primaryVC = PrimaryViewController()
     private let splitViewDelegate = SplitViewDelegate()

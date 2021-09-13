@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MainVCTableViewDataSource: NSObject, UITableViewDataSource {
+final class MainVCTableViewDataSource: NSObject, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return MemoDataManager.memos.count ?? .zero
     }

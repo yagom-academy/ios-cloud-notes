@@ -8,7 +8,7 @@
 import UIKit
 import CoreData
 
-class SecondaryViewController: UIViewController, CoreDataUsable {
+final class SecondaryViewController: UIViewController, CoreDataUsable {
     private var textView = UITextView()
     private let context = MemoDataManager.context
     

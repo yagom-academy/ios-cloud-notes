@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct CellContentDataHolder {
+final class CellContentDataHolder {
     var titleLabelText: String?
     var dateLabelText: String?
     var bodyLabelText: String?

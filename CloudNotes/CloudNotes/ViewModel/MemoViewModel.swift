@@ -38,24 +38,11 @@ class MemoViewModel {
               let lastModified = memo.lastModified else {
             return MemoCellViewModel(title: "제목 없음", body: "내용 없음", lastModified: "")
         }
-        let formattedDate = changeDateFormat(lastModified)
+        let formattedDate = lastModified.changeDateFormat()
         return MemoCellViewModel(title: title, body: body, lastModified: formattedDate)
     }
 
     func getCellViewModel(at indexPath: IndexPath) -> MemoCellViewModel {
         return memoCellViewModels[indexPath.row]
-    }
-
-    private func changeDateFormat(_ time: Int) -> String {
-        let dateFormatter = DateFormatter()
-        let usersLocale = Locale.current
-        
-        dateFormatter.dateStyle = .medium
-        dateFormatter.timeStyle = .none
-        dateFormatter.locale = usersLocale
-        
-        let date = Date(timeIntervalSince1970: Double(time))
-        
-        return dateFormatter.string(from: date)
     }
 }

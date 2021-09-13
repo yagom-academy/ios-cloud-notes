@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		791CBE6126EFA78D00E8D9C3 /* DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 791CBE6026EFA78D00E8D9C3 /* DateFormatter.swift */; };
 		79634F9726E6159600B83AE9 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79634F9626E6159600B83AE9 /* RootViewController.swift */; };
 		79634F9926E65D1A00B83AE9 /* Memo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79634F9826E65D1A00B83AE9 /* Memo.swift */; };
 		79634F9D26E6939000B83AE9 /* MemoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79634F9C26E6939000B83AE9 /* MemoViewModel.swift */; };
@@ -41,6 +42,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		791CBE6026EFA78D00E8D9C3 /* DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatter.swift; sourceTree = "<group>"; };
 		79634F9626E6159600B83AE9 /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 		79634F9826E65D1A00B83AE9 /* Memo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memo.swift; sourceTree = "<group>"; };
 		79634F9C26E6939000B83AE9 /* MemoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoViewModel.swift; sourceTree = "<group>"; };
@@ -88,6 +90,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		791CBE5F26EFA76E00E8D9C3 /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				791CBE6026EFA78D00E8D9C3 /* DateFormatter.swift */,
+			);
+			path = Util;
+			sourceTree = "<group>";
+		};
 		79DADE7A26E21849007871AF /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -150,6 +160,7 @@
 				79DADE7A26E21849007871AF /* Model */,
 				79DADE7D26E2186D007871AF /* View */,
 				79F368D726EA1AC1002A83E5 /* ViewModel */,
+				791CBE5F26EFA76E00E8D9C3 /* Util */,
 				C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */,
 				C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */,
 				C7481C7B25BBCF3A00B9CA55 /* LaunchScreen.storyboard */,
@@ -312,6 +323,7 @@
 				7987173026DF863100A22D4F /* MemoTableViewController.swift in Sources */,
 				7987173426DFB22500A22D4F /* MemoTableViewCell.swift in Sources */,
 				79634F9726E6159600B83AE9 /* RootViewController.swift in Sources */,
+				791CBE6126EFA78D00E8D9C3 /* DateFormatter.swift in Sources */,
 				C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */,
 				C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */,
 				79DADE7226E1C7DE007871AF /* MemoDetailViewController.swift in Sources */,

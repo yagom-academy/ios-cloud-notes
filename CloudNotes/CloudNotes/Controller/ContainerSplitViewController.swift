@@ -47,7 +47,6 @@ extension ContainerSplitViewController {
                 self.setDataToViewControllers(with: memos)
             case .failure(let error):
                 self.presentAlert(about: error)
-                break
             }
         }
     }

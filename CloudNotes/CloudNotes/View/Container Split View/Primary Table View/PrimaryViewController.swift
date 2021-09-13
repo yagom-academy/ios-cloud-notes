@@ -9,7 +9,7 @@ import UIKit
 import CoreData
 
 protocol PrimaryListDelegate: AnyObject {
-    func showSelectedDetail(by memo: MemoModel)
+    func showSelectedDetail(by memo: MemoModel, showPage isShowing: Bool)
 }
 
 class PrimaryViewController: UITableViewController {

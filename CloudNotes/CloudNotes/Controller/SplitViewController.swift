@@ -24,6 +24,30 @@ class SplitViewController: UISplitViewController, TextSeparatable {
     
 }
 
+// MARK: - Method And NameSapce
+extension SplitViewController {
+    enum NameSpace {
+        enum UIAlertMessage {
+            static let titleMessage = "진짜요?"
+            static let bodyMessage = "정말로 삭제하시겠어요????"
+        }
+    }
+    
+    private func showDeleteAlert(at indexPath: IndexPath) {
+        let cancel = UIAlertAction.generateUIAlertAction(kind: .cancel, alertStyle: .cancel, completionHandler: nil)
+        
+        let deleteAction = UIAlertAction.generateUIAlertAction(kind: .delete, alertStyle: .destructive) { [weak self] _ in
+            self?.viewController(for: .primary)?.navigationController?.popViewController(animated: true)
+            let currentItem = CoreDataCloudMemo.shared.getCloudMemo(at: indexPath)
+            CoreDataCloudMemo.shared.deleteItem(object: currentItem)
+        }
+        
+        let alert = UIAlertController.generateAlertController(title: NameSpace.UIAlertMessage.titleMessage, message: NameSpace.UIAlertMessage.bodyMessage, style: .alert, alertActions: [cancel, deleteAction])
+        
+        present(alert, animated: true, completion: nil)
+    }
+}
+
 // MARK: - SplitView Setup
 extension SplitViewController {
     private func setupChildViewControllers() {
@@ -87,14 +111,14 @@ extension SplitViewController: MemoDetailViewControllerDelegate {
         currentMemo.body = contetnsText.body
     }
     
-    func didTapSeeMoreButton() {
+    func didTapSeeMoreButton(at indexPath: IndexPath) {
         let cancelAction = UIAlertAction.generateUIAlertAction(kind: .cancel, alertStyle: .cancel, completionHandler: nil)
         let shareAction = UIAlertAction.generateUIAlertAction(kind: .share, alertStyle: .default, completionHandler: nil)
-        let deleteAction = UIAlertAction.generateUIAlertAction(kind: .delete, alertStyle: .destructive) { alertAction in
-           
+        let deleteAction = UIAlertAction.generateUIAlertAction(kind: .delete, alertStyle: .destructive) {  [weak self] _ in
+            self?.showDeleteAlert(at: indexPath)
         }
-        
-        let alertController = UIAlertController.generateAlertController(title: nil, message: nil, alertActions: [cancelAction, shareAction, deleteAction])
+
+        let alertController = UIAlertController.generateAlertController(title: nil, message: nil, style: .actionSheet, alertActions: [cancelAction, shareAction, deleteAction])
         
         present(alertController, animated: true, completion: nil)
     }

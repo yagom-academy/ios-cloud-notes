@@ -55,7 +55,7 @@ extension MemoDetailViewController {
     }
     
     @objc func didTapSeeMoreButton() {
-        delegate?.didTapSeeMoreButton()
+        delegate?.didTapSeeMoreButton(at: indexPath ?? IndexPath())
     }
 }
 

@@ -84,6 +84,22 @@ extension SecondaryViewController {
     
     //MARK:-NavigationBar Item relate method
     @objc func didTapSeeMoreButton() {
-        print("연결완료")
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let deleteActions = UIAlertAction(title: "Delete", style: .destructive, handler: { action in
+            print("삭제")
+        })
+        let shareAction = UIAlertAction(title: "Share...", style: .default, handler: { action in
+            print("공유")
+        })
+        
+        let cancleAction = UIAlertAction(title: "Cancle", style: .cancel, handler: { action in
+            print("취소")
+        })
+
+        alert.addAction(shareAction)
+        alert.addAction(deleteActions)
+        alert.addAction(cancleAction)
+
+        present(alert, animated: true, completion: nil)
     }
 }

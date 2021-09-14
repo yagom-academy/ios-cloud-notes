@@ -63,12 +63,12 @@ extension SecondaryViewController: UITextViewDelegate {
         checkChanging = textView.text
     }
     func textViewDidEndEditing(_ textView: UITextView) {
-        print("textViewDidEndEditing")
+        print("SecondaryViewController - textViewDidEndEditing")
         guard checkChanging != textView.text else {
             return
         }
         guard let currentText = textView.text else {
-            print("에러처리 필요 - textViewDidEndEditing.textViewDidEndEditing : textView.text 비어있음")
+            NSLog("에러처리 필요 - textViewDidEndEditing.textViewDidEndEditing : textView.text 비어있음")
             return
         }
         let tempMemo = makeTempMemo(by: currentText)
@@ -134,7 +134,7 @@ extension SecondaryViewController {
         alert.addAction(UIAlertAction(title: Strings.Alert.cancel.description, style: .default))
         alert.addAction(UIAlertAction(title: Strings.Alert.delete.description, style: .destructive) { _ in
             guard let currentIndex = self.currentMemeIndexPath else {
-                print("에러처리 필요 - SecondaryViewController.deleteMemo : 현재 선택된 메모 인덱스 데이터 없음")
+                NSLog("에러처리 필요 - SecondaryViewController.deleteMemo : 현재 선택된 메모 인덱스 데이터 없음")
                 return
             }
             self.rootDelegate.deleteMemo(at: currentIndex, completion: { _ in })

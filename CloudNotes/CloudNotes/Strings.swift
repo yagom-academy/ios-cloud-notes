@@ -81,6 +81,20 @@ enum Strings: String {
             }
         }
     }
+    
+    enum Asset: CustomStringConvertible {
+        case yagom
+        case diet
+        
+        var description: String {
+            switch self {
+            case .yagom:
+                return "sample"
+            case .diet:
+                return "dietSample"
+            }
+        }
+    }
 }
 
 extension NSObject {

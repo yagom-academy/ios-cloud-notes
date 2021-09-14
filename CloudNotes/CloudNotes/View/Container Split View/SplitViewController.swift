@@ -48,7 +48,7 @@ extension SplitViewController {
         if isShowing { show(.secondary) }
     }
     
-    func emptyDetail() {
+    func makeEmptyDetail() {
         secondaryViewController?.initDetailView()
         show(.primary)
     }
@@ -59,7 +59,7 @@ extension SplitViewController {
     func readDataAsset() -> [MemoModel] {
         let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase
-        guard let dataAsset = NSDataAsset(name: "dietSample") else {
+        guard let dataAsset = NSDataAsset(name: Strings.Asset.diet.description) else {
             NSLog("에러처리 필요 - PrimaryViewController.readDataAsset : 파일 바인딩 실패")
             return []
         }
@@ -78,7 +78,6 @@ extension SplitViewController {
             NSLog("에러처리 필요 - SplitViewController.editMemo : 선택된 indexPath nil 또는 objectID nil")
             return
         }
-        
         if let objectID = currentMemo.objectID {
             if temp.title == "" {
                 deleteMemo(at: index, completion: nil)
@@ -110,7 +109,7 @@ extension SplitViewController {
             let showingMemo = index < listResource.endIndex ? listResource[index] : listResource[listResource.index(before: index)]
             showSelectedDetail(by: showingMemo, at: indexPath, showPage: false)
         } else {
-            emptyDetail()
+            makeEmptyDetail()
         }
         reloadPrimaryView()
     }

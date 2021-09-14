@@ -24,10 +24,10 @@ class PrimaryViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        print("fetch Data")
+        print("PrimaryViewController - viewWillAppear")
         rootDelegate.listResource = coreManager.fetchData()
         if rootDelegate.listResource.isEmpty {
-            NSLog("데이터가 없어서 Sample 데이터로 저장")
+            NSLog("CoreData 데이터 없어서 asset 데이터(Sample) 추가")
             rootDelegate.listResource = rootDelegate.readDataAsset()
             for data in rootDelegate.listResource {
                 coreManager.insertData(data)
@@ -38,10 +38,8 @@ class PrimaryViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addMemo))
         self.navigationItem.title = Strings.VCTitle.primary.description
-    
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(PrimaryTableViewCell.self, forCellReuseIdentifier: PrimaryTableViewCell.className)

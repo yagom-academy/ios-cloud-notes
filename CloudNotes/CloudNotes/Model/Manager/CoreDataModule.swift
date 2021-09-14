@@ -10,10 +10,14 @@ import CoreData
 
 enum CoreDataError: Error, LocalizedError {
     case failedToGetEntity
+    case failedToConvert
+    
     var errorDescription: String? {
         switch self {
         case .failedToGetEntity:
             return "데이터베이스 entity 정보를 가져오지 못했습니다."
+        case .failedToConvert:
+            return "데이터 변환에 실패하였습니다."
         }
     }
 }
@@ -21,6 +25,11 @@ enum CoreDataError: Error, LocalizedError {
 struct CoreDataModule {
     static let basicContainerName = "CloudNotes"
     static let basicEntityName = "Note"
+    private let basicSortingCriterias: [NSSortDescriptor] = {
+        var criterias = [NSSortDescriptor]()
+        criterias.append(NSSortDescriptor(key: "lastModified", ascending: false))
+        return criterias
+    }()
     private var persistentContainer: NSPersistentContainer
     private var context: NSManagedObjectContext {
         return persistentContainer.viewContext
@@ -52,6 +61,25 @@ struct CoreDataModule {
             completionHandler(nil)
         } catch  {
             completionHandler(error)
+        }
+    }
+    
+    func fetch<T: NSManagedObject>(predicate: NSPredicate? = nil,
+                                   sortDescriptors: [NSSortDescriptor]? = nil,
+                                   completionHandler: ([T]?, Error?) -> Void) {
+        let fetchRequest = T.fetchRequest()
+        fetchRequest.predicate = predicate
+        fetchRequest.sortDescriptors = sortDescriptors ?? basicSortingCriterias
+        
+        do {
+            let fetchedDatas = try context.fetch(fetchRequest)
+            if let convertedValues = fetchedDatas as? [T] {
+                completionHandler(convertedValues, nil)
+            } else {
+                completionHandler(nil, CoreDataError.failedToConvert)
+            }
+        } catch {
+            completionHandler(nil, error)
         }
     }
 }

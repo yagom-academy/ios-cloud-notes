@@ -87,6 +87,15 @@ extension NoteListViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         showContentDetails(of: notes[indexPath.row], at: indexPath)
     }
+    
+    override func tableView(_ tableView: UITableView,
+                            trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath)
+    -> UISwipeActionsConfiguration? {
+        let deleteAction = UIContextualAction(style: .destructive, title: "삭제") { (_, _, _) in
+            self.deleteNote(at: indexPath)
+        }
+        return UISwipeActionsConfiguration(actions: [deleteAction])
+    }
 }
 
 extension NoteListViewController: NoteUpdater {

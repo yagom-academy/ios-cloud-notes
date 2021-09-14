@@ -56,6 +56,7 @@ extension SplitViewController {
         
         let deleteAction = UIAlertAction.generateUIAlertAction(kind: .delete, alertStyle: .destructive) { [weak self] _ in
             self?.viewController(for: .primary)?.navigationController?.popViewController(animated: true)
+            self?.viewController(for: .secondary)?.view.isHidden = true
             let currentItem = self?.coreDataMemo?.getCloudMemo(at: indexPath)
             self?.coreDataMemo?.deleteItem(object: currentItem)
         }
@@ -96,6 +97,7 @@ extension SplitViewController: UISplitViewControllerDelegate {
 // MARK: - MemoList Delegate
 extension SplitViewController: MemoListDelegate {
     func didTapTableViewCell(at indexPath: IndexPath) {
+        self.viewController(for: .secondary)?.view.isHidden = false
         let currentObject = coreDataMemo?.getCloudMemo(at: indexPath)
         memoDetailViewController.configureMemoContents(title: currentObject?.title,
                                                        body: currentObject?.body,
@@ -113,6 +115,7 @@ extension SplitViewController: MemoListDelegate {
     func didTapDeleteButton(at indexPath: IndexPath) {
         let currentObject = coreDataMemo?.getCloudMemo(at: indexPath)
         coreDataMemo?.deleteItem(object: currentObject)
+        self.viewController(for: .secondary)?.view.isHidden = true
     }
     
     func didTapShareButton(at indexPath: IndexPath) {

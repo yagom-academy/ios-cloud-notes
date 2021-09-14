@@ -37,6 +37,7 @@ final class MemoDetailViewController: UIViewController, TextSeparatable, TextVie
     }
 }
 
+// MARK: - Name Space
 extension MemoDetailViewController {
     enum NameSpace {
         enum TextView {
@@ -47,7 +48,7 @@ extension MemoDetailViewController {
     }
 }
 
-// MARK: Setup Navigation
+// MARK: - Setup Navigation
 extension MemoDetailViewController {
     private func setupNavigationItem() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action,
@@ -60,7 +61,7 @@ extension MemoDetailViewController {
     }
 }
 
-// MARK: Setup TextView And View
+// MARK: - Setup TextView And View
 extension MemoDetailViewController {
     private func configureMemoTextView() {
         memoContentsTextView.delegate = self

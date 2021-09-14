@@ -94,22 +94,19 @@ extension MemoListViewController {
     
     //MARK: Add new memo in coredata button
     @objc func didTabButton() {
+        let todayDate = Date().makeCurrentDateInt64Data()
         let newMemo = Memo(context: self.context)
-        let someDate = Date()
-        let timeInterval = someDate.timeIntervalSince1970
-        let todayDateData = Int(timeInterval)
-        newMemo.lastModifiedDate = Int64(todayDateData)
+        newMemo.lastModifiedDate = todayDate
         
-        memos.append(newMemo)
+        self.memos.append(newMemo)
         self.saveCoreData(context)
         
         guard let secondVC = self.splitViewController?.viewController(for: .secondary) as? MemoDetailViewController else {
             return
         }
         
-        let totalCell = tableView.numberOfRows(inSection: .zero)
-        let newIndexPath = IndexPath(row: totalCell, section: .zero)
-        
+        let totalRows = self.tableView.numberOfRows(inSection: .zero)
+        let newIndexPath = IndexPath(row: totalRows, section: .zero)
         let emptyHolder = TextViewRelatedDataHolder(indexPath: newIndexPath, tableView: tableView, textViewText: nil)
         secondVC.configure(emptyHolder)
         
@@ -117,3 +114,12 @@ extension MemoListViewController {
         self.splitViewController?.show(.secondary)
     }
 }
+
+//struct TodayDate {
+//    func create() -> Int64 {
+//        let date = Date()
+//        let timeInterval = date.timeIntervalSince1970
+//        let todayDateInt64Type = Int64(timeInterval)
+//        return todayDateInt64Type
+//    }
+//}

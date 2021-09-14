@@ -50,9 +50,7 @@ final class MemoDetailViewController: UIViewController, CoreDataUsable {
 
 extension MemoDetailViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
-        let someDate = Date()
-        let timeInterval = someDate.timeIntervalSince1970
-        let todayDateData = Int(timeInterval)
+        let today = Date().makeCurrentDateInt64Data()
         
         let lineBreaker = "\n"
         let bodyStartIndex = 1
@@ -70,7 +68,7 @@ extension MemoDetailViewController: UITextViewDelegate {
         do {
             currentMemoData.title = currentMemoTitle
             currentMemoData.body = currentMemoBody
-            currentMemoData.lastModifiedDate = Int64(todayDateData)
+            currentMemoData.lastModifiedDate = today
             try self.context.save()
         } catch {
             print(CoreDataError.saveError.errorDescription)

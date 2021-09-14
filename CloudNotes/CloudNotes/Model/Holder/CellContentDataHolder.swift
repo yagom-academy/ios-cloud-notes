@@ -13,7 +13,7 @@ final class CellContentDataHolder {
     let bodyLabelText: String?
     
     init(title: String?, date: Int64, body: String?) {
-        let modifiedDate = DateFormatter().updateLastModifiedDate(Int(date ?? .zero))
+        let modifiedDate = DateFormatter().updateLastModifiedDate(Int(date))
         self.dateLabelText = "\(modifiedDate)"
         self.titleLabelText = title
         self.bodyLabelText = body

@@ -21,6 +21,7 @@ class NoteListViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        fetchNotes()
         initTableView()
     }
     
@@ -101,7 +102,11 @@ extension NoteListViewController: NoteUpdater {
     }
     
     func createNote() {
-
+        let newNote = Note(context: context)
+        newNote.title = String.empty
+        newNote.body = String.empty
+        newNote.lastModified = Date().timeIntervalSince1970
+        saveContext()
     }
     
     func update(with noteData: Note, at indexPath: IndexPath) {

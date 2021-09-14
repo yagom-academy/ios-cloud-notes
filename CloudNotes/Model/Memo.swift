@@ -7,10 +7,16 @@
 
 import Foundation
 
-struct Memo: Decodable {
+class Memo: Decodable {
     let title: String
     let description: String
     let lastUpdatedTime: TimeInterval
+
+    init(title: String, description: String, lastUpdatedTime: TimeInterval) {
+        self.title = title
+        self.description = description
+        self.lastUpdatedTime = lastUpdatedTime
+    }
 
     enum CodingKeys: String, CodingKey {
         case title

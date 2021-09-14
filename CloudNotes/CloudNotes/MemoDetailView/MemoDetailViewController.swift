@@ -10,10 +10,13 @@ import UIKit
 class MemoDetailViewController: UIViewController {
 
     private let textView = UITextView()
+    var messenger: MessengerBetweenController?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.systemBackground
+
+        textView.delegate = self
 
         configureDeleteButton()
         configureTextView()
@@ -92,5 +95,23 @@ extension MemoDetailViewController {
             action: #selector(confirmToDeleteMemo)
         )
         navigationItem.rightBarButtonItem = deleteButton
+    }
+}
+
+extension MemoDetailViewController: UITextViewDelegate {
+    func textViewDidEndEditing(_ textView: UITextView) {
+        let separator = "\n\n"
+        var outputStrings = textView.text.components(separatedBy: separator)
+        guard let titleText = outputStrings.first,
+              titleText.isEmpty == false else {
+            messenger?.showListViewController(with: nil)
+            return
+        }
+
+        let title = outputStrings.removeFirst().description
+        let description = outputStrings.joined(separator: separator)
+        let now = Date().timeIntervalSinceReferenceDate
+        let memo = Memo(title: title, description: description, lastUpdatedTime: now)
+        messenger?.showListViewController(with: memo)
     }
 }

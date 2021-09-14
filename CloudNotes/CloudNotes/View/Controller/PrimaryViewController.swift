@@ -58,9 +58,6 @@ extension PrimaryViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        // 해당 cell이 swipe 가 되면 실행되는 메소드
-        // 스와이프 된 cell의 코어데이터를 지워야함 ->
-        
         let actions = [UIContextualAction(style: .destructive,
                                           title: "Delete",
                                           handler: { [weak self] action, view, completionHandler in

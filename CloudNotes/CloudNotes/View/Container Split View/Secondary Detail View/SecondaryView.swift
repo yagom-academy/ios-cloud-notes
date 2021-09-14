@@ -7,13 +7,7 @@
 
 import UIKit
 
-protocol SecondaryViewDelegate: AnyObject {
-    func extractMemo(text: String)
-    func addMemo()
-}
-
 class SecondaryView: UIView {
-    weak var vcDelegate: SecondaryViewDelegate?
     let textView: UITextView = {
         let view = UITextView()
         view.textColor = .black
@@ -28,7 +22,6 @@ class SecondaryView: UIView {
         self.backgroundColor = .white
         self.translatesAutoresizingMaskIntoConstraints = false
         addSubview(textView)
-        textView.delegate = self
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWasShown),
                                                name: UIResponder.keyboardDidShowNotification, object: nil)
@@ -47,17 +40,6 @@ class SecondaryView: UIView {
             textView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor),
             textView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor)
         ])
-    }
-}
-
-extension SecondaryView: UITextViewDelegate {
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-//        textView.resignFirstResponder()
-    }
-    
-    func textViewDidEndEditing(_ textView: UITextView) {
-        print("textViewDidEndEditing")
-        vcDelegate?.extractMemo(text: textView.text)
     }
 }
 
@@ -91,6 +73,5 @@ extension SecondaryView {
     func configure(by text: String?) {
         self.textView.text = text
         textView.setContentOffset(.zero, animated: true)
-//        textView.resignFirstResponder()
     }
 }

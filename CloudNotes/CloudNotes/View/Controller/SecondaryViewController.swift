@@ -8,6 +8,23 @@
 import UIKit
 import CoreData
 
+enum ActionSheetMenu {
+    case delete
+    case share
+    case cancle
+    
+    var literal: String {
+        switch self {
+        case .delete:
+            return "Delete"
+        case .share:
+            return "Share..."
+        case .cancle:
+            return "Cancle"
+        }
+    }
+}
+
 final class SecondaryViewController: UIViewController, CoreDataUsable {
     private var textView = UITextView()
     private let context = MemoDataManager.context
@@ -23,10 +40,11 @@ final class SecondaryViewController: UIViewController, CoreDataUsable {
     }
     
     override func viewWillLayoutSubviews() {
-        self.textView.setPosition(top: view.safeAreaLayoutGuide.topAnchor,
-                                  bottom: view.safeAreaLayoutGuide.bottomAnchor,
-                                  leading: view.safeAreaLayoutGuide.leadingAnchor,
-                                  trailing: view.safeAreaLayoutGuide.trailingAnchor)
+        self.textView.setPosition(
+            top: view.safeAreaLayoutGuide.topAnchor,
+            bottom: view.safeAreaLayoutGuide.bottomAnchor,
+            leading: view.safeAreaLayoutGuide.leadingAnchor,
+            trailing: view.safeAreaLayoutGuide.trailingAnchor)
     }
 }
 
@@ -44,7 +62,7 @@ extension SecondaryViewController: UITextViewDelegate {
         let currentMemoBodyArray = currentMemo[bodyStartIndex...]
         var currentMemoBody = currentMemoBodyArray.reduce("") { $0 + lineBreaker + $1 }
         let currentMemoData = MemoDataManager.memos[holder?.indexPath?.row ?? .zero]
-
+        
         if !currentMemoBody.isEmpty {
             currentMemoBody.removeFirst()
         }
@@ -85,21 +103,22 @@ extension SecondaryViewController {
     //MARK:-NavigationBar Item relate method
     @objc func didTapSeeMoreButton() {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let deleteActions = UIAlertAction(title: "Delete", style: .destructive, handler: { action in
-            print("삭제")
+        let deleteActions = UIAlertAction(title: ActionSheetMenu.delete.literal, style: .destructive, handler: { action in
+            // 삭제 관리하는 타입이 있어야하나?
+            
         })
-        let shareAction = UIAlertAction(title: "Share...", style: .default, handler: { action in
+        let shareAction = UIAlertAction(title: ActionSheetMenu.share.literal, style: .default, handler: { action in
             print("공유")
         })
         
-        let cancleAction = UIAlertAction(title: "Cancle", style: .cancel, handler: { action in
+        let cancleAction = UIAlertAction(title: ActionSheetMenu.cancle.literal, style: .cancel, handler: { action in
             print("취소")
         })
-
+        
         alert.addAction(shareAction)
         alert.addAction(deleteActions)
         alert.addAction(cancleAction)
-
+        
         present(alert, animated: true, completion: nil)
     }
 }

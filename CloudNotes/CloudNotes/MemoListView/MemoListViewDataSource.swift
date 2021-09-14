@@ -10,8 +10,8 @@ import UIKit
 class MemoListViewDataSource: NSObject, UITableViewDataSource {
     private var memoList = [Memo]()
 
-    var lastIndexPath: IndexPath {
-        return IndexPath(row: memoList.count - 1, section: .zero)
+    subscript(indexPath: IndexPath) -> Memo {
+        return memoList[indexPath.row]
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -33,5 +33,18 @@ class MemoListViewDataSource: NSObject, UITableViewDataSource {
     func tableView(_ tableView: UITableView, initializeMemoListWith memoList: [Memo]) {
         self.memoList = memoList
         tableView.reloadData()
+    }
+
+    func tableView(
+        _ tableView: UITableView,
+        updateRowAt indexPath: IndexPath,
+        with memo: Memo?
+    ) {
+        guard let memo = memo else {
+            return
+        }
+
+        memoList[indexPath.row] = memo
+        tableView.reloadRows(at: [indexPath], with: .automatic)
     }
 }

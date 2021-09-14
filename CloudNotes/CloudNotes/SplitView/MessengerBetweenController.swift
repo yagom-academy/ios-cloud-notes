@@ -8,6 +8,6 @@
 import Foundation
 
 protocol MessengerBetweenController {
-    func showDetailViewController(with data: Memo?)
-    func showListViewController(with data: Memo?)
+    func showDetailViewController(with memo: Memo?)
+    func showListViewController(with memo: Memo?)
 }

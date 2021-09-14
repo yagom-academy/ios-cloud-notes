@@ -10,19 +10,16 @@ import UIKit
 class MemoListViewController: UITableViewController {
     private let memoListDataSource = MemoListViewDataSource()
     private var memoListDelegator: MemoListViewDelegate?
+    private var lastIndexPath: IndexPath?
+
     var messenger: MessengerBetweenController?
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        tableView.remembersLastFocusedIndexPath = true
         configureTableView()
         configureNavigationTitle()
         configureNavigationRightBarButtonItem()
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
     }
 
     func insertMemoList(memoList: [Memo]) {
@@ -30,16 +27,17 @@ class MemoListViewController: UITableViewController {
     }
 
     func updateMemo(with memo: Memo?) {
-        guard let selectedIndexPath = tableView.indexPathForSelectedRow else {
+        guard let selectedIndexPath = lastIndexPath else {
             return
         }
 
-        print(selectedIndexPath)
-        print(memo.debugDescription)
+        memoListDataSource.tableView(tableView, updateRowAt: selectedIndexPath, with: memo)
+        lastIndexPath = nil
     }
 
-    func showDetailViewController(with data: Memo?) {
-        messenger?.showDetailViewController(with: data)
+    func showDetailViewController(at indexPath: IndexPath) {
+        messenger?.showDetailViewController(with: memoListDataSource[indexPath])
+        lastIndexPath = indexPath
     }
 
 }
@@ -90,6 +88,6 @@ extension MemoListViewController {
     }
 
     @objc private func showDetailViewControllerWithBlankPage() {
-        showDetailViewController(with: nil)
+        messenger?.showDetailViewController(with: nil)
     }
 }

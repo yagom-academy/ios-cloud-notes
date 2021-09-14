@@ -17,8 +17,6 @@ class MemoListViewCell: UITableViewCell {
     private let dateFormatter = DateFormatter()
     private let half: CGFloat = 0.5
 
-    var data: Memo?
-
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
@@ -37,7 +35,6 @@ class MemoListViewCell: UITableViewCell {
     }
 
     func configure(with memo: Memo) {
-        data = memo
         let lastedUpdatedTime = Date(timeIntervalSince1970: memo.lastUpdatedTime)
 
         titleLabel.text = memo.title

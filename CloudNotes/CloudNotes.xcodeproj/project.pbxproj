@@ -136,8 +136,8 @@
 			children = (
 				63A619BE26DE06E90065AC84 /* MemoListViewController.swift */,
 				6380924826DFACC300075575 /* MemoListViewDataSource.swift */,
-				6380924B26DFB9ED00075575 /* MemoListViewCell.swift */,
 				637208B326E1359C00744419 /* MemoListViewDelegate.swift */,
+				6380924B26DFB9ED00075575 /* MemoListViewCell.swift */,
 			);
 			path = MemoListView;
 			sourceTree = "<group>";

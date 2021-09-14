@@ -15,12 +15,6 @@ class MemoListViewDelegate: NSObject, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-
-        guard let myCell = tableView.cellForRow(at: indexPath) as? MemoListViewCell,
-              let data = myCell.data else {
-            return
-        }
-
-        owner?.showDetailViewController(with: data)
+        owner?.showDetailViewController(at: indexPath)
     }
 }

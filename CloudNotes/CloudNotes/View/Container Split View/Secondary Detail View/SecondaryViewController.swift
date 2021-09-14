@@ -80,9 +80,9 @@ extension SecondaryViewController {
     @objc func tappingSeeMoreButton() {
         resignFromTextView()
         let sheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        sheet.addAction(UIAlertAction(title: "Share...", style: .default, handler: selectedShare))
-        sheet.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: selectedDelete))
-        sheet.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        sheet.addAction(UIAlertAction(title: Strings.ActionSheet.share.description, style: .default, handler: selectedShare))
+        sheet.addAction(UIAlertAction(title: Strings.ActionSheet.delete.description, style: .destructive, handler: selectedDelete))
+        sheet.addAction(UIAlertAction(title: Strings.ActionSheet.cancel.description, style: .cancel))
         self.present(sheet, animated: true, completion: nil)
     }
     
@@ -110,9 +110,11 @@ extension SecondaryViewController {
     }
 
     func selectedDelete(action: UIAlertAction) {
-        let alert = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "취소", style: .default))
-        alert.addAction(UIAlertAction(title: "삭제", style: .destructive) { _ in
+        let alert = UIAlertController(title: Strings.Alert.deleteTitle.description,
+                                      message: Strings.Alert.deleteMessage.description,
+                                      preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: Strings.Alert.cancel.description, style: .default))
+        alert.addAction(UIAlertAction(title: Strings.Alert.delete.description, style: .destructive) { _ in
             guard let currentIndex = self.currentMemeIndexPath else {
                 print("에러처리 필요 - SecondaryViewController.deleteMemo : 현재 선택된 메모 인덱스 데이터 없음")
                 return
@@ -134,7 +136,7 @@ extension SecondaryViewController {
 //    }
     
     func updateDetailView(by memo: MemoModel, at indexPath: IndexPath) {
-        let text = memo.title + twiceLineBreaks + memo.body
+        let text = memo.title + Strings.KeyboardInput.twiceLineBreaks.rawValue + memo.body
         currentMemeIndexPath = indexPath
         secondaryView.configure(by: text)
     }

@@ -9,28 +9,6 @@ import UIKit
 import CoreData
 
 class PrimaryViewController: UITableViewController {
-    private enum MemoTableStrings: CustomStringConvertible {
-        case viewTitle
-        case delete
-        case cancel
-        case askingDeleteTitle
-        case askingDeleteMessage
-        
-        var description: String {
-            switch self {
-            case .viewTitle:
-                return "메모"
-            case .delete:
-                return "삭제"
-            case .cancel:
-                return "취소"
-            case .askingDeleteTitle:
-                return "진짜요?"
-            case .askingDeleteMessage:
-                return "정말로 삭제하시겠어요?"
-            }
-        }
-    }
     private var selectedIndexPath: IndexPath?
 //    private let appDelegate = UIApplication.shared.delegate as! AppDelegate
     private let rootDelegate: SplitViewController
@@ -62,7 +40,7 @@ class PrimaryViewController: UITableViewController {
         super.viewDidLoad()
         
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addMemo))
-        self.navigationItem.title = MemoTableStrings.viewTitle.description
+        self.navigationItem.title = Strings.VCTitle.primary.description
     
         tableView.dataSource = self
         tableView.delegate = self
@@ -101,7 +79,7 @@ extension PrimaryViewController {
     }
     
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let deleteAction = UIContextualAction(style: .destructive, title: MemoTableStrings.delete.description) { _, _, completion in
+        let deleteAction = UIContextualAction(style: .destructive, title: Strings.Alert.deleteMessage.description) { _, _, completion in
             self.askDeletingCellAlert(at: indexPath)
             completion(true)
         }
@@ -123,9 +101,9 @@ extension PrimaryViewController {
     }
     
     private func askDeletingCellAlert(at currentIndexPath: IndexPath) {
-        let alert = UIAlertController(title: MemoTableStrings.askingDeleteTitle.description, message: MemoTableStrings.askingDeleteMessage.description, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: MemoTableStrings.cancel.description, style: .default))
-        alert.addAction(UIAlertAction(title: MemoTableStrings.delete.description, style: .destructive) { _ in
+        let alert = UIAlertController(title: Strings.Alert.deleteTitle.description, message: Strings.Alert.deleteMessage.description, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: Strings.Alert.cancel.description, style: .default))
+        alert.addAction(UIAlertAction(title: Strings.Alert.delete.description, style: .destructive) { _ in
             self.rootDelegate.deleteMemo(at: currentIndexPath) { indexPath in
                 self.tableView.deleteRows(at: [indexPath], with: .fade)
             }

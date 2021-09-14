@@ -9,7 +9,8 @@ import UIKit
 import CoreData
 
 protocol PrimaryListDelegate: AnyObject {
-    func showSelectedDetail(by memo: MemoModel, showPage isShowing: Bool)
+    func showSelectedDetail(by memo: MemoModel, at indexPath: IndexPath, showPage isShowing: Bool)
+    func dismissDetail()
 }
 
 class PrimaryViewController: UITableViewController {
@@ -30,7 +31,7 @@ class PrimaryViewController: UITableViewController {
             case .cancel:
                 return "취소"
             case .assetSampleFileName:
-                return "sample"
+                return "dietSample"
             case .askingDeleteTitle:
                 return "진짜요?"
             case .askingDeleteMessage:

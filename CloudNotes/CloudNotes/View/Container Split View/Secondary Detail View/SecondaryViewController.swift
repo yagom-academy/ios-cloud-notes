@@ -9,9 +9,7 @@ import UIKit
 
 class SecondaryViewController: UIViewController {
     private let secondaryView = SecondaryView()
-    private var currentMemeIndexPath: IndexPath?
     private let rootDelegate: SplitViewController
-    private let twiceLineBreaks = "\n\n"
     private let hidableDoneButton = UIBarButtonItem(barButtonSystemItem: .done,
                                                     target: nil,
                                                     action: #selector(resignFromTextView))
@@ -19,7 +17,9 @@ class SecondaryViewController: UIViewController {
                                                       style: .plain,
                                                       target: nil,
                                                       action: #selector(tappingSeeMoreButton))
-
+    private var currentMemeIndexPath: IndexPath?
+    private var checkChanging: String?
+    
     init(rootDelegate: SplitViewController) {
         self.rootDelegate = rootDelegate
         super.init(nibName: nil, bundle: nil)
@@ -49,10 +49,32 @@ class SecondaryViewController: UIViewController {
             secondaryView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
             secondaryView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
         ])
+        secondaryView.textView.delegate = self
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWasShown),
                                                name: UIResponder.keyboardDidShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillBeHidden),
                                                name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+}
+
+// MARK: - TextView Delegate
+extension SecondaryViewController: UITextViewDelegate {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        checkChanging = textView.text
+    }
+    func textViewDidEndEditing(_ textView: UITextView) {
+        print("textViewDidEndEditing")
+        guard checkChanging != textView.text else {
+            return
+        }
+        guard let currentText = textView.text else {
+            print("에러처리 필요 - textViewDidEndEditing.textViewDidEndEditing : textView.text 비어있음")
+            return
+        }
+        let tempMemo = makeTempMemo(by: currentText)
+        rootDelegate.editMemo(by: tempMemo, at: currentMemeIndexPath) {
+            currentMemeIndexPath = IndexPath(row: 0, section: 0)
+        }
     }
 }
 

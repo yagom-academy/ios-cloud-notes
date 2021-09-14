@@ -73,16 +73,37 @@ extension SecondaryViewController {
     @objc func tappingSeeMoreButton() {
         resignFromTextView()
         let sheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        
-        sheet.addAction(UIAlertAction(title: "Share...", style: .default, handler: { _ in }))
+        sheet.addAction(UIAlertAction(title: "Share...", style: .default, handler: selectedShare))
         sheet.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: selectedDelete))
         sheet.addAction(UIAlertAction(title: "Cancel", style: .cancel))
         self.present(sheet, animated: true, completion: nil)
     }
     
+    func selectedShare(action: UIAlertAction) {
+        // 1. UIActivityViewController 초기화, 공유 아이템 지정
+        let testText: String = "여기에 제목이 나오도록 해야지"
+
+        let activity = UIActivityViewController(activityItems: [testText], applicationActivities: nil)
+
+        // 2. 기본으로 제공되는 서비스 중 사용하지 않을 UIActivityType 제거(선택 사항)
+        activity.excludedActivityTypes = []
+
+        // 3. 컨트롤러를 닫은 후 실행할 완료 핸들러 지정
+        activity.completionWithItemsHandler = { (_, isComplete, _, error) in
+            if isComplete {
+            // 성공했을 때 작업
+                NSLog("성공")
+           } else {
+            // 실패했을 때 작업
+                NSLog("실패 - %s", error!.localizedDescription)
+           }
+        }
+        // 4. 컨트롤러 나타내기(iPad에서는 팝 오버로, iPhone과 iPod에서는 모달로 나타냅니다.)
+        self.present(activity, animated: true, completion: nil)
+    }
+
     func selectedDelete(action: UIAlertAction) {
         let alert = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
-        
         alert.addAction(UIAlertAction(title: "취소", style: .default))
         alert.addAction(UIAlertAction(title: "삭제", style: .destructive, handler: { _ in }))
         self.present(alert, animated: true)

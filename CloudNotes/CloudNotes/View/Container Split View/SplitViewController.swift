@@ -45,9 +45,7 @@ extension SplitViewController: UISplitViewControllerDelegate {
 extension SplitViewController: PrimaryListDelegate {
     func showSelectedDetail(by memo: MemoModel, at indexPath: IndexPath, showPage isShowing: Bool) {
         secondaryViewController?.updateDetailView(by: memo, at: indexPath)
-        if isShowing {
-            show(.secondary)
-        }
+        if isShowing { show(.secondary) }
     }
     
     func dismissDetail() {

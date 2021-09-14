@@ -63,7 +63,7 @@ class SecondaryViewController: UIViewController {
     }
 }
 
-// MARK: - Keyboard Notification & Actions
+// MARK: - Keyboard Notification
 extension SecondaryViewController {
     @objc func keyboardWasShown(_ notification: Notification) {
         setBarButtons(isHide: false)
@@ -96,13 +96,13 @@ extension SecondaryViewController {
         activity.excludedActivityTypes = []
 
         // 3. 컨트롤러를 닫은 후 실행할 완료 핸들러 지정
-        activity.completionWithItemsHandler = { (_, isComplete, _, error) in
+        activity.completionWithItemsHandler = { (_, isComplete, _, _) in
             if isComplete {
             // 성공했을 때 작업
                 NSLog("성공")
            } else {
             // 실패했을 때 작업
-                NSLog("실패 - %s", error!.localizedDescription)
+                NSLog("실패")
            }
         }
         // 4. 컨트롤러 나타내기(iPad에서는 팝 오버로, iPhone과 iPod에서는 모달로 나타냅니다.)

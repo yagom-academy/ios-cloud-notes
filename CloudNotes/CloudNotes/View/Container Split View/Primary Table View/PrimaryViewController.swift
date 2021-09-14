@@ -30,8 +30,6 @@ class PrimaryViewController: UITableViewController {
                 return "삭제"
             case .cancel:
                 return "취소"
-            case .assetSampleFileName:
-                return "dietSample"
             case .askingDeleteTitle:
                 return "진짜요?"
             case .askingDeleteMessage:
@@ -111,6 +109,7 @@ extension PrimaryViewController {
     }
 }
 
+// MARK: - Button & Alert Actions
 extension PrimaryViewController {
     @objc
     private func addMemo() {

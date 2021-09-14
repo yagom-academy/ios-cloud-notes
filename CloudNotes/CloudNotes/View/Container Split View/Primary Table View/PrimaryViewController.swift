@@ -96,7 +96,7 @@ extension PrimaryViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedMemo = appDelegate.listResource[indexPath.row]
-        rootViewDelegate?.showSelectedDetail(by: selectedMemo, showPage: true)
+        rootViewDelegate?.showSelectedDetail(by: selectedMemo, at: indexPath, showPage: true)
     }
     
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {

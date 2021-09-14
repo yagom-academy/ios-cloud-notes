@@ -40,9 +40,10 @@ extension SplitViewController: UISplitViewControllerDelegate {
     }
 }
 
+// MARK: - Communication from Primary View
 extension SplitViewController: PrimaryListDelegate {
-    func showSelectedDetail(by memo: MemoModel, showPage isShowing: Bool) {
-        secondaryViewController?.updateDetailView(by: memo)
+    func showSelectedDetail(by memo: MemoModel, at indexPath: IndexPath, showPage isShowing: Bool) {
+        secondaryViewController?.updateDetailView(by: memo, at: indexPath)
         if isShowing {
             show(.secondary)
         }

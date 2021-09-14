@@ -56,6 +56,5 @@ class CloudNotesTests: XCTestCase {
         
         // then
         XCTAssertEqual(memos.first!.title, "newMemo")
-        
     }
 }

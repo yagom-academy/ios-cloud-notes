@@ -15,9 +15,17 @@ extension TextSeparatable {
     func separateText(_ text: String) -> (title: String?, body: String?) {
         let texts = text.components(separatedBy: .newlines)
         let title = texts.first
-        let body = texts.filter {
+        var bodyText = ""
+        texts.filter {
             texts[0].contains($0) == false ? true : false
-        }.joined()
-        return (title, body)
+        }.forEach { body in
+            if body == texts.last {
+                bodyText.append(body)
+            } else {
+                bodyText.append(body + "\n")
+            }
+        }
+        
+        return (title, bodyText)
     }
 }

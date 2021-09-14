@@ -33,6 +33,7 @@ final class MemoDetailViewController: UIViewController, TextSeparatable, TextVie
     override func viewWillAppear(_ animated: Bool) {
         setupTextViewFullScreen(memoContentsTextView, superView: view)
         configureMemoTextView()
+        configureTextViewCursorPosition()
     }
 }
 
@@ -77,6 +78,10 @@ extension MemoDetailViewController {
         } else {
             memoContentsTextView.backgroundColor = .white
         }
+    }
+    
+    private func configureTextViewCursorPosition() {
+        memoContentsTextView.selectedTextRange = memoContentsTextView.textRange(from: memoContentsTextView.endOfDocument, to: memoContentsTextView.endOfDocument)
     }
     
     func configureMemoContents(title: String?, body: String?, lastModifier: Date?, indexPath: IndexPath) {

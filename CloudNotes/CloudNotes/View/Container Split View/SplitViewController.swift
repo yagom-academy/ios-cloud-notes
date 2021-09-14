@@ -72,7 +72,30 @@ extension SplitViewController {
         }
     }
     
-    func deleteMemo(at indexPath: IndexPath, completion: (IndexPath) -> Void) {
+    func editMemo(by temp: MemoData, at indexPath: IndexPath?, completion: () -> Void) {
+        guard let index = indexPath,
+              let currentMemo = listResource[index.row] as? MemoData else {
+            NSLog("에러처리 필요 - SplitViewController.editMemo : 선택된 indexPath nil 또는 objectID nil")
+            return
+        }
+        
+        if let objectID = currentMemo.objectID {
+            if temp.title == "" {
+                deleteMemo(at: index, completion: nil)
+            } else {
+                let editedMemo = MemoData(temp.title, temp.body, temp.lastModified, objectID)
+                if !coreManager.editData(by: editedMemo) {
+                    NSLog("에러처리 필요 - SplitViewController.editMemo : CoreData editData 실패")
+                }
+            }
+        } else {
+            coreManager.insertData(temp)
+        }
+        reloadPrimaryView()
+        completion()
+    }
+    
+    func deleteMemo(at indexPath: IndexPath, completion: ((IndexPath) -> Void)?) {
         let index = indexPath.row
         if let deletingMemo = listResource[index] as? MemoData,
            let coreID = deletingMemo.objectID {
@@ -82,12 +105,18 @@ extension SplitViewController {
             }
         }
         listResource.remove(at: index)
-        completion(indexPath)
+        completion?(indexPath)
         if listResource.count > 0 {
             let showingMemo = index < listResource.endIndex ? listResource[index] : listResource[listResource.index(before: index)]
             showSelectedDetail(by: showingMemo, at: indexPath, showPage: false)
         } else {
             emptyDetail()
         }
+        reloadPrimaryView()
+    }
+    
+    func reloadPrimaryView() {
+        listResource = coreManager.fetchData()
+        primaryViewController?.tableView.reloadData()
     }
 }

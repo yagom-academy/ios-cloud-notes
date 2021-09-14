@@ -144,14 +144,18 @@ extension SecondaryViewController {
 }
 
 extension SecondaryViewController {
-//    func updateMemo(by editedText: String) {
-//        var split = editedText.split(whereSeparator: \.isNewline)
-//        let title = String(split.removeFirst())
-//        let body = split.joined(separator: twiceLineBreaks)
-//        let nowDate = Date().timeIntervalSince1970
-//
-//        let updatedMemo = Memo(title: title, body: body, lastModified: nowDate)
-//    }
+    func makeTempMemo(by text: String) -> MemoData {
+        var split = text.split(whereSeparator: \.isNewline)
+        if split.isEmpty {
+            let nowDate = Date().timeIntervalSince1970
+            return MemoData("", "", nowDate, nil)
+        } else {
+            let title = String(split.removeFirst())
+            let body = split.joined(separator: Strings.KeyboardInput.twiceLineBreaks.rawValue)
+            let nowDate = Date().timeIntervalSince1970
+            return MemoData(title, body, nowDate, nil)
+        }
+    }
     
     func updateDetailView(by memo: MemoModel, at indexPath: IndexPath) {
         let text = memo.title + Strings.KeyboardInput.twiceLineBreaks.rawValue + memo.body

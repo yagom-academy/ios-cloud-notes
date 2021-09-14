@@ -45,4 +45,8 @@ struct MemoData: MemoModel {
         self.body = body
         self.lastModified = lastModified
     }
+    
+    mutating func updateObjectID(_ objectID: NSManagedObjectID) {
+        self.objectID = objectID
+    }
 }

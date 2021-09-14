@@ -20,7 +20,6 @@ final class MemoListViewController: UIViewController, CoreDataUsable {
         self.tableView.register(MemoListTableViewCell.self, forCellReuseIdentifier: CellID.defaultCell.identifier)
         self.tableView.dataSource = tableViewDataSource
         self.tableView.delegate = self
-        self.fetchCoreDataItems(context, tableView)
         
         //MARK: - NavigationBar Style Setting
         self.setNavigationBarItem()

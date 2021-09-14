@@ -144,8 +144,7 @@
 		A830336926DF92B700EA30DC /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				A830336E26DF976500EA30DC /* MemoDecodeModel.swift */,
-				A830336C26DF972100EA30DC /* JSONParser.swift */,
+				A82B6F5B26EB4AB200ED0070 /* Holder */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -169,7 +168,6 @@
 		A83033C626E11CE400EA30DC /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				A82B6F5B26EB4AB200ED0070 /* Holder */,
 				A83033C326E1146F00EA30DC /* MainVCTableViewDataSource.swift */,
 				A872EFC326ECD82300D2E499 /* MemoDataManager.swift */,
 			);
@@ -200,6 +198,15 @@
 				A854899A26F03844001BF187 /* CoreDataUsable.swift */,
 			);
 			path = Protocol;
+			sourceTree = "<group>";
+		};
+		A854899D26F06EF0001BF187 /* Legacy */ = {
+			isa = PBXGroup;
+			children = (
+				A830336E26DF976500EA30DC /* MemoDecodeModel.swift */,
+				A830336C26DF972100EA30DC /* JSONParser.swift */,
+			);
+			path = Legacy;
 			sourceTree = "<group>";
 		};
 		A8588C1B26E636E300F61A73 /* Delegate */ = {
@@ -253,6 +260,7 @@
 		C7481C6C25BBCF3900B9CA55 /* CloudNotes */ = {
 			isa = PBXGroup;
 			children = (
+				A854899D26F06EF0001BF187 /* Legacy */,
 				A872EFBE26ECBB2300D2E499 /* Error */,
 				A830336A26DF92C500EA30DC /* AppLifeCycle */,
 				A83033C926E11DAA00EA30DC /* PlaceHolder */,

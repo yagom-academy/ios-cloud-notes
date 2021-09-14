@@ -109,8 +109,13 @@ extension NoteListViewController: NoteUpdater {
         saveContext()
     }
     
-    func update(with noteData: Note, at indexPath: IndexPath) {
+    func updateNote(at indexPath: IndexPath, with noteData: (title: String, body: String, lastModified: Double)) {
+        let noteToUpdate = notes[indexPath.row]
+        noteToUpdate.title = noteData.title
+        noteToUpdate.body = noteData.body
+        noteToUpdate.lastModified = noteData.lastModified
         
+        saveContext()
     }
     
     func fetchNotes() {

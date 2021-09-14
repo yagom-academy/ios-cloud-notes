@@ -19,6 +19,7 @@ class ContentViewController: UIViewController {
         return textView
     }()
     var memo: String?
+    var memoEntity: MemoEntity?
 
     // MARK: - Life Cycle
     override func viewDidLoad() {
@@ -49,8 +50,29 @@ extension ContentViewController {
 
     private func configureNavigationBar() {
         let itemImage = UIImage(systemName: "ellipsis.circle")
-        let rightBarButtonItem = UIBarButtonItem(image: itemImage, style: .plain, target: nil, action: nil)
+        let rightBarButtonItem = UIBarButtonItem(image: itemImage, style: .plain, target: self, action: #selector(showSheetMoreDetail))
         navigationItem.setRightBarButton(rightBarButtonItem, animated: true)
+    }
+
+    private func createMoreDetailSheet() -> UIAlertController {
+        let sheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let shareAction = UIAlertAction(title: "Share", style: .default) { [weak self] _ in
+//            guard let memo = self?.memoEntity?.content else { return }
+            let activityViewController = UIActivityViewController(activityItems: ["Test"], applicationActivities: nil)
+            self?.present(activityViewController, animated: true, completion: nil)
+        }
+        let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { [weak self] _ in
+            DataManager.shared.deleteMemo(self?.memoEntity)
+            self?.navigationController?.popToRootViewController(animated: true)
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        sheet.addActions([shareAction, deleteAction, cancelAction])
+        return sheet
+    }
+
+    @objc private func showSheetMoreDetail() {
+        let sheet = createMoreDetailSheet()
+        present(sheet, animated: true, completion: nil)
     }
 
     private func scrollWhenContentTextViewDidAppear() {

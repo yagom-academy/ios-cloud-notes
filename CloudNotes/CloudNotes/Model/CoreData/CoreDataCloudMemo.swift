@@ -43,11 +43,14 @@ extension CoreDataCloudMemo {
         }
     }
     
-    func createNewMemo(title: String?, body: String?, lastModifier: Date?) {
+    @discardableResult
+    func createNewMemo(title: String?, body: String?, lastModifier: Date?) -> CloudMemo {
         let memo = CloudMemo(context: context)
         memo.title = title
         memo.body = body
         memo.lastModified = lastModifier
+        
+        return memo
     }
     
     func getCloudMemo(at indexPath: IndexPath) -> CloudMemo {

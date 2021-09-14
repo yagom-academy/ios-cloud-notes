@@ -24,7 +24,6 @@
 		7491842026EB829500BDCBCF /* TextSeparatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7491841F26EB829500BDCBCF /* TextSeparatable.swift */; };
 		7491842226EB9C1A00BDCBCF /* ComposeTextViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7491842126EB9C1A00BDCBCF /* ComposeTextViewController.swift */; };
 		7491842426EB9D7200BDCBCF /* TextViewContraintable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7491842326EB9D7200BDCBCF /* TextViewContraintable.swift */; };
-		74BCD2E626F033D9009D9FF4 /* TestCoreDataCloudMemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74BCD2E526F033D9009D9FF4 /* TestCoreDataCloudMemo.swift */; };
 		74CEF12D26EA390100205FE4 /* CoreDataCloudMemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74CEF12C26EA390100205FE4 /* CoreDataCloudMemo.swift */; };
 		74CEF13226EAECC600205FE4 /* CoreDatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74CEF13126EAECC600205FE4 /* CoreDatable.swift */; };
 		74EC3CBF26E859FB0022AD52 /* Extension + DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74EC3CBE26E859FB0022AD52 /* Extension + DateFormatter.swift */; };
@@ -78,7 +77,6 @@
 		7491841F26EB829500BDCBCF /* TextSeparatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextSeparatable.swift; sourceTree = "<group>"; };
 		7491842126EB9C1A00BDCBCF /* ComposeTextViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeTextViewController.swift; sourceTree = "<group>"; };
 		7491842326EB9D7200BDCBCF /* TextViewContraintable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewContraintable.swift; sourceTree = "<group>"; };
-		74BCD2E526F033D9009D9FF4 /* TestCoreDataCloudMemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestCoreDataCloudMemo.swift; sourceTree = "<group>"; };
 		74CEF12C26EA390100205FE4 /* CoreDataCloudMemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataCloudMemo.swift; sourceTree = "<group>"; };
 		74CEF13126EAECC600205FE4 /* CoreDatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDatable.swift; sourceTree = "<group>"; };
 		74EC3CBE26E859FB0022AD52 /* Extension + DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + DateFormatter.swift"; sourceTree = "<group>"; };
@@ -269,7 +267,6 @@
 		C7481C8625BBCF3A00B9CA55 /* CloudNotesTests */ = {
 			isa = PBXGroup;
 			children = (
-				74BCD2E526F033D9009D9FF4 /* TestCoreDataCloudMemo.swift */,
 				C7481C8725BBCF3A00B9CA55 /* CloudNotesTests.swift */,
 				C7481C8925BBCF3A00B9CA55 /* Info.plist */,
 			);
@@ -557,7 +554,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				74BCD2E626F033D9009D9FF4 /* TestCoreDataCloudMemo.swift in Sources */,
 				C7481C8825BBCF3A00B9CA55 /* CloudNotesTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

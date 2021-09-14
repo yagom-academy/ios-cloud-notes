@@ -8,3 +8,4 @@ excluded:
 - CloudNotes/AppDelegate.swift
 - CloudNotes/SceneDelegate.swift
 - CloudNotesUITests/CloudNotesUITests.swift
+- CloudNotesTests/

@@ -5,28 +5,57 @@
 // 
 
 import XCTest
+import CoreData
 @testable import CloudNotes
 
 class CloudNotesTests: XCTestCase {
-
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+    var testCoreData: CoreDataCloudMemo!
+    
+    override func setUp() {
+        super.setUp()
+        let persistentStroeDescription = NSPersistentStoreDescription()
+        persistentStroeDescription.type = NSInMemoryStoreType
+        testCoreData = CoreDataCloudMemo(persistentStoreDescripntion: persistentStroeDescription)
     }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    
+    func test_코어데이터에_메모를_추가하는게_성공한다() {
+        // given
+        let newMemo = testCoreData.createNewMemo(title: "hi", body: "body", lastModifier: Date())
+        
+        // when
+        let memos = try! testCoreData.context.fetch(CloudMemo.fetchRequest()) as! [CloudMemo]
+        
+        // then
+        XCTAssertEqual(newMemo, memos.first!)
     }
-
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    
+    func test_코어데이터_메모를_삭제하는게_성공한다() {
+        // given
+        let newMemo = testCoreData.createNewMemo(title: "hi", body: "body", lastModifier: Date())
+        
+        // when
+        testCoreData.deleteItem(object: newMemo)
+        let memos = try! testCoreData.context.fetch(CloudMemo.fetchRequest()) as! [CloudMemo]
+        
+        // then
+        XCTAssertTrue(memos.isEmpty)
     }
+    
+    func test_코어데이터_메모를_업데이트하는데_성공한다() {
+        // given
+        let newMemo = testCoreData.createNewMemo(title: "hi", body: "body", lastModifier: Date())
 
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
+        // when
+        testCoreData.updateItem(newMemo) { memo in
+            let memo = memo as! CloudMemo
+            memo.title = "newMemo"
+            memo.body = "바디입니다."
         }
+        
+        let memos = try! testCoreData.context.fetch(CloudMemo.fetchRequest()) as! [CloudMemo]
+        
+        // then
+        XCTAssertEqual(memos.first!.title, "newMemo")
+        
     }
-
 }

@@ -9,11 +9,11 @@ import CoreData
 
 class CoreDataStack {
     // MARK: Property
-    
+    static let modelName = "CloudNotes"
     private let persistentStoreDescription: NSPersistentStoreDescription?
     
     lazy var persistentContainer: NSPersistentCloudKitContainer = {
-        let container = NSPersistentCloudKitContainer(name: "CloudNotes")
+        let container = NSPersistentCloudKitContainer(name: CoreDataStack.modelName)
         
         if let persistentStoreDescription = persistentStoreDescription {
             container.persistentStoreDescriptions = [persistentStoreDescription]

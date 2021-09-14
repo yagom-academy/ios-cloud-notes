@@ -55,12 +55,13 @@ class PrimaryViewController: UITableViewController {
                 coreManager.insertData(data)
             }
         }
+        tableView.reloadData()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: nil)
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addMemo))
         self.navigationItem.title = MemoTableStrings.viewTitle.description
     
         tableView.dataSource = self
@@ -113,7 +114,11 @@ extension PrimaryViewController {
 extension PrimaryViewController {
     @objc
     private func addMemo() {
-    
+        let newMemo = MemoData("", "", 0, nil)
+        let newIndexPath = IndexPath(row: 0, section: 0)
+        appDelegate.listResource.insert(newMemo, at: 0)
+        tableView.insertRows(at: [newIndexPath], with: .automatic)
+        rootViewDelegate?.showSelectedDetail(by: newMemo, at: newIndexPath, showPage: true)
     }
     
     private func askDeletingCellAlert(at currentIndexPath: IndexPath) {

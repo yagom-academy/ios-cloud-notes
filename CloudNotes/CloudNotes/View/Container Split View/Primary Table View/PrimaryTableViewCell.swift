@@ -43,13 +43,28 @@ class PrimaryTableViewCell: UITableViewCell {
 
 extension PrimaryTableViewCell {
     func configure(by memo: MemoModel) {
-        let date: Date = Date(timeIntervalSince1970: memo.lastModified)
+        if memo.lastModified == 0 {
+            self.textLabel?.text = "새로운 메모"
+            self.detailTextLabel?.text = PrimaryTableViewCell.dateformatter.string(from: Date())
+            self.summaryLabel.text = "추가 텍스트 없음"
+        } else {
+            let dateString = convertDateString(from: memo.lastModified)
+            let summary = convertSummary(from: memo.body)
+            self.textLabel?.text = memo.title
+            self.detailTextLabel?.text = dateString
+            summaryLabel.text = summary
+        }
+    }
+    
+    func convertDateString(from timeStamp: Double) -> String {
+        let date: Date = Date(timeIntervalSince1970: timeStamp)
         let dateString: String = PrimaryTableViewCell.dateformatter.string(from: date)
-        let body = memo.body
+        return dateString
+    }
+    
+    func convertSummary(from body: String) -> String {
         let endIndex = body.firstIndex(of: "\n") ?? body.endIndex
         let summary: String = String(body.prefix(upTo: endIndex))
-        self.textLabel?.text = memo.title
-        self.detailTextLabel?.text = dateString
-        summaryLabel.text = summary
+        return summary
     }
 }

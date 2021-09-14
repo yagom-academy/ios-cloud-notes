@@ -33,7 +33,7 @@ struct MemoData: MemoModel {
     var lastModified: Double
     var objectID: NSManagedObjectID?
     
-    init(_ title: String, _ body: String, _ lastModified: Double, _ objectID: NSManagedObjectID) {
+    init(_ title: String, _ body: String, _ lastModified: Double, _ objectID: NSManagedObjectID?) {
         self.title = title
         self.body = body
         self.lastModified = lastModified

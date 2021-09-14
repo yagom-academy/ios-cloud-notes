@@ -55,6 +55,7 @@ final class PrimaryViewController: UIViewController, CoreDataUsable {
 extension PrimaryViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.giveDataToSecondaryVC(indexPath, tableView)
+        deselectCurrentCell(tableView)
         self.splitViewController?.show(.secondary)
     }
     
@@ -64,8 +65,13 @@ extension PrimaryViewController: UITableViewDelegate {
         let lineBreaker = "\n"
         let transferedText = "\(self.memos[indexPath.row].title ?? "")" + lineBreaker + "\(self.memos[indexPath.row].body ?? "")"
         let tableViewIndexPathHolder = TextViewRelatedDataHolder(indexPath: indexPath, tableView: tableView, textViewText: transferedText)
-        
         secondVC?.configure(tableViewIndexPathHolder)
+    }
+    
+    private func deselectCurrentCell(_ tableView: UITableView) {
+        if let selected = tableView.indexPathForSelectedRow {
+            tableView.deselectRow(at: selected, animated: true)
+        }
     }
 }
 

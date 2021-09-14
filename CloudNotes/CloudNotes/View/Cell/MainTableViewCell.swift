@@ -63,6 +63,7 @@ extension MainTableViewCell {
         self.setDynamicType(bodyLabel, .caption1)
         self.titleLabel.textAlignment = .left
         self.bodyLabel.textColor = .gray
+    
     }
     
     private func setDynamicType(_ label: UILabel, _ font: UIFont.TextStyle) {

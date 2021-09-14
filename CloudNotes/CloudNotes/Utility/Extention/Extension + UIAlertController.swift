@@ -16,7 +16,7 @@ extension UIAlertController {
     
     static func generateAlertController(title: String?, message: String?, style: UIAlertController.Style, alertActions: [UIAlertAction]?) -> UIAlertController {
         let alert = UIAlertController(title: title, message: message, preferredStyle: style)
-
+        
         alertActions?.forEach { alertAction in
             alert.addAction(alertAction)
         }

@@ -41,8 +41,8 @@ extension ComposeTextViewController {
                                                  target: self,
                                                  action: #selector(didTapButton))
         let leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel,
-                                                 target: self,
-                                                 action: #selector(didTapButton))
+                                                target: self,
+                                                action: #selector(didTapButton))
         navigationItem.leftBarButtonItem = leftBarButtonItem
         navigationItem.rightBarButtonItem = rightBarButtonItem
     }

@@ -116,8 +116,8 @@ extension SplitViewController: ComposeTextViewControllerDelegate {
     func didTapSaveButton(_ text: String) {
         let texts = separateText(text)
         coreDataMemo?.createNewMemo(title: texts.title,
-                                     body: texts.body,
-                                     lastModifier: Date())
+                                    body: texts.body,
+                                    lastModifier: Date())
     }
 }
 
@@ -148,7 +148,7 @@ extension SplitViewController {
         dataSource = MemoListDiffableDataSource(tableView: memoListViewController.tableView) { tableView, indexPath, memo in
             
             guard let cell = tableView.dequeueReusableCell(withIdentifier: MemoListTableViewCell.identifier, for: indexPath) as? MemoListTableViewCell else {
-               return MemoListTableViewCell()
+                return MemoListTableViewCell()
             }
             
             cell.accessoryType = .disclosureIndicator

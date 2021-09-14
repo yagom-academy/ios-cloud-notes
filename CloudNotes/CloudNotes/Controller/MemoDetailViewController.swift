@@ -66,7 +66,7 @@ extension MemoDetailViewController {
         memoContentsTextView.delegate = self
         congifureTextViewBackGroundColor()
     }
-
+    
     private func configureView() {
         view.backgroundColor = .white
         view.addSubview(memoContentsTextView)

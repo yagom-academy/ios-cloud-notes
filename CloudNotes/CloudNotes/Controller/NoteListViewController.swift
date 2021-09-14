@@ -110,7 +110,7 @@ extension NoteListViewController: NoteUpdater {
     }
     
     func update(with noteData: Note, at indexPath: IndexPath) {
-
+        
     }
     
     func fetchNotes() {
@@ -123,6 +123,9 @@ extension NoteListViewController: NoteUpdater {
     }
     
     func deleteNote(at indexPath: IndexPath) {
-        
+        let noteToDelete = notes[indexPath.row]
+        context.delete(noteToDelete)
+        saveContext()
+        splitViewController?.setViewController(nil, for: .secondary)
     }
 }

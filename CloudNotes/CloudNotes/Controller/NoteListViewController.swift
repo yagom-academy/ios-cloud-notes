@@ -15,7 +15,6 @@ class NoteListViewController: UITableViewController {
         super.viewDidLoad()
 
         initTableView()
-        initNotes()
     }
     
     private func initTableView() {
@@ -27,19 +26,6 @@ class NoteListViewController: UITableViewController {
                                                             action: #selector(addButtonTapped))
     }
     
-    private func initNotes() {
-        let sampleDataFileName = "sample"
-        let sampleData = NSDataAsset(name: sampleDataFileName)?.data
-        let parsedData = sampleData.parse(type: [Note].self)
-        
-        switch parsedData {
-        case .success(let parsedData):
-            notes = parsedData
-        case .failure(let error):
-            print(error)
-        }
-    }
-    
     @objc private func addButtonTapped() {
         addNewNote()
         let newIndexPath = findNewNoteIndexPath()
@@ -48,10 +34,10 @@ class NoteListViewController: UITableViewController {
     }
 
     private func addNewNote() {
-        let newNote = Note(title: String.empty,
-                           body: String.empty,
-                           lastModified: Date().timeIntervalSince1970)
-        notes.append(newNote)
+//        let newNote = Note(title: String.empty,
+//                           body: String.empty,
+//                           lastModified: Date().timeIntervalSince1970)
+//        notes.append(newNote)
         tableView.reloadData()
     }
     

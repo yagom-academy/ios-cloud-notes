@@ -29,6 +29,7 @@
 		C91EF68B26E646BB0013E3D6 /* AssetJSONDataModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91EF68A26E646BB0013E3D6 /* AssetJSONDataModule.swift */; };
 		C91EF68F26E7DF790013E3D6 /* CellSelectionHandleable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91EF68E26E7DF790013E3D6 /* CellSelectionHandleable.swift */; };
 		C91EF69126E7E5510013E3D6 /* MemoChangeHandleable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91EF69026E7E5510013E3D6 /* MemoChangeHandleable.swift */; };
+		C91EF69326F09C750013E3D6 /* CoreDataModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91EF69226F09C750013E3D6 /* CoreDataModule.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -82,6 +83,7 @@
 		C91EF68A26E646BB0013E3D6 /* AssetJSONDataModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetJSONDataModule.swift; sourceTree = "<group>"; };
 		C91EF68E26E7DF790013E3D6 /* CellSelectionHandleable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellSelectionHandleable.swift; sourceTree = "<group>"; };
 		C91EF69026E7E5510013E3D6 /* MemoChangeHandleable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoChangeHandleable.swift; sourceTree = "<group>"; };
+		C91EF69226F09C750013E3D6 /* CoreDataModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataModule.swift; sourceTree = "<group>"; };
 		E6AD4DA90F91540E38399744 /* Pods-CloudNotesTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudNotesTests.debug.xcconfig"; path = "Target Support Files/Pods-CloudNotesTests/Pods-CloudNotesTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -235,6 +237,7 @@
 			children = (
 				C91EF68826E298DB0013E3D6 /* DataManager.swift */,
 				C91EF68A26E646BB0013E3D6 /* AssetJSONDataModule.swift */,
+				C91EF69226F09C750013E3D6 /* CoreDataModule.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -474,6 +477,7 @@
 				C91EF67C26E21C900013E3D6 /* MemoDetailViewController.swift in Sources */,
 				C91EF67526E13A8C0013E3D6 /* MemoListViewController.swift in Sources */,
 				C91EF68B26E646BB0013E3D6 /* AssetJSONDataModule.swift in Sources */,
+				C91EF69326F09C750013E3D6 /* CoreDataModule.swift in Sources */,
 				C91EF67A26E205900013E3D6 /* MemoItemTableViewCell.swift in Sources */,
 				C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */,
 				C91EF68F26E7DF790013E3D6 /* CellSelectionHandleable.swift in Sources */,

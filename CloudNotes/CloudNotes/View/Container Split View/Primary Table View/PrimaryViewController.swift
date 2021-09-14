@@ -100,38 +100,49 @@ extension PrimaryViewController {
     }
     
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let selectedIndex = indexPath.row
         let deleteAction = UIContextualAction(style: .destructive, title: MemoTableStrings.delete.description) { _, _, completion in
-            self.askDeletingCellAlert(at: selectedIndex)
+            self.askDeletingCellAlert(at: indexPath)
             completion(true)
         }
-        return UISwipeActionsConfiguration(actions: [deleteAction])
+        let swipeConfiguration = UISwipeActionsConfiguration(actions: [deleteAction])
+        swipeConfiguration.performsFirstActionWithFullSwipe = true
+        return swipeConfiguration
     }
 }
 
 extension PrimaryViewController {
-    private func askDeletingCellAlert(at currentIndex: Int) {
+    @objc
+    private func addMemo() {
+    
+    }
+    
+    private func askDeletingCellAlert(at currentIndexPath: IndexPath) {
         let alert = UIAlertController(title: MemoTableStrings.askingDeleteTitle.description, message: MemoTableStrings.askingDeleteMessage.description, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: MemoTableStrings.cancel.description, style: .default))
         alert.addAction(UIAlertAction(title: MemoTableStrings.delete.description, style: .destructive) { _ in
-            self.deleteMemo(at: currentIndex) {
-                self.tableView.reloadData()
-                let showingMemo = currentIndex < self.appDelegate.listResource.endIndex ? self.appDelegate.listResource[currentIndex] : self.appDelegate.listResource[self.appDelegate.listResource.index(before: currentIndex)]
-                self.rootViewDelegate?.showSelectedDetail(by: showingMemo, showPage: false)
-            }
+            self.deleteMemo(at: currentIndexPath)
         })
         self.present(alert, animated: true)
     }
-    private func deleteMemo(at row: Int, completion: @escaping () -> Void) {
-        if let deletingMemo = appDelegate.listResource[row] as? MemoData,
+    func deleteMemo(at indexPath: IndexPath) {
+        let index = indexPath.row
+        if let deletingMemo = appDelegate.listResource[index] as? MemoData,
            let coreID = deletingMemo.objectID {
             if !coreManager.deleteData(objectID: coreID) {
                 print("에러처리 필요 - PrimaryViewController.deleteMemo : 코어데이터에서 해당 셀 삭제 실패")
                 return
             }
         }
-        appDelegate.listResource.remove(at: row)
-        completion()
+        appDelegate.listResource.remove(at: index)
+        self.tableView.deleteRows(at: [indexPath], with: .fade)
+        let currentList = self.appDelegate.listResource
+        if currentList.count > 0 {
+            let showingMemo = index < currentList.endIndex ? currentList[index] : currentList[currentList.index(before: index)]
+            self.rootViewDelegate?.showSelectedDetail(by: showingMemo, at: indexPath, showPage: false)
+        } else {
+            print("리스트 카운트 \(currentList.count)")
+            self.rootViewDelegate?.dismissDetail()
+        }
     }
     
     private func readDataAsset() -> [MemoModel] {

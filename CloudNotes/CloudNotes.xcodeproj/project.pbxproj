@@ -16,6 +16,7 @@
 		A83033CB26E11DB900EA30DC /* NamePlace.swift in Sources */ = {isa = PBXBuildFile; fileRef = A83033CA26E11DB900EA30DC /* NamePlace.swift */; };
 		A83033CD26E1240100EA30DC /* MainTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A83033CC26E1240100EA30DC /* MainTableViewCell.swift */; };
 		A83033D026E1256300EA30DC /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A83033CF26E1256300EA30DC /* UIView.swift */; };
+		A854899B26F03844001BF187 /* CoreDataUsable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A854899A26F03844001BF187 /* CoreDataUsable.swift */; };
 		A8588C1D26E636F900F61A73 /* SplitViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8588C1C26E636F900F61A73 /* SplitViewDelegate.swift */; };
 		A85B476B26E4CA480070417B /* SecondaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A85B476A26E4CA480070417B /* SecondaryViewController.swift */; };
 		A85B476D26E4D9000070417B /* SplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A85B476C26E4D9000070417B /* SplitViewController.swift */; };
@@ -61,6 +62,7 @@
 		A83033CA26E11DB900EA30DC /* NamePlace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NamePlace.swift; sourceTree = "<group>"; };
 		A83033CC26E1240100EA30DC /* MainTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableViewCell.swift; sourceTree = "<group>"; };
 		A83033CF26E1256300EA30DC /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
+		A854899A26F03844001BF187 /* CoreDataUsable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataUsable.swift; sourceTree = "<group>"; };
 		A8588C1C26E636F900F61A73 /* SplitViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitViewDelegate.swift; sourceTree = "<group>"; };
 		A85B476A26E4CA480070417B /* SecondaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondaryViewController.swift; sourceTree = "<group>"; };
 		A85B476C26E4D9000070417B /* SplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitViewController.swift; sourceTree = "<group>"; };
@@ -185,10 +187,19 @@
 		A83033CE26E1254600EA30DC /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				A854899C26F03851001BF187 /* Protocol */,
 				A83033CF26E1256300EA30DC /* UIView.swift */,
 				A82B6F5926EB38A500ED0070 /* DateFormatter.swift */,
 			);
 			path = Extension;
+			sourceTree = "<group>";
+		};
+		A854899C26F03851001BF187 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				A854899A26F03844001BF187 /* CoreDataUsable.swift */,
+			);
+			path = Protocol;
 			sourceTree = "<group>";
 		};
 		A8588C1B26E636E300F61A73 /* Delegate */ = {
@@ -448,6 +459,7 @@
 				A85B476D26E4D9000070417B /* SplitViewController.swift in Sources */,
 				A872EFC426ECD82300D2E499 /* MemoDataManager.swift in Sources */,
 				A830336F26DF976500EA30DC /* MemoDecodeModel.swift in Sources */,
+				A854899B26F03844001BF187 /* CoreDataUsable.swift in Sources */,
 				C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */,
 				A82B6F5826EA215400ED0070 /* TextViewRelatedDataHolder.swift in Sources */,
 				C7481C7825BBCF3900B9CA55 /* CloudNotes.xcdatamodeld in Sources */,

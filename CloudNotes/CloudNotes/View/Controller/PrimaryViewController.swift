@@ -7,23 +7,6 @@
 import UIKit
 import CoreData
 
-protocol CoreDataUsable {
-    func fetchCoreDataItems(_ context: NSManagedObjectContext, _ tableview: UITableView)
-}
-
-extension CoreDataUsable {
-    func fetchCoreDataItems(_ context: NSManagedObjectContext, _ tableview: UITableView) {
-        do {
-            MemoDataManager.memos = try context.fetch(Memo.fetchRequest())
-            DispatchQueue.main.async {
-                tableview.reloadData()
-            }
-        } catch {
-            print(CoreDataError.fetchError.errorDescription)
-        }
-    }
-}
-
 final class PrimaryViewController: UIViewController, CoreDataUsable {
     private let tableView = UITableView()
     private let tableViewDataSource = MainVCTableViewDataSource()

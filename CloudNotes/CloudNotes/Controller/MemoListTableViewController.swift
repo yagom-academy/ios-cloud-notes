@@ -75,8 +75,8 @@ extension MemoListTableViewController {
         }
         
         let shareAction = UIContextualAction(style: .normal,
-                                             title: NameSpace.TableView.shareText) { _, _, _ in
-            
+                                             title: NameSpace.TableView.shareText) { [weak self] _, _, _ in
+            self?.delegate?.didTapShareButton(at: indexPath)
         }
         
         return UISwipeActionsConfiguration(actions: [deleteAction, shareAction])

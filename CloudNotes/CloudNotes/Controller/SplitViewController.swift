@@ -64,6 +64,11 @@ extension SplitViewController {
         
         present(alert, animated: true, completion: nil)
     }
+    
+    private func showShareScreen(shareItem: CloudMemo?) {
+        let activityViewController = UIActivityViewController(activityItems: [shareItem?.title, shareItem?.body], applicationActivities: nil)
+        present(activityViewController, animated: true, completion: nil)
+    }
 }
 
 // MARK: - SplitView Setup
@@ -109,6 +114,10 @@ extension SplitViewController: MemoListDelegate {
         let currentObject = coreDataMemo?.getCloudMemo(at: indexPath)
         coreDataMemo?.deleteItem(object: currentObject)
     }
+    
+    func didTapShareButton(at indexPath: IndexPath) {
+        showShareScreen(shareItem: coreDataMemo?.getCloudMemo(at: indexPath))
+    }
 }
 
 // MARK: - ComposeTextViewController Delegate
@@ -131,7 +140,9 @@ extension SplitViewController: MemoDetailViewControllerDelegate {
     
     func didTapSeeMoreButton(at indexPath: IndexPath) {
         let cancelAction = UIAlertAction.generateUIAlertAction(kind: .cancel, alertStyle: .cancel, completionHandler: nil)
-        let shareAction = UIAlertAction.generateUIAlertAction(kind: .share, alertStyle: .default, completionHandler: nil)
+        let shareAction = UIAlertAction.generateUIAlertAction(kind: .share, alertStyle: .default) { [weak self] _ in
+            self?.showShareScreen(shareItem: self?.coreDataMemo?.getCloudMemo(at: indexPath))
+        }
         let deleteAction = UIAlertAction.generateUIAlertAction(kind: .delete, alertStyle: .destructive) {  [weak self] _ in
             self?.showDeleteAlert(atItem: indexPath)
         }

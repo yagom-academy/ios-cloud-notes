@@ -32,8 +32,6 @@ class SplitViewController: UISplitViewController {
         setViewController(secondaryViewController, for: .secondary)
         
         self.delegate = self
-        primaryViewController?.rootViewDelegate = self
-        secondaryViewController?.rootViewDelegate = self
     }
 }
 
@@ -43,8 +41,8 @@ extension SplitViewController: UISplitViewControllerDelegate {
     }
 }
 
-// MARK: - Communication from Primary View
-extension SplitViewController: PrimaryListDelegate {
+// MARK: - Managing Display
+extension SplitViewController {
     func showSelectedDetail(by memo: MemoModel, at indexPath: IndexPath, showPage isShowing: Bool) {
         secondaryViewController?.updateDetailView(by: memo, at: indexPath)
         if isShowing { show(.secondary) }
@@ -53,17 +51,6 @@ extension SplitViewController: PrimaryListDelegate {
     func dismissDetail() {
         secondaryViewController?.initDetailView()
         show(.primary)
-    }
-}
-
-// MARK: - Communication from Secondary View
-extension SplitViewController: SecondaryDetailDelegate {
-    func detailDeleted(at indexPath: IndexPath) {
-        primaryViewController?.deleteMemo(at: indexPath)
-    }
-    
-    func detailEdited(at indexPath: IndexPath) {
-    
     }
 }
 

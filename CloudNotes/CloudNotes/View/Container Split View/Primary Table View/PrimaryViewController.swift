@@ -8,11 +8,6 @@
 import UIKit
 import CoreData
 
-protocol PrimaryListDelegate: AnyObject {
-    func showSelectedDetail(by memo: MemoModel, at indexPath: IndexPath, showPage isShowing: Bool)
-    func dismissDetail()
-}
-
 class PrimaryViewController: UITableViewController {
     private enum MemoTableStrings: CustomStringConvertible {
         case viewTitle

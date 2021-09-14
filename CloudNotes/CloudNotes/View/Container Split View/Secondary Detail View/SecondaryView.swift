@@ -7,7 +7,13 @@
 
 import UIKit
 
+protocol SecondaryViewDelegate: AnyObject {
+    func extractMemo(text: String)
+    func addMemo()
+}
+
 class SecondaryView: UIView {
+    weak var vcDelegate: SecondaryViewDelegate?
     let textView: UITextView = {
         let view = UITextView()
         view.textColor = .black
@@ -50,7 +56,8 @@ extension SecondaryView: UITextViewDelegate {
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
-
+        print("textViewDidEndEditing")
+        vcDelegate?.extractMemo(text: textView.text)
     }
 }
 

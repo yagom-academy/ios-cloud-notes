@@ -90,7 +90,14 @@ extension NoteListViewController {
 
 extension NoteListViewController: NoteUpdater {
     func saveContext() {
-
+        if context.hasChanges {
+            do {
+                try context.save()
+                fetchNotes()
+            } catch {
+                print(error)
+            }
+        }
     }
     
     func createNote() {

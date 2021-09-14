@@ -42,15 +42,13 @@ class SecondaryViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        secondaryView.flatMap(self.view.addSubview(_:))
-        secondaryView.flatMap({ secondary in
-            NSLayoutConstraint.activate([
-                secondary.topAnchor.constraint(equalTo: self.view.topAnchor),
-                secondary.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-                secondary.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-                secondary.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
-            ])
-        })
+        self.view.addSubview(secondaryView)
+        NSLayoutConstraint.activate([
+            secondaryView.topAnchor.constraint(equalTo: self.view.topAnchor),
+            secondaryView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            secondaryView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            secondaryView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
+        ])
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWasShown),
                                                name: UIResponder.keyboardDidShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillBeHidden),
@@ -69,9 +67,16 @@ extension SecondaryViewController {
     }
     
     @objc func resignFromTextView() {
-        secondaryView?.textView.resignFirstResponder()
+        secondaryView.textView.resignFirstResponder()
     }
-    // MARK: Alerts
+    
+    func setBarButtons(isHide: Bool) {
+        self.navigationItem.rightBarButtonItems = isHide ? [seeMoreStaticButton] : [hidableDoneButton, seeMoreStaticButton]
+    }
+}
+
+// MARK: - Button & Alert Actions
+extension SecondaryViewController {
     @objc func tappingSeeMoreButton() {
         resignFromTextView()
         let sheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
@@ -116,10 +121,6 @@ extension SecondaryViewController {
         })
         self.present(alert, animated: true)
     }
-    
-    func setBarButtons(isHide: Bool) {
-        self.navigationItem.rightBarButtonItems = isHide ? [seeMoreStaticButton] : [hidableDoneButton, seeMoreStaticButton]
-    }
 }
 
 extension SecondaryViewController {
@@ -134,12 +135,12 @@ extension SecondaryViewController {
     
     func updateDetailView(by memo: MemoModel, at indexPath: IndexPath) {
         let text = memo.title + twiceLineBreaks + memo.body
-        self.currentMemeIndexPath = indexPath
-        self.secondaryView?.configure(by: text)
+        currentMemeIndexPath = indexPath
+        secondaryView.configure(by: text)
     }
     
     func initDetailView() {
-        self.currentMemeIndexPath = nil
-        self.secondaryView?.configure(by: nil)
+        currentMemeIndexPath = nil
+        secondaryView.configure(by: nil)
     }
 }

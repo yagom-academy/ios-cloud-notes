@@ -35,10 +35,10 @@ class MemoListViewController: UIViewController{
         configureTableView()
         configureAutoLayout()
         configureNavigationItem()
-        makeTest()
+        makeSample()
     }
     
-    private func makeTest() {
+    private func makeSample() {
         guard let assetData = NSDataAsset.init(name: "sample") else { return }
         guard let memoData = ParsingManager.decodingModel(data: assetData.data, model: [Memo].self) else {
             return
@@ -91,7 +91,7 @@ extension MemoListViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        cell.configureCell(with: memoList[indexPath.row])
+        cell.configure(with: memoList[indexPath.row])
         
         return cell
     }

@@ -9,7 +9,7 @@ import UIKit
 
 class MemoListTableViewCell: UITableViewCell {
     static let identifier = "MemoListCell"
-    private let textMaximumCount = 40
+    private let textMaximumCount = 50
     
     let titleLabel: UILabel = {
         let titleLabel = UILabel()
@@ -53,7 +53,7 @@ class MemoListTableViewCell: UITableViewCell {
     private func editShortText(text: String) -> String {
         guard text.count > textMaximumCount else { return text }
         let endIndex = text.index(text.startIndex, offsetBy: textMaximumCount)
-        return text[text.startIndex...endIndex].description + "..."
+        return text[text.startIndex...endIndex].description
         
     }
     
@@ -63,7 +63,7 @@ class MemoListTableViewCell: UITableViewCell {
         contentView.addSubview(shortDiscriptionLabel)
     }
     
-    func configureCell(with data: Memo) {
+    func configure(with data: Memo) {
         titleLabel.text = data.title
         shortDiscriptionLabel.text = editShortText(text: data.body)
         dateLabel.text = dateFormatter.string(from: Date(timeIntervalSince1970: data.date))

@@ -8,9 +8,9 @@
 import UIKit
 
 final class CellContentDataHolder {
-    var titleLabelText: String?
-    var dateLabelText: String?
-    var bodyLabelText: String?
+    let titleLabelText: String?
+    let dateLabelText: String?
+    let bodyLabelText: String?
     
     init(title: String?, date: String?, body: String?) {
         self.titleLabelText = title

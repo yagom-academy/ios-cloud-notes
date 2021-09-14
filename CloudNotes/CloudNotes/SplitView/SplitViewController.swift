@@ -39,7 +39,7 @@ class SplitViewController: UISplitViewController {
 // MARK: - Messenger Delegate
 extension SplitViewController: MessengerBetweenController {
     func showListViewController(with memo: Memo?) {
-        memoListView.updateMemo(with: memo)
+        memoListView.configure(with: memo)
 
         show(.primary)
     }

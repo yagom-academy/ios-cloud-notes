@@ -22,24 +22,37 @@ class MemoListViewController: UITableViewController {
         configureNavigationRightBarButtonItem()
     }
 
-    func insertMemoList(memoList: [Memo]) {
-        memoListDataSource.tableView(tableView, initializeMemoListWith: memoList)
-    }
-
-    func updateMemo(with memo: Memo?) {
-        guard let selectedIndexPath = lastIndexPath else {
-            return
-        }
-
-        memoListDataSource.tableView(tableView, updateRowAt: selectedIndexPath, with: memo)
-        lastIndexPath = nil
-    }
-
     func showDetailViewController(at indexPath: IndexPath) {
         messenger?.showDetailViewController(with: memoListDataSource[indexPath])
         lastIndexPath = indexPath
     }
+}
 
+// MARK: - Managing DataSource
+extension MemoListViewController {
+    func insertMemoList(memoList: [Memo]) {
+        memoListDataSource.tableView(tableView, initializeMemoListWith: memoList)
+    }
+
+    func configure(with memo: Memo?) {
+        guard let memo = memo else {
+            return
+        }
+
+        if let selectedIndexPath = lastIndexPath {
+            updateMemo(with: memo, at: selectedIndexPath)
+        } else {
+            insertMemo(with: memo)
+        }
+    }
+
+    private func insertMemo(with memo: Memo) {
+        memoListDataSource.tableView(tableView, insertRowWith: memo)
+    }
+
+    private func updateMemo(with memo: Memo, at indexPath: IndexPath) {
+        memoListDataSource.tableView(tableView, updateRowAt: indexPath, with: memo)
+    }
 }
 
 // MARK: - Draw View
@@ -89,5 +102,6 @@ extension MemoListViewController {
 
     @objc private func showDetailViewControllerWithBlankPage() {
         messenger?.showDetailViewController(with: nil)
+        lastIndexPath = nil
     }
 }

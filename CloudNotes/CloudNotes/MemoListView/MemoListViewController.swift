@@ -15,8 +15,10 @@ class MemoListViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        tableView.remembersLastFocusedIndexPath = true
         configureTableView()
-        configureNavigationItem()
+        configureNavigationTitle()
+        configureNavigationRightBarButtonItem()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -40,6 +42,10 @@ class MemoListViewController: UITableViewController {
         messenger?.showDetailViewController(with: data)
     }
 
+}
+
+// MARK: - Draw View
+extension MemoListViewController {
     private func configureTableView() {
         let basicInset = UIEdgeInsets(
             top: .zero,
@@ -67,7 +73,13 @@ class MemoListViewController: UITableViewController {
         )
     }
 
-    private func configureNavigationItem() {
+    private func configureNavigationTitle() {
+        let currentPageTitle = "메모"
+
+        navigationItem.title = currentPageTitle
+    }
+
+    private func configureNavigationRightBarButtonItem() {
         let addButton = UIBarButtonItem(
             barButtonSystemItem: .add,
             target: self,

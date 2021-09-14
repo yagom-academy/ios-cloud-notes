@@ -185,7 +185,6 @@
 		A83033CE26E1254600EA30DC /* Extension */ = {
 			isa = PBXGroup;
 			children = (
-				A854899C26F03851001BF187 /* Protocol */,
 				A83033CF26E1256300EA30DC /* UIView.swift */,
 				A82B6F5926EB38A500ED0070 /* DateFormatter.swift */,
 			);
@@ -265,6 +264,7 @@
 				A830336A26DF92C500EA30DC /* AppLifeCycle */,
 				A83033C926E11DAA00EA30DC /* PlaceHolder */,
 				A83033CE26E1254600EA30DC /* Extension */,
+				A854899C26F03851001BF187 /* Protocol */,
 				A830336926DF92B700EA30DC /* Model */,
 				A8588C1B26E636E300F61A73 /* Delegate */,
 				A83033C626E11CE400EA30DC /* Data */,

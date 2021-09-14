@@ -61,11 +61,14 @@ extension PrimaryViewController: UITableViewDelegate {
         let actions = [UIContextualAction(style: .destructive,
                                           title: "Delete",
                                           handler: { [weak self] action, view, completionHandler in
-                                            let memoToRemove = self?.memos[indexPath.row]
-                                            self?.deleteCoreData(self?.context ?? NSManagedObjectContext(), memoToRemove ?? NSManagedObject())
-                                            self?.saveCoreData(self?.context ?? NSManagedObjectContext())
-                                            self?.fetchCoreDataItems(self?.context ?? NSManagedObjectContext(), tableView)
-                                            self?.memos.remove(at: indexPath.row)
+                                            guard let `self` = self else {
+                                                return
+                                            }
+                                            let memoToRemove = self.memos[indexPath.row]
+                                            self.deleteCoreData(self.context, memoToRemove)
+                                            self.saveCoreData(self.context)
+                                            self.fetchCoreDataItems(self.context, tableView)
+                                            self.memos.remove(at: indexPath.row)
                                           }),
                        UIContextualAction(style: .normal, title: "share", handler: { action, view, completionHandler in
                         print("share action구현하기 ")

@@ -48,18 +48,9 @@ extension SplitViewController {
         if isShowing { show(.secondary) }
     }
     
-    func dismissDetail() {
+    func emptyDetail() {
         secondaryViewController?.initDetailView()
         show(.primary)
-    }
-}
-
-extension NSObject {
-    class var className: String {
-        return String(describing: self)
-    }
-    var className: String {
-        return type(of: self).className
     }
 }
 
@@ -86,7 +77,7 @@ extension SplitViewController {
         if let deletingMemo = listResource[index] as? MemoData,
            let coreID = deletingMemo.objectID {
             if !coreManager.deleteData(objectID: coreID) {
-                print("에러처리 필요 - PrimaryViewController.deleteMemo : 코어데이터에서 해당 셀 삭제 실패")
+                NSLog("에러처리 필요 - PrimaryViewController.deleteMemo : 코어데이터에서 해당 셀 삭제 실패")
                 return
             }
         }
@@ -96,8 +87,7 @@ extension SplitViewController {
             let showingMemo = index < listResource.endIndex ? listResource[index] : listResource[listResource.index(before: index)]
             showSelectedDetail(by: showingMemo, at: indexPath, showPage: false)
         } else {
-            print("리스트 카운트 \(listResource.count)")
-            dismissDetail()
+            emptyDetail()
         }
     }
 }

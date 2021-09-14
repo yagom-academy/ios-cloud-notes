@@ -67,4 +67,27 @@ enum Strings: String {
     enum KeyboardInput: String {
       case twiceLineBreaks = "\n\n"
     }
+    
+    enum Cell: String, CustomStringConvertible {
+        case newTitle
+        case newSummary
+        
+        var description: String {
+            switch self {
+            case .newTitle:
+                return "새로운 메모"
+            case .newSummary:
+                return "추가 텍스트 없음"
+            }
+        }
+    }
+}
+
+extension NSObject {
+    class var className: String {
+        return String(describing: self)
+    }
+    var className: String {
+        return type(of: self).className
+    }
 }

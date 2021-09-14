@@ -36,13 +36,12 @@ class MemoCoreDataManager {
         } catch {
             NSLog("에러처리 필요 - MemoDataAccessObject.fetchData : %s", error.localizedDescription)
         }
-        print("MemoCoreDataManager.fetchData - end - count \(memoList.count)")
         return memoList
     }
     
     func insertData(_ data: MemoModel) {
         guard let object = NSEntityDescription.insertNewObject(forEntityName: self.entityName, into: self.context) as? MemoManagedObject else {
-            print("에러처리 필요 - MemoDataAccessObject.insertData")
+            NSLog("에러처리 필요 - MemoDataAccessObject.insertData")
             return
         }
         object.title = data.title

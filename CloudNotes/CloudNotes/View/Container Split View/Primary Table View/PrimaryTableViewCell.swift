@@ -14,6 +14,7 @@ class PrimaryTableViewCell: UITableViewCell {
         formatter.dateFormat = "yyyy. MM. dd"
         return formatter
     }()
+    
     var summaryLabel: UILabel = {
         let label = UILabel()
         label.textColor = .gray
@@ -44,9 +45,9 @@ class PrimaryTableViewCell: UITableViewCell {
 extension PrimaryTableViewCell {
     func configure(by memo: MemoModel) {
         if memo.lastModified == 0 {
-            self.textLabel?.text = "새로운 메모"
+            self.textLabel?.text = Strings.Cell.newTitle.description
             self.detailTextLabel?.text = PrimaryTableViewCell.dateformatter.string(from: Date())
-            self.summaryLabel.text = "추가 텍스트 없음"
+            self.summaryLabel.text = Strings.Cell.newSummary.description
         } else {
             let dateString = convertDateString(from: memo.lastModified)
             let summary = convertSummary(from: memo.body)

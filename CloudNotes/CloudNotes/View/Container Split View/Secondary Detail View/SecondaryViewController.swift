@@ -95,17 +95,13 @@ extension SecondaryViewController {
         // 2. 기본으로 제공되는 서비스 중 사용하지 않을 UIActivityType 제거(선택 사항)
         activity.excludedActivityTypes = []
 
-        // 3. 컨트롤러를 닫은 후 실행할 완료 핸들러 지정
         activity.completionWithItemsHandler = { (_, isComplete, _, _) in
             if isComplete {
-            // 성공했을 때 작업
                 NSLog("성공")
            } else {
-            // 실패했을 때 작업
                 NSLog("실패")
            }
         }
-        // 4. 컨트롤러 나타내기(iPad에서는 팝 오버로, iPhone과 iPod에서는 모달로 나타냅니다.)
         self.present(activity, animated: true, completion: nil)
     }
 

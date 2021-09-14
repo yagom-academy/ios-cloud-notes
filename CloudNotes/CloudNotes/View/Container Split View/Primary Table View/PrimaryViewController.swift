@@ -27,7 +27,7 @@ class PrimaryViewController: UITableViewController {
         print("fetch Data")
         rootDelegate.listResource = coreManager.fetchData()
         if rootDelegate.listResource.isEmpty {
-            print("데이터가 없어서 Sample 데이터로 저장")
+            NSLog("데이터가 없어서 Sample 데이터로 저장")
             rootDelegate.listResource = rootDelegate.readDataAsset()
             for data in rootDelegate.listResource {
                 coreManager.insertData(data)
@@ -79,7 +79,8 @@ extension PrimaryViewController {
     }
     
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let deleteAction = UIContextualAction(style: .destructive, title: Strings.Alert.deleteMessage.description) { _, _, completion in
+        let deleteAction = UIContextualAction(style: .destructive, title: Strings.Alert.delete
+                                                .description) { _, _, completion in
             self.askDeletingCellAlert(at: indexPath)
             completion(true)
         }

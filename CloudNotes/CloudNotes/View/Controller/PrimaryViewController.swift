@@ -52,9 +52,29 @@ extension PrimaryViewController: UITableViewDelegate {
     }
     
     private func deselectCurrentCell(_ tableView: UITableView) {
-        if let selected = tableView.indexPathForSelectedRow {
-            tableView.deselectRow(at: selected, animated: true)
+        if let selectedRow = tableView.indexPathForSelectedRow {
+            tableView.deselectRow(at: selectedRow, animated: true)
         }
+    }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        // 해당 cell이 swipe 가 되면 실행되는 메소드
+        // 스와이프 된 cell의 코어데이터를 지워야함 ->
+        
+        let actions = [UIContextualAction(style: .destructive,
+                                          title: "Delete",
+                                          handler: { [weak self] action, view, completionHandler in
+                                            let memoToRemove = self?.memos[indexPath.row]
+                                            self?.deleteCoreData(self?.context ?? NSManagedObjectContext(), memoToRemove ?? NSManagedObject())
+                                            self?.saveCoreData(self?.context ?? NSManagedObjectContext())
+                                            self?.fetchCoreDataItems(self?.context ?? NSManagedObjectContext(), tableView)
+                                            self?.memos.remove(at: indexPath.row)
+                                          }),
+                       UIContextualAction(style: .normal, title: "share", handler: { action, view, completionHandler in
+                        print("share action구현하기 ")
+                       })]
+        
+        return UISwipeActionsConfiguration(actions: actions)
     }
 }
 
@@ -69,12 +89,7 @@ extension PrimaryViewController {
     @objc func didTabButton() {
         let newMemo = Memo(context: self.context)
         memos.append(newMemo)
-        
-        do {
-            try self.context.save()
-        } catch {
-            print(CoreDataError.saveError.errorDescription)
-        }
+        self.saveCoreData(context)
         
         guard let secondVC = self.splitViewController?.viewController(for: .secondary) as? SecondaryViewController else {
             return
@@ -83,7 +98,7 @@ extension PrimaryViewController {
         let totalCell = tableView.numberOfRows(inSection: .zero)
         let newIndexPath = IndexPath(row: totalCell, section: .zero)
         
-        let emptyHolder = TextViewRelatedDataHolder(indexPath: newIndexPath, tableView: nil, textViewText: nil)
+        let emptyHolder = TextViewRelatedDataHolder(indexPath: newIndexPath, tableView: tableView, textViewText: nil)
         secondVC.configure(emptyHolder)
         
         self.fetchCoreDataItems(context, tableView)

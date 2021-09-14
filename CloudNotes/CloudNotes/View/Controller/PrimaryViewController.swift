@@ -58,6 +58,7 @@ extension PrimaryViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        //Mark: Options after cell swipping
         let actions = [
             UIContextualAction(
                 style: .destructive,
@@ -84,7 +85,7 @@ extension PrimaryViewController: UITableViewDelegate {
     }
 }
 
-//MARK:- NavigationBar related Method
+//MARK:- NavigationBar related method
 extension PrimaryViewController {
     private func setNavigationBarItem() {
         let navigationBarTitle = "메모"
@@ -92,8 +93,14 @@ extension PrimaryViewController {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(didTabButton))
     }
     
+    //MARK: Add new memo in coredata button
     @objc func didTabButton() {
         let newMemo = Memo(context: self.context)
+        let someDate = Date()
+        let timeInterval = someDate.timeIntervalSince1970
+        let todayDateData = Int(timeInterval)
+        newMemo.lastModifiedDate = Int64(todayDateData)
+        
         memos.append(newMemo)
         self.saveCoreData(context)
         

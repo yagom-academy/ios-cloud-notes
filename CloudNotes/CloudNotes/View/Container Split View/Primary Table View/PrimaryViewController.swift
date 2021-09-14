@@ -18,7 +18,6 @@ class PrimaryViewController: UITableViewController {
         case viewTitle
         case delete
         case cancel
-        case assetSampleFileName
         case askingDeleteTitle
         case askingDeleteMessage
         
@@ -37,19 +36,27 @@ class PrimaryViewController: UITableViewController {
             }
         }
     }
-    weak var rootViewDelegate: PrimaryListDelegate?
     private var selectedIndexPath: IndexPath?
-    private let appDelegate = UIApplication.shared.delegate as! AppDelegate
+//    private let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    private let rootDelegate: SplitViewController
     private let coreManager = MemoCoreDataManager.shared
+    
+    init(rootDelegate: SplitViewController) {
+        self.rootDelegate = rootDelegate
+        super.init(nibName: nil, bundle: nil)
+    }
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         print("fetch Data")
-        appDelegate.listResource = coreManager.fetchData()
-        if appDelegate.listResource.isEmpty {
+        rootDelegate.listResource = coreManager.fetchData()
+        if rootDelegate.listResource.isEmpty {
             print("데이터가 없어서 Sample 데이터로 저장")
-            appDelegate.listResource = readDataAsset()
-            for data in appDelegate.listResource {
+            rootDelegate.listResource = rootDelegate.readDataAsset()
+            for data in rootDelegate.listResource {
                 coreManager.insertData(data)
             }
         }
@@ -72,7 +79,7 @@ class PrimaryViewController: UITableViewController {
 // MARK: - TableView DataSource
 extension PrimaryViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return appDelegate.listResource.count
+        return rootDelegate.listResource.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -80,7 +87,7 @@ extension PrimaryViewController {
                                                        for: indexPath) as? PrimaryTableViewCell else {
             return UITableViewCell()
         }
-        let memo = appDelegate.listResource[indexPath.row]
+        let memo = rootDelegate.listResource[indexPath.row]
         cell.configure(by: memo)
 
         return cell
@@ -94,8 +101,8 @@ extension PrimaryViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let selectedMemo = appDelegate.listResource[indexPath.row]
-        rootViewDelegate?.showSelectedDetail(by: selectedMemo, at: indexPath, showPage: true)
+        let selectedMemo = rootDelegate.listResource[indexPath.row]
+        rootDelegate.showSelectedDetail(by: selectedMemo, at: indexPath, showPage: true)
     }
     
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
@@ -115,53 +122,19 @@ extension PrimaryViewController {
     private func addMemo() {
         let newMemo = MemoData("", "", 0, nil)
         let newIndexPath = IndexPath(row: 0, section: 0)
-        appDelegate.listResource.insert(newMemo, at: 0)
+        rootDelegate.listResource.insert(newMemo, at: 0)
         tableView.insertRows(at: [newIndexPath], with: .automatic)
-        rootViewDelegate?.showSelectedDetail(by: newMemo, at: newIndexPath, showPage: true)
+        rootDelegate.showSelectedDetail(by: newMemo, at: newIndexPath, showPage: true)
     }
     
     private func askDeletingCellAlert(at currentIndexPath: IndexPath) {
         let alert = UIAlertController(title: MemoTableStrings.askingDeleteTitle.description, message: MemoTableStrings.askingDeleteMessage.description, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: MemoTableStrings.cancel.description, style: .default))
         alert.addAction(UIAlertAction(title: MemoTableStrings.delete.description, style: .destructive) { _ in
-            self.deleteMemo(at: currentIndexPath)
+            self.rootDelegate.deleteMemo(at: currentIndexPath) { indexPath in
+                self.tableView.deleteRows(at: [indexPath], with: .fade)
+            }
         })
         self.present(alert, animated: true)
-    }
-    func deleteMemo(at indexPath: IndexPath) {
-        let index = indexPath.row
-        if let deletingMemo = appDelegate.listResource[index] as? MemoData,
-           let coreID = deletingMemo.objectID {
-            if !coreManager.deleteData(objectID: coreID) {
-                print("에러처리 필요 - PrimaryViewController.deleteMemo : 코어데이터에서 해당 셀 삭제 실패")
-                return
-            }
-        }
-        appDelegate.listResource.remove(at: index)
-        self.tableView.deleteRows(at: [indexPath], with: .fade)
-        let currentList = self.appDelegate.listResource
-        if currentList.count > 0 {
-            let showingMemo = index < currentList.endIndex ? currentList[index] : currentList[currentList.index(before: index)]
-            self.rootViewDelegate?.showSelectedDetail(by: showingMemo, at: indexPath, showPage: false)
-        } else {
-            print("리스트 카운트 \(currentList.count)")
-            self.rootViewDelegate?.dismissDetail()
-        }
-    }
-    
-    private func readDataAsset() -> [MemoModel] {
-        let decoder = JSONDecoder()
-        decoder.keyDecodingStrategy = .convertFromSnakeCase
-        guard let dataAsset = NSDataAsset(name: MemoTableStrings.assetSampleFileName.description) else {
-            NSLog("에러처리 필요 - PrimaryViewController.readDataAsset : 파일 바인딩 실패")
-            return []
-        }
-        do {
-            let result = try decoder.decode([MemoSample].self, from: dataAsset.data)
-            return result
-        } catch {
-            NSLog("에러처리 필요 - PrimaryViewController.readDataAsset : 디코딩 실패")
-            return []
-        }
     }
 }

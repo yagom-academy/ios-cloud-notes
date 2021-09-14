@@ -7,6 +7,11 @@
 
 import UIKit
 
+protocol SecondaryDetailDelegate: AnyObject {
+    func detailDeleted(at indexPath: IndexPath)
+    func detailEdited(at indexPath: IndexPath)
+}
+
 class SecondaryViewController: UIViewController {
     private var secondaryView: SecondaryView?
     private let twiceLineBreaks = "\n\n"
@@ -17,6 +22,8 @@ class SecondaryViewController: UIViewController {
                                                       style: .plain,
                                                       target: nil,
                                                       action: #selector(tappingSeeMoreButton))
+    private var currentMemeIndexPath: IndexPath?
+    weak var rootViewDelegate: SecondaryDetailDelegate?
     
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -105,7 +112,7 @@ extension SecondaryViewController {
     func selectedDelete(action: UIAlertAction) {
         let alert = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "취소", style: .default))
-        alert.addAction(UIAlertAction(title: "삭제", style: .destructive, handler: { _ in }))
+        alert.addAction(UIAlertAction(title: "삭제", style: .destructive, handler: deleteMemo))
         self.present(alert, animated: true)
     }
     
@@ -124,7 +131,15 @@ extension SecondaryViewController {
 //        let updatedMemo = Memo(title: title, body: body, lastModified: nowDate)
 //    }
     
-    func updateDetailView(by memo: MemoModel) {
+    func deleteMemo(action: UIAlertAction) {
+        guard let currentIndex = currentMemeIndexPath else {
+            print("에러처리 필요 - SecondaryViewController.deleteMemo : 현재 선택된 메모 인덱스 데이터 없음")
+            return
+        }
+        rootViewDelegate?.detailDeleted(at: currentIndex)
+    }
+    
+    func updateDetailView(by memo: MemoModel, at indexPath: IndexPath) {
         let text = memo.title + twiceLineBreaks + memo.body
         self.secondaryView?.configure(by: text)
     }

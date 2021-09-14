@@ -31,6 +31,7 @@ class SplitViewController: UISplitViewController {
         
         self.delegate = self
         primaryViewController?.rootViewDelegate = self
+        secondaryViewController?.rootViewDelegate = self
     }
 }
 
@@ -47,6 +48,22 @@ extension SplitViewController: PrimaryListDelegate {
         if isShowing {
             show(.secondary)
         }
+    }
+    
+    func dismissDetail() {
+        secondaryViewController?.initDetailView()
+        show(.primary)
+    }
+}
+
+// MARK: - Communication from Secondary View
+extension SplitViewController: SecondaryDetailDelegate {
+    func detailDeleted(at indexPath: IndexPath) {
+        primaryViewController?.deleteMemo(at: indexPath)
+    }
+    
+    func detailEdited(at indexPath: IndexPath) {
+    
     }
 }
 

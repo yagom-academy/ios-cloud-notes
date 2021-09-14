@@ -11,7 +11,7 @@ class MemoListViewDataSource: NSObject, UITableViewDataSource {
     private lazy var memoList: [Memo] = loadMemoListForTest() ?? []
 
     var lastIndexPath: IndexPath {
-        return IndexPath(row: memoList.count, section: .zero)
+        return IndexPath(row: memoList.count - 1, section: .zero)
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

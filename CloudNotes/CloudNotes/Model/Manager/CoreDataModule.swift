@@ -51,7 +51,9 @@ struct CoreDataModule {
 
 //MARK:- CRUD
 extension CoreDataModule {
-    func insert(objectInfo: [String : Any], into entityName: String = basicEntityName, completionHandler: (Error?) -> Void) {
+    func insert(objectInfo: [String: Any],
+                into entityName: String = basicEntityName,
+                completionHandler: (Error?) -> Void) {
         guard let entity = NSEntityDescription.entity(forEntityName: entityName, in: context) else {
             completionHandler(CoreDataError.failedToGetEntity)
             return
@@ -64,7 +66,7 @@ extension CoreDataModule {
         do {
             try context.save()
             completionHandler(nil)
-        } catch  {
+        } catch {
             completionHandler(error)
         }
     }

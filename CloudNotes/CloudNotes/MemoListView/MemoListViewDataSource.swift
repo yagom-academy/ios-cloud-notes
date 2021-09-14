@@ -9,7 +9,7 @@ import UIKit
 
 class MemoListViewDataSource: NSObject, UITableViewDataSource {
     private var memoList = [Memo]()
-    
+
     var lastIndexPath: IndexPath {
         return IndexPath(row: memoList.count - 1, section: .zero)
     }

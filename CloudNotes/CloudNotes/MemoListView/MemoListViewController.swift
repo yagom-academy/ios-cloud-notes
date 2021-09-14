@@ -8,7 +8,6 @@
 import UIKit
 
 class MemoListViewController: UITableViewController {
-
     private let memoListDataSource = MemoListViewDataSource()
     private var memoListDelegator: MemoListViewDelegate?
     var messenger: MessengerBetweenController?
@@ -22,8 +21,19 @@ class MemoListViewController: UITableViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        let title = "메모"
-        navigationItem.title = title
+    }
+
+    func insertMemoList(memoList: [Memo]) {
+        memoListDataSource.tableView(tableView, initializeMemoListWith: memoList)
+    }
+
+    func updateMemo(with memo: Memo?) {
+        guard let selectedIndexPath = tableView.indexPathForSelectedRow else {
+            return
+        }
+
+        print(selectedIndexPath)
+        print(memo.debugDescription)
     }
 
     func showDetailViewController(with data: Memo?) {

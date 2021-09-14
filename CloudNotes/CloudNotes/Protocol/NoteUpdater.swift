@@ -10,7 +10,7 @@ import Foundation
 protocol NoteUpdater: AnyObject {
     func saveContext()
     func createNote()
-    func update(with NoteData: Note, at indexPath: IndexPath)
+    func update(with noteData: Note, at indexPath: IndexPath)
     func fetchNotes()
     func deleteNote(at indexPath: IndexPath)
 }

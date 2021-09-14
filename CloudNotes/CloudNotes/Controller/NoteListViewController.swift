@@ -102,7 +102,12 @@ extension NoteListViewController: NoteUpdater {
     }
     
     func fetchNotes() {
-        
+        do {
+            notes = try context.fetch(Note.fetchRequest())
+            self.tableView.reloadData()
+        } catch {
+            print("Data Not Found")
+        }
     }
     
     func deleteNote(at indexPath: IndexPath) {

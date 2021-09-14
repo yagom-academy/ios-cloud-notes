@@ -6,10 +6,17 @@
 //
 
 import UIKit
+import CoreData
 
 class NoteListViewController: UITableViewController {
     private var notes: [Note] = []
     let cellIdentifier = "noteCell"
+    
+    var context: NSManagedObjectContext {
+        guard let app = UIApplication.shared.delegate as? AppDelegate else { fatalError() }
+        
+        return app.persistentContainer.viewContext
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,18 +34,10 @@ class NoteListViewController: UITableViewController {
     }
     
     @objc private func addButtonTapped() {
-        addNewNote()
+        createNote()
         let newIndexPath = findNewNoteIndexPath()
         scrollDownToTableBottom(to: newIndexPath)
         showContentDetails(of: notes.last, at: newIndexPath)
-    }
-
-    private func addNewNote() {
-//        let newNote = Note(title: String.empty,
-//                           body: String.empty,
-//                           lastModified: Date().timeIntervalSince1970)
-//        notes.append(newNote)
-        tableView.reloadData()
     }
     
     private func findNewNoteIndexPath() -> IndexPath {
@@ -90,11 +89,23 @@ extension NoteListViewController {
 }
 
 extension NoteListViewController: NoteUpdater {
-    func update(note: Note, at indexPath: IndexPath) {
-        let index = indexPath.row
-        notes[index].title = note.title
-        notes[index].body = note.body
-        notes[index].lastModified = note.lastModified
-        tableView.reloadData()
+    func saveContext() {
+
+    }
+    
+    func createNote() {
+
+    }
+    
+    func update(with noteData: Note, at indexPath: IndexPath) {
+
+    }
+    
+    func fetchNotes() {
+        
+    }
+    
+    func deleteNote(at indexPath: IndexPath) {
+        
     }
 }

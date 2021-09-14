@@ -141,6 +141,12 @@ extension SecondaryViewController {
     
     func updateDetailView(by memo: MemoModel, at indexPath: IndexPath) {
         let text = memo.title + twiceLineBreaks + memo.body
+        self.currentMemeIndexPath = indexPath
         self.secondaryView?.configure(by: text)
+    }
+    
+    func initDetailView() {
+        self.currentMemeIndexPath = nil
+        self.secondaryView?.configure(by: nil)
     }
 }

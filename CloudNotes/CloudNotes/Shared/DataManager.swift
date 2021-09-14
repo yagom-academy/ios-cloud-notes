@@ -28,19 +28,23 @@ class DataManager {
 
     var memoList = [MemoEntity]()
 
-    func add(memo: String) {
+}
+
+// MARK: - CRUD
+extension DataManager {
+    func addNewMemo(_ memo: String) {
         let newMemo = MemoEntity(context: mainContext)
         newMemo.content = memo
         newMemo.insertData = Date()
-        saveContext()
-
         memoList.insert(newMemo, at: 0)
+
+        saveContext()
     }
 
-    func fetch() {
+    func fetchMemo() {
         let request: NSFetchRequest<MemoEntity> = MemoEntity.fetchRequest()
-
-        request.sortDescriptors = [NSSortDescriptor(key: "insertDate", ascending: false)]
+        let sortByDate = NSSortDescriptor(key: "insertDate", ascending: false)
+        request.sortDescriptors = [sortByDate]
 
         do {
             memoList = try mainContext.fetch(request)
@@ -49,20 +53,18 @@ class DataManager {
         }
     }
 
-    func update(memo: String, entity: MemoEntity?) {
-        entity?.content = memo
-        saveContext()
+    func updateMemo(_ memo: String, _ entity: MemoEntity?) {
+        if let entity = entity {
+            entity.content = memo
+            saveContext()
+        }
     }
 
-    func delete(memo: MemoEntity?) {
+    func deleteMemo(_ memo: MemoEntity?) {
         if let memo = memo {
             mainContext.delete(memo)
-
-            if let index = memoList.firstIndex(of: memo) {
-                memoList.remove(at: index)
-            }
+            saveContext()
         }
-        saveContext()
     }
 }
 

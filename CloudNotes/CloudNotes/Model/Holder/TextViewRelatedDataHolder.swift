@@ -16,7 +16,9 @@ final class TextViewRelatedDataHolder {
         self.indexPath = indexPath
         self.tableView = tableView
         
-        if textViewText?.elementsEqual("\n") == true {
+        //MARK: Delete lineBreaker when empty a memo is empty
+        let lineBreaker = "\n"
+        if textViewText?.elementsEqual(lineBreaker) == true {
             self.textViewText = nil
         } else {
             self.textViewText = textViewText

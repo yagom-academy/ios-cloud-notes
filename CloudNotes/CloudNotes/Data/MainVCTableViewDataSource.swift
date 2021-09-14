@@ -9,7 +9,7 @@ import UIKit
 
 final class MainVCTableViewDataSource: NSObject, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return MemoDataManager.memos.count ?? .zero
+        return MemoDataManager.memos.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -19,7 +19,7 @@ final class MainVCTableViewDataSource: NSObject, UITableViewDataSource {
         }
         
         let list = MemoDataManager.memos[indexPath.row]
-        let date = DateFormatter().updateLastModifiedDate(Int(list.lastModifiedDate ?? .zero))
+        let date = DateFormatter().updateLastModifiedDate(Int(list.lastModifiedDate ))
         let cellContent = CellContentDataHolder(title: list.title, date: date, body: list.body)
         cell.configure(cellContent)
         

@@ -67,11 +67,26 @@ extension PrimaryViewController {
     }
     
     @objc func didTabButton() {
+        let newMemo = Memo(context: self.context)
+        memos.append(newMemo)
+        
+        do {
+            try self.context.save()
+        } catch {
+            print(CoreDataError.saveError.errorDescription)
+        }
+        
         guard let secondVC = self.splitViewController?.viewController(for: .secondary) as? SecondaryViewController else {
             return
         }
-        let emptyHolder = TextViewRelatedDataHolder(indexPath: nil, tableView: nil, textViewText: nil)
+        
+        let totalCell = tableView.numberOfRows(inSection: .zero)
+        let newIndexPath = IndexPath(row: totalCell, section: .zero)
+        
+        let emptyHolder = TextViewRelatedDataHolder(indexPath: newIndexPath, tableView: nil, textViewText: nil)
         secondVC.configure(emptyHolder)
+        
+        self.fetchCoreDataItems(context, tableView)
         self.splitViewController?.show(.secondary)
     }
 }

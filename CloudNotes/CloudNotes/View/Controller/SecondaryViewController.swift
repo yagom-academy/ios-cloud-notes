@@ -11,8 +11,7 @@ import CoreData
 final class SecondaryViewController: UIViewController, CoreDataUsable {
     private var textView = UITextView()
     private let context = MemoDataManager.context
-    
-    var holder: TextViewRelatedDataHolder?
+    private var holder: TextViewRelatedDataHolder?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,11 +43,11 @@ extension SecondaryViewController: UITextViewDelegate {
         let currentMemoTitle = currentMemo.first
         let currentMemoBodyArray = currentMemo[bodyStartIndex...]
         var currentMemoBody = currentMemoBodyArray.reduce("") { $0 + lineBreaker + $1 }
+        let currentMemoData = MemoDataManager.memos[holder?.indexPath?.row ?? .zero]
+
         if !currentMemoBody.isEmpty {
             currentMemoBody.removeFirst()
         }
-        
-        let currentMemoData = MemoDataManager.memos[holder?.indexPath?.row ?? .zero]
         
         do {
             currentMemoData.title = currentMemoTitle

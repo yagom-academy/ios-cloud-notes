@@ -5,7 +5,7 @@
 // 
 
 import XCTest
-
+// swiftlint:disable all
 class CloudNotesUITests: XCTestCase {
 
     override func setUpWithError() throws {

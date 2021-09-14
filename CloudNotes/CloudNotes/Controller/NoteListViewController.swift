@@ -17,10 +17,10 @@ class NoteListViewController: UITableViewController {
         
         return app.persistentContainer.viewContext
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         fetchNotes()
         initTableView()
     }
@@ -51,11 +51,11 @@ class NoteListViewController: UITableViewController {
             return IndexPath(row: lastRowIndex, section: .zero)
         }
     }
-
+    
     private func scrollDownToTableBottom(to bottomIndexPath: IndexPath) {
         tableView.scrollToRow(at: bottomIndexPath, at: .bottom, animated: true)
     }
-
+    
     private func showContentDetails(of note: Note?, at indexPath: IndexPath) {
         guard let note = note else { return }
         
@@ -78,7 +78,7 @@ extension NoteListViewController {
                             cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as? NoteCell,
               indexPath.row < notes.count else { return UITableViewCell() }
-
+        
         cell.initCell(with: notes[indexPath.row])
         
         return cell
@@ -118,7 +118,8 @@ extension NoteListViewController: NoteUpdater {
         saveContext()
     }
     
-    func updateNote(at indexPath: IndexPath, with noteData: (title: String, body: String, lastModified: Double)) {
+    func updateNote(at indexPath: IndexPath,
+                    with noteData: (title: String, body: String, lastModified: Double)) {
         let noteToUpdate = notes[indexPath.row]
         noteToUpdate.title = noteData.title
         noteToUpdate.body = noteData.body

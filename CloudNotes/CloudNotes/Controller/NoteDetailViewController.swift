@@ -62,8 +62,8 @@ extension NoteDetailViewController: UITextViewDelegate {
         guard let indexPath = indexPath else { return }
 
         let updatedData = (title: textView.title ?? String.empty,
-                        body: textView.body ?? String.empty,
-                        lastModified: Date().timeIntervalSince1970)
+                           body: textView.body ?? String.empty,
+                           lastModified: Date().timeIntervalSince1970)
         
         delegate?.updateNote(at: indexPath, with: updatedData)
     }

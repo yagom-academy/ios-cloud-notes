@@ -109,14 +109,13 @@ extension SecondaryViewController {
     }
     
     func selectedShare(action: UIAlertAction) {
-        // 1. UIActivityViewController 초기화, 공유 아이템 지정
-        let testText: String = "여기에 제목이 나오도록 해야지"
-
-        let activity = UIActivityViewController(activityItems: [testText], applicationActivities: nil)
-
-        // 2. 기본으로 제공되는 서비스 중 사용하지 않을 UIActivityType 제거(선택 사항)
-        activity.excludedActivityTypes = []
-
+        guard let text: String = secondaryView.textView.text else {
+            NSLog("에러처리 필요 - SecondaryViewController.selectedShare : 메모 택스트 nil")
+            return
+        }
+        let currentMemo = makeTempMemo(by: text)
+        let activity = UIActivityViewController(activityItems: [currentMemo.title, currentMemo.body, currentMemo.lastModified], applicationActivities: nil)
+        activity.excludedActivityTypes = [.assignToContact, .postToVimeo, .saveToCameraRoll]
         activity.completionWithItemsHandler = { (_, isComplete, _, _) in
             if isComplete {
                 NSLog("성공")

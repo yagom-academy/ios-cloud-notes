@@ -6,22 +6,33 @@
 //
 
 import CoreData
+import UIKit
 
 final class CoreDataCloudMemo: CoreDatable {
-    static let shared = CoreDataCloudMemo()
+    // MARK: Property
     var context: NSManagedObjectContext
-    var fetchedController: NSFetchedResultsController<CloudMemo>
+    private var fetchedController: NSFetchedResultsController<CloudMemo>
+    private var coreDataStack: CoreDataStack
     
-    private init() {
+    init(persistentStoreDescripntion: NSPersistentStoreDescription? = nil) {
+        coreDataStack = CoreDataStack(persistentStoreDescription: persistentStoreDescripntion)
+        
         let request: NSFetchRequest<CloudMemo> = CloudMemo.fetchRequest()
         request.sortDescriptors = [NSSortDescriptor(key: #keyPath(CloudMemo.lastModified),
                                                     ascending: false)]
-        fetchedController = CoreDataStack().makeFetchedResultsController(fetchRequest: request,
-                                                                              sectionNameKeyPath:
-                                                                                nil,
-                                                                              cacheName: nil)
+        fetchedController = coreDataStack.makeFetchedResultsController(fetchRequest: request,
+                                                                       sectionNameKeyPath:
+                                                                        nil,
+                                                                       cacheName: nil)
         
         context = fetchedController.managedObjectContext
+    }
+}
+
+// MARK: - Method
+extension CoreDataCloudMemo {
+    func configureFetchedControllerDelegate(delegate: NSFetchedResultsControllerDelegate) {
+        fetchedController.delegate = delegate
     }
     
     func perforFetchCloudMemo() {

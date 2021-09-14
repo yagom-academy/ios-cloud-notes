@@ -5,13 +5,14 @@
 // 
 
 import UIKit
+import CoreData
 
 final class SplitViewController: UISplitViewController, TextSeparatable {
     // MARK: Property
     private let memoListViewController = MemoListTableViewController()
     private let memoDetailViewController = MemoDetailViewController()
     private var dataSource: MemoListDiffableDataSource?
-    
+    private var coreDataMemo: CoreDataCloudMemo?
     // MARK: View LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,9 +20,26 @@ final class SplitViewController: UISplitViewController, TextSeparatable {
         setupChildViewControllers()
         setupSplitViewDisplayMode()
         makeTableViewDiffableDataSource()
-        CoreDataCloudMemo.shared.perforFetchCloudMemo()
+        setupMemoCoreData()
+        setupDiffableDataSource()
+        configureFetchedControllerDelegate()
+        coreDataMemo?.perforFetchCloudMemo()
+    }
+}
+
+extension SplitViewController {
+    func setupMemoCoreData() {
+        coreDataMemo = CoreDataCloudMemo(persistentStoreDescripntion: nil)
     }
     
+    func setupDiffableDataSource() {
+        dataSource?.configure(coreDataMemo: coreDataMemo)
+    }
+    
+    func configureFetchedControllerDelegate() {
+        guard let delegate = dataSource else { return }
+        coreDataMemo?.configureFetchedControllerDelegate(delegate: delegate)
+    }
 }
 
 // MARK: - Method And NameSapce
@@ -33,13 +51,13 @@ extension SplitViewController {
         }
     }
     
-    private func showDeleteAlert(at indexPath: IndexPath) {
+    private func showDeleteAlert(atItem indexPath: IndexPath) {
         let cancel = UIAlertAction.generateUIAlertAction(kind: .cancel, alertStyle: .cancel, completionHandler: nil)
         
         let deleteAction = UIAlertAction.generateUIAlertAction(kind: .delete, alertStyle: .destructive) { [weak self] _ in
             self?.viewController(for: .primary)?.navigationController?.popViewController(animated: true)
-            let currentItem = CoreDataCloudMemo.shared.getCloudMemo(at: indexPath)
-            CoreDataCloudMemo.shared.deleteItem(object: currentItem)
+            let currentItem = self?.coreDataMemo?.getCloudMemo(at: indexPath)
+            self?.coreDataMemo?.deleteItem(object: currentItem)
         }
         
         let alert = UIAlertController.generateAlertController(title: NameSpace.UIAlertMessage.titleMessage, message: NameSpace.UIAlertMessage.bodyMessage, style: .alert, alertActions: [cancel, deleteAction])
@@ -73,10 +91,10 @@ extension SplitViewController: UISplitViewControllerDelegate {
 // MARK: - MemoList Delegate
 extension SplitViewController: MemoListDelegate {
     func didTapTableViewCell(at indexPath: IndexPath) {
-        let currentObject = CoreDataCloudMemo.shared.fetchedController.object(at: indexPath)
-        memoDetailViewController.configureMemoContents(title: currentObject.title,
-                                                       body: currentObject.body,
-                                                       lastModifier: currentObject.lastModified,
+        let currentObject = coreDataMemo?.getCloudMemo(at: indexPath)
+        memoDetailViewController.configureMemoContents(title: currentObject?.title,
+                                                       body: currentObject?.body,
+                                                       lastModifier: currentObject?.lastModified,
                                                        indexPath: indexPath)
         show(.secondary)
     }
@@ -88,8 +106,8 @@ extension SplitViewController: MemoListDelegate {
     }
     
     func didTapDeleteButton(at indexPath: IndexPath) {
-        let currentObject = CoreDataCloudMemo.shared.fetchedController.object(at: indexPath)
-        CoreDataCloudMemo.shared.deleteItem(object: currentObject)
+        let currentObject = coreDataMemo?.getCloudMemo(at: indexPath)
+        coreDataMemo?.deleteItem(object: currentObject)
     }
 }
 
@@ -97,27 +115,27 @@ extension SplitViewController: MemoListDelegate {
 extension SplitViewController: ComposeTextViewControllerDelegate {
     func didTapSaveButton(_ text: String) {
         let texts = separateText(text)
-        CoreDataCloudMemo.shared.createNewMemo(title: texts.title,
-                                               body: texts.body,
-                                               lastModifier: Date())
+        coreDataMemo?.createNewMemo(title: texts.title,
+                                     body: texts.body,
+                                     lastModifier: Date())
     }
 }
 
 // MARK: - MemoDetailViewController Delegate
 extension SplitViewController: MemoDetailViewControllerDelegate {
     func contentsDidChanged(at indexPath: IndexPath, contetnsText: (title: String?, body: String?)) {
-        let currentMemo = CoreDataCloudMemo.shared.getCloudMemo(at: indexPath)
-        currentMemo.title = contetnsText.title
-        currentMemo.body = contetnsText.body
+        let currentMemo = coreDataMemo?.getCloudMemo(at: indexPath)
+        currentMemo?.title = contetnsText.title
+        currentMemo?.body = contetnsText.body
     }
     
     func didTapSeeMoreButton(at indexPath: IndexPath) {
         let cancelAction = UIAlertAction.generateUIAlertAction(kind: .cancel, alertStyle: .cancel, completionHandler: nil)
         let shareAction = UIAlertAction.generateUIAlertAction(kind: .share, alertStyle: .default, completionHandler: nil)
         let deleteAction = UIAlertAction.generateUIAlertAction(kind: .delete, alertStyle: .destructive) {  [weak self] _ in
-            self?.showDeleteAlert(at: indexPath)
+            self?.showDeleteAlert(atItem: indexPath)
         }
-
+        
         let alertController = UIAlertController.generateAlertController(title: nil, message: nil, style: .actionSheet, alertActions: [cancelAction, shareAction, deleteAction])
         
         present(alertController, animated: true, completion: nil)
@@ -129,7 +147,9 @@ extension SplitViewController {
     private func makeTableViewDiffableDataSource() {
         dataSource = MemoListDiffableDataSource(tableView: memoListViewController.tableView) { tableView, indexPath, memo in
             
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: MemoListTableViewCell.identifier, for: indexPath) as? MemoListTableViewCell else { fatalError() }
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: MemoListTableViewCell.identifier, for: indexPath) as? MemoListTableViewCell else {
+               return MemoListTableViewCell()
+            }
             
             cell.accessoryType = .disclosureIndicator
             cell.configure(title: memo.title, body: memo.body, lastModifier: memo.lastModified)

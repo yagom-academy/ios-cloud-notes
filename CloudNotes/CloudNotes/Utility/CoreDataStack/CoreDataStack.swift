@@ -9,8 +9,15 @@ import CoreData
 
 class CoreDataStack {
     // MARK: Property
+    
+    private let persistentStoreDescription: NSPersistentStoreDescription?
+    
     lazy var persistentContainer: NSPersistentCloudKitContainer = {
         let container = NSPersistentCloudKitContainer(name: "CloudNotes")
+        
+        if let persistentStoreDescription = persistentStoreDescription {
+            container.persistentStoreDescriptions = [persistentStoreDescription]
+        }
         container.loadPersistentStores { (_, error) in
             if let error = error as NSError? {
                 fatalError("Unresolved error \(error), \(error.userInfo)")
@@ -24,7 +31,9 @@ class CoreDataStack {
     }()
     
     // MARK: initializer
-    init() { }
+    init(persistentStoreDescription: NSPersistentStoreDescription? = nil) {
+        self.persistentStoreDescription = persistentStoreDescription
+    }
     
     func makeFetchedResultsController<T: NSFetchRequestResult>(fetchRequest: NSFetchRequest<T>, sectionNameKeyPath: String?, cacheName: String?) -> NSFetchedResultsController<T> {
         let controller = NSFetchedResultsController(fetchRequest: fetchRequest,

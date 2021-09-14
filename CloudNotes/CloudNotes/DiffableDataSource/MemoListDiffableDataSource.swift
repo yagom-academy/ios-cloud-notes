@@ -9,13 +9,22 @@ import UIKit
 import CoreData
 
 final class MemoListDiffableDataSource: UITableViewDiffableDataSource<String, CloudMemo> {
+    
+    private var coreDataMemo: CoreDataCloudMemo?
+    
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
     
     override init(tableView: UITableView, cellProvider: @escaping UITableViewDiffableDataSource<String, CloudMemo>.CellProvider) {
         super.init(tableView: tableView, cellProvider: cellProvider)
-        CoreDataCloudMemo.shared.fetchedController.delegate = self
+        
+    }
+}
+
+extension MemoListDiffableDataSource {
+    func configure(coreDataMemo: CoreDataCloudMemo?) {
+        self.coreDataMemo = coreDataMemo
     }
 }
 
@@ -31,7 +40,7 @@ extension MemoListDiffableDataSource: NSFetchedResultsControllerDelegate {
             let items = snapshot.itemIdentifiersInSection(withIdentifier: section).compactMap { objectID -> CloudMemo? in
                 guard let objectID = objectID as? NSManagedObjectID else { return nil }
                 
-                guard let cloudMemo =  CoreDataCloudMemo.shared.fetchedController.managedObjectContext.object(with: objectID) as? CloudMemo else { return nil }
+                guard let cloudMemo =  coreDataMemo?.context.object(with: objectID) as? CloudMemo else { return nil }
                 
                 return cloudMemo
             }
@@ -40,7 +49,7 @@ extension MemoListDiffableDataSource: NSFetchedResultsControllerDelegate {
         }
         DispatchQueue.global().async { [weak self] in
             self?.apply(newSnapshot, animatingDifferences: true) {
-                CoreDataCloudMemo.shared.contextSave()
+                self?.coreDataMemo?.contextSave()
             }
         }
     }

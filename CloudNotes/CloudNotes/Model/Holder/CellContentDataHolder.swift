@@ -5,7 +5,7 @@
 //  Created by Do Yi Lee on 2021/09/06.
 //
 
-import UIKit
+import Foundation
 
 final class CellContentDataHolder {
     let titleLabelText: String?

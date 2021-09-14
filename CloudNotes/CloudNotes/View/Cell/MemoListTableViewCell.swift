@@ -7,12 +7,12 @@
 
 import UIKit
 
-class MainTableViewCell: UITableViewCell {
+class MemoListTableViewCell: UITableViewCell {
     private var titleLabel: UILabel = UILabel()
     private var bodyLabel: UILabel = UILabel()
     private var dateLabel: UILabel = UILabel()
     private var dateAndBodyStackView: UIStackView = UIStackView()
-        
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.accessoryType = .disclosureIndicator
@@ -26,7 +26,7 @@ class MainTableViewCell: UITableViewCell {
     }
 }
 
-extension MainTableViewCell {
+extension MemoListTableViewCell {
     func configure(_ dataHolder: CellContentDataHolder) {
         self.titleLabel.text = dataHolder.titleLabelText
         self.bodyLabel.text = dataHolder.bodyLabelText
@@ -36,11 +36,12 @@ extension MainTableViewCell {
     private func setupTitleLabelLayout() {
         self.titleLabel = UILabel()
         self.contentView.addSubview(titleLabel)
-        self.titleLabel.setPosition(top: nil,
-                               bottom: nil,
-                               leading: safeAreaLayoutGuide.leadingAnchor,
-                               leadingConstant: 10,
-                               trailing: contentView.trailingAnchor)
+        self.titleLabel
+            .setPosition(top: nil,
+                         bottom: nil,
+                         leading: safeAreaLayoutGuide.leadingAnchor,
+                         leadingConstant: 10,
+                         trailing: contentView.trailingAnchor)
     }
     
     private func makeHorizontalStackVeiw() {
@@ -49,9 +50,9 @@ extension MainTableViewCell {
         
         self.contentView.addSubview(dateAndBodyStackView)
         self.dateAndBodyStackView.setPosition(top: titleLabel.bottomAnchor,
-                                         bottom: contentView.bottomAnchor,
-                                         leading: titleLabel.leadingAnchor,
-                                         trailing: contentView.trailingAnchor)
+                                              bottom: contentView.bottomAnchor,
+                                              leading: titleLabel.leadingAnchor,
+                                              trailing: contentView.trailingAnchor)
         self.dateAndBodyStackView.axis = .horizontal
         self.dateAndBodyStackView.distribution = .equalCentering
         self.dateAndBodyStackView.spacing = 40

@@ -14,7 +14,7 @@
 		A830336F26DF976500EA30DC /* MemoDecodeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A830336E26DF976500EA30DC /* MemoDecodeModel.swift */; };
 		A83033C426E1146F00EA30DC /* MemoListTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A83033C326E1146F00EA30DC /* MemoListTableViewDataSource.swift */; };
 		A83033CB26E11DB900EA30DC /* NamePlace.swift in Sources */ = {isa = PBXBuildFile; fileRef = A83033CA26E11DB900EA30DC /* NamePlace.swift */; };
-		A83033CD26E1240100EA30DC /* MainTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A83033CC26E1240100EA30DC /* MainTableViewCell.swift */; };
+		A83033CD26E1240100EA30DC /* MemoListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A83033CC26E1240100EA30DC /* MemoListTableViewCell.swift */; };
 		A83033D026E1256300EA30DC /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A83033CF26E1256300EA30DC /* UIView.swift */; };
 		A854899B26F03844001BF187 /* CoreDataUsable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A854899A26F03844001BF187 /* CoreDataUsable.swift */; };
 		A85B476B26E4CA480070417B /* MemoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A85B476A26E4CA480070417B /* MemoDetailViewController.swift */; };
@@ -59,7 +59,7 @@
 		A830336E26DF976500EA30DC /* MemoDecodeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoDecodeModel.swift; sourceTree = "<group>"; };
 		A83033C326E1146F00EA30DC /* MemoListTableViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoListTableViewDataSource.swift; sourceTree = "<group>"; };
 		A83033CA26E11DB900EA30DC /* NamePlace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NamePlace.swift; sourceTree = "<group>"; };
-		A83033CC26E1240100EA30DC /* MainTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableViewCell.swift; sourceTree = "<group>"; };
+		A83033CC26E1240100EA30DC /* MemoListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoListTableViewCell.swift; sourceTree = "<group>"; };
 		A83033CF26E1256300EA30DC /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
 		A854899A26F03844001BF187 /* CoreDataUsable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataUsable.swift; sourceTree = "<group>"; };
 		A85B476A26E4CA480070417B /* MemoDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoDetailViewController.swift; sourceTree = "<group>"; };
@@ -122,6 +122,7 @@
 		A830336726DF929A00EA30DC /* View */ = {
 			isa = PBXGroup;
 			children = (
+				A854899E26F0B10D001BF187 /* Extension */,
 				A8588C2226E7268D00F61A73 /* Cell */,
 				C7481C7B25BBCF3A00B9CA55 /* LaunchScreen.storyboard */,
 				A830336826DF92B100EA30DC /* Controller */,
@@ -142,6 +143,10 @@
 		A830336926DF92B700EA30DC /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				A854899C26F03851001BF187 /* Protocol */,
+				A872EFBE26ECBB2300D2E499 /* Error */,
+				A83033C926E11DAA00EA30DC /* PlaceHolder */,
+				A83033CE26E1254600EA30DC /* Extension */,
 				A82B6F5B26EB4AB200ED0070 /* Holder */,
 			);
 			path = Model;
@@ -183,7 +188,6 @@
 		A83033CE26E1254600EA30DC /* Extension */ = {
 			isa = PBXGroup;
 			children = (
-				A83033CF26E1256300EA30DC /* UIView.swift */,
 				A82B6F5926EB38A500ED0070 /* DateFormatter.swift */,
 			);
 			path = Extension;
@@ -206,10 +210,18 @@
 			path = Legacy;
 			sourceTree = "<group>";
 		};
+		A854899E26F0B10D001BF187 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				A83033CF26E1256300EA30DC /* UIView.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
 		A8588C2226E7268D00F61A73 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
-				A83033CC26E1240100EA30DC /* MainTableViewCell.swift */,
+				A83033CC26E1240100EA30DC /* MemoListTableViewCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -250,11 +262,7 @@
 			isa = PBXGroup;
 			children = (
 				A854899D26F06EF0001BF187 /* Legacy */,
-				A872EFBE26ECBB2300D2E499 /* Error */,
 				A830336A26DF92C500EA30DC /* AppLifeCycle */,
-				A83033C926E11DAA00EA30DC /* PlaceHolder */,
-				A83033CE26E1254600EA30DC /* Extension */,
-				A854899C26F03851001BF187 /* Protocol */,
 				A830336926DF92B700EA30DC /* Model */,
 				A83033C626E11CE400EA30DC /* Data */,
 				A830336726DF929A00EA30DC /* View */,
@@ -440,7 +448,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A82B6F5A26EB38A500ED0070 /* DateFormatter.swift in Sources */,
-				A83033CD26E1240100EA30DC /* MainTableViewCell.swift in Sources */,
+				A83033CD26E1240100EA30DC /* MemoListTableViewCell.swift in Sources */,
 				C7481C7225BBCF3900B9CA55 /* MemoListViewController.swift in Sources */,
 				A872EFBC26ECB72000D2E499 /* Memo+CoreDataClass.swift in Sources */,
 				A830336D26DF972100EA30DC /* JSONParser.swift in Sources */,

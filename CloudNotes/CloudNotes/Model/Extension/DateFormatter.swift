@@ -5,7 +5,7 @@
 //  Created by Do Yi Lee on 2021/09/10.
 //
 
-import UIKit
+import Foundation
 
 extension DateFormatter {
     func updateLastModifiedDate(_ lastModifiedDateInt: Int?) -> String {

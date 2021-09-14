@@ -8,8 +8,8 @@
 import UIKit
 
 class MemoListViewDataSource: NSObject, UITableViewDataSource {
-    private lazy var memoList: [Memo] = loadMemoListForTest() ?? []
-
+    private var memoList = [Memo]()
+    
     var lastIndexPath: IndexPath {
         return IndexPath(row: memoList.count - 1, section: .zero)
     }
@@ -30,33 +30,8 @@ class MemoListViewDataSource: NSObject, UITableViewDataSource {
         return memoListViewCell
     }
 
-    private func loadMemoListForTest() -> [Memo]? {
-        let assetName = "sampleData"
-
-        guard let asset = NSDataAsset(name: assetName),
-              let parsedAsset = try? JSONSerialization.jsonObject(
-                with: asset.data,
-                options: JSONSerialization.ReadingOptions()
-              ) as? [[String: Any]] else {
-            return nil
-        }
-
-        let memoList: [Memo] = parsedAsset.map { dictionary in
-            let decodedDictionary = Parser.decode(from: dictionary, to: Memo.self)
-
-            guard let memo = try? decodedDictionary.get() else {
-                let corrupted = "Corrupted"
-
-                return Memo(
-                    title: corrupted,
-                    description: corrupted,
-                    lastUpdatedTime: .zero
-                )
-            }
-
-            return memo
-        }
-
-        return memoList
+    func tableView(_ tableView: UITableView, initializeMemoListWith memoList: [Memo]) {
+        self.memoList = memoList
+        tableView.reloadData()
     }
 }

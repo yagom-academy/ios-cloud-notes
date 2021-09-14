@@ -10,6 +10,8 @@ import CoreData
 
 protocol CoreDataUsable {
     func fetchCoreDataItems(_ context: NSManagedObjectContext, _ tableview: UITableView)
+    func saveCoreData(_ context: NSManagedObjectContext)
+    func deleteCoreData(_ context: NSManagedObjectContext, _ deletedObject: NSManagedObject)
 }
 
 extension CoreDataUsable {
@@ -22,5 +24,17 @@ extension CoreDataUsable {
         } catch {
             print(CoreDataError.fetchError.errorDescription)
         }
+    }
+    
+    func saveCoreData(_ context: NSManagedObjectContext) {
+        do {
+            try context.save()
+        } catch {
+            print(CoreDataError.saveError.errorDescription)
+        }
+    }
+    
+    func deleteCoreData(_ context: NSManagedObjectContext, _ deletedObject: NSManagedObject) {
+        context.delete(deletedObject)
     }
 }

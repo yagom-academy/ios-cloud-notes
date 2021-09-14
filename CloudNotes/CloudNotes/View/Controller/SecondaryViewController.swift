@@ -79,6 +79,11 @@ extension SecondaryViewController {
     }
     
     private func setSecondaryVCNavigationBar() {
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(image: UIImage(systemName: "ellipsis.circle"))
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: #selector(didTapSeeMoreButton))
+    }
+    
+    //MARK:-NavigationBar Item relate method
+    @objc func didTapSeeMoreButton() {
+        print("연결완료")
     }
 }

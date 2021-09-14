@@ -7,9 +7,9 @@
 import UIKit
 import CoreData
 
-final class PrimaryViewController: UIViewController, CoreDataUsable {
+final class MemoListViewController: UIViewController, CoreDataUsable {
     private let tableView = UITableView()
-    private let tableViewDataSource = MainVCTableViewDataSource()
+    private let tableViewDataSource = MemoListTableViewDataSource()
     private let context = MemoDataManager.context
     private var memos = MemoDataManager.memos
     
@@ -35,7 +35,7 @@ final class PrimaryViewController: UIViewController, CoreDataUsable {
 }
 
 //MARK: - TablviewDelegate Method
-extension PrimaryViewController: UITableViewDelegate {
+extension MemoListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.giveDataToSecondaryVC(indexPath, tableView)
         deselectCurrentCell(tableView)
@@ -43,7 +43,7 @@ extension PrimaryViewController: UITableViewDelegate {
     }
     
     private func giveDataToSecondaryVC(_ indexPath: IndexPath, _ tableView: UITableView) {
-        let secondVC = splitViewController?.viewController(for: .secondary) as? SecondaryViewController
+        let secondVC = splitViewController?.viewController(for: .secondary) as? MemoDetailViewController
         
         let lineBreaker = "\n"
         let transferedText = "\(self.memos[indexPath.row].title ?? "")" + lineBreaker + "\(self.memos[indexPath.row].body ?? "")"
@@ -62,7 +62,7 @@ extension PrimaryViewController: UITableViewDelegate {
         let actions = [
             UIContextualAction(
                 style: .destructive,
-                title: "Delete",
+                title: SelectOptions.delete.literal,
                 handler: { [weak self] action, view, completionHandler in
                     guard let `self` = self else {
                         return
@@ -75,7 +75,7 @@ extension PrimaryViewController: UITableViewDelegate {
                 }),
             UIContextualAction(
                 style: .normal,
-                title: "share",
+                title: SelectOptions.share.literal,
                 handler: { action, view, completionHandler in
                     print("share action구현하기 ")
                 })
@@ -86,7 +86,7 @@ extension PrimaryViewController: UITableViewDelegate {
 }
 
 //MARK:- NavigationBar related method
-extension PrimaryViewController {
+extension MemoListViewController {
     private func setNavigationBarItem() {
         let navigationBarTitle = "메모"
         self.title = navigationBarTitle
@@ -104,7 +104,7 @@ extension PrimaryViewController {
         memos.append(newMemo)
         self.saveCoreData(context)
         
-        guard let secondVC = self.splitViewController?.viewController(for: .secondary) as? SecondaryViewController else {
+        guard let secondVC = self.splitViewController?.viewController(for: .secondary) as? MemoDetailViewController else {
             return
         }
         

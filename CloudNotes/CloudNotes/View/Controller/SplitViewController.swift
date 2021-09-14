@@ -8,8 +8,8 @@
 import UIKit
 
 final class SplitViewController: UISplitViewController {
-    private let detailVC = SecondaryViewController()
-    private let primaryVC = PrimaryViewController()
+    private let detailVC = MemoDetailViewController()
+    private let primaryVC = MemoListViewController()
      
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,4 +36,3 @@ extension SplitViewController {
         self.setViewController(detailVC, for: .secondary)
     }
 }
-

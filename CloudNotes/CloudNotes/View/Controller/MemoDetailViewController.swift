@@ -8,7 +8,7 @@
 import UIKit
 import CoreData
 
-enum ActionSheetMenu {
+enum SelectOptions {
     case delete
     case share
     case cancle
@@ -25,7 +25,7 @@ enum ActionSheetMenu {
     }
 }
 
-final class SecondaryViewController: UIViewController, CoreDataUsable {
+final class MemoDetailViewController: UIViewController, CoreDataUsable {
     private var textView = UITextView()
     private let context = MemoDataManager.context
     private var holder: TextViewRelatedDataHolder?
@@ -48,7 +48,7 @@ final class SecondaryViewController: UIViewController, CoreDataUsable {
     }
 }
 
-extension SecondaryViewController: UITextViewDelegate {
+extension MemoDetailViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         let someDate = Date()
         let timeInterval = someDate.timeIntervalSince1970
@@ -80,7 +80,7 @@ extension SecondaryViewController: UITextViewDelegate {
     }
 }
 
-extension SecondaryViewController {
+extension MemoDetailViewController {
     func configure(_ holder: TextViewRelatedDataHolder) {
         self.holder = holder
         updateTextViewText()
@@ -103,15 +103,15 @@ extension SecondaryViewController {
     //MARK:-NavigationBar Item relate method
     @objc func didTapSeeMoreButton() {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let deleteActions = UIAlertAction(title: ActionSheetMenu.delete.literal, style: .destructive, handler: { action in
+        let deleteActions = UIAlertAction(title: SelectOptions.delete.literal, style: .destructive, handler: { action in
             // 삭제 관리하는 타입이 있어야하나?
             
         })
-        let shareAction = UIAlertAction(title: ActionSheetMenu.share.literal, style: .default, handler: { action in
+        let shareAction = UIAlertAction(title: SelectOptions.share.literal, style: .default, handler: { action in
             print("공유")
         })
         
-        let cancleAction = UIAlertAction(title: ActionSheetMenu.cancle.literal, style: .cancel, handler: { action in
+        let cancleAction = UIAlertAction(title: SelectOptions.cancle.literal, style: .cancel, handler: { action in
             print("취소")
         })
         

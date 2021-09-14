@@ -8,9 +8,14 @@
 import UIKit
 
 class MemoDetailViewController: UIViewController {
-    private let memoTitle: String
-    private let memoBody: String
-    private let titleSeperator = "\n"
+    private var memoTitle: String
+    private var memoBody: String
+    private var titleSeperator: String {
+        return memoBody == "" ? "" : "\n"
+    }
+    private var hasBodyText: Bool {
+        return memoBody != ""
+    }
     
     private let memoTextView = UITextView()
     
@@ -33,6 +38,8 @@ class MemoDetailViewController: UIViewController {
         updateLayout()
         initTextViewScrollToTop()
         clearBarButtonGroupsForInputAssistantItem()
+        
+        memoTextView.delegate = self
     }
     
     private func initTextViewScrollToTop() {
@@ -40,20 +47,29 @@ class MemoDetailViewController: UIViewController {
         memoTextView.contentOffset = CGPoint(x: 0, y: -contentHeight)
     }
     
-    private func updateTextFontStyle() {
+    private func updateTitleFontStyle() -> NSMutableAttributedString {
         let textViewTitleFontSize = 24
-        let textViewBodyFontSize = 20
-        
         let titleFont = UIFont.boldSystemFont(ofSize: CGFloat(textViewTitleFontSize))
-        let bodyFont = UIFont.systemFont(ofSize: CGFloat(textViewBodyFontSize))
-        
         let titleAttributes: [NSAttributedString.Key: Any] = [.font: titleFont]
+        
+        return NSMutableAttributedString(string: "\(memoTitle)\(titleSeperator)", attributes: titleAttributes)
+    }
+    
+    private func updateBodyFontStyle() -> NSAttributedString {
+        let textViewBodyFontSize = 20
+        let bodyFont = UIFont.systemFont(ofSize: CGFloat(textViewBodyFontSize))
         let bodyAttributes: [NSAttributedString.Key: Any] = [.font: bodyFont]
         
-        let titleAttributedText = NSMutableAttributedString(string: "\(memoTitle)\(titleSeperator)", attributes: titleAttributes)
-        let bodyAttributedText = NSAttributedString(string: memoBody, attributes: bodyAttributes)
+        return NSAttributedString(string: memoBody, attributes: bodyAttributes)
+    }
+    
+    private func updateTextFontStyle() {
+        let titleAttributedText = updateTitleFontStyle()
         
-        titleAttributedText.append(bodyAttributedText)
+        if hasBodyText {
+            let bodyAttributedText = updateBodyFontStyle()
+            titleAttributedText.append(bodyAttributedText)
+        }
         
         memoTextView.attributedText = titleAttributedText
     }
@@ -90,5 +106,26 @@ class MemoDetailViewController: UIViewController {
         let item = memoTextView.inputAssistantItem
         item.leadingBarButtonGroups = []
         item.trailingBarButtonGroups = []
+    }
+}
+
+extension MemoDetailViewController: UITextViewDelegate {
+    func textViewDidChange(_ textView: UITextView) {
+        if let text = textView.text {
+            let splittedText = text.split(separator: "\n", maxSplits: 1)
+            memoTitle = String(splittedText.first ?? "")
+            if splittedText.count > 1 {
+                memoBody = String(splittedText.last ?? "")
+            } else {
+                memoBody = text.contains(Character("\n")) ? "\n" : ""
+            }
+            
+            if let textRange = textView.selectedTextRange {
+                memoTextView.isScrollEnabled = false
+                updateTextFontStyle()
+                textView.selectedTextRange = textView.textRange(from: textRange.start, to: textRange.start)
+                memoTextView.isScrollEnabled = true
+            }
+        }
     }
 }

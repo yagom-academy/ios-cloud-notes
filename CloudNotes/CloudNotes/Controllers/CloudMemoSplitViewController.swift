@@ -35,7 +35,7 @@ class CloudMemoSplitViewController: UISplitViewController {
     
     private func generateNewMemo() -> Memo {
         let currentTime = Date().timeIntervalSince1970
-        return Memo(title: "새로운 메모", body: "추가 텍스트 없음", lastModified: currentTime)
+        return Memo(title: "", body: "", lastModified: currentTime)
     }
     
     private func getFirstMemo() -> Memo {

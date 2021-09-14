@@ -49,39 +49,37 @@ final class MemoDetailViewController: UIViewController, CoreDataUsable {
 }
 
 extension MemoDetailViewController: UITextViewDelegate {
+    
     func textViewDidChange(_ textView: UITextView) {
         let today = Date().makeCurrentDateInt64Data()
         
-        let lineBreaker = "\n"
-        let bodyStartIndex = 1
-        
-        let currentMemo = textView.text.components(separatedBy: lineBreaker)
-        let currentMemoTitle = currentMemo.first
-        let currentMemoBodyArray = currentMemo[bodyStartIndex...]
-        var currentMemoBody = currentMemoBodyArray.reduce("") { $0 + lineBreaker + $1 }
-        let currentMemoData = MemoDataManager.memos[holder?.indexPath?.row ?? .zero]
-        
-        if !currentMemoBody.isEmpty {
-            currentMemoBody.removeFirst()
+        guard let currentIndexPath = holder?.indexPath,
+              let tableView = holder?.tableView else {
+            return
         }
         
+        let currentMemoData = MemoDataManager.memos[currentIndexPath.row]
+        let textViewTitleAndBody = textView.text.seperateTitleAndBody()
+        self.saveCurrentChange(currentMemoData, textViewTitleAndBody, today)
+        self.fetchCoreDataItems(context, tableView)
+    }
+    
+    private func saveCurrentChange(_ currentMemoData: Memo, _ textViewTitleAndBody: (title: String?, body: String), _ today: Int64) {
         do {
-            currentMemoData.title = currentMemoTitle
-            currentMemoData.body = currentMemoBody
+            currentMemoData.title = textViewTitleAndBody.title
+            currentMemoData.body = textViewTitleAndBody.body
             currentMemoData.lastModifiedDate = today
             try self.context.save()
         } catch {
             print(CoreDataError.saveError.errorDescription)
         }
-        
-        self.fetchCoreDataItems(context, holder?.tableView ?? UITableView())
     }
 }
 
 extension MemoDetailViewController {
     func configure(_ holder: TextViewRelatedDataHolder) {
         self.holder = holder
-        updateTextViewText()
+        self.updateTextViewText()
     }
     
     private func updateTextViewText() {
@@ -102,9 +100,8 @@ extension MemoDetailViewController {
     @objc func didTapSeeMoreButton() {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let deleteActions = UIAlertAction(title: SelectOptions.delete.literal, style: .destructive, handler: { action in
-            // 삭제 관리하는 타입이 있어야하나?
-            
         })
+        
         let shareAction = UIAlertAction(title: SelectOptions.share.literal, style: .default, handler: { action in
             print("공유")
         })

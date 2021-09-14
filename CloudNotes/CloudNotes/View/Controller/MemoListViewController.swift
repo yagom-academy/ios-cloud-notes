@@ -114,12 +114,3 @@ extension MemoListViewController {
         self.splitViewController?.show(.secondary)
     }
 }
-
-//struct TodayDate {
-//    func create() -> Int64 {
-//        let date = Date()
-//        let timeInterval = date.timeIntervalSince1970
-//        let todayDateInt64Type = Int64(timeInterval)
-//        return todayDateInt64Type
-//    }
-//}

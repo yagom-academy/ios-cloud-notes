@@ -13,41 +13,6 @@ class NoteListViewController: UITableViewController {
     var activityViewPopover: UIPopoverPresentationController?
     var actionSheetPopover: UIPopoverPresentationController?
     
-    internal func showActivityView(of indexPath: IndexPath) {
-        let shareText: String = notes[indexPath.row].title
-        var shareObject = [Any]()
-        shareObject.append(shareText)
-        let activityView = UIActivityViewController(activityItems: shareObject, applicationActivities: nil)
-        
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            if let splitView = splitViewController?.view {
-                let newRect = CGRect(x: splitView.bounds.midX, y: splitView.bounds.midY, width: 0, height: 0)
-                activityView.popoverPresentationController?.sourceView = splitView
-                activityView.popoverPresentationController?.sourceRect = newRect
-                activityView.popoverPresentationController?.permittedArrowDirections = []
-            }
-        }
-
-        activityViewPopover = activityView.popoverPresentationController
-        self.present(activityView, animated: true, completion: nil)
-    }
-    
-    override func viewWillTransition(to size: CGSize,
-                                     with coordinator: UIViewControllerTransitionCoordinator)
-    {
-        super.viewWillTransition(to: size, with: coordinator)
-
-        guard let splitView = splitViewController?.view else { return }
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            let newRect = CGRect(x: splitView.bounds.midY,
-                                 y: splitView.bounds.midX,
-                                 width: .zero,
-                                 height: .zero)
-            activityViewPopover?.sourceRect = newRect
-            actionSheetPopover?.sourceRect = newRect
-        }
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -55,6 +20,29 @@ class NoteListViewController: UITableViewController {
         initTableView()
         NotificationCenter.default
             .addObserver(self, selector: #selector(updateTableView), name: .noteNotification, object: nil)
+    }
+    
+    override func viewWillTransition(to size: CGSize,
+                                     with coordinator: UIViewControllerTransitionCoordinator)
+    {
+        super.viewWillTransition(to: size, with: coordinator)
+
+        configurePadSetting(for: actionSheetPopover)
+        configurePadSetting(for: activityViewPopover)
+    }
+    
+    private func configurePadSetting(for popover: UIPopoverPresentationController?) {
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            if let splitView = splitViewController?.view {
+                let newRect = CGRect(x: splitView.bounds.midX,
+                                     y: splitView.bounds.midY,
+                                     width: .zero,
+                                     height: .zero)
+                popover?.sourceView = splitView
+                popover?.sourceRect = newRect
+                popover?.permittedArrowDirections = []
+            }
+        }
     }
     
     @objc private func updateTableView() {
@@ -170,20 +158,20 @@ extension NoteListViewController: Alertable {
         actionSheet.addAction(deleteAction)
         actionSheet.addAction(cancelAction)
         
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            if let splitView = splitViewController?.view {
-                let newRect = CGRect(x: splitView.bounds.midX,
-                                     y: splitView.bounds.midY,
-                                     width: .zero,
-                                     height: .zero)
-                actionSheet.popoverPresentationController?.sourceView = splitView
-                actionSheet.popoverPresentationController?.sourceRect = newRect
-                actionSheet.popoverPresentationController?.permittedArrowDirections = []
-            }
-        }
-        
+        configurePadSetting(for: actionSheet.popoverPresentationController)
         actionSheetPopover = actionSheet.popoverPresentationController
+        
         self.present(actionSheet, animated: true, completion: nil)
+    }
+    
+    func showActivityView(of indexPath: IndexPath) {
+        let shareText: String = notes[indexPath.row].title
+        let activityView = UIActivityViewController(activityItems: [shareText], applicationActivities: nil)
+        
+        configurePadSetting(for: activityView.popoverPresentationController)
+        activityViewPopover = activityView.popoverPresentationController
+        
+        self.present(activityView, animated: true, completion: nil)
     }
     
     func showDeleteAlert(of indexPath: IndexPath) {

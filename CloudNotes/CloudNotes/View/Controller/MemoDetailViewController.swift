@@ -99,7 +99,14 @@ extension MemoDetailViewController {
     //MARK:-NavigationBar Item relate method
     @objc func didTapSeeMoreButton() {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let deleteActions = UIAlertAction(title: SelectOptions.delete.literal, style: .destructive, handler: { action in
+        let deleteActions = UIAlertAction(title: SelectOptions.delete.literal, style: .destructive, handler: { [weak self] action in
+            guard let `self` = self else {
+                return
+            }
+            let targetObject = MemoDataManager.memos[self.holder?.indexPath?.row ?? .zero]
+            self.deleteSaveFetchData(self.context, targetObject, self.holder?.tableView ?? UITableView())
+            self.textView.text = ""
+            self.splitViewController?.show(.primary)
         })
         
         let shareAction = UIAlertAction(title: SelectOptions.share.literal, style: .default, handler: { action in
@@ -107,7 +114,6 @@ extension MemoDetailViewController {
         })
         
         let cancleAction = UIAlertAction(title: SelectOptions.cancle.literal, style: .cancel, handler: { action in
-            print("취소")
         })
         
         alert.addAction(shareAction)

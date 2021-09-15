@@ -44,8 +44,7 @@ extension MemoListViewController: UITableViewDelegate {
     private func giveDataToSecondaryVC(_ indexPath: IndexPath, _ tableView: UITableView) {
         let secondVC = splitViewController?.viewController(for: .secondary) as? MemoDetailViewController
         
-        let lineBreaker = "\n"
-        let transferedText = "\(self.memos[indexPath.row].title ?? "")" + lineBreaker + "\(self.memos[indexPath.row].body ?? "")"
+        let transferedText = "\(self.memos[indexPath.row].title ?? "")" + "\(self.memos[indexPath.row].body ?? "")"
         let tableViewIndexPathHolder = TextViewRelatedDataHolder(indexPath: indexPath, tableView: tableView, textViewText: transferedText)
         secondVC?.configure(tableViewIndexPathHolder)
     }
@@ -89,11 +88,11 @@ extension MemoListViewController {
     private func setNavigationBarItem() {
         let navigationBarTitle = "메모"
         self.title = navigationBarTitle
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(didTabButton))
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(didTabAddButton))
     }
     
     //MARK: Add new memo in coredata button
-    @objc func didTabButton() {
+    @objc func didTabAddButton() {
         let todayDate = Date().makeCurrentDateInt64Data()
         let newMemo = Memo(context: self.context)
         newMemo.lastModifiedDate = todayDate

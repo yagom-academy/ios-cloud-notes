@@ -37,4 +37,10 @@ extension CoreDataUsable {
     func deleteCoreData(_ context: NSManagedObjectContext, _ deletedObject: NSManagedObject) {
         context.delete(deletedObject)
     }
+    
+    func deleteSaveFetchData(_ context: NSManagedObjectContext, _ deletedObject: Memo, _ tableView: UITableView) {
+        deleteCoreData(context, deletedObject)
+        saveCoreData(context)
+        fetchCoreDataItems(context, tableView)
+    }
 }

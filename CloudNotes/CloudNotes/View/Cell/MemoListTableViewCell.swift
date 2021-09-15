@@ -37,16 +37,18 @@ extension MemoListTableViewCell {
         self.titleLabel = UILabel()
         self.contentView.addSubview(titleLabel)
         self.titleLabel
-            .setPosition(top: nil,
+            .setPosition(top: contentView.topAnchor,
                          bottom: nil,
                          leading: safeAreaLayoutGuide.leadingAnchor,
                          leadingConstant: 10,
                          trailing: contentView.trailingAnchor)
+        titleLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
     }
     
     private func makeHorizontalStackVeiw() {
         self.dateAndBodyStackView = UIStackView(arrangedSubviews: [self.dateLabel, self.bodyLabel])
         self.dateLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        self.dateLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
         
         self.contentView.addSubview(dateAndBodyStackView)
         self.dateAndBodyStackView.setPosition(top: titleLabel.bottomAnchor,

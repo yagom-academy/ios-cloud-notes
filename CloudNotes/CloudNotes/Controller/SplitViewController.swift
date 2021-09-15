@@ -53,18 +53,25 @@ extension SplitViewController: UISplitViewControllerDelegate {
 
 // MARK: Pad Setting
 extension SplitViewController {
+    enum ViewStatus {
+        case load
+        case transition
+    }
+    
     override func viewWillTransition(to size: CGSize,
                                      with coordinator: UIViewControllerTransitionCoordinator)
     {
         super.viewWillTransition(to: size, with: coordinator)
 
-        configurePadSetting(for: actionSheetPopover)
-        configurePadSetting(for: activityViewPopover)
+        configurePadSetting(for: actionSheetPopover, status: .transition)
+        configurePadSetting(for: activityViewPopover, status: .transition)
     }
     
-    private func configurePadSetting(for popover: UIPopoverPresentationController?) {
+    private func configurePadSetting(for popover: UIPopoverPresentationController?, status: ViewStatus) {
         if UIDevice.current.userInterfaceIdiom == .pad {
-            let newRect = CGRect(x: view.bounds.midX, y: view.bounds.midY, width: .zero, height: .zero)
+            let rectX = status == .load ? view.bounds.midX : view.bounds.midY
+            let rectY = status == .load ? view.bounds.midY : view.bounds.midX
+            let newRect = CGRect(x: rectX, y: rectY, width: .zero, height: .zero)
             popover?.sourceView = view
             popover?.sourceRect = newRect
             popover?.permittedArrowDirections = []
@@ -93,9 +100,9 @@ extension SplitViewController: Alertable {
         actionSheet.addAction(deleteAction)
         actionSheet.addAction(cancelAction)
         
-        configurePadSetting(for: actionSheet.popoverPresentationController)
+        configurePadSetting(for: actionSheet.popoverPresentationController, status: .load)
         actionSheetPopover = actionSheet.popoverPresentationController
-        
+
         self.present(actionSheet, animated: true, completion: nil)
     }
     
@@ -103,7 +110,7 @@ extension SplitViewController: Alertable {
         let shareText: String = noteTitle
         let activityView = UIActivityViewController(activityItems: [shareText], applicationActivities: nil)
         
-        configurePadSetting(for: activityView.popoverPresentationController)
+        configurePadSetting(for: activityView.popoverPresentationController, status: .load)
         activityViewPopover = activityView.popoverPresentationController
         
         self.present(activityView, animated: true, completion: nil)

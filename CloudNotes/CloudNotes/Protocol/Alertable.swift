@@ -8,7 +8,7 @@
 import Foundation
 
 protocol Alertable: AnyObject {
-    func showActionSheet(of indexPath: IndexPath)
-    func showActivityView(of indexPath: IndexPath)
-    func showDeleteAlert(of indexPath: IndexPath)
+    func showActionSheet(of indexPath: IndexPath, noteTitle: String, deleteHandler: @escaping () -> Void)
+    func showActivityView(of indexPath: IndexPath, noteTitle: String)
+    func showDeleteAlert(of indexPath: IndexPath, deleteHandler: @escaping () -> Void)
 }

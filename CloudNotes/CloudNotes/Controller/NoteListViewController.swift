@@ -10,12 +10,12 @@ import UIKit
 class NoteListViewController: UITableViewController {
     private var notes: [Note] = []
     var noteManager = NoteManager()
-    var activityViewPopover: UIPopoverPresentationController?
-    var actionSheetPopover: UIPopoverPresentationController?
+    weak var alertDelegate: Alertable?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        alertDelegate = splitViewController as? Alertable
         notes = noteManager.fetchNotes()
         initTableView()
         NotificationCenter.default
@@ -64,34 +64,8 @@ class NoteListViewController: UITableViewController {
         
         detailRootViewController.initContent(of: note, at: indexPath)
         detailRootViewController.noteDelegate = noteManager
-        detailRootViewController.alertDelegate = self
+        detailRootViewController.alertDelegate = alertDelegate
         showDetailViewController(detailViewController, sender: self)
-    }
-}
-
-// MARK: Pad Setting
-extension NoteListViewController {
-    override func viewWillTransition(to size: CGSize,
-                                     with coordinator: UIViewControllerTransitionCoordinator)
-    {
-        super.viewWillTransition(to: size, with: coordinator)
-
-        configurePadSetting(for: actionSheetPopover)
-        configurePadSetting(for: activityViewPopover)
-    }
-    
-    private func configurePadSetting(for popover: UIPopoverPresentationController?) {
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            if let splitView = splitViewController?.view {
-                let newRect = CGRect(x: splitView.bounds.midX,
-                                     y: splitView.bounds.midY,
-                                     width: .zero,
-                                     height: .zero)
-                popover?.sourceView = splitView
-                popover?.sourceRect = newRect
-                popover?.permittedArrowDirections = []
-            }
-        }
     }
 }
 
@@ -119,12 +93,14 @@ extension NoteListViewController {
                             trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath)
     -> UISwipeActionsConfiguration? {
         let deleteAction = UIContextualAction(style: .destructive, title: Swipe.delete) { (_, _, _) in
-            self.showDeleteAlert(of: indexPath)
+            self.alertDelegate?.showDeleteAlert(of: indexPath) {
+                self.noteManager.deleteNote(at: indexPath)
+            }
             self.tableView.reloadRows(at: [indexPath], with: .none)
         }
         
         let shareAction =  UIContextualAction(style: .normal, title: Swipe.share) { (_, _, _) in
-            self.showActivityView(of: indexPath)
+            self.alertDelegate?.showActivityView(of: indexPath, noteTitle: self.notes[indexPath.row].title)
             self.tableView.reloadRows(at: [indexPath], with: .none)
         }
         
@@ -132,60 +108,5 @@ extension NoteListViewController {
         configuration.performsFirstActionWithFullSwipe = false
         
         return configuration
-    }
-}
-
-// MARK: Alertable
-extension NoteListViewController: Alertable {
-    func showActionSheet(of indexPath: IndexPath) {
-        let actionSheet = UIAlertController(title: ActionSheet.title,
-                                            message: nil,
-                                            preferredStyle: .actionSheet)
-        
-        let shareAction = UIAlertAction(title: ActionSheet.shareAction, style: .default) { _ in
-            self.showActivityView(of: indexPath)
-        }
-        
-        let deleteAction = UIAlertAction(title: ActionSheet.deleteAction, style: .destructive) { _ in
-            self.showDeleteAlert(of: indexPath)
-        }
-        
-        let cancelAction = UIAlertAction(title: ActionSheet.cancelAction, style: .cancel)
-        
-        actionSheet.addAction(shareAction)
-        actionSheet.addAction(deleteAction)
-        actionSheet.addAction(cancelAction)
-        
-        configurePadSetting(for: actionSheet.popoverPresentationController)
-        actionSheetPopover = actionSheet.popoverPresentationController
-        
-        self.present(actionSheet, animated: true, completion: nil)
-    }
-    
-    func showActivityView(of indexPath: IndexPath) {
-        let shareText: String = notes[indexPath.row].title
-        let activityView = UIActivityViewController(activityItems: [shareText], applicationActivities: nil)
-        
-        configurePadSetting(for: activityView.popoverPresentationController)
-        activityViewPopover = activityView.popoverPresentationController
-        
-        self.present(activityView, animated: true, completion: nil)
-    }
-    
-    func showDeleteAlert(of indexPath: IndexPath) {
-        let alert = UIAlertController(title: Alert.title,
-                                      message: Alert.message,
-                                      preferredStyle: .alert)
-  
-        let cancelAction = UIAlertAction(title: Alert.cancelAction, style: .cancel)
-        
-        let deleteAction = UIAlertAction(title: Alert.deleteAction, style: .destructive) { _ in
-            self.noteManager.deleteNote(at: indexPath)
-        }
-
-        alert.addAction(deleteAction)
-        alert.addAction(cancelAction)
-        
-        self.present(alert, animated: true, completion: nil)
     }
 }

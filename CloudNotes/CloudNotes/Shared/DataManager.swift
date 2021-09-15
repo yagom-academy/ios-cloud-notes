@@ -28,6 +28,12 @@ class DataManager {
 
     var memoList = [MemoEntity]()
 
+    // MARK: - Date Formatter
+    let dateFormatter: DateFormatter = {
+       let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        return formatter
+    }()
 }
 
 // MARK: - CRUD
@@ -35,7 +41,7 @@ extension DataManager {
     func addNewMemo(_ memo: String) {
         let newMemo = MemoEntity(context: mainContext)
         newMemo.content = memo
-        newMemo.insertData = Date()
+        newMemo.insertDate = Date()
         memoList.insert(newMemo, at: 0)
 
         saveContext()

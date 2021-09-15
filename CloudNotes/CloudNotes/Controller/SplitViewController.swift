@@ -141,7 +141,7 @@ extension SplitViewController: MemoDetailViewControllerDelegate {
         currentMemo?.body = contetnsText.body
     }
     
-    func didTapSeeMoreButton(at indexPath: IndexPath) {
+    func didTapSeeMoreButton(sender: UIBarButtonItem, at indexPath: IndexPath) {
         let cancelAction = UIAlertAction.generateUIAlertAction(kind: .cancel, alertStyle: .cancel, completionHandler: nil)
         let shareAction = UIAlertAction.generateUIAlertAction(kind: .share, alertStyle: .default) { [weak self] _ in
             self?.showShareScreen(shareItem: self?.coreDataMemo?.getCloudMemo(at: indexPath))
@@ -152,6 +152,7 @@ extension SplitViewController: MemoDetailViewControllerDelegate {
         
         let alertController = UIAlertController.generateAlertController(title: nil, message: nil, style: .actionSheet, alertActions: [cancelAction, shareAction, deleteAction])
         
+        alertController.popoverPresentationController?.barButtonItem = sender
         present(alertController, animated: true, completion: nil)
     }
 }

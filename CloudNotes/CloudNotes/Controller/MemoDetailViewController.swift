@@ -26,14 +26,22 @@ final class MemoDetailViewController: UIViewController, TextSeparatable, TextVie
     // MARK: View LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.isHidden = true
+        memoContentsTextView.delegate = self
         setupNavigationItem()
         configureView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         setupTextViewFullScreen(memoContentsTextView, superView: view)
         configureMemoTextView()
         configureTextViewCursorPosition()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        view.endEditing(true)
     }
 }
 
@@ -43,7 +51,6 @@ extension MemoDetailViewController {
         enum TextView {
             static let space = "\n"
             static let doubleSpace = space + space
-            static let zeroContentRange = NSRange(location: 0, length: 0)
         }
     }
 }
@@ -53,18 +60,20 @@ extension MemoDetailViewController {
     private func setupNavigationItem() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action,
                                                             target: self,
-                                                            action: #selector(didTapSeeMoreButton))
+                                                            action: #selector(didTapSeeMoreButton(sender:)))
     }
     
-    @objc func didTapSeeMoreButton() {
-        delegate?.didTapSeeMoreButton(at: indexPath ?? IndexPath())
+    @objc func didTapSeeMoreButton(sender: UIBarButtonItem) {
+        delegate?.didTapSeeMoreButton(sender: sender, at: indexPath ?? IndexPath())
     }
 }
 
 // MARK: - Setup TextView And View
 extension MemoDetailViewController {
     private func configureMemoTextView() {
-        memoContentsTextView.delegate = self
+        if UITraitCollection.current.horizontalSizeClass == .compact {
+            memoContentsTextView.becomeFirstResponder()
+        }
         congifureTextViewBackGroundColor()
     }
     

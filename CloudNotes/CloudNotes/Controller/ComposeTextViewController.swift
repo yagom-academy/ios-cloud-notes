@@ -18,6 +18,7 @@ final class ComposeTextViewController: UIViewController, TextViewContraintable {
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.scrollsToTop = true
         textView.autocorrectionType = .no
+        textView.becomeFirstResponder()
         
         return textView
     }()

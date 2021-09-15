@@ -92,10 +92,20 @@ extension NoteListViewController {
     override func tableView(_ tableView: UITableView,
                             trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath)
     -> UISwipeActionsConfiguration? {
-        let deleteAction = UIContextualAction(style: .destructive, title: "삭제") { (_, _, _) in
-            self.deleteNote(at: indexPath)
+        let deleteAction = UIContextualAction(style: .destructive, title: Swipe.delete) { (_, _, _) in
+            self.showDeleteAlert(of: indexPath)
+            self.tableView.reloadRows(at: [indexPath], with: .none)
         }
-        return UISwipeActionsConfiguration(actions: [deleteAction])
+        
+        let shareAction =  UIContextualAction(style: .normal, title: Swipe.share) { (_, _, _) in
+            self.showActivityView(of: indexPath)
+            self.tableView.reloadRows(at: [indexPath], with: .none)
+        }
+        
+        let configuration = UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
+        configuration.performsFirstActionWithFullSwipe = false
+        
+        return configuration
     }
 }
 

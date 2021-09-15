@@ -10,6 +10,10 @@ import UIKit
 class MemoDetailViewController: UIViewController {
 
     private let textView = UITextView()
+    private var textViewBottomAnchor: NSLayoutConstraint?
+    private var textViewHeightAnchor: NSLayoutConstraint?
+    private lazy var sendingDataToListViewController = DispatchWorkItem(block: sendDataToListViewController)
+
     var messenger: MessengerBetweenController?
 
     override func viewDidLoad() {
@@ -20,18 +24,19 @@ class MemoDetailViewController: UIViewController {
 
         configureDeleteButton()
         configureTextView()
+        configureKeyboardSetting()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        textView.isScrollEnabled = false
+        resetOffsetOfTextViewWithLock()
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        textView.isScrollEnabled = true
+        unlockTextView()
     }
 
     func configure(with memo: Memo?) {
@@ -71,6 +76,16 @@ class MemoDetailViewController: UIViewController {
 
 // MARK: - Draw View
 extension MemoDetailViewController {
+    private func resetOffsetOfTextViewWithLock() {
+        let beginnningPosition = textView.beginningOfDocument
+        textView.isScrollEnabled = false
+        textView.selectedTextRange = textView.textRange(from: beginnningPosition, to: beginnningPosition)
+    }
+
+    private func unlockTextView() {
+        textView.isScrollEnabled = true
+    }
+
     private func configureTextView() {
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.font = UIFont.preferredFont(forTextStyle: .body)
@@ -81,9 +96,12 @@ extension MemoDetailViewController {
         NSLayoutConstraint.activate([
             textView.topAnchor.constraint(equalTo: safeArea.topAnchor),
             textView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
-            textView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
             textView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor)
         ])
+
+        textViewBottomAnchor = textView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
+        textViewHeightAnchor?.isActive = false
+        textViewBottomAnchor?.isActive = true
     }
 
     private func configureDeleteButton() {
@@ -98,20 +116,76 @@ extension MemoDetailViewController {
     }
 }
 
+// MARK: - Keyboard setting
+extension MemoDetailViewController {
+    private func configureKeyboardSetting() {
+        let keyboardToolbar = UIToolbar()
+        let doneBarButton = UIBarButtonItem(
+            barButtonSystemItem: .done,
+            target: self,
+            action: #selector(closeKeyboard)
+        )
+        keyboardToolbar.items = [doneBarButton]
+        keyboardToolbar.sizeToFit()
+        textView.inputAccessoryView = keyboardToolbar
+
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(openKeyboard),
+            name: UIResponder.keyboardDidShowNotification,
+            object: nil
+        )
+
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(closeKeyboard),
+            name: UIResponder.keyboardDidHideNotification,
+            object: nil
+        )
+    }
+
+    @objc private func closeKeyboard() {
+        textViewHeightAnchor?.isActive = false
+        textViewBottomAnchor?.isActive = true
+        textView.endEditing(true)
+    }
+
+    @objc private func openKeyboard(_ notification: NSNotification) {
+        let keyboardKey = UIWindow.keyboardFrameEndUserInfoKey
+        guard let keyboard = notification.userInfo?[keyboardKey] as? NSValue else {
+            return
+        }
+
+        let textViewTargetHeight = view.safeAreaLayoutGuide.layoutFrame.height - keyboard.cgRectValue.height
+
+        textViewBottomAnchor?.isActive = false
+        textViewHeightAnchor = textView.heightAnchor.constraint(equalToConstant: textViewTargetHeight)
+        textViewHeightAnchor?.isActive = true
+    }
+}
+
+// MARK: - TextView Delegate
 extension MemoDetailViewController: UITextViewDelegate {
-    func textViewDidEndEditing(_ textView: UITextView) {
+    func textViewDidChange(_ textView: UITextView) {
+        let delay = 0.3
+
+        sendingDataToListViewController.cancel()
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay, execute: sendingDataToListViewController)
+    }
+
+    private func sendDataToListViewController() {
         let separator = "\n\n"
         var outputStrings = textView.text.components(separatedBy: separator)
         guard let titleText = outputStrings.first,
               titleText.isEmpty == false else {
-            messenger?.showListViewController(with: nil)
+            messenger?.updateListViewController(with: nil)
             return
         }
 
         let title = outputStrings.removeFirst().description
         let description = outputStrings.joined(separator: separator)
-        let now = Date().timeIntervalSinceReferenceDate
+        let now = Date().timeIntervalSince1970
         let memo = Memo(title: title, description: description, lastUpdatedTime: now)
-        messenger?.showListViewController(with: memo)
+        messenger?.updateListViewController(with: memo)
     }
 }

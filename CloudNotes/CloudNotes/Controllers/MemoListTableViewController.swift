@@ -6,47 +6,57 @@
 
 import UIKit
 
-// MARK: - Global Variable
-
 class MemoListTableViewController: UITableViewController {
 
     // MARK: - Property
     private let reusableIdentifier = "cell"
     private var parsedDatas = [SampleData]()
-
     weak var delegate: MemoListTableViewControllerDelegate?
-
     var token: NSObjectProtocol?
 
+    // MARK: - Deinitializer
     deinit {
         if let token = token {
             NotificationCenter.default.removeObserver(token)
         }
     }
+
     // MARK: - Life Cycle
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
         DataManager.shared.fetchMemo()
         tableView.reloadData()
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        token = NotificationCenter.default.addObserver(forName: ContentViewController.newMemoDidInput, object: nil, queue: .main, using: { [weak self] _ in
-            self?.tableView.reloadData()
-        })
         decoding()
         configureTableView()
         configureNavigationBar()
+
+        addObserverToMemoInsert()
+        addObserverToMemoDelete()
     }
 
 }
 extension MemoListTableViewController {
-    // MARK: - Method
+    // MARK: - Selector
     @objc private func pushContentPage() {
         let contentViewController = ContentViewController()
         navigationController?.pushViewController(contentViewController, animated: true)
+    }
+
+    // MARK: - Method
+    private func addObserverToMemoInsert() {
+        token = NotificationCenter.default.addObserver(forName: ContentViewController.newMemoDidInput, object: nil, queue: .main, using: { [weak self] _ in
+            self?.tableView.reloadData()
+        })
+    }
+
+    private func addObserverToMemoDelete() {
+        token = NotificationCenter.default.addObserver(forName: ContentViewController.memoDidDelete, object: nil, queue: .main, using: { [weak self] _ in
+            self?.tableView.reloadData()
+        })
     }
 
     private func configureTableView() {
@@ -75,7 +85,7 @@ extension MemoListTableViewController {
 // MARK: - TableView Delegate Method
 extension MemoListTableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if DataManager.shared.memoList.count >= 1 {
+        if DataManager.shared.memoList.count > 0 {
             return DataManager.shared.memoList.count
         }
         return parsedDatas.count
@@ -84,8 +94,9 @@ extension MemoListTableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: reusableIdentifier, for: indexPath) as? MemoListTableViewCell else { return UITableViewCell() }
 
-        if DataManager.shared.memoList.count >= 1 {
+        if DataManager.shared.memoList.count > 0 {
             let memo = DataManager.shared.memoList[indexPath.row]
+
             guard let memoTitle = memo.title,
                   let memoContent = memo.content,
                   let memoInsertDate = memo.insertDate else { return UITableViewCell() }
@@ -97,9 +108,9 @@ extension MemoListTableViewController {
             let memoTitle = memo.title
             let memoContent = memo.body
             let memoInsertDate = DataManager.shared.dateFormatter.string(from: Date(timeIntervalSince1970: Double(parsedDatas[indexPath.row].lastModified)))
+
             cell.configure(title: memoTitle, content: memoContent, date: memoInsertDate)
         }
-
         return cell
     }
 
@@ -108,15 +119,24 @@ extension MemoListTableViewController {
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let content = DataManager.shared.memoList[indexPath.row].content else { return }
-        delegate?.didTapMemo(self, memo: content)
+//        let destination = UINavigationController()
+        // 여기
+        (splitViewController?.viewControllers.last as? UINavigationController)?.popToRootViewController(animated: false)
 
-        let destination = UINavigationController()
         let contentViewController = ContentViewController()
-        contentViewController.memoEntity = DataManager.shared.memoList[indexPath.row]
-        destination.viewControllers = [contentViewController]
 
-        showDetailViewController(destination, sender: self)
+        if DataManager.shared.memoList.count > 0 {
+            guard let content = DataManager.shared.memoList[indexPath.row].content else { return }
+            delegate?.didTapMemo(self, memo: content)
+            contentViewController.memoEntity = DataManager.shared.memoList[indexPath.row]
+        } else {
+            let content = parsedDatas[indexPath.row].body
+            delegate?.didTapMemo(self, memo: content)
+            contentViewController.memo = content
+        }
+        (splitViewController?.viewControllers.last as? UINavigationController)?.pushViewController(contentViewController, animated: true)
+//        destination.viewControllers = [contentViewController]
+//        showDetailViewController(destination, sender: self)
     }
 
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -129,9 +149,14 @@ extension MemoListTableViewController {
 
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            let memo = DataManager.shared.memoList[indexPath.row]
-            DataManager.shared.deleteMemo(memo)
-            DataManager.shared.memoList.remove(at: indexPath.row)
+            if DataManager.shared.memoList.count > 0 {
+                let memo = DataManager.shared.memoList[indexPath.row]
+                DataManager.shared.deleteMemo(memo)
+                DataManager.shared.memoList.remove(at: indexPath.row)
+            } else {
+                let memo = parsedDatas[indexPath.row].body
+                parsedDatas.remove(at: indexPath.row)
+            }
             tableView.deleteRows(at: [indexPath], with: .automatic)
         }
     }

@@ -86,14 +86,10 @@ extension MemoDetailViewController {
             guard let `self` = self else {
                 return
             }
-            let targetObject = MemoDataManager.memos[self.holder?.indexPath?.row ?? .zero]
-            self.deleteSaveFetchData(self.context, targetObject, self.holder?.tableView ?? UITableView())
-            self.textView.text = ""
-            self.splitViewController?.show(.primary)
+            self.presentDeleteAlert(self)
         })
         
         let shareAction = UIAlertAction(title: SelectOptions.share.literal, style: .default, handler: { action in
-            print("공유")
         })
         
         let cancleAction = UIAlertAction(title: SelectOptions.cancle.literal, style: .cancel, handler: { action in
@@ -104,5 +100,25 @@ extension MemoDetailViewController {
         alert.addAction(cancleAction)
         
         present(alert, animated: true, completion: nil)
+    }
+    
+    private func presentDeleteAlert(_ self: MemoDetailViewController) {
+        let deletAlert = UIAlertController(title: "진짜요?",
+                                           message: "정말로 삭제하시겠어요?",
+                                           preferredStyle: .alert)
+        let deleteAlertConfirmAction = UIAlertAction(title: "삭제", style: .destructive) { action in
+            let targetObject = MemoDataManager.memos[self.holder?.indexPath?.row ?? .zero]
+            self.deleteSaveFetchData(self.context,
+                                     targetObject,
+                                     self.holder?.tableView ?? UITableView())
+            self.textView.text = nil
+            self.splitViewController?.show(.primary)
+        }
+        
+        let deleteAlertCancelAction = UIAlertAction(title: "취소", style: .cancel)
+        
+        deletAlert.addAction(deleteAlertCancelAction)
+        deletAlert.addAction(deleteAlertConfirmAction)
+        self.present(deletAlert, animated: true, completion: nil)
     }
 }

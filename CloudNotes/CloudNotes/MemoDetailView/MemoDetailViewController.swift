@@ -12,7 +12,7 @@ class MemoDetailViewController: UIViewController {
     private let textView = UITextView()
     private var textViewBottomAnchor: NSLayoutConstraint?
     private var textViewHeightAnchor: NSLayoutConstraint?
-    private lazy var sendingDataToListViewController = DispatchWorkItem(block: sendDataToListViewController)
+    private var sendingDataToListViewController: DispatchWorkItem?
 
     var messenger: MessengerBetweenController?
 
@@ -167,9 +167,13 @@ extension MemoDetailViewController {
 // MARK: - TextView Delegate
 extension MemoDetailViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
-        let delay = 0.3
+        sendingDataToListViewController?.cancel()
+        sendingDataToListViewController = DispatchWorkItem(block: sendDataToListViewController)
+        guard let sendingDataToListViewController = sendingDataToListViewController else {
+            return
+        }
 
-        sendingDataToListViewController.cancel()
+        let delay = 0.3
         DispatchQueue.main.asyncAfter(deadline: .now() + delay, execute: sendingDataToListViewController)
     }
 

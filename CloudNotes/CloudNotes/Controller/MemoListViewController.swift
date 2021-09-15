@@ -6,12 +6,13 @@
 
 import UIKit
 
-class MemoListViewController: UIViewController{
+class MemoListViewController: UIViewController {
 
     var memoList: [Memo] = []
     
     weak var delegate: MemoListDelegate?
     private var selectedIndexPath: IndexPath?
+    private let coreDataManager = CoreDataManager.shared
     
     let tableView: UITableView = {
         let tableView = UITableView()
@@ -28,6 +29,12 @@ class MemoListViewController: UIViewController{
         return dateFormatter
     }()
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        configureFirstMemoList()
+        
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -35,7 +42,16 @@ class MemoListViewController: UIViewController{
         configureTableView()
         configureAutoLayout()
         configureNavigationItem()
-        makeSample()
+    }
+    
+    private func configureFirstMemoList() {
+        memoList = coreDataManager.fetchMemo()
+        if memoList.isEmpty {
+            makeSample()
+            for memo in memoList {
+                coreDataManager.insertMemo(memo)
+            }
+        }
     }
     
     private func makeSample() {
@@ -102,10 +118,29 @@ extension MemoListViewController: UITableViewDelegate {
         return 70
     }
     
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        return .delete
+    }
+
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            
+            let deletedMemo = memoList[indexPath.row]
+            memoList.remove(at: indexPath.row)
+            
+            guard let id = deletedMemo.identifier else {
+                return
+            }
+            
+            coreDataManager.delete(identifier: id)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+        }
+    }
+
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.delegate?.isFirstCellSelection = true
         self.selectedIndexPath = indexPath
         self.delegate?.showDetail(data: memoList[indexPath.row], index: indexPath)
     }
 }
-

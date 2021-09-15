@@ -6,11 +6,13 @@
 //
 
 import Foundation
+import CoreData
 
 struct Memo: Codable {
     var title: String
     var body: String
     var date: TimeInterval
+    var identifier: NSManagedObjectID?
     
     enum CodingKeys: String, CodingKey {
         case title

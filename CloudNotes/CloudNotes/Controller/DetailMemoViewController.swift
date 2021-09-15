@@ -11,7 +11,7 @@ class DetailMemoViewController: UIViewController {
     
     weak var delegate: DetailMemoDelegate?
     var index = IndexPath()
-
+    
     var memo: Memo? {
         didSet {
             configureText()
@@ -62,8 +62,12 @@ class DetailMemoViewController: UIViewController {
     }
     
     private func configureNavigationItem() {
-        let addButton = UIBarButtonItem(barButtonSystemItem: .compose, target: self, action: nil)
-        self.navigationItem.rightBarButtonItem = addButton
+        let moreFunctionButton = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"),
+                                                              style: .plain,
+                                                              target: nil,
+                                                              action: nil)
+        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: nil)
+        self.navigationItem.rightBarButtonItems = [moreFunctionButton, doneButton]
     }
     
     private func addSubView() {

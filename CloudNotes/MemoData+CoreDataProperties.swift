@@ -2,7 +2,7 @@
 //  MemoData+CoreDataProperties.swift
 //  CloudNotes
 //
-//  Created by Kim Do hyung on 2021/09/14.
+//  Created by Kim Do hyung on 2021/09/15.
 //
 //
 
@@ -18,7 +18,7 @@ extension MemoData {
 
     @NSManaged public var title: String?
     @NSManaged public var body: String?
-    @NSManaged public var date: Date?
+    @NSManaged public var date: Double
 
 }
 

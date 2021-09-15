@@ -119,9 +119,8 @@ extension MemoListTableViewController {
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        let destination = UINavigationController()
-        // 여기
-        (splitViewController?.viewControllers.last as? UINavigationController)?.popToRootViewController(animated: false)
+        let navigationController = splitViewController?.viewControllers.last as? UINavigationController
+        navigationController?.popToRootViewController(animated: false)
 
         let contentViewController = ContentViewController()
 
@@ -134,9 +133,7 @@ extension MemoListTableViewController {
             delegate?.didTapMemo(self, memo: content)
             contentViewController.memo = content
         }
-        (splitViewController?.viewControllers.last as? UINavigationController)?.pushViewController(contentViewController, animated: true)
-//        destination.viewControllers = [contentViewController]
-//        showDetailViewController(destination, sender: self)
+        navigationController?.pushViewController(contentViewController, animated: true)
     }
 
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {

@@ -64,9 +64,11 @@ class NoteManager {
         let noteToDelete = notes[indexPath.row]
         context.delete(noteToDelete)
         saveContext()
+        NotificationCenter.default.post(name: .deleteNotification, object: nil)
     }
 }
 
 extension Notification.Name {
     static let noteNotification = Notification.Name("noteNotification")
+    static let deleteNotification = Notification.Name("deleteNotification")
 }

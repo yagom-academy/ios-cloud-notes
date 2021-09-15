@@ -67,11 +67,6 @@ class NoteListViewController: UITableViewController {
         detailRootViewController.alertDelegate = self
         showDetailViewController(detailViewController, sender: self)
     }
-    
-    func deleteNote(at indexPath: IndexPath) {
-        noteManager.deleteNote(at: indexPath)
-        splitViewController?.setViewController(nil, for: .secondary)
-    }
 }
 
 // MARK: Pad Setting
@@ -185,7 +180,7 @@ extension NoteListViewController: Alertable {
         let cancelAction = UIAlertAction(title: Alert.cancelAction, style: .cancel)
         
         let deleteAction = UIAlertAction(title: Alert.deleteAction, style: .destructive) { _ in
-            self.deleteNote(at: indexPath)
+            self.noteManager.deleteNote(at: indexPath)
         }
 
         alert.addAction(deleteAction)

@@ -14,6 +14,8 @@ class SplitViewController: UISplitViewController {
         delegate = self
         setUpSplitView()
         initChildViewControllers()
+        NotificationCenter.default
+            .addObserver(self, selector: #selector(deleteSecondary), name: .deleteNotification, object: nil)
     }
     
     private func initChildViewControllers() {
@@ -30,6 +32,10 @@ class SplitViewController: UISplitViewController {
         preferredDisplayMode = .oneBesideSecondary
         preferredSplitBehavior = .tile
         presentsWithGesture = false
+    }
+    
+    @objc func deleteSecondary() {
+        setViewController(nil, for: .secondary)
     }
 }
 

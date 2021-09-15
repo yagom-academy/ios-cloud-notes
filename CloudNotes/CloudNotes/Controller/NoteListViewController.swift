@@ -65,6 +65,7 @@ class NoteListViewController: UITableViewController {
         
         detailRootViewController.initContent(of: note, at: indexPath)
         detailRootViewController.delegate = self
+        detailRootViewController.alertDelegate = self
         showDetailViewController(detailViewController, sender: self)
     }
 }
@@ -142,5 +143,49 @@ extension NoteListViewController: NoteUpdater {
         context.delete(noteToDelete)
         saveContext()
         splitViewController?.setViewController(nil, for: .secondary)
+    }
+}
+
+extension NoteListViewController: Alertable {
+    func showActionSheet(of indexPath: IndexPath) {
+        let actionSheet = UIAlertController(title: ActionSheet.title,
+                                            message: nil,
+                                            preferredStyle: .actionSheet)
+        
+        let shareAction = UIAlertAction(title: ActionSheet.shareAction, style: .default) { _ in
+            self.showActivityView(of: indexPath)
+        }
+        
+        let deleteAction = UIAlertAction(title: ActionSheet.deleteAction, style: .destructive) { _ in
+            self.showDeleteAlert(of: indexPath)
+        }
+        
+        let cancelAction = UIAlertAction(title: ActionSheet.cancelAction, style: .cancel)
+        
+        actionSheet.addAction(shareAction)
+        actionSheet.addAction(deleteAction)
+        actionSheet.addAction(cancelAction)
+        
+        self.present(actionSheet, animated: true, completion: nil)
+    }
+    
+    func showActivityView(of indexPath: IndexPath) {
+    }
+    
+    func showDeleteAlert(of indexPath: IndexPath) {
+        let alert = UIAlertController(title: Alert.title,
+                                      message: Alert.message,
+                                      preferredStyle: .alert)
+  
+        let cancelAction = UIAlertAction(title: Alert.cancelAction, style: .cancel)
+        
+        let deleteAction = UIAlertAction(title: Alert.deleteAction, style: .destructive) { _ in
+            self.deleteNote(at: indexPath)
+        }
+
+        alert.addAction(deleteAction)
+        alert.addAction(cancelAction)
+        
+        self.present(alert, animated: true, completion: nil)
     }
 }

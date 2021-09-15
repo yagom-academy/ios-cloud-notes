@@ -26,6 +26,7 @@
 		D46AFB9626F042C400E5D748 /* Note+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46AFB9426F042C400E5D748 /* Note+CoreDataProperties.swift */; };
 		D46AFBA226F0842900E5D748 /* ActionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46AFBA126F0842900E5D748 /* ActionSheet.swift */; };
 		D46AFBAA26F0851D00E5D748 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46AFBA926F0851D00E5D748 /* Alert.swift */; };
+		D46AFBDE26F19D5700E5D748 /* Alertable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46AFBDD26F19D5700E5D748 /* Alertable.swift */; };
 		D46FEA1E26E21C2100B328A7 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = D46FEA1D26E21C2100B328A7 /* .swiftlint.yml */; };
 		D46FEAAA26E6539800B328A7 /* NoteListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46FEAA926E6539800B328A7 /* NoteListViewController.swift */; };
 		D46FEAAF26E653AB00B328A7 /* NoteDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46FEAAE26E653AB00B328A7 /* NoteDetailViewController.swift */; };
@@ -81,6 +82,7 @@
 		D46AFB9426F042C400E5D748 /* Note+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Note+CoreDataProperties.swift"; path = "/Users/joey/Swift/Yagom/08_cloudNotes/ios-cloud-notes/CloudNotes/CloudNotes/Model/Note+CoreDataProperties.swift"; sourceTree = "<absolute>"; };
 		D46AFBA126F0842900E5D748 /* ActionSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheet.swift; sourceTree = "<group>"; };
 		D46AFBA926F0851D00E5D748 /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
+		D46AFBDD26F19D5700E5D748 /* Alertable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alertable.swift; sourceTree = "<group>"; };
 		D46FEA1D26E21C2100B328A7 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		D46FEAA926E6539800B328A7 /* NoteListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteListViewController.swift; sourceTree = "<group>"; };
 		D46FEAAE26E653AB00B328A7 /* NoteDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteDetailViewController.swift; sourceTree = "<group>"; };
@@ -191,6 +193,7 @@
 			children = (
 				D46AF95426E75DD200E5D748 /* CurrentLocaleDateFormatter.swift */,
 				D46AF98B26E86C7700E5D748 /* NoteUpdater.swift */,
+				D46AFBDD26F19D5700E5D748 /* Alertable.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -486,6 +489,7 @@
 				D46AFBAA26F0851D00E5D748 /* Alert.swift in Sources */,
 				C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */,
 				D46AF95526E75DD200E5D748 /* CurrentLocaleDateFormatter.swift in Sources */,
+				D46AFBDE26F19D5700E5D748 /* Alertable.swift in Sources */,
 				D46AF99626E88DBA00E5D748 /* String+Extension.swift in Sources */,
 				C7481C7825BBCF3900B9CA55 /* CloudNotes.xcdatamodeld in Sources */,
 				D46AF97326E790A600E5D748 /* NoteCell.swift in Sources */,

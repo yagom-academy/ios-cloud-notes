@@ -25,7 +25,7 @@ extension UIAlertAction {
         }
     }
     
-    static func generateUIAlertAction(kind: Kind, alertStyle: UIAlertAction.Style, completionHandler: ((UIAlertAction) -> Void)?) -> UIAlertAction {
+    static func generateUIAlertAction(kindOf kind: Kind, alertStyle: UIAlertAction.Style, completionHandler: ((UIAlertAction) -> Void)?) -> UIAlertAction {
         return UIAlertAction(title: String(describing: kind), style: alertStyle) {
             completionHandler?($0)
         }

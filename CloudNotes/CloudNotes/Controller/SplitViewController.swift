@@ -52,13 +52,13 @@ extension SplitViewController {
     }
     
     private func showDeleteAlert(atItem indexPath: IndexPath) {
-        let cancel = UIAlertAction.generateUIAlertAction(kind: .cancel, alertStyle: .cancel, completionHandler: nil)
+        let cancel = UIAlertAction.generateUIAlertAction(kindOf: .cancel, alertStyle: .cancel, completionHandler: nil)
         
-        let deleteAction = UIAlertAction.generateUIAlertAction(kind: .delete, alertStyle: .destructive) { [weak self] _ in
+        let deleteAction = UIAlertAction.generateUIAlertAction(kindOf: .delete, alertStyle: .destructive) { [weak self] _ in
             self?.viewController(for: .primary)?.navigationController?.popViewController(animated: true)
             self?.viewController(for: .secondary)?.view.isHidden = true
             let currentItem = self?.coreDataMemo?.getCloudMemo(at: indexPath)
-            self?.coreDataMemo?.deleteItem(object: currentItem)
+            self?.coreDataMemo?.deleteObject(currentItem)
         }
         
         let alert = UIAlertController.generateAlertController(title: NameSpace.UIAlertMessage.titleMessage, message: NameSpace.UIAlertMessage.bodyMessage, style: .alert, alertActions: [cancel, deleteAction])
@@ -116,7 +116,7 @@ extension SplitViewController: MemoListDelegate {
     
     func didTapDeleteButton(at indexPath: IndexPath) {
         let currentObject = coreDataMemo?.getCloudMemo(at: indexPath)
-        coreDataMemo?.deleteItem(object: currentObject)
+        coreDataMemo?.deleteObject(currentObject)
         self.viewController(for: .secondary)?.view.isHidden = true
     }
     
@@ -144,11 +144,11 @@ extension SplitViewController: MemoDetailViewControllerDelegate {
     }
     
     func didTapSeeMoreButton(sender: UIBarButtonItem, at indexPath: IndexPath) {
-        let cancelAction = UIAlertAction.generateUIAlertAction(kind: .cancel, alertStyle: .cancel, completionHandler: nil)
-        let shareAction = UIAlertAction.generateUIAlertAction(kind: .share, alertStyle: .default) { [weak self] _ in
+        let cancelAction = UIAlertAction.generateUIAlertAction(kindOf: .cancel, alertStyle: .cancel, completionHandler: nil)
+        let shareAction = UIAlertAction.generateUIAlertAction(kindOf: .share, alertStyle: .default) { [weak self] _ in
             self?.showShareScreen(shareItem: self?.coreDataMemo?.getCloudMemo(at: indexPath))
         }
-        let deleteAction = UIAlertAction.generateUIAlertAction(kind: .delete, alertStyle: .destructive) {  [weak self] _ in
+        let deleteAction = UIAlertAction.generateUIAlertAction(kindOf: .delete, alertStyle: .destructive) {  [weak self] _ in
             self?.showDeleteAlert(atItem: indexPath)
         }
         

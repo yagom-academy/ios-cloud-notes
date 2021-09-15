@@ -34,7 +34,7 @@ class CloudNotesTests: XCTestCase {
         let newMemo = testCoreData.createNewMemo(title: "hi", body: "body", lastModifier: Date())
         
         // when
-        testCoreData.deleteItem(object: newMemo)
+        testCoreData.deleteObject(_ object: newMemo)
         let memos = try! testCoreData.context.fetch(CloudMemo.fetchRequest()) as! [CloudMemo]
         
         // then
@@ -46,7 +46,7 @@ class CloudNotesTests: XCTestCase {
         let newMemo = testCoreData.createNewMemo(title: "hi", body: "body", lastModifier: Date())
 
         // when
-        testCoreData.updateItem(newMemo) { memo in
+        testCoreData.updateObject(newMemo) { memo in
             let memo = memo as! CloudMemo
             memo.title = "newMemo"
             memo.body = "바디입니다."

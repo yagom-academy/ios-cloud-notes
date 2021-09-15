@@ -11,8 +11,8 @@ protocol CoreDatable {
     var context: NSManagedObjectContext { get }
     
     func contextSave()
-    func deleteItem(object: NSManagedObject?)
-    func updateItem(_ item: NSManagedObject, handler: (NSManagedObject) -> Void)
+    func deleteObject(_ object: NSManagedObject?)
+    func updateObject(_ item: NSManagedObject, handler: (NSManagedObject) -> Void)
 }
 
 extension CoreDatable {
@@ -29,12 +29,12 @@ extension CoreDatable {
         
     }
     
-    func deleteItem(object: NSManagedObject?) {
+    func deleteObject(_ object: NSManagedObject?) {
         guard let object = object else { return }
         context.delete(object)
     }
     
-    func updateItem(_ item: NSManagedObject, handler: (NSManagedObject) -> Void) {
+    func updateObject(_ item: NSManagedObject, handler: (NSManagedObject) -> Void) {
         handler(item)
         contextSave()
     }

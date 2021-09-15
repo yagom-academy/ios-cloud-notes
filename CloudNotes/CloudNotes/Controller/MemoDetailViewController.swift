@@ -10,7 +10,7 @@ import UIKit
 class MemoDetailViewController: UIViewController {
     private let memoDeatailTextView = UITextView()
     private var currentMemo: Memo?
-    private let linebreak = "\n\n"
+    private let linebreak = "\n"
     var delegate: MemoSendable?
 
     override func viewDidLoad() {
@@ -44,7 +44,7 @@ extension MemoDetailViewController: UITextViewDelegate {
     func textViewDidChangeSelection(_ textView: UITextView) {
         let lastIndex = Int(textView.text.components(separatedBy: linebreak).count - 1)
         let title = textView.text.components(separatedBy: linebreak)[.zero]
-        let body = textView.text.components(separatedBy: linebreak)[1...lastIndex].joined(separator: "")
+        let body = textView.text.components(separatedBy: linebreak)[1...lastIndex].joined(separator: linebreak)
         let now = Date()
         delegate?.sendToListVC(memo: Memo.init(title: title, body: body, lastModified: now))
     }

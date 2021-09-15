@@ -10,7 +10,6 @@ import UIKit
 class MemoListViewController: UIViewController {
     private let navigationTitle = "메모"
     private let sampleAsset = "sample"
-    private let lineBreak = "\n\n"
     private var memoList: [Memo] = []
     private let parsingManager = ParsingManager()
     private let dateFormattingManager = DateFormattingManager()

@@ -10,7 +10,6 @@ import UIKit
 class MemoSplitViewController: UISplitViewController {
     private let primary = MemoListViewController()
     private let secondary = MemoDetailViewController()
-    private let linebreak = "\n\n"
     
     override func viewDidLoad() {
         super.viewDidLoad()

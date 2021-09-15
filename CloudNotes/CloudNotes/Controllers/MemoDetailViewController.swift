@@ -19,10 +19,17 @@ class MemoDetailViewController: UIViewController {
     
     private let memoTextView = UITextView()
     
-    init(memo: Memo) {
+    init() {
+        self.memoTitle = ""
+        self.memoBody = ""
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    init(memo: MemoEntity) {
         self.memoTitle = memo.title
         self.memoBody = memo.body
-        
+
         super.init(nibName: nil, bundle: nil)
     }
     

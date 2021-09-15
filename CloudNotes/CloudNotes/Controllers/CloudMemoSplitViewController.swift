@@ -16,7 +16,7 @@ class CloudMemoSplitViewController: UISplitViewController {
     
     private func initContentHierarchy() {
         let primaryViewController = MemoListViewController()
-        let secondaryViewController = MemoDetailViewController(memo: getFirstMemo())
+        let secondaryViewController = MemoDetailViewController()
         
         let primaryNavigationController = UINavigationController(rootViewController: primaryViewController)
         let secondaryNavigationController = UINavigationController(rootViewController: secondaryViewController)
@@ -31,19 +31,6 @@ class CloudMemoSplitViewController: UISplitViewController {
         self.delegate = self
         
         primaryViewController.splitViewDelegate = self
-    }
-    
-    private func generateNewMemo() -> Memo {
-        let currentTime = Date().timeIntervalSince1970
-        return Memo(title: "", body: "", lastModified: currentTime)
-    }
-    
-    private func getFirstMemo() -> Memo {
-        guard let memo = Memo.generateMemoList().first else {
-            return generateNewMemo()
-        }
-        
-        return memo
     }
 }
 
@@ -60,12 +47,12 @@ extension CloudMemoSplitViewController: UISplitViewControllerDelegate {
 extension CloudMemoSplitViewController {
     @objc
     func addMemoAction() {
-        showDetailViewController(generateNewMemo())
+
     }
 }
 
 extension CloudMemoSplitViewController: CustomSplitViewDelegate {
-    func showDetailViewController(_ memo: Memo) {
+    func showDetailViewController(_ memo: MemoEntity) {
         guard let primaryNavigationController = viewControllers.first else {
             return
         }

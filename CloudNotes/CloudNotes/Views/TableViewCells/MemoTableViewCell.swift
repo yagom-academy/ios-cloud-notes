@@ -25,10 +25,10 @@ class MemoTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(on memo: Memo) {
+    func configure(on memo: MemoEntity) {
         memoTitleLabel.text = memo.title
+        previewBodyLabel.text = memo.body
         lastModifiedLabel.text = memo.formatedLastModified
-        previewBodyLabel.text = memo.previewBody
     }
 }
 

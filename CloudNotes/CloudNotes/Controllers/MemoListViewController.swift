@@ -15,11 +15,16 @@ class MemoListViewController: UIViewController {
         tableView.register(MemoTableViewCell.self, forCellReuseIdentifier: MemoTableViewCell.identifier)
         return tableView
     }()
-    private let memoList = Memo.generateMemoList()
+    private var memoEntityList: [MemoEntity] = [] {
+        didSet {
+            tableView.reloadData()
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()
+        fetchMemoList()
     }
     
     private func setupTableView() {
@@ -37,11 +42,15 @@ class MemoListViewController: UIViewController {
         
         view.backgroundColor = .white
     }
+    
+    private func fetchMemoList() {
+        memoEntityList = PersistenceManager.shared.fetchMemo()
+    }
 }
 
 extension MemoListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return memoList.count
+        return memoEntityList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -50,7 +59,7 @@ extension MemoListViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        cell.configure(on: memoList[indexPath.row])
+        cell.configure(on: memoEntityList[indexPath.row])
         return cell
     }
 }
@@ -59,6 +68,6 @@ extension MemoListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        splitViewDelegate?.showDetailViewController(memoList[indexPath.row])
+        splitViewDelegate?.showDetailViewController(memoEntityList[indexPath.row])
     }
 }

@@ -8,5 +8,5 @@
 import Foundation
 
 protocol CustomSplitViewDelegate: AnyObject {
-    func showDetailViewController(_ memo: Memo)
+    func showDetailViewController(_ memo: MemoEntity)
 }

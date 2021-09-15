@@ -22,3 +22,14 @@ extension MemoEntity {
 extension MemoEntity: Identifiable {
 
 }
+
+extension MemoEntity {
+    var currentTime: TimeInterval {
+        return Date().timeIntervalSince1970
+    }
+    
+    var formatedLastModified: String? {
+        let date = Date(timeIntervalSince1970: lastModified)
+        return date.transformFormattedType()
+    }
+}

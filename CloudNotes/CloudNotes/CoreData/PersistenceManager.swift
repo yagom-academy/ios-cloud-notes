@@ -37,11 +37,11 @@ class PersistenceManager {
         }
     }
     
-    func createMemo(title: String, body: String, lastModified: TimeInterval) {
+    func createMemo(title: String, body: String) {
         let newMemo = MemoEntity(context: context)
         newMemo.title = title
         newMemo.body = body
-        newMemo.lastModified = lastModified
+        newMemo.lastModified = newMemo.currentTime
         
         saveContext()
     }
@@ -59,10 +59,10 @@ class PersistenceManager {
         return memoEntities
     }
     
-    func updateMemo(entity: MemoEntity, title: String, body: String, lastModified: TimeInterval) {
+    func updateMemo(entity: MemoEntity, title: String, body: String) {
         entity.title = title
         entity.body = body
-        entity.lastModified = lastModified
+        entity.lastModified = entity.currentTime
         
         saveContext()
     }

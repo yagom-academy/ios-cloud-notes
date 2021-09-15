@@ -31,18 +31,32 @@ class ContentViewController: UIViewController {
         configureTextView()
         scrollWhenContentTextViewDidAppear()
         scrollWhenKeyboardWillAppear()
+        setMemoIfNewMemoOrOriginalMemo()
+
+        setMemoListTableViewDelegate()
         contentTextView.delegate = self
 
-        if let navigationController = splitViewController?.viewControllers.first,
-           let memoListTableViewController = navigationController.children.first as? MemoListTableViewController {
-            memoListTableViewController.delegate = self
-        }
     }
 
 }
 
 // MARK: - Method
 extension ContentViewController {
+    private func setMemoListTableViewDelegate() {
+        if let navigationController = splitViewController?.viewControllers.first,
+           let memoListTableViewController = navigationController.children.first as? MemoListTableViewController {
+            memoListTableViewController.delegate = self
+        }
+    }
+
+    private func setMemoIfNewMemoOrOriginalMemo() {
+        if let memoEntity = memoEntity {
+            contentTextView.text = memoEntity.content
+            originalMemoContent = memoEntity.content
+        } else {
+            contentTextView.text = ""
+        }
+    }
 
     private func configureTextView() {
         view.addSubview(contentTextView)
@@ -119,6 +133,7 @@ extension ContentViewController: UITextViewDelegate {
                 NotificationCenter.default.post(name: Self.newMemoDidInput, object: nil)
             }
             textView.resignFirstResponder()
+            showAlert(message: "메모가 저장됐습니다.")
             return false
         }
         return true

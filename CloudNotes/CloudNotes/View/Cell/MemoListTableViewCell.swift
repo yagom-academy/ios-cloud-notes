@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MemoListTableViewCell: UITableViewCell {
+final class MemoListTableViewCell: UITableViewCell {
     static let identifier = "cell"
     private var titleLabel: UILabel = UILabel()
     private var bodyLabel: UILabel = UILabel()

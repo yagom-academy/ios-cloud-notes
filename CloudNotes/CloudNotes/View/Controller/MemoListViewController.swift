@@ -24,7 +24,7 @@ final class MemoListViewController: UIViewController, CoreDataAccessible {
         //MARK: - NavigationBar Style Setting
         self.setNavigationBarItem()
     }
-    
+    //MARK: - Set TableView Layout
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         self.tableView.cellLayoutMarginsFollowReadableWidth = false
@@ -33,8 +33,8 @@ final class MemoListViewController: UIViewController, CoreDataAccessible {
     }
 }
 
-//MARK: - TablviewDelegate Method
 extension MemoListViewController: UITableViewDelegate {
+    //MARK:- Transfer Data to MemoDetailVC
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.giveDataToSecondaryVC(indexPath, tableView)
         deselectCurrentCell(tableView)
@@ -55,8 +55,8 @@ extension MemoListViewController: UITableViewDelegate {
         }
     }
     
+    //MARK: - Options after cell swipping
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        //Mark: Options after cell swipping
         let actions = [
             UIContextualAction(
                 style: .destructive,
@@ -91,7 +91,7 @@ extension MemoListViewController {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(didTabAddButton))
     }
     
-    //MARK: - AddButton selector method
+    //MARK: - Called after tab addButton
     @objc func didTabAddButton() {
         let todayDate = Date().makeCurrentDateInt64Data()
         let newMemo = Memo(context: self.context)
@@ -105,8 +105,11 @@ extension MemoListViewController {
             return
         }
         
+        //MARK: Make Insert Location IndexPath
         let totalRows = self.tableView.numberOfRows(inSection: .zero)
         let newIndexPath = IndexPath(row: totalRows, section: .zero)
+        
+        //MARK: Give Data to MemoDetailVC
         let emptyHolder = TextViewRelatedDataHolder(indexPath: newIndexPath, tableView: tableView, textViewText: nil)
         secondVC.configure(emptyHolder)
         

@@ -13,19 +13,29 @@ class MemoListTableViewController: UITableViewController {
     // MARK: - Property
     private let reusableIdentifier = "cell"
     private var parsedDatas = [SampleData]()
+
     weak var delegate: MemoListTableViewControllerDelegate?
 
-    // MARK: - Date Formatter
-    private let dateFormatter: DateFormatter = {
-       let formatter = DateFormatter()
-        formatter.dateStyle = .short
-        formatter.locale = Locale(identifier: "ko_kr")
-        return formatter
-    }()
+    var token: NSObjectProtocol?
 
+    deinit {
+        if let token = token {
+            NotificationCenter.default.removeObserver(token)
+        }
+    }
     // MARK: - Life Cycle
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        DataManager.shared.fetchMemo()
+        tableView.reloadData()
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        token = NotificationCenter.default.addObserver(forName: ContentViewController.newMemoDidInput, object: nil, queue: .main, using: { [weak self] _ in
+            self?.tableView.reloadData()
+        })
         decoding()
         configureTableView()
         configureNavigationBar()
@@ -65,17 +75,31 @@ extension MemoListTableViewController {
 // MARK: - TableView Delegate Method
 extension MemoListTableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if DataManager.shared.memoList.count >= 1 {
+            return DataManager.shared.memoList.count
+        }
         return parsedDatas.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: reusableIdentifier, for: indexPath) as? MemoListTableViewCell else { return UITableViewCell() }
 
-        let title = parsedDatas[indexPath.row].title
-        let content = parsedDatas[indexPath.row].body
+        if DataManager.shared.memoList.count >= 1 {
+            let memo = DataManager.shared.memoList[indexPath.row]
+            guard let memoTitle = memo.title,
+                  let memoContent = memo.content,
+                  let memoInsertDate = memo.insertDate else { return UITableViewCell() }
+            let dateToString = DataManager.shared.dateFormatter.string(from: memoInsertDate)
+            cell.configure(title: memoTitle, content: memoContent, date: dateToString)
+        } else {
+            let memo = parsedDatas[indexPath.row]
 
-        let date = dateFormatter.string(from: Date(timeIntervalSince1970: Double(parsedDatas[indexPath.row].lastModified)))
-        cell.configure(title: title, content: content, date: "\(date)")
+            let memoTitle = memo.title
+            let memoContent = memo.body
+            let memoInsertDate = DataManager.shared.dateFormatter.string(from: Date(timeIntervalSince1970: Double(parsedDatas[indexPath.row].lastModified)))
+            cell.configure(title: memoTitle, content: memoContent, date: memoInsertDate)
+        }
+
         return cell
     }
 

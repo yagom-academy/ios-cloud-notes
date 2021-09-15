@@ -29,6 +29,7 @@
 		E69774B526E60C3C008C14B7 /* ParsingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E69774B426E60C3C008C14B7 /* ParsingManager.swift */; };
 		E69774B826E60E9D008C14B7 /* ParsingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E69774B726E60E9D008C14B7 /* ParsingError.swift */; };
 		E69774BA26E65BA1008C14B7 /* MemoCustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E69774B926E65BA1008C14B7 /* MemoCustomCell.swift */; };
+		E6AD4EF626F21A8800C96085 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6AD4EF526F21A8800C96085 /* CoreDataManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -83,6 +84,7 @@
 		E69774B426E60C3C008C14B7 /* ParsingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParsingManager.swift; sourceTree = "<group>"; };
 		E69774B726E60E9D008C14B7 /* ParsingError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParsingError.swift; sourceTree = "<group>"; };
 		E69774B926E65BA1008C14B7 /* MemoCustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoCustomCell.swift; sourceTree = "<group>"; };
+		E6AD4EF526F21A8800C96085 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		F55EA09ADFBEEFB73645C65E /* Pods_CloudNotes.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CloudNotes.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -245,6 +247,7 @@
 		E69774B326E60C1B008C14B7 /* Manager */ = {
 			isa = PBXGroup;
 			children = (
+				E6AD4EF526F21A8800C96085 /* CoreDataManager.swift */,
 				E69774B426E60C3C008C14B7 /* ParsingManager.swift */,
 				E67D9BA926ED02C900570B51 /* DateFormattingManager.swift */,
 			);
@@ -493,6 +496,7 @@
 				E69774B526E60C3C008C14B7 /* ParsingManager.swift in Sources */,
 				E67D9BA626ECF3D700570B51 /* MemoSendable.swift in Sources */,
 				E69774BA26E65BA1008C14B7 /* MemoCustomCell.swift in Sources */,
+				E6AD4EF626F21A8800C96085 /* CoreDataManager.swift in Sources */,
 				E69774B826E60E9D008C14B7 /* ParsingError.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

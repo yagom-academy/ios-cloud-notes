@@ -8,7 +8,7 @@
 import UIKit
 import CoreData
 
-final class MemoDetailViewController: UIViewController, CoreDataUsable {
+final class MemoDetailViewController: UIViewController, CoreDataAccessible {
     private var textView = UITextView()
     private let context = MemoDataManager.context
     private var holder: TextViewRelatedDataHolder?

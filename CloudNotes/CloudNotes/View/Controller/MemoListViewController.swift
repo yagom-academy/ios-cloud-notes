@@ -7,7 +7,7 @@
 import UIKit
 import CoreData
 
-final class MemoListViewController: UIViewController, CoreDataUsable {
+final class MemoListViewController: UIViewController, CoreDataAccessible {
     private let tableView = UITableView()
     private let tableViewDataSource = MemoListTableViewDataSource()
     private let context = MemoDataManager.context

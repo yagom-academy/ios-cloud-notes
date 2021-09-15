@@ -15,7 +15,7 @@
 		A83033C426E1146F00EA30DC /* MemoListTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A83033C326E1146F00EA30DC /* MemoListTableViewDataSource.swift */; };
 		A83033CD26E1240100EA30DC /* MemoListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A83033CC26E1240100EA30DC /* MemoListTableViewCell.swift */; };
 		A83033D026E1256300EA30DC /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A83033CF26E1256300EA30DC /* UIView.swift */; };
-		A854899B26F03844001BF187 /* CoreDataUsable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A854899A26F03844001BF187 /* CoreDataUsable.swift */; };
+		A854899B26F03844001BF187 /* CoreDataAccessible.swift in Sources */ = {isa = PBXBuildFile; fileRef = A854899A26F03844001BF187 /* CoreDataAccessible.swift */; };
 		A85489A026F0D4FA001BF187 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = A854899F26F0D4FA001BF187 /* Date.swift */; };
 		A85489A226F0ECD8001BF187 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = A85489A126F0ECD8001BF187 /* String.swift */; };
 		A85489A426F1D70C001BF187 /* SelectOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A85489A326F1D70C001BF187 /* SelectOptions.swift */; };
@@ -62,7 +62,7 @@
 		A83033C326E1146F00EA30DC /* MemoListTableViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoListTableViewDataSource.swift; sourceTree = "<group>"; };
 		A83033CC26E1240100EA30DC /* MemoListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoListTableViewCell.swift; sourceTree = "<group>"; };
 		A83033CF26E1256300EA30DC /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
-		A854899A26F03844001BF187 /* CoreDataUsable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataUsable.swift; sourceTree = "<group>"; };
+		A854899A26F03844001BF187 /* CoreDataAccessible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataAccessible.swift; sourceTree = "<group>"; };
 		A854899F26F0D4FA001BF187 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		A85489A126F0ECD8001BF187 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		A85489A326F1D70C001BF187 /* SelectOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectOptions.swift; sourceTree = "<group>"; };
@@ -202,7 +202,7 @@
 		A854899C26F03851001BF187 /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
-				A854899A26F03844001BF187 /* CoreDataUsable.swift */,
+				A854899A26F03844001BF187 /* CoreDataAccessible.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -471,7 +471,7 @@
 				A872EFC426ECD82300D2E499 /* MemoDataManager.swift in Sources */,
 				A830336F26DF976500EA30DC /* MemoDecodeModel.swift in Sources */,
 				A85489A026F0D4FA001BF187 /* Date.swift in Sources */,
-				A854899B26F03844001BF187 /* CoreDataUsable.swift in Sources */,
+				A854899B26F03844001BF187 /* CoreDataAccessible.swift in Sources */,
 				C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */,
 				A82B6F5826EA215400ED0070 /* TextViewRelatedDataHolder.swift in Sources */,
 				C7481C7825BBCF3900B9CA55 /* CloudNotes.xcdatamodeld in Sources */,

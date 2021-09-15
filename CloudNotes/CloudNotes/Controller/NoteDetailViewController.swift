@@ -39,7 +39,7 @@ class NoteDetailViewController: UIViewController {
     
     @objc func showActionSheet() {
         guard let indexPath = self.indexPath else { return }
-        alertDelegate?.showActionSheet(of: indexPath, noteTitle: title ?? String.empty) {
+        alertDelegate?.showActionSheet(of: indexPath, noteTitle: bodyTextView.title ?? String.empty) {
             self.noteDelegate?.deleteNote(at: indexPath)
         }
     }

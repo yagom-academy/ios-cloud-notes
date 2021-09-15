@@ -45,9 +45,11 @@ class NoteListViewController: UITableViewController {
         }
     }
     
-    @objc private func updateTableView() {
-        notes = noteManager.fetchNotes()
-        tableView.reloadData()
+    @objc private func updateTableView(notification: Notification) {
+        if let updatedNotes = notification.userInfo?["notes"] as? [Note] {
+            notes = updatedNotes
+            tableView.reloadData()
+        }
     }
     
     private func initTableView() {

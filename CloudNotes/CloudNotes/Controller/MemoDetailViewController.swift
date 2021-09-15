@@ -42,9 +42,10 @@ class MemoDetailViewController: UIViewController {
 
 extension MemoDetailViewController: UITextViewDelegate {
     func textViewDidChangeSelection(_ textView: UITextView) {
-        let lastIndex = Int(textView.text.components(separatedBy: linebreak).count - 1)
+        let firstIndex = 1
+        let lastIndex = Int(textView.text.components(separatedBy: linebreak).count - firstIndex)
         let title = textView.text.components(separatedBy: linebreak)[.zero]
-        let body = textView.text.components(separatedBy: linebreak)[1...lastIndex].joined(separator: linebreak)
+        let body = textView.text.components(separatedBy: linebreak)[firstIndex...lastIndex].joined(separator: linebreak)
         let now = Date()
         delegate?.sendToListVC(memo: Memo.init(title: title, body: body, lastModified: now))
     }

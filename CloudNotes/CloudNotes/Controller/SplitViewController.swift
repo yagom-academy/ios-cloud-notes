@@ -68,6 +68,8 @@ extension SplitViewController {
     
     private func showShareScreen(shareItem: CloudMemo?) {
         let activityViewController = UIActivityViewController(activityItems: [shareItem?.title, shareItem?.body], applicationActivities: nil)
+        activityViewController.popoverPresentationController?.sourceView = self.view
+        activityViewController.popoverPresentationController?.sourceRect = CGRect(x: view.frame.midX, y: view.frame.maxY, width: .zero, height: .zero)
         present(activityViewController, animated: true, completion: nil)
     }
 }

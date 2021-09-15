@@ -11,6 +11,7 @@ class ContentViewController: UIViewController {
     private var contentTextView: UITextView = {
         var textView = UITextView()
         textView.backgroundColor = .lightGray
+        textView.returnKeyType = .done
         if UITraitCollection.current.userInterfaceIdiom == .phone {
             textView.font = .systemFont(ofSize: 20, weight: .bold)
         } else {
@@ -20,6 +21,7 @@ class ContentViewController: UIViewController {
     }()
     var memo: String?
     var memoEntity: MemoEntity?
+    var originalMemoContent: String?
 
     // MARK: - Life Cycle
     override func viewDidLoad() {
@@ -29,6 +31,7 @@ class ContentViewController: UIViewController {
         configureTextView()
         scrollWhenContentTextViewDidAppear()
         scrollWhenKeyboardWillAppear()
+        contentTextView.delegate = self
 
         if let navigationController = splitViewController?.viewControllers.first,
            let memoListTableViewController = navigationController.children.first as? MemoListTableViewController {
@@ -99,9 +102,37 @@ extension ContentViewController {
     }
 }
 
+extension ContentViewController: UITextViewDelegate {
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if text == "\n" {
+            guard let memo = textView.text, memo.count > 0 else {
+                showAlert(message: "메모를 입력하세요.")
+                return false
+            }
+
+            if let memoEntity = memoEntity {
+                memoEntity.content = memo
+                DataManager.shared.saveContext()
+                NotificationCenter.default.post(name: Self.memoDidUpdate, object: nil)
+            } else {
+                DataManager.shared.addNewMemo(memo)
+                NotificationCenter.default.post(name: Self.newMemoDidInput, object: nil)
+            }
+            textView.resignFirstResponder()
+            return false
+        }
+        return true
+    }
+}
+
 // MARK: - CustomDelegate Conform
 extension ContentViewController: MemoListTableViewControllerDelegate {
     func didTapMemo(_ vc: UITableViewController, memo: String) {
         contentTextView.text = memo
     }
+}
+
+extension ContentViewController {
+    static let newMemoDidInput = Notification.Name("newMemoDidInput")
+    static let memoDidUpdate = Notification.Name("memoDidUpdate")
 }

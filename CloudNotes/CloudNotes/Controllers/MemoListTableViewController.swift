@@ -135,4 +135,5 @@ extension MemoListTableViewController {
             tableView.deleteRows(at: [indexPath], with: .automatic)
         }
     }
+
 }

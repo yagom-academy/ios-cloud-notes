@@ -9,7 +9,6 @@ import UIKit
 
 class NoteListViewController: UITableViewController {
     private var notes: [Note] = []
-    let cellIdentifier = "noteCell"
     var noteManager = NoteManager()
     var activityViewPopover: UIPopoverPresentationController?
     var actionSheetPopover: UIPopoverPresentationController?
@@ -40,7 +39,10 @@ class NoteListViewController: UITableViewController {
 
         guard let splitView = splitViewController?.view else { return }
         if UIDevice.current.userInterfaceIdiom == .pad {
-            let newRect = CGRect(x: splitView.bounds.midY, y: splitView.bounds.midX, width: 0, height: 0)
+            let newRect = CGRect(x: splitView.bounds.midY,
+                                 y: splitView.bounds.midX,
+                                 width: .zero,
+                                 height: .zero)
             activityViewPopover?.sourceRect = newRect
             actionSheetPopover?.sourceRect = newRect
         }
@@ -61,9 +63,8 @@ class NoteListViewController: UITableViewController {
     }
     
     private func initTableView() {
-        let notesTitle = "메모"
-        title = notesTitle
-        tableView.register(NoteCell.self, forCellReuseIdentifier: cellIdentifier)
+        title = NotesTable.navigationBarTitle
+        tableView.register(NoteCell.self, forCellReuseIdentifier: NotesTable.cellIdentifier)
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
                                                             target: self,
                                                             action: #selector(addButtonTapped))
@@ -79,7 +80,7 @@ class NoteListViewController: UITableViewController {
     private func findNewNoteIndexPath() -> IndexPath {
         let rowCount = notes.count
         
-        if rowCount == 0 {
+        if rowCount == .zero {
             return IndexPath(row: .zero, section: .zero)
         } else {
             let lastRowIndex = rowCount - 1
@@ -117,8 +118,8 @@ extension NoteListViewController {
     
     override func tableView(_ tableView: UITableView,
                             cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as? NoteCell,
-              indexPath.row < notes.count else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: NotesTable.cellIdentifier)
+                as? NoteCell, indexPath.row < notes.count else { return UITableViewCell() }
         
         cell.initCell(with: notes[indexPath.row])
         
@@ -171,7 +172,10 @@ extension NoteListViewController: Alertable {
         
         if UIDevice.current.userInterfaceIdiom == .pad {
             if let splitView = splitViewController?.view {
-                let newRect = CGRect(x: splitView.bounds.midX, y: splitView.bounds.midY, width: 0, height: 0)
+                let newRect = CGRect(x: splitView.bounds.midX,
+                                     y: splitView.bounds.midY,
+                                     width: .zero,
+                                     height: .zero)
                 actionSheet.popoverPresentationController?.sourceView = splitView
                 actionSheet.popoverPresentationController?.sourceRect = newRect
                 actionSheet.popoverPresentationController?.permittedArrowDirections = []

@@ -38,8 +38,9 @@ class DataManager {
 
 // MARK: - CRUD
 extension DataManager {
-    func addNewMemo(_ memo: String) {
+    func addNewMemo(_ memo: String, _ title: String) {
         let newMemo = MemoEntity(context: mainContext)
+        newMemo.title = title
         newMemo.content = memo
         newMemo.insertDate = Date()
         memoList.insert(newMemo, at: 0)

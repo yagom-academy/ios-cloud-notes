@@ -8,7 +8,6 @@
 import UIKit
 
 class SplitViewController: UISplitViewController {
-
     // MARK: - Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()

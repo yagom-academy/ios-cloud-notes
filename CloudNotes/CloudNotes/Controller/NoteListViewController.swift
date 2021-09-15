@@ -10,10 +10,11 @@ import UIKit
 class NoteListViewController: UITableViewController {
     var noteManager = NoteManager()
     weak var alertDelegate: Alertable?
+    lazy var noteListDataSource = NoteListDataSource(noteManager: noteManager)
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         alertDelegate = splitViewController as? Alertable
         initTableView()
         NotificationCenter.default
@@ -22,6 +23,7 @@ class NoteListViewController: UITableViewController {
     
     private func initTableView() {
         title = NotesTable.navigationBarTitle
+        tableView.dataSource = noteListDataSource
         tableView.register(NoteCell.self, forCellReuseIdentifier: NotesTable.cellIdentifier)
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
                                                             target: self,
@@ -64,24 +66,8 @@ class NoteListViewController: UITableViewController {
     }
 }
 
-// MARK: UITableViewDataSource, UITableViewDelegate
+// MARK: UITableViewDelegate
 extension NoteListViewController {
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return noteManager.count
-    }
-
-    override func tableView(_ tableView: UITableView,
-                            cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView
-                .dequeueReusableCell(withIdentifier: NotesTable.cellIdentifier) as? NoteCell,
-              let note = noteManager.fetchNote(at: indexPath.row),
-              indexPath.row < noteManager.count else { return UITableViewCell() }
-
-        cell.initCell(with: note)
-
-        return cell
-    }
-    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         showContentDetails(at: indexPath)
     }

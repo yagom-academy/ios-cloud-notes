@@ -8,6 +8,7 @@
 import UIKit
 import CoreData
 
+//MARK:- Hold Memo Array and persistentConatiner's viewContext
 final class MemoDataManager {
     static var memos: [Memo] = { () -> [Memo] in
         do {

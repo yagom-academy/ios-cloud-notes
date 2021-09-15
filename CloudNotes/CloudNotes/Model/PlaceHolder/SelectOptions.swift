@@ -7,6 +7,7 @@
 
 import Foundation
 
+//MARK:- Cell and SeeMore Button Menu Options
 enum SelectOptions {
     case delete
     case share

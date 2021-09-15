@@ -79,7 +79,7 @@ extension MemoDetailViewController {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: #selector(didTapSeeMoreButton))
     }
     
-    //MARK:-NavigationBar Item relate method
+    // MARK:- SeeMoreButton method
     @objc func didTapSeeMoreButton() {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let deleteActions = UIAlertAction(title: SelectOptions.delete.literal, style: .destructive, handler: { [weak self] action in

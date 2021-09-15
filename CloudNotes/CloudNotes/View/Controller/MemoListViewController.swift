@@ -15,16 +15,17 @@ final class MemoListViewController: UIViewController, CoreDataAccessible {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //MARK: - TableView property and Method
+        //MARK: TableView property and Method
         self.view.addSubview(tableView)
         self.tableView.register(MemoListTableViewCell.self, forCellReuseIdentifier: MemoListTableViewCell.identifier)
         self.tableView.dataSource = tableViewDataSource
         self.tableView.delegate = self
         
-        //MARK: - NavigationBar Style Setting
+        //MARK: NavigationBar Style Setting
         self.setNavigationBarItem()
     }
-    //MARK: - Set TableView Layout
+    
+    //MARK: Set TableView Layout
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         self.tableView.cellLayoutMarginsFollowReadableWidth = false
@@ -34,7 +35,7 @@ final class MemoListViewController: UIViewController, CoreDataAccessible {
 }
 
 extension MemoListViewController: UITableViewDelegate {
-    //MARK:- Transfer Data to MemoDetailVC
+    //MARK: - Transfer Data to MemoDetailVC
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.giveDataToSecondaryVC(indexPath, tableView)
         deselectCurrentCell(tableView)
@@ -66,9 +67,7 @@ extension MemoListViewController: UITableViewDelegate {
                         return
                     }
                     let memoToRemove = self.memos[indexPath.row]
-                    self.deleteCoreData(self.context, memoToRemove)
-                    self.saveCoreData(self.context)
-                    self.fetchCoreDataItems(self.context, tableView)
+                    self.deleteSaveFetchData(self.context, memoToRemove, tableView)
                     self.memos.remove(at: indexPath.row)
                 }),
             UIContextualAction(

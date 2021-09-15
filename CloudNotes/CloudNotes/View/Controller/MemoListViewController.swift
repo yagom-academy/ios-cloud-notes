@@ -83,19 +83,20 @@ extension MemoListViewController: UITableViewDelegate {
     }
 }
 
-//MARK:- NavigationBar related method
 extension MemoListViewController {
+    //MARK:- NavigationBar related method
     private func setNavigationBarItem() {
         let navigationBarTitle = "메모"
         self.title = navigationBarTitle
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(didTabAddButton))
     }
     
-    //MARK: Add new memo in coredata button
+    //MARK: - AddButton selector method
     @objc func didTabAddButton() {
         let todayDate = Date().makeCurrentDateInt64Data()
         let newMemo = Memo(context: self.context)
         newMemo.lastModifiedDate = todayDate
+        newMemo.title = " "
         
         self.memos.append(newMemo)
         self.saveCoreData(context)

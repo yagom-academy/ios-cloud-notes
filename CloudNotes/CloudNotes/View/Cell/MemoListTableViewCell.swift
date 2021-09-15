@@ -38,11 +38,12 @@ extension MemoListTableViewCell {
         self.contentView.addSubview(titleLabel)
         self.titleLabel
             .setPosition(top: contentView.topAnchor,
-                         bottom: nil,
+                         bottom: contentView.bottomAnchor, bottomConstant: -20,
                          leading: safeAreaLayoutGuide.leadingAnchor,
                          leadingConstant: 10,
                          trailing: contentView.trailingAnchor)
-        titleLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        
+        titleLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
     }
     
     private func makeHorizontalStackVeiw() {

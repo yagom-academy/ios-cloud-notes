@@ -8,6 +8,7 @@
 import UIKit
 import CoreData
 
+//MARK:- Provide Method related to CoreData saving, fetching, deleting
 protocol CoreDataUsable {
     func fetchCoreDataItems(_ context: NSManagedObjectContext, _ tableview: UITableView)
     func saveCoreData(_ context: NSManagedObjectContext)

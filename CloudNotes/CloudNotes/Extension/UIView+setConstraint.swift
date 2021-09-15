@@ -15,7 +15,7 @@ extension UIView {
         let leading = self.leadingAnchor.constraint(equalTo: margin.leadingAnchor)
         let trailng = self.trailingAnchor.constraint(equalTo: margin.trailingAnchor)
         let bottom = self.bottomAnchor.constraint(equalTo: margin.bottomAnchor)
-        
+
         NSLayoutConstraint.activate([
             top, leading, trailng, bottom
         ])

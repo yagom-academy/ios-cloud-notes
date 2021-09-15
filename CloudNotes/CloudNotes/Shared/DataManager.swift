@@ -11,7 +11,7 @@ import CoreData
 class DataManager {
     static let shared = DataManager()
     private init() {}
-    
+
     lazy var persistentContainer: NSPersistentCloudKitContainer = {
         let container = NSPersistentCloudKitContainer(name: "CloudNotes")
         container.loadPersistentStores(completionHandler: { (_, error) in
@@ -21,13 +21,13 @@ class DataManager {
         })
         return container
     }()
-    
+
     var mainContext: NSManagedObjectContext {
         return persistentContainer.viewContext
     }
-    
+
     var memoList = [MemoEntity]()
-    
+
     // MARK: - Date Formatter
     let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -44,29 +44,29 @@ extension DataManager {
         newMemo.content = memo
         newMemo.insertDate = Date()
         memoList.insert(newMemo, at: 0)
-        
+
         saveContext()
     }
-    
+
     func fetchMemo() {
         let request: NSFetchRequest<MemoEntity> = MemoEntity.fetchRequest()
         let sortByDate = NSSortDescriptor(key: "insertDate", ascending: false)
         request.sortDescriptors = [sortByDate]
-        
+
         do {
             memoList = try mainContext.fetch(request)
         } catch {
             debugPrint(error.localizedDescription)
         }
     }
-    
+
     func updateMemo(_ memo: String, _ entity: MemoEntity?) {
         if let entity = entity {
             entity.content = memo
             saveContext()
         }
     }
-    
+
     func deleteMemo(_ memo: MemoEntity?) {
         if let memo = memo {
             mainContext.delete(memo)
@@ -87,5 +87,5 @@ extension DataManager {
             }
         }
     }
-    
+
 }

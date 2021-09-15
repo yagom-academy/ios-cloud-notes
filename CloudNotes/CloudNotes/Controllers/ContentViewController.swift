@@ -22,7 +22,7 @@ class ContentViewController: UIViewController {
     var memo: String?
     var memoEntity: MemoEntity?
     var originalMemoContent: String?
-    
+
     // MARK: - Life Cycle
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -40,12 +40,12 @@ class ContentViewController: UIViewController {
         scrollWhenContentTextViewDidAppear()
         scrollWhenKeyboardWillAppear()
         setMemoIfNewMemoOrOriginalMemo()
-        
+
         setMemoListTableViewDelegate()
         contentTextView.delegate = self
-        
+
     }
-    
+
 }
 
 extension ContentViewController {
@@ -54,7 +54,7 @@ extension ContentViewController {
         let sheet = createMoreDetailSheet()
         present(sheet, animated: true, completion: nil)
     }
-    
+
     // MARK: - Method
     func showAlertContainTwoAction(title: String = "", message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
@@ -72,14 +72,14 @@ extension ContentViewController {
         alert.addActions([cancelAction, deleteAction])
         present(alert, animated: true, completion: nil)
     }
-    
+
     private func setMemoListTableViewDelegate() {
         if let navigationController = splitViewController?.viewControllers.first,
            let memoListTableViewController = navigationController.children.first as? MemoListTableViewController {
             memoListTableViewController.delegate = self
         }
     }
-    
+
     private func setMemoIfNewMemoOrOriginalMemo() {
         if let memoEntity = memoEntity {
             contentTextView.text = memoEntity.content
@@ -88,19 +88,19 @@ extension ContentViewController {
             contentTextView.text = ""
         }
     }
-    
+
     private func configureTextView() {
         view.addSubview(contentTextView)
         contentTextView.setConstraintEqualToAnchor(superView: view)
-        
+
     }
-    
+
     private func configureNavigationBar() {
         let itemImage = UIImage(systemName: "ellipsis.circle")
         let rightBarButtonItem = UIBarButtonItem(image: itemImage, style: .plain, target: self, action: #selector(showSheetMoreDetail))
         navigationItem.setRightBarButton(rightBarButtonItem, animated: true)
     }
-    
+
     private func createMoreDetailSheet() -> UIAlertController {
         let sheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let shareAction = UIAlertAction(title: "Share", style: .default) { [weak self] _ in
@@ -108,14 +108,14 @@ extension ContentViewController {
             self?.present(activityViewController, animated: true, completion: nil)
         }
         let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { [weak self] _ in
-            
+
             self?.showAlertContainTwoAction(title: "진짜요?", message: "정말로 삭제하시겠어요?")
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         sheet.addActions([shareAction, deleteAction, cancelAction])
         return sheet
     }
-    
+
     private func scrollWhenContentTextViewDidAppear() {
         contentTextView.scrollsToTop = true
         let contentTextViewHeight = contentTextView.contentSize.height
@@ -123,7 +123,7 @@ extension ContentViewController {
         let contentOffSet = contentTextViewHeight - contentTextViewOffSet
         contentTextView.contentOffset = CGPoint(x: 0, y: -contentOffSet)
     }
-    
+
     private func scrollWhenKeyboardWillAppear() {
         NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) { notification in
             if let rect = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect {
@@ -131,7 +131,7 @@ extension ContentViewController {
                 var contentInset = self.contentTextView.contentInset
                 contentInset.bottom = height
                 self.contentTextView.contentInset = contentInset
-                
+
                 contentInset = self.contentTextView.verticalScrollIndicatorInsets
                 contentInset.bottom = height
                 self.contentTextView.verticalScrollIndicatorInsets = contentInset
@@ -140,7 +140,7 @@ extension ContentViewController {
     }
 }
 
-//MARK: - TextViewDelegate Method
+// MARK: - TextViewDelegate Method
 extension ContentViewController: UITextViewDelegate {
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         if text == "\n" {
@@ -172,7 +172,7 @@ extension ContentViewController: MemoListTableViewControllerDelegate {
     }
 }
 
-//MARK: - Notification
+// MARK: - Notification
 extension ContentViewController {
     static let newMemoDidInput = Notification.Name("newMemoDidInput")
     static let memoDidUpdate = Notification.Name("memoDidUpdate")

@@ -8,11 +8,11 @@
 import UIKit
 
 final class TextViewRelatedDataHolder {
-    var indexPath: IndexPath?
-    var tableView: UITableView?
+    var indexPath: IndexPath
+    var tableView: UITableView
     var textViewText : String?
     
-    init(indexPath: IndexPath?, tableView: UITableView?, textViewText: String?) {
+    init(indexPath: IndexPath, tableView: UITableView, textViewText: String?) {
         self.indexPath = indexPath
         self.tableView = tableView
         

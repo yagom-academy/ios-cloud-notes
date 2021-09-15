@@ -32,7 +32,6 @@ final class MemoDetailViewController: UIViewController, CoreDataUsable {
 }
 
 extension MemoDetailViewController: UITextViewDelegate {
-    
     func textViewDidChange(_ textView: UITextView) {
         let today = Date().makeCurrentDateInt64Data()
         
@@ -107,7 +106,7 @@ extension MemoDetailViewController {
                                            message: "정말로 삭제하시겠어요?",
                                            preferredStyle: .alert)
         let deleteAlertConfirmAction = UIAlertAction(title: "삭제", style: .destructive) { action in
-            let targetObject = MemoDataManager.memos[self.holder?.indexPath?.row ?? .zero]
+            let targetObject = MemoDataManager.memos[self.holder?.indexPath.row ?? .zero]
             self.deleteSaveFetchData(self.context,
                                      targetObject,
                                      self.holder?.tableView ?? UITableView())

@@ -96,9 +96,9 @@ extension NoteCell {
     }
     
     private func initCellContent(with note: Note) {
-        let dateFormatter = CurrentLocaleDateFormatter()
+        let dateFormatter = DateFormatter()
         titleLabel.text = note.title.isEmpty ? NotePlacholder.title : note.title
         bodyLabel.text = note.body.isEmpty ? NotePlacholder.body : note.body
-        lastModifiedLabel.text = dateFormatter.format(lastModified: note.lastModified)
+        lastModifiedLabel.text = dateFormatter.formatToCurrent(lastModified: note.lastModified)
     }
 }

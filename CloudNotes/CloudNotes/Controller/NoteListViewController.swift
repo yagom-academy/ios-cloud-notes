@@ -103,14 +103,14 @@ extension NoteListViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return notes.count
     }
-    
+
     override func tableView(_ tableView: UITableView,
                             cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: NotesTable.cellIdentifier)
                 as? NoteCell, indexPath.row < notes.count else { return UITableViewCell() }
-        
+
         cell.initCell(with: notes[indexPath.row])
-        
+
         return cell
     }
     

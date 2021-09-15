@@ -7,8 +7,8 @@
 
 import Foundation
 
-struct CurrentLocaleDateFormatter {
-    func format(lastModified date: Double) -> String {
+extension DateFormatter {
+    func formatToCurrent(lastModified date: Double) -> String {
         let date = Date(timeIntervalSince1970: date)
         let dateFormatter = DateFormatter()
         

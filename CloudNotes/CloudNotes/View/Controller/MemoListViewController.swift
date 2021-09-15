@@ -15,6 +15,7 @@ final class MemoListViewController: UIViewController, CoreDataAccessible {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         //MARK: TableView property and Method
         self.view.addSubview(tableView)
         self.tableView.register(MemoListTableViewCell.self, forCellReuseIdentifier: MemoListTableViewCell.identifier)

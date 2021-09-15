@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreData
 
 class MemoTableViewController: UITableViewController {
 
@@ -13,7 +14,7 @@ class MemoTableViewController: UITableViewController {
     private let isCompact: Bool
 
     lazy var viewModel = {
-        MemoViewModel()
+        NoteViewModel()
     }()
 
     // MARK: - Initializer
@@ -36,10 +37,34 @@ class MemoTableViewController: UITableViewController {
 
     // MARK: - Methods
     func initViewModel() {
-        viewModel.decodeData()
+        viewModel.fetchNote()
         viewModel.reloadTableView = { [weak self] in
             DispatchQueue.main.async {
                 self?.tableView.reloadData()
+            }
+        }
+    }
+
+    @objc func saveData() {
+        let mockNote = Memo(title: "Sample",
+                            body: "Mock Data",
+                            lastModified: 1608651333)
+
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+        let context = appDelegate.persistentContainer.viewContext
+
+        let entity = NSEntityDescription.entity(forEntityName: "Note", in: context)
+
+        if let entity = entity {
+            let note = NSManagedObject(entity: entity, insertInto: context)
+            note.setValue(mockNote.title, forKey: "title")
+            note.setValue(mockNote.body, forKey: "body")
+            note.setValue(mockNote.lastModified, forKey: "lastModified")
+
+            do {
+                try context.save()
+            } catch {
+                print(error.localizedDescription)
             }
         }
     }
@@ -52,7 +77,7 @@ extension MemoTableViewController {
         self.navigationItem.title = "메모"
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
                                                                  target: self,
-                                                                 action: nil)
+                                                                 action: #selector(saveData))
 
         tableView.register(MemoTableViewCell.self, forCellReuseIdentifier: "MemoTableViewCell")
         tableView.translatesAutoresizingMaskIntoConstraints = false

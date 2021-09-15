@@ -14,9 +14,9 @@ class MemoTableViewCell: UITableViewCell {
     private var dateLabel = UILabel()
     private var previewLabel = UILabel()
 
-    var memoCellViewModel: MemoCellViewModel? {
+    var noteCellViewModel: MemoCellViewModel? {
         didSet {
-            updateMemoCellViewModel()
+            updateNoteCellViewModel()
         }
     }
 
@@ -56,10 +56,10 @@ class MemoTableViewCell: UITableViewCell {
     }
 
     // MARK: - Methods
-    private func updateMemoCellViewModel() {
-        titleLabel.text = memoCellViewModel?.title
-        dateLabel.text = memoCellViewModel?.lastModified
-        previewLabel.text = memoCellViewModel?.body
+    private func updateNoteCellViewModel() {
+        titleLabel.text = noteCellViewModel?.title
+        dateLabel.text = noteCellViewModel?.lastModified
+        previewLabel.text = noteCellViewModel?.body
     }
 }
 

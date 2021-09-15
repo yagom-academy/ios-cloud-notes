@@ -37,7 +37,7 @@ final class ComposeTextViewController: UIViewController, TextViewContraintable {
 
 extension ComposeTextViewController {
     
-    func setupNavigationItems() {
+    private func setupNavigationItems() {
         let rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save,
                                                  target: self,
                                                  action: #selector(didTapButton))
@@ -57,7 +57,7 @@ extension ComposeTextViewController {
 }
 
 extension ComposeTextViewController {
-    func configureView() {
+    private func configureView() {
         view.backgroundColor = .white
         view.addSubview(composeTextView)
     }

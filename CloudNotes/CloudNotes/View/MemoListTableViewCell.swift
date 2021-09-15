@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MemoListTableViewCell: UITableViewCell {
+final class MemoListTableViewCell: UITableViewCell {
     // MARK: Property
     static let identifier = "memoListTableViewCell"
     

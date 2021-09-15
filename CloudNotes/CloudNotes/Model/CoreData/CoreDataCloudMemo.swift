@@ -35,7 +35,7 @@ extension CoreDataCloudMemo {
         fetchedController.delegate = delegate
     }
     
-    func perforFetchCloudMemo() {
+    func performFetch() {
         do {
             try fetchedController.performFetch()
         } catch {

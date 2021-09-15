@@ -8,7 +8,7 @@
 import Foundation
 
 protocol TextSeparatable {
-    
+    func separateText(_ text: String) -> (title: String?, body: String?)
 }
 
 extension TextSeparatable {

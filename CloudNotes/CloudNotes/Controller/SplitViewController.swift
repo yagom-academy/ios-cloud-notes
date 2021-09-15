@@ -5,7 +5,6 @@
 // 
 
 import UIKit
-import CoreData
 
 final class SplitViewController: UISplitViewController, TextSeparatable {
     // MARK: Property
@@ -23,20 +22,20 @@ final class SplitViewController: UISplitViewController, TextSeparatable {
         setupMemoCoreData()
         setupDiffableDataSource()
         configureFetchedControllerDelegate()
-        coreDataMemo?.perforFetchCloudMemo()
+        coreDataMemo?.performFetch()
     }
 }
 
 extension SplitViewController {
-    func setupMemoCoreData() {
+    private func setupMemoCoreData() {
         coreDataMemo = CoreDataCloudMemo(persistentStoreDescripntion: nil)
     }
     
-    func setupDiffableDataSource() {
+    private func setupDiffableDataSource() {
         dataSource?.configure(coreDataMemo: coreDataMemo)
     }
     
-    func configureFetchedControllerDelegate() {
+    private  func configureFetchedControllerDelegate() {
         guard let delegate = dataSource else { return }
         coreDataMemo?.configureFetchedControllerDelegate(delegate: delegate)
     }

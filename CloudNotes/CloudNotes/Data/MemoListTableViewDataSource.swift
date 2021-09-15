@@ -8,12 +8,14 @@
 import UIKit
 
 final class MemoListTableViewDataSource: NSObject, UITableViewDataSource {
+    static let identifier = "cell"
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return MemoDataManager.memos.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: CellID.defaultCell.identifier, for: indexPath) as? MemoListTableViewCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: MemoListTableViewCell.identifier, for: indexPath) as? MemoListTableViewCell else {
             return UITableViewCell()
         }
         

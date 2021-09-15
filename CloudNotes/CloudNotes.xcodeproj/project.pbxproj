@@ -13,7 +13,6 @@
 		A830336D26DF972100EA30DC /* JSONParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = A830336C26DF972100EA30DC /* JSONParser.swift */; };
 		A830336F26DF976500EA30DC /* MemoDecodeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A830336E26DF976500EA30DC /* MemoDecodeModel.swift */; };
 		A83033C426E1146F00EA30DC /* MemoListTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A83033C326E1146F00EA30DC /* MemoListTableViewDataSource.swift */; };
-		A83033CB26E11DB900EA30DC /* NamePlace.swift in Sources */ = {isa = PBXBuildFile; fileRef = A83033CA26E11DB900EA30DC /* NamePlace.swift */; };
 		A83033CD26E1240100EA30DC /* MemoListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A83033CC26E1240100EA30DC /* MemoListTableViewCell.swift */; };
 		A83033D026E1256300EA30DC /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A83033CF26E1256300EA30DC /* UIView.swift */; };
 		A854899B26F03844001BF187 /* CoreDataUsable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A854899A26F03844001BF187 /* CoreDataUsable.swift */; };
@@ -61,7 +60,6 @@
 		A830336C26DF972100EA30DC /* JSONParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONParser.swift; sourceTree = "<group>"; };
 		A830336E26DF976500EA30DC /* MemoDecodeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoDecodeModel.swift; sourceTree = "<group>"; };
 		A83033C326E1146F00EA30DC /* MemoListTableViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoListTableViewDataSource.swift; sourceTree = "<group>"; };
-		A83033CA26E11DB900EA30DC /* NamePlace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NamePlace.swift; sourceTree = "<group>"; };
 		A83033CC26E1240100EA30DC /* MemoListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoListTableViewCell.swift; sourceTree = "<group>"; };
 		A83033CF26E1256300EA30DC /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
 		A854899A26F03844001BF187 /* CoreDataUsable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataUsable.swift; sourceTree = "<group>"; };
@@ -186,7 +184,6 @@
 		A83033C926E11DAA00EA30DC /* PlaceHolder */ = {
 			isa = PBXGroup;
 			children = (
-				A83033CA26E11DB900EA30DC /* NamePlace.swift */,
 				A85489A326F1D70C001BF187 /* SelectOptions.swift */,
 			);
 			path = PlaceHolder;
@@ -465,7 +462,6 @@
 				A872EFC026ECBB2F00D2E499 /* CoreDataError.swift in Sources */,
 				A83033D026E1256300EA30DC /* UIView.swift in Sources */,
 				A85489A426F1D70C001BF187 /* SelectOptions.swift in Sources */,
-				A83033CB26E11DB900EA30DC /* NamePlace.swift in Sources */,
 				A872EFBD26ECB72000D2E499 /* Memo+CoreDataProperties.swift in Sources */,
 				A85B477126E628760070417B /* CellContentDataHolder.swift in Sources */,
 				C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */,

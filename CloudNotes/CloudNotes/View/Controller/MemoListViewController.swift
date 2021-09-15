@@ -17,7 +17,7 @@ final class MemoListViewController: UIViewController, CoreDataUsable {
         super.viewDidLoad()
         //MARK: - TableView property and Method
         self.view.addSubview(tableView)
-        self.tableView.register(MemoListTableViewCell.self, forCellReuseIdentifier: CellID.defaultCell.identifier)
+        self.tableView.register(MemoListTableViewCell.self, forCellReuseIdentifier: MemoListTableViewCell.identifier)
         self.tableView.dataSource = tableViewDataSource
         self.tableView.delegate = self
         

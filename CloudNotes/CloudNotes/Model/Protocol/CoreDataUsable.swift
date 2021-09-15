@@ -23,7 +23,7 @@ extension CoreDataUsable {
                 tableview.reloadData()
             }
         } catch {
-            print(CoreDataError.fetchError.errorDescription)
+            print(CoreDataError.fetchError.localizedDescription)
         }
     }
     
@@ -31,7 +31,7 @@ extension CoreDataUsable {
         do {
             try context.save()
         } catch {
-            print(CoreDataError.saveError.errorDescription)
+            print(CoreDataError.saveError.localizedDescription)
         }
     }
     

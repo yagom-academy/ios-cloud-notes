@@ -53,7 +53,7 @@ extension MemoDetailViewController: UITextViewDelegate {
             currentMemoData.lastModifiedDate = today
             try self.context.save()
         } catch {
-            print(CoreDataError.saveError.errorDescription)
+            print(CoreDataError.saveError.localizedDescription)
         }
     }
 }

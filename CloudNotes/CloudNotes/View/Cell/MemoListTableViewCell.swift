@@ -8,6 +8,7 @@
 import UIKit
 
 class MemoListTableViewCell: UITableViewCell {
+    static let identifier = "cell"
     private var titleLabel: UILabel = UILabel()
     private var bodyLabel: UILabel = UILabel()
     private var dateLabel: UILabel = UILabel()

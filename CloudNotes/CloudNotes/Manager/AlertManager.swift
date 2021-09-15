@@ -9,14 +9,15 @@ import UIKit
 
 // MARK: Pad Setting
 class AlertManager {
-    weak var splitView: UISplitViewController?
+    weak var splitViewController: UISplitViewController?
     
     // MARK: Alertable Properties
     var activityViewPopover: UIPopoverPresentationController?
     var actionSheetPopover: UIPopoverPresentationController?
+    var currentActivityViewSender: ActivityViewSender = .button
     
     init(view: UISplitViewController) {
-        splitView = view
+        splitViewController = view
     }
     
     enum ViewStatus {
@@ -24,31 +25,69 @@ class AlertManager {
         case transition
     }
     
-    private func configurePadSetting(for popover: UIPopoverPresentationController?, status: ViewStatus) {
+    private func configurePadSetting(for popover: UIPopoverPresentationController?,
+                                     status: ViewStatus,
+                                     sender: ActivityViewSender)
+    {
         if UIDevice.current.userInterfaceIdiom == .pad {
-            guard let view = splitView?.view else { return }
-            let rectX = status == .load ? view.bounds.midX : view.bounds.midY
-            let rectY = status == .load ? view.bounds.midY : view.bounds.midX
-            let newRect = CGRect(x: rectX, y: rectY, width: .zero, height: .zero)
-            popover?.sourceView = view
-            popover?.sourceRect = newRect
-            popover?.permittedArrowDirections = []
+            switch sender {
+            case .cellSwipe:
+                showPopoverFromCell(popover: popover, status: status)
+            case .button:
+                showPopoverFromButton(popover: popover, status: status)
+            }
         }
+    }
+    
+    private func showPopoverFromCell(popover: UIPopoverPresentationController?, status: ViewStatus) {
+        guard let splitView = splitViewController?.view else { return }
+        
+        let rectX = status == .load ? splitView.bounds.midX : splitView.bounds.midY
+        let rectY = status == .load ? splitView.bounds.midY : splitView.bounds.midX
+        
+        let newRect = CGRect(x: rectX, y: rectY, width: .zero, height: .zero)
+        popover?.sourceView = splitView
+        popover?.sourceRect = newRect
+        popover?.permittedArrowDirections = []
+    }
+    
+    private func showPopoverFromButton(popover: UIPopoverPresentationController?, status: ViewStatus) {
+        guard let splitView = splitViewController?.view,
+              let detailNavigationController = splitViewController?.viewControllers.last
+                                                                    as? UINavigationController,
+              let detailViewController = detailNavigationController.topViewController
+                                                                    as? NoteDetailViewController,
+              let buttonWidth = detailViewController.navigationItem.rightBarButtonItem?.image?.size.width
+        else {
+            return
+        }
+
+        let sourceViewX = status == .load ? splitView.bounds.maxX : splitView.bounds.maxY
+        let sourceViewY = status == .load ? splitView.bounds.minY : splitView.bounds.minX
+        
+        let rectX = sourceViewX - buttonWidth
+        let rectY = sourceViewY + detailNavigationController.navigationBar.frame.height + buttonWidth / 2
+        let newRect = CGRect(x: rectX, y: rectY, width: .zero, height: .zero)
+        
+        popover?.sourceView = splitView
+        popover?.sourceRect = newRect
+        popover?.permittedArrowDirections = .up
     }
 }
 extension AlertManager: Alertable {
     func configurePadTransition() {
-        configurePadSetting(for: actionSheetPopover, status: .transition)
-        configurePadSetting(for: activityViewPopover, status: .transition)
+        configurePadSetting(for: actionSheetPopover, status: .transition, sender: currentActivityViewSender)
+        configurePadSetting(for: activityViewPopover, status: .transition, sender: currentActivityViewSender)
     }
 
-    func showActionSheet(of indexPath: IndexPath, noteTitle: String, deleteHandler: @escaping () -> Void) {
+    func showActionSheet(of indexPath: IndexPath, noteTitle: String, deleteHandler: @escaping () -> Void)
+    {
         let actionSheet = UIAlertController(title: ActionSheet.title,
                                             message: nil,
                                             preferredStyle: .actionSheet)
         
         let shareAction = UIAlertAction(title: ActionSheet.shareAction, style: .default) { _ in
-            self.showActivityView(of: indexPath, noteTitle: noteTitle)
+            self.showActivityView(of: indexPath, noteTitle: noteTitle, sender: .button)
         }
         
         let deleteAction = UIAlertAction(title: ActionSheet.deleteAction, style: .destructive) { _ in
@@ -61,20 +100,21 @@ extension AlertManager: Alertable {
         actionSheet.addAction(deleteAction)
         actionSheet.addAction(cancelAction)
         
-        configurePadSetting(for: actionSheet.popoverPresentationController, status: .load)
+        configurePadSetting(for: actionSheet.popoverPresentationController, status: .load, sender: .button)
         actionSheetPopover = actionSheet.popoverPresentationController
 
-        splitView?.present(actionSheet, animated: true, completion: nil)
+        splitViewController?.present(actionSheet, animated: true, completion: nil)
     }
     
-    func showActivityView(of indexPath: IndexPath, noteTitle: String) {
+    func showActivityView(of indexPath: IndexPath, noteTitle: String, sender: ActivityViewSender) {
         let shareText: String = noteTitle
         let activityView = UIActivityViewController(activityItems: [shareText], applicationActivities: nil)
         
-        configurePadSetting(for: activityView.popoverPresentationController, status: .load)
+        configurePadSetting(for: activityView.popoverPresentationController, status: .load, sender: sender)
         activityViewPopover = activityView.popoverPresentationController
+        currentActivityViewSender = sender
         
-        splitView?.present(activityView, animated: true, completion: nil)
+        splitViewController?.present(activityView, animated: true, completion: nil)
     }
     
     func showDeleteAlert(of indexPath: IndexPath, deleteHandler: @escaping () -> Void) {
@@ -91,6 +131,6 @@ extension AlertManager: Alertable {
         alert.addAction(deleteAction)
         alert.addAction(cancelAction)
         
-        splitView?.present(alert, animated: true, completion: nil)
+        splitViewController?.present(alert, animated: true, completion: nil)
     }
 }

@@ -11,7 +11,7 @@ protocol Alertable: AnyObject {
     var activityViewPopover: UIPopoverPresentationController? { get set }
     var actionSheetPopover: UIPopoverPresentationController? { get set }
     func showActionSheet(of indexPath: IndexPath, noteTitle: String, deleteHandler: @escaping () -> Void)
-    func showActivityView(of indexPath: IndexPath, noteTitle: String)
+    func showActivityView(of indexPath: IndexPath, noteTitle: String, sender: ActivityViewSender)
     func showDeleteAlert(of indexPath: IndexPath, deleteHandler: @escaping () -> Void)
     func configurePadTransition()
 }

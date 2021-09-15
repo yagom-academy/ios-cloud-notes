@@ -83,7 +83,7 @@ extension NoteListViewController {
 
         let shareAction =  UIContextualAction(style: .normal, title: Swipe.share) { (_, _, _) in
             let noteTitle = self.noteManager.fetchNote(at: indexPath.row)?.title ?? String.empty
-            self.alertDelegate?.showActivityView(of: indexPath, noteTitle: noteTitle)
+            self.alertDelegate?.showActivityView(of: indexPath, noteTitle: noteTitle, sender: .cellSwipe)
             self.tableView.reloadRows(at: [indexPath], with: .none)
         }
 

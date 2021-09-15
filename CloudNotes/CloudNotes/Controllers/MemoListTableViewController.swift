@@ -108,12 +108,12 @@ extension MemoListTableViewController {
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let body = parsedDatas[indexPath.row].body
-        delegate?.didTapMemo(self, memo: body)
+        guard let content = DataManager.shared.memoList[indexPath.row].content else { return }
+        delegate?.didTapMemo(self, memo: content)
 
         let destination = UINavigationController()
         let contentViewController = ContentViewController()
-        contentViewController.memo = body
+        contentViewController.memoEntity = DataManager.shared.memoList[indexPath.row]
         destination.viewControllers = [contentViewController]
 
         showDetailViewController(destination, sender: self)

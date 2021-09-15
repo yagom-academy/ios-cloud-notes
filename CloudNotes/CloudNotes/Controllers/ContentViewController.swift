@@ -123,7 +123,6 @@ extension ContentViewController: UITextViewDelegate {
                 showAlert(message: "메모를 입력하세요.")
                 return false
             }
-
             if let memoEntity = memoEntity {
                 memoEntity.content = memo
                 DataManager.shared.saveContext()

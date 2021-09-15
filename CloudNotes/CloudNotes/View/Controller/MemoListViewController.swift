@@ -8,7 +8,7 @@ import UIKit
 import CoreData
 
 final class MemoListViewController: UIViewController, CoreDataAccessible {
-    private let tableView = UITableView()
+    private lazy var tableView = UITableView()
     private let tableViewDataSource = MemoListTableViewDataSource()
     private let context = MemoDataManager.context
     private var memos = MemoDataManager.memos
@@ -69,6 +69,10 @@ extension MemoListViewController: UITableViewDelegate {
                     let memoToRemove = self.memos[indexPath.row]
                     self.deleteSaveFetchData(self.context, memoToRemove, tableView)
                     self.memos.remove(at: indexPath.row)
+                    
+                    let secondVC = self.splitViewController?.viewController(for: .secondary) as? MemoDetailViewController
+                    let holder = TextViewRelatedDataHolder(indexPath: indexPath, tableView: tableView, textViewText: nil)
+                    secondVC?.configure(holder)
                 }),
             UIContextualAction(
                 style: .normal,

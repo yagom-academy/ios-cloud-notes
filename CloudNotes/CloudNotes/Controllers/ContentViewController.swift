@@ -24,6 +24,14 @@ class ContentViewController: UIViewController {
     var originalMemoContent: String?
 
     // MARK: - Life Cycle
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if let memo = memo {
+            contentTextView.text = memo
+        } else if let memoEntity = memoEntity {
+            contentTextView.text = memoEntity.content
+        }
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .lightGray
@@ -42,6 +50,23 @@ class ContentViewController: UIViewController {
 
 // MARK: - Method
 extension ContentViewController {
+    func showAlertContainTwoAction(title: String = "", message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
+            if let memo = self.memoEntity {
+                DataManager.shared.deleteMemo(memo)
+                NotificationCenter.default.post(name: Self.memoDidDelete, object: nil)
+               // 여기
+                (self.splitViewController?.viewControllers.last as? UINavigationController)?.popViewController(animated: true)
+            }
+        }
+        let cancelAction = UIAlertAction(title: "취소", style: .default) { _ in
+            self.dismiss(animated: true, completion: nil)
+        }
+        alert.addActions([cancelAction, deleteAction])
+        present(alert, animated: true, completion: nil)
+    }
+
     private func setMemoListTableViewDelegate() {
         if let navigationController = splitViewController?.viewControllers.first,
            let memoListTableViewController = navigationController.children.first as? MemoListTableViewController {
@@ -62,7 +87,6 @@ extension ContentViewController {
         view.addSubview(contentTextView)
         contentTextView.setConstraintEqualToAnchor(superView: view)
 
-        contentTextView.text = memo
     }
 
     private func configureNavigationBar() {
@@ -79,8 +103,8 @@ extension ContentViewController {
             self?.present(activityViewController, animated: true, completion: nil)
         }
         let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { [weak self] _ in
-            DataManager.shared.deleteMemo(self?.memoEntity)
-            self?.navigationController?.popToRootViewController(animated: true)
+
+            self?.showAlertContainTwoAction(title: "진짜요?", message: "정말로 삭제하시겠어요?")
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         sheet.addActions([shareAction, deleteAction, cancelAction])
@@ -128,7 +152,8 @@ extension ContentViewController: UITextViewDelegate {
                 DataManager.shared.saveContext()
                 NotificationCenter.default.post(name: Self.memoDidUpdate, object: nil)
             } else {
-                DataManager.shared.addNewMemo(memo)
+                let title = String(memo.prefix(20))
+                DataManager.shared.addNewMemo(memo, title)
                 NotificationCenter.default.post(name: Self.newMemoDidInput, object: nil)
             }
             textView.resignFirstResponder()
@@ -149,4 +174,5 @@ extension ContentViewController: MemoListTableViewControllerDelegate {
 extension ContentViewController {
     static let newMemoDidInput = Notification.Name("newMemoDidInput")
     static let memoDidUpdate = Notification.Name("memoDidUpdate")
+    static let memoDidDelete = Notification.Name("memoDidDelete")
 }

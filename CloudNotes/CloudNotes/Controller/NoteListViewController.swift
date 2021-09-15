@@ -15,7 +15,6 @@ class NoteListViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        alertDelegate = splitViewController as? Alertable
         initTableView()
         NotificationCenter.default
             .addObserver(self, selector: #selector(updateTableView), name: .noteNotification, object: nil)
@@ -56,7 +55,7 @@ class NoteListViewController: UITableViewController {
         let detailRootViewController = NoteDetailViewController()
         let detailViewController = UINavigationController(
             rootViewController: detailRootViewController)
-        
+
         guard let note = noteManager.fetchNote(at: indexPath.row) else { return }
         
         detailRootViewController.initContent(of: note, at: indexPath)
@@ -81,13 +80,13 @@ extension NoteListViewController {
             }
             self.tableView.reloadRows(at: [indexPath], with: .none)
         }
-        
+
         let shareAction =  UIContextualAction(style: .normal, title: Swipe.share) { (_, _, _) in
             let noteTitle = self.noteManager.fetchNote(at: indexPath.row)?.title ?? String.empty
             self.alertDelegate?.showActivityView(of: indexPath, noteTitle: noteTitle)
             self.tableView.reloadRows(at: [indexPath], with: .none)
         }
-        
+
         let configuration = UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
         configuration.performsFirstActionWithFullSwipe = false
         

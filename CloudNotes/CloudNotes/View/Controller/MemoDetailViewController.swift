@@ -8,23 +8,6 @@
 import UIKit
 import CoreData
 
-enum SelectOptions {
-    case delete
-    case share
-    case cancle
-    
-    var literal: String {
-        switch self {
-        case .delete:
-            return "Delete"
-        case .share:
-            return "Share..."
-        case .cancle:
-            return "Cancle"
-        }
-    }
-}
-
 final class MemoDetailViewController: UIViewController, CoreDataUsable {
     private var textView = UITextView()
     private let context = MemoDataManager.context

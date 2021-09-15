@@ -19,6 +19,7 @@
 		A854899B26F03844001BF187 /* CoreDataUsable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A854899A26F03844001BF187 /* CoreDataUsable.swift */; };
 		A85489A026F0D4FA001BF187 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = A854899F26F0D4FA001BF187 /* Date.swift */; };
 		A85489A226F0ECD8001BF187 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = A85489A126F0ECD8001BF187 /* String.swift */; };
+		A85489A426F1D70C001BF187 /* SelectOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A85489A326F1D70C001BF187 /* SelectOptions.swift */; };
 		A85B476B26E4CA480070417B /* MemoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A85B476A26E4CA480070417B /* MemoDetailViewController.swift */; };
 		A85B476D26E4D9000070417B /* SplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A85B476C26E4D9000070417B /* SplitViewController.swift */; };
 		A85B477126E628760070417B /* CellContentDataHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A85B477026E628760070417B /* CellContentDataHolder.swift */; };
@@ -66,6 +67,7 @@
 		A854899A26F03844001BF187 /* CoreDataUsable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataUsable.swift; sourceTree = "<group>"; };
 		A854899F26F0D4FA001BF187 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		A85489A126F0ECD8001BF187 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
+		A85489A326F1D70C001BF187 /* SelectOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectOptions.swift; sourceTree = "<group>"; };
 		A85B476A26E4CA480070417B /* MemoDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoDetailViewController.swift; sourceTree = "<group>"; };
 		A85B476C26E4D9000070417B /* SplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitViewController.swift; sourceTree = "<group>"; };
 		A85B477026E628760070417B /* CellContentDataHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellContentDataHolder.swift; sourceTree = "<group>"; };
@@ -185,6 +187,7 @@
 			isa = PBXGroup;
 			children = (
 				A83033CA26E11DB900EA30DC /* NamePlace.swift */,
+				A85489A326F1D70C001BF187 /* SelectOptions.swift */,
 			);
 			path = PlaceHolder;
 			sourceTree = "<group>";
@@ -461,6 +464,7 @@
 				A85B476B26E4CA480070417B /* MemoDetailViewController.swift in Sources */,
 				A872EFC026ECBB2F00D2E499 /* CoreDataError.swift in Sources */,
 				A83033D026E1256300EA30DC /* UIView.swift in Sources */,
+				A85489A426F1D70C001BF187 /* SelectOptions.swift in Sources */,
 				A83033CB26E11DB900EA30DC /* NamePlace.swift in Sources */,
 				A872EFBD26ECB72000D2E499 /* Memo+CoreDataProperties.swift in Sources */,
 				A85B477126E628760070417B /* CellContentDataHolder.swift in Sources */,

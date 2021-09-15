@@ -22,6 +22,60 @@ class NoteListViewController: UITableViewController {
             .addObserver(self, selector: #selector(updateTableView), name: .noteNotification, object: nil)
     }
     
+    private func initTableView() {
+        title = NotesTable.navigationBarTitle
+        tableView.register(NoteCell.self, forCellReuseIdentifier: NotesTable.cellIdentifier)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
+                                                            target: self,
+                                                            action: #selector(addButtonTapped))
+    }
+    
+    @objc private func updateTableView(notification: Notification) {
+        if let updatedNotes = notification.userInfo?["notes"] as? [Note] {
+            notes = updatedNotes
+            tableView.reloadData()
+        }
+    }
+    
+    @objc private func addButtonTapped() {
+        noteManager.createNote()
+        let newIndexPath = findNewNoteIndexPath()
+        tableView.scrollToRow(at: newIndexPath, at: .bottom, animated: true)
+        showContentDetails(of: notes.last, at: newIndexPath)
+    }
+    
+    private func findNewNoteIndexPath() -> IndexPath {
+        let rowCount = notes.count
+        
+        if rowCount == .zero {
+            return IndexPath(row: .zero, section: .zero)
+        } else {
+            let lastRowIndex = rowCount - 1
+            return IndexPath(row: lastRowIndex, section: .zero)
+        }
+    }
+    
+    private func showContentDetails(of note: Note?, at indexPath: IndexPath) {
+        guard let note = note else { return }
+        
+        let detailRootViewController = NoteDetailViewController()
+        let detailViewController = UINavigationController(
+            rootViewController: detailRootViewController)
+        
+        detailRootViewController.initContent(of: note, at: indexPath)
+        detailRootViewController.noteDelegate = noteManager
+        detailRootViewController.alertDelegate = self
+        showDetailViewController(detailViewController, sender: self)
+    }
+    
+    func deleteNote(at indexPath: IndexPath) {
+        noteManager.deleteNote(at: indexPath)
+        splitViewController?.setViewController(nil, for: .secondary)
+    }
+}
+
+// MARK: Pad Setting
+extension NoteListViewController {
     override func viewWillTransition(to size: CGSize,
                                      with coordinator: UIViewControllerTransitionCoordinator)
     {
@@ -44,63 +98,9 @@ class NoteListViewController: UITableViewController {
             }
         }
     }
-    
-    @objc private func updateTableView(notification: Notification) {
-        if let updatedNotes = notification.userInfo?["notes"] as? [Note] {
-            notes = updatedNotes
-            tableView.reloadData()
-        }
-    }
-    
-    private func initTableView() {
-        title = NotesTable.navigationBarTitle
-        tableView.register(NoteCell.self, forCellReuseIdentifier: NotesTable.cellIdentifier)
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
-                                                            target: self,
-                                                            action: #selector(addButtonTapped))
-    }
-    
-    @objc private func addButtonTapped() {
-        noteManager.createNote()
-        let newIndexPath = findNewNoteIndexPath()
-        scrollDownToTableBottom(to: newIndexPath)
-        showContentDetails(of: notes.last, at: newIndexPath)
-    }
-    
-    private func findNewNoteIndexPath() -> IndexPath {
-        let rowCount = notes.count
-        
-        if rowCount == .zero {
-            return IndexPath(row: .zero, section: .zero)
-        } else {
-            let lastRowIndex = rowCount - 1
-            return IndexPath(row: lastRowIndex, section: .zero)
-        }
-    }
-    
-    private func scrollDownToTableBottom(to bottomIndexPath: IndexPath) {
-        tableView.scrollToRow(at: bottomIndexPath, at: .bottom, animated: true)
-    }
-    
-    private func showContentDetails(of note: Note?, at indexPath: IndexPath) {
-        guard let note = note else { return }
-        
-        let detailRootViewController = NoteDetailViewController()
-        let detailViewController = UINavigationController(
-            rootViewController: detailRootViewController)
-        
-        detailRootViewController.initContent(of: note, at: indexPath)
-        detailRootViewController.noteDelegate = noteManager
-        detailRootViewController.alertDelegate = self
-        showDetailViewController(detailViewController, sender: self)
-    }
-    
-    func deleteNote(at indexPath: IndexPath) {
-        noteManager.deleteNote(at: indexPath)
-        splitViewController?.setViewController(nil, for: .secondary)
-    }
 }
 
+// MARK: UITableViewDataSource, UITableViewDelegate
 extension NoteListViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return notes.count
@@ -140,6 +140,7 @@ extension NoteListViewController {
     }
 }
 
+// MARK: Alertable
 extension NoteListViewController: Alertable {
     func showActionSheet(of indexPath: IndexPath) {
         let actionSheet = UIAlertController(title: ActionSheet.title,

@@ -19,7 +19,7 @@
 		C7481C9325BBCF3A00B9CA55 /* CloudNotesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C9225BBCF3A00B9CA55 /* CloudNotesUITests.swift */; };
 		D46AF95526E75DD200E5D748 /* CurrentLocaleDateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46AF95426E75DD200E5D748 /* CurrentLocaleDateFormatter.swift */; };
 		D46AF97326E790A600E5D748 /* NoteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46AF97226E790A600E5D748 /* NoteCell.swift */; };
-		D46AF98C26E86C7700E5D748 /* NoteUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46AF98B26E86C7700E5D748 /* NoteUpdater.swift */; };
+		D46AF98C26E86C7700E5D748 /* NoteManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46AF98B26E86C7700E5D748 /* NoteManager.swift */; };
 		D46AF99626E88DBA00E5D748 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46AF99526E88DBA00E5D748 /* String+Extension.swift */; };
 		D46AF9A126E895E800E5D748 /* UITextView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46AF9A026E895E800E5D748 /* UITextView+Extension.swift */; };
 		D46AFB9526F042C400E5D748 /* Note+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46AFB9326F042C400E5D748 /* Note+CoreDataClass.swift */; };
@@ -76,7 +76,7 @@
 		D0A845614855D6749682479E /* Pods_CloudNotesTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CloudNotesTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D46AF95426E75DD200E5D748 /* CurrentLocaleDateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentLocaleDateFormatter.swift; sourceTree = "<group>"; };
 		D46AF97226E790A600E5D748 /* NoteCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteCell.swift; sourceTree = "<group>"; };
-		D46AF98B26E86C7700E5D748 /* NoteUpdater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteUpdater.swift; sourceTree = "<group>"; };
+		D46AF98B26E86C7700E5D748 /* NoteManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteManager.swift; sourceTree = "<group>"; };
 		D46AF99526E88DBA00E5D748 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		D46AF9A026E895E800E5D748 /* UITextView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+Extension.swift"; sourceTree = "<group>"; };
 		D46AFB9326F042C400E5D748 /* Note+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Note+CoreDataClass.swift"; path = "/Users/joey/Swift/Yagom/08_cloudNotes/ios-cloud-notes/CloudNotes/CloudNotes/Model/Note+CoreDataClass.swift"; sourceTree = "<absolute>"; };
@@ -158,6 +158,7 @@
 		C7481C6C25BBCF3900B9CA55 /* CloudNotes */ = {
 			isa = PBXGroup;
 			children = (
+				D46AFBF026F1DF6E00E5D748 /* Manager */,
 				D46AFBA026F0841700E5D748 /* Enumeration */,
 				D46FEAD526E6673100B328A7 /* AppLifeCycle */,
 				D46AF99426E88DA300E5D748 /* Extension */,
@@ -194,7 +195,6 @@
 			isa = PBXGroup;
 			children = (
 				D46AF95426E75DD200E5D748 /* CurrentLocaleDateFormatter.swift */,
-				D46AF98B26E86C7700E5D748 /* NoteUpdater.swift */,
 				D46AFBDD26F19D5700E5D748 /* Alertable.swift */,
 			);
 			path = Protocol;
@@ -226,6 +226,14 @@
 				D46AFBE226F19EE200E5D748 /* Swipe.swift */,
 			);
 			path = Enumeration;
+			sourceTree = "<group>";
+		};
+		D46AFBF026F1DF6E00E5D748 /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				D46AF98B26E86C7700E5D748 /* NoteManager.swift */,
+			);
+			path = Manager;
 			sourceTree = "<group>";
 		};
 		D46FEAD426E6672700B328A7 /* Controller */ = {
@@ -500,7 +508,7 @@
 				D46AF9A126E895E800E5D748 /* UITextView+Extension.swift in Sources */,
 				D46FEAAF26E653AB00B328A7 /* NoteDetailViewController.swift in Sources */,
 				D46FEAAA26E6539800B328A7 /* NoteListViewController.swift in Sources */,
-				D46AF98C26E86C7700E5D748 /* NoteUpdater.swift in Sources */,
+				D46AF98C26E86C7700E5D748 /* NoteManager.swift in Sources */,
 				D46AFBA226F0842900E5D748 /* ActionSheet.swift in Sources */,
 				D46AFB9626F042C400E5D748 /* Note+CoreDataProperties.swift in Sources */,
 			);

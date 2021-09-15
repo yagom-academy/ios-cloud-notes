@@ -8,7 +8,7 @@
 import UIKit
 
 class NoteDetailViewController: UIViewController {
-    weak var delegate: NoteUpdater?
+    weak var delegate: NoteManager?
     weak var alertDelegate: Alertable?
     private var bodyTextView = UITextView()
     private var indexPath: IndexPath?

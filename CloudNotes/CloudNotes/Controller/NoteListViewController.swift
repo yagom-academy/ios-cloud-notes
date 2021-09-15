@@ -6,19 +6,13 @@
 //
 
 import UIKit
-import CoreData
 
 class NoteListViewController: UITableViewController {
     private var notes: [Note] = []
     let cellIdentifier = "noteCell"
+    var noteManager = NoteManager()
     var activityViewPopover: UIPopoverPresentationController?
     var actionSheetPopover: UIPopoverPresentationController?
-    
-    var context: NSManagedObjectContext {
-        guard let app = UIApplication.shared.delegate as? AppDelegate else { fatalError() }
-        
-        return app.persistentContainer.viewContext
-    }
     
     internal func showActivityView(of indexPath: IndexPath) {
         let shareText: String = notes[indexPath.row].title
@@ -55,8 +49,15 @@ class NoteListViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        fetchNotes()
+        notes = noteManager.fetchNotes()
         initTableView()
+        NotificationCenter.default
+            .addObserver(self, selector: #selector(updateTableView), name: .noteNotification, object: nil)
+    }
+    
+    @objc private func updateTableView() {
+        notes = noteManager.fetchNotes()
+        tableView.reloadData()
     }
     
     private func initTableView() {
@@ -69,7 +70,7 @@ class NoteListViewController: UITableViewController {
     }
     
     @objc private func addButtonTapped() {
-        createNote()
+        noteManager.createNote()
         let newIndexPath = findNewNoteIndexPath()
         scrollDownToTableBottom(to: newIndexPath)
         showContentDetails(of: notes.last, at: newIndexPath)
@@ -98,9 +99,14 @@ class NoteListViewController: UITableViewController {
             rootViewController: detailRootViewController)
         
         detailRootViewController.initContent(of: note, at: indexPath)
-        detailRootViewController.delegate = self
+        detailRootViewController.delegate = noteManager
         detailRootViewController.alertDelegate = self
         showDetailViewController(detailViewController, sender: self)
+    }
+    
+    func deleteNote(at indexPath: IndexPath) {
+        noteManager.deleteNote(at: indexPath)
+        splitViewController?.setViewController(nil, for: .secondary)
     }
 }
 
@@ -140,53 +146,6 @@ extension NoteListViewController {
         configuration.performsFirstActionWithFullSwipe = false
         
         return configuration
-    }
-}
-
-extension NoteListViewController: NoteUpdater {
-    func saveContext() {
-        if context.hasChanges {
-            do {
-                try context.save()
-                fetchNotes()
-            } catch {
-                print(error)
-            }
-        }
-    }
-    
-    func createNote() {
-        let newNote = Note(context: context)
-        newNote.title = String.empty
-        newNote.body = String.empty
-        newNote.lastModified = Date().timeIntervalSince1970
-        saveContext()
-    }
-    
-    func updateNote(at indexPath: IndexPath,
-                    with noteData: (title: String, body: String, lastModified: Double)) {
-        let noteToUpdate = notes[indexPath.row]
-        noteToUpdate.title = noteData.title
-        noteToUpdate.body = noteData.body
-        noteToUpdate.lastModified = noteData.lastModified
-        
-        saveContext()
-    }
-    
-    func fetchNotes() {
-        do {
-            notes = try context.fetch(Note.fetchRequest())
-            self.tableView.reloadData()
-        } catch {
-            print("Data Not Found")
-        }
-    }
-    
-    func deleteNote(at indexPath: IndexPath) {
-        let noteToDelete = notes[indexPath.row]
-        context.delete(noteToDelete)
-        saveContext()
-        splitViewController?.setViewController(nil, for: .secondary)
     }
 }
 

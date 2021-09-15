@@ -100,7 +100,7 @@ class NoteListViewController: UITableViewController {
             rootViewController: detailRootViewController)
         
         detailRootViewController.initContent(of: note, at: indexPath)
-        detailRootViewController.delegate = noteManager
+        detailRootViewController.noteDelegate = noteManager
         detailRootViewController.alertDelegate = self
         showDetailViewController(detailViewController, sender: self)
     }

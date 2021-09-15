@@ -8,7 +8,7 @@
 import UIKit
 
 class NoteDetailViewController: UIViewController {
-    weak var delegate: NoteManager?
+    weak var noteDelegate: NoteManager?
     weak var alertDelegate: Alertable?
     private var bodyTextView = UITextView()
     private var indexPath: IndexPath?
@@ -71,6 +71,6 @@ extension NoteDetailViewController: UITextViewDelegate {
                            body: textView.body ?? String.empty,
                            lastModified: Date().timeIntervalSince1970)
         
-        delegate?.updateNote(at: indexPath, with: updatedData)
+        noteDelegate?.updateNote(at: indexPath, with: updatedData)
     }
 }

@@ -8,7 +8,6 @@
 import UIKit
 
 class NoteListViewController: UITableViewController {
-    private var notes: [Note] = []
     var noteManager = NoteManager()
     weak var alertDelegate: Alertable?
     
@@ -16,7 +15,6 @@ class NoteListViewController: UITableViewController {
         super.viewDidLoad()
         
         alertDelegate = splitViewController as? Alertable
-        notes = noteManager.fetchNotes()
         initTableView()
         NotificationCenter.default
             .addObserver(self, selector: #selector(updateTableView), name: .noteNotification, object: nil)
@@ -31,21 +29,18 @@ class NoteListViewController: UITableViewController {
     }
     
     @objc private func updateTableView(notification: Notification) {
-        if let updatedNotes = notification.userInfo?["notes"] as? [Note] {
-            notes = updatedNotes
-            tableView.reloadData()
-        }
+        tableView.reloadData()
     }
     
     @objc private func addButtonTapped() {
         noteManager.createNote()
         let newIndexPath = findNewNoteIndexPath()
         tableView.scrollToRow(at: newIndexPath, at: .bottom, animated: true)
-        showContentDetails(of: notes.last, at: newIndexPath)
+        showContentDetails(at: newIndexPath)
     }
     
     private func findNewNoteIndexPath() -> IndexPath {
-        let rowCount = notes.count
+        let rowCount = noteManager.count
         
         if rowCount == .zero {
             return IndexPath(row: .zero, section: .zero)
@@ -55,12 +50,12 @@ class NoteListViewController: UITableViewController {
         }
     }
     
-    private func showContentDetails(of note: Note?, at indexPath: IndexPath) {
-        guard let note = note else { return }
-        
+    private func showContentDetails(at indexPath: IndexPath) {
         let detailRootViewController = NoteDetailViewController()
         let detailViewController = UINavigationController(
             rootViewController: detailRootViewController)
+        
+        guard let note = noteManager.fetchNote(at: indexPath.row) else { return }
         
         detailRootViewController.initContent(of: note, at: indexPath)
         detailRootViewController.noteDelegate = noteManager
@@ -72,21 +67,23 @@ class NoteListViewController: UITableViewController {
 // MARK: UITableViewDataSource, UITableViewDelegate
 extension NoteListViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return notes.count
+        return noteManager.count
     }
 
     override func tableView(_ tableView: UITableView,
                             cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: NotesTable.cellIdentifier)
-                as? NoteCell, indexPath.row < notes.count else { return UITableViewCell() }
+        guard let cell = tableView
+                .dequeueReusableCell(withIdentifier: NotesTable.cellIdentifier) as? NoteCell,
+              let note = noteManager.fetchNote(at: indexPath.row),
+              indexPath.row < noteManager.count else { return UITableViewCell() }
 
-        cell.initCell(with: notes[indexPath.row])
+        cell.initCell(with: note)
 
         return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        showContentDetails(of: notes[indexPath.row], at: indexPath)
+        showContentDetails(at: indexPath)
     }
     
     override func tableView(_ tableView: UITableView,
@@ -100,7 +97,8 @@ extension NoteListViewController {
         }
         
         let shareAction =  UIContextualAction(style: .normal, title: Swipe.share) { (_, _, _) in
-            self.alertDelegate?.showActivityView(of: indexPath, noteTitle: self.notes[indexPath.row].title)
+            let noteTitle = self.noteManager.fetchNote(at: indexPath.row)?.title ?? String.empty
+            self.alertDelegate?.showActivityView(of: indexPath, noteTitle: noteTitle)
             self.tableView.reloadRows(at: [indexPath], with: .none)
         }
         

@@ -9,15 +9,23 @@ import UIKit
 import CoreData
 
 class NoteManager {
-    private var notes: [Note] = []
-    
     private var context: NSManagedObjectContext {
         guard let app = UIApplication.shared.delegate as? AppDelegate else { fatalError() }
         
         return app.persistentContainer.viewContext
     }
     
-    func saveContext() {
+    private lazy var notes: [Note] = fetchNotes()
+    
+    var count: Int {
+        return notes.count
+    }
+    
+    func fetchNote(at index: Int) -> Note? {
+        return notes[index]
+    }
+    
+    private func saveContext() {
         if context.hasChanges {
             do {
                 try context.save()

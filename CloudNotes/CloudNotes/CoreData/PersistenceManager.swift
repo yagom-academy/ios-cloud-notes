@@ -14,7 +14,7 @@ class PersistenceManager {
     private init() {}
     
     private var persistentContainer: NSPersistentContainer = {
-        let container = NSPersistentContainer(name: "Memo")
+        let container = NSPersistentContainer(name: "CloudNotes")
         container.loadPersistentStores(completionHandler: { (description, error) in
             if let error = error as NSError? {
                 fatalError("Unresolved error \(error), \(error.userInfo)")

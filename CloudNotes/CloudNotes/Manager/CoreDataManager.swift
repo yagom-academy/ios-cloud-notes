@@ -52,9 +52,30 @@ extension CoreDataManager {
         saveContext()
     }
     
+    func createMemo(title: String, body: String, lastModifiedDate: Date) -> MemoEntity {
+        let memo = MemoEntity(context: mainContext)
+        memo.title = title
+        memo.body = body
+        memo.lastModifiedDate = lastModifiedDate
+        return memo
+    }
+    
     func updateMemo(modifyMemo: MemoEntity, with indexPath: IndexPath) {
         var modifyEntity = memoList[indexPath.row]
         modifyEntity = modifyMemo
         saveContext()
     }
+    
+    func fetchMemo() {
+        let request: NSFetchRequest<MemoEntity> = MemoEntity.fetchRequest()
+        let sortByDateDescending = NSSortDescriptor(key: "lastModifiedDate", ascending: false)
+        request.sortDescriptors = [sortByDateDescending]
+        
+        do {
+            memoList = try mainContext.fetch(request)
+        } catch {
+            print(error)
+        }
+    }
+    
 }

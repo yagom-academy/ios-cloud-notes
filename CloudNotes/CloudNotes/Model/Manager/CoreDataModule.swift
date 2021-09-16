@@ -11,6 +11,7 @@ import CoreData
 enum CoreDataError: Error, LocalizedError {
     case failedToGetEntity
     case failedToConvert
+    case failedToUpdate
     
     var errorDescription: String? {
         switch self {
@@ -18,6 +19,8 @@ enum CoreDataError: Error, LocalizedError {
             return "데이터베이스 entity 정보를 가져오지 못했습니다."
         case .failedToConvert:
             return "데이터 변환에 실패하였습니다."
+        case .failedToUpdate:
+            return "업데이트에 실패하였습니다."
         }
     }
 }
@@ -88,5 +91,31 @@ extension CoreDataModule {
         } catch {
             completionHandler(nil, error)
         }
+    }
+    
+    func update<T: NSManagedObject>(objectType: T.Type,
+                                    searchBy predicate: NSPredicate,
+                                    chnageTo objectInfo: [String: Any],
+                                    completionHandler: (Error?) -> Void) {
+        let fetchRequest = T.fetchRequest()
+        fetchRequest.predicate = predicate
+        
+        do {
+            let fetchedDatas = try context.fetch(fetchRequest)
+            guard isOnlyOneData(in: fetchedDatas), let targetData = fetchedDatas.first as? NSManagedObject else{
+                throw CoreDataError.failedToUpdate
+            }
+            
+            for (key, value) in objectInfo {
+                targetData.setValue(value, forKey: key)
+            }
+            try context.save()
+        } catch  {
+            completionHandler(error)
+        }
+    }
+    
+    private func isOnlyOneData(in list: [Any]) -> Bool {
+        return list.count == 1
     }
 }

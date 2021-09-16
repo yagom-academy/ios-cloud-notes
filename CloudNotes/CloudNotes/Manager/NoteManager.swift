@@ -8,72 +8,53 @@
 import UIKit
 import CoreData
 
-class NoteManager {
-    let coreDataStack = CoreDataStack(modelName: CoreData.modelName)
-    lazy var context: NSManagedObjectContext = coreDataStack.context
-    
-    private lazy var notes: [Note] = fetchNotes()
+class NoteManager: NSObject {
+    private let coreDataStack = CoreDataStack(modelName: CoreData.modelName)
     
     var count: Int {
-        return notes.count
+        return fetchedResultsController.sections?[.zero].numberOfObjects ?? 0
     }
     
-    func fetchNote(at index: Int) -> Note? {
-        return notes[index]
-    }
-    
-    private func saveContext() {
-        if context.hasChanges {
-            do {
-                try context.save()
-                fetchNotes()
-                NotificationCenter.default.post(name: .noteNotification,
-                                                object: nil,
-                                                userInfo: ["notes": notes])
-            } catch {
-                print(error)
-            }
-        }
-    }
-    
+    lazy var fetchedResultsController: NSFetchedResultsController<Note> = {
+        let fetchRequest: NSFetchRequest<Note> = Note.fetchRequest()
+        let sort = NSSortDescriptor(key: #keyPath(Note.lastModified), ascending: false)
+        fetchRequest.sortDescriptors = [sort]
+        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
+                                                              managedObjectContext: coreDataStack.context,
+                                                              sectionNameKeyPath: nil,
+                                                              cacheName: nil)
+        
+        return fetchedResultsController
+    }()
+}
+
+extension NoteManager: NoteUpdater {    
     func createNote() {
-        let newNote = Note(context: context)
+        let newNote = Note(context: coreDataStack.context)
         newNote.title = String.empty
         newNote.body = String.empty
         newNote.lastModified = Date().timeIntervalSince1970
-        saveContext()
-    }
-
-    @discardableResult
-    func fetchNotes() -> [Note] {
-        do {
-            notes = try context.fetch(Note.fetchRequest())
-            return notes
-        } catch {
-            print("Data Not Found")
-            return []
-        }
+        coreDataStack.saveContext()
     }
 
     func updateNote(at indexPath: IndexPath,
                     with noteData: (title: String, body: String, lastModified: Double)) {
-        let noteToUpdate = notes[indexPath.row]
+        let noteToUpdate = fetchedResultsController.object(at: indexPath)
         noteToUpdate.title = noteData.title
         noteToUpdate.body = noteData.body
         noteToUpdate.lastModified = noteData.lastModified
         
-        saveContext()
+        coreDataStack.saveContext()
     }
 
     func deleteNote(at indexPath: IndexPath) {
-        let noteToDelete = notes[indexPath.row]
-        context.delete(noteToDelete)
-        saveContext()
+        let noteToDelete = fetchedResultsController.object(at: indexPath)
+        coreDataStack.context.delete(noteToDelete)
+        coreDataStack.saveContext()
         NotificationCenter.default.post(name: .deleteNotification, object: nil)
     }
 }
 
 extension Notification.Name {
-    static let noteNotification = Notification.Name("noteNotification")
     static let deleteNotification = Notification.Name("deleteNotification")
 }

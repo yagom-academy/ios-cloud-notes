@@ -15,13 +15,15 @@ class NoteListDataSource: NSObject, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return noteManager?.count ?? 0
+        guard let sections = noteManager?.fetchedResultsController.sections else { return .zero }
+        
+        return sections[section].numberOfObjects
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView
                 .dequeueReusableCell(withIdentifier: NotesTable.cellIdentifier) as? NoteCell,
-              let note = noteManager?.fetchNote(at: indexPath.row),
+              let note = noteManager?.fetchedResultsController.object(at: indexPath),
               let count = noteManager?.count,
               indexPath.row < count else { return UITableViewCell() }
 

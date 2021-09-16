@@ -21,6 +21,7 @@
 		D45B299D26F3808100A7CB99 /* Note+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45B299B26F3808100A7CB99 /* Note+CoreDataProperties.swift */; };
 		D45B29A226F380E800A7CB99 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45B29A126F380E800A7CB99 /* CoreDataStack.swift */; };
 		D45B29A726F3827F00A7CB99 /* CoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45B29A626F3827F00A7CB99 /* CoreData.swift */; };
+		D45B29AC26F397EA00A7CB99 /* NoteUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45B29AB26F397EA00A7CB99 /* NoteUpdater.swift */; };
 		D46AF95526E75DD200E5D748 /* DateFormatter+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46AF95426E75DD200E5D748 /* DateFormatter+Extension.swift */; };
 		D46AF97326E790A600E5D748 /* NoteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46AF97226E790A600E5D748 /* NoteCell.swift */; };
 		D46AF98C26E86C7700E5D748 /* NoteManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46AF98B26E86C7700E5D748 /* NoteManager.swift */; };
@@ -84,6 +85,7 @@
 		D45B299B26F3808100A7CB99 /* Note+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Note+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
 		D45B29A126F380E800A7CB99 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		D45B29A626F3827F00A7CB99 /* CoreData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreData.swift; sourceTree = "<group>"; };
+		D45B29AB26F397EA00A7CB99 /* NoteUpdater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteUpdater.swift; sourceTree = "<group>"; };
 		D46AF95426E75DD200E5D748 /* DateFormatter+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Extension.swift"; sourceTree = "<group>"; };
 		D46AF97226E790A600E5D748 /* NoteCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteCell.swift; sourceTree = "<group>"; };
 		D46AF98B26E86C7700E5D748 /* NoteManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteManager.swift; sourceTree = "<group>"; };
@@ -207,6 +209,7 @@
 			isa = PBXGroup;
 			children = (
 				D46AFBDD26F19D5700E5D748 /* Alertable.swift */,
+				D45B29AB26F397EA00A7CB99 /* NoteUpdater.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -214,8 +217,8 @@
 		D46AF93C26E74EF700E5D748 /* CoreDate */ = {
 			isa = PBXGroup;
 			children = (
-				D45B299A26F3808100A7CB99 /* Note+CoreDataClass.swift */,
 				D45B29A126F380E800A7CB99 /* CoreDataStack.swift */,
+				D45B299A26F3808100A7CB99 /* Note+CoreDataClass.swift */,
 				D45B299B26F3808100A7CB99 /* Note+CoreDataProperties.swift */,
 				C7481C7625BBCF3900B9CA55 /* CloudNotes.xcdatamodeld */,
 			);
@@ -527,6 +530,7 @@
 				D46AFC5B26F26A7800E5D748 /* ActivityViewSender.swift in Sources */,
 				C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */,
 				D46AF95526E75DD200E5D748 /* DateFormatter+Extension.swift in Sources */,
+				D45B29AC26F397EA00A7CB99 /* NoteUpdater.swift in Sources */,
 				D46AFBDE26F19D5700E5D748 /* Alertable.swift in Sources */,
 				D45B299D26F3808100A7CB99 /* Note+CoreDataProperties.swift in Sources */,
 				D46AFC3E26F2550200E5D748 /* NoteListDataSource.swift in Sources */,

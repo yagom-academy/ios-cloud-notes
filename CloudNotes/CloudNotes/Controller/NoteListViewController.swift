@@ -6,58 +6,55 @@
 //
 
 import UIKit
+import CoreData
 
 class NoteListViewController: UITableViewController {
-    var noteManager = NoteManager()
+    private var noteManager = NoteManager()
     weak var alertDelegate: Alertable?
-    lazy var noteListDataSource = NoteListDataSource(noteManager: noteManager)
-    
+    private lazy var noteListDataSource = NoteListDataSource(noteManager: noteManager)
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        initTableView()
-        NotificationCenter.default
-            .addObserver(self, selector: #selector(updateTableView), name: .noteNotification, object: nil)
+        performFetch()
+        setUpTableView()
     }
-    
-    private func initTableView() {
+
+    private func setUpTableView() {
         title = NotesTable.navigationBarTitle
+        noteManager.fetchedResultsController.delegate = self
         tableView.dataSource = noteListDataSource
         tableView.register(NoteCell.self, forCellReuseIdentifier: NotesTable.cellIdentifier)
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
                                                             target: self,
                                                             action: #selector(addButtonTapped))
     }
-    
-    @objc private func updateTableView(notification: Notification) {
-        tableView.reloadData()
-    }
-    
+
     @objc private func addButtonTapped() {
         noteManager.createNote()
-        let newIndexPath = findNewNoteIndexPath()
-        tableView.scrollToRow(at: newIndexPath, at: .bottom, animated: true)
-        showContentDetails(at: newIndexPath)
     }
     
-    private func findNewNoteIndexPath() -> IndexPath {
-        let rowCount = noteManager.count
-        
-        if rowCount == .zero {
-            return IndexPath(row: .zero, section: .zero)
-        } else {
-            let lastRowIndex = rowCount - 1
-            return IndexPath(row: lastRowIndex, section: .zero)
+    private func performFetch() {
+        do {
+            try noteManager.fetchedResultsController.performFetch()
+        } catch {
+            fatalError("Failed to initialize FetchedResultsController: \(error)")
         }
     }
-    
+
+    private func updateViewWhenNewNoteIsAdded(at indexPath: IndexPath) {
+        tableView.insertRows(at: [indexPath], with: .automatic)
+        tableView.scrollToRow(at: indexPath, at: .top, animated: true)
+        showContentDetails(at: indexPath)
+    }
+
     private func showContentDetails(at indexPath: IndexPath) {
         let detailRootViewController = NoteDetailViewController()
         let detailViewController = UINavigationController(
             rootViewController: detailRootViewController)
 
-        guard let note = noteManager.fetchNote(at: indexPath.row) else { return }
-        
+        let note = noteManager.fetchedResultsController.object(at: indexPath)
+
         detailRootViewController.initContent(of: note, at: indexPath)
         detailRootViewController.noteDelegate = noteManager
         detailRootViewController.alertDelegate = alertDelegate
@@ -70,7 +67,7 @@ extension NoteListViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         showContentDetails(at: indexPath)
     }
-    
+
     override func tableView(_ tableView: UITableView,
                             trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath)
     -> UISwipeActionsConfiguration? {
@@ -82,14 +79,46 @@ extension NoteListViewController {
         }
 
         let shareAction =  UIContextualAction(style: .normal, title: Swipe.share) { (_, _, _) in
-            let noteTitle = self.noteManager.fetchNote(at: indexPath.row)?.title ?? String.empty
+            let note = self.noteManager.fetchedResultsController.object(at: indexPath)
+            let noteTitle = note.title
             self.alertDelegate?.showActivityView(of: indexPath, noteTitle: noteTitle, sender: .cellSwipe)
             self.tableView.reloadRows(at: [indexPath], with: .none)
         }
 
         let configuration = UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
         configuration.performsFirstActionWithFullSwipe = false
-        
+
         return configuration
+    }
+}
+
+extension NoteListViewController: NSFetchedResultsControllerDelegate {
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tableView.beginUpdates()
+    }
+
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
+                    didChange anObject: Any,
+                    at indexPath: IndexPath?,
+                    for type: NSFetchedResultsChangeType,
+                    newIndexPath: IndexPath?)
+    {
+        switch type {
+        case .insert:
+            guard let newIndexPath = newIndexPath else { return }
+            updateViewWhenNewNoteIsAdded(at: newIndexPath)
+        case .delete:
+            guard let indexPath = indexPath else { return }
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+        case .update:
+            guard let indexPath = indexPath else { return }
+            tableView.reloadRows(at: [indexPath], with: .none)
+        default:
+            break
+        }
+    }
+
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tableView.endUpdates()
     }
 }

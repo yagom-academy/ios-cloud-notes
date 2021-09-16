@@ -17,6 +17,7 @@
 		63A619C126DE06F50065AC84 /* MemoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A619C026DE06F50065AC84 /* MemoDetailViewController.swift */; };
 		63A619C426DE15FE0065AC84 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A619C326DE15FE0065AC84 /* Parser.swift */; };
 		63A619C726DE18DD0065AC84 /* Memo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A619C626DE18DD0065AC84 /* Memo.swift */; };
+		63E73BE426F267D9000D2F02 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634B417926F26628003EAE56 /* CoreDataManager.swift */; };
 		C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */; };
 		C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */; };
 		C7481C7225BBCF3900B9CA55 /* SplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C7125BBCF3900B9CA55 /* SplitViewController.swift */; };
@@ -46,6 +47,7 @@
 /* Begin PBXFileReference section */
 		6329130526E737510050C9E7 /* MessengerBetweenController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessengerBetweenController.swift; sourceTree = "<group>"; };
 		63314D7926E4FAE50049FB26 /* UITextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextView.swift; sourceTree = "<group>"; };
+		634B417926F26628003EAE56 /* CoreDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		637208B326E1359C00744419 /* MemoListViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoListViewDelegate.swift; sourceTree = "<group>"; };
 		6380924426DF943000075575 /* SplitViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitViewDelegate.swift; sourceTree = "<group>"; };
 		6380924826DFACC300075575 /* MemoListViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoListViewDataSource.swift; sourceTree = "<group>"; };
@@ -117,6 +119,7 @@
 			isa = PBXGroup;
 			children = (
 				C7481C7625BBCF3900B9CA55 /* CloudNotes.xcdatamodeld */,
+				634B417926F26628003EAE56 /* CoreDataManager.swift */,
 			);
 			path = CoreData;
 			sourceTree = "<group>";
@@ -384,6 +387,7 @@
 				6380924C26DFB9ED00075575 /* MemoListViewCell.swift in Sources */,
 				C7481C7225BBCF3900B9CA55 /* SplitViewController.swift in Sources */,
 				637208B426E1359C00744419 /* MemoListViewDelegate.swift in Sources */,
+				63E73BE426F267D9000D2F02 /* CoreDataManager.swift in Sources */,
 				63A619C126DE06F50065AC84 /* MemoDetailViewController.swift in Sources */,
 				C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */,
 				6329130626E737510050C9E7 /* MessengerBetweenController.swift in Sources */,

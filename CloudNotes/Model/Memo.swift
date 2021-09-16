@@ -8,6 +8,8 @@
 import Foundation
 
 class Memo: Decodable {
+    static let associatedEntity = "CloudNote"
+
     let title: String
     let description: String
     let lastUpdatedTime: TimeInterval

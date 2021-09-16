@@ -21,17 +21,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func sceneDidEnterBackground(_ scene: UIScene) {
-        (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
+        (window?.rootViewController as? SplitViewController)?.saveContext()
     }
 
     private func setWindowAndCoreData(windowScene: UIWindowScene) {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            return
-        }
-
-        let coreDataContainer = appDelegate.persistentContainer
         let splitViewController = SplitViewController(style: .doubleColumn)
-        splitViewController.coreDataContainer = coreDataContainer
 
         window = UIWindow(windowScene: windowScene)
         window?.rootViewController = splitViewController

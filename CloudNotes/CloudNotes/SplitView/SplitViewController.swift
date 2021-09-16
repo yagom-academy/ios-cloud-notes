@@ -12,9 +12,9 @@ class SplitViewController: UISplitViewController {
     private let memoListView = MemoListViewController()
     private let memoDetailView = MemoDetailViewController()
     private let splitViewDelegator = SplitViewDelegate()
+    private let coreDataManager = CoreDataManager()
 
-    var coreDataContainer: NSPersistentContainer?
-    var isTest = true
+    var isTest = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,13 +49,17 @@ extension SplitViewController: MessengerBetweenController {
     }
 }
 
-// MARK: - Load MemoList
+// MARK: - Managing CoreData
 extension SplitViewController {
+    func saveContext() {
+        coreDataManager.saveContext()
+    }
+
     private func loadMemoList() -> [Memo]? {
         if isTest {
             return loadMemoListForTest()
         } else {
-            return [Memo]()
+            return coreDataManager.retrieveMemoList()
         }
     }
 

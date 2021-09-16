@@ -17,23 +17,15 @@ class PrimaryViewController: UITableViewController {
     private let coreManager = MemoCoreDataManager.shared
     weak var rootDelegate: PrimaryTableViewDelegate?
     
-    init(rootDelegate: SplitViewController) {
-        super.init(nibName: nil, bundle: nil)
-    }
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        print("PrimaryViewController - viewWillAppear")
+        coreManager.readDataAsset()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addMemo))
         self.navigationItem.title = Strings.VCTitle.primary.description
-        coreManager.readDataAsset()
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(PrimaryTableViewCell.self, forCellReuseIdentifier: PrimaryTableViewCell.className)
@@ -107,7 +99,4 @@ extension PrimaryViewController {
             }
         }
     }
-}
-
-extension PrimaryViewController {
 }

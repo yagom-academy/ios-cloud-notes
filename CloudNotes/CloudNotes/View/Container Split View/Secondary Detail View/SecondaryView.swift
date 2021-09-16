@@ -69,6 +69,7 @@ extension SecondaryView {
     }
 }
 
+// MARK: - Draw UI
 extension SecondaryView {
     func configure(by text: String?) {
         self.textView.text = text

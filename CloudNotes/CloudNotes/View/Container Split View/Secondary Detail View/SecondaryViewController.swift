@@ -9,6 +9,7 @@ import UIKit
 
 protocol SecondaryDetailViewDelegate: NSObject {
     func reloadPrimaryTableView()
+    func showPrimaryTableView()
 }
 
 class SecondaryViewController: UIViewController {
@@ -25,14 +26,6 @@ class SecondaryViewController: UIViewController {
     private let coreManager = MemoCoreDataManager.shared
     private var currentMemeIndexPath: IndexPath?
     private var checkChanging: String?
-    
-    init(rootDelegate: SplitViewController) {
-        self.rootDelegate = rootDelegate
-        super.init(nibName: nil, bundle: nil)
-    }
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -70,15 +63,13 @@ extension SecondaryViewController: UITextViewDelegate {
     }
     func textViewDidEndEditing(_ textView: UITextView) {
         print("SecondaryViewController - textViewDidEndEditing")
-        guard let willUpdateMemo = decideDeletingProcess(by: textView.text) else {
-            print("해당 메모 제거됨")
+        guard let willUpdateMemo = decideDeletingMemo(by: textView.text) else { // 해당 메모 삭제됨
             return
         }
-        guard checkChanging != textView.text else {
-            print("데이터 변화 없음")
+        guard checkChanging != textView.text else { // 데이터 변화 없음
             return
         }
-        decideSavingProcess(data: willUpdateMemo)
+        decideSavingMemo(data: willUpdateMemo)   // 데이터 변화 CoreData Update
     }
 }
 
@@ -113,18 +104,17 @@ extension SecondaryViewController {
     }
     
     func selectedSharing(action: UIAlertAction) {
-        guard let text: String = secondaryView.textView.text,
-              let currentMemo = decideDeletingProcess(by: text)else {
-            NSLog("에러처리 필요 - SecondaryViewController.selectedShare : 메모 택스트 nil")
+        guard let currentMemo = decideDeletingMemo(by: secondaryView.textView.text) else { // 공유할 데이터 없음
+            rootDelegate?.showPrimaryTableView()
             return
         }
         let activity = UIActivityViewController(activityItems: [currentMemo.title, currentMemo.body, currentMemo.lastModified], applicationActivities: nil)
         activity.excludedActivityTypes = [.assignToContact, .postToVimeo, .saveToCameraRoll]
         activity.completionWithItemsHandler = { (_, isComplete, _, _) in
             if isComplete {
-                NSLog("성공")
+                NSLog("Sharing 성공")
            } else {
-                NSLog("실패")
+                NSLog("Sharing 실패")
            }
         }
         self.present(activity, animated: true, completion: nil)
@@ -164,15 +154,15 @@ extension SecondaryViewController {
         currentMemeIndexPath = indexPath
     }
     
-    func decideDeletingProcess(by text: String) -> MemoData? {
+    func decideDeletingMemo(by editedText: String) -> MemoData? {
         guard let index = currentMemeIndexPath?.row,
               let objectID = coreManager[index].objectID else {
             NSLog("에러처리 필요 - SecondaryViewController.decideDeletingProcess : 현재 메모 인덱스 없음")
             return nil
         }
-        var split = text.split(whereSeparator: \.isNewline)
+        var split = editedText.split(whereSeparator: \.isNewline)
         let nowDate = Date().timeIntervalSince1970
-        if text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+        if editedText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
             coreManager.deleteData(at: objectID) {
                 self.rootDelegate?.reloadPrimaryTableView()
                 self.drawDetailView(at: self.currentMemeIndexPath.flatMap {
@@ -187,7 +177,7 @@ extension SecondaryViewController {
         }
     }
 
-    func decideSavingProcess(data: MemoData?) {
+    func decideSavingMemo(data: MemoData?) {
         guard let memo = data else {
             NSLog("에러처리 필요 - SecondaryViewController.decideSavingProcess : 업데이트 할 메모가 없음")
             return

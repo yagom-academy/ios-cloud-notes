@@ -16,8 +16,8 @@ class SplitViewController: UISplitViewController {
         preferredDisplayMode = .oneBesideSecondary
         presentsWithGesture = false
         
-        primaryViewController = PrimaryViewController(rootDelegate: self)
-        secondaryViewController = SecondaryViewController(rootDelegate: self)
+        primaryViewController = PrimaryViewController()
+        secondaryViewController = SecondaryViewController()
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -53,5 +53,9 @@ extension SplitViewController: PrimaryTableViewDelegate {
 extension SplitViewController: SecondaryDetailViewDelegate {
     func reloadPrimaryTableView() {
         primaryViewController?.tableView.reloadData()
+    }
+    
+    func showPrimaryTableView() {
+        show(.primary)
     }
 }

@@ -8,20 +8,32 @@
 import UIKit
 
 class MemoDetailViewController: UIViewController {
+    enum MemoStatus {
+        case guide
+        case add
+        case edit
+    }
+    
     private var memoTitle: String
     private var memoBody: String
     private var titleSeperator: String {
+        // TODO isEmpty 활용하기.
         return memoBody == "" ? "" : "\n"
     }
     private var hasBodyText: Bool {
+        // TODO isEmpty 활용하기.
         return memoBody != ""
     }
+    private let status: MemoStatus
+    private let memoEntity: MemoEntity?
     
     private let memoTextView = UITextView()
     
     init(isEditable: Bool = true) {
         self.memoTitle = isEditable ? "" : "새 매모를 추가해주세요."
         self.memoBody = ""
+        self.status = isEditable ? .add : .guide
+        memoEntity = nil
         memoTextView.isEditable = isEditable
         
         super.init(nibName: nil, bundle: nil)
@@ -30,6 +42,8 @@ class MemoDetailViewController: UIViewController {
     init(memo: MemoEntity) {
         self.memoTitle = memo.title
         self.memoBody = memo.body
+        self.status = .edit
+        memoEntity = memo
 
         super.init(nibName: nil, bundle: nil)
     }
@@ -48,6 +62,22 @@ class MemoDetailViewController: UIViewController {
         clearBarButtonGroupsForInputAssistantItem()
         
         memoTextView.delegate = self
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        // TODO - Delete when both title and body are empty string.
+        
+        switch status {
+        case .guide: return
+        case .add:
+            PersistenceManager.shared.createMemo(title: memoTitle, body: memoBody)
+        case .edit:
+            guard let memoEntity = memoEntity else { return }
+            PersistenceManager.shared.updateMemo(entity: memoEntity,
+                                                 title: memoTitle,
+                                                 body: memoBody)
+        }
     }
     
     private func initTextViewScrollToTop() {

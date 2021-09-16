@@ -19,12 +19,10 @@ class MemoDetailViewController: UIViewController {
     private var memoTitle: String
     private var memoBody: String
     private var titleSeperator: String {
-        // TODO isEmpty 활용하기.
-        return memoBody == "" ? "" : "\n"
+        return memoBody.isEmpty ? "" : "\n"
     }
     private var hasBodyText: Bool {
-        // TODO isEmpty 활용하기.
-        return memoBody != ""
+        return memoBody.isNotEmpty
     }
     private let status: MemoStatus
     private let memoEntity: MemoEntity?
@@ -68,15 +66,30 @@ class MemoDetailViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        // TODO - Delete when both title and body are empty string.
+        let title = memoTitle.trim
+        let body = memoBody.trim
         
         switch status {
         case .guide: return
         case .add:
+            if title.isEmpty && body.isEmpty {
+                return
+            }
+            if body.isEmpty {
+                memoBody = "추가 텍스트 없음"
+            }
             PersistenceManager.shared.createMemo(title: memoTitle, body: memoBody)
             listViewControllerDelegate?.fetchEntityList()
         case .edit:
             guard let memoEntity = memoEntity else { return }
+            if title.isEmpty && body.isEmpty {
+                PersistenceManager.shared.deleteMemo(entity: memoEntity)
+                listViewControllerDelegate?.fetchEntityList()
+                return
+            }
+            if body.isEmpty {
+                memoBody = "추가 텍스트 없음"
+            }
             PersistenceManager.shared.updateMemo(entity: memoEntity,
                                                  title: memoTitle,
                                                  body: memoBody)

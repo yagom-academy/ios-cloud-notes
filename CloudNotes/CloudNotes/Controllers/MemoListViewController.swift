@@ -69,4 +69,20 @@ extension MemoListViewController: UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
         splitViewDelegate?.showDetailViewController(memoEntityList[indexPath.row])
     }
+    
+    func tableView(_ tableView: UITableView,
+                   trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
+    ) -> UISwipeActionsConfiguration? {
+        let deleteAction = UIContextualAction(style: .normal,
+                                              title: "삭제"
+        ) { (action, sourceView, completion: @escaping (Bool) -> Void) in
+            PersistenceManager.shared.deleteMemo(entity: self.memoEntityList[indexPath.row])
+            self.fetchEntityList()
+            completion(true)
+        }
+        deleteAction.backgroundColor = .systemPink
+        
+        let contextualActions: [UIContextualAction] = [deleteAction]
+        return UISwipeActionsConfiguration(actions: contextualActions)
+    }
 }

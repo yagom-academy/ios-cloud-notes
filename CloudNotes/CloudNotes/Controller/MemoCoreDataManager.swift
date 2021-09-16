@@ -23,14 +23,24 @@ class MemoCoreDataManager {
         }
     }
     static let shared = MemoCoreDataManager()
-    private let entityName = "Memo", sortDesc = "lastModified"
+    private var listResource: [MemoData] {
+        return fetchData()
+    }
     
     lazy var context: NSManagedObjectContext = {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         return appDelegate.persistentContainer.viewContext
     }()
     
-    func fetchData() -> [MemoModel] {
+    var listCount: Int {
+        return listResource.count
+    }
+    
+    subscript (index: Int) -> MemoData {
+        return listResource[index]
+    }
+    
+    func fetchData() -> [MemoData] {
         var memoList = [MemoData]()
         let fetchRequest: NSFetchRequest<MemoManagedObject> = MemoManagedObject.fetchRequest()
         
@@ -47,14 +57,15 @@ class MemoCoreDataManager {
                 let memoData = MemoData(title, body, lastModified, record.objectID)
                 memoList.append(memoData)
             }
+            return memoList
         } catch {
             NSLog("에러처리 필요 - MemoDataAccessObject.fetchData : %s", error.localizedDescription)
+            return []
         }
-        return memoList
     }
     
-    func insertData(_ data: MemoModel) {
-        guard let object = NSEntityDescription.insertNewObject(forEntityName: self.entityName, into: self.context) as? MemoManagedObject else {
+    func insertData(_ data: MemoModel, completion: (() -> Void)?) {
+        guard let object = NSEntityDescription.insertNewObject(forEntityName: CoreDataKey.entityName.description, into: self.context) as? MemoManagedObject else {
             NSLog("에러처리 필요 - MemoDataAccessObject.insertData")
             return
         }
@@ -63,39 +74,60 @@ class MemoCoreDataManager {
         object.lastModified = data.lastModified
         do {
             try self.context.save()
+            completion?()
         } catch {
             NSLog("에러처리 필요 - MemoDataAccessObject.insertData : %s", error.localizedDescription)
         }
     }
     
-    func deleteData(objectID: NSManagedObjectID) -> Bool {
+    func deleteData(at objectID: NSManagedObjectID, completion: (() -> Void)?) {
         let object = self.context.object(with: objectID)
         self.context.delete(object)
         do {
             try self.context.save()
-            return true
+            completion?()
         } catch {
             NSLog("에러처리 필요 - MemoDataAccessObject.deleteData : %s", error.localizedDescription)
-            return false
         }
     }
     
-    func editData(by data: MemoData) -> Bool {
+    func editData(by data: MemoData, completion: (() -> Void)?) {
         guard let objectID = data.objectID,
               let object = self.context.object(with: objectID) as? MemoManagedObject else {
             NSLog("에러처리 필요 - MemoDataAccessObject.editData : 수정할 객체 object 바인딩 실패")
-            return false
+            return
         }
         object.title = data.title
         object.body = data.body
         object.lastModified = data.lastModified
         do {
             try self.context.save()
-            return true
+            completion?()
         } catch {
             self.context.rollback()
             NSLog("에러처리 필요 - MemoDataAccessObject.editData : %s", error.localizedDescription)
-            return false
+            return
+        }
+    }
+}
+
+extension MemoCoreDataManager {
+    func readDataAsset() {
+        let decoder = JSONDecoder()
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
+        guard let dataAsset = NSDataAsset(name: Strings.Asset.diet.description) else {
+            NSLog("에러처리 필요 - PrimaryViewController.readDataAsset : 파일 바인딩 실패")
+            return
+        }
+        do {
+            let result = try decoder.decode([MemoSample].self, from: dataAsset.data)
+            
+            for data in result {
+                insertData(data, completion: nil)
+            }
+        } catch {
+            NSLog("에러처리 필요 - PrimaryViewController.readDataAsset : 디코딩 실패")
+            return
         }
     }
 }

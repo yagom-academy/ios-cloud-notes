@@ -2,6 +2,12 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:MemoEntity+CoreDataClass.swift">
+   </FileRef>
+   <FileRef
+      location = "group:MemoEntity+CoreDataProperties.swift">
+   </FileRef>
+   <FileRef
       location = "group:CloudNotes.xcodeproj">
    </FileRef>
    <FileRef

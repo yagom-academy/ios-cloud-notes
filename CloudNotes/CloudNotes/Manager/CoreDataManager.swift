@@ -51,4 +51,10 @@ extension CoreDataManager {
         
         saveContext()
     }
+    
+    func updateMemo(modifyMemo: MemoEntity, with indexPath: IndexPath) {
+        var modifyEntity = memoList[indexPath.row]
+        modifyEntity = modifyMemo
+        saveContext()
+    }
 }

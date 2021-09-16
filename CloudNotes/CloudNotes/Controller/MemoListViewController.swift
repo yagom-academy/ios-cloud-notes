@@ -38,6 +38,7 @@ class MemoListViewController: UIViewController {
     }
     //TODO: - show memoDetailTextView when it`s touched
     @objc private func touchUpPlusButton() {
+        CoreDataManager.shared.addNewMemo(title: "새로운 메모입니다.", body: "데이터를 입력해주세요", lastModifiedDate: Date())
     }
     
     private func setLayoutForTableView() {
@@ -89,6 +90,6 @@ extension MemoListViewController: UITableViewDataSource {
 extension MemoListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         selectedIndexPath = indexPath
-        delegate?.sendToDetailVC(memo: memoList[indexPath.row])
+        delegate?.didSelectRow(at : memoList[indexPath.row])
     }
 }

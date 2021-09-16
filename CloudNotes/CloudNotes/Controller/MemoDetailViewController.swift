@@ -57,7 +57,7 @@ extension MemoDetailViewController: UITextViewDelegate {
             let title = textView.text.components(separatedBy: linebreak)[.zero]
             let body = textView.text.components(separatedBy: linebreak)[firstIndex...lastIndex].joined(separator: linebreak)
             let now = Date()
-            delegate?.sendToListVC(memo: Memo.init(title: title, body: body, lastModified: now))
+            delegate?.textViewModify(at: Memo.init(title: title, body: body, lastModified: now))
         }
     }
 }

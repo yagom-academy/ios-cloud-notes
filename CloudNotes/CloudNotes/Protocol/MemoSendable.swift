@@ -8,6 +8,6 @@
 import Foundation
 
 protocol MemoSendable {
-    func sendToDetailVC(memo: Memo)
-    func sendToListVC(memo: Memo)
+    func didSelectRow(at memo: Memo)
+    func textViewModify(at memo: Memo)
 }

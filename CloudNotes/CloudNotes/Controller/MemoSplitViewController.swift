@@ -29,11 +29,11 @@ class MemoSplitViewController: UISplitViewController {
 }
 
 extension MemoSplitViewController: MemoSendable {
-    func sendToListVC(memo: Memo) {
+    func textViewModify(at memo: Memo) {
         primary.configureModifiedCell(by: memo)
     }
     
-    func sendToDetailVC(memo: Memo) {
+    func didSelectRow(at memo: Memo) {
         secondary.configureTextView(by: memo)
         show(.secondary)
     }

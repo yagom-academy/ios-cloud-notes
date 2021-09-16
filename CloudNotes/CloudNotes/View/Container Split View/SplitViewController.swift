@@ -9,8 +9,6 @@ import UIKit
 class SplitViewController: UISplitViewController {
     private var primaryViewController: PrimaryViewController?
     private var secondaryViewController: SecondaryViewController?
-    private let coreManager = MemoCoreDataManager.shared
-    var listResource: [MemoModel] = []
         
     override init(style: UISplitViewController.Style) {
         super.init(style: style)
@@ -54,68 +52,9 @@ extension SplitViewController {
     }
 }
 
-// MARK: - CoreData process
-extension SplitViewController {
-    func readDataAsset() -> [MemoModel] {
-        let decoder = JSONDecoder()
-        decoder.keyDecodingStrategy = .convertFromSnakeCase
-        guard let dataAsset = NSDataAsset(name: Strings.Asset.diet.description) else {
-            NSLog("에러처리 필요 - PrimaryViewController.readDataAsset : 파일 바인딩 실패")
-            return []
-        }
-        do {
-            let result = try decoder.decode([MemoSample].self, from: dataAsset.data)
-            return result
-        } catch {
-            NSLog("에러처리 필요 - PrimaryViewController.readDataAsset : 디코딩 실패")
-            return []
-        }
-    }
-    
-    func editMemo(by temp: MemoData, at indexPath: IndexPath?, completion: () -> Void) {
-        guard let index = indexPath,
-              let currentMemo = listResource[index.row] as? MemoData else {
-            NSLog("에러처리 필요 - SplitViewController.editMemo : 선택된 indexPath nil 또는 objectID nil")
-            return
-        }
-        if let objectID = currentMemo.objectID {
-            if temp.title == "" {
-                deleteMemo(at: index, completion: nil)
-            } else {
-                let editedMemo = MemoData(temp.title, temp.body, temp.lastModified, objectID)
-                if !coreManager.editData(by: editedMemo) {
-                    NSLog("에러처리 필요 - SplitViewController.editMemo : CoreData editData 실패")
-                }
-            }
-        } else {
-            coreManager.insertData(temp)
-        }
-        reloadPrimaryView()
-        completion()
-    }
-    
-    func deleteMemo(at indexPath: IndexPath, completion: ((IndexPath) -> Void)?) {
-        let index = indexPath.row
-        if let deletingMemo = listResource[index] as? MemoData,
-           let coreID = deletingMemo.objectID {
-            if !coreManager.deleteData(objectID: coreID) {
-                NSLog("에러처리 필요 - PrimaryViewController.deleteMemo : 코어데이터에서 해당 셀 삭제 실패")
-                return
-            }
-        }
-        listResource.remove(at: index)
-        completion?(indexPath)
-        if listResource.count > 0 {
-            let showingMemo = index < listResource.endIndex ? listResource[index] : listResource[listResource.index(before: index)]
-            showSelectedDetail(by: showingMemo, at: indexPath, showPage: false)
-        } else {
-            makeEmptyDetail()
-        }
-        reloadPrimaryView()
-    }
-    
-    func reloadPrimaryView() {
-        listResource = coreManager.fetchData()
+// MARK: - Managing Display from Primary Secondary
+extension SplitViewController: SecondaryDetailViewDelegate {
+    func reloadPrimaryTableView() {
         primaryViewController?.tableView.reloadData()
     }
 }

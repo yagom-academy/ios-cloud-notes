@@ -25,32 +25,23 @@ class PrimaryViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         print("PrimaryViewController - viewWillAppear")
-        rootDelegate.listResource = coreManager.fetchData()
-        if rootDelegate.listResource.isEmpty {
-            NSLog("CoreData 데이터 없어서 asset 데이터(Sample) 추가")
-            rootDelegate.listResource = rootDelegate.readDataAsset()
-            for data in rootDelegate.listResource {
-                coreManager.insertData(data)
-            }
-        }
-        tableView.reloadData()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addMemo))
         self.navigationItem.title = Strings.VCTitle.primary.description
+        coreManager.readDataAsset()
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(PrimaryTableViewCell.self, forCellReuseIdentifier: PrimaryTableViewCell.className)
-        
     }
 }
 
 // MARK: - TableView DataSource
 extension PrimaryViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return rootDelegate.listResource.count
+        return coreManager.listCount
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -58,7 +49,7 @@ extension PrimaryViewController {
                                                        for: indexPath) as? PrimaryTableViewCell else {
             return UITableViewCell()
         }
-        let memo = rootDelegate.listResource[indexPath.row]
+        let memo = coreManager[indexPath.row]
         cell.configure(by: memo)
 
         return cell

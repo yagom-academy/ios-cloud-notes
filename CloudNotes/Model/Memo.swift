@@ -11,18 +11,21 @@ class Memo: Decodable {
     static let associatedEntity = "CloudNote"
 
     let title: String
-    let description: String
+    let body: String
     let lastUpdatedTime: TimeInterval
 
-    init(title: String, description: String, lastUpdatedTime: TimeInterval) {
+    init(title: String, body: String, lastUpdatedTime: TimeInterval) {
         self.title = title
-        self.description = description
+        self.body = body
         self.lastUpdatedTime = lastUpdatedTime
     }
 
     enum CodingKeys: String, CodingKey {
-        case title
-        case description = "body"
+        case title, body
         case lastUpdatedTime = "last_modified"
+    }
+
+    enum CoreDataKey: String {
+        case title, body, lastUpdatedTime
     }
 }

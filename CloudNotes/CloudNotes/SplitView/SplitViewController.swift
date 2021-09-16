@@ -82,7 +82,7 @@ extension SplitViewController {
 
                 return Memo(
                     title: corrupted,
-                    description: corrupted,
+                    body: corrupted,
                     lastUpdatedTime: .zero
                 )
             }

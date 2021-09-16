@@ -50,8 +50,8 @@ class MemoDetailViewController: UIViewController {
         let doubledNewLine = "\n\n"
 
         textView.accessibilityLabel = titlePrefix + memo.title
-        textView.accessibilityValue = descriptionPrefix + memo.description
-        textView.text = memo.title + doubledNewLine + memo.description
+        textView.accessibilityValue = descriptionPrefix + memo.body
+        textView.text = memo.title + doubledNewLine + memo.body
     }
 
     @objc private func confirmToDeleteMemo() {
@@ -193,7 +193,7 @@ extension MemoDetailViewController: UITextViewDelegate {
         let title = outputStrings.removeFirst().description
         let description = outputStrings.joined(separator: separator)
         let now = Date().timeIntervalSince1970
-        let memo = Memo(title: title, description: description, lastUpdatedTime: now)
+        let memo = Memo(title: title, body: description, lastUpdatedTime: now)
         messenger?.updateListViewController(with: memo)
     }
 }

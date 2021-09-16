@@ -38,7 +38,7 @@ class MemoListViewCell: UITableViewCell {
         let lastedUpdatedTime = Date(timeIntervalSince1970: memo.lastUpdatedTime)
 
         titleLabel.text = memo.title
-        descriptionLabel.text = memo.description
+        descriptionLabel.text = memo.body
         dateLabel.text = dateFormatter.string(from: lastedUpdatedTime)
     }
 

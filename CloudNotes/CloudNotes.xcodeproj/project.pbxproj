@@ -18,6 +18,7 @@
 		7959893926E234730031DF70 /* CloudMemoSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7959893826E234730031DF70 /* CloudMemoSplitViewController.swift */; };
 		79B760C926E641260095DB8B /* Memo+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79B760C826E641260095DB8B /* Memo+Extension.swift */; };
 		79B760EE26E9355A0095DB8B /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79B760ED26E9355A0095DB8B /* Date+Extension.swift */; };
+		79DDE4AD26F386E6009D8234 /* PrimaryViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DDE4AC26F386E6009D8234 /* PrimaryViewControllerDelegate.swift */; };
 		A46C267EC844A5B0D83D5F7B /* Pods_CloudNotes_CloudNotesUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2D0DA3C7A473187568A17ED /* Pods_CloudNotes_CloudNotesUITests.framework */; };
 		ADCFC7F349F2AD44A9B127D0 /* Pods_CloudNotes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 783C50EEEF74C68339A526A8 /* Pods_CloudNotes.framework */; };
 		C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */; };
@@ -64,6 +65,7 @@
 		7959893826E234730031DF70 /* CloudMemoSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudMemoSplitViewController.swift; sourceTree = "<group>"; };
 		79B760C826E641260095DB8B /* Memo+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Memo+Extension.swift"; sourceTree = "<group>"; };
 		79B760ED26E9355A0095DB8B /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
+		79DDE4AC26F386E6009D8234 /* PrimaryViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryViewControllerDelegate.swift; sourceTree = "<group>"; };
 		BA1023FD05070302AD6445D5 /* Pods-CloudNotes.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudNotes.debug.xcconfig"; path = "Target Support Files/Pods-CloudNotes/Pods-CloudNotes.debug.xcconfig"; sourceTree = "<group>"; };
 		C24A86013753CFD63054B9B6 /* Pods-CloudNotes-CloudNotesUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudNotes-CloudNotesUITests.debug.xcconfig"; path = "Target Support Files/Pods-CloudNotes-CloudNotesUITests/Pods-CloudNotes-CloudNotesUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		C7481C6A25BBCF3900B9CA55 /* CloudNotes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CloudNotes.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -117,6 +119,7 @@
 			isa = PBXGroup;
 			children = (
 				793AA66B26EE57CF008009C9 /* SplitViewController+ShowDetailDelegate.swift */,
+				79DDE4AC26F386E6009D8234 /* PrimaryViewControllerDelegate.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -491,6 +494,7 @@
 				793AA66C26EE57CF008009C9 /* SplitViewController+ShowDetailDelegate.swift in Sources */,
 				C7481C7825BBCF3900B9CA55 /* CloudNotes.xcdatamodeld in Sources */,
 				7959893026E111C30031DF70 /* Memo.swift in Sources */,
+				79DDE4AD26F386E6009D8234 /* PrimaryViewControllerDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

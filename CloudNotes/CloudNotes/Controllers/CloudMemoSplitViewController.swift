@@ -50,6 +50,7 @@ extension CloudMemoSplitViewController {
     func addMemoAction() {
         let memoDetailViewController = MemoDetailViewController()
         let secondaryNavigationController = UINavigationController(rootViewController: memoDetailViewController)
+        memoDetailViewController.listViewControllerDelegate = primaryViewController
         
         primaryViewController.showDetailViewController(secondaryNavigationController, sender: self)
     }
@@ -60,6 +61,7 @@ extension CloudMemoSplitViewController: CustomSplitViewDelegate {
 
         let memoDetailViewController = MemoDetailViewController(memo: memo)
         let secondaryNavigationController = UINavigationController(rootViewController: memoDetailViewController)
+        memoDetailViewController.listViewControllerDelegate = primaryViewController
         
         primaryViewController.showDetailViewController(secondaryNavigationController, sender: self)
     }

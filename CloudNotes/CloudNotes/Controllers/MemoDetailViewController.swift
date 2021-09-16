@@ -14,6 +14,8 @@ class MemoDetailViewController: UIViewController {
         case edit
     }
     
+    weak var listViewControllerDelegate: PrimaryViewControllerDelegate?
+    
     private var memoTitle: String
     private var memoBody: String
     private var titleSeperator: String {
@@ -72,11 +74,13 @@ class MemoDetailViewController: UIViewController {
         case .guide: return
         case .add:
             PersistenceManager.shared.createMemo(title: memoTitle, body: memoBody)
+            listViewControllerDelegate?.fetchEntityList()
         case .edit:
             guard let memoEntity = memoEntity else { return }
             PersistenceManager.shared.updateMemo(entity: memoEntity,
                                                  title: memoTitle,
                                                  body: memoBody)
+            listViewControllerDelegate?.fetchEntityList()
         }
     }
     

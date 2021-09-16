@@ -6,7 +6,7 @@
 
 import UIKit
 
-class MemoListViewController: UIViewController {
+class MemoListViewController: UIViewController, PrimaryViewControllerDelegate {
     weak var splitViewDelegate: CustomSplitViewDelegate?
     
     private lazy var tableView: UITableView = {
@@ -24,7 +24,7 @@ class MemoListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()
-        fetchMemoList()
+        fetchEntityList()
     }
     
     private func setupTableView() {
@@ -43,7 +43,7 @@ class MemoListViewController: UIViewController {
         view.backgroundColor = .white
     }
     
-    private func fetchMemoList() {
+    func fetchEntityList() {
         memoEntityList = PersistenceManager.shared.fetchMemo()
     }
 }

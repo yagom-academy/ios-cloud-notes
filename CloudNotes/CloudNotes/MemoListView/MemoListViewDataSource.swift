@@ -35,6 +35,11 @@ class MemoListViewDataSource: NSObject, UITableViewDataSource {
         tableView.reloadData()
     }
 
+    func tableView(_ tableView: UITableView, deleteRowAt indexPath: IndexPath) {
+        memoList.remove(at: indexPath.row)
+        tableView.reloadData()
+    }
+
     func tableView(_ tableView: UITableView, insertRowWith memo: Memo) {
         memoList.insert(memo, at: .zero)
         tableView.reloadData()

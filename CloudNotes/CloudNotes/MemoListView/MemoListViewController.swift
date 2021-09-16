@@ -12,7 +12,7 @@ class MemoListViewController: UITableViewController {
     private var memoListDelegator: MemoListViewDelegate?
     private var lastIndexPath: IndexPath?
 
-    var messenger: MessengerBetweenController?
+    var messenger: MessengerForListViewController?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,18 +41,27 @@ extension MemoListViewController {
 
         if let selectedIndexPath = lastIndexPath {
             updateMemo(with: memo, at: selectedIndexPath)
-            messenger?.updateMemo(memo, at: selectedIndexPath.row)
         } else {
             insertMemo(with: memo)
-            messenger?.createMemo(with: memo)
         }
     }
 
+    func deleteMemo() {
+        guard let indexPath = lastIndexPath else {
+            return
+        }
+
+        messenger?.deleteMemo(at: indexPath.row)
+        memoListDataSource.tableView(tableView, deleteRowAt: indexPath)
+    }
+
     private func insertMemo(with memo: Memo) {
+        messenger?.createMemo(with: memo)
         memoListDataSource.tableView(tableView, insertRowWith: memo)
     }
 
     private func updateMemo(with memo: Memo, at indexPath: IndexPath) {
+        messenger?.updateMemo(memo, at: indexPath.row)
         memoListDataSource.tableView(tableView, updateRowAt: indexPath, with: memo)
     }
 }

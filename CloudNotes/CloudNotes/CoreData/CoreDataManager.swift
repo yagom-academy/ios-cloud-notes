@@ -84,6 +84,21 @@ final class CoreDataManager {
         }
     }
 
+    func deleteMemo(at index: Int) -> Bool {
+        guard let targetToDelete = storedMemoList?[index] else {
+            return false
+        }
+
+        do {
+            context.delete(targetToDelete)
+            try context.save()
+            storedMemoList?.remove(at: index)
+            return true
+        } catch {
+            return false
+        }
+    }
+
     func saveContext () {
         let context = persistentContainer.viewContext
         if context.hasChanges {

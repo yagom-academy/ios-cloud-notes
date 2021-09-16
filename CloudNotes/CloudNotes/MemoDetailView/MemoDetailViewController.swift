@@ -15,7 +15,7 @@ class MemoDetailViewController: UIViewController {
     private var sendingDataToListViewController: DispatchWorkItem?
 
     private var isCreatingNewMemo = false
-    var messenger: MessengerBetweenController?
+    var messenger: MessengerForDetailViewController?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,7 +69,11 @@ class MemoDetailViewController: UIViewController {
             preferredStyle: .alert
         )
         let cancelAction = UIAlertAction(title: cancel, style: .cancel)
-        let deleteAction = UIAlertAction(title: delete, style: .destructive)
+        let deleteAction = UIAlertAction(title: delete, style: .destructive) { _ in
+            self.textView.clear()
+            self.messenger?.deleteMemo()
+            self.messenger?.showListViewController()
+        }
 
         alert.addAction(cancelAction)
         alert.addAction(deleteAction)

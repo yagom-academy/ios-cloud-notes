@@ -100,7 +100,16 @@ extension SecondaryViewController {
         sheet.addAction(UIAlertAction(title: Strings.ActionSheet.share.description, style: .default, handler: selectedSharing))
         sheet.addAction(UIAlertAction(title: Strings.ActionSheet.delete.description, style: .destructive, handler: selectedDeleting))
         sheet.addAction(UIAlertAction(title: Strings.ActionSheet.cancel.description, style: .cancel))
-        self.present(sheet, animated: true, completion: nil)
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            if let presenter = sheet.popoverPresentationController {
+                presenter.sourceView = self.view
+                presenter.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY + 20, width: 0, height: 0)
+                presenter.permittedArrowDirections = [.any]
+                self.present(sheet, animated: true, completion: nil)
+            }
+        } else {
+          self.present(sheet, animated: true, completion: nil)
+        }
     }
     
     func selectedSharing(action: UIAlertAction) {

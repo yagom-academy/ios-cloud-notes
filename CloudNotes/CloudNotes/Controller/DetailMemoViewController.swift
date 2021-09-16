@@ -89,11 +89,18 @@ class DetailMemoViewController: UIViewController {
         present(alert, animated: true, completion: nil)
     }
     
+    func shareMemo() {
+        let activityViewController = UIActivityViewController(activityItems: [], applicationActivities: [])
+        present(activityViewController, animated: true)
+    }
+    
     @objc func touchUpMoreFunctionButton() {
         let actionSheet = UIAlertController(title: nil, message: nil , preferredStyle: .actionSheet)
         
         let delete = UIAlertAction(title: "Delete", style: .destructive, handler: nil)
-        let share = UIAlertAction(title: "Share", style: .default, handler: nil)
+        let share = UIAlertAction(title: "Share", style: .default) { [self] (action) in
+            shareMemo()
+        }
         let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
         actionSheet.addAction(delete)

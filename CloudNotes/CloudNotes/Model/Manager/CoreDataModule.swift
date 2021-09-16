@@ -54,7 +54,7 @@ struct CoreDataModule {
 
 //MARK:- CRUD
 extension CoreDataModule {
-    func insert(objectInfo: [String: Any],
+    func insert(about objectInfo: [String: Any],
                 into entityName: String = basicEntityName,
                 completionHandler: (Error?) -> Void) {
         guard let entity = NSEntityDescription.entity(forEntityName: entityName, in: context) else {
@@ -74,8 +74,8 @@ extension CoreDataModule {
         }
     }
     
-    func fetch<T: NSManagedObject>(predicate: NSPredicate? = nil,
-                                   sortDescriptors: [NSSortDescriptor]? = nil,
+    func fetch<T: NSManagedObject>(filteredBy predicate: NSPredicate? = nil,
+                                   sortedBy sortDescriptors: [NSSortDescriptor]? = nil,
                                    completionHandler: ([T]?, Error?) -> Void) {
         let fetchRequest = T.fetchRequest()
         fetchRequest.predicate = predicate
@@ -94,8 +94,8 @@ extension CoreDataModule {
     }
     
     func update<T: NSManagedObject>(objectType: T.Type,
-                                    searchBy predicate: NSPredicate,
-                                    chnageTo objectInfo: [String: Any],
+                                    searchedBy predicate: NSPredicate,
+                                    changeTo objectInfo: [String: Any],
                                     completionHandler: (Error?) -> Void) {
         let fetchRequest = T.fetchRequest()
         fetchRequest.predicate = predicate

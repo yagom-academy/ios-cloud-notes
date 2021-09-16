@@ -67,7 +67,6 @@ extension MemoListViewController: UITableViewDataSource {
 extension MemoListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        
         splitViewDelegate?.showDetailViewController(memoEntityList[indexPath.row])
     }
 }

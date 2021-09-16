@@ -19,9 +19,10 @@ class MemoDetailViewController: UIViewController {
     
     private let memoTextView = UITextView()
     
-    init() {
-        self.memoTitle = ""
+    init(isEditable: Bool = true) {
+        self.memoTitle = isEditable ? "" : "새 매모를 추가해주세요."
         self.memoBody = ""
+        memoTextView.isEditable = isEditable
         
         super.init(nibName: nil, bundle: nil)
     }

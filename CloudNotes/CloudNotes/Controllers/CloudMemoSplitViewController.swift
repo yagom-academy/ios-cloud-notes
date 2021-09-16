@@ -8,6 +8,8 @@
 import UIKit
 
 class CloudMemoSplitViewController: UISplitViewController {
+    let primaryViewController = MemoListViewController()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -15,8 +17,7 @@ class CloudMemoSplitViewController: UISplitViewController {
     }
     
     private func initContentHierarchy() {
-        let primaryViewController = MemoListViewController()
-        let secondaryViewController = MemoDetailViewController()
+        let secondaryViewController = MemoDetailViewController(isEditable: false)
         
         let primaryNavigationController = UINavigationController(rootViewController: primaryViewController)
         let secondaryNavigationController = UINavigationController(rootViewController: secondaryViewController)
@@ -47,18 +48,19 @@ extension CloudMemoSplitViewController: UISplitViewControllerDelegate {
 extension CloudMemoSplitViewController {
     @objc
     func addMemoAction() {
-
+        let memoDetailViewController = MemoDetailViewController()
+        let secondaryNavigationController = UINavigationController(rootViewController: memoDetailViewController)
+        
+        primaryViewController.showDetailViewController(secondaryNavigationController, sender: self)
     }
 }
 
 extension CloudMemoSplitViewController: CustomSplitViewDelegate {
     func showDetailViewController(_ memo: MemoEntity) {
-        guard let primaryNavigationController = viewControllers.first else {
-            return
-        }
-        
+
         let memoDetailViewController = MemoDetailViewController(memo: memo)
         let secondaryNavigationController = UINavigationController(rootViewController: memoDetailViewController)
-        primaryNavigationController.showDetailViewController(secondaryNavigationController, sender: self)
+        
+        primaryViewController.showDetailViewController(secondaryNavigationController, sender: self)
     }
 }

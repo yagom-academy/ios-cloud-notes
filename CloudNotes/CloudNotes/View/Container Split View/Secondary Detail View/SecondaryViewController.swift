@@ -15,12 +15,12 @@ protocol SecondaryDetailViewDelegate: NSObject {
 class SecondaryViewController: UIViewController {
     private let secondaryView = SecondaryView()
     
-    private let hidableDoneButton = UIBarButtonItem(barButtonSystemItem: .done,
-                                                    target: nil,
+    private lazy var hidableDoneButton = UIBarButtonItem(barButtonSystemItem: .done,
+                                                    target: self,
                                                     action: #selector(resignFromTextView))
-    private let seeMoreStaticButton = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"),
+    private lazy var seeMoreStaticButton = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"),
                                                       style: .plain,
-                                                      target: nil,
+                                                      target: self,
                                                       action: #selector(tappingSeeMoreButton))
     weak var rootDelegate: SecondaryDetailViewDelegate?
     private let coreManager = MemoCoreDataManager.shared

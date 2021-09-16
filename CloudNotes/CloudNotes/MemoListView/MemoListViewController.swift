@@ -41,8 +41,10 @@ extension MemoListViewController {
 
         if let selectedIndexPath = lastIndexPath {
             updateMemo(with: memo, at: selectedIndexPath)
+            messenger?.updateMemo(memo, at: selectedIndexPath.row)
         } else {
             insertMemo(with: memo)
+            messenger?.createMemo(with: memo)
         }
     }
 

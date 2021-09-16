@@ -14,6 +14,7 @@ class MemoDetailViewController: UIViewController {
     private var textViewHeightAnchor: NSLayoutConstraint?
     private var sendingDataToListViewController: DispatchWorkItem?
 
+    private var isCreatingNewMemo = false
     var messenger: MessengerBetweenController?
 
     override func viewDidLoad() {
@@ -42,6 +43,7 @@ class MemoDetailViewController: UIViewController {
     func configure(with memo: Memo?) {
         guard let memo = memo else {
             textView.clear()
+            isCreatingNewMemo = true
             return
         }
 
@@ -52,6 +54,8 @@ class MemoDetailViewController: UIViewController {
         textView.accessibilityLabel = titlePrefix + memo.title
         textView.accessibilityValue = descriptionPrefix + memo.body
         textView.text = memo.title + doubledNewLine + memo.body
+
+        isCreatingNewMemo = false
     }
 
     @objc private func confirmToDeleteMemo() {
@@ -171,6 +175,10 @@ extension MemoDetailViewController {
 // MARK: - TextView Delegate
 extension MemoDetailViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
+        guard isCreatingNewMemo == false  else {
+            return
+        }
+
         sendingDataToListViewController?.cancel()
         sendingDataToListViewController = DispatchWorkItem(block: sendDataToListViewController)
         guard let sendingDataToListViewController = sendingDataToListViewController else {
@@ -179,6 +187,15 @@ extension MemoDetailViewController: UITextViewDelegate {
 
         let delay = 0.3
         DispatchQueue.main.asyncAfter(deadline: .now() + delay, execute: sendingDataToListViewController)
+    }
+
+    func textViewDidEndEditing(_ textView: UITextView) {
+        guard isCreatingNewMemo == true else {
+            return
+        }
+
+        sendDataToListViewController()
+        messenger?.showListViewController()
     }
 
     private func sendDataToListViewController() {

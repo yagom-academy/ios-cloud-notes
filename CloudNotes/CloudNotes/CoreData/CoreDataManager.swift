@@ -25,13 +25,18 @@ final class CoreDataManager {
 
     func retrieveMemoList() -> Result<[Memo], ErrorCases> {
         let cloudNoteFetch = NSFetchRequest<CloudNote>(entityName: Memo.associatedEntity)
+        let keyForSotringByTime = NSSortDescriptor(
+            key: Memo.CoreDataKey.lastUpdatedTime.rawValue,
+            ascending: false
+        )
+
+        cloudNoteFetch.sortDescriptors = [keyForSotringByTime]
 
         do {
             let entity = try context.fetch(cloudNoteFetch)
             let emptyString = ""
 
             storedMemoList = entity
-
             let memoList = entity.map { cloudNote in
                 return Memo(
                     title: cloudNote.title ?? emptyString,
@@ -69,6 +74,7 @@ final class CoreDataManager {
         entity.setValue(memo.title, forKey: Memo.CoreDataKey.title.rawValue)
         entity.setValue(memo.body, forKey: Memo.CoreDataKey.body.rawValue)
         entity.setValue(memo.lastUpdatedTime, forKey: Memo.CoreDataKey.lastUpdatedTime.rawValue)
+        context.refresh(entity, mergeChanges: true)
 
         do {
             try context.save()

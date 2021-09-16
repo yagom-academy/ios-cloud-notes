@@ -38,8 +38,28 @@ class SplitViewController: UISplitViewController {
 
 // MARK: - Messenger Delegate
 extension SplitViewController: MessengerBetweenController {
+    func createMemo(with memo: Memo) {
+        if coreDataManager.createMemo(with: memo) {
+            print("success in creating memo")
+        } else {
+            print("failure in creating memo")
+        }
+    }
+
+    func updateMemo(_ memo: Memo, at index: Int) {
+        if coreDataManager.updateMemo(with: memo, at: index) {
+            print("success in updating memo")
+        } else {
+            print("failure in updating memo")
+        }
+    }
+
     func updateListViewController(with memo: Memo?) {
         memoListView.configure(with: memo)
+    }
+
+    func showListViewController() {
+        show(.primary)
     }
 
     func showDetailViewController(with memo: Memo?) {

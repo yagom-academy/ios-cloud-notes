@@ -7,7 +7,21 @@
 
 import UIKit
 import CoreData
+
 class MemoCoreDataManager {
+    enum CoreDataKey: CustomStringConvertible {
+        case entityName
+        case sortDesc
+        
+        var description: String {
+            switch self {
+            case .entityName:
+                return "Memo"
+            case .sortDesc:
+                return "lastModified"
+            }
+        }
+    }
     static let shared = MemoCoreDataManager()
     private let entityName = "Memo", sortDesc = "lastModified"
     
@@ -20,7 +34,7 @@ class MemoCoreDataManager {
         var memoList = [MemoData]()
         let fetchRequest: NSFetchRequest<MemoManagedObject> = MemoManagedObject.fetchRequest()
         
-        let lastModifiedDesc = NSSortDescriptor(key: sortDesc, ascending: false)
+        let lastModifiedDesc = NSSortDescriptor(key: CoreDataKey.sortDesc.description, ascending: false)
         fetchRequest.sortDescriptors = [lastModifiedDesc]
         
         do {

@@ -11,7 +11,7 @@ import CoreData
 class CoreDataManager {
     // MARK: - Core Data stack
     static let shared = CoreDataManager()
-    
+    var memoList = [MemoEntity]()
     private init() {}
     
     var mainContext: NSManagedObjectContext {
@@ -38,5 +38,17 @@ class CoreDataManager {
                 fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
             }
         }
+    }
+}
+
+extension CoreDataManager {
+    func addNewMemo(title: String, body: String, lastModifiedDate: Date) {
+        let newMemo = MemoEntity(context: mainContext)
+        newMemo.title = title
+        newMemo.body = body
+        newMemo.lastModifiedDate = lastModifiedDate
+        memoList.insert(newMemo, at: 0)
+        
+        saveContext()
     }
 }

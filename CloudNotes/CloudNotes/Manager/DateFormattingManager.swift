@@ -8,11 +8,11 @@
 import Foundation
 
 struct DateFormattingManager {
-    func convertDoubleTypeToDate(of date: Date) -> String {
+    func convertDoubleTypeToDate(of date: Date) -> String? {
         let dateFormatter = DateFormatter()
         dateFormatter.timeZone = TimeZone(abbreviation: "KST")
         dateFormatter.dateFormat = "yyyy.MM.dd"
-        return dateFormatter.string(from: date)
+        return dateFormatter.string(for: date)
     }
 
 }

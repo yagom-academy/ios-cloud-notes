@@ -8,14 +8,16 @@
 import UIKit
 import CoreData
 
+protocol PrimaryTableViewDelegate: NSObject {
+    func showSelectedDetail(at indexPath: IndexPath?, isShow: Bool)
+}
+
 class PrimaryViewController: UITableViewController {
     private var selectedIndexPath: IndexPath?
-//    private let appDelegate = UIApplication.shared.delegate as! AppDelegate
-    private let rootDelegate: SplitViewController
     private let coreManager = MemoCoreDataManager.shared
+    weak var rootDelegate: PrimaryTableViewDelegate?
     
     init(rootDelegate: SplitViewController) {
-        self.rootDelegate = rootDelegate
         super.init(nibName: nil, bundle: nil)
     }
     required init?(coder: NSCoder) {
@@ -63,8 +65,7 @@ extension PrimaryViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let selectedMemo = rootDelegate.listResource[indexPath.row]
-        rootDelegate.showSelectedDetail(by: selectedMemo, at: indexPath, showPage: true)
+        rootDelegate?.showSelectedDetail(at: indexPath, isShow: true)
     }
     
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
@@ -81,23 +82,32 @@ extension PrimaryViewController {
 
 // MARK: - Button & Alert Actions
 extension PrimaryViewController {
-    @objc
-    private func addMemo() {
-        let newMemo = MemoData("", "", 0, nil)
+    @objc private func addMemo() {
         let newIndexPath = IndexPath(row: 0, section: 0)
-        rootDelegate.listResource.insert(newMemo, at: 0)
-        tableView.insertRows(at: [newIndexPath], with: .automatic)
-        rootDelegate.showSelectedDetail(by: newMemo, at: newIndexPath, showPage: true)
+        coreManager.insertData(MemoData("", "", Date().timeIntervalSince1970, nil)) {
+            self.tableView.reloadData()
+        }
+        self.rootDelegate?.showSelectedDetail(at: newIndexPath, isShow: true)
     }
     
     private func askDeletingCellAlert(at currentIndexPath: IndexPath) {
         let alert = UIAlertController(title: Strings.Alert.deleteTitle.description, message: Strings.Alert.deleteMessage.description, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: Strings.Alert.cancel.description, style: .default))
         alert.addAction(UIAlertAction(title: Strings.Alert.delete.description, style: .destructive) { _ in
-            self.rootDelegate.deleteMemo(at: currentIndexPath) { indexPath in
-                self.tableView.deleteRows(at: [indexPath], with: .fade)
-            }
+            self.deleteMemo(at: currentIndexPath)
         })
         self.present(alert, animated: true)
     }
+    
+    private func deleteMemo(at indexPath: IndexPath) {
+        if let objectID = self.coreManager[indexPath.row].objectID {
+            self.coreManager.deleteData(at: objectID) {
+                self.tableView.deleteRows(at: [indexPath], with: .fade)
+                self.rootDelegate?.showSelectedDetail(at: indexPath.row < self.coreManager.listCount ? indexPath : nil, isShow: false)
+            }
+        }
+    }
+}
+
+extension PrimaryViewController {
 }

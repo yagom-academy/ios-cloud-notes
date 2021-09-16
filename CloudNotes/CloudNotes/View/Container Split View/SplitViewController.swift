@@ -30,6 +30,8 @@ class SplitViewController: UISplitViewController {
         setViewController(secondaryViewController, for: .secondary)
         
         self.delegate = self
+        primaryViewController?.rootDelegate = self
+        secondaryViewController?.rootDelegate = self
     }
 }
 
@@ -39,16 +41,11 @@ extension SplitViewController: UISplitViewControllerDelegate {
     }
 }
 
-// MARK: - Managing Display
-extension SplitViewController {
-    func showSelectedDetail(by memo: MemoModel, at indexPath: IndexPath, showPage isShowing: Bool) {
-        secondaryViewController?.updateDetailView(by: memo, at: indexPath)
-        if isShowing { show(.secondary) }
-    }
-    
-    func makeEmptyDetail() {
-        secondaryViewController?.initDetailView()
-        show(.primary)
+// MARK: - Managing Display from Primary
+extension SplitViewController: PrimaryTableViewDelegate {
+    func showSelectedDetail(at indexPath: IndexPath?, isShow: Bool) {
+        secondaryViewController?.drawDetailView(at: indexPath)
+        if isShow { show(.secondary) }
     }
 }
 

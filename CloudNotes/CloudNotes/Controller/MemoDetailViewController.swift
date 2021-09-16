@@ -13,7 +13,7 @@ class MemoDetailViewController: UIViewController {
     private let linebreak = "\n"
     private let firstIndex = 1
     private var workItem: DispatchWorkItem?
-    var delegate: MemoSendable?
+    var delegate: MemoEntitySendable?
     
     
     override func viewDidLoad() {
@@ -24,8 +24,12 @@ class MemoDetailViewController: UIViewController {
         memoDeatailTextView.delegate = self
     }
     
-    func configureTextView(by memo: Memo) {
-        memoDeatailTextView.text = memo.title + linebreak + memo.body
+    func configureTextView(by memo: MemoEntity) {
+        if let title = memo.title, let body = memo.body {
+            memoDeatailTextView.text = title + linebreak + body
+        } else {
+            memoDeatailTextView.text = ""
+        }
     }
     
     private func configureTextView() {
@@ -57,7 +61,10 @@ extension MemoDetailViewController: UITextViewDelegate {
             let title = textView.text.components(separatedBy: linebreak)[.zero]
             let body = textView.text.components(separatedBy: linebreak)[firstIndex...lastIndex].joined(separator: linebreak)
             let now = Date()
-            delegate?.textViewModify(at: Memo.init(title: title, body: body, lastModified: now))
+            
+            let currentEntity = CoreDataManager.shared.createMemo(title: title, body: body, lastModifiedDate: now)
+            delegate?.textViewModify(at: currentEntity)
+//            delegate?.textViewModify(at: Memo.init(title: title, body: body, lastModified: now))
         }
     }
 }

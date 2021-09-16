@@ -91,7 +91,7 @@ class MemoCustomCell: UITableViewCell {
         ])
     }
 
-    func configureContent(from memo: Memo, with date: String?) {
+    func configureContent(from memo: MemoEntity, with date: String?) {
         titleLabel.text = memo.title
         bodyLabel.text = memo.body
         lastModifiedLabel.text = date

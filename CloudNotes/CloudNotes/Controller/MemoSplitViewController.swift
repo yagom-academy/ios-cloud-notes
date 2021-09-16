@@ -28,12 +28,12 @@ class MemoSplitViewController: UISplitViewController {
     }
 }
 
-extension MemoSplitViewController: MemoSendable {
-    func textViewModify(at memo: Memo) {
+extension MemoSplitViewController: MemoEntitySendable {
+    func textViewModify(at memo: MemoEntity) {
         primary.configureModifiedCell(by: memo)
     }
     
-    func didSelectRow(at memo: Memo) {
+    func didSelectRow(at memo: MemoEntity) {
         secondary.configureTextView(by: memo)
         show(.secondary)
     }

@@ -19,7 +19,7 @@
 		E65E357D26E2346B003D5D1F /* CloudNotesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C9225BBCF3A00B9CA55 /* CloudNotesUITests.swift */; };
 		E65E357F26E23B1F003D5D1F /* MemoListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65E357E26E23B1F003D5D1F /* MemoListViewController.swift */; };
 		E65E358126E23B2A003D5D1F /* MemoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65E358026E23B2A003D5D1F /* MemoDetailViewController.swift */; };
-		E67D9BA626ECF3D700570B51 /* MemoSendable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E67D9BA526ECF3D700570B51 /* MemoSendable.swift */; };
+		E67D9BA626ECF3D700570B51 /* MemoEntitySendable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E67D9BA526ECF3D700570B51 /* MemoEntitySendable.swift */; };
 		E67D9BA826ECFEB500570B51 /* UIAlertController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E67D9BA726ECFEB500570B51 /* UIAlertController+Extension.swift */; };
 		E67D9BAA26ED02C900570B51 /* DateFormattingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E67D9BA926ED02C900570B51 /* DateFormattingManager.swift */; };
 		E68C416126E2100F000680B1 /* MemoSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68C416026E2100F000680B1 /* MemoSplitViewController.swift */; };
@@ -75,7 +75,7 @@
 		DF8A27FA2AF6B5850E0F219B /* Pods-CloudNotesTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudNotesTests.release.xcconfig"; path = "Target Support Files/Pods-CloudNotesTests/Pods-CloudNotesTests.release.xcconfig"; sourceTree = "<group>"; };
 		E65E357E26E23B1F003D5D1F /* MemoListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoListViewController.swift; sourceTree = "<group>"; };
 		E65E358026E23B2A003D5D1F /* MemoDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoDetailViewController.swift; sourceTree = "<group>"; };
-		E67D9BA526ECF3D700570B51 /* MemoSendable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoSendable.swift; sourceTree = "<group>"; };
+		E67D9BA526ECF3D700570B51 /* MemoEntitySendable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoEntitySendable.swift; sourceTree = "<group>"; };
 		E67D9BA726ECFEB500570B51 /* UIAlertController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertController+Extension.swift"; sourceTree = "<group>"; };
 		E67D9BA926ED02C900570B51 /* DateFormattingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormattingManager.swift; sourceTree = "<group>"; };
 		E68C416026E2100F000680B1 /* MemoSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoSplitViewController.swift; sourceTree = "<group>"; };
@@ -202,7 +202,7 @@
 		E67D9BA426ECF3BF00570B51 /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
-				E67D9BA526ECF3D700570B51 /* MemoSendable.swift */,
+				E67D9BA526ECF3D700570B51 /* MemoEntitySendable.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -494,7 +494,7 @@
 				C7481C7825BBCF3900B9CA55 /* CloudNotes.xcdatamodeld in Sources */,
 				E67D9BA826ECFEB500570B51 /* UIAlertController+Extension.swift in Sources */,
 				E69774B526E60C3C008C14B7 /* ParsingManager.swift in Sources */,
-				E67D9BA626ECF3D700570B51 /* MemoSendable.swift in Sources */,
+				E67D9BA626ECF3D700570B51 /* MemoEntitySendable.swift in Sources */,
 				E69774BA26E65BA1008C14B7 /* MemoCustomCell.swift in Sources */,
 				E6AD4EF626F21A8800C96085 /* CoreDataManager.swift in Sources */,
 				E69774B826E60E9D008C14B7 /* ParsingError.swift in Sources */,

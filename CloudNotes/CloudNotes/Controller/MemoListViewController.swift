@@ -10,17 +10,16 @@ import UIKit
 class MemoListViewController: UIViewController {
     private let navigationTitle = "메모"
     private let sampleAsset = "sample"
-    private var memoList: [Memo] = []
+    private var memoList = CoreDataManager.shared.memoList
     private let parsingManager = ParsingManager()
     private let dateFormattingManager = DateFormattingManager()
     private let memoListTableView = UITableView()
     private var selectedIndexPath: IndexPath?
-    var delegate: MemoSendable?
+    var delegate: MemoEntitySendable?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         makeNavigationItem()
-        fetchDataToMemoList(by: sampleAsset)
         setTableViewToMemoListVC()
     }
     
@@ -50,24 +49,13 @@ class MemoListViewController: UIViewController {
         ])
     }
     
-    private func fetchDataToMemoList(by assetName: String) {
-        let parsedData = parsingManager.decode(from: assetName, to: [Memo].self)
-        switch parsedData {
-        case .success(let result):
-            memoList.append(contentsOf: result)
-        case .failure(let error):
-            let okAction = UIAlertAction(title: "확인", style: .default, handler: nil)
-            UIAlertController.showAlert(title: "오류가 발생하였습니다.", message: error.errorDescription, preferredStyle: .alert, actions: [okAction], animated: true, viewController: self)
-        }
-    }
-    
-    func configureModifiedCell(by memo: Memo) {
+    func configureModifiedCell(by memo: MemoEntity) {
         guard let indexPath = selectedIndexPath else { return }
         memoList[indexPath.row] = memo
         guard let customCell = memoListTableView.dequeueReusableCell(withIdentifier: MemoCustomCell.cellIdentifier, for: indexPath) as? MemoCustomCell else {
             return
         }
-        customCell.configureContent(from: memo, with: dateFormattingManager.convertDoubleTypeToDate(of: memo.lastModified))
+        customCell.configureContent(from: memo, with: dateFormattingManager.convertDoubleTypeToDate(of: memo.lastModifiedDate))
         memoListTableView.reloadRows(at: [indexPath], with: .none)
     }
 }
@@ -82,7 +70,7 @@ extension MemoListViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         let currentMemo = memoList[indexPath.row]
-        customCell.configureContent(from: currentMemo, with: dateFormattingManager.convertDoubleTypeToDate(of: currentMemo.lastModified))
+        customCell.configureContent(from: currentMemo, with: dateFormattingManager.convertDoubleTypeToDate(of: currentMemo.lastModifiedDate))
         return customCell
     }
 }

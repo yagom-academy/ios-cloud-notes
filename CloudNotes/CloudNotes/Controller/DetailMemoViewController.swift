@@ -89,6 +89,20 @@ class DetailMemoViewController: UIViewController {
         present(alert, animated: true, completion: nil)
     }
     
+    @objc func touchUpMoreFunctionButton() {
+        let actionSheet = UIAlertController(title: nil, message: nil , preferredStyle: .actionSheet)
+        
+        let delete = UIAlertAction(title: "Delete", style: .destructive, handler: nil)
+        let share = UIAlertAction(title: "Share", style: .default, handler: nil)
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        actionSheet.addAction(delete)
+        actionSheet.addAction(share)
+        actionSheet.addAction(cancel)
+        
+        present(actionSheet, animated: true, completion: nil)
+    }
+    
     private func configureText() {
         memo.flatMap { detailMemoTextView.text = $0.title + "\n\n" + $0.body }
     }
@@ -96,8 +110,8 @@ class DetailMemoViewController: UIViewController {
     private func configureNavigationItem() {
         let moreFunctionButton = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"),
                                                               style: .plain,
-                                                              target: nil,
-                                                              action: nil)
+                                                              target: self,
+                                                              action:  #selector(touchUpMoreFunctionButton))
         let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(showSaveAlert))
         self.navigationItem.rightBarButtonItems = [moreFunctionButton, doneButton]
     }

@@ -45,12 +45,13 @@ class MemoListViewController: UIViewController {
     }
     
     private func configureFirstMemoList() {
-        memoList = coreDataManager.fetchMemo()
+        memoList = coreDataManager.fetchMemoList()
         if memoList.isEmpty {
             makeSample()
             for memo in memoList {
                 coreDataManager.insertMemo(memo)
             }
+            memoList = coreDataManager.fetchMemoList()
         }
     }
     
@@ -80,8 +81,8 @@ class MemoListViewController: UIViewController {
     
     @objc func addMemo() {
         let newMemo = Memo(title: "", body: "", date: Date().timeIntervalSince1970)
-        self.memoList.append(newMemo)
-        
+        coreDataManager.insertMemo(newMemo)
+        self.memoList.append(coreDataManager.fetchLastMemo())
         let addIndex = IndexPath(row: memoList.count-1, section: 0)
         self.tableView.insertRows(at: [addIndex], with: .automatic)
         delegate?.showDetail(data: newMemo, index: addIndex)

@@ -51,10 +51,42 @@ class DetailMemoViewController: UIViewController {
         detailMemoTextView.scrollIndicatorInsets = contentInset
     }
     
+    private func saveMemo() {
+        let minumumLine = 3
+        let title = detailMemoTextView.text.lines[0]
+        var body = ""
+        
+        if minumumLine <= detailMemoTextView.text.lines.count {
+            body = detailMemoTextView.text.lines[(minumumLine - 1)...].joined(separator: "\n")
+        }
+        
+        let newMemo = Memo(title: title, body: body, date: Date().timeIntervalSince1970, identifier: memo?.identifier)
+        memo = newMemo
+        guard let savedMemo = memo else { return }
+        delegate?.saveMemo(with: savedMemo, index: self.index)
+    }
+    
     @objc private func keyboardWillHide() {
         let contentInset = UIEdgeInsets.zero
         detailMemoTextView.contentInset = contentInset
         detailMemoTextView.scrollIndicatorInsets = contentInset
+    }
+    
+    @objc func showSaveAlert() {
+        let alert = UIAlertController(title: "저장하시겠습니까?", message: nil , preferredStyle: .alert)
+        let confirm = UIAlertAction(title: "확인", style: .default) { [self] (action) in
+            saveMemo()
+            if UITraitCollection.current.horizontalSizeClass == .compact {
+                if let masterViewNavigationController = self.navigationController?.parent as? UINavigationController {
+                    masterViewNavigationController.popToRootViewController(animated: true)
+                }
+            }
+        }
+        let close = UIAlertAction(title: "닫기", style: .destructive, handler: nil)
+        
+        alert.addAction(confirm)
+        alert.addAction(close)
+        present(alert, animated: true, completion: nil)
     }
     
     private func configureText() {
@@ -66,7 +98,7 @@ class DetailMemoViewController: UIViewController {
                                                               style: .plain,
                                                               target: nil,
                                                               action: nil)
-        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: nil)
+        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(showSaveAlert))
         self.navigationItem.rightBarButtonItems = [moreFunctionButton, doneButton]
     }
     
@@ -88,19 +120,7 @@ class DetailMemoViewController: UIViewController {
 extension DetailMemoViewController: UITextViewDelegate {
     
     func textViewDidEndEditing(_ textView: UITextView) {
-        
-        let minumumLine = 3
-        let title = detailMemoTextView.text.lines[0]
-        var body = ""
-        
-        if minumumLine <= detailMemoTextView.text.lines.count {
-            body = detailMemoTextView.text.lines[(minumumLine - 1)...].joined(separator: "\n")
-        }
-        
-        let newMemo = Memo(title: title, body: body, date: Date().timeIntervalSince1970)
-        memo = newMemo
-        guard let savedMemo = memo else { return }
-        delegate?.saveMemo(with: savedMemo, index: self.index)
+        saveMemo()
     }
 }
 

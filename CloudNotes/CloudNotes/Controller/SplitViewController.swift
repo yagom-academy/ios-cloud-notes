@@ -12,6 +12,7 @@ class SplitViewController: UISplitViewController {
     var isFirstCellSelection = false
     private let memoListViewController = MemoListViewController()
     private let detailMemoViewController = DetailMemoViewController()
+    private let coreDataManager = CoreDataManager.shared
     
     init() {
         super.init(style: .doubleColumn)
@@ -60,11 +61,12 @@ extension SplitViewController: MemoListDelegate {
 }
 
 extension SplitViewController: DetailMemoDelegate {
-    
+
     func saveMemo(with newMemo: Memo, index: IndexPath) {
         memoListViewController.memoList[index.row].title = newMemo.title
         memoListViewController.memoList[index.row].body = newMemo.body
         memoListViewController.memoList[index.row].date = newMemo.date
+        coreDataManager.editMemo(newMemo)
         memoListViewController.tableView.reloadRows(at: [index], with: .automatic)
     }
 }

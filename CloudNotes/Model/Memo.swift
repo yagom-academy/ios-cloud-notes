@@ -6,10 +6,10 @@
 //
 
 import Foundation
+import CoreData
 
 class Memo: Decodable {
     static let associatedEntity = "CloudNote"
-
     let title: String
     let body: String
     let lastUpdatedTime: TimeInterval

@@ -59,7 +59,11 @@ extension SplitViewController {
         if isTest {
             return loadMemoListForTest()
         } else {
-            return coreDataManager.retrieveMemoList()
+            do {
+                return try coreDataManager.retrieveMemoList().get()
+            } catch {
+                fatalError(error.localizedDescription)
+            }
         }
     }
 

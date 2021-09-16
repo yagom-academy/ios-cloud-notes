@@ -2,7 +2,7 @@
 //  Note+CoreDataClass.swift
 //  
 //
-//  Created by 홍정아 on 2021/09/14.
+//  Created by 홍정아 on 2021/09/16.
 //
 //
 

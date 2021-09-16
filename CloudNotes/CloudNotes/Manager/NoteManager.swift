@@ -9,11 +9,8 @@ import UIKit
 import CoreData
 
 class NoteManager {
-    private var context: NSManagedObjectContext {
-        guard let app = UIApplication.shared.delegate as? AppDelegate else { fatalError() }
-        
-        return app.persistentContainer.viewContext
-    }
+    let coreDataStack = CoreDataStack(modelName: CoreData.modelName)
+    lazy var context: NSManagedObjectContext = coreDataStack.context
     
     private lazy var notes: [Note] = fetchNotes()
     

@@ -43,18 +43,12 @@ class PrimaryTableViewCell: UITableViewCell {
 }
 
 extension PrimaryTableViewCell {
-    func configure(by memo: MemoModel) {
-        if memo.lastModified == 0 {
-            self.textLabel?.text = Strings.Cell.newTitle.description
-            self.detailTextLabel?.text = PrimaryTableViewCell.dateformatter.string(from: Date())
-            self.summaryLabel.text = Strings.Cell.newSummary.description
-        } else {
-            let dateString = convertDateString(from: memo.lastModified)
-            let summary = convertSummary(from: memo.body)
-            self.textLabel?.text = memo.title
-            self.detailTextLabel?.text = dateString
-            summaryLabel.text = summary
-        }
+    func configure(by memo: MemoData) {
+        let dateString = convertDateString(from: memo.lastModified)
+        let summary = convertSummary(from: memo.body)
+        self.textLabel?.text = memo.title.isEmpty ? Strings.Cell.newTitle.description : memo.title
+        self.detailTextLabel?.text = dateString
+        summaryLabel.text = summary
     }
     
     func convertDateString(from timeStamp: Double) -> String {
@@ -66,6 +60,6 @@ extension PrimaryTableViewCell {
     func convertSummary(from body: String) -> String {
         let endIndex = body.firstIndex(of: "\n") ?? body.endIndex
         let summary: String = String(body.prefix(upTo: endIndex))
-        return summary
+        return summary.isEmpty ? Strings.Cell.newSummary.description : summary
     }
 }

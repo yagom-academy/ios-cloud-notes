@@ -148,6 +148,10 @@ extension MemoDetailViewController {
         textViewHeightAnchor?.isActive = false
         textViewBottomAnchor?.isActive = true
         textView.endEditing(true)
+
+        if let heightAnchor = textViewHeightAnchor {
+            textView.removeConstraint(heightAnchor)
+        }
     }
 
     @objc private func openKeyboard(_ notification: NSNotification) {

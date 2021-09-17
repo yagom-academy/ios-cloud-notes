@@ -10,7 +10,9 @@ import UIKit
 class MemoListViewController: UIViewController {
     private let navigationTitle = "메모"
     private let sampleAsset = "sample"
-    private var memoList = CoreDataManager.shared.memoList
+    private var memoList: [MemoEntity] {
+        CoreDataManager.shared.memoList
+    }
     private let parsingManager = ParsingManager()
     private let dateFormattingManager = DateFormattingManager()
     private let memoListTableView = UITableView()
@@ -21,6 +23,7 @@ class MemoListViewController: UIViewController {
         super.viewDidLoad()
         makeNavigationItem()
         setTableViewToMemoListVC()
+        CoreDataManager.shared.fetchMemo()
     }
     
     private func makeNavigationItem() {
@@ -35,9 +38,13 @@ class MemoListViewController: UIViewController {
         memoListTableView.register(MemoCustomCell.classForCoder(), forCellReuseIdentifier: MemoCustomCell.cellIdentifier)
         setLayoutForTableView()
     }
-    //TODO: - show memoDetailTextView when it`s touched
+    
     @objc private func touchUpPlusButton() {
-        CoreDataManager.shared.addNewMemo(title: "새로운 메모입니다.", body: "데이터를 입력해주세요", lastModifiedDate: Date())
+        CoreDataManager.shared.addNewMemo(title: PlaceHolder.title, body: PlaceHolder.body, lastModifiedDate: Date())
+        selectedIndexPath = IndexPath(row: 0, section: 0)
+        CoreDataManager.shared.fetchMemo()
+        delegate?.didSelectRow(at: memoList[.zero])
+        memoListTableView.reloadData()
     }
     
     private func setLayoutForTableView() {
@@ -50,13 +57,16 @@ class MemoListViewController: UIViewController {
     }
     
     func configureModifiedCell(by memo: MemoEntity) {
-        guard let indexPath = selectedIndexPath else { return }
-        memoList[indexPath.row] = memo
+        guard let indexPath = selectedIndexPath else {
+            return
+        }
+        CoreDataManager.shared.updateMemo(modifyMemo: memo, with: indexPath)
         guard let customCell = memoListTableView.dequeueReusableCell(withIdentifier: MemoCustomCell.cellIdentifier, for: indexPath) as? MemoCustomCell else {
             return
         }
         customCell.configureContent(from: memo, with: dateFormattingManager.convertDoubleTypeToDate(of: memo.lastModifiedDate))
-        memoListTableView.reloadRows(at: [indexPath], with: .none)
+        memoListTableView.reloadData()
+        CoreDataManager.shared.fetchMemo()
     }
 }
 

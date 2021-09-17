@@ -18,7 +18,18 @@ class DetailMemoViewController: UIViewController {
         }
     }
     
-    var detailMemoTextView: UITextView = {
+    init() {
+        super.init(nibName: nil, bundle: nil)
+        addSubView()
+        configureAutoLayout()
+        configureNavigationItem()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private var detailMemoTextView: UITextView = {
         let detailMemoTextView = UITextView()
         detailMemoTextView.font = UIFont.systemFont(ofSize: 20)
         detailMemoTextView.translatesAutoresizingMaskIntoConstraints = false
@@ -27,11 +38,7 @@ class DetailMemoViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        detailMemoTextView.delegate = self
         view.backgroundColor = .white
-        addSubView()
-        configureAutoLayout()
-        configureNavigationItem()
         configureText()
         registerNotification()
     }
@@ -42,21 +49,6 @@ class DetailMemoViewController: UIViewController {
                 masterViewNavigationController.popToRootViewController(animated: true)
             }
         }
-    }
-    
-    private func saveMemo() {
-        let minumumLine = 3
-        let title = detailMemoTextView.text.lines[0]
-        var body = ""
-        
-        if minumumLine <= detailMemoTextView.text.lines.count {
-            body = detailMemoTextView.text.lines[(minumumLine - 1)...].joined(separator: "\n")
-        }
-        
-        let newMemo = Memo(title: title, body: body, date: Date().timeIntervalSince1970, identifier: memo?.identifier)
-        memo = newMemo
-        guard let savedMemo = memo else { return }
-        delegate?.saveMemo(with: savedMemo, index: self.index)
     }
     
     private func configureText() {
@@ -72,6 +64,10 @@ class DetailMemoViewController: UIViewController {
                                                               target: self,
                                                               action:  #selector(touchUpMoreFunctionButton))
         let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(showSaveAlert))
+        
+        moreFunctionButton.isEnabled = false
+        doneButton.isEnabled = false
+        
         self.navigationItem.rightBarButtonItems = [moreFunctionButton, doneButton]
     }
     
@@ -88,12 +84,29 @@ class DetailMemoViewController: UIViewController {
             detailMemoTextView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
         ])
     }
-}
-
-extension DetailMemoViewController: UITextViewDelegate {
     
-    func textViewDidEndEditing(_ textView: UITextView) {
-        saveMemo()
+    func ableUserInteraction() {
+        detailMemoTextView.isUserInteractionEnabled = true
+        if let items = self.navigationItem.rightBarButtonItems {
+            for item in items {
+                item.isEnabled = true
+            }
+        }
+    }
+    
+    @objc func saveMemo() {
+        let minumumLine = 3
+        let title = detailMemoTextView.text.lines[0]
+        var body = ""
+        
+        if minumumLine <= detailMemoTextView.text.lines.count {
+            body = detailMemoTextView.text.lines[(minumumLine - 1)...].joined(separator: "\n")
+        }
+        
+        let newMemo = Memo(title: title, body: body, date: Date().timeIntervalSince1970, identifier: memo?.identifier)
+        memo = newMemo
+        guard let savedMemo = memo else { return }
+        delegate?.saveMemo(with: savedMemo, index: self.index)
     }
 }
 
@@ -107,6 +120,11 @@ extension DetailMemoViewController {
             moveToMasterViewInCompact()
             configureText()
             detailMemoTextView.isUserInteractionEnabled = false
+            if let items = self.navigationItem.rightBarButtonItems {
+                for item in items {
+                    item.isEnabled = false
+                }
+            }
         }
         let close = UIAlertAction(title: "닫기", style: .destructive, handler: nil)
         

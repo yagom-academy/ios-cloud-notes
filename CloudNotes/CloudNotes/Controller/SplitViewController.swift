@@ -55,8 +55,8 @@ extension SplitViewController: MemoListDelegate {
     func showDetail(data: Memo, index: IndexPath) {
         detailMemoViewController.index = index
         detailMemoViewController.memo = data
-        detailMemoViewController.detailMemoTextView.isUserInteractionEnabled = true
         showDetailViewController(detailMemoViewController, sender: nil)
+        detailMemoViewController.ableUserInteraction()
     }
 }
 

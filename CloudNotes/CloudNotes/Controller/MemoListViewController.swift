@@ -79,6 +79,15 @@ class MemoListViewController: UIViewController {
         self.navigationItem.rightBarButtonItem = addButton
     }
     
+    private func configureTableView() {
+        tableView.dataSource = self
+        tableView.delegate = self
+    }
+    
+    private func addSubView() {
+        view.addSubview(tableView)
+    }
+    
     @objc func addMemo() {
         let newMemo = Memo(title: "", body: "", date: Date().timeIntervalSince1970)
         coreDataManager.insertMemo(newMemo)
@@ -98,15 +107,6 @@ class MemoListViewController: UIViewController {
         
         coreDataManager.delete(identifier: id)
         tableView.deleteRows(at: [index], with: .automatic)
-    }
-    
-    private func configureTableView() {
-        tableView.dataSource = self
-        tableView.delegate = self
-    }
-    
-    private func addSubView() {
-        view.addSubview(tableView)
     }
 }
 

@@ -25,7 +25,6 @@ class SecondaryViewController: UIViewController {
     weak var rootDelegate: SecondaryDetailViewDelegate?
 //    private let coreManager = MemoCoreDataManager.shared
     private var currentMemeIndexPath: IndexPath?
-    private var checkChanging: String?
     private let coreManager: MemoCoreDataManager
     
     init(coreManager: MemoCoreDataManager) {
@@ -67,18 +66,12 @@ class SecondaryViewController: UIViewController {
 
 // MARK: - TextView Delegate
 extension SecondaryViewController: UITextViewDelegate {
-    func textViewDidBeginEditing(_ textView: UITextView) {
-        checkChanging = textView.text
-    }
     func textViewDidEndEditing(_ textView: UITextView) {
         print("SecondaryViewController - textViewDidEndEditing")
         guard let willUpdateMemo = decideDeletingMemo(by: textView.text) else { // 해당 메모 삭제됨
             return
         }
-        guard checkChanging != textView.text else { // 데이터 변화 없음
-            return
-        }
-        decideSavingMemo(data: willUpdateMemo)   // 데이터 변화 CoreData Update
+        decideSavingMemo(data: willUpdateMemo)
     }
 }
 
@@ -202,6 +195,7 @@ extension SecondaryViewController {
         }
         coreManager.editData(by: memo) {
             self.rootDelegate?.reloadPrimaryTableView()
+            self.currentMemeIndexPath = IndexPath(row: 0, section: 0)
         }
     }
 }

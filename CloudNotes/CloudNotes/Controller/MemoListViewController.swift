@@ -18,7 +18,7 @@ class MemoListViewController: UIViewController {
     private let memoListTableView = UITableView()
     private var selectedIndexPath: IndexPath?
     var delegate: MemoEntitySendable?
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         makeNavigationItem()
@@ -89,5 +89,24 @@ extension MemoListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         selectedIndexPath = indexPath
         delegate?.didSelectRow(at : memoList[indexPath.row])
+    }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let deleteAction = UIContextualAction(style: .normal,
+                                              title: "삭제") { [weak self] (action, view, completionHandler) in
+            print("삭제")
+            completionHandler(true)
+        }
+        deleteAction.backgroundColor = .systemRed
+        let shareAction = UIContextualAction(style: .normal,
+                                             title: "공유") { [weak self] (action, view, completionHandler) in
+            print("공유")
+            completionHandler(true)
+        }
+        shareAction.backgroundColor = .systemBlue
+        
+        let configuration = UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
+        configuration.performsFirstActionWithFullSwipe = false
+        return configuration
     }
 }

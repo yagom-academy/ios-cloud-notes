@@ -112,13 +112,10 @@ final class CoreDataManager {
     }
 
     enum ErrorCases: LocalizedError {
-        case disabledInParsing
         case disabledInFetching
 
         var errorDescription: String? {
             switch self {
-            case .disabledInParsing:
-                return "Error: Failed to parsing, I want to report this!"
             case .disabledInFetching:
                 return "Error: Failed to fetch, I don't know what to do..."
             }

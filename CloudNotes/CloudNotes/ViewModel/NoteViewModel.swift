@@ -22,9 +22,12 @@ class NoteViewModel {
     func fetchNote() {
         let request: NSFetchRequest<Note> = Note.fetchRequest()
         let notes = PersistanceManager.shared.fetch(request: request)
+
+        var memoViewModels = [MemoCellViewModel]()
         notes.forEach { note in
-            memoCellViewModels.append(createCellModel(memo: note))
+            memoViewModels.append(createCellModel(memo: note))
         }
+        memoCellViewModels = memoViewModels
     }
 
     private func createCellModel(memo: Note) -> MemoCellViewModel {

@@ -6,7 +6,7 @@
 
 import UIKit
 
-class MemoListViewController: UIViewController {
+final class MemoListViewController: UIViewController {
 
     var memoList: [Memo] = []
     

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class DetailMemoViewController: UIViewController {
+final class DetailMemoViewController: UIViewController {
     
     weak var delegate: DetailMemoDelegate?
     var index = IndexPath()

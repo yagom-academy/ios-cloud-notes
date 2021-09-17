@@ -8,7 +8,7 @@
 import Foundation
 import CoreData
 
-class CoreDataManager {
+final class CoreDataManager {
     
     static var shared = CoreDataManager ()
     private let entitiyName = "MemoData"

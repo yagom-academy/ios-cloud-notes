@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SplitViewController: UISplitViewController {
+final class SplitViewController: UISplitViewController {
 
     var isFirstCellSelection = false
     private let memoListViewController = MemoListViewController()

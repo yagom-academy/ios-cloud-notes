@@ -88,6 +88,18 @@ class MemoListViewController: UIViewController {
         delegate?.showDetail(data: newMemo, index: addIndex)
     }
     
+    func deleteMemo(index: IndexPath) {
+        let deletedMemo = memoList[index.row]
+        memoList.remove(at: index.row)
+        
+        guard let id = deletedMemo.identifier else {
+            return
+        }
+        
+        coreDataManager.delete(identifier: id)
+        tableView.deleteRows(at: [index], with: .automatic)
+    }
+    
     private func configureTableView() {
         tableView.dataSource = self
         tableView.delegate = self
@@ -120,25 +132,18 @@ extension MemoListViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
-        return .delete
+        if UITraitCollection.current.horizontalSizeClass == .compact {
+            return .delete
+        }
+        return .none
     }
 
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            
-            let deletedMemo = memoList[indexPath.row]
-            memoList.remove(at: indexPath.row)
-            
-            guard let id = deletedMemo.identifier else {
-                return
-            }
-            
-            coreDataManager.delete(identifier: id)
-            tableView.deleteRows(at: [indexPath], with: .automatic)
+            deleteMemo(index: indexPath)
         }
     }
 
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.delegate?.isFirstCellSelection = true
         self.selectedIndexPath = indexPath

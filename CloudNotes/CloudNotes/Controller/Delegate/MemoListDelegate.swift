@@ -15,4 +15,5 @@ protocol MemoListDelegate: AnyObject {
 
 protocol DetailMemoDelegate: AnyObject {
     func saveMemo(with newMemo: Memo, index: IndexPath)
+    func deleteMemo(index: IndexPath)
 }

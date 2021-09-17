@@ -55,8 +55,8 @@ extension SplitViewController: MemoListDelegate {
     func showDetail(data: Memo, index: IndexPath) {
         detailMemoViewController.index = index
         detailMemoViewController.memo = data
+        detailMemoViewController.detailMemoTextView.isUserInteractionEnabled = true
         showDetailViewController(detailMemoViewController, sender: nil)
-        
     }
 }
 
@@ -68,5 +68,10 @@ extension SplitViewController: DetailMemoDelegate {
         memoListViewController.memoList[index.row].date = newMemo.date
         coreDataManager.editMemo(newMemo)
         memoListViewController.tableView.reloadRows(at: [index], with: .automatic)
+    }
+    
+    func deleteMemo(index: IndexPath) {
+        memoListViewController.deleteMemo(index: index)
+        detailMemoViewController.memo = nil
     }
 }

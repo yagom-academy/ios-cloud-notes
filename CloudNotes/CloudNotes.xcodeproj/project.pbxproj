@@ -99,10 +99,9 @@
 		3F2321DC26DDEA86004B6413 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				3F3ACE4D26F4623A00EC9DC2 /* CoreData */,
 				3F36411026DE49D9005AB10D /* Memo.swift */,
 				3F36411526DE4CF6005AB10D /* ParsingManager.swift */,
-				3F3ACE2426F06FA700EC9DC2 /* CoreDataModel.xcdatamodeld */,
-				3F3ACE3126F0702C00EC9DC2 /* CoreDataManager.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -137,11 +136,20 @@
 			path = Delegate;
 			sourceTree = "<group>";
 		};
+		3F3ACE4D26F4623A00EC9DC2 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				3F3ACE4726F2007500EC9DC2 /* MemoData+CoreDataProperties.swift */,
+				3F3ACE4626F2007500EC9DC2 /* MemoData+CoreDataClass.swift */,
+				3F3ACE2426F06FA700EC9DC2 /* CoreDataModel.xcdatamodeld */,
+				3F3ACE3126F0702C00EC9DC2 /* CoreDataManager.swift */,
+			);
+			path = CoreData;
+			sourceTree = "<group>";
+		};
 		C7481C6125BBCF3900B9CA55 = {
 			isa = PBXGroup;
 			children = (
-				3F3ACE4626F2007500EC9DC2 /* MemoData+CoreDataClass.swift */,
-				3F3ACE4726F2007500EC9DC2 /* MemoData+CoreDataProperties.swift */,
 				C7481C6C25BBCF3900B9CA55 /* CloudNotes */,
 				C7481C8625BBCF3A00B9CA55 /* CloudNotesTests */,
 				C7481C9125BBCF3A00B9CA55 /* CloudNotesUITests */,

@@ -18,7 +18,7 @@ class DetailMemoViewController: UIViewController {
         }
     }
     
-    private var detailMemoTextView: UITextView = {
+    var detailMemoTextView: UITextView = {
         let detailMemoTextView = UITextView()
         detailMemoTextView.font = UIFont.systemFont(ofSize: 20)
         detailMemoTextView.translatesAutoresizingMaskIntoConstraints = false
@@ -36,19 +36,12 @@ class DetailMemoViewController: UIViewController {
         registerNotification()
     }
     
-    private func registerNotification() {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShown), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-    }
-    
-    @objc private func keyboardWillShown(notification: NSNotification) {
-        guard let userInfo = notification.userInfo,
-              let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
-        
-        let contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardFrame.size.height, right: 0)
-        
-        detailMemoTextView.contentInset = contentInset
-        detailMemoTextView.scrollIndicatorInsets = contentInset
+    private func moveToMasterViewInCompact() {
+        if UITraitCollection.current.horizontalSizeClass == .compact {
+            if let masterViewNavigationController = self.navigationController?.parent as? UINavigationController {
+                masterViewNavigationController.popToRootViewController(animated: true)
+            }
+        }
     }
     
     private func saveMemo() {
@@ -66,51 +59,10 @@ class DetailMemoViewController: UIViewController {
         delegate?.saveMemo(with: savedMemo, index: self.index)
     }
     
-    @objc private func keyboardWillHide() {
-        let contentInset = UIEdgeInsets.zero
-        detailMemoTextView.contentInset = contentInset
-        detailMemoTextView.scrollIndicatorInsets = contentInset
-    }
-    
-    @objc func showSaveAlert() {
-        let alert = UIAlertController(title: "저장하시겠습니까?", message: nil , preferredStyle: .alert)
-        let confirm = UIAlertAction(title: "확인", style: .default) { [self] (action) in
-            saveMemo()
-            if UITraitCollection.current.horizontalSizeClass == .compact {
-                if let masterViewNavigationController = self.navigationController?.parent as? UINavigationController {
-                    masterViewNavigationController.popToRootViewController(animated: true)
-                }
-            }
-        }
-        let close = UIAlertAction(title: "닫기", style: .destructive, handler: nil)
-        
-        alert.addAction(confirm)
-        alert.addAction(close)
-        present(alert, animated: true, completion: nil)
-    }
-    
-    func shareMemo() {
-        let activityViewController = UIActivityViewController(activityItems: [], applicationActivities: [])
-        present(activityViewController, animated: true)
-    }
-    
-    @objc func touchUpMoreFunctionButton() {
-        let actionSheet = UIAlertController(title: nil, message: nil , preferredStyle: .actionSheet)
-        
-        let delete = UIAlertAction(title: "Delete", style: .destructive, handler: nil)
-        let share = UIAlertAction(title: "Share", style: .default) { [self] (action) in
-            shareMemo()
-        }
-        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        
-        actionSheet.addAction(delete)
-        actionSheet.addAction(share)
-        actionSheet.addAction(cancel)
-        
-        present(actionSheet, animated: true, completion: nil)
-    }
-    
     private func configureText() {
+        if memo == nil {
+            detailMemoTextView.text = ""
+        }
         memo.flatMap { detailMemoTextView.text = $0.title + "\n\n" + $0.body }
     }
     
@@ -142,6 +94,86 @@ extension DetailMemoViewController: UITextViewDelegate {
     
     func textViewDidEndEditing(_ textView: UITextView) {
         saveMemo()
+    }
+}
+
+// MARK:- Button Action
+extension DetailMemoViewController {
+    
+    @objc private func showDeleteAlert() {
+        let alert = UIAlertController(title: "삭제하시겠습니까?", message: nil , preferredStyle: .alert)
+        let confirm = UIAlertAction(title: "확인", style: .default) { [self] (action) in
+            delegate?.deleteMemo(index: self.index)
+            moveToMasterViewInCompact()
+            configureText()
+            detailMemoTextView.isUserInteractionEnabled = false
+        }
+        let close = UIAlertAction(title: "닫기", style: .destructive, handler: nil)
+        
+        alert.addAction(confirm)
+        alert.addAction(close)
+        present(alert, animated: true, completion: nil)
+    }
+    
+    @objc private func showSaveAlert() {
+        let alert = UIAlertController(title: "저장하시겠습니까?", message: nil , preferredStyle: .alert)
+        let confirm = UIAlertAction(title: "확인", style: .default) { [self] (action) in
+            saveMemo()
+            moveToMasterViewInCompact()
+        }
+        let close = UIAlertAction(title: "닫기", style: .destructive, handler: nil)
+        
+        alert.addAction(confirm)
+        alert.addAction(close)
+        present(alert, animated: true, completion: nil)
+    }
+    
+    func shareMemo() {
+        let activityViewController = UIActivityViewController(activityItems: [], applicationActivities: [])
+        present(activityViewController, animated: true)
+    }
+    
+    @objc func touchUpMoreFunctionButton() {
+        let actionSheet = UIAlertController(title: nil, message: nil , preferredStyle: .actionSheet)
+        
+        let delete = UIAlertAction(title: "Delete", style: .destructive) { [self] (action) in
+            showDeleteAlert()
+        }
+        let share = UIAlertAction(title: "Share", style: .default) { [self] (action) in
+            shareMemo()
+        }
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        actionSheet.addAction(delete)
+        actionSheet.addAction(share)
+        actionSheet.addAction(cancel)
+        
+        present(actionSheet, animated: true, completion: nil)
+    }
+}
+
+// MARK:- KeyBoard Action
+extension DetailMemoViewController {
+    
+    @objc private func keyboardWillHide() {
+        let contentInset = UIEdgeInsets.zero
+        detailMemoTextView.contentInset = contentInset
+        detailMemoTextView.scrollIndicatorInsets = contentInset
+    }
+    
+    private func registerNotification() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShown), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc private func keyboardWillShown(notification: NSNotification) {
+        guard let userInfo = notification.userInfo,
+              let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
+        
+        let contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardFrame.size.height, right: 0)
+        
+        detailMemoTextView.contentInset = contentInset
+        detailMemoTextView.scrollIndicatorInsets = contentInset
     }
 }
 

@@ -8,18 +8,12 @@
 import Foundation
 import CoreData
 
-//CoreDataStack = 앱의 모델 layer 관리
-
-//NSManagedObjectModel = Entity를 설명하는 Database 스키마
-//NSManagedObjectContext =transaction, managed objects를 생성하고, 저장하고, 가져오는(fetch) 제공
-//NSPersistentStoreCoordinator = persistent storage(영구 저장소)와 managed object model을 연결
-//NSPersistentContainer = Core Data Stack을 나타내는 필요한 모든 객체를 포함
-
 class CoreDataManager {
+    
     static var shared = CoreDataManager ()
-    let entitiyName = "MemoData"
-    //컨테이너 설정
-    var persistentContainer: NSPersistentContainer = {
+    private let entitiyName = "MemoData"
+    
+    private var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "CoreDataModel")
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
@@ -29,8 +23,7 @@ class CoreDataManager {
         return container
     }()
     
-    //컨텍스트 가져오기
-    var context: NSManagedObjectContext {
+    private var context: NSManagedObjectContext {
         return self.persistentContainer.viewContext
     }
     

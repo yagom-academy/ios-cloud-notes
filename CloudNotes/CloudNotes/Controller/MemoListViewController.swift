@@ -93,8 +93,8 @@ final class MemoListViewController: UIViewController {
         coreDataManager.insertMemo(newMemo)
         self.memoList.append(coreDataManager.fetchLastMemo())
         let addIndex = IndexPath(row: memoList.count-1, section: 0)
-        self.tableView.insertRows(at: [addIndex], with: .automatic)
-        delegate?.showDetail(data: newMemo, index: addIndex)
+        self.tableView.reloadData()
+        delegate?.showDetail(data: coreDataManager.fetchLastMemo(), index: addIndex)
     }
     
     func deleteMemo(index: IndexPath) {

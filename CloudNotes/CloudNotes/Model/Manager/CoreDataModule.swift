@@ -32,11 +32,7 @@ struct CoreDataModule {
     //MARK: Basic Properties
     static let basicContainerName = "CloudNotes"
     static let basicEntityName = "Note"
-    private let basicSortingCriterias: [NSSortDescriptor] = {
-        var criterias = [NSSortDescriptor]()
-        criterias.append(NSSortDescriptor(key: "lastModified", ascending: false))
-        return criterias
-    }()
+    static let basicSortingCriterias = [NSSortDescriptor(key: "lastModified", ascending: false)]
     //MARK: Core Data Stack
     private var persistentContainer: NSPersistentContainer
     private var context: NSManagedObjectContext {
@@ -78,11 +74,11 @@ extension CoreDataModule {
     }
     
     func fetch(filteredBy predicate: NSPredicate? = nil,
-               sortedBy sortDescriptors: [NSSortDescriptor]? = nil,
+               sortedBy sortDescriptors: [NSSortDescriptor] = basicSortingCriterias,
                completionHandler: ([Any]?, Error?) -> Void) {
         let fetchRequest = NSManagedObject.fetchRequest()
         fetchRequest.predicate = predicate
-        fetchRequest.sortDescriptors = sortDescriptors ?? basicSortingCriterias
+        fetchRequest.sortDescriptors = sortDescriptors
         
         do {
             let fetchedDatas = try context.fetch(fetchRequest)

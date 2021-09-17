@@ -85,7 +85,7 @@ final class CoreDataManager {
             if let newCloudNote = insertedCloudNote {
                 storedMemoList?.insert(newCloudNote, at: .zero)
             }
-            
+
             return true
         } catch {
             return false

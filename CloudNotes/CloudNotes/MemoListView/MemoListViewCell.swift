@@ -23,6 +23,9 @@ class MemoListViewCell: UITableViewCell {
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        isAccessibilityElement = true
+        accessibilityLabel = ""
+        accessibilityValue = ""
 
         accessoryType = AccessoryType.disclosureIndicator
 
@@ -35,11 +38,15 @@ class MemoListViewCell: UITableViewCell {
     }
 
     func configure(with memo: Memo) {
-        let lastedUpdatedTime = Date(timeIntervalSince1970: memo.lastUpdatedTime)
+        let lastUpdatedTime = Date(timeIntervalSince1970: memo.lastUpdatedTime)
+        let lastUpdatedDate = dateFormatter.string(from: lastUpdatedTime)
 
         titleLabel.text = memo.title
         descriptionLabel.text = memo.body
-        dateLabel.text = dateFormatter.string(from: lastedUpdatedTime)
+        dateLabel.text = lastUpdatedDate
+
+        accessibilityLabel = "제목: " + memo.title
+        accessibilityValue = "발행일: " + lastUpdatedDate
     }
 
 }
@@ -48,17 +55,20 @@ class MemoListViewCell: UITableViewCell {
 extension MemoListViewCell {
     private func configureTitleLabel() {
         titleLabel.font = UIFont.preferredFont(forTextStyle: .title3)
+        titleLabel.isAccessibilityElement = false
     }
 
     private func configureDateLabel() {
         dateLabel.font = UIFont.preferredFont(forTextStyle: .body)
         dateLabel.setContentHuggingPriority(.required, for: .horizontal)
         dateLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
+        dateLabel.isAccessibilityElement = false
     }
 
     private func configureDescriptionLabel() {
         descriptionLabel.font = UIFont.preferredFont(forTextStyle: .body)
         descriptionLabel.textColor = UIColor.gray
+        descriptionLabel.isAccessibilityElement = false
     }
 
     private func configureLayout() {

@@ -196,13 +196,15 @@ extension MemoDetailViewController {
 
     private func configureActionButton() {
         let circleImage = UIImage(systemName: "ellipsis.circle")
-        let deleteButton = UIBarButtonItem(
+        let moreButton = UIBarButtonItem(
             image: circleImage,
             style: .plain,
             target: self,
             action: #selector(showActionSheet)
         )
-        navigationItem.rightBarButtonItem = deleteButton
+
+        moreButton.accessibilityValue = "메모 관리"
+        navigationItem.rightBarButtonItem = moreButton
     }
 
     @objc private func showActionSheet() {

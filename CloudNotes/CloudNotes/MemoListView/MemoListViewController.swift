@@ -116,6 +116,7 @@ extension MemoListViewController {
             action: #selector(showDetailViewControllerWithBlankPage)
         )
 
+        addButton.accessibilityLabel = "신규 메모 추가"
         navigationItem.rightBarButtonItem = addButton
     }
 

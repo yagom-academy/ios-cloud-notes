@@ -75,6 +75,10 @@ extension CloudMemoSplitViewController: CustomSplitViewDelegate {
             return
         }
         
+        guard memoDetailViewController.isCurrentEntity(memo) else {
+            return
+        }
+        
         memoDetailViewController.updateStatusToWillDelete()
         
         let guideSecondaryViewController = MemoDetailViewController(isEditable: false)

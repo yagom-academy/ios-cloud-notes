@@ -26,10 +26,20 @@ class MemoDetailViewController: UIViewController {
     }
     
     func makeNavigationItem() {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: #selector(touchUpButton))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: #selector(touchUpShareOrDeleteButton))
     }
     
-    @objc func touchUpButton() {
+    @objc func touchUpShareOrDeleteButton() {
+        let shareAction = UIAlertAction(title: "Share..", style: .default, handler: nil)
+        let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
+            self.showRemoveAlert()
+        }
+        let cancelAction = UIAlertAction(title: "cancel", style: .default, handler: nil)
+        
+        UIAlertController.showAlert(title: nil, message: nil, preferredStyle: .actionSheet, actions: [shareAction, deleteAction, cancelAction], animated: true, viewController: self)
+    }
+    
+    private func showRemoveAlert() {
     }
     
     func configureTextView(by memo: MemoEntity) {

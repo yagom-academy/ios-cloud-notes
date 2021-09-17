@@ -14,7 +14,15 @@ class MemoDetailViewController: UIViewController {
     private var textViewHeightAnchor: NSLayoutConstraint?
     private var sendingDataToListViewController: DispatchWorkItem?
 
-    private var isCreatingNewMemo = false
+    private var isCreatingNewMemo = false {
+        didSet {
+            if isCreatingNewMemo == true {
+                navigationItem.rightBarButtonItem?.isEnabled = false
+            } else {
+                navigationItem.rightBarButtonItem?.isEnabled = true
+            }
+        }
+    }
     var messenger: MessengerForDetailViewController?
 
     override func viewDidLoad() {
@@ -23,7 +31,7 @@ class MemoDetailViewController: UIViewController {
 
         textView.delegate = self
 
-        configureDeleteButton()
+        configureActionButton()
         configureTextView()
         configureKeyboardSetting()
     }
@@ -57,29 +65,6 @@ class MemoDetailViewController: UIViewController {
 
         isCreatingNewMemo = false
     }
-
-    @objc private func confirmToDeleteMemo() {
-        let title = "정말 삭제하시겠습니까?"
-        let delete = "삭제"
-        let cancel = "취소"
-
-        let alert = UIAlertController(
-            title: title,
-            message: nil,
-            preferredStyle: .alert
-        )
-        let cancelAction = UIAlertAction(title: cancel, style: .cancel)
-        let deleteAction = UIAlertAction(title: delete, style: .destructive) { _ in
-            self.textView.clear()
-            self.messenger?.deleteMemo()
-            self.messenger?.showListViewController()
-        }
-
-        alert.addAction(cancelAction)
-        alert.addAction(deleteAction)
-
-        present(alert, animated: false, completion: nil)
-    }
 }
 
 // MARK: - Draw View
@@ -112,15 +97,25 @@ extension MemoDetailViewController {
         textViewBottomAnchor?.isActive = true
     }
 
-    private func configureDeleteButton() {
+    private func configureActionButton() {
         let circleImage = UIImage(systemName: "ellipsis.circle")
         let deleteButton = UIBarButtonItem(
             image: circleImage,
             style: .plain,
             target: self,
-            action: #selector(confirmToDeleteMemo)
+            action: #selector(showActionSheet)
         )
         navigationItem.rightBarButtonItem = deleteButton
+    }
+
+    @objc func showActionSheet() {
+        messenger?.showActionSheet()
+    }
+
+    func deleteMemo() {
+        textView.clear()
+        messenger?.deleteMemo()
+        messenger?.showListViewController()
     }
 }
 

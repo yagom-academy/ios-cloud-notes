@@ -26,10 +26,18 @@ class MemoListViewController: UITableViewController {
         messenger?.showDetailViewController(with: memoListDataSource[indexPath])
         lastIndexPath = indexPath
     }
+
+    func assignLastIndexPath(with indexPath: IndexPath) {
+        lastIndexPath = indexPath
+    }
 }
 
-// MARK: - Managing DataSource
+// MARK: - Managing DataSource with MessengerForListViewController
 extension MemoListViewController {
+    func showActionSheet() {
+        messenger?.showActionSheet()
+    }
+
     func insertMemoList(memoList: [Memo]) {
         memoListDataSource.tableView(tableView, initializeMemoListWith: memoList)
     }

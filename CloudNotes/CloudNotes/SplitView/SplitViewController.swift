@@ -38,6 +38,31 @@ class SplitViewController: UISplitViewController {
 
 // MARK: - Messenger Delegate
 extension SplitViewController: MessengerBetweenController {
+    func showActionSheet() {
+        let share = NSLocalizedString("Share", comment: "")
+        let delete = NSLocalizedString("Delete", comment: "")
+        let cancel = NSLocalizedString("Cancel", comment: "")
+
+        let alert = UIAlertController(
+            title: nil,
+            message: nil,
+            preferredStyle: .actionSheet
+        )
+
+        let shareAction = UIAlertAction(title: share, style: .default)
+        let cancelAction = UIAlertAction(title: cancel, style: .cancel)
+        let deleteAction = UIAlertAction(title: delete, style: .destructive) { _ in
+            self.deleteMemo()
+            self.show(.primary)
+        }
+
+        alert.addAction(shareAction)
+        alert.addAction(cancelAction)
+        alert.addAction(deleteAction)
+
+        present(alert, animated: false, completion: nil)
+    }
+
     func updateListViewController(with memo: Memo?) {
         memoListView.configure(with: memo)
     }

@@ -11,7 +11,7 @@ protocol MessengerForDetailViewController {
     func deleteMemo()
     func updateListViewController(with memo: Memo?)
     func showListViewController()
-
+    func showActionSheet()
 }
 
 protocol MessengerForListViewController {
@@ -19,6 +19,7 @@ protocol MessengerForListViewController {
     func updateMemo(_ memo: Memo, at index: Int)
     func createMemo(with memo: Memo)
     func deleteMemo(at index: Int)
+    func showActionSheet()
 }
 
 typealias MessengerBetweenController = MessengerForListViewController & MessengerForDetailViewController

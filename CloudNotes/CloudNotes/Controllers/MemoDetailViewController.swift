@@ -15,7 +15,7 @@ class MemoDetailViewController: UIViewController {
         case willDelete
     }
     
-    private weak var listViewControllerDelegate: PrimaryViewControllerDelegate?
+    weak var listViewControllerDelegate: PrimaryViewControllerDelegate?
     
     private var memoTitle: String
     private var memoBody: String

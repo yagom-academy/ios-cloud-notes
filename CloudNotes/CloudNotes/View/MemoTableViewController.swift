@@ -33,6 +33,13 @@ class MemoTableViewController: UITableViewController {
 
         initView()
         initViewModel()
+
+        let request: NSFetchRequest<Note> = Note.fetchRequest()
+        PersistanceManager.shared.deleteAll(request: request)
+        let notes = PersistanceManager.shared.fetch(request: request)
+        if notes.isEmpty {
+            print("Deleted all")
+        }
     }
 
     // MARK: - Methods

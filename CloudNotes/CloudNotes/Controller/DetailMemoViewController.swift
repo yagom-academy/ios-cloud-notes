@@ -29,19 +29,19 @@ final class DetailMemoViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private var detailMemoTextView: UITextView = {
-        let detailMemoTextView = UITextView()
-        detailMemoTextView.font = UIFont.systemFont(ofSize: 20)
-        detailMemoTextView.translatesAutoresizingMaskIntoConstraints = false
-        return detailMemoTextView
-    }()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         configureText()
         registerNotification()
     }
+    
+    private var detailMemoTextView: UITextView = {
+        let detailMemoTextView = UITextView()
+        detailMemoTextView.font = UIFont.systemFont(ofSize: 20)
+        detailMemoTextView.translatesAutoresizingMaskIntoConstraints = false
+        return detailMemoTextView
+    }()
     
     private func moveToMasterViewInCompact() {
         if UITraitCollection.current.horizontalSizeClass == .compact {
@@ -94,7 +94,7 @@ final class DetailMemoViewController: UIViewController {
         }
     }
     
-    @objc func saveMemo() {
+    @objc private func saveMemo() {
         let minumumLine = 3
         let title = detailMemoTextView.text.lines[0]
         var body = ""
@@ -146,12 +146,12 @@ extension DetailMemoViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    func shareMemo() {
+    private func shareMemo() {
         let activityViewController = UIActivityViewController(activityItems: [], applicationActivities: [])
         present(activityViewController, animated: true)
     }
     
-    @objc func touchUpMoreFunctionButton() {
+    @objc private func touchUpMoreFunctionButton() {
         let actionSheet = UIAlertController(title: nil, message: nil , preferredStyle: .actionSheet)
         
         let delete = UIAlertAction(title: "Delete", style: .destructive) { [self] (action) in

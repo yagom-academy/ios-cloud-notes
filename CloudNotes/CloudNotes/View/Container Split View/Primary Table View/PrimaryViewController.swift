@@ -14,8 +14,17 @@ protocol PrimaryTableViewDelegate: NSObject {
 
 class PrimaryViewController: UITableViewController {
     private var selectedIndexPath: IndexPath?
-    private let coreManager = MemoCoreDataManager.shared
+//    private let coreManager = MemoCoreDataManager.shared
+    private let coreManager: MemoCoreDataManager
     weak var rootDelegate: PrimaryTableViewDelegate?
+    
+    init(coreManager: MemoCoreDataManager) {
+        self.coreManager = coreManager
+        super.init(nibName: nil, bundle: nil)
+    }
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)

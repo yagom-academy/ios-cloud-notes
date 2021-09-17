@@ -23,9 +23,18 @@ class SecondaryViewController: UIViewController {
                                                       target: self,
                                                       action: #selector(tappingSeeMoreButton))
     weak var rootDelegate: SecondaryDetailViewDelegate?
-    private let coreManager = MemoCoreDataManager.shared
+//    private let coreManager = MemoCoreDataManager.shared
     private var currentMemeIndexPath: IndexPath?
     private var checkChanging: String?
+    private let coreManager: MemoCoreDataManager
+    
+    init(coreManager: MemoCoreDataManager) {
+        self.coreManager = coreManager
+        super.init(nibName: nil, bundle: nil)
+    }
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)

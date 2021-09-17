@@ -26,6 +26,7 @@ class MemoCoreDataManager {
     private var listResource: [MemoData] {
         return fetchData()
     }
+//    @objc dynamic var listResource: [MemoData] = []
     
     lazy var context: NSManagedObjectContext = {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate

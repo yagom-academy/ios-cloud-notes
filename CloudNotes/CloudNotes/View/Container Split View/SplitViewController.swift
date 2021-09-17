@@ -9,6 +9,7 @@ import UIKit
 class SplitViewController: UISplitViewController {
     private var primaryViewController: PrimaryViewController?
     private var secondaryViewController: SecondaryViewController?
+    private let coreManager: MemoCoreDataManager = MemoCoreDataManager()
         
     override init(style: UISplitViewController.Style) {
         super.init(style: style)
@@ -16,8 +17,8 @@ class SplitViewController: UISplitViewController {
         preferredDisplayMode = .oneBesideSecondary
         presentsWithGesture = false
         
-        primaryViewController = PrimaryViewController()
-        secondaryViewController = SecondaryViewController()
+        primaryViewController = PrimaryViewController(coreManager: coreManager)
+        secondaryViewController = SecondaryViewController(coreManager: coreManager)
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

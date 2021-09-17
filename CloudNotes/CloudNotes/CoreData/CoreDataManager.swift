@@ -74,10 +74,18 @@ final class CoreDataManager {
         entity.setValue(memo.title, forKey: Memo.CoreDataKey.title.rawValue)
         entity.setValue(memo.body, forKey: Memo.CoreDataKey.body.rawValue)
         entity.setValue(memo.lastUpdatedTime, forKey: Memo.CoreDataKey.lastUpdatedTime.rawValue)
+
         context.refresh(entity, mergeChanges: true)
+
+        let insertedCloudNote = context.insertedObjects.first as? CloudNote
 
         do {
             try context.save()
+
+            if let newCloudNote = insertedCloudNote {
+                storedMemoList?.insert(newCloudNote, at: .zero)
+            }
+            
             return true
         } catch {
             return false

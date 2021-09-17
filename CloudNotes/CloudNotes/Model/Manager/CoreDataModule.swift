@@ -73,16 +73,19 @@ extension CoreDataModule {
         }
     }
     
-    func fetch(filteredBy predicate: NSPredicate? = nil,
+    func fetch<T: NSManagedObject>(filteredBy predicate: NSPredicate? = nil,
                sortedBy sortDescriptors: [NSSortDescriptor] = basicSortingCriterias,
-               completionHandler: ([Any]?, Error?) -> Void) {
-        let fetchRequest = NSManagedObject.fetchRequest()
+               completionHandler: ([T]?, Error?) -> Void) {
+        let fetchRequest = T.fetchRequest()
         fetchRequest.predicate = predicate
         fetchRequest.sortDescriptors = sortDescriptors
         
         do {
             let fetchedDatas = try context.fetch(fetchRequest)
-            completionHandler(fetchedDatas, nil)
+            guard let convertedValues = fetchedDatas as? [T] else {
+                throw CoreDataError.failedToConvert
+            }
+            completionHandler(convertedValues, nil)
         } catch {
             completionHandler(nil, error)
         }

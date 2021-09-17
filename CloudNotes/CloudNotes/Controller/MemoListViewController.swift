@@ -88,7 +88,7 @@ extension MemoListViewController: UITableViewDataSource {
 extension MemoListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         selectedIndexPath = indexPath
-        delegate?.didSelectRow(at : memoList[indexPath.row])
+        delegate?.didSelectRow(at: memoList[indexPath.row])
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {

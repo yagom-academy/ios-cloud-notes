@@ -53,7 +53,7 @@ struct CoreDataModule {
 //MARK:- CRUD
 extension CoreDataModule {
     func insert<T: NSManagedObject>(about objectInfo: [String: Any],
-                completionHandler: (T?, Error?) -> Void) {
+                                    completionHandler: (T?, Error?) -> Void) {
         let item = T(context: context)
         
         for (key, value) in objectInfo {
@@ -68,8 +68,8 @@ extension CoreDataModule {
     }
     
     func fetch<T: NSManagedObject>(filteredBy predicate: NSPredicate? = nil,
-               sortedBy sortDescriptors: [NSSortDescriptor] = basicSortingCriterias,
-               completionHandler: ([T]?, Error?) -> Void) {
+                                   sortedBy sortDescriptors: [NSSortDescriptor] = basicSortingCriterias,
+                                   completionHandler: ([T]?, Error?) -> Void) {
         let fetchRequest = T.fetchRequest()
         fetchRequest.predicate = predicate
         fetchRequest.sortDescriptors = sortDescriptors

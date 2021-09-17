@@ -76,6 +76,7 @@ extension MemoListViewController: UITableViewDelegate {
         let deleteAction = UIContextualAction(style: .normal,
                                               title: "삭제"
         ) { (action, sourceView, completion: @escaping (Bool) -> Void) in
+            self.splitViewDelegate?.initiateSecondaryViewControllerIfNeeded(self.memoEntityList[indexPath.row])
             PersistenceManager.shared.deleteMemo(entity: self.memoEntityList[indexPath.row])
             self.fetchEntityList()
             completion(true)

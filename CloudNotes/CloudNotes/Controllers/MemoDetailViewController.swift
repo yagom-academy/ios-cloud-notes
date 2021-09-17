@@ -12,6 +12,7 @@ class MemoDetailViewController: UIViewController {
         case guide
         case add
         case edit
+        case willDelete
     }
     
     weak var listViewControllerDelegate: PrimaryViewControllerDelegate?
@@ -24,7 +25,7 @@ class MemoDetailViewController: UIViewController {
     private var hasBodyText: Bool {
         return memoBody.isNotEmpty
     }
-    private let status: MemoStatus
+    private var status: MemoStatus
     private let memoEntity: MemoEntity?
     
     private let memoTextView = UITextView()
@@ -70,7 +71,7 @@ class MemoDetailViewController: UIViewController {
         let body = memoBody.trim
         
         switch status {
-        case .guide: return
+        case .guide, .willDelete: return
         case .add:
             if title.isEmpty && body.isEmpty {
                 return
@@ -95,6 +96,18 @@ class MemoDetailViewController: UIViewController {
                                                  body: memoBody)
             listViewControllerDelegate?.fetchEntityList()
         }
+    }
+    
+    func isCurrentEntity(_ targetEntity: MemoEntity) -> Bool {
+        guard let sourceEntity = memoEntity else {
+            return false
+        }
+        
+        return targetEntity == sourceEntity
+    }
+    
+    func updateStatusToWillDelete() {
+        status = .willDelete
     }
     
     private func initTextViewScrollToTop() {

@@ -65,4 +65,20 @@ extension CloudMemoSplitViewController: CustomSplitViewDelegate {
         
         primaryViewController.showDetailViewController(secondaryNavigationController, sender: self)
     }
+    
+    func initiateSecondaryViewControllerIfNeeded(_ memo: MemoEntity) {
+        guard let secondaryViewController = viewControllers.last,
+              let navigationController = secondaryViewController as? UINavigationController,
+              let topViewController = navigationController.topViewController,
+              let memoDetailViewController = topViewController as? MemoDetailViewController else {
+            return
+        }
+        
+        memoDetailViewController.updateStatusToWillDelete()
+        
+        let guideSecondaryViewController = MemoDetailViewController(isEditable: false)
+        let secondaryNavigationController = UINavigationController(rootViewController: guideSecondaryViewController)
+        
+        primaryViewController.showDetailViewController(secondaryNavigationController, sender: self)
+    }
 }

@@ -9,4 +9,5 @@ import Foundation
 
 protocol CustomSplitViewDelegate: AnyObject {
     func showDetailViewController(_ memo: MemoEntity)
+    func initiateSecondaryViewControllerIfNeeded(_ memo: MemoEntity)
 }

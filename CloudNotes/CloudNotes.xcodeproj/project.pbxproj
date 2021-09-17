@@ -30,6 +30,7 @@
 		E69774B826E60E9D008C14B7 /* ParsingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E69774B726E60E9D008C14B7 /* ParsingError.swift */; };
 		E69774BA26E65BA1008C14B7 /* MemoCustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E69774B926E65BA1008C14B7 /* MemoCustomCell.swift */; };
 		E6AD4EF626F21A8800C96085 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6AD4EF526F21A8800C96085 /* CoreDataManager.swift */; };
+		E6CF555B26F467BE00C15BF1 /* PlaceHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6CF555A26F467BE00C15BF1 /* PlaceHolder.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -85,6 +86,7 @@
 		E69774B726E60E9D008C14B7 /* ParsingError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParsingError.swift; sourceTree = "<group>"; };
 		E69774B926E65BA1008C14B7 /* MemoCustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoCustomCell.swift; sourceTree = "<group>"; };
 		E6AD4EF526F21A8800C96085 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
+		E6CF555A26F467BE00C15BF1 /* PlaceHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceHolder.swift; sourceTree = "<group>"; };
 		F55EA09ADFBEEFB73645C65E /* Pods_CloudNotes.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CloudNotes.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -258,6 +260,7 @@
 			isa = PBXGroup;
 			children = (
 				E69774B726E60E9D008C14B7 /* ParsingError.swift */,
+				E6CF555A26F467BE00C15BF1 /* PlaceHolder.swift */,
 			);
 			path = Enumeration;
 			sourceTree = "<group>";
@@ -492,6 +495,7 @@
 				C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */,
 				C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */,
 				C7481C7825BBCF3900B9CA55 /* CloudNotes.xcdatamodeld in Sources */,
+				E6CF555B26F467BE00C15BF1 /* PlaceHolder.swift in Sources */,
 				E67D9BA826ECFEB500570B51 /* UIAlertController+Extension.swift in Sources */,
 				E69774B526E60C3C008C14B7 /* ParsingManager.swift in Sources */,
 				E67D9BA626ECF3D700570B51 /* MemoEntitySendable.swift in Sources */,

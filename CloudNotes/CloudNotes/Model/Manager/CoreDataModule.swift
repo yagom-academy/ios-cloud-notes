@@ -82,16 +82,15 @@ extension CoreDataModule {
         }
     }
     
-    func update<T: NSManagedObject>(objectType: T.Type,
-                                    searchedBy predicate: NSPredicate,
+    func update<T: NSManagedObject>(searchedBy predicate: NSPredicate,
                                     changeTo objectInfo: [String: Any],
-                                    completionHandler: (Error?) -> Void) {
+                                    completionHandler: (T?, Error?) -> Void) {
         let fetchRequest = T.fetchRequest()
         fetchRequest.predicate = predicate
         
         do {
             let fetchedDatas = try context.fetch(fetchRequest)
-            guard isOnlyOneData(in: fetchedDatas), let targetData = fetchedDatas.first as? NSManagedObject else{
+            guard isOnlyOneData(in: fetchedDatas), let targetData = fetchedDatas.first as? T else{
                 throw CoreDataError.failedToUpdate
             }
             

@@ -9,15 +9,12 @@ import Foundation
 import CoreData
 
 enum CoreDataError: Error, LocalizedError {
-    case failedToGetEntity
     case failedToConvert
     case failedToUpdate
     case failedToDelete
     
     var errorDescription: String? {
         switch self {
-        case .failedToGetEntity:
-            return "데이터베이스 entity 정보를 가져오지 못했습니다."
         case .failedToConvert:
             return "데이터 변환에 실패하였습니다."
         case .failedToUpdate:

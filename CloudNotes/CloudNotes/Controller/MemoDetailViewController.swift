@@ -22,6 +22,14 @@ class MemoDetailViewController: UIViewController {
         configureTextView()
         setLayoutForTextView()
         memoDeatailTextView.delegate = self
+        makeNavigationItem()
+    }
+    
+    func makeNavigationItem() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: #selector(touchUpButton))
+    }
+    
+    @objc func touchUpButton() {
     }
     
     func configureTextView(by memo: MemoEntity) {

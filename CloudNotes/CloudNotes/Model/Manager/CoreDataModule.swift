@@ -12,6 +12,7 @@ enum CoreDataError: Error, LocalizedError {
     case failedToGetEntity
     case failedToConvert
     case failedToUpdate
+    case failedToDelete
     
     var errorDescription: String? {
         switch self {
@@ -21,6 +22,8 @@ enum CoreDataError: Error, LocalizedError {
             return "데이터 변환에 실패하였습니다."
         case .failedToUpdate:
             return "업데이트에 실패하였습니다."
+        case .failedToDelete:
+            return "삭제에 실패하였습니다."
         }
     }
 }
@@ -111,6 +114,25 @@ extension CoreDataModule {
             }
             try context.save()
         } catch  {
+            completionHandler(error)
+        }
+    }
+    
+    func delete<T: NSManagedObject>(objectType: T.Type,
+                                    searchedBy predicate: NSPredicate,
+                                    completionHandler: (Error?) -> Void) {
+        let fetchRequest = T.fetchRequest()
+        fetchRequest.predicate = predicate
+        
+        do {
+            let fetchedDatas = try context.fetch(fetchRequest)
+            guard isOnlyOneData(in: fetchedDatas), let targetData = fetchedDatas.first as? NSManagedObject else {
+                throw CoreDataError.failedToDelete
+            }
+            
+            context.delete(targetData)
+            try context.save()
+        } catch {
             completionHandler(error)
         }
     }

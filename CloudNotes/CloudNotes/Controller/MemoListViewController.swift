@@ -60,7 +60,7 @@ class MemoListViewController: UIViewController {
         guard let indexPath = selectedIndexPath else {
             return
         }
-        CoreDataManager.shared.updateMemo(modifyMemo: memo, with: indexPath)
+        CoreDataManager.shared.update(memo: memo, with: indexPath)
         guard let customCell = memoListTableView.dequeueReusableCell(withIdentifier: MemoCustomCell.cellIdentifier, for: indexPath) as? MemoCustomCell else {
             return
         }

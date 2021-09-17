@@ -72,7 +72,7 @@ class MemoDetailViewController: UIViewController {
         workItem?.cancel()
         workItem = DispatchWorkItem(block: action)
         guard let validWorkItem = workItem else { return }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: validWorkItem)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: validWorkItem)
     }
 }
 

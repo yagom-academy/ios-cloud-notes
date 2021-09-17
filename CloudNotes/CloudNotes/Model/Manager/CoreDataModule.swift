@@ -31,7 +31,6 @@ enum CoreDataError: Error, LocalizedError {
 struct CoreDataModule {
     //MARK: Basic Properties
     static let basicContainerName = "CloudNotes"
-    static let basicEntityName = "Note"
     static let basicSortingCriterias = [NSSortDescriptor(key: "lastModified", ascending: false)]
     //MARK: Core Data Stack
     private var persistentContainer: NSPersistentContainer
@@ -53,14 +52,9 @@ struct CoreDataModule {
 
 //MARK:- CRUD
 extension CoreDataModule {
-    func insert(about objectInfo: [String: Any],
-                into entityName: String = basicEntityName,
-                completionHandler: (NSManagedObject?, Error?) -> Void) {
-        guard let entity = NSEntityDescription.entity(forEntityName: entityName, in: context) else {
-            completionHandler(nil, CoreDataError.failedToGetEntity)
-            return
-        }
-        let item = NSManagedObject(entity: entity, insertInto: context)
+    func insert<T: NSManagedObject>(about objectInfo: [String: Any],
+                completionHandler: (T?, Error?) -> Void) {
+        let item = T(context: context)
         
         for (key, value) in objectInfo {
             item.setValue(value, forKey: key)

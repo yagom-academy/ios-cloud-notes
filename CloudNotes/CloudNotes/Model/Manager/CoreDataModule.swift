@@ -59,9 +59,9 @@ struct CoreDataModule {
 extension CoreDataModule {
     func insert(about objectInfo: [String: Any],
                 into entityName: String = basicEntityName,
-                completionHandler: (Error?) -> Void) {
+                completionHandler: (NSManagedObject?, Error?) -> Void) {
         guard let entity = NSEntityDescription.entity(forEntityName: entityName, in: context) else {
-            completionHandler(CoreDataError.failedToGetEntity)
+            completionHandler(nil, CoreDataError.failedToGetEntity)
             return
         }
         let item = NSManagedObject(entity: entity, insertInto: context)
@@ -71,9 +71,9 @@ extension CoreDataModule {
         }
         do {
             try context.save()
-            completionHandler(nil)
+            completionHandler(item, nil)
         } catch {
-            completionHandler(error)
+            completionHandler(nil, error)
         }
     }
     

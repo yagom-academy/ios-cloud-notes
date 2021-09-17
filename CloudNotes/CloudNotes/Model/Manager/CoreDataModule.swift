@@ -104,22 +104,22 @@ extension CoreDataModule {
         }
     }
     
-    func delete<T: NSManagedObject>(objectType: T.Type,
-                                    searchedBy predicate: NSPredicate,
-                                    completionHandler: (Error?) -> Void) {
+    func delete<T: NSManagedObject>(searchedBy predicate: NSPredicate,
+                                    completionHandler: (T?, Error?) -> Void) {
         let fetchRequest = T.fetchRequest()
         fetchRequest.predicate = predicate
         
         do {
             let fetchedDatas = try context.fetch(fetchRequest)
-            guard isOnlyOneData(in: fetchedDatas), let targetData = fetchedDatas.first as? NSManagedObject else {
+            guard isOnlyOneData(in: fetchedDatas), let targetData = fetchedDatas.first as? T else {
                 throw CoreDataError.failedToDelete
             }
             
             context.delete(targetData)
             try context.save()
+            completionHandler(targetData, nil)
         } catch {
-            completionHandler(error)
+            completionHandler(nil, error)
         }
     }
     

@@ -13,6 +13,7 @@ class MemoDetailViewController: UIViewController {
     private let linebreak = "\n"
     private let firstIndex = 1
     private var workItem: DispatchWorkItem?
+    private let placeHolder = "메모를 입력해주세요."
     var delegate: MemoEntitySendable?
     
     
@@ -28,8 +29,9 @@ class MemoDetailViewController: UIViewController {
         if let title = memo.title, let body = memo.body {
             memoDeatailTextView.text = title + linebreak + body
         } else {
-            memoDeatailTextView.text = ""
+            memoDeatailTextView.text = nil
         }
+        CoreDataManager.shared.fetchMemo()
     }
     
     private func configureTextView() {
@@ -62,9 +64,13 @@ extension MemoDetailViewController: UITextViewDelegate {
             let body = textView.text.components(separatedBy: linebreak)[firstIndex...lastIndex].joined(separator: linebreak)
             let now = Date()
             
-            let currentEntity = CoreDataManager.shared.createMemo(title: title, body: body, lastModifiedDate: now)
-            delegate?.textViewModify(at: currentEntity)
-//            delegate?.textViewModify(at: Memo.init(title: title, body: body, lastModified: now))
+            if lastIndex > firstIndex {
+                let currentEntity = CoreDataManager.shared.createMemo(title: title, body: body, lastModifiedDate: now)
+                delegate?.textViewModify(at: currentEntity)
+            } else {
+                let currentEntity = CoreDataManager.shared.createMemo(title: title, body: body, lastModifiedDate: now)
+                delegate?.textViewModify(at: currentEntity)
+            }
         }
     }
 }

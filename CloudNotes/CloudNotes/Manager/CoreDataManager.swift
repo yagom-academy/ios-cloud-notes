@@ -48,7 +48,6 @@ extension CoreDataManager {
         newMemo.body = body
         newMemo.lastModifiedDate = lastModifiedDate
         memoList.insert(newMemo, at: 0)
-        
         saveContext()
     }
     
@@ -60,9 +59,8 @@ extension CoreDataManager {
         return memo
     }
     
-    func updateMemo(modifyMemo: MemoEntity, with indexPath: IndexPath) {
-        memoList[indexPath.row] = modifyMemo
-        
+    func update(memo: MemoEntity, with indexPath: IndexPath) {
+        memoList[indexPath.row] = memo
         saveContext()
     }
     
@@ -75,6 +73,13 @@ extension CoreDataManager {
             memoList = try mainContext.fetch(request)
         } catch {
             print(error)
+        }
+    }
+    
+    func delete(memo: MemoEntity?) {
+        if let memo = memo {
+            mainContext.delete(memo)
+            saveContext()
         }
     }
     

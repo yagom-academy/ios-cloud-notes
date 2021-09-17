@@ -40,6 +40,9 @@ class MemoDetailViewController: UIViewController {
     }
     
     private func showRemoveAlert() {
+        let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: nil)
+        let cancelAction = UIAlertAction(title: "cancel", style: .default, handler: nil)
+        UIAlertController.showAlert(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert, actions: [deleteAction, cancelAction], animated: true, viewController: self)
     }
     
     func configureTextView(by memo: MemoEntity) {

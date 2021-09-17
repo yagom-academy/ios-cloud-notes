@@ -8,6 +8,6 @@
 import UIKit
 
 class SplitViewController: UISplitViewController {
-    var menu: UIViewController?
-    var detail: UIViewController?
+    var menu: MenuViewController?
+    var detail: DetailViewController?
 }

@@ -10,7 +10,7 @@ import Foundation
 struct CloudNoteItem: Decodable {
     var title: String
     var body: String
-    var lastModified: Int
+    var lastModified: Date
     
     enum CodingKeys: String, CodingKey {
         case title, body

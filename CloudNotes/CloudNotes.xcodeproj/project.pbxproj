@@ -15,6 +15,7 @@
 		436F162526E1F524008AC113 /* ParsingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436F162426E1F524008AC113 /* ParsingManager.swift */; };
 		436F162726E1F5AB008AC113 /* CloudNoteItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436F162626E1F5AB008AC113 /* CloudNoteItem.swift */; };
 		436F162926E1FB67008AC113 /* CustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436F162826E1FB67008AC113 /* CustomCell.swift */; };
+		43D6795E26F4770500F98808 /* CustomViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D6795D26F4770500F98808 /* CustomViewModel.swift */; };
 		ACE0AF2CBA66EF04279C3243 /* Pods_CloudNotes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3C8DB2686640B6A14CFDFF0 /* Pods_CloudNotes.framework */; };
 		C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */; };
 		C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */; };
@@ -55,6 +56,7 @@
 		436F162426E1F524008AC113 /* ParsingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParsingManager.swift; sourceTree = "<group>"; };
 		436F162626E1F5AB008AC113 /* CloudNoteItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudNoteItem.swift; sourceTree = "<group>"; };
 		436F162826E1FB67008AC113 /* CustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCell.swift; sourceTree = "<group>"; };
+		43D6795D26F4770500F98808 /* CustomViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomViewModel.swift; sourceTree = "<group>"; };
 		5809CDE9DE223970658F2178 /* Pods-CloudNotesTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudNotesTests.debug.xcconfig"; path = "Target Support Files/Pods-CloudNotesTests/Pods-CloudNotesTests.debug.xcconfig"; sourceTree = "<group>"; };
 		B3C8DB2686640B6A14CFDFF0 /* Pods_CloudNotes.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CloudNotes.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BA8D5B749E55ADC2FB19201F /* Pods_CloudNotesTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CloudNotesTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -101,6 +103,26 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		43D6798926F49A1F00F98808 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				436F162626E1F5AB008AC113 /* CloudNoteItem.swift */,
+				436F162826E1FB67008AC113 /* CustomCell.swift */,
+				43D6795D26F4770500F98808 /* CustomViewModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		43D6798C26F49A4800F98808 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				436F162026E1F025008AC113 /* SplitViewController.swift */,
+				C7481C7125BBCF3900B9CA55 /* MenuViewController.swift */,
+				436F162226E1F26B008AC113 /* DetailViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
 		8A51E9C9742FC6F0AE4CE21E /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -152,12 +174,9 @@
 			children = (
 				C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */,
 				C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */,
-				436F162026E1F025008AC113 /* SplitViewController.swift */,
-				C7481C7125BBCF3900B9CA55 /* MenuViewController.swift */,
-				436F162226E1F26B008AC113 /* DetailViewController.swift */,
-				436F162826E1FB67008AC113 /* CustomCell.swift */,
+				43D6798C26F49A4800F98808 /* Controller */,
+				43D6798926F49A1F00F98808 /* Model */,
 				436F162426E1F524008AC113 /* ParsingManager.swift */,
-				436F162626E1F5AB008AC113 /* CloudNoteItem.swift */,
 				C7481C7925BBCF3A00B9CA55 /* Assets.xcassets */,
 				C7481C7E25BBCF3A00B9CA55 /* Info.plist */,
 				C7481C7625BBCF3900B9CA55 /* CloudNotes.xcdatamodeld */,
@@ -407,6 +426,7 @@
 				436F162726E1F5AB008AC113 /* CloudNoteItem.swift in Sources */,
 				C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */,
 				436F162926E1FB67008AC113 /* CustomCell.swift in Sources */,
+				43D6795E26F4770500F98808 /* CustomViewModel.swift in Sources */,
 				436F162326E1F26B008AC113 /* DetailViewController.swift in Sources */,
 				436F162526E1F524008AC113 /* ParsingManager.swift in Sources */,
 				C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */,

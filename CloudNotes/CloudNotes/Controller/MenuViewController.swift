@@ -7,14 +7,21 @@
 import UIKit
 
 class MenuViewController: UIViewController {
+    // MARK: - Properties
     var splitView: SplitViewController?
     
     let tableView = UITableView()
-    var data = [CloudNoteItem]()
+    private var data = [CloudNoteItem]()
     
+    // MARK: - LifeCycles
     override func loadView() {
         super.loadView()
-        data = ParsingManager().parse(fileName: "sample")
+        do {
+            data = try ParsingManager().parse(fileName: "sample")
+        } catch {
+            print(ParsingError.parsingError)
+        }
+        
     }
     
     override func viewDidLoad() {
@@ -23,55 +30,68 @@ class MenuViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(CustomCell.self, forCellReuseIdentifier: CustomCell.cellIdentifier)
-        configureTableView()
+        configureTableViewLayout()
+    }
+
+    // MARK: - Methods
+    func update(indexPath: IndexPath) {
+        data[indexPath.row].body = splitView?.detail?.textView.text ?? ""
     }
     
-    func configureNavigationItem() {
+    private func configureNavigationItem() {
         self.title = "메모"
     }
     
-    func configureTableView() {
+    private func configureTableViewLayout() {
         view.addSubview(tableView)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         
         let safeArea = view.safeAreaLayoutGuide
         
-        tableView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor).isActive = true
-        tableView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor).isActive = true
-        tableView.topAnchor.constraint(equalTo: safeArea.topAnchor).isActive = true
-        tableView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor).isActive = true
+        NSLayoutConstraint.activate([
+            tableView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
+            tableView.topAnchor.constraint(equalTo: safeArea.topAnchor),
+            tableView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
+        ])
     }
-    
-    func loadData(detail: String, indexPath: IndexPath) {
-        self.data[indexPath.row].body = detail
-    }
-    
 }
 
 extension MenuViewController: UITableViewDelegate, UITableViewDataSource {
+    // MARK: - TableViewDataSource
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return data.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy.MM.dd"
+        
         guard let cell = tableView.dequeueReusableCell(withIdentifier: CustomCell.cellIdentifier, for: indexPath) as? CustomCell else {
             return UITableViewCell()
         }
-        cell.title.text = data[indexPath.row].title
-        cell.lastModification.text = "\(data[indexPath.row].lastModified)"
-        cell.shortDescription.text = data[indexPath.row].body
+        
+        let customCellViewModel = CustomViewModel<CustomCell>(customType: cell)
+
+        customCellViewModel.customType.title.text = data[indexPath.row].title
+        customCellViewModel.customType.lastModification.text = dateFormatter.string(from: data[indexPath.row].lastModified)
+        customCellViewModel.customType.shortDescription.text = data[indexPath.row].body
+        cell.bind(with: customCellViewModel)
         return cell
     }
     
+    // MARK: - TableViewDelegate
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 60
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let detail = splitView?.detail as? DetailViewController else {
+        splitView?.detail?.indexPath = indexPath
+        guard let detail = splitView?.detail else {
             return
         }
-        detail.loadData(data: data, indexPath: indexPath)
+        
+        detail.update(data: data, indexPath: indexPath)
         let navi :UINavigationController = UINavigationController(rootViewController: detail)
         self.showDetailViewController(navi, sender: self)
     }

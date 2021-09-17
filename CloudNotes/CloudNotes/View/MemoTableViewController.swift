@@ -13,7 +13,7 @@ class MemoTableViewController: UITableViewController {
     // MARK: - Properties
     private let isCompact: Bool
 
-    lazy var viewModel = {
+    var viewModel = {
         NoteViewModel()
     }()
 
@@ -32,18 +32,11 @@ class MemoTableViewController: UITableViewController {
         super.viewDidLoad()
 
         initView()
-        initViewModel()
-
-        let request: NSFetchRequest<Note> = Note.fetchRequest()
-        PersistanceManager.shared.deleteAll(request: request)
-        let notes = PersistanceManager.shared.fetch(request: request)
-        if notes.isEmpty {
-            print("Deleted all")
-        }
+        fetchViewModel()
     }
 
     // MARK: - Methods
-    func initViewModel() {
+    func fetchViewModel() {
         viewModel.fetchNote()
         viewModel.reloadTableView = { [weak self] in
             DispatchQueue.main.async {
@@ -64,11 +57,11 @@ class MemoTableViewController: UITableViewController {
             print("Failed to save")
         }
 
-        viewModel.reloadTableView = { [weak self] in
-            DispatchQueue.main.async {
-                self?.tableView.reloadData()
-            }
-        }
+        fetchViewModel()
+    }
+
+    @objc func deleteAllData() {
+        viewModel.deleteAllNote()
     }
 }
 
@@ -80,10 +73,12 @@ extension MemoTableViewController {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
                                                                  target: self,
                                                                  action: #selector(saveData))
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .trash,
+                                                                target: self,
+                                                                action: #selector(deleteAllData))
 
         tableView.register(MemoTableViewCell.self, forCellReuseIdentifier: "MemoTableViewCell")
         tableView.translatesAutoresizingMaskIntoConstraints = false
-
         tableView.estimatedRowHeight = 100
         tableView.rowHeight = UITableView.automaticDimension
     }

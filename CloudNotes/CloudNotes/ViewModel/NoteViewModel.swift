@@ -43,4 +43,13 @@ class NoteViewModel {
     func getCellViewModel(at indexPath: IndexPath) -> MemoCellViewModel {
         return memoCellViewModels[indexPath.row]
     }
+
+    func deleteAllNote() {
+        let request: NSFetchRequest<Note> = Note.fetchRequest()
+        let result = PersistanceManager.shared.deleteAll(request: request)
+
+        if result {
+            memoCellViewModels = []
+        }
+    }
 }

@@ -29,7 +29,10 @@ class MemoListViewDataSource: NSObject, UITableViewDataSource {
 
         return memoListViewCell
     }
+}
 
+// MARK: - Managing memoList with MemoListViewController
+extension MemoListViewDataSource {
     func tableView(_ tableView: UITableView, initializeMemoListWith memoList: [Memo]) {
         self.memoList = memoList
         tableView.reloadData()

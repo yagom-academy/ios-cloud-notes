@@ -14,7 +14,7 @@ class SplitViewController: UISplitViewController {
     private let splitViewDelegator = SplitViewDelegate()
     private let coreDataManager = CoreDataManager()
 
-    var isTest = false
+    private var isTest = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,11 +43,7 @@ extension SplitViewController: MessengerBetweenController {
         let delete = NSLocalizedString("Delete", comment: "")
         let cancel = NSLocalizedString("Cancel", comment: "")
 
-        let alert = UIAlertController(
-            title: nil,
-            message: nil,
-            preferredStyle: .actionSheet
-        )
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
 
         let shareAction = UIAlertAction(title: share, style: .default)
         let cancelAction = UIAlertAction(title: cancel, style: .cancel)

@@ -8,21 +8,6 @@
 import Foundation
 
 struct Parser {
-
-    enum ErrorCases: LocalizedError {
-        case notDecodable
-        case unknown
-
-        var errorDescription: String? {
-            switch self {
-            case .notDecodable:
-                return "Error: Not Decodable"
-            default:
-                return "Error: Unknown Error occured"
-            }
-        }
-    }
-
     static func decode<Model>(
         from data: [String: Any],
         to model: Model.Type
@@ -39,6 +24,20 @@ struct Parser {
             return .success(data)
         } catch {
             return .failure(ErrorCases.notDecodable)
+        }
+    }
+
+    enum ErrorCases: LocalizedError {
+        case notDecodable
+        case unknown
+
+        var errorDescription: String? {
+            switch self {
+            case .notDecodable:
+                return "Error: Not Decodable"
+            default:
+                return "Error: Unknown Error occured"
+            }
         }
     }
 }

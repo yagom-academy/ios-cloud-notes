@@ -23,6 +23,7 @@ class MemoDetailViewController: UIViewController {
             }
         }
     }
+
     var messenger: MessengerForDetailViewController?
 
     override func viewDidLoad() {
@@ -67,55 +68,47 @@ class MemoDetailViewController: UIViewController {
     }
 }
 
-// MARK: - Draw View
-extension MemoDetailViewController {
-    private func resetOffsetOfTextViewWithLock() {
-        let beginnningPosition = textView.beginningOfDocument
-        textView.isScrollEnabled = false
-        textView.selectedTextRange = textView.textRange(from: beginnningPosition, to: beginnningPosition)
+// MARK: - TextView Delegate
+extension MemoDetailViewController: UITextViewDelegate {
+    func textViewDidChange(_ textView: UITextView) {
+        guard isCreatingNewMemo == false else {
+            return
+        }
+
+        sendingDataToListViewController?.cancel()
+        sendingDataToListViewController = DispatchWorkItem(block: sendDataToListViewController)
+        guard let sendingDataToListViewController = sendingDataToListViewController else {
+            return
+        }
+
+        let delay = 0.3
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay, execute: sendingDataToListViewController)
     }
 
-    private func unlockTextView() {
-        textView.isScrollEnabled = true
-    }
+    func textViewDidEndEditing(_ textView: UITextView) {
+        guard isCreatingNewMemo == true else {
+            return
+        }
 
-    private func configureTextView() {
-        textView.translatesAutoresizingMaskIntoConstraints = false
-        textView.font = UIFont.preferredFont(forTextStyle: .body)
-
-        view.addSubview(textView)
-
-        let safeArea = view.safeAreaLayoutGuide
-        NSLayoutConstraint.activate([
-            textView.topAnchor.constraint(equalTo: safeArea.topAnchor),
-            textView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
-            textView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor)
-        ])
-
-        textViewBottomAnchor = textView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
-        textViewHeightAnchor?.isActive = false
-        textViewBottomAnchor?.isActive = true
-    }
-
-    private func configureActionButton() {
-        let circleImage = UIImage(systemName: "ellipsis.circle")
-        let deleteButton = UIBarButtonItem(
-            image: circleImage,
-            style: .plain,
-            target: self,
-            action: #selector(showActionSheet)
-        )
-        navigationItem.rightBarButtonItem = deleteButton
-    }
-
-    @objc func showActionSheet() {
-        messenger?.showActionSheet()
-    }
-
-    func deleteMemo() {
-        textView.clear()
-        messenger?.deleteMemo()
+        sendDataToListViewController()
         messenger?.showListViewController()
+    }
+
+    private func sendDataToListViewController() {
+        let separator = "\n\n"
+        var outputStrings = textView.text.components(separatedBy: separator)
+
+        guard let titleText = outputStrings.first,
+              titleText.isEmpty == false else {
+            messenger?.updateListViewController(with: nil)
+            return
+        }
+
+        let title = outputStrings.removeFirst().description
+        let description = outputStrings.joined(separator: separator)
+        let now = Date().timeIntervalSince1970
+        let memo = Memo(title: title, body: description, lastUpdatedTime: now)
+        messenger?.updateListViewController(with: memo)
     }
 }
 
@@ -123,12 +116,12 @@ extension MemoDetailViewController {
 extension MemoDetailViewController {
     private func configureKeyboardSetting() {
         let keyboardToolbar = UIToolbar()
-        let doneBarButton = UIBarButtonItem(
+        let doneButton = UIBarButtonItem(
             barButtonSystemItem: .done,
             target: self,
             action: #selector(closeKeyboard)
         )
-        keyboardToolbar.items = [doneBarButton]
+        keyboardToolbar.items = [doneButton]
         keyboardToolbar.sizeToFit()
         textView.inputAccessoryView = keyboardToolbar
 
@@ -171,45 +164,48 @@ extension MemoDetailViewController {
     }
 }
 
-// MARK: - TextView Delegate
-extension MemoDetailViewController: UITextViewDelegate {
-    func textViewDidChange(_ textView: UITextView) {
-        guard isCreatingNewMemo == false  else {
-            return
-        }
-
-        sendingDataToListViewController?.cancel()
-        sendingDataToListViewController = DispatchWorkItem(block: sendDataToListViewController)
-        guard let sendingDataToListViewController = sendingDataToListViewController else {
-            return
-        }
-
-        let delay = 0.3
-        DispatchQueue.main.asyncAfter(deadline: .now() + delay, execute: sendingDataToListViewController)
+// MARK: - Draw View
+extension MemoDetailViewController {
+    private func resetOffsetOfTextViewWithLock() {
+        let beginnningPosition = textView.beginningOfDocument
+        textView.isScrollEnabled = false
+        textView.selectedTextRange = textView.textRange(from: beginnningPosition, to: beginnningPosition)
     }
 
-    func textViewDidEndEditing(_ textView: UITextView) {
-        guard isCreatingNewMemo == true else {
-            return
-        }
-
-        sendDataToListViewController()
-        messenger?.showListViewController()
+    private func unlockTextView() {
+        textView.isScrollEnabled = true
     }
 
-    private func sendDataToListViewController() {
-        let separator = "\n\n"
-        var outputStrings = textView.text.components(separatedBy: separator)
-        guard let titleText = outputStrings.first,
-              titleText.isEmpty == false else {
-            messenger?.updateListViewController(with: nil)
-            return
-        }
+    private func configureTextView() {
+        textView.translatesAutoresizingMaskIntoConstraints = false
+        textView.font = UIFont.preferredFont(forTextStyle: .body)
 
-        let title = outputStrings.removeFirst().description
-        let description = outputStrings.joined(separator: separator)
-        let now = Date().timeIntervalSince1970
-        let memo = Memo(title: title, body: description, lastUpdatedTime: now)
-        messenger?.updateListViewController(with: memo)
+        view.addSubview(textView)
+
+        let safeArea = view.safeAreaLayoutGuide
+        NSLayoutConstraint.activate([
+            textView.topAnchor.constraint(equalTo: safeArea.topAnchor),
+            textView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
+            textView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor)
+        ])
+
+        textViewBottomAnchor = textView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
+        textViewHeightAnchor?.isActive = false
+        textViewBottomAnchor?.isActive = true
+    }
+
+    private func configureActionButton() {
+        let circleImage = UIImage(systemName: "ellipsis.circle")
+        let deleteButton = UIBarButtonItem(
+            image: circleImage,
+            style: .plain,
+            target: self,
+            action: #selector(showActionSheet)
+        )
+        navigationItem.rightBarButtonItem = deleteButton
+    }
+
+    @objc private func showActionSheet() {
+        messenger?.showActionSheet()
     }
 }

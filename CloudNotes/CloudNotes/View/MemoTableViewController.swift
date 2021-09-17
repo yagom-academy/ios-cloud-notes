@@ -49,22 +49,17 @@ class MemoTableViewController: UITableViewController {
         let mockNote = Memo(title: "Sample",
                             body: "Mock Data",
                             lastModified: 1608651333)
+        let result = PersistanceManager.shared.saveNote(note: mockNote)
 
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-        let context = appDelegate.persistentContainer.viewContext
+        if result {
+            print("Saved note successful")
+        } else {
+            print("Failed to save")
+        }
 
-        let entity = NSEntityDescription.entity(forEntityName: "Note", in: context)
-
-        if let entity = entity {
-            let note = NSManagedObject(entity: entity, insertInto: context)
-            note.setValue(mockNote.title, forKey: "title")
-            note.setValue(mockNote.body, forKey: "body")
-            note.setValue(mockNote.lastModified, forKey: "lastModified")
-
-            do {
-                try context.save()
-            } catch {
-                print(error.localizedDescription)
+        viewModel.reloadTableView = { [weak self] in
+            DispatchQueue.main.async {
+                self?.tableView.reloadData()
             }
         }
     }
@@ -98,7 +93,7 @@ extension MemoTableViewController {
         let cellID = "MemoTableViewCell"
         if let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath)
             as? MemoTableViewCell {
-            cell.memoCellViewModel = viewModel.getCellViewModel(at: indexPath)
+            cell.noteCellViewModel = viewModel.getCellViewModel(at: indexPath)
 
             return cell
         }

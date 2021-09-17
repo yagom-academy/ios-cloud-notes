@@ -20,16 +20,10 @@ class NoteViewModel {
 
     // MARK: - Methods
     func fetchNote() {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-        let context = appDelegate.persistentContainer.viewContext
-
-        do {
-            let notes = try context.fetch(Note.fetchRequest()) as [Note]
-            notes.forEach { note in
-                memoCellViewModels.append(createCellModel(memo: note))
-            }
-        } catch {
-            print(error.localizedDescription)
+        let request: NSFetchRequest<Note> = Note.fetchRequest()
+        let notes = PersistanceManager.shared.fetch(request: request)
+        notes.forEach { note in
+            memoCellViewModels.append(createCellModel(memo: note))
         }
     }
 

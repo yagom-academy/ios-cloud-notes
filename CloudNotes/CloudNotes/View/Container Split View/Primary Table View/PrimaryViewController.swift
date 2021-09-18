@@ -28,7 +28,7 @@ class PrimaryViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        coreManager.readDataAsset()
+//        coreManager.readDataAsset()
     }
     
     override func viewDidLoad() {

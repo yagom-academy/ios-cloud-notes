@@ -32,12 +32,13 @@ class NoteViewModel {
 
     private func createCellModel(memo: Note) -> MemoCellViewModel {
         guard let title = memo.title,
-              let body = memo.body else {
-            return MemoCellViewModel(title: "제목 없음", body: "내용 없음", lastModified: "")
+              let body = memo.body,
+              let uuid = memo.uuid else {
+            return MemoCellViewModel(title: "제목 없음", body: "내용 없음", lastModified: "", uuid: UUID())
         }
         let lastModified = memo.lastModified
         let formattedDate = lastModified.changeDateFormat()
-        return MemoCellViewModel(title: title, body: body, lastModified: formattedDate)
+        return MemoCellViewModel(title: title, body: body, lastModified: formattedDate, uuid: uuid)
     }
 
     func getCellViewModel(at indexPath: IndexPath) -> MemoCellViewModel {

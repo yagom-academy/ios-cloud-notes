@@ -2,7 +2,7 @@
 //  Note+CoreDataClass.swift
 //  
 //
-//  Created by Dasoll Park on 2021/09/14.
+//  Created by Dasoll Park on 2021/09/18.
 //
 //
 

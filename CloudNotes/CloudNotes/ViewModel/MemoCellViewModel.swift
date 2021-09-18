@@ -12,4 +12,5 @@ struct MemoCellViewModel {
     var title: String
     var body: String
     var lastModified: String
+    let uuid: UUID
 }

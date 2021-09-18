@@ -48,6 +48,7 @@ class PersistanceManager {
             managedObject.setValue(note.title, forKey: "title")
             managedObject.setValue(note.body, forKey: "body")
             managedObject.setValue(note.lastModified, forKey: "lastModified")
+            managedObject.setValue(UUID(), forKey: "uuid")
 
             do {
                 try context.save()

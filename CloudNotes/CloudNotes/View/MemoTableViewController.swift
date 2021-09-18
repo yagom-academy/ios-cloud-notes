@@ -128,7 +128,7 @@ extension MemoTableViewController {
                             forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let uuid = viewModel.getCellViewModel(at: indexPath).uuid
-            let result = viewModel.deleteNote(uuid: uuid)
+            let result = PersistanceManager.shared.deleteNote(uuid: uuid)
 
             if result {
                 print("A note deleted")

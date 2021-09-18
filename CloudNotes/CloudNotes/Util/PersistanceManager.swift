@@ -62,6 +62,25 @@ class PersistanceManager {
         }
     }
 
+    func deleteNote(uuid: UUID) -> Bool {
+        let success: Bool = true
+
+        let request: NSFetchRequest<Note> = Note.fetchRequest()
+        request.predicate = NSPredicate(format: "%K == %@",
+                                        #keyPath(Note.uuid), uuid as NSUUID)
+
+        do {
+            let notes = try context.fetch(request)
+            notes.forEach { note in
+                context.delete(note)
+            }
+            return success
+        } catch {
+            print(error.localizedDescription)
+        }
+        return !success
+    }
+
     func deleteAll<T: NSManagedObject>(request: NSFetchRequest<T>) -> Bool {
         let request: NSFetchRequest<NSFetchRequestResult> = T.fetchRequest()
         let delete = NSBatchDeleteRequest(fetchRequest: request)

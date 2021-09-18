@@ -45,25 +45,6 @@ class NoteViewModel {
         return memoCellViewModels[indexPath.row]
     }
 
-    func deleteNote(uuid: UUID) -> Bool {
-        let success: Bool = true
-
-        let request: NSFetchRequest<Note> = Note.fetchRequest()
-        request.predicate = NSPredicate(format: "%K == %@",
-                                        #keyPath(Note.uuid), uuid as NSUUID)
-
-        do {
-            let notes = try PersistanceManager.shared.context.fetch(request)
-            notes.forEach { note in
-                PersistanceManager.shared.context.delete(note)
-            }
-            return success
-        } catch {
-            print(error.localizedDescription)
-        }
-        return !success
-    }
-
     func deleteAllNote() {
         let request: NSFetchRequest<Note> = Note.fetchRequest()
         let result = PersistanceManager.shared.deleteAll(request: request)

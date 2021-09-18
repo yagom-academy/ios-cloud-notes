@@ -16,40 +16,22 @@ class MemoItemTableViewCell: UITableViewCell {
     private let summaryLabel = UILabel()
     static let identifier = "MemoItemTableViewCell"
     
-    //MARK: Initialized Programmatically
+    //MARK: Initializers
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        setAutoresizingMasks()
         setUpInnerStackView()
         setUpOuterStackView()
         setUpAccessoryView()
     }
     
-    //MARK: Initialized Non Programmatically
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-    }
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        setAutoresizingMasks()
-        setUpInnerStackView()
-        setUpOuterStackView()
-        setUpAccessoryView()
     }
 }
 
 //MARK:- Set View Components
 extension MemoItemTableViewCell {
-    private func setAutoresizingMasks() {
-        outerStackView.translatesAutoresizingMaskIntoConstraints = false
-        innerStackView.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        lastModifiedLabel.translatesAutoresizingMaskIntoConstraints = false
-        summaryLabel.translatesAutoresizingMaskIntoConstraints = false
-    }
-    
-    private func setUpInnerStackView() {
+        private func setUpInnerStackView() {
         innerStackView.axis = .horizontal
         innerStackView.addArrangedSubview(lastModifiedLabel)
         innerStackView.addArrangedSubview(summaryLabel)
@@ -60,6 +42,7 @@ extension MemoItemTableViewCell {
     }
 
     private func setUpOuterStackView() {
+        outerStackView.translatesAutoresizingMaskIntoConstraints = false
         let marginGuide = contentView.layoutMarginsGuide
         contentView.addSubview(outerStackView)
         outerStackView.topAnchor.constraint(equalTo: marginGuide.topAnchor).isActive = true

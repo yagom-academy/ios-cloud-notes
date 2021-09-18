@@ -57,7 +57,7 @@ extension MemoListViewController {
     }
 }
 
-//MARK:- configure memoList
+//MARK:- Configure memoList
 extension MemoListViewController {
     func setUpList(with newList: [Memo]) {
         memoList = newList

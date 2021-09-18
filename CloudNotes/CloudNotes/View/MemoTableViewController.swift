@@ -46,9 +46,9 @@ class MemoTableViewController: UITableViewController {
     }
 
     @objc func saveData() {
-        let mockNote = Memo(title: "Sample",
-                            body: "Mock Data",
-                            lastModified: 1608651333)
+        let mockNote = Memo(title: ["111", "222", "333"].randomElement(),
+                            body: ["444", "555", "666"].randomElement(),
+                            lastModified: Int(Date().timeIntervalSince1970))
         let result = PersistanceManager.shared.saveNote(note: mockNote)
 
         if result {
@@ -117,5 +117,26 @@ extension MemoTableViewController {
             let navigation = UINavigationController(rootViewController: detailViewController)
             self.showDetailViewController(navigation, sender: self)
         }
+    }
+
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+
+    override func tableView(_ tableView: UITableView,
+                            commit editingStyle: UITableViewCell.EditingStyle,
+                            forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let uuid = viewModel.getCellViewModel(at: indexPath).uuid
+            let result = viewModel.deleteNote(uuid: uuid)
+
+            if result {
+                print("A note deleted")
+            } else {
+                print("Error to delete a note")
+            }
+        }
+
+        fetchViewModel()
     }
 }

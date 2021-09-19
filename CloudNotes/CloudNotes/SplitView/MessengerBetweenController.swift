@@ -7,14 +7,14 @@
 
 import Foundation
 
-protocol MessengerForDetailViewController {
+protocol MessengerForDetailViewController: AnyObject {
     func deleteMemo()
     func updateListViewController(with memo: Memo?)
     func showListViewController()
     func showActionSheet()
 }
 
-protocol MessengerForListViewController {
+protocol MessengerForListViewController: AnyObject {
     func showDetailViewController(with memo: Memo?)
     func updateMemo(_ memo: Memo, at index: Int)
     func createMemo(with memo: Memo)

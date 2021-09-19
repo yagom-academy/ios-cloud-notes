@@ -12,7 +12,7 @@ class MemoListViewController: UITableViewController {
     private var memoListDelegator: MemoListViewDelegate?
     private var lastIndexPath: IndexPath?
 
-    var messenger: MessengerForListViewController?
+    weak var messenger: MessengerForListViewController?
 
     override func viewDidLoad() {
         super.viewDidLoad()

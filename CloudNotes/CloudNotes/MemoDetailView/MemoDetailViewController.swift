@@ -24,7 +24,7 @@ class MemoDetailViewController: UIViewController {
         }
     }
 
-    var messenger: MessengerForDetailViewController?
+    weak var messenger: MessengerForDetailViewController?
 
     override func viewDidLoad() {
         super.viewDidLoad()

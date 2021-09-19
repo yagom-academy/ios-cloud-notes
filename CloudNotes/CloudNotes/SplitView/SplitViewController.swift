@@ -9,8 +9,8 @@ import CoreData
 
 class SplitViewController: UISplitViewController {
 
-    private let memoListView = MemoListViewController()
-    private let memoDetailView = MemoDetailViewController()
+    private let listViewController = MemoListViewController()
+    private let detailViewController = MemoDetailViewController()
     private let splitViewDelegator = SplitViewDelegate()
     private let coreDataManager = CoreDataManager()
 
@@ -22,11 +22,11 @@ class SplitViewController: UISplitViewController {
         preferredSplitBehavior = .tile
         preferredDisplayMode = .oneBesideSecondary
 
-        setViewController(memoListView, for: .primary)
-        setViewController(memoDetailView, for: .secondary)
+        setViewController(listViewController, for: .primary)
+        setViewController(detailViewController, for: .secondary)
 
-        memoListView.messenger = self
-        memoDetailView.messenger = self
+        listViewController.delegate = self
+        detailViewController.delegate = self
 
         loadMemoList()
     }
@@ -56,7 +56,7 @@ extension SplitViewController: DelegateBetweenController {
     }
 
     func update(with memo: Memo?) {
-        memoListView.configure(with: memo)
+        listViewController.configure(with: memo)
     }
 
     func showList() {
@@ -64,7 +64,7 @@ extension SplitViewController: DelegateBetweenController {
     }
 
     func deleteMemo() {
-        memoListView.deleteMemo()
+        listViewController.deleteMemo()
     }
 
     func createMemo(with memo: Memo) {
@@ -105,7 +105,7 @@ extension SplitViewController: DelegateBetweenController {
     }
 
     func showDetail(with memo: Memo?) {
-        memoDetailView.configure(with: memo)
+        detailViewController.configure(with: memo)
 
         show(.secondary)
     }
@@ -121,7 +121,7 @@ extension SplitViewController {
         coreDataManager.retrieveMemoList { result in
             switch result {
             case .success(let memoList):
-                self.memoListView.insertMemoList(memoList: memoList)
+                self.listViewController.insertMemoList(memoList: memoList)
             case . failure(let error):
                 fatalError(error.localizedDescription)
             }

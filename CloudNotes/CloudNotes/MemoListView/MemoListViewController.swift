@@ -12,7 +12,7 @@ class MemoListViewController: UITableViewController {
     private var memoListDelegator: MemoListViewDelegate?
     private var lastIndexPath: IndexPath?
 
-    weak var messenger: ListViewControllerDelegate?
+    weak var delegate: ListViewControllerDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,7 +23,7 @@ class MemoListViewController: UITableViewController {
     }
 
     func showDetailViewController(at indexPath: IndexPath) {
-        messenger?.showDetail(with: memoListDataSource[indexPath])
+        delegate?.showDetail(with: memoListDataSource[indexPath])
         lastIndexPath = indexPath
     }
 
@@ -35,7 +35,7 @@ class MemoListViewController: UITableViewController {
 // MARK: - Managing DataSource with MessengerForListViewController
 extension MemoListViewController {
     func showActionSheet() {
-        messenger?.showActionSheet()
+        delegate?.showActionSheet()
     }
 
     func insertMemoList(memoList: [Memo]) {
@@ -59,17 +59,17 @@ extension MemoListViewController {
             return
         }
 
-        messenger?.deleteMemo(at: indexPath.row)
+        delegate?.deleteMemo(at: indexPath.row)
         memoListDataSource.tableView(tableView, deleteRowAt: indexPath)
     }
 
     private func insertMemo(with memo: Memo) {
-        messenger?.createMemo(with: memo)
+        delegate?.createMemo(with: memo)
         memoListDataSource.tableView(tableView, insertRowWith: memo)
     }
 
     private func updateMemo(with memo: Memo, at indexPath: IndexPath) {
-        messenger?.updateMemo(memo, at: indexPath.row)
+        delegate?.updateMemo(memo, at: indexPath.row)
         memoListDataSource.tableView(tableView, updateRowAt: indexPath, with: memo)
     }
 }
@@ -121,7 +121,7 @@ extension MemoListViewController {
     }
 
     @objc private func showDetailViewControllerWithBlankPage() {
-        messenger?.showDetail(with: nil)
+        delegate?.showDetail(with: nil)
         lastIndexPath = nil
     }
 }

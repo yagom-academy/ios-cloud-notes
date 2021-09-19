@@ -33,7 +33,7 @@ class SplitViewController: UISplitViewController {
 }
 
 // MARK: - Messenger Delegate
-extension SplitViewController: MessengerBetweenController {
+extension SplitViewController: DelegateBetweenController {
     func showActionSheet() {
         let share = NSLocalizedString("Share", comment: "")
         let delete = NSLocalizedString("Delete", comment: "")
@@ -55,11 +55,11 @@ extension SplitViewController: MessengerBetweenController {
         present(alert, animated: false, completion: nil)
     }
 
-    func updateListViewController(with memo: Memo?) {
+    func update(with memo: Memo?) {
         memoListView.configure(with: memo)
     }
 
-    func showListViewController() {
+    func showList() {
         show(.primary)
     }
 
@@ -104,7 +104,7 @@ extension SplitViewController: MessengerBetweenController {
         }
     }
 
-    func showDetailViewController(with memo: Memo?) {
+    func showDetail(with memo: Memo?) {
         memoDetailView.configure(with: memo)
 
         show(.secondary)

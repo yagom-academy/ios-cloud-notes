@@ -24,7 +24,7 @@ class MemoDetailViewController: UIViewController {
         }
     }
 
-    weak var messenger: MessengerForDetailViewController?
+    weak var messenger: DetailViewControllerDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -91,7 +91,7 @@ extension MemoDetailViewController: UITextViewDelegate {
         }
 
         sendDataToListViewController()
-        messenger?.showListViewController()
+        messenger?.showList()
     }
 
     private func sendDataToListViewController() {
@@ -100,7 +100,7 @@ extension MemoDetailViewController: UITextViewDelegate {
 
         guard let titleText = outputStrings.first,
               titleText.isEmpty == false else {
-            messenger?.updateListViewController(with: nil)
+            messenger?.update(with: nil)
             return
         }
 
@@ -108,7 +108,7 @@ extension MemoDetailViewController: UITextViewDelegate {
         let description = outputStrings.joined(separator: separator)
         let now = Date().timeIntervalSince1970
         let memo = Memo(title: title, body: description, lastUpdatedTime: now)
-        messenger?.updateListViewController(with: memo)
+        messenger?.update(with: memo)
     }
 }
 

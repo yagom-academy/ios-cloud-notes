@@ -12,7 +12,7 @@ class MemoListViewController: UITableViewController {
     private var memoListDelegator: MemoListViewDelegate?
     private var lastIndexPath: IndexPath?
 
-    weak var messenger: MessengerForListViewController?
+    weak var messenger: ListViewControllerDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,7 +23,7 @@ class MemoListViewController: UITableViewController {
     }
 
     func showDetailViewController(at indexPath: IndexPath) {
-        messenger?.showDetailViewController(with: memoListDataSource[indexPath])
+        messenger?.showDetail(with: memoListDataSource[indexPath])
         lastIndexPath = indexPath
     }
 
@@ -121,7 +121,7 @@ extension MemoListViewController {
     }
 
     @objc private func showDetailViewControllerWithBlankPage() {
-        messenger?.showDetailViewController(with: nil)
+        messenger?.showDetail(with: nil)
         lastIndexPath = nil
     }
 }

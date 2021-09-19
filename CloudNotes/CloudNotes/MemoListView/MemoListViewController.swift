@@ -38,7 +38,7 @@ extension MemoListViewController {
         delegate?.showActionSheet()
     }
 
-    func insertMemoList(memoList: [Memo]) {
+    func initializeMemoList(with memoList: [Memo]) {
         memoListDataSource.tableView(tableView, initializeMemoListWith: memoList)
     }
 

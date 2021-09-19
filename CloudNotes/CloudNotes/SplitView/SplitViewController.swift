@@ -121,7 +121,7 @@ extension SplitViewController {
         coreDataManager.retrieveMemoList { result in
             switch result {
             case .success(let memoList):
-                self.listViewController.insertMemoList(memoList: memoList)
+                self.listViewController.initializeMemoList(with: memoList)
             case . failure(let error):
                 fatalError(error.localizedDescription)
             }

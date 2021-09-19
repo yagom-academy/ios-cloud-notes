@@ -9,11 +9,12 @@ import Foundation
 import CoreData
 
 final class CoreDataManager {
-    private var persistentContainer: NSPersistentCloudKitContainer = {
+    private let persistentContainer: NSPersistentCloudKitContainer = {
         let container = NSPersistentCloudKitContainer(name: "CloudNotes")
 
         container.loadPersistentStores { (_, error) in
             if let error = error as NSError? {
+                // TODO: - Remove below code, Show a message with alert controller, and Record this error
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
         }

@@ -14,8 +14,6 @@ class SplitViewController: UISplitViewController {
     private let splitViewDelegator = SplitViewDelegate()
     private let coreDataManager = CoreDataManager()
 
-    private var isTest = false
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -30,9 +28,7 @@ class SplitViewController: UISplitViewController {
         memoListView.messenger = self
         memoDetailView.messenger = self
 
-        if let memoList = loadMemoList() {
-            memoListView.insertMemoList(memoList: memoList)
-        }
+        loadMemoList()
     }
 }
 
@@ -108,45 +104,14 @@ extension SplitViewController {
         coreDataManager.saveContext()
     }
 
-    private func loadMemoList() -> [Memo]? {
-        if isTest {
-            return loadMemoListForTest()
-        } else {
-            do {
-                return try coreDataManager.retrieveMemoList().get()
-            } catch {
+    private func loadMemoList() {
+        coreDataManager.retrieveMemoList { result in
+            switch result {
+            case .success(let memoList):
+                self.memoListView.insertMemoList(memoList: memoList)
+            case . failure(let error):
                 fatalError(error.localizedDescription)
             }
         }
-    }
-
-    private func loadMemoListForTest() -> [Memo]? {
-        let assetName = "sampleData"
-
-        guard let asset = NSDataAsset(name: assetName),
-              let parsedAsset = try? JSONSerialization.jsonObject(
-                with: asset.data,
-                options: JSONSerialization.ReadingOptions()
-              ) as? [[String: Any]] else {
-            return nil
-        }
-
-        let memoList: [Memo] = parsedAsset.map { dictionary in
-            let decodedDictionary = Parser.decode(from: dictionary, to: Memo.self)
-
-            guard let memo = try? decodedDictionary.get() else {
-                let corrupted = "Corrupted"
-
-                return Memo(
-                    title: corrupted,
-                    body: corrupted,
-                    lastUpdatedTime: .zero
-                )
-            }
-
-            return memo
-        }
-
-        return memoList
     }
 }

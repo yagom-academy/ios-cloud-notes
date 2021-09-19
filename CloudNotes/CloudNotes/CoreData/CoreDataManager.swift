@@ -21,39 +21,48 @@ final class CoreDataManager {
 
         return container
     }()
-    private lazy var context = persistentContainer.viewContext
-    private var storedMemoList: [CloudNote]?
+    private lazy var context = persistentContainer.newBackgroundContext()
+    private var storedCloudNoteList: [CloudNote]?
 
-    func retrieveMemoList() -> Result<[Memo], ErrorCases> {
-        let cloudNoteFetch = NSFetchRequest<CloudNote>(entityName: Memo.associatedEntity)
-        let keyForSotringByTime = NSSortDescriptor(
-            key: Memo.CoreDataKey.lastUpdatedTime.rawValue,
-            ascending: false
-        )
+    func retrieveMemoList(
+        completionHandler closure: @escaping (Result<[Memo], ErrorCases>) -> Void
+    ) {
+        context.perform {
+            let cloudNoteRequest = NSFetchRequest<CloudNote>(entityName: Memo.associatedEntity)
+            let keyForSotringByTime = NSSortDescriptor(
+                key: Memo.CoreDataKey.lastUpdatedTime.rawValue,
+                ascending: false
+            )
 
-        cloudNoteFetch.sortDescriptors = [keyForSotringByTime]
+            cloudNoteRequest.sortDescriptors = [keyForSotringByTime]
 
-        do {
-            let entity = try context.fetch(cloudNoteFetch)
-            let emptyString = ""
+            do {
+                let entity = try self.context.fetch(cloudNoteRequest)
 
-            storedMemoList = entity
-            let memoList = entity.map { cloudNote in
-                return Memo(
-                    title: cloudNote.title ?? emptyString,
-                    body: cloudNote.body ?? emptyString,
-                    lastUpdatedTime: cloudNote.lastUpdatedTime
-                )
+                self.storedCloudNoteList = entity
+
+                let placeholder = ""
+                let memoList = entity.map { cloudNote in
+                    return Memo(
+                        title: cloudNote.title ?? placeholder,
+                        body: cloudNote.body ?? placeholder,
+                        lastUpdatedTime: cloudNote.lastUpdatedTime
+                    )
+                }
+
+                DispatchQueue.main.async {
+                    closure(.success(memoList))
+                }
+            } catch {
+                DispatchQueue.main.async {
+                    closure(.failure(.disabledInFetching))
+                }
             }
-
-            return .success(memoList)
-        } catch {
-            return .failure(.disabledInFetching)
         }
     }
 
     func updateMemo(with memo: Memo, at index: Int) -> Bool {
-        guard let targetToUpdate = storedMemoList?[index] else {
+        guard let targetToUpdate = storedCloudNoteList?[index] else {
             return false
         }
 
@@ -84,7 +93,7 @@ final class CoreDataManager {
             try context.save()
 
             if let newCloudNote = insertedCloudNote {
-                storedMemoList?.insert(newCloudNote, at: .zero)
+                storedCloudNoteList?.insert(newCloudNote, at: .zero)
             }
 
             return true
@@ -94,14 +103,14 @@ final class CoreDataManager {
     }
 
     func deleteMemo(at index: Int) -> Bool {
-        guard let targetToDelete = storedMemoList?[index] else {
+        guard let targetToDelete = storedCloudNoteList?[index] else {
             return false
         }
 
         do {
             context.delete(targetToDelete)
             try context.save()
-            storedMemoList?.remove(at: index)
+            storedCloudNoteList?.remove(at: index)
             return true
         } catch {
             return false
@@ -109,7 +118,6 @@ final class CoreDataManager {
     }
 
     func saveContext () {
-        let context = persistentContainer.viewContext
         if context.hasChanges {
             do {
                 try context.save()

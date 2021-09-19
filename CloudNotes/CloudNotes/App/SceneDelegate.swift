@@ -17,14 +17,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     ) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
 
-        setWindowAndCoreData(windowScene: windowScene)
+        setWindow(with: windowScene)
     }
 
     func sceneDidEnterBackground(_ scene: UIScene) {
         (window?.rootViewController as? SplitViewController)?.saveContext()
     }
 
-    private func setWindowAndCoreData(windowScene: UIWindowScene) {
+    private func setWindow(with windowScene: UIWindowScene) {
         let splitViewController = SplitViewController(style: .doubleColumn)
 
         window = UIWindow(windowScene: windowScene)

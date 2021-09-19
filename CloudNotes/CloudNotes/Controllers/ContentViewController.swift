@@ -8,15 +8,13 @@ import UIKit
 
 class ContentViewController: UIViewController {
     // MARK: - Property
-    private var contentTextView: UITextView = {
+    private lazy var contentTextView: UITextView = {
         var textView = UITextView()
         textView.backgroundColor = .lightGray
         textView.returnKeyType = .done
-        if UITraitCollection.current.userInterfaceIdiom == .phone {
-            textView.font = .systemFont(ofSize: 20, weight: .bold)
-        } else {
-            textView.font = .systemFont(ofSize: 25, weight: .bold)
-        }
+        let fontSize: CGFloat = UITraitCollection.current.userInterfaceIdiom == .phone ? 20.0 : 25.0
+        textView.font = .systemFont(ofSize: fontSize, weight: .bold)
+        textView.delegate = self
         return textView
     }()
     var memo: String?
@@ -50,7 +48,7 @@ class ContentViewController: UIViewController {
 
 extension ContentViewController {
     // MARK: - @Objc Method
-    @objc private func showSheetMoreDetail() {
+    @objc private func showSeeMoreSheet() {
         let sheet = createMoreDetailSheet()
         present(sheet, animated: true, completion: nil)
     }
@@ -58,16 +56,16 @@ extension ContentViewController {
     // MARK: - Method
     func showAlertContainTwoAction(title: String = "", message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
-            if let memo = self.memoEntity {
+        let deleteAction = UIAlertAction(title: "삭제", style: .destructive) {[weak self] _ in
+            if let memo = self?.memoEntity {
                 DataManager.shared.deleteMemo(memo)
-                NotificationCenter.default.post(name: Self.memoDidDelete, object: nil)
+                NotificationCenter.default.post(name: Notification.Name(.memoDidDelete), object: nil)
                 // 여기
-                (self.splitViewController?.viewControllers.last as? UINavigationController)?.popViewController(animated: true)
+                (self?.splitViewController?.viewControllers.last as? UINavigationController)?.popViewController(animated: true)
             }
         }
-        let cancelAction = UIAlertAction(title: "취소", style: .default) { _ in
-            self.dismiss(animated: true, completion: nil)
+        let cancelAction = UIAlertAction(title: "취소", style: .default) { [weak self] _ in
+            self?.dismiss(animated: true, completion: nil)
         }
         alert.addActions([cancelAction, deleteAction])
         present(alert, animated: true, completion: nil)
@@ -92,13 +90,12 @@ extension ContentViewController {
     private func configureTextView() {
         view.addSubview(contentTextView)
         contentTextView.setConstraintEqualToAnchor(superView: view)
-
     }
 
     private func configureNavigationBar() {
-        let itemImage = UIImage(systemName: "ellipsis.circle")
-        let rightBarButtonItem = UIBarButtonItem(image: itemImage, style: .plain, target: self, action: #selector(showSheetMoreDetail))
-        navigationItem.setRightBarButton(rightBarButtonItem, animated: true)
+        let seeMoreButtonImage = UIImage(systemName: "ellipsis.circle")
+        let seeMoreBarButtonItem = UIBarButtonItem(image: seeMoreButtonImage, style: .plain, target: self, action: #selector(showSeeMoreSheet))
+        navigationItem.setRightBarButton(seeMoreBarButtonItem, animated: true)
     }
 
     private func createMoreDetailSheet() -> UIAlertController {
@@ -108,7 +105,6 @@ extension ContentViewController {
             self?.present(activityViewController, animated: true, completion: nil)
         }
         let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { [weak self] _ in
-
             self?.showAlertContainTwoAction(title: "진짜요?", message: "정말로 삭제하시겠어요?")
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
@@ -151,11 +147,11 @@ extension ContentViewController: UITextViewDelegate {
             if let memoEntity = memoEntity {
                 memoEntity.content = memo
                 DataManager.shared.saveContext()
-                NotificationCenter.default.post(name: Self.memoDidUpdate, object: nil)
+                NotificationCenter.default.post(name: Notification.Name(.memoDidUpdate), object: nil)
             } else {
                 let title = String(memo.prefix(20))
                 DataManager.shared.addNewMemo(memo, title)
-                NotificationCenter.default.post(name: Self.newMemoDidInput, object: nil)
+                NotificationCenter.default.post(name: Notification.Name(.newMemoDidInput), object: nil)
             }
             textView.resignFirstResponder()
             showAlert(message: "메모가 저장됐습니다.")
@@ -170,11 +166,4 @@ extension ContentViewController: MemoListTableViewControllerDelegate {
     func didTapMemo(_ vc: UITableViewController, memo: String) {
         contentTextView.text = memo
     }
-}
-
-// MARK: - Notification
-extension ContentViewController {
-    static let newMemoDidInput = Notification.Name("newMemoDidInput")
-    static let memoDidUpdate = Notification.Name("memoDidUpdate")
-    static let memoDidDelete = Notification.Name("memoDidDelete")
 }

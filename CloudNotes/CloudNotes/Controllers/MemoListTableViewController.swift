@@ -48,13 +48,13 @@ extension MemoListTableViewController {
 
     // MARK: - Method
     private func addObserverToMemoInsert() {
-        token = NotificationCenter.default.addObserver(forName: ContentViewController.newMemoDidInput, object: nil, queue: .main, using: { [weak self] _ in
+        token = NotificationCenter.default.addObserver(forName: Notification.Name(.newMemoDidInput), object: nil, queue: .main, using: { [weak self] _ in
             self?.tableView.reloadData()
         })
     }
 
     private func addObserverToMemoDelete() {
-        token = NotificationCenter.default.addObserver(forName: ContentViewController.memoDidDelete, object: nil, queue: .main, using: { [weak self] _ in
+        token = NotificationCenter.default.addObserver(forName: Notification.Name(.memoDidDelete), object: nil, queue: .main, using: { [weak self] _ in
             self?.tableView.reloadData()
         })
     }

@@ -68,26 +68,39 @@ extension SplitViewController: MessengerBetweenController {
     }
 
     func createMemo(with memo: Memo) {
-        if coreDataManager.createMemo(with: memo) {
-            print("success in creating memo")
-        } else {
-            print("failure in creating memo")
+        coreDataManager.createMemo(with: memo) { result in
+            switch result {
+            case .success:
+                print("success in creating memo")
+            case .failure(let error):
+                let placeholder = ""
+                print(error.errorDescription ?? placeholder)
+            }
         }
     }
 
     func updateMemo(_ memo: Memo, at index: Int) {
-        if coreDataManager.updateMemo(with: memo, at: index) {
-            print("success in updating memo")
-        } else {
-            print("failure in updating memo")
+        coreDataManager.updateMemo(with: memo, at: index) { result in
+            switch result {
+            case .success:
+                print("success in updating memo")
+            case .failure(let error):
+                let placeholder = ""
+                print(error.errorDescription ?? placeholder)
+            }
         }
+
     }
 
     func deleteMemo(at index: Int) {
-        if coreDataManager.deleteMemo(at: index) {
-            print("success in deleting memo")
-        } else {
-            print("failure in deleting memo")
+        coreDataManager.deleteMemo(at: index) { result in
+            switch result {
+            case .success:
+                print("success in deleting memo")
+            case .failure(let error):
+                let placeholder = ""
+                print(error.errorDescription ?? placeholder)
+            }
         }
     }
 

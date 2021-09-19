@@ -61,63 +61,80 @@ final class CoreDataManager {
         }
     }
 
-    func updateMemo(with memo: Memo, at index: Int) -> Bool {
+    func updateMemo(
+        with memo: Memo,
+        at index: Int,
+        completionHandler closure: @escaping (Result<Void, ErrorCases>) -> Void
+    ) {
         guard let targetToUpdate = storedCloudNoteList?[index] else {
-            return false
+            closure(.failure(.disabledInSearchingData))
+            return
         }
 
-        targetToUpdate.title = memo.title
-        targetToUpdate.body = memo.body
-        targetToUpdate.lastUpdatedTime = memo.lastUpdatedTime
+        context.perform {
+            targetToUpdate.title = memo.title
+            targetToUpdate.body = memo.body
+            targetToUpdate.lastUpdatedTime = memo.lastUpdatedTime
 
-        do {
-            try context.save()
-            return true
-        } catch {
-            return false
-        }
-    }
-
-    func createMemo(with memo: Memo) -> Bool {
-        let entity = NSEntityDescription.insertNewObject(forEntityName: Memo.associatedEntity, into: context)
-
-        entity.setValue(memo.title, forKey: Memo.CoreDataKey.title.rawValue)
-        entity.setValue(memo.body, forKey: Memo.CoreDataKey.body.rawValue)
-        entity.setValue(memo.lastUpdatedTime, forKey: Memo.CoreDataKey.lastUpdatedTime.rawValue)
-
-        context.refresh(entity, mergeChanges: true)
-
-        let insertedCloudNote = context.insertedObjects.first as? CloudNote
-
-        do {
-            try context.save()
-
-            if let newCloudNote = insertedCloudNote {
-                storedCloudNoteList?.insert(newCloudNote, at: .zero)
+            do {
+                try self.context.save()
+                return closure(.success(()))
+            } catch {
+                return closure(.failure(.disabledInSavingContext))
             }
-
-            return true
-        } catch {
-            return false
         }
     }
 
-    func deleteMemo(at index: Int) -> Bool {
+    func createMemo(
+        with memo: Memo,
+        completionHandler closure: @escaping (Result<Void, ErrorCases>) -> Void
+    ) {
+        context.perform {
+            let context = self.context
+            let entity = NSEntityDescription.insertNewObject(forEntityName: Memo.associatedEntity, into: context)
+
+            entity.setValue(memo.title, forKey: Memo.CoreDataKey.title.rawValue)
+            entity.setValue(memo.body, forKey: Memo.CoreDataKey.body.rawValue)
+            entity.setValue(memo.lastUpdatedTime, forKey: Memo.CoreDataKey.lastUpdatedTime.rawValue)
+
+            context.refresh(entity, mergeChanges: true)
+
+            let insertedCloudNote = context.insertedObjects.first as? CloudNote
+
+            do {
+                try context.save()
+
+                if let newCloudNote = insertedCloudNote {
+                    self.storedCloudNoteList?.insert(newCloudNote, at: .zero)
+                }
+
+                closure(.success(()))
+            } catch {
+                closure(.failure(.disabledInSavingContext))
+            }
+        }
+    }
+
+    func deleteMemo(
+        at index: Int,
+        completionHandler closure: @escaping (Result<Void, ErrorCases>) -> Void
+    ) {
         guard let targetToDelete = storedCloudNoteList?[index] else {
-            return false
+            closure(.failure(.disabledInSearchingData))
+            return
         }
 
         do {
             context.delete(targetToDelete)
             try context.save()
             storedCloudNoteList?.remove(at: index)
-            return true
+            closure(.success(()))
         } catch {
-            return false
+            closure(.failure(.disabledInSavingContext))
         }
     }
 
-    func saveContext () {
+    func saveContext() {
         if context.hasChanges {
             do {
                 try context.save()
@@ -130,11 +147,17 @@ final class CoreDataManager {
 
     enum ErrorCases: LocalizedError {
         case disabledInFetching
+        case disabledInSearchingData
+        case disabledInSavingContext
 
         var errorDescription: String? {
             switch self {
             case .disabledInFetching:
                 return "Error: Failed to fetch, I don't know what to do..."
+            case .disabledInSearchingData:
+                return "Error: Failed to search your data, please report this..."
+            case .disabledInSavingContext:
+                return "Error: Failed to save context. Check your environment"
             }
         }
     }

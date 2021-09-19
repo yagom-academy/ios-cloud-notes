@@ -6,9 +6,8 @@
 //
 
 import Foundation
-import CoreData
 
-class Memo: Decodable {
+class Memo {
     static let associatedEntity = "CloudNote"
 
     let title: String

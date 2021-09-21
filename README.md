@@ -1,28 +1,8 @@
-
-# 📝 동기화 메모장
-1. grounds rules
-    -  스크럼 
-2. 커밋규칙 
-
-
-### 키워드 
-의존성 관리도구 
-SwiftLint, CocoaPods, Swift
-의존성 관리도구 정리하기 
-Compact Size
-아이패드 환경 접하는 것 ?
-
-## 중점을 둔 부분?
-
-
 ## 구현 기능 및 코드 
 
-### Self sizing cell (Dynamic type surpport)
-
-
-### Implement UI Programmatically 
+### Implement UI Element Programmatically 
 - UIView 클래스에서 extension을 통해 view의 위치를 `setPosition` 메소드에 알맞은 인자를 넣어서 계산하도록 구현
-```swift=
+```swift
 extension UIView {
     func setPosition(top: NSLayoutYAxisAnchor?,
                      topConstant: CGFloat = .zero,
@@ -52,85 +32,12 @@ extension UIView {
 }
 ```
 
-### Add `Dependency Manager`
-첫 번째 시도 : spm  -> 실패 -> spm에선 지원안함/
-의존성 관리도구 정리하기
-
-
-
 ### Use `Core Data` for `CRUD`
-- `MemoDataManager`라는 타입을 만들어서 model object Context 를 배열로 관리하도록 하였다.  
-    ```swift
-    //MemoDataManager.swift
-    //MARK:- Hold Memo Array and persistentConatiner's viewContext
-    final class MemoDataManager {
-        static var memos: [Memo] = { () -> [Memo] in
-            do {
-                let test = try context.fetch(Memo.fetchRequest()) as [Memo]
-                return test
-            } catch {
-                return []
-            }
-        }()
-    
-        static let context: NSManagedObjectContext = { () -> NSManagedObjectContext in
-            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-                return NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
-            }
-            let context = appDelegate.persistentContainer.viewContext
-            return context
-        }()
-    }
-
-    ```
-- CoreDataAccessible 프로토콜을 통해 코어데이터의 context의 여러 메소드를 추상화 하였다.  
-    ```swift
-    //CoreDataAccessible.swift
-    //MARK:- Provide Method related to CoreData saving, fetching, deleting
-    protocol CoreDataAccessible {
-        func fetchCoreDataItems(_ context: NSManagedObjectContext, _ tableview: UITableView)
-        func saveCoreData(_ context: NSManagedObjectContext)
-        func deleteCoreData(_ context: NSManagedObjectContext, _ deletedObject: NSManagedObject)
-    }
-
-    extension CoreDataAccessible {
-        func fetchCoreDataItems(_ context: NSManagedObjectContext, _ tableview: UITableView) {
-            do {
-                MemoDataManager.memos = try context.fetch(Memo.fetchRequest())
-                DispatchQueue.main.async {
-                    tableview.reloadData()
-                }
-            } catch {
-                print(CoreDataError.fetchError.localizedDescription)
-            }
-        }
-
-        func saveCoreData(_ context: NSManagedObjectContext) {
-            do {
-                try context.save()
-            } catch {
-                print(CoreDataError.saveError.localizedDescription)
-            }
-        }
-
-        func deleteCoreData(_ context: NSManagedObjectContext, _ deletedObject: NSManagedObject) {
-            context.delete(deletedObject)
-        }
-
-        func deleteSaveFetchData(_ context: NSManagedObjectContext, _ deletedObject: Memo, _ tableView: UITableView) {
-            deleteCoreData(context, deletedObject)
-            saveCoreData(context)
-            fetchCoreDataItems(context, tableView)
-        }
-    }
-    ```
-    
-
 <details>
 <summary>코어데이터에 관하여</summary>
 <div markdown="1">       
 
-|![](https://i.imgur.com/1dQp1K0.png)|
+|<img src = "https://i.imgur.com/1dQp1K0.png" width = 500, height = 500 >|
 | -------- |
 | [Reference](https://cocoacasts.com/what-is-the-core-data-stack)     |
 
@@ -196,7 +103,7 @@ extension UIView {
 - **초기화 순서**
 
 
-| <img src = "https://i.imgur.com/G4IVRag.png" height = 300 width = 400> |
+| <img src = "https://i.imgur.com/G4IVRag.png" height = 200 width = 200> |
 | -------- |
 |1 : 앱 번들에서 데이터모델 로드 : xcode이용해서 추가하는 entitiy, attribute그건가? | 
 2 : 코디네이터를 초기화함. 
@@ -208,18 +115,107 @@ extension UIView {
 </div>
 </details>
 
+- `MemoDataManager`라는 타입을 만들어서 model object Context 를 배열로 관리하도록 하였다.  
+    ```swift
+    //MemoDataManager.swift
+    //MARK:- Hold Memo Array and persistentConatiner's viewContext
+    final class MemoDataManager {
+        static var memos: [Memo] = { () -> [Memo] in
+            do {
+                let test = try context.fetch(Memo.fetchRequest()) as [Memo]
+                return test
+            } catch {
+                return []
+            }
+        }()
+    
+        static let context: NSManagedObjectContext = { () -> NSManagedObjectContext in
+            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+                return NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
+            }
+            let context = appDelegate.persistentContainer.viewContext
+            return context
+        }()
+    }
+
+    ```
+- CoreDataAccessible 프로토콜을 통해 코어데이터의 context의 여러 메소드를 캡슐화 하였다.  
+    ```swift
+    //CoreDataAccessible.swift
+    //MARK:- Provide Method related to CoreData saving, fetching, deleting
+    protocol CoreDataAccessible {
+        func fetchCoreDataItems(_ context: NSManagedObjectContext, _ tableview: UITableView)
+        func saveCoreData(_ context: NSManagedObjectContext)
+        func deleteCoreData(_ context: NSManagedObjectContext, _ deletedObject: NSManagedObject)
+    }
+
+    extension CoreDataAccessible {
+        func fetchCoreDataItems(_ context: NSManagedObjectContext, _ tableview: UITableView) {
+            do {
+                MemoDataManager.memos = try context.fetch(Memo.fetchRequest())
+                DispatchQueue.main.async {
+                    tableview.reloadData()
+                }
+            } catch {
+                print(CoreDataError.fetchError.localizedDescription)
+            }
+        }
+
+        func saveCoreData(_ context: NSManagedObjectContext) {
+            do {
+                try context.save()
+            } catch {
+                print(CoreDataError.saveError.localizedDescription)
+            }
+        }
+
+        func deleteCoreData(_ context: NSManagedObjectContext, _ deletedObject: NSManagedObject) {
+            context.delete(deletedObject)
+        }
+
+        func deleteSaveFetchData(_ context: NSManagedObjectContext, _ deletedObject: Memo, _ tableView: UITableView) {
+            deleteCoreData(context, deletedObject)
+            saveCoreData(context)
+            fetchCoreDataItems(context, tableView)
+        }
+    }
+    ```
+
+
+### Accessibility
+- dynamic Size를 적용할 수 있는 코드를 text를 표현하는 모든 UI요소에 구현하여 다이나믹 사이즈가 잘 적용되도록 하였다. 
+    ```swift
+        //MemoListTableViewCell.swift
+         private func setLabelStyle() {
+            self.setDynamicType(titleLabel, .title3)
+            self.setDynamicType(dateLabel, .body)
+            self.setDynamicType(bodyLabel, .caption1)
+            self.titleLabel.textAlignment = .left
+            self.bodyLabel.textColor = .gray
+        }
+
+        private func setDynamicType(_ label: UILabel, _ font: UIFont.TextStyle) {
+            label.adjustsFontForContentSizeCategory = true
+            label.font = UIFont.preferredFont(forTextStyle: font)
+        }
+       ```
+
 ### `Split View Controller`를 통해 아이폰과 아이패드에서의 Traits에 알맞게 구현하기??
 - 만약 아이폰, 아이패드 두가지 기기에서 동시에 제품이 사용되는 경우 중점을 두어야 하는 부분은 무엇일까? -> `Traits`, `UI/UX`
     - Traits란? Application이 실행 되는 환경
         - LayoutTraits : SizeClass, Dynamic Type, Layout Direction
         - Appearance Trits : Display Gamut, 3D Touch, Dark/Light Mode
+    - UI/UX란? `UI를 통해 제품이 제공하고자 하는 UX를 만들어 나가는 것`
+        - UI : User Interface, 사용자가 product와 interact하는 환경 및 요소 
+            - 예를들어 사용자의 touch, dragging, swipe 등
+            > User experience is determined by how easy or difficult it is to interact with the user interface elements that the UI designers have created.
+        - UX : User Experence, 사용자가 제품 혹은 서비스를 이용하면서 느끼는 경험
+    ([참고영상 : These Are The 5 Big Differences Between UX And UI Design](https://careerfoundry.com/en/blog/ux-design/5-big-differences-between-ux-and-ui-design/))
 
 - 현 프로젝트에선 `LayoutTraits`에 중심을 두었다. 
-    - `SplitViewController`를 이용해서 자동으로 `autoLayout`이 적용시켜 알맞은? Layout Traits를 만들고자 했다
+    - `SplitViewController`를 이용해서 자동으로 `autoLayout`이 적용되는 Layout Traits를 만들고자 했다
         - SplitViewController는 컨텐츠 계층을 보여주는 가장 최상위 레벨로서 2~3개의 컬럼을 가지고 있으며 상위 컬럼이 변경되는 경우 그 계층에 속한 객체들도 같이 영향을 받는다. [(SplitView H.I.G)](https://www.notion.so/yagomacademy/Step1-3f8c5dac6d254331a7009bfed5aeb32e#a64d226188de4dd58ea279d7ba0ddcad)
-        - SplivView를 통해 
-- 
-    //토글 적용하기 
+    - 코드 
     ```swift
     final class SplitViewController: UISplitViewController {
         private let detailVC = MemoDetailViewController()
@@ -253,51 +249,11 @@ extension UIView {
     ```
     - `final` 키워드 붙인 이유 : Dynamic Dispatch대신 static Dispatch가 진행되어 run time 시에 더 빠른 속도로 실행하기 위하여 
     - `presentsWithGesture`를 false로 한 이유 : 기능 명세서에서 `secondary` 컬럼이 Regular Size width일 땐 `primary`컬럼과 같이 화면에 동시에 보여야해서 `prefferedDisplayMode`를 `oneBesideSecondary`로 할당하였다. 하지만 해당 메소드가 true인 경우 스플릿 뷰의 `display` 모드를 `automatic`으로 변경하기 때문에 false로 할당하였다. 
-    // 토글 마지막 
-
-    - Dynamic Type 의 경우 dynamic Size를 적용할 수 있는 코드를 만들어서 다이나믹 사이즈가 잘적용되도록 함(나중에 고치기)
-    //토글시작
-        ```swift
-        //MemoListTableViewCell.swift
-         private func setLabelStyle() {
-            self.setDynamicType(titleLabel, .title3)
-            self.setDynamicType(dateLabel, .body)
-            self.setDynamicType(bodyLabel, .caption1)
-            self.titleLabel.textAlignment = .left
-            self.bodyLabel.textColor = .gray
-        }
-
-        private func setDynamicType(_ label: UILabel, _ font: UIFont.TextStyle) {
-            label.adjustsFontForContentSizeCategory = true
-            label.font = UIFont.preferredFont(forTextStyle: font)
-        }
-        ```
-    //토글 마지막
-    
-- UI/UX 부분에 관하여..흠 적어야 하나?
-
-    
-    
-    2️⃣ UI/UX
-    - UI : User Interface, 사용자가 product와 interact하는 환경 및 요소 
-        - 예를들어 사용자의 touch, dragging, swipe 등
-        > User experience is determined by how easy or difficult it is to interact with the user interface elements that the UI designers have created.
-    - UX : User Experence, 사용자가 제품 혹은 서비스를 이용하면서 느끼는 경험
-        
-   **=> `UI를 통해 제품이 원하는 UX를 만들어 나가는 것`으로 이해하였다.**
-    ([참고영상 : These Are The 5 Big Differences Between UX And UI Design](https://careerfoundry.com/en/blog/ux-design/5-big-differences-between-ux-and-ui-design/))
-    
-    5. H.I.G 
-
-만약 아이패드와 아이폰 사이의 Layout Traits에 대해 고민중이라면 horizontally 한 차이점에 중점을 두고 구현하면 됨 (WWDC)
-
-
-### Swipe 액션
-### Alert
+ 
 ### Update Date 
 1. 텍스트뷰의 내용이 변경된 날짜를 업데이트 해주기  
-    - 코드 
-    ```swift=
+    - 기존 코드 
+    ```swift
     extension DateFormatter {
         func updateLastModifiedDate(_ lastModifiedDateInt: Int?) -> String {
             let customDateFormatter = customDateFormatter()
@@ -312,14 +268,15 @@ extension UIView {
             formatter.dateStyle = .long
             formatter.timeStyle = .none
             formatter.locale = Locale(identifier: "ko_KR")
-        formatter.setLocalizedDateFormatFromTemplate("yyyy-MM-dd")
+            formatter.setLocalizedDateFormatFromTemplate("yyyy-MM-dd")
         
             return formatter
         }
     }
     ```
     
-    ```swift=
+    ```swift
+    // 해당 날짜를 Int타입으로 변경 후 CoreData에 저장
     extension Date {
         func makeCurrentDateInt64Data() -> Int64 {
             let timeInterval = self.timeIntervalSince1970
@@ -328,34 +285,34 @@ extension UIView {
         }
     }
     ```
+    - 리팩토링 코드 
+        - 코어데이터 attribute의 타입을 Date로 변경하기 
+        - cell에서 content를 표시하는 부분에서 아래 `updateLastModifiedDate` 메소드를 이용해 String으로 변경하기 
+        ```swift
+        extension DateFormatter {
+            func updateLastModifiedDate(_ lastModifiedDate: Date) -> String {
+            let customDateFormatter = customDateFormatter()
+            let dateString = customDateFormatter.string(from: lastModifiedDate)
+        
+            return dateString
+            }
+    
+            private func customDateFormatter() -> DateFormatter {
+            let formatter = DateFormatter()
+            formatter.dateStyle = .long
+            formatter.timeStyle = .none
+            formatter.locale = Locale(identifier: "ko_KR")
+            formatter.setLocalizedDateFormatFromTemplate("yyyy-MM-dd")
 
-# 트러블슈팅
+            return formatter
+            }
+        }
 
-### SplitView
-#### 컴팩트 였다가 레귤러로 바뀌면 두개의 뷰 모두 글자뜨는 현상
-![](https://i.imgur.com/UmR2lko.gif)
-```swift=
-if splitViewController?.isCollapsed == true {
-    let secondVC = splitViewController?.viewController(for: .secondary) as? SecondaryViewController
-    secondVC?.text = "\(MemoDataHolder.list?[indexPath.row].title)" + "\(MemoDataHolder.list?[indexPath.row].body)" splitViewController?.showDetailViewController(secondVC ?? SecondaryViewController(), sender: nil)
- } else { 
-    let naviVC = splitViewController?.viewControllers.last as? UINavigationController
-    let secondVC = naviVC?.viewControllers.last as? SecondaryViewController
-    splitViewController?.preferredSplitBehavior = .tile
-    secondVC?.textView.text = "\(MemoDataHolder.list?[indexPath.row].title)" + "\(MemoDataHolder.list?[indexPath.row].body)"
-    splitViewController?.show(.primary)
- }
-```
-- 이유 : 레귤러 사이즈 일 때 스플릿 뷰는 하나의 네비게이션 컨트롤러를 가지기 때문에 첫 번째 뷰에서도 두번째 뷰와 같은 내용이 나오게 됨??
-
-// splitview정리해서 추가하기 
-
-### MVC모델에 관하여??
-####  데이터소스 분리한거
-
-
-### 오토레이아웃
-#### cell 스택뷰의 경고창
+        ```
+ # Trouble Shooting
+ 
+ ### 오토레이아웃
+ #### cell 스택뷰의 경고창
 - 상황 : 기기를 회전할 때 스택뷰의 레이아웃 경고가 생김
         
     | 경고 메세지  | Debugging Consol |
@@ -364,7 +321,7 @@ if splitViewController?.isCollapsed == true {
 
 - `해결` : 스택뷰가 topAnchor로 가지고 있던 titleLabel의 bottomAnchor에 nil이 아닌 contentView의 anchor를 할당 
     - 이전 코드
-        ```swift=
+        ```swift
         //MainTableViewCell
          titleLabel.setPosition(top: nil,
                                bottom: nil,
@@ -373,7 +330,7 @@ if splitViewController?.isCollapsed == true {
                                trailing: contentView.trailingAnchor)
         ```
     - 수정 후 코드
-        ```swift=
+        ```swift
         //MainTableViewCell
         titleLabel.setPosition(top: contentView.topAnchor,
                                bottom: contentView.bottomAnchor, bottomConstant: -20,
@@ -388,12 +345,12 @@ if splitViewController?.isCollapsed == true {
 
 - `시도1`. cell의 높이가 dynamic하게 resizing 되지 않아 겹치는 것일 수 있기 때문에 ` PrimaryViewController`에 아래 코드 추가 
 -> 변화없음 
-   ```swift=
+   ```swift
     tableView.rowHeight = UITableView.automaticDimension
    ```
 
 - `시도2`. top과 bottom anchor 를 지정 -> 이전보다 나아짐
-     ```swift=
+     ```swift
      private func setupTitleLabelLayout() {
         // dateLabel, bodyLabel초기화 및 view에 추가
         //...
@@ -413,7 +370,7 @@ if splitViewController?.isCollapsed == true {
     - 객체와 객체사이의 간격이 이전에는 0이 었기 때문에 간격을 넓힘으로서 위 아래 레이블이 완전히 겹치는 문제는 해결되었다. 
     - Dynamic Size가 커치면서 stackView에 넣은 dateLabel, BodyLabel이 잘 안보이는 부분은 무엇때문일까?
     -> cell의 높이가 동적으로 변하도록 `시도1`의 코드를 추가했음에도 글씨크기 변경해 주었을 때 cell의 높이가 변경되지 않으므로 cell의 높이에도 어느정도의 제한이 있는 것으로 관찰된다. 
-        ```swift=
+        ```swift
         //시도1
         tableView.rowHeight = UITableView.automaticDimension
         ```    
@@ -425,13 +382,13 @@ if splitViewController?.isCollapsed == true {
 
     | 코드 수정 전 | 코드 수정 후 |
     | -------- | -------- |
-    | ![](https://i.imgur.com/pJCXMqq.png)|  ![](https://i.imgur.com/zNlmOqg.png)|
+    | <img src = "https://i.imgur.com/pJCXMqq.png" height = 300, width = 900 >| <img src = "https://i.imgur.com/zNlmOqg.png" height = 300, width = 900 > |
 
      (safeArea 와 view를 구분해 주기 위해 view의 backgroundColor를 빨간색으로 설정)
  
     **수정 전 코드**
 
-    ```swift=
+    ```swift
     private func makeHorizontalStackVeiw() {
             dateAndSubStackView = UIStackView(arrangedSubviews: [self.dateLabel, self.subTitleLabel])
             contentView.addSubview(dateAndSubStackView)
@@ -447,7 +404,7 @@ if splitViewController?.isCollapsed == true {
     ```
 
     **수정 후 코드** : leading 부분만 safeAreaLayoutGuide로 수정 해주었습니다. 
-    ```swift=
+    ```swift
     dateAndSubStackView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor).isActive = true
     ```
 - 여러가지 이유가 있겠지만 아래와 같은 이유로 처음에 레이아웃이 잘 잡히지 않은 듯 하다.     
@@ -485,7 +442,7 @@ if splitViewController?.isCollapsed == true {
 
 - `시도2` : tablView의 레이아웃을 safeAreaLayoutGuide 를 기준으로 리팩토링 
 
-    ```swift=
+    ```swift
     // 여기서 setAcnchor는 추후 setPosition으로 reNaming
     tableView.setAnchor(top: view.safeAreaLayoutGuide.topAnchor, 
                         bottom: view.safeAreaLayoutGuide.bottomAnchor, 
@@ -496,7 +453,7 @@ if splitViewController?.isCollapsed == true {
     <img src = "https://i.imgur.com/2jEswTY.gif" height = 200>
     
 - `시도3` : tableView의 레이아웃이 잘못되었다고 판단하고 다시 tableView의 레이아웃을 리팩토링 -> 테이블뷰가 전체 화면을 다 채움 
-    ```swift=
+    ```swift
     tableView.frame = view.bounds
     ```
 - `결론` : tableView의 레이아웃이 잘 잡히지 않아 생겼던 문제. `cellLayoutMarginsFollowReadableWidth` 속성은 custom cell에선 영향이 없다. 
@@ -505,50 +462,8 @@ if splitViewController?.isCollapsed == true {
 
 
 
-## 고민했던 부분과 나름의 결론 
-1. **`CellId`열거형**
-    - CellId가 한 곳에 있으면 좋을 것 같다는 생각으로 위 열거형을 만들었습니다. 그런데 다른 예시코드에선 cell identifier를 cell 타입 내부에서 private 속성으로 가지고 있더라구요. 타일러는 보통 어떻게 하시는지 궁금합니다.
-
-  
-## 학습내용
-1. 코어데이터 정리한 것 ->  완료
-
-2. dependency manager 
-
-# 아쉬운 부분 
-1. 코어데이터의 에러처리 
-2. Nested Stack View 구현하지 못했던 부분 
 
 
 
-#### tableView의 Delegate를 구분하고 싶었는데 잘 안된 부분
-- 현재는 PrimaryViewcontroller에서 delegate역할을 하고 있는데 다른 객체가 delegate 역할을 하도록 구현하고자 했습니다. 
-=> 이건 한 번 방학 때 해보자
 
 
-
-#### 추가해야하나 Cell에 UIButton추가하기  accessoryView에 관하여
-- `상황` : cell의 accessoryView타입이 아닌 UIButton을 직접 추가해서 구현시도
-
-    | 디버깅콘솔 | 에러 로그 |
-    | -------- | -------- |
-    | ![](https://i.imgur.com/P4KghOi.png) |   ![](https://i.imgur.com/0uHGpwR.png)|
-
-    ```swift=
-    private func makeButtonLayout() {
-        self.detailButton = UIButton()
-        contentView.addSubview(detailButton)
-        detailButton.setAnchor(top: contentView.topAnchor,
-                               bottom: contentView.bottomAnchor,
-                               leading: nil,
-                               trailing: contentView.trailingAnchor)
-    }
-    ```
-- 시도1 : hugging, compression 값 설정 → 실패
-- 시도2 : width 값 직접 설정 ,  실패
-- 시도3 : 시도1,2 동시 - > 실패
-- 시도4 : tableviewdelegate 메소드로 row의 높이 지정  → 하지만 오토레이아웃 경고는 사라지지 않음 
-- 해결 : cell의 accessaryView 타입을 지정해 주었다. 
-
-- 결론 : 기존 titleLabel, stackView의 vertical position즉 각 lavel의 수직상의 위치가 제대로 결정되지 않아 하나로 겹쳐진 것 
-- 오류해결 할 땐 이거저거

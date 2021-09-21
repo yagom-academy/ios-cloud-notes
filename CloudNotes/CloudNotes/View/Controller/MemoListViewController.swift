@@ -97,9 +97,9 @@ extension MemoListViewController {
     
     //MARK: - Called after tab addButton
     @objc func didTabAddButton() {
-        let todayDate = Date().makeCurrentDateInt64Data()
+        //let todayDate = Date().makeCurrentDateInt64Data()
         let newMemo = Memo(context: self.context)
-        newMemo.lastModifiedDate = todayDate
+        newMemo.lastModifiedDate = Date(timeIntervalSince1970: Date().timeIntervalSince1970)
         newMemo.title = " "
         
         self.memos.append(newMemo)

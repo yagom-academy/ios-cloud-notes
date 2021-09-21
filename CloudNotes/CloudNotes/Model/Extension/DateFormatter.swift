@@ -8,10 +8,9 @@
 import Foundation
 
 extension DateFormatter {
-    func updateLastModifiedDate(_ lastModifiedDateInt: Int?) -> String {
+    func updateLastModifiedDate(_ lastModifiedDate: Date) -> String {
         let customDateFormatter = customDateFormatter()
-        let date = Date(timeIntervalSince1970: Double(lastModifiedDateInt ?? .zero))
-        let dateString = customDateFormatter.string(from: date)
+        let dateString = customDateFormatter.string(from: lastModifiedDate)
         
         return dateString
     }

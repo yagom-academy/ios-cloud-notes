@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="18154" systemVersion="20G95" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
-    <entity name="Memo_v1" representedClassName="Memo_v1" syncable="YES">
+    <entity name="Memo" representedClassName="Memo" syncable="YES">
         <attribute name="body" optional="YES" attributeType="String"/>
-        <attribute name="lastModifiedDate" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="lastModifiedDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="title" optional="YES" attributeType="String"/>
     </entity>
     <elements>
-        <element name="Memo_v1" positionX="-54" positionY="-9" width="128" height="74"/>
+        <element name="Memo" positionX="-54" positionY="-9" width="128" height="74"/>
     </elements>
 </model>

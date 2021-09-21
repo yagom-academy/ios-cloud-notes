@@ -33,8 +33,9 @@ final class MemoDetailViewController: UIViewController, CoreDataAccessible {
 
 extension MemoDetailViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
-        let today = Date().makeCurrentDateInt64Data()
-        
+        //let today = Date().makeCurrentDateInt64Data()
+        let current = Date().timeIntervalSince1970
+        let today = Date(timeIntervalSince1970: current)
         guard let currentIndexPath = holder?.indexPath,
               let tableView = holder?.tableView else {
             return
@@ -46,7 +47,7 @@ extension MemoDetailViewController: UITextViewDelegate {
         self.fetchCoreDataItems(context, tableView)
     }
     
-    private func saveCurrentChange(_ currentMemoData: Memo, _ textViewTitleAndBody: (title: String?, body: String), _ today: Int64) {
+    private func saveCurrentChange(_ currentMemoData: Memo, _ textViewTitleAndBody: (title: String?, body: String), _ today: Date) {
         do {
             currentMemoData.title = textViewTitleAndBody.title
             currentMemoData.body = textViewTitleAndBody.body
@@ -65,7 +66,8 @@ extension MemoDetailViewController {
     }
     
     private func updateTextViewText() {
-        self.textView.text = self.holder?.textViewText
+        self.textView.text =
+            self.holder?.textViewText
     }
     
     private func setTextViewStyle() {

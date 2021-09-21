@@ -2,12 +2,13 @@
 //  Memo+CoreDataProperties.swift
 //  CloudNotes
 //
-//  Created by Do Yi Lee on 2021/09/11.
+//  Created by Do Yi Lee on 2021/09/21.
 //
 //
 
 import Foundation
 import CoreData
+
 
 extension Memo {
 
@@ -16,7 +17,7 @@ extension Memo {
     }
 
     @NSManaged public var body: String?
-    @NSManaged public var lastModifiedDate: Int64
+    @NSManaged public var lastModifiedDate: Date?
     @NSManaged public var title: String?
 
 }

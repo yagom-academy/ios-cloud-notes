@@ -20,7 +20,7 @@ final class MemoListTableViewDataSource: NSObject, UITableViewDataSource {
         }
         
         let list = MemoDataManager.memos[indexPath.row]
-        let cellContent = CellContentDataHolder(title: list.title, date: list.lastModifiedDate, body: list.body)
+        let cellContent = CellContentDataHolder(title: list.title, date: list.lastModifiedDate ?? Date(), body: list.body)
         cell.configure(cellContent)
         
         return cell

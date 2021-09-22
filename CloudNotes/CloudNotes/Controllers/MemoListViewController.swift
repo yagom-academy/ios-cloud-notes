@@ -6,18 +6,25 @@
 
 import UIKit
 
-class MemoListViewController: UIViewController {
-    lazy private var tableView: UITableView = {
+class MemoListViewController: UIViewController, PrimaryViewControllerDelegate {
+    weak var splitViewDelegate: CustomSplitViewDelegate?
+    
+    private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.register(MemoTableViewCell.self, forCellReuseIdentifier: MemoTableViewCell.identifier)
         return tableView
     }()
-    private let memoList = Memo.generateMemoList()
+    private var memoEntityList: [MemoEntity] = [] {
+        didSet {
+            tableView.reloadData()
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()
+        fetchEntityList()
     }
     
     private func setupTableView() {
@@ -35,11 +42,15 @@ class MemoListViewController: UIViewController {
         
         view.backgroundColor = .white
     }
+    
+    func fetchEntityList() {
+        memoEntityList = PersistenceManager.shared.fetchMemo()
+    }
 }
 
 extension MemoListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return memoList.count
+        return memoEntityList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -48,7 +59,7 @@ extension MemoListViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        cell.configure(on: memoList[indexPath.row])
+        cell.configure(on: memoEntityList[indexPath.row])
         return cell
     }
 }
@@ -56,9 +67,23 @@ extension MemoListViewController: UITableViewDataSource {
 extension MemoListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        splitViewDelegate?.showDetailViewController(memoEntityList[indexPath.row])
+    }
+    
+    func tableView(_ tableView: UITableView,
+                   trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
+    ) -> UISwipeActionsConfiguration? {
+        let deleteAction = UIContextualAction(style: .normal,
+                                              title: "삭제"
+        ) { (action, sourceView, completion: @escaping (Bool) -> Void) in
+            self.splitViewDelegate?.initiateSecondaryViewControllerIfNeeded(self.memoEntityList[indexPath.row])
+            PersistenceManager.shared.deleteMemo(entity: self.memoEntityList[indexPath.row])
+            self.fetchEntityList()
+            completion(true)
+        }
+        deleteAction.backgroundColor = .systemPink
         
-        let memoDetailViewController = MemoDetailViewController(memo: memoList[indexPath.row])
-        let secondaryNavigationController = UINavigationController(rootViewController: memoDetailViewController)
-        self.showDetailViewController(secondaryNavigationController, sender: self)
+        let contextualActions: [UIContextualAction] = [deleteAction]
+        return UISwipeActionsConfiguration(actions: contextualActions)
     }
 }

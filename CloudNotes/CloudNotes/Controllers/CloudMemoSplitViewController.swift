@@ -8,6 +8,8 @@
 import UIKit
 
 class CloudMemoSplitViewController: UISplitViewController {
+    private let primaryViewController = MemoListViewController()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -15,33 +17,22 @@ class CloudMemoSplitViewController: UISplitViewController {
     }
     
     private func initContentHierarchy() {
-        let primaryViewController = MemoListViewController()
-        let secondaryViewController = MemoDetailViewController(memo: getFirstMemo())
+        let guideSecondaryViewController = MemoDetailViewController(isEditable: false)
         
         let primaryNavigationController = UINavigationController(rootViewController: primaryViewController)
-        let secondaryNavigationController = UINavigationController(rootViewController: secondaryViewController)
+        let secondaryNavigationController = UINavigationController(rootViewController: guideSecondaryViewController)
         
         primaryNavigationController.navigationBar.topItem?.title = "메모"
         primaryNavigationController.navigationBar.topItem?.rightBarButtonItem =  UIBarButtonItem(
             barButtonSystemItem: .add,
             target: self,
             action: #selector(addMemoAction))
+        
         viewControllers = [primaryNavigationController, secondaryNavigationController]
         self.preferredDisplayMode = .oneBesideSecondary
         self.delegate = self
-    }
-    
-    private func generateNewMemo() -> Memo {
-        let currentTime = Date().timeIntervalSince1970
-        return Memo(title: "새로운 메모", body: "추가 텍스트 없음", lastModified: currentTime)
-    }
-    
-    private func getFirstMemo() -> Memo {
-        guard let memo = Memo.generateMemoList().first else {
-            return generateNewMemo()
-        }
         
-        return memo
+        primaryViewController.splitViewDelegate = self
     }
 }
 
@@ -57,13 +48,42 @@ extension CloudMemoSplitViewController: UISplitViewControllerDelegate {
 
 extension CloudMemoSplitViewController {
     @objc
-    func addMemoAction() {
-        guard let primaryNavigationController = viewControllers.first else {
+    private func addMemoAction() {
+        let memoDetailViewController = MemoDetailViewController()
+        let secondaryNavigationController = UINavigationController(rootViewController: memoDetailViewController)
+        memoDetailViewController.listViewControllerDelegate = primaryViewController
+        
+        primaryViewController.showDetailViewController(secondaryNavigationController, sender: self)
+    }
+}
+
+extension CloudMemoSplitViewController: CustomSplitViewDelegate {
+    func showDetailViewController(_ memo: MemoEntity) {
+
+        let memoDetailViewController = MemoDetailViewController(memo: memo)
+        let secondaryNavigationController = UINavigationController(rootViewController: memoDetailViewController)
+        memoDetailViewController.listViewControllerDelegate = primaryViewController
+        
+        primaryViewController.showDetailViewController(secondaryNavigationController, sender: self)
+    }
+    
+    func initiateSecondaryViewControllerIfNeeded(_ memo: MemoEntity) {
+        guard let secondaryViewController = viewControllers.last,
+              let navigationController = secondaryViewController as? UINavigationController,
+              let topViewController = navigationController.topViewController,
+              let memoDetailViewController = topViewController as? MemoDetailViewController else {
             return
         }
         
-        let memoDetailViewController = MemoDetailViewController(memo: generateNewMemo())
-        let secondaryNavigationController = UINavigationController(rootViewController: memoDetailViewController)
-        primaryNavigationController.showDetailViewController(secondaryNavigationController, sender: self)
+        guard memoDetailViewController.isCurrentEntity(memo) else {
+            return
+        }
+        
+        memoDetailViewController.updateStatusToWillDelete()
+        
+        let guideSecondaryViewController = MemoDetailViewController(isEditable: false)
+        let secondaryNavigationController = UINavigationController(rootViewController: guideSecondaryViewController)
+        
+        primaryViewController.showDetailViewController(secondaryNavigationController, sender: self)
     }
 }

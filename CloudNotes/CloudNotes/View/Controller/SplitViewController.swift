@@ -7,15 +7,24 @@
 
 import UIKit
 
-class SplitViewController: UISplitViewController {
-    private let detailVC = SecondaryViewController()
-    private let primaryVC = PrimaryViewController()
-    private let splitViewDelegate = SplitViewDelegate()
-    
+final class SplitViewController: UISplitViewController {
+    private let detailVC = MemoDetailViewController()
+    private let primaryVC = MemoListViewController()
+     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.decideSpliveVCPreferences()
-        self.delegate = splitViewDelegate
+        self.delegate = self
+    }
+}
+
+extension SplitViewController: UISplitViewControllerDelegate {
+    func splitViewController(_ svc: UISplitViewController, topColumnForCollapsingToProposedTopColumn proposedTopColumn: UISplitViewController.Column) -> UISplitViewController.Column {
+            return .primary
+        }
+    
+    func splitViewController(_ svc: UISplitViewController, willChangeTo displayMode: UISplitViewController.DisplayMode) {
+        svc.presentsWithGesture = false
     }
 }
 

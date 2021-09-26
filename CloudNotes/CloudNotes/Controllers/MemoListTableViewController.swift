@@ -6,37 +6,57 @@
 
 import UIKit
 
-// MARK: - Global Variable
-
 class MemoListTableViewController: UITableViewController {
 
     // MARK: - Property
     private let reusableIdentifier = "cell"
     private var parsedDatas = [SampleData]()
     weak var delegate: MemoListTableViewControllerDelegate?
+    var token: NSObjectProtocol?
 
-    // MARK: - Date Formatter
-    private let dateFormatter: DateFormatter = {
-       let formatter = DateFormatter()
-        formatter.dateStyle = .short
-        formatter.locale = Locale(identifier: "ko_kr")
-        return formatter
-    }()
+    // MARK: - Deinitializer
+    deinit {
+        if let token = token {
+            NotificationCenter.default.removeObserver(token)
+        }
+    }
 
     // MARK: - Life Cycle
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        DataManager.shared.fetchMemo()
+        tableView.reloadData()
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         decoding()
         configureTableView()
         configureNavigationBar()
+
+        addObserverToMemoInsert()
+        addObserverToMemoDelete()
     }
 
 }
 extension MemoListTableViewController {
-    // MARK: - Method
+    // MARK: - Selector
     @objc private func pushContentPage() {
         let contentViewController = ContentViewController()
         navigationController?.pushViewController(contentViewController, animated: true)
+    }
+
+    // MARK: - Method
+    private func addObserverToMemoInsert() {
+        token = NotificationCenter.default.addObserver(forName: Notification.Name(.newMemoDidInput), object: nil, queue: .main, using: { [weak self] _ in
+            self?.tableView.reloadData()
+        })
+    }
+
+    private func addObserverToMemoDelete() {
+        token = NotificationCenter.default.addObserver(forName: Notification.Name(.memoDidDelete), object: nil, queue: .main, using: { [weak self] _ in
+            self?.tableView.reloadData()
+        })
     }
 
     private func configureTableView() {
@@ -64,18 +84,26 @@ extension MemoListTableViewController {
 
 // MARK: - TableView Delegate Method
 extension MemoListTableViewController {
+
+    var datas: [MemoListBranching] {
+        if DataManager.shared.memoList.count > 0 {
+            return DataManager.shared.memoList
+        }
+        return parsedDatas
+    }
+
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return parsedDatas.count
+        if DataManager.shared.memoList.count > 0 {
+            return datas.count
+        }
+        return datas.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: reusableIdentifier, for: indexPath) as? MemoListTableViewCell else { return UITableViewCell() }
-
-        let title = parsedDatas[indexPath.row].title
-        let content = parsedDatas[indexPath.row].body
-
-        let date = dateFormatter.string(from: Date(timeIntervalSince1970: Double(parsedDatas[indexPath.row].lastModified)))
-        cell.configure(title: title, content: content, date: "\(date)")
+        
+        let memo = datas[indexPath.row]
+        cell.configure(title: memo.specificBranchTitle, content: memo.specificBranchContent, date: memo.specificBranchInsertDate)
         return cell
     }
 
@@ -84,15 +112,39 @@ extension MemoListTableViewController {
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        (splitViewController?.viewControllers.last as? UINavigationController)?.popToRootViewController(animated: false)
-        let body = parsedDatas[indexPath.row].body
-        delegate?.didTapMemo(self, memo: body)
+        let navigationController = splitViewController?.viewControllers.last as? UINavigationController
+        navigationController?.popToRootViewController(animated: false)
 
-        let destination = UINavigationController()
         let contentViewController = ContentViewController()
-        contentViewController.memo = body
-        destination.viewControllers = [contentViewController]
 
-        self.showDetailViewController(destination, sender: self)
+        let content = datas[indexPath.row].specificBranchContent
+        delegate?.didTapMemo(self, memo: content)
+        if let memoEntity = datas[indexPath.row] as? MemoEntity {
+            contentViewController.memoEntity = memoEntity
+        }
+        contentViewController.memo = content
+
+        navigationController?.pushViewController(contentViewController, animated: true)
+    }
+
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+
+    override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        return .delete
+    }
+
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            if DataManager.shared.memoList.count > 0 {
+                let memo = DataManager.shared.memoList[indexPath.row]
+                DataManager.shared.deleteMemo(memo)
+                DataManager.shared.memoList.remove(at: indexPath.row)
+            } else {
+                parsedDatas.remove(at: indexPath.row)
+            }
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+        }
     }
 }

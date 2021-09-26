@@ -60,9 +60,8 @@ extension MemoListTableViewCell {
         dateLabel.translatesAutoresizingMaskIntoConstraints = false
         firstLineOfContentLabel.translatesAutoresizingMaskIntoConstraints = false
 
-        let titleLabelTopConstraint = titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5)
-
         let margin = contentView.layoutMarginsGuide
+        let titleLabelTopConstraint = titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5)
         let titleLabelLeadingConstraint = titleLabel.leadingAnchor.constraint(equalTo: margin.leadingAnchor)
         let titleLabelTarailingConstraint = titleLabel.trailingAnchor.constraint(equalTo: margin.trailingAnchor)
 
@@ -90,8 +89,8 @@ extension MemoListTableViewCell {
     }
 
     func configure(title: String, content: String, date: String) {
-        self.titleLabel.text = title
-        self.dateLabel.text = date
-        self.firstLineOfContentLabel.text = content
+        titleLabel.text = title
+        dateLabel.text = date
+        firstLineOfContentLabel.text = content
     }
 }

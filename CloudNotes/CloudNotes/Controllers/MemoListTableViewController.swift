@@ -84,32 +84,26 @@ extension MemoListTableViewController {
 
 // MARK: - TableView Delegate Method
 extension MemoListTableViewController {
+
+    var datas: [MemoListBranching] {
+        if DataManager.shared.memoList.count > 0 {
+            return DataManager.shared.memoList
+        }
+        return parsedDatas
+    }
+
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if DataManager.shared.memoList.count > 0 {
-            return DataManager.shared.memoList.count
+            return datas.count
         }
-        return parsedDatas.count
+        return datas.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: reusableIdentifier, for: indexPath) as? MemoListTableViewCell else { return UITableViewCell() }
-
-        if DataManager.shared.memoList.count > 0 {
-            let memo = DataManager.shared.memoList[indexPath.row]
-            guard let memoTitle = memo.title,
-                  let memoContent = memo.content,
-                  let memoInsertDate = memo.insertDate else { return UITableViewCell() }
-            let dateToString = DataManager.shared.dateFormatter.string(from: memoInsertDate)
-
-            cell.configure(title: memoTitle, content: memoContent, date: dateToString)
-        } else {
-            let memo = parsedDatas[indexPath.row]
-            let memoTitle = memo.title
-            let memoContent = memo.body
-            let memoInsertDate = DataManager.shared.dateFormatter.string(from: Date(timeIntervalSince1970: Double(parsedDatas[indexPath.row].lastModified)))
-
-            cell.configure(title: memoTitle, content: memoContent, date: memoInsertDate)
-        }
+        
+        let memo = datas[indexPath.row]
+        cell.configure(title: memo.specificBranchTitle, content: memo.specificBranchContent, date: memo.specificBranchInsertDate)
         return cell
     }
 
@@ -123,15 +117,13 @@ extension MemoListTableViewController {
 
         let contentViewController = ContentViewController()
 
-        if DataManager.shared.memoList.count > 0 {
-            guard let content = DataManager.shared.memoList[indexPath.row].content else { return }
-            delegate?.didTapMemo(self, memo: content)
-            contentViewController.memoEntity = DataManager.shared.memoList[indexPath.row]
-        } else {
-            let content = parsedDatas[indexPath.row].body
-            delegate?.didTapMemo(self, memo: content)
-            contentViewController.memo = content
+        let content = datas[indexPath.row].specificBranchContent
+        delegate?.didTapMemo(self, memo: content)
+        if let memoEntity = datas[indexPath.row] as? MemoEntity {
+            contentViewController.memoEntity = memoEntity
         }
+        contentViewController.memo = content
+
         navigationController?.pushViewController(contentViewController, animated: true)
     }
 

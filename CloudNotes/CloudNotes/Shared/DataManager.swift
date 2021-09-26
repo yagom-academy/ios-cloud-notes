@@ -89,3 +89,21 @@ extension DataManager {
     }
 
 }
+
+extension MemoEntity: MemoListBranching {
+    var specificBranchTitle: String {
+        guard let title = title else { fatalError("CoreData Title Optional Binding Error") }
+        return title
+    }
+
+    var specificBranchContent: String {
+        guard let content = content else { fatalError("CoreData Content Optional Binding Error") }
+        return content
+    }
+
+    var specificBranchInsertDate: String {
+        guard let insertDate = insertDate else { fatalError("CoreData InsertDate Optional Binding Error")}
+        let dateToString = DataManager.shared.dateFormatter.string(from: insertDate)
+        return dateToString
+    }
+}

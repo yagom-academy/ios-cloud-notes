@@ -7,17 +7,30 @@
 
 import Foundation
 
-enum JSONParserError: Error {
+enum JSONParserError: Error, LocalizedError {
     case decodingError
+    
+    var errorDescription: String? {
+        switch self {
+        case .decodingError:
+            return "디코딩에 실패했습니다."
+        }
+    }
 }
 
 struct JSONParser {
-    func decode<T: Decodable>(from json: Data, decodingType: T.Type) throws -> T {
+    func decode<T: Decodable>(
+      from json: Data,
+      decodingType: T.Type
+    ) -> Result<T, JSONParserError> {
         let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase
-        guard let decodedData = try? decoder.decode(decodingType.self, from: json) else {
-            throw JSONParserError.decodingError
+        guard let decodedData = try? decoder.decode(
+            decodingType.self,
+            from: json)
+        else {
+            return .failure(.decodingError)
         }
-        return decodedData
+        return .success(decodedData)
     }
 }

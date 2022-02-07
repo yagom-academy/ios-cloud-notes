@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		20F9A7F38954600CDB775017 /* Pods_CloudNotes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B211C59CCF38987F31CCC931 /* Pods_CloudNotes.framework */; };
+		484E80F127B10CDC00AEB70F /* JSONParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484E80F027B10CDC00AEB70F /* JSONParser.swift */; };
 		487AB3B027B1018500968C43 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 487AB3AF27B1018500968C43 /* .swiftlint.yml */; };
 		C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */; };
 		C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */; };
@@ -44,6 +45,7 @@
 		1A98A52C452174D9EDA1BF4B /* Pods-CloudNotesTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudNotesTests.release.xcconfig"; path = "Target Support Files/Pods-CloudNotesTests/Pods-CloudNotesTests.release.xcconfig"; sourceTree = "<group>"; };
 		28061B643D312169EA4BA258 /* Pods-CloudNotesTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudNotesTests.debug.xcconfig"; path = "Target Support Files/Pods-CloudNotesTests/Pods-CloudNotesTests.debug.xcconfig"; sourceTree = "<group>"; };
 		2DA81AC9582489ADDC4D70B6 /* Pods_CloudNotesTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CloudNotesTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		484E80F027B10CDC00AEB70F /* JSONParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONParser.swift; sourceTree = "<group>"; };
 		487AB3AF27B1018500968C43 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		7B6FD3DAD20A7054B411A5D3 /* Pods-CloudNotes.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudNotes.release.xcconfig"; path = "Target Support Files/Pods-CloudNotes/Pods-CloudNotes.release.xcconfig"; sourceTree = "<group>"; };
 		AA153EAB0EB558881F6F8F97 /* Pods-CloudNotes-CloudNotesUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudNotes-CloudNotesUITests.release.xcconfig"; path = "Target Support Files/Pods-CloudNotes-CloudNotesUITests/Pods-CloudNotes-CloudNotesUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -97,6 +99,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		484E80EF27B10C6C00AEB70F /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				F366B04527B1091E00EDC8EC /* NoteInformation.swift */,
+				484E80F027B10CDC00AEB70F /* JSONParser.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		5C50AB7025F1D0B87996B0BD /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -125,6 +136,7 @@
 			children = (
 				487AB3AF27B1018500968C43 /* .swiftlint.yml */,
 				C7481C6C25BBCF3900B9CA55 /* CloudNotes */,
+				484E80EF27B10C6C00AEB70F /* Model */,
 				C7481C8625BBCF3A00B9CA55 /* CloudNotesTests */,
 				C7481C9125BBCF3A00B9CA55 /* CloudNotesUITests */,
 				C7481C6B25BBCF3900B9CA55 /* Products */,
@@ -154,7 +166,6 @@
 				C7481C7B25BBCF3A00B9CA55 /* LaunchScreen.storyboard */,
 				C7481C7E25BBCF3A00B9CA55 /* Info.plist */,
 				C7481C7625BBCF3900B9CA55 /* CloudNotes.xcdatamodeld */,
-				F366B04527B1091E00EDC8EC /* NoteInformation.swift */,
 			);
 			path = CloudNotes;
 			sourceTree = "<group>";
@@ -401,6 +412,7 @@
 			files = (
 				C7481C7225BBCF3900B9CA55 /* ViewController.swift in Sources */,
 				C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */,
+				484E80F127B10CDC00AEB70F /* JSONParser.swift in Sources */,
 				C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */,
 				C7481C7825BBCF3900B9CA55 /* CloudNotes.xcdatamodeld in Sources */,
 				F366B04627B1091F00EDC8EC /* NoteInformation.swift in Sources */,

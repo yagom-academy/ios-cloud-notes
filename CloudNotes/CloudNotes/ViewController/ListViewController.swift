@@ -2,11 +2,12 @@ import UIKit
 
 class ListViewController: UIViewController {
     private let tableView = UITableView()
+    private var memos: [Memo] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.dataSource = self
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
+        tableView.register(ListTableViewCell.self, forCellReuseIdentifier: "Cell")
         self.navigationItem.title = "메모"
         self.navigationItem.rightBarButtonItem = UIBarButtonItem()
         self.navigationItem.rightBarButtonItem?.image = UIImage(systemName: "plus")
@@ -18,15 +19,25 @@ class ListViewController: UIViewController {
         view.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: tableView.leadingAnchor).isActive = true
         view.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: tableView.trailingAnchor).isActive = true
     }
+
+    convenience init(memos: [Memo]) {
+        self.init(nibName: nil, bundle: nil)
+        self.memos = memos
+    }
 }
 
 extension ListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return memos.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as? ListTableViewCell else {
+            return UITableViewCell()
+        }
+        
+        cell.setup(memo: memos[indexPath.row])
+        
         return cell
     }
 }

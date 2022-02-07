@@ -1,4 +1,5 @@
 disabled_rules: # 실행에서 제외할 룰 식별자들
+  - trailing_whitespace
 
 included: # 린트 과정에 포함할 파일 경로. 이 항목이 존재하면 --path는 무시됨
   - CloudNotes

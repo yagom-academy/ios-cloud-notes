@@ -23,6 +23,7 @@ class JSONParserTests: XCTestCase {
         case .success(let noteInformations):
             XCTAssertEqual(noteInformations.count, 15)
             XCTAssertEqual(noteInformations[0].title, "똘기떵이호치새초미자축인묘")
+            XCTAssertEqual(noteInformations[0].localizedDateString, "Dec 23, 2020")
         case .failure(let error):
             XCTAssertEqual(error, .decodingError)
         }

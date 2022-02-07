@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3AA2070527B0ED0900EFC97A /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 3AA2070427B0ED0900EFC97A /* .swiftlint.yml */; };
 		C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */; };
 		C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */; };
 		C7481C7225BBCF3900B9CA55 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C7125BBCF3900B9CA55 /* ViewController.swift */; };
@@ -36,6 +37,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3AA2070427B0ED0900EFC97A /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		C7481C6A25BBCF3900B9CA55 /* CloudNotes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CloudNotes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -81,12 +83,15 @@
 		C7481C6125BBCF3900B9CA55 = {
 			isa = PBXGroup;
 			children = (
+				3AA2070427B0ED0900EFC97A /* .swiftlint.yml */,
 				C7481C6C25BBCF3900B9CA55 /* CloudNotes */,
 				C7481C8625BBCF3A00B9CA55 /* CloudNotesTests */,
 				C7481C9125BBCF3A00B9CA55 /* CloudNotesUITests */,
 				C7481C6B25BBCF3900B9CA55 /* Products */,
 			);
+			indentWidth = 2;
 			sourceTree = "<group>";
+			tabWidth = 2;
 		};
 		C7481C6B25BBCF3900B9CA55 /* Products */ = {
 			isa = PBXGroup;
@@ -138,6 +143,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C7481C9725BBCF3A00B9CA55 /* Build configuration list for PBXNativeTarget "CloudNotes" */;
 			buildPhases = (
+				3AA2070327B0EC8A00EFC97A /* SwiftLint */,
 				C7481C6625BBCF3900B9CA55 /* Sources */,
 				C7481C6725BBCF3900B9CA55 /* Frameworks */,
 				C7481C6825BBCF3900B9CA55 /* Resources */,
@@ -234,6 +240,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3AA2070527B0ED0900EFC97A /* .swiftlint.yml in Resources */,
 				C7481C7D25BBCF3A00B9CA55 /* LaunchScreen.storyboard in Resources */,
 				C7481C7A25BBCF3A00B9CA55 /* Assets.xcassets in Resources */,
 				C7481C7525BBCF3900B9CA55 /* Main.storyboard in Resources */,
@@ -255,6 +262,27 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		3AA2070327B0EC8A00EFC97A /* SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftLint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if test -d \"/opt/homebrew/bin/\"; then\n  PATH=\"/opt/homebrew/bin/:${PATH}\"\nfi\n\nexport PATH\n\nif which swiftlint >/dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		C7481C6625BBCF3900B9CA55 /* Sources */ = {

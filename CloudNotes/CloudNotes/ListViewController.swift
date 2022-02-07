@@ -7,7 +7,9 @@ class ListViewController: UIViewController {
         super.viewDidLoad()
         tableView.dataSource = self
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
-        self.navigationItem.title = "test"
+        self.navigationItem.title = "메모"
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem()
+        self.navigationItem.rightBarButtonItem?.image = UIImage(systemName: "plus")
         view.backgroundColor = UIColor.systemBackground
         view.addSubview(tableView)
         tableView.translatesAutoresizingMaskIntoConstraints = false

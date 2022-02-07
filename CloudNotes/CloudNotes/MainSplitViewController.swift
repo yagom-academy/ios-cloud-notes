@@ -4,7 +4,7 @@ class MainSplitViewController: UISplitViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setViewController(ListViewController(), for: .primary)
-        setViewController(ListViewController(), for: .secondary)
+        setViewController(MemoViewController(), for: .secondary)
         self.navigationItem.leftBarButtonItem = displayModeButtonItem
     }
 }

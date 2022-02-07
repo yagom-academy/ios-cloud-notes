@@ -10,9 +10,7 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        var kk: String? = "앨리"
+        print(kk!)
     }
-
-
 }
-

@@ -1,0 +1,10 @@
+disabled_rules:
+opt_in_rules:
+  - line_length
+  - force_unwrapping
+included:
+  - CloudNotes
+excluded:
+  - Pods
+  - CloudNotes/AppDelegate.swift
+  - CloudNotes/SceneDelegate.swift

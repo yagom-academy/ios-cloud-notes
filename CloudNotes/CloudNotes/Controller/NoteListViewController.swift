@@ -1,6 +1,7 @@
 import UIKit
 
 class NoteListViewController: UITableViewController {
+    var noteData = [Note]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -13,7 +14,7 @@ class NoteListViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
+        return noteData.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -23,6 +24,9 @@ class NoteListViewController: UITableViewController {
         ) as? NoteListCell else {
             return UITableViewCell()
         }
+
+        cell.titleLabel.text = noteData[indexPath.row].title
+        cell.previewLabel.text = noteData[indexPath.row].body
 
         return cell
     }

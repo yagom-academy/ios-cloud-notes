@@ -15,6 +15,7 @@ class MemoListCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.setContentCompressionResistancePriority(.init(1000), for: .horizontal)
+        label.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         label.font = .preferredFont(forTextStyle: .body)
         label.adjustsFontForContentSizeCategory = true
         return label

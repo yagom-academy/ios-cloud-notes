@@ -1,5 +1,4 @@
-import Foundation
-import UIKit
+import UIKit.UIFont
 
 struct Memo {
   let title: String

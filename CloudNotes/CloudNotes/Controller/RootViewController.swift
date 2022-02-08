@@ -3,7 +3,7 @@ import UIKit
 private let reuseIdentifier = "Cell"
 
 class RootViewController: UICollectionViewController {
-  let testItem = Memo(title: "hi", body: "hellooutListConfiguraoutListoutListConfiguraoutListConfiguraConfigura", lastModified: Date())
+  private var memos = [Memo]()
   
   init() {
     var configuration = UICollectionLayoutListConfiguration(appearance: .plain)
@@ -27,13 +27,26 @@ class RootViewController: UICollectionViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    self.collectionView!.register(UICollectionViewListCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+    collectionView.register(UICollectionViewListCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+    setNavigationBar()
+  }
+  
+  private func setNavigationBar() {
+    let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addMemo))
+    navigationItem.rightBarButtonItem = addButton
+    navigationItem.title = "메모"
+  }
+  
+  @objc private func addMemo() {
+    let newMemo = Memo(title: "", body: "", lastModified: Date())
+    memos.append(newMemo)
+    collectionView.reloadData()
   }
   
   // MARK: UICollectionViewDataSource
   
   override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return 1
+    return memos.count
   }
   
   override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -42,8 +55,10 @@ class RootViewController: UICollectionViewController {
       return cell
     }
     var configuration = cell.defaultContentConfiguration()
-    configuration.text = testItem.title
-    configuration.secondaryAttributedText = testItem.subTitle
+    let title = memos[indexPath.row].title
+    configuration.text = title.isEmpty ? "새로운 메모" : title
+    configuration.secondaryAttributedText = memos[indexPath.row].subTitle
+    configuration.textProperties.numberOfLines = 1
     configuration.secondaryTextProperties.numberOfLines = 1
     cell.contentConfiguration = configuration
     cell.accessories = [.disclosureIndicator()]

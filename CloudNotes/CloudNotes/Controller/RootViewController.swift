@@ -3,7 +3,7 @@ import UIKit
 private let reuseIdentifier = "Cell"
 
 class RootViewController: UICollectionViewController {
-  let testItem = Memo(title: "hi", body: "hello", lastModified: Date())
+  let testItem = Memo(title: "hi", body: "hellooutListConfiguraoutListoutListConfiguraoutListConfiguraConfigura", lastModified: Date())
   
   init() {
     var configuration = UICollectionLayoutListConfiguration(appearance: .plain)
@@ -32,10 +32,6 @@ class RootViewController: UICollectionViewController {
   
   // MARK: UICollectionViewDataSource
   
-  override func numberOfSections(in collectionView: UICollectionView) -> Int {
-    return 1
-  }
-  
   override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     return 1
   }
@@ -46,8 +42,9 @@ class RootViewController: UICollectionViewController {
       return cell
     }
     var configuration = cell.defaultContentConfiguration()
-    configuration.text = "Title"
-    configuration.secondaryText = "subTitle"
+    configuration.text = testItem.title
+    configuration.secondaryAttributedText = testItem.subTitle
+    configuration.secondaryTextProperties.numberOfLines = 1
     cell.contentConfiguration = configuration
     cell.accessories = [.disclosureIndicator()]
     return cell

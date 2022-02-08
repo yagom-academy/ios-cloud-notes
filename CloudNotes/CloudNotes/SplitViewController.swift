@@ -2,7 +2,7 @@ import UIKit
 
 class SplitViewController: UISplitViewController {
 
-    let primaryVC = MemoListViewController()
+    let primaryVC = MemoListViewController(style: .insetGrouped)
     let secondaryVC = MemoDetailViewController()
     
     override func viewDidLoad() {

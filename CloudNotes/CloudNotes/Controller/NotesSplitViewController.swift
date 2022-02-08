@@ -8,7 +8,6 @@
 import UIKit
 
 class NotesSplitViewController: UISplitViewController {
-
     override func viewDidLoad() {
         super.viewDidLoad()
         configureSplitViewController()

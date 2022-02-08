@@ -8,7 +8,6 @@
 import UIKit
 
 class PrimaryTableViewController: UITableViewController {
-
     override func viewDidLoad() {
         super.viewDidLoad()
     }

@@ -1,6 +1,6 @@
 import Foundation
 
-struct Note {
+struct Note: Decodable {
     var title: String
     var body: String
     var lastModifiedDate: Date

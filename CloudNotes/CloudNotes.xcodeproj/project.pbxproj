@@ -181,11 +181,11 @@
 		C7481C6C25BBCF3900B9CA55 /* CloudNotes */ = {
 			isa = PBXGroup;
 			children = (
-				C9F4255A27B24EBD00BC4BF0 /* Extension */,
 				C9F4255527B232E100BC4BF0 /* Model */,
 				C13E937D27B211C200446D79 /* View */,
 				C13E937B27B2118F00446D79 /* Controller */,
 				C13E938227B233F400446D79 /* Utility */,
+				C9F4255A27B24EBD00BC4BF0 /* Extension */,
 				C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */,
 				C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */,
 				C7481C7925BBCF3A00B9CA55 /* Assets.xcassets */,

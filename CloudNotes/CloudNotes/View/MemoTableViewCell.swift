@@ -32,14 +32,14 @@ class MemoTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        configureCell()
+        configureCellLayout()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
     
-    private func configureCell() {
+    private func configureCellLayout() {
         contentView.addSubview(titleLabel)
         contentView.addSubview(dateLabel)
         contentView.addSubview(previewLabel)
@@ -58,5 +58,11 @@ class MemoTableViewCell: UITableViewCell {
             previewLabel.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor),
             previewLabel.centerYAnchor.constraint(equalTo: dateLabel.centerYAnchor)
         ])
+    }
+    
+    func configureCellContent(from memo: Memo) {
+        titleLabel.text = memo.title
+        dateLabel.text = memo.lastModified.description
+        previewLabel.text = memo.body
     }
 }

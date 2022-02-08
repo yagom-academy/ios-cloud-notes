@@ -19,14 +19,17 @@ class MemoDetailViewController: UIViewController {
         memoDetailTextView.delegate = self
     }
     
-    func setUpData(with memoDetailInfo: MemoDetailInfo) {
+    func updateTextView(with memoDetailInfo: MemoDetailInfo) {
         self.memoDetailTextView.text = memoDetailInfo.text
     }
     
     func updateIndex(with index: Int) {
         currentIndex = index
     }
-    
+}
+
+// MARK: - 초기 ViewController 설정
+extension MemoDetailViewController {
     private func setUpNavigationItem() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             image: UIImage(systemName: "ellipsis.circle"),
@@ -79,6 +82,7 @@ class MemoDetailViewController: UIViewController {
     }
 }
 
+// MARK: - TextViewDelegate
 extension MemoDetailViewController: UITextViewDelegate {
     enum Constant {
         static let lineBreak: Character = "\n"

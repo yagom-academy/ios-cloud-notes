@@ -3,7 +3,7 @@ import UIKit
 class MemoListCell: UITableViewCell {
     static let identifier = "MemoListCell"
     
-    let titleLabel: UILabel = {
+    private let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .preferredFont(forTextStyle: .title2)
@@ -11,7 +11,7 @@ class MemoListCell: UITableViewCell {
         return label
     }()
     
-    let dateLabel: UILabel = {
+    private let dateLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.setContentCompressionResistancePriority(.init(1000), for: .horizontal)
@@ -21,7 +21,7 @@ class MemoListCell: UITableViewCell {
         return label
     }()
     
-    let bodyLabel: UILabel = {
+    private let bodyLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .preferredFont(forTextStyle: .subheadline)
@@ -30,7 +30,7 @@ class MemoListCell: UITableViewCell {
         return label
     }()
     
-    let insideStackView: UIStackView = {
+    private let insideStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -38,7 +38,7 @@ class MemoListCell: UITableViewCell {
         return stackView
     }()
     
-    let outsideStackView: UIStackView = {
+    private let outsideStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -50,14 +50,20 @@ class MemoListCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setUpViews()
         setUpConstraints()
-
+        
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
     
-    func setUpViews() {
+    func configure(with item: MemoListInfo) {
+        titleLabel.text = item.title
+        bodyLabel.text = item.body
+        dateLabel.text = item.lastModified
+    }
+    
+    private func setUpViews() {
         contentView.addSubview(outsideStackView)
         outsideStackView.addArrangedSubview(titleLabel)
         outsideStackView.addArrangedSubview(insideStackView)
@@ -65,18 +71,12 @@ class MemoListCell: UITableViewCell {
         insideStackView.addArrangedSubview(bodyLabel)
     }
     
-    func setUpConstraints() {
+    private func setUpConstraints() {
         NSLayoutConstraint.activate([
             outsideStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12),
             outsideStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
             outsideStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             outsideStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -4)
         ])
-    }
-    
-    func configure(with item: MemoListInfo) {
-        titleLabel.text = item.title
-        bodyLabel.text = item.body
-        dateLabel.text = item.lastModified
     }
 }

@@ -1,7 +1,6 @@
 import UIKit
 
 class MemoListViewController: UITableViewController {
-
     private var memoListInfo = [MemoListInfo]()
     
     override func viewDidLoad() {
@@ -12,11 +11,6 @@ class MemoListViewController: UITableViewController {
         tableView.register(MemoListCell.self, forCellReuseIdentifier: MemoListCell.identifier)
     }
     
-    private func setUpNavigationItem() {
-        navigationItem.title = "메모"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: nil)
-    }
-    
     func setUpData(data: [MemoListInfo]) {
         memoListInfo = data
     }
@@ -25,8 +19,14 @@ class MemoListViewController: UITableViewController {
         memoListInfo[index] = data
         tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .none)
     }
+    
+    private func setUpNavigationItem() {
+        navigationItem.title = "메모"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: nil)
+    }
 }
 
+// MARK: - DataSource
 extension MemoListViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return memoListInfo.count
@@ -44,6 +44,7 @@ extension MemoListViewController {
     }
 }
 
+// MARK: - Delegate
 extension MemoListViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let splitVC = self.splitViewController as? SplitViewController else {

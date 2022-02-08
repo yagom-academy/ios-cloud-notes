@@ -1,7 +1,7 @@
 import UIKit
 
 struct JSONParser {
-    let decoder = JSONDecoder()
+    private let decoder = JSONDecoder()
     
     func decode<T: Decodable>(fileName: String, decodingType: T.Type) -> T? {
         guard let asset = NSDataAsset(name: fileName) else {

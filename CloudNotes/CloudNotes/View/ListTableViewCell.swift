@@ -1,6 +1,6 @@
 import UIKit
 
-class ListTableViewCell: UITableViewCell {
+final class ListTableViewCell: UITableViewCell {
     private let cellStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
@@ -9,7 +9,7 @@ class ListTableViewCell: UITableViewCell {
     }()
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = .preferredFont(forTextStyle: .title1)
+        label.font = .preferredFont(forTextStyle: .title2)
         label.numberOfLines = 1
         label.lineBreakMode = .byTruncatingTail
         return label
@@ -23,13 +23,13 @@ class ListTableViewCell: UITableViewCell {
     }()
     private let dateLabel: UILabel = {
         let label = UILabel()
-        label.font = .preferredFont(forTextStyle: .title3)
+        label.font = .preferredFont(forTextStyle: .body)
         label.numberOfLines = 1
         return label
     }()
     private let previewLabel: UILabel = {
         let label = UILabel()
-        label.font = .preferredFont(forTextStyle: .callout)
+        label.font = .preferredFont(forTextStyle: .subheadline)
         label.textColor = .systemGray
         label.numberOfLines = 1
         label.lineBreakMode = .byTruncatingTail

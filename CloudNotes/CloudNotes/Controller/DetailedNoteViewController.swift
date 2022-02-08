@@ -1,7 +1,7 @@
 import UIKit
 
-class SplitViewController: UISplitViewController {
-    
+class DetailedNoteViewController: UIViewController {
+
     override func viewDidLoad() {
         super.viewDidLoad()
     }

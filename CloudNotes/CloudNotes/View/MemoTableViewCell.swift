@@ -62,7 +62,7 @@ class MemoTableViewCell: UITableViewCell {
     
     func configureCellContent(from memo: Memo) {
         titleLabel.text = memo.title
-        dateLabel.text = memo.lastModified.description
+        dateLabel.text = memo.lastModified.dateString
         previewLabel.text = memo.body
     }
 }

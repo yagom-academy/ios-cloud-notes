@@ -8,6 +8,7 @@ class NoteListCell: UITableViewCell {
         stackView.axis = .vertical
         stackView.distribution = .fill
         stackView.alignment = .fill
+        stackView.spacing = 7
         stackView.translatesAutoresizingMaskIntoConstraints = false
 
         return stackView
@@ -18,15 +19,15 @@ class NoteListCell: UITableViewCell {
         stackView.axis = .horizontal
         stackView.distribution = .fill
         stackView.alignment = .fill
+        stackView.spacing = 4
 
         return stackView
     }()
 
     let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = .preferredFont(forTextStyle: .title3)
+        label.font = .preferredFont(forTextStyle: .title2)
         label.adjustsFontForContentSizeCategory = true
-        //label.lineBreakMode = .byTruncatingTail
         label.textAlignment = .left
 
         return label
@@ -42,10 +43,9 @@ class NoteListCell: UITableViewCell {
 
     let previewLabel: UILabel = {
         let label = UILabel()
-        label.font = .preferredFont(forTextStyle: .footnote)
+        label.font = .preferredFont(forTextStyle: .caption2)
         label.textColor = .systemGray2
         label.adjustsFontForContentSizeCategory = true
-        //label.lineBreakMode = .byTruncatingTail
 
         return label
     }()
@@ -73,11 +73,12 @@ class NoteListCell: UITableViewCell {
 
     func configureConstraints() {
         NSLayoutConstraint.activate([
-            self.cellStackView.topAnchor.constraint(equalTo: self.contentView.topAnchor),
-            self.cellStackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor),
-            self.cellStackView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor),
-            self.cellStackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor)
+            self.cellStackView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 10),
+            self.cellStackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -10),
+            self.cellStackView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 18),
+            self.cellStackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor,
+                                                        constant: -2)
         ])
-        self.titleLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        self.previewLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
     }
 }

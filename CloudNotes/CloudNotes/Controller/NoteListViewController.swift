@@ -26,6 +26,7 @@ class NoteListViewController: UITableViewController {
         }
 
         cell.titleLabel.text = noteData[indexPath.row].title
+        cell.dateLabel.text = noteData[indexPath.row].formattedDateString
         cell.previewLabel.text = noteData[indexPath.row].body
 
         return cell

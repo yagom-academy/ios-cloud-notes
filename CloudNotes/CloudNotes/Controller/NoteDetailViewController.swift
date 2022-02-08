@@ -8,21 +8,11 @@
 import UIKit
 
 class NoteDetailViewController: UIViewController {
+    private var noteDetailScrollView = NoteDetailScrollView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        view.addSubview(noteDetailScrollView)
+        noteDetailScrollView.setupConstraint(view: view)
     }
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

@@ -116,6 +116,29 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		C13E937B27B2118F00446D79 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				C9F4255127B20BE900BC4BF0 /* NotesSplitViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		C13E937C27B211BD00446D79 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		C13E937D27B211C200446D79 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				C7481C7B25BBCF3A00B9CA55 /* LaunchScreen.storyboard */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		C7481C6125BBCF3900B9CA55 = {
 			isa = PBXGroup;
 			children = (
@@ -142,11 +165,12 @@
 		C7481C6C25BBCF3900B9CA55 /* CloudNotes */ = {
 			isa = PBXGroup;
 			children = (
+				C13E937C27B211BD00446D79 /* Model */,
+				C13E937D27B211C200446D79 /* View */,
+				C13E937B27B2118F00446D79 /* Controller */,
 				C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */,
 				C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */,
-				C9F4255127B20BE900BC4BF0 /* NotesSplitViewController.swift */,
 				C7481C7925BBCF3A00B9CA55 /* Assets.xcassets */,
-				C7481C7B25BBCF3A00B9CA55 /* LaunchScreen.storyboard */,
 				C7481C7E25BBCF3A00B9CA55 /* Info.plist */,
 				C7481C7625BBCF3900B9CA55 /* CloudNotes.xcdatamodeld */,
 			);

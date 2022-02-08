@@ -8,6 +8,7 @@
 import UIKit
 
 class NoteListViewController: UIViewController {
+    var noteDataSource: CloudNotesDataSource?
     private let tableView: UITableView = UITableView()
     
     override func viewDidLoad() {
@@ -17,7 +18,10 @@ class NoteListViewController: UIViewController {
     }
     
     private func setupTableView() {
-        tableView.dataSource = self
+        guard let noteDataSource = noteDataSource else {
+            return
+        }
+        tableView.dataSource = noteDataSource
         tableView.register(
             NoteListCell.self,
             forCellReuseIdentifier: NoteListCell.identifier
@@ -34,25 +38,5 @@ class NoteListViewController: UIViewController {
             tableView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor)
         ])
-    }
-}
-
-extension NoteListViewController: UITableViewDataSource {
-    func tableView(
-      _ tableView: UITableView,
-      numberOfRowsInSection section: Int
-    ) -> Int {
-        return 10
-    }
-    
-    func tableView(
-      _ tableView: UITableView,
-      cellForRowAt indexPath: IndexPath
-    ) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(
-          withIdentifier: NoteListCell.identifier,
-          for: indexPath
-        )
-        return cell
     }
 }

@@ -35,6 +35,12 @@ class NoteListCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func configure(with noteInformation: NoteInformation) {
+        titleLabel.text = noteInformation.title
+        dateLabel.text = noteInformation.localizedDateString
+        contentLabel.text = noteInformation.content
+    }
+    
     private func setupAddSubviews() {
         contentView.addSubview(cellStackView)
         cellStackView.addArrangedSubview(titleLabel)
@@ -46,7 +52,7 @@ class NoteListCell: UITableViewCell {
     private func setupCellStackView() {
         cellStackView.axis = .vertical
         cellStackView.alignment = .fill
-        cellStackView.spacing = 10
+        cellStackView.spacing = 8
         let inset: CGFloat = 10
         cellStackView.layoutMargins = UIEdgeInsets(
           top: inset,

@@ -14,6 +14,7 @@ class NotesSplitViewController: UISplitViewController {
     }
     
     private func configureSplitViewController() {
+        preferredSplitBehavior = .tile
         preferredDisplayMode = .oneBesideSecondary
         setViewController(PrimaryTableViewController(), for: .primary)
         setViewController(SecondaryViewController(), for: .secondary)

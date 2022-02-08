@@ -148,16 +148,13 @@
 		C7481C6C25BBCF3900B9CA55 /* CloudNotes */ = {
 			isa = PBXGroup;
 			children = (
-				C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */,
-				C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */,
-				C7481C7125BBCF3900B9CA55 /* ViewController.swift */,
-				FB8B342F27B2062200D85311 /* NoteSplitViewController.swift */,
-				C7481C7925BBCF3A00B9CA55 /* Assets.xcassets */,
 				C7481C7E25BBCF3A00B9CA55 /* Info.plist */,
+				C7481C7925BBCF3A00B9CA55 /* Assets.xcassets */,
+				FB8B343727B23AF800D85311 /* Model */,
+				FB8B343627B23AF300D85311 /* View */,
+				FB8B343527B23AD500D85311 /* Controller */,
+				FB8B343827B23B0900D85311 /* AppDelegate */,
 				C7481C7625BBCF3900B9CA55 /* CloudNotes.xcdatamodeld */,
-				FB8B343127B208D500D85311 /* NoteDetailViewController.swift */,
-				FB8B343327B2094400D85311 /* NoteTableViewController.swift */,
-				636B914827B238E80027D4A4 /* Sample.swift */,
 			);
 			path = CloudNotes;
 			sourceTree = "<group>";
@@ -178,6 +175,41 @@
 				C7481C9425BBCF3A00B9CA55 /* Info.plist */,
 			);
 			path = CloudNotesUITests;
+			sourceTree = "<group>";
+		};
+		FB8B343527B23AD500D85311 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				C7481C7125BBCF3900B9CA55 /* ViewController.swift */,
+				FB8B342F27B2062200D85311 /* NoteSplitViewController.swift */,
+				FB8B343327B2094400D85311 /* NoteTableViewController.swift */,
+				FB8B343127B208D500D85311 /* NoteDetailViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		FB8B343627B23AF300D85311 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		FB8B343727B23AF800D85311 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				636B914827B238E80027D4A4 /* Sample.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		FB8B343827B23B0900D85311 /* AppDelegate */ = {
+			isa = PBXGroup;
+			children = (
+				C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */,
+				C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */,
+			);
+			path = AppDelegate;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

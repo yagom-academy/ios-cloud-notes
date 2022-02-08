@@ -73,9 +73,9 @@ class MemoListCell: UITableViewCell {
         ])
     }
     
-    func configure() {
-        titleLabel.text = "똘기떵이호치새초미자축인묘"
-        dateLabel.text = "2020.12.19."
-        bodyLabel.text = "A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring"
+    func configure(with item: MemoListInfo) {
+        titleLabel.text = item.title
+        bodyLabel.text = item.body
+        dateLabel.text = item.lastModified
     }
 }

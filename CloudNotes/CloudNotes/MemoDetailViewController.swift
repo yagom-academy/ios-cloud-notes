@@ -17,6 +17,10 @@ class MemoDetailViewController: UIViewController {
         setUpNotification()
     }
     
+    func setUpData(with memoDetailInfo: MemoDetailInfo) {
+        self.memoDetailTextView.text = memoDetailInfo.text
+    }
+    
     private func setUpNavigationItem() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             image: UIImage(systemName: "ellipsis.circle"),

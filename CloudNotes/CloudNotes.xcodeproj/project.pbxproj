@@ -8,13 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		2D44BD0C81E0E030EC0E88B8 /* Pods_CloudNotesTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 662797D95146A7CA1DE8772A /* Pods_CloudNotesTests.framework */; };
+		3626675027B20BC200622FC3 /* MainSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3626674F27B20BC200622FC3 /* MainSplitViewController.swift */; };
 		77BB47E35C5E1A7084E3D04B /* Pods_CloudNotes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0767BFBCC35C70D8FF097F02 /* Pods_CloudNotes.framework */; };
 		A62AD49027B207D800BF4895 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = A62AD48F27B207D800BF4895 /* .swiftlint.yml */; };
 		B861E6DF31849987ABDBCCE2 /* Pods_CloudNotes_CloudNotesUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA080445CC636B0CF17FAEB6 /* Pods_CloudNotes_CloudNotesUITests.framework */; };
 		C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */; };
 		C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */; };
 		C7481C7225BBCF3900B9CA55 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C7125BBCF3900B9CA55 /* ViewController.swift */; };
-		C7481C7525BBCF3900B9CA55 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C7481C7325BBCF3900B9CA55 /* Main.storyboard */; };
 		C7481C7825BBCF3900B9CA55 /* CloudNotes.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C7481C7625BBCF3900B9CA55 /* CloudNotes.xcdatamodeld */; };
 		C7481C7A25BBCF3A00B9CA55 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C7481C7925BBCF3A00B9CA55 /* Assets.xcassets */; };
 		C7481C7D25BBCF3A00B9CA55 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C7481C7B25BBCF3A00B9CA55 /* LaunchScreen.storyboard */; };
@@ -41,6 +41,7 @@
 
 /* Begin PBXFileReference section */
 		0767BFBCC35C70D8FF097F02 /* Pods_CloudNotes.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CloudNotes.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3626674F27B20BC200622FC3 /* MainSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSplitViewController.swift; sourceTree = "<group>"; };
 		48336AE6FA6AF885936EB6F0 /* Pods-CloudNotes.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudNotes.debug.xcconfig"; path = "Target Support Files/Pods-CloudNotes/Pods-CloudNotes.debug.xcconfig"; sourceTree = "<group>"; };
 		4E04B2B2FECFEB8C12190639 /* Pods-CloudNotes-CloudNotesUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudNotes-CloudNotesUITests.debug.xcconfig"; path = "Target Support Files/Pods-CloudNotes-CloudNotesUITests/Pods-CloudNotes-CloudNotesUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		50981C50F192DEBD473C418A /* Pods-CloudNotesTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudNotesTests.debug.xcconfig"; path = "Target Support Files/Pods-CloudNotesTests/Pods-CloudNotesTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -51,7 +52,6 @@
 		C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		C7481C7125BBCF3900B9CA55 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		C7481C7425BBCF3900B9CA55 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C7481C7725BBCF3900B9CA55 /* CloudNotes.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CloudNotes.xcdatamodel; sourceTree = "<group>"; };
 		C7481C7925BBCF3A00B9CA55 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C7481C7C25BBCF3A00B9CA55 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -147,7 +147,7 @@
 				C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */,
 				C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */,
 				C7481C7125BBCF3900B9CA55 /* ViewController.swift */,
-				C7481C7325BBCF3900B9CA55 /* Main.storyboard */,
+				3626674F27B20BC200622FC3 /* MainSplitViewController.swift */,
 				C7481C7925BBCF3A00B9CA55 /* Assets.xcassets */,
 				C7481C7B25BBCF3A00B9CA55 /* LaunchScreen.storyboard */,
 				C7481C7E25BBCF3A00B9CA55 /* Info.plist */,
@@ -284,7 +284,6 @@
 				A62AD49027B207D800BF4895 /* .swiftlint.yml in Resources */,
 				C7481C7D25BBCF3A00B9CA55 /* LaunchScreen.storyboard in Resources */,
 				C7481C7A25BBCF3A00B9CA55 /* Assets.xcassets in Resources */,
-				C7481C7525BBCF3900B9CA55 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -395,6 +394,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3626675027B20BC200622FC3 /* MainSplitViewController.swift in Sources */,
 				C7481C7225BBCF3900B9CA55 /* ViewController.swift in Sources */,
 				C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */,
 				C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */,
@@ -434,14 +434,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		C7481C7325BBCF3900B9CA55 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				C7481C7425BBCF3900B9CA55 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		C7481C7B25BBCF3A00B9CA55 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -576,12 +568,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = XD7KFVM4LP;
 				INFOPLIST_FILE = CloudNotes/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "";
+				PRODUCT_BUNDLE_IDENTIFIER = net.applecider;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -595,12 +588,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = XD7KFVM4LP;
 				INFOPLIST_FILE = CloudNotes/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "";
+				PRODUCT_BUNDLE_IDENTIFIER = net.applecider;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

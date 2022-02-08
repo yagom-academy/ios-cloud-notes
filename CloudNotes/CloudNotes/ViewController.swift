@@ -10,7 +10,6 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        var kk: String? = "앨리"
-        print(kk!)
+        view.backgroundColor = .white
     }
 }

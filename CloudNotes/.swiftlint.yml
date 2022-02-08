@@ -2,11 +2,10 @@ disabled_rules:
   - trailing_whitespace
 
 excluded:
-  - CloudNotes/SceneDelegate.swift
   - CloudNotes/AppDelegate.swift
 
 opt_in_rules:
   - indentation_width
 
 indentation_width:
-    indentation_width: 2
+  indentation_width: 2

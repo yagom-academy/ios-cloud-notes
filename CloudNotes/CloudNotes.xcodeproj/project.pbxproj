@@ -80,6 +80,29 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3B8F330227B231A8006E47C5 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				3A2AAA0127B2117500078B2C /* RootViewController.swift */,
+				3A2AAA0327B211A500078B2C /* DetailViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		3B8F330327B231B5006E47C5 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		3B8F330427B231C2006E47C5 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		C7481C6125BBCF3900B9CA55 = {
 			isa = PBXGroup;
 			children = (
@@ -106,14 +129,15 @@
 		C7481C6C25BBCF3900B9CA55 /* CloudNotes */ = {
 			isa = PBXGroup;
 			children = (
+				3B8F330427B231C2006E47C5 /* View */,
+				3B8F330327B231B5006E47C5 /* Model */,
+				3B8F330227B231A8006E47C5 /* Controller */,
 				C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */,
 				C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */,
 				C7481C7925BBCF3A00B9CA55 /* Assets.xcassets */,
 				C7481C7B25BBCF3A00B9CA55 /* LaunchScreen.storyboard */,
 				C7481C7E25BBCF3A00B9CA55 /* Info.plist */,
 				C7481C7625BBCF3900B9CA55 /* CloudNotes.xcdatamodeld */,
-				3A2AAA0127B2117500078B2C /* RootViewController.swift */,
-				3A2AAA0327B211A500078B2C /* DetailViewController.swift */,
 			);
 			path = CloudNotes;
 			sourceTree = "<group>";

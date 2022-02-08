@@ -2,7 +2,6 @@ included:
     - CloudNotes
 excluded:
     - Pods
-    - CloudNotes/AppDelegate.swift
-    - CloudNotes/SceneDelegate.swift
+    - CloudNotes/Supporting Files
 disabled_rules:
     - trailing_whitespace

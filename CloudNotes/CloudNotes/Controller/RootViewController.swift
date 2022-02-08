@@ -4,6 +4,7 @@ private let reuseIdentifier = "Cell"
 
 class RootViewController: UICollectionViewController {
   private var memos = [Memo]()
+  weak var delegate: DetailViewControllerDelegate?
   
   init() {
     var configuration = UICollectionLayoutListConfiguration(appearance: .plain)
@@ -63,5 +64,10 @@ class RootViewController: UICollectionViewController {
     cell.contentConfiguration = configuration
     cell.accessories = [.disclosureIndicator()]
     return cell
+  }
+  
+  override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    let memo = memos[indexPath.row]
+    delegate?.load(memo: memo)
   }
 }

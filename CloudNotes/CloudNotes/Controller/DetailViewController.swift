@@ -8,7 +8,7 @@ class DetailViewController: UIViewController {
     return textView
   }()
   
-  var memo: Memo? {
+  private var memo: Memo? {
     didSet {
       refreshUI()
     }
@@ -37,5 +37,13 @@ class DetailViewController: UIViewController {
     let buttonImage = UIImage(systemName: "ellipsis.circle")
     let ellipsisCircleButton = UIBarButtonItem(image: buttonImage, style: .plain, target: self, action: nil)
     navigationItem.rightBarButtonItem = ellipsisCircleButton
+  }
+}
+
+//MARK: - DetailViewControllerDelegate
+
+extension DetailViewController: DetailViewControllerDelegate {
+  func load(memo: Memo) {
+    self.memo = memo
   }
 }

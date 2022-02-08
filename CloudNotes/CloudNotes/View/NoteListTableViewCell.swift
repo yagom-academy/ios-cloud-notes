@@ -32,7 +32,7 @@ class NoteListTableViewCell: UITableViewCell {
        var stackView = UIStackView(arrangedSubviews: [dateLabel, previewLabel])
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
-        stackView.distribution = .equalSpacing
+        stackView.distribution = .fill
         stackView.alignment = .center
         return stackView
     }()
@@ -41,7 +41,7 @@ class NoteListTableViewCell: UITableViewCell {
         var stackView = UIStackView(arrangedSubviews: [titleLabel, textHorizontalStackView])
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
-        stackView.distribution = .equalSpacing
+        stackView.distribution = .fill
         stackView.alignment = .fill
         return stackView
     }()
@@ -54,6 +54,24 @@ class NoteListTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.addSubview(textVerticalStackView)
         setUpLayout()
+    }
+    
+    func updateLabel(param: Sample) {
+        updateTitleLabel(with: param.title)
+        updateDateLabel(with: param.lastModified)
+        updatePreviewLabel(with: param.body)
+    }
+    
+    func updateTitleLabel(with name: String) {
+        titleLabel.text = name
+    }
+    
+    func updateDateLabel(with date: Int) {
+        dateLabel.text = date.description
+    }
+    
+    func updatePreviewLabel(with preview: String) {
+        previewLabel.text = String(preview.prefix(6))
     }
     
     private func setUpLayout() {

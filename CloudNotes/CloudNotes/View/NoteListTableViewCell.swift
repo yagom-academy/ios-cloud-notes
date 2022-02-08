@@ -6,7 +6,6 @@ class NoteListTableViewCell: UITableViewCell {
         label.font = .preferredFont(forTextStyle: .caption2)
         label.numberOfLines = 0
         label.textAlignment = .center
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -15,7 +14,6 @@ class NoteListTableViewCell: UITableViewCell {
          label.font = .preferredFont(forTextStyle: .caption2)
          label.numberOfLines = 0
          label.textAlignment = .center
-         label.translatesAutoresizingMaskIntoConstraints = false
          return label
      }()
     
@@ -24,7 +22,6 @@ class NoteListTableViewCell: UITableViewCell {
          label.font = .preferredFont(forTextStyle: .caption2)
          label.numberOfLines = 0
          label.textAlignment = .center
-         label.translatesAutoresizingMaskIntoConstraints = false
          return label
      }()
     
@@ -47,14 +44,6 @@ class NoteListTableViewCell: UITableViewCell {
         return stackView
     }()
     
-    private var accessoryImage: UIImageView = {
-        let chevron = UIImage(systemName: "chevron.right")
-        let imageView = UIImageView(image: chevron)
-        imageView.contentMode = .center
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        return imageView
-    }()
-    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -62,7 +51,6 @@ class NoteListTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.addSubview(textVerticalStackView)
-        self.addSubview(accessoryImage)
         setUpLayout()
     }
     
@@ -86,12 +74,7 @@ class NoteListTableViewCell: UITableViewCell {
     
     private func setUpLayout() {
         NSLayoutConstraint.activate([
-            accessoryImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5),
-            accessoryImage.topAnchor.constraint(equalTo: contentView.topAnchor),
-            accessoryImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
-        ])
-        NSLayoutConstraint.activate([
-            textVerticalStackView.trailingAnchor.constraint(equalTo: accessoryImage.leadingAnchor, constant: -5),
+            textVerticalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5),
             textVerticalStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             textVerticalStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
             textVerticalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)

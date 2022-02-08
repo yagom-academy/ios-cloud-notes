@@ -7,19 +7,20 @@ final class MemoViewController: UIViewController {
         textView.adjustsFontForContentSizeCategory = true
         return textView
     }()
+    private let navigationButtonImageName = "ellipsis.circle"
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        configure()
+        setupMainMemoView()
     }
     
     func updateTextView(with memo: Memo) {
         textView.text = memo.body
     }
     
-    private func configure() {
+    private func setupMainMemoView() {
         configureMemoView()
+        configureMemoViewAutoLayout()
         configureNavigationBar()
     }
     
@@ -27,6 +28,9 @@ final class MemoViewController: UIViewController {
         view.backgroundColor = UIColor.systemBackground
         view.addSubview(textView)
         textView.translatesAutoresizingMaskIntoConstraints = false
+    }
+    
+    private func configureMemoViewAutoLayout() {
         view.safeAreaLayoutGuide.topAnchor.constraint(equalTo: textView.topAnchor).isActive = true
         view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: textView.bottomAnchor).isActive = true
         view.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: textView.leadingAnchor).isActive = true
@@ -35,7 +39,6 @@ final class MemoViewController: UIViewController {
     
     private func configureNavigationBar() {
         navigationItem.rightBarButtonItem = UIBarButtonItem()
-        navigationItem.rightBarButtonItem?.image = UIImage(systemName: "ellipsis.circle")
+        navigationItem.rightBarButtonItem?.image = UIImage(systemName: navigationButtonImageName)
     }
-    
 }

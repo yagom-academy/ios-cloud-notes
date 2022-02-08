@@ -3,12 +3,13 @@ import UIKit
 final class ListViewController: UIViewController {
     private let tableView = UITableView()
     private var memos: [Memo] = []
-    weak var memoDelegate: MemoViewController?
+    private let navigationTitle = "메모"
+    private let navigationButtonImageName = "plus"
+    weak var memoViewController: MemoViewController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        configure()
+        setupMainListView()
     }
 
     convenience init(memos: [Memo]) {
@@ -16,32 +17,36 @@ final class ListViewController: UIViewController {
         self.memos = memos
     }
     
-    private func configure() {
+    private func setupMainListView() {
         configureTableView()
-        configureNavigationBar()
         configureListView()
+        configureListViewAutoLayout()
+        configureNavigationBar()
     }
     
     private func configureTableView() {
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.register(ListTableViewCell.self, forCellReuseIdentifier: "Cell")
+        tableView.register(ListTableViewCell.self, forCellReuseIdentifier: ListTableViewCell.identifier)
     }
-    
-    private func configureNavigationBar() {
-        navigationItem.title = "메모"
-        navigationItem.rightBarButtonItem = UIBarButtonItem()
-        navigationItem.rightBarButtonItem?.image = UIImage(systemName: "plus")
-    }
-    
+
     private func configureListView() {
         view.backgroundColor = UIColor.systemBackground
         view.addSubview(tableView)
         tableView.translatesAutoresizingMaskIntoConstraints = false
+    }
+    
+    private func configureListViewAutoLayout() {
         view.safeAreaLayoutGuide.topAnchor.constraint(equalTo: tableView.topAnchor).isActive = true
         view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: tableView.bottomAnchor).isActive = true
         view.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: tableView.leadingAnchor).isActive = true
         view.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: tableView.trailingAnchor).isActive = true
+    }
+    
+    private func configureNavigationBar() {
+        navigationItem.title = navigationTitle
+        navigationItem.rightBarButtonItem = UIBarButtonItem()
+        navigationItem.rightBarButtonItem?.image = UIImage(systemName: navigationButtonImageName)
     }
 }
 
@@ -51,19 +56,19 @@ extension ListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as? ListTableViewCell else {
+        let cell = tableView.dequeueReusableCell(withIdentifier: ListTableViewCell.identifier, for: indexPath)
+        guard let listCell = cell as? ListTableViewCell else {
             return UITableViewCell()
         }
+        listCell.setupLabel(from: memos[indexPath.row])
         
-        cell.setup(memo: memos[indexPath.row])
-        
-        return cell
+        return listCell
     }
 }
 
 extension ListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let currentMemo = memos[indexPath.row]
-        memoDelegate?.updateTextView(with: currentMemo)
+        let selectedMemo = memos[indexPath.row]
+        memoViewController?.updateTextView(with: selectedMemo)
     }
 }

@@ -2,22 +2,20 @@ import UIKit
 
 final class MainSplitViewController: UISplitViewController {
     private var memos: [Memo] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        loadMemo()
-        configure()
+        loadMemos()
+        setupMainSplitView()
     }
     
-    private func loadMemo() {
+    private func loadMemos() {
         guard let data = NSDataAsset(name: "sample"),
-              let memos = try? JSONDecoder().decode([Memo].self, from: data.data) else {
-                  return
-              }
-        self.memos = memos
+              let decodedData = try? JSONDecoder().decode([Memo].self, from: data.data) else { return }
+        memos = decodedData
     }
     
-    private func configure() {
+    private func setupMainSplitView() {
         configureSplitView()
         configureNavigationBar()
     }
@@ -25,7 +23,7 @@ final class MainSplitViewController: UISplitViewController {
     private func configureSplitView() {
         let listViewController = ListViewController(memos: memos)
         let memoViewController = MemoViewController()
-        listViewController.memoDelegate = memoViewController
+        listViewController.memoViewController = memoViewController
         setViewController(listViewController, for: .primary)
         setViewController(memoViewController, for: .secondary)
     }

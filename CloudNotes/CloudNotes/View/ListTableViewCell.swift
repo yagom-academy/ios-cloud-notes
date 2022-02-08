@@ -1,6 +1,8 @@
 import UIKit
 
 final class ListTableViewCell: UITableViewCell {
+    static let identifier = String(describing: self)
+    
     private let cellStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
@@ -38,32 +40,39 @@ final class ListTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        self.accessoryType = .disclosureIndicator
-        configure()
+        setupCell()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setup(memo: Memo) {
+    func setupLabel(from memo: Memo) {
         titleLabel.text = memo.title
         dateLabel.text = memo.convertedDate
         previewLabel.text = memo.body
     }
+    
+    private func setupCell() {
+        accessoryType = .disclosureIndicator
+        configureStackView()
+        configureListCellAutoLayout()
+    }
  
-    private func configure() {
+    private func configureStackView() {
         contentView.addSubview(cellStackView)
         cellStackView.addArrangedSubview(titleLabel)
         cellStackView.addArrangedSubview(secondaryStackView)
         secondaryStackView.addArrangedSubview(dateLabel)
         secondaryStackView.addArrangedSubview(previewLabel)
-
         cellStackView.translatesAutoresizingMaskIntoConstraints = false
+    }
+    
+    private func configureListCellAutoLayout() {
         contentView.topAnchor.constraint(equalTo: cellStackView.topAnchor, constant: -10).isActive = true
         contentView.bottomAnchor.constraint(equalTo: cellStackView.bottomAnchor, constant: 10).isActive = true
         cellStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10).isActive = true
         cellStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5).isActive = true
-        dateLabel.setContentCompressionResistancePriority(.init(1000), for: .horizontal)
+        previewLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
     }
 }

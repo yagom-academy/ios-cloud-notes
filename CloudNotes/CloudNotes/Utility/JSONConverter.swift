@@ -7,11 +7,11 @@
 
 import UIKit
 
-struct JSONConverter {
+struct JSONConverter<T: Decodable> {
     private let decoder = JSONDecoder()
     private let dateFormatter = DateFormatter()
     
-    func decode<T: Decodable>(from fileName: String) -> T? {
+    func decode(from fileName: String) -> T? {
         guard let dataAsset = NSDataAsset(name: fileName) else {
             return nil
         }

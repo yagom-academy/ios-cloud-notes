@@ -1,9 +1,3 @@
-//
-//  CloudNotes - SceneDelegate.swift
-//  Created by yagom. 
-//  Copyright © yagom. All rights reserved.
-// 
-
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
@@ -14,9 +8,17 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
-        let mainViewController = ViewController()
+        
+        let noteDetailViewController = NoteDetailViewController()
+        let noteTableViewController = NoteTableViewController()
+        let navigationController = UINavigationController(rootViewController: noteTableViewController)
+        
+        let splitViewController = NoteSplitViewController()
+        
+        splitViewController.viewControllers = [navigationController, noteDetailViewController]
+        splitViewController.preferredPrimaryColumnWidthFraction = 1/3
 
-        window?.rootViewController = mainViewController
+        window?.rootViewController = splitViewController
         window?.makeKeyAndVisible()
     }
 

@@ -3,7 +3,14 @@ import UIKit
 class MasterTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureNavigationBar()
         tableView.register(MasterTableViewCell.self, forCellReuseIdentifier: String(describing: MasterTableViewCell.self))
+    }
+    
+    func configureNavigationBar() {
+        navigationItem.title = "메모"
+        navigationController?.navigationBar.titleTextAttributes = [.font: UIFont.preferredFont(forTextStyle: .headline)]
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: nil)
     }
 
     // MARK: - Table view data source

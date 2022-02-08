@@ -3,7 +3,7 @@ import UIKit
 class NoteListTableViewCell: UITableViewCell {
     private var titleLabel: UILabel = {
        var label = UILabel()
-        label.font = .preferredFont(forTextStyle: .title2)
+        label.font = .preferredFont(forTextStyle: .caption2)
         label.numberOfLines = 0
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -12,7 +12,7 @@ class NoteListTableViewCell: UITableViewCell {
     
     private var dateLabel: UILabel = {
         var label = UILabel()
-         label.font = .preferredFont(forTextStyle: .title2)
+         label.font = .preferredFont(forTextStyle: .caption2)
          label.numberOfLines = 0
          label.textAlignment = .center
          label.translatesAutoresizingMaskIntoConstraints = false
@@ -21,7 +21,7 @@ class NoteListTableViewCell: UITableViewCell {
     
     private var previewLabel: UILabel = {
         var label = UILabel()
-         label.font = .preferredFont(forTextStyle: .title2)
+         label.font = .preferredFont(forTextStyle: .caption2)
          label.numberOfLines = 0
          label.textAlignment = .center
          label.translatesAutoresizingMaskIntoConstraints = false
@@ -41,9 +41,18 @@ class NoteListTableViewCell: UITableViewCell {
         var stackView = UIStackView(arrangedSubviews: [titleLabel, textHorizontalStackView])
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
-        stackView.distribution = .fill
+        stackView.distribution = .equalSpacing
+        stackView.spacing = 5
         stackView.alignment = .fill
         return stackView
+    }()
+    
+    private var accessoryImage: UIImageView = {
+        let chevron = UIImage(systemName: "chevron.right")
+        let imageView = UIImageView(image: chevron)
+        imageView.contentMode = .center
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
     }()
     
     required init?(coder: NSCoder) {
@@ -53,6 +62,7 @@ class NoteListTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.addSubview(textVerticalStackView)
+        self.addSubview(accessoryImage)
         setUpLayout()
     }
     
@@ -76,10 +86,15 @@ class NoteListTableViewCell: UITableViewCell {
     
     private func setUpLayout() {
         NSLayoutConstraint.activate([
-            textVerticalStackView.widthAnchor.constraint(equalToConstant: contentView.bounds.width),
-            textVerticalStackView.heightAnchor.constraint(equalToConstant: contentView.bounds.height),
-            textVerticalStackView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            textVerticalStackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
+            accessoryImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5),
+            accessoryImage.topAnchor.constraint(equalTo: contentView.topAnchor),
+            accessoryImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+        ])
+        NSLayoutConstraint.activate([
+            textVerticalStackView.trailingAnchor.constraint(equalTo: accessoryImage.leadingAnchor, constant: -5),
+            textVerticalStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            textVerticalStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            textVerticalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
     }
 }

@@ -7,9 +7,7 @@
 
 import UIKit
 
-class MemoTableViewCell: UITableViewCell {
-    static let identifier = "memoTableViewCell"
-    
+class MemoTableViewCell: UITableViewCell {    
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .title3)

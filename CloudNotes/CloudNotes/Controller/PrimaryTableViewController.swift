@@ -11,9 +11,11 @@ class PrimaryTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
     }
+}
 
-    // MARK: - Table view data source
+// MARK: - UITableViewDataSource
 
+extension PrimaryTableViewController {
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 0
     }

@@ -1,6 +1,6 @@
 import Foundation
 
-struct Note: Codable {
+struct Note: Decodable {
     
     let title: String
     let body: String

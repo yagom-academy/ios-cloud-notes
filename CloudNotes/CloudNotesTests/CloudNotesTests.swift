@@ -8,25 +8,11 @@ import XCTest
 @testable import CloudNotes
 
 class CloudNotesTests: XCTestCase {
-
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+    func test_JSONConverter을_통한_json파싱이_정상적으로_되는지() {
+        let jsonConverter = JSONConverter<[Memo]>()
+        let result = jsonConverter.decode(from: "sample")
+        
+        XCTAssertEqual(result?.first?.title, "똘기떵이호치새초미자축인묘")
+        XCTAssertEqual(result?.first?.lastModified, 1608651333)
     }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
-    }
-
 }

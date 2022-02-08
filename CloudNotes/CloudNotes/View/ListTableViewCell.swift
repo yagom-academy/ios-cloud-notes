@@ -47,6 +47,19 @@ final class ListTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+        if selected {
+            titleLabel.textColor = .white
+            dateLabel.textColor = .white
+            previewLabel.textColor = .white
+        } else {
+            titleLabel.textColor = .label
+            dateLabel.textColor = .label
+            previewLabel.textColor = .systemGray
+        }
+    }
+    
     func setupLabel(from memo: Memo) {
         titleLabel.text = memo.title
         dateLabel.text = memo.convertedDate
@@ -57,8 +70,9 @@ final class ListTableViewCell: UITableViewCell {
         accessoryType = .disclosureIndicator
         configureStackView()
         configureListCellAutoLayout()
+        configureSelectedBackgroundView()
     }
- 
+    
     private func configureStackView() {
         contentView.addSubview(cellStackView)
         cellStackView.addArrangedSubview(titleLabel)
@@ -74,5 +88,12 @@ final class ListTableViewCell: UITableViewCell {
         cellStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10).isActive = true
         cellStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5).isActive = true
         previewLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+    }
+    
+    private func configureSelectedBackgroundView() {
+        let backgroundView = UIView()
+        backgroundView.layer.cornerRadius = 10
+        backgroundView.backgroundColor = .systemBlue
+        selectedBackgroundView = backgroundView
     }
 }

@@ -15,13 +15,13 @@ final class ListViewController: UIViewController {
     convenience init(memos: [Memo]) {
         self.init(nibName: nil, bundle: nil)
         self.memos = memos
+        configureNavigationBar()
     }
     
     private func setupMainListView() {
         configureTableView()
         configureListView()
         configureListViewAutoLayout()
-        configureNavigationBar()
     }
     
     private func configureTableView() {
@@ -61,14 +61,16 @@ extension ListViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         listCell.setupLabel(from: memos[indexPath.row])
-        
+
         return listCell
     }
 }
 
 extension ListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let memoViewController = memoViewController else { return }
         let selectedMemo = memos[indexPath.row]
-        memoViewController?.updateTextView(with: selectedMemo)
+        memoViewController.updateTextView(with: selectedMemo)
+        showDetailViewController(memoViewController, sender: nil)
     }
 }

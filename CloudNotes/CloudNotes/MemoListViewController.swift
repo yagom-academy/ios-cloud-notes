@@ -20,6 +20,11 @@ class MemoListViewController: UITableViewController {
     func setUpData(data: [MemoListInfo]) {
         memoListInfo = data
     }
+    
+    func updateData(at index: Int, with data: MemoListInfo) {
+        memoListInfo[index] = data
+        tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .none)
+    }
 }
 
 extension MemoListViewController {

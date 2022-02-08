@@ -1,6 +1,7 @@
 import UIKit
 
 class MemoDetailViewController: UIViewController {
+    private var currentIndex: Int = 0
     private let memoDetailTextView: UITextView = {
         let textView = UITextView()
         textView.font = .preferredFont(forTextStyle: .body)
@@ -15,10 +16,15 @@ class MemoDetailViewController: UIViewController {
         setUpNavigationItem()
         setUpTextView()
         setUpNotification()
+        memoDetailTextView.delegate = self
     }
     
     func setUpData(with memoDetailInfo: MemoDetailInfo) {
         self.memoDetailTextView.text = memoDetailInfo.text
+    }
+    
+    func updateIndex(with index: Int) {
+        currentIndex = index
     }
     
     private func setUpNavigationItem() {
@@ -70,5 +76,23 @@ class MemoDetailViewController: UIViewController {
     @objc private func keyboardWillHide(_ notification: Notification) {
         memoDetailTextView.contentInset = UIEdgeInsets.zero
         memoDetailTextView.scrollIndicatorInsets = memoDetailTextView.contentInset
+    }
+}
+
+extension MemoDetailViewController: UITextViewDelegate {
+    func textViewDidChange(_ textView: UITextView) {
+        guard let splitVC = self.splitViewController as? SplitViewController else {
+            return
+        }
+        let memo = createMemoData(with: textView.text)
+        splitVC.updateMemoList(at: currentIndex, with: memo)
+    }
+    
+    private func createMemoData(with text: String) -> Memo {
+        let data = text.components(separatedBy: "\n\n")
+        let title = data[0]
+        let body = data[1]
+        let lastModified = Date().timeIntervalSince1970
+        return Memo(title: title, body: body, lastModified: lastModified)
     }
 }

@@ -1,8 +1,7 @@
-import Foundation
 import UIKit
 
 struct JSONDataSourceProvider: NoteDataSource {
-    var noteList: [Note]
+    var noteList = [Note]()
 
     mutating func fetch() throws {
         guard let data = NSDataAsset(name: "sampleNotes")?.data else {

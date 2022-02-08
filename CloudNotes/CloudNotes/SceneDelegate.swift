@@ -13,9 +13,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
   func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
     guard let windowScene = (scene as? UIWindowScene) else { return }
     
-    let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
-    let layout = UICollectionViewCompositionalLayout.list(using: configuration)
-    let rootNavigationController = UINavigationController(rootViewController: RootViewController(collectionViewLayout: layout))
+    let rootNavigationController = UINavigationController(rootViewController: RootViewController())
     let detailNavigationController = UINavigationController(rootViewController: DetailViewController())
     
     let splitViewController = UISplitViewController(style: .doubleColumn)

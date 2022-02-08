@@ -7,6 +7,6 @@ struct Memo: Codable {
     
     enum CodingKeys: String, CodingKey {
         case title, body
-        case lastModified = "last_Modified"
+        case lastModified = "last_modified"
     }
 }

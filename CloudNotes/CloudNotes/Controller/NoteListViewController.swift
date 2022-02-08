@@ -8,7 +8,7 @@
 import UIKit
 
 class NoteListViewController: UIViewController {
-    private var tableView: UITableView = UITableView()
+    private let tableView: UITableView = UITableView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,7 +18,10 @@ class NoteListViewController: UIViewController {
     
     private func setupTableView() {
         tableView.dataSource = self
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.register(
+            NoteListCell.self,
+            forCellReuseIdentifier: NoteListCell.identifier
+        )
         view.addSubview(tableView)
     }
     
@@ -47,7 +50,7 @@ extension NoteListViewController: UITableViewDataSource {
       cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(
-          withIdentifier: "cell",
+          withIdentifier: NoteListCell.identifier,
           for: indexPath
         )
         return cell

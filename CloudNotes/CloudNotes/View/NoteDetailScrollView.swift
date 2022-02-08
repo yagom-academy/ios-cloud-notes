@@ -8,38 +8,20 @@
 import UIKit
 
 class NoteDetailScrollView: UIScrollView {
-    private var noteDetailStackView = UIStackView()
-    private var lastModifiedDateLabel = UILabel()
-    private var noteDetailTextView = UITextView()
+    private let noteDetailStackView = UIStackView()
+    private let lastModifiedDateLabel = UILabel()
+    private let noteDetailTextView = UITextView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupStackView()
+        setupStackViewConstraint()
         setupLastModifiedDateLabel()
         setupNoteDetailTextView()
-        setupStackViewConstraint()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    func setupStackView() {
-        addSubview(noteDetailStackView)
-        noteDetailStackView.axis = .vertical
-        noteDetailStackView.alignment = .fill
-        noteDetailStackView.spacing = 10
-        noteDetailStackView.addArrangedSubview(lastModifiedDateLabel)
-        noteDetailStackView.addArrangedSubview(noteDetailTextView)
-    }
-    
-    func setupLastModifiedDateLabel() {
-        lastModifiedDateLabel.setContentHuggingPriority(.required, for: .vertical)
-        lastModifiedDateLabel.textAlignment = .center
-    }
-    
-    func setupNoteDetailTextView() {
-        noteDetailTextView.isScrollEnabled = false
     }
     
     func setupConstraint(view: UIView) {
@@ -52,7 +34,16 @@ class NoteDetailScrollView: UIScrollView {
         ])
     }
     
-    func setupStackViewConstraint() {
+    private func setupStackView() {
+        addSubview(noteDetailStackView)
+        noteDetailStackView.axis = .vertical
+        noteDetailStackView.alignment = .fill
+        noteDetailStackView.spacing = 10
+        noteDetailStackView.addArrangedSubview(lastModifiedDateLabel)
+        noteDetailStackView.addArrangedSubview(noteDetailTextView)
+    }
+    
+    private func setupStackViewConstraint() {
         noteDetailStackView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             noteDetailStackView.topAnchor.constraint(equalTo: topAnchor),
@@ -62,5 +53,17 @@ class NoteDetailScrollView: UIScrollView {
             noteDetailStackView.widthAnchor.constraint(equalTo: widthAnchor),
             noteDetailStackView.heightAnchor.constraint(equalTo: heightAnchor)
         ])
+    }
+    
+    private func setupLastModifiedDateLabel() {
+        lastModifiedDateLabel.setContentHuggingPriority(
+          .required,
+          for: .vertical
+        )
+        lastModifiedDateLabel.textAlignment = .center
+    }
+    
+    private func setupNoteDetailTextView() {
+        noteDetailTextView.isScrollEnabled = false
     }
 }

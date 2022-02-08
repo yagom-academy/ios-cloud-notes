@@ -17,7 +17,13 @@ final class CloudNotesSplitViewController: UISplitViewController {
         
         let noteListViewController = NoteListViewController()
         let noteDetailViewController = NoteDetailViewController()
-        setViewController(noteListViewController, for: .primary)
-        setViewController(noteDetailViewController, for: .secondary)
+        setViewController(
+          noteListViewController,
+          for: .primary
+        )
+        setViewController(
+          noteDetailViewController,
+          for: .secondary
+        )
     }
 }

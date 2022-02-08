@@ -8,10 +8,14 @@
 import UIKit
 
 class NoteDetailViewController: UIViewController {
-    private var noteDetailScrollView = NoteDetailScrollView()
+    private let noteDetailScrollView = NoteDetailScrollView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupNoteDetailScrollView()
+    }
+    
+    private func setupNoteDetailScrollView() {
         view.addSubview(noteDetailScrollView)
         noteDetailScrollView.setupConstraint(view: view)
     }

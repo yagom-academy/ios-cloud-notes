@@ -14,7 +14,7 @@ class PrimaryTableViewController: UITableViewController {
         super.viewDidLoad()
         tableView.register(cellWithClass: MemoTableViewCell.self)
         fetchMemoData()
-        configureNavigation()
+        configureNavigationBar()
         configureTableView()
     }
     
@@ -26,7 +26,7 @@ class PrimaryTableViewController: UITableViewController {
         memo = memoData
     }
     
-    private func configureNavigation() {
+    private func configureNavigationBar() {
         self.navigationItem.title = "메모"
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: nil)
     }

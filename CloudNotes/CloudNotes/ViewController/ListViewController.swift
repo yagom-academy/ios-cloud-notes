@@ -6,16 +6,16 @@ final class ListViewController: UIViewController {
     private let navigationTitle = "메모"
     private let navigationButtonImageName = "plus"
     weak var memoViewController: MemoViewController?
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setupMainListView()
-    }
 
     convenience init(memos: [Memo]) {
         self.init(nibName: nil, bundle: nil)
         self.memos = memos
         configureNavigationBar()
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupMainListView()
     }
     
     private func setupMainListView() {

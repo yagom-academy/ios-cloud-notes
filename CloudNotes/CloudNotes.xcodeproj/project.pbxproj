@@ -94,6 +94,44 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2585783727B2623700889D06 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				2585782927B1023000889D06 /* JSONParser.swift */,
+				EA2CDED627B10A4300D8BE65 /* Memo.swift */,
+				2585783127B23B6600889D06 /* MemoListInfo.swift */,
+				2585783327B23B8000889D06 /* MemoDetailInfo.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		2585783827B2624400889D06 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				EA2CDF2827B210AB00D8BE65 /* MemoListCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		2585783927B2624900889D06 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				C7481C7125BBCF3900B9CA55 /* SplitViewController.swift */,
+				2585782D27B2060E00889D06 /* MemoListViewController.swift */,
+				2585782F27B206EE00889D06 /* MemoDetailViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		2585783A27B2629700889D06 /* extension */ = {
+			isa = PBXGroup;
+			children = (
+				2585783527B23F8300889D06 /* TimeInterval+extension.swift */,
+				9A7A1B1527B25FF000639908 /* Collection+extension.swift */,
+			);
+			path = extension;
+			sourceTree = "<group>";
+		};
 		C7481C6125BBCF3900B9CA55 = {
 			isa = PBXGroup;
 			children = (
@@ -117,22 +155,16 @@
 		C7481C6C25BBCF3900B9CA55 /* CloudNotes */ = {
 			isa = PBXGroup;
 			children = (
+				2585783A27B2629700889D06 /* extension */,
+				2585783827B2624400889D06 /* View */,
+				2585783927B2624900889D06 /* Controller */,
+				2585783727B2623700889D06 /* Model */,
 				C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */,
 				C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */,
-				C7481C7125BBCF3900B9CA55 /* SplitViewController.swift */,
-				2585782D27B2060E00889D06 /* MemoListViewController.swift */,
-				EA2CDF2827B210AB00D8BE65 /* MemoListCell.swift */,
-				2585782F27B206EE00889D06 /* MemoDetailViewController.swift */,
-				9A7A1B1527B25FF000639908 /* Collection+extension.swift */,
 				C7481C7925BBCF3A00B9CA55 /* Assets.xcassets */,
 				C7481C7B25BBCF3A00B9CA55 /* LaunchScreen.storyboard */,
 				C7481C7E25BBCF3A00B9CA55 /* Info.plist */,
 				C7481C7625BBCF3900B9CA55 /* CloudNotes.xcdatamodeld */,
-				2585782927B1023000889D06 /* JSONParser.swift */,
-				EA2CDED627B10A4300D8BE65 /* Memo.swift */,
-				2585783127B23B6600889D06 /* MemoListInfo.swift */,
-				2585783327B23B8000889D06 /* MemoDetailInfo.swift */,
-				2585783527B23F8300889D06 /* TimeInterval+extension.swift */,
 			);
 			path = CloudNotes;
 			sourceTree = "<group>";

@@ -12,6 +12,7 @@ class SplitViewController: UISplitViewController {
         setUpDisplay()
         setUpData()
         present(at: 0)
+        hideKeyboard()
     }
     
     func updateMemoList(at index: Int, with data: Memo) {

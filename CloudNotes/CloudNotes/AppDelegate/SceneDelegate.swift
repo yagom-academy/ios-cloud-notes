@@ -10,7 +10,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(windowScene: windowScene)
         
         let noteDetailViewController = NoteDetailViewController()
-        let noteTableViewController = NoteTableViewController()
+        let noteTableViewController = NoteListViewController()
         let navigationController = UINavigationController(rootViewController: noteTableViewController)
         
         let splitViewController = NoteSplitViewController()

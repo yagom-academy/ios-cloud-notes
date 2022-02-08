@@ -11,5 +11,12 @@ class NotesSplitViewController: UISplitViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureSplitViewController()
+    }
+    
+    private func configureSplitViewController() {
+        preferredDisplayMode = .oneBesideSecondary
+        setViewController(PrimaryTableViewController(), for: .primary)
+        setViewController(SecondaryViewController(), for: .secondary)
     }
 }

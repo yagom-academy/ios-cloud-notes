@@ -1,12 +1,25 @@
 import UIKit
 
 class ListTableViewCell: UITableViewCell {
+    private let cellStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.spacing = 10
+        return stackView
+    }()
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .title1)
         label.numberOfLines = 1
         label.lineBreakMode = .byTruncatingTail
         return label
+    }()
+    private let secondaryStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.spacing = 5
+        stackView.alignment = .center
+        return stackView
     }()
     private let dateLabel: UILabel = {
         let label = UILabel()
@@ -35,19 +48,11 @@ class ListTableViewCell: UITableViewCell {
     
     func setup(memo: Memo) {
         titleLabel.text = memo.title
-        dateLabel.text = String(memo.lastModified)
+        dateLabel.text = memo.convertedDate
         previewLabel.text = memo.body
     }
  
     private func configure() {
-        let cellStackView = UIStackView()
-        let secondaryStackView = UIStackView()
-        cellStackView.axis = .vertical
-        cellStackView.spacing = 10
-        secondaryStackView.axis = .horizontal
-        secondaryStackView.spacing = 5
-        secondaryStackView.alignment = .center
-        
         contentView.addSubview(cellStackView)
         cellStackView.addArrangedSubview(titleLabel)
         cellStackView.addArrangedSubview(secondaryStackView)

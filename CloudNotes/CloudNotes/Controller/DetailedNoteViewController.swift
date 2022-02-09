@@ -1,7 +1,11 @@
 import UIKit
 
 class DetailedNoteViewController: UIViewController {
-    var noteData = [Note]()
+    var noteData: Note? {
+        didSet {
+            configureTextView()
+        }
+    }
 
     let noteTextView: UITextView = {
         let textView = UITextView()
@@ -43,5 +47,9 @@ class DetailedNoteViewController: UIViewController {
 
     func configureNavigationBar() {
         self.navigationItem.rightBarButtonItem = actionButton
+    }
+
+    func configureTextView() {
+        noteTextView.text = noteData?.body
     }
 }

@@ -42,7 +42,7 @@ class DetailViewController: UIViewController {
 //MARK: - MemoListViewControllerDelegate
 
 extension DetailViewController: MemoListViewControllerDelegate {
-  func load(memo: Memo) {
+  func load(memo: Memo?) {
     self.memo = memo
     refreshUI()
   }

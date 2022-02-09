@@ -57,6 +57,7 @@ class MemoListViewController: UIViewController {
       collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
     ])
     
+    collectionView.delegate = self
     setNavigationBar()
     loadJSON()
     memoSnapShot.appendSections([0])
@@ -72,8 +73,9 @@ class MemoListViewController: UIViewController {
   
   @objc private func addMemo() {
     let newMemo = Memo(title: "", body: "", lastModified: Date())
-    memos.append(newMemo)
-    collectionView.reloadData()
+    guard let firstMemo = memoSnapShot.itemIdentifiers.first else { return }
+    memoSnapShot.insertItems([newMemo], beforeItem: firstMemo)
+    dataSource.apply(memoSnapShot)
   }
 
   private func loadJSON() {
@@ -100,5 +102,12 @@ extension MemoListViewController: DetailViewControllerDelegate {
     memos[index] = memo
     collectionView.reloadData()
     collectionView.selectItem(at: indexPath, animated: false, scrollPosition: .top)
+  }
+}
+
+extension MemoListViewController: UICollectionViewDelegate {
+  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    let memo = dataSource.itemIdentifier(for: indexPath)
+    delegate?.load(memo: memo)
   }
 }

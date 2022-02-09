@@ -26,7 +26,11 @@ class NoteListViewController: UIViewController {
     
     func setUpNavigationItems() {
         navigationItem.title = "메모"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: nil, action: nil)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .add,
+            target: nil,
+            action: nil
+        )
     }
 }
 
@@ -46,10 +50,16 @@ extension NoteListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? NoteListTableViewCell else {
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: "cell",
+            for: indexPath
+        ) as? NoteListTableViewCell else {
             return UITableViewCell()
         }
-        cell.updateLabel(param: self.dataStorage?.assetData[indexPath.row] ?? Sample(title: "123", body: "123", lastModified: 3))
+        cell.updateLabel(
+            param: self.dataStorage?.assetData[indexPath.row] ??
+            Sample(title: "123", body: "123", lastModified: 3)
+        )
         return cell
     }
 }

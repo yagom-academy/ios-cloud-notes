@@ -4,24 +4,18 @@ class NoteListTableViewCell: UITableViewCell {
     private var titleLabel: UILabel = {
        var label = UILabel()
         label.font = .preferredFont(forTextStyle: .caption2)
-        label.numberOfLines = 0
-        label.textAlignment = .center
         return label
     }()
     
     private var dateLabel: UILabel = {
         var label = UILabel()
          label.font = .preferredFont(forTextStyle: .caption2)
-         label.numberOfLines = 0
-         label.textAlignment = .center
          return label
      }()
     
     private var previewLabel: UILabel = {
         var label = UILabel()
          label.font = .preferredFont(forTextStyle: .caption2)
-         label.numberOfLines = 0
-         label.textAlignment = .center
          return label
      }()
     
@@ -29,7 +23,8 @@ class NoteListTableViewCell: UITableViewCell {
        var stackView = UIStackView(arrangedSubviews: [dateLabel, previewLabel])
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
-        stackView.distribution = .fill
+        stackView.distribution = .equalSpacing
+        stackView.spacing = 15
         stackView.alignment = .center
         return stackView
     }()
@@ -61,7 +56,7 @@ class NoteListTableViewCell: UITableViewCell {
     }
     
     func updateTitleLabel(with name: String) {
-        titleLabel.text = name
+        titleLabel.text = String(name.prefix(10))
     }
     
     func updateDateLabel(with date: Int) {
@@ -69,7 +64,7 @@ class NoteListTableViewCell: UITableViewCell {
     }
     
     func updatePreviewLabel(with preview: String) {
-        previewLabel.text = String(preview.prefix(6))
+        previewLabel.text = String(preview.prefix(20))
     }
     
     private func setUpLayout() {
@@ -77,7 +72,8 @@ class NoteListTableViewCell: UITableViewCell {
             textVerticalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5),
             textVerticalStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             textVerticalStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            textVerticalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            textVerticalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            textVerticalStackView.heightAnchor.constraint(equalTo: contentView.heightAnchor)
         ])
     }
 }

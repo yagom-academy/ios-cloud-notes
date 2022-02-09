@@ -46,7 +46,7 @@ class NoteListTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.addSubview(textVerticalStackView)
-        setUpLayout()
+        setUpLayout() 
     }
     
     func updateLabel(param: Sample) {

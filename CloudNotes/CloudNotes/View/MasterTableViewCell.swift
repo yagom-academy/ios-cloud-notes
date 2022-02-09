@@ -49,6 +49,15 @@ class MasterTableViewCell: UITableViewCell {
         return label
     }()
     
+    private let dateFormatter: DateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .short
+        dateFormatter.timeZone = .autoupdatingCurrent
+        dateFormatter.locale = .autoupdatingCurrent
+        
+        return dateFormatter
+    }()
+    
     // MARK: - Methods
     func configureUI() {
         configureLabels()
@@ -73,9 +82,8 @@ class MasterTableViewCell: UITableViewCell {
     
     func applyData(_ data: Memo) {
         self.titleLabel.text = data.title
-        // DateFormatter 처리 필요
-//        self.dateLabel.text = data.lastModifiedDate
-        self.dateLabel.text = "2020. 01. 20."
+        let date = Date(timeIntervalSince1970: data.lastModifiedDate)
+        self.dateLabel.text = dateFormatter.string(from: date)
         self.previewLabel.text = data.description
     }
 }

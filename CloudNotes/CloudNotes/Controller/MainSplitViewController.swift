@@ -17,7 +17,7 @@ class MainSplitViewController: UISplitViewController {
         configureUI()
     }
     
-    func configureUI() {
+    private func configureUI() {
         preferredSplitBehavior = .tile
         preferredDisplayMode = .oneBesideSecondary
         

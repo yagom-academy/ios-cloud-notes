@@ -15,14 +15,16 @@ class DetailViewController: UIViewController {
     }
     
     private func configureNavigationBar() {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: nil)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"),
+                                                            style: .plain,
+                                                            target: self,
+                                                            action: nil)
     }
     
     private func configureTextView() {
         view.addSubview(textView)
         textView.adjustsFontForContentSizeCategory = true
         textView.font = .preferredFont(forTextStyle: .body)
-
         textView.contentOffset = .zero
         
         textView.translatesAutoresizingMaskIntoConstraints = false

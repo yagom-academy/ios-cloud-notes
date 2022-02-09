@@ -5,9 +5,11 @@ protocol MemoSelectionDelegate: AnyObject {
 }
 
 class MasterTableViewController: UITableViewController {
+    // MARK: - Properties
     private var memos: [Memo]?
     weak var delegate: MemoSelectionDelegate?
     
+    // MARK: - Methods
     override init(style: UITableView.Style) {
         super.init(style: style)
     }
@@ -31,7 +33,9 @@ class MasterTableViewController: UITableViewController {
     private func configureNavigationBar() {
         navigationItem.title = "메모"
         navigationController?.navigationBar.titleTextAttributes = [.font: UIFont.preferredFont(forTextStyle: .headline)]
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: nil)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
+                                                            target: self,
+                                                            action: nil)
     }
     
     private func configureTableView() {
@@ -76,6 +80,7 @@ class MasterTableViewController: UITableViewController {
         guard let destination = delegate as? DetailViewController else {
             return
         }
+        
         destination.applyData(with: memos[indexPath.row].description)
         splitViewController?.showDetailViewController(UINavigationController(rootViewController: destination), sender: self)
     }

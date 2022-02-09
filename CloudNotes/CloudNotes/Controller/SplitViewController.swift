@@ -24,11 +24,16 @@ class SplitViewController: UISplitViewController {
             print(error.localizedDescription)
         }
 
+        passInitialData()
+    }
+
+    func passInitialData() {
         guard let data = dataSourceProvider?.noteList else {
             return
         }
 
         noteListViewController.noteData = data
+        detailedNoteViewController.noteData = dataSourceProvider?.noteList.first
     }
 
     // MARK: - Configure Notification

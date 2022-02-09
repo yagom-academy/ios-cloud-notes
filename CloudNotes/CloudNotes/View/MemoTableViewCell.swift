@@ -33,6 +33,7 @@ class MemoTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configureCellLayout()
+        configureCellAppearance()
     }
     
     required init?(coder: NSCoder) {
@@ -43,8 +44,6 @@ class MemoTableViewCell: UITableViewCell {
         contentView.addSubview(titleLabel)
         contentView.addSubview(dateLabel)
         contentView.addSubview(previewLabel)
-        self.accessoryType = .disclosureIndicator
-        
         dateLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
         
         NSLayoutConstraint.activate([
@@ -58,6 +57,14 @@ class MemoTableViewCell: UITableViewCell {
             previewLabel.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor),
             previewLabel.centerYAnchor.constraint(equalTo: dateLabel.centerYAnchor)
         ])
+    }
+    
+    private func configureCellAppearance() {
+        let backgroundView = UIView()
+        backgroundView.backgroundColor = .systemBlue
+        self.selectedBackgroundView = backgroundView
+        
+        self.accessoryType = .disclosureIndicator
     }
     
     func configureCellContent(from memo: Memo) {

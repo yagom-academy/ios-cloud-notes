@@ -8,7 +8,7 @@
 import UIKit
 
 class NotesSplitViewController: UISplitViewController {
-    private var primaryTableViewController = PrimaryTableViewController()
+    private var primaryTableViewController = PrimaryTableViewController(style: .insetGrouped)
     private var secondaryViewController = SecondaryViewController()
     
     override func viewDidLoad() {

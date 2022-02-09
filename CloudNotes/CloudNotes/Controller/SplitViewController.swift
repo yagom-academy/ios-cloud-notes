@@ -38,6 +38,10 @@ class SplitViewController: UISplitViewController {
                                                selector: #selector(passNote(notification:)),
                                                name: NSNotification.Name("NoteListSelected"),
                                                object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(passModifiedNote(notification:)),
+                                               name: NSNotification.Name("NoteModified"),
+                                               object: nil)
     }
 
     @objc
@@ -47,5 +51,14 @@ class SplitViewController: UISplitViewController {
         }
 
         detailedNoteViewController.noteData = dataSourceProvider?.noteList[index]
+        detailedNoteViewController.index = index
+    }
+
+    @objc
+    func passModifiedNote(notification: Notification) {
+        guard let noteData = notification.object as? (index: Int, note: Note) else {
+            return
+        }
+        noteListViewController.noteData[noteData.index] = noteData.note
     }
 }

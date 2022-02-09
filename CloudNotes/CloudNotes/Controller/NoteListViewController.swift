@@ -1,7 +1,11 @@
 import UIKit
 
 class NoteListViewController: UITableViewController {
-    var noteData = [Note]()
+    var noteData = [Note]() {
+        didSet {
+            tableView.reloadData()
+        }
+    }
     let addButton: UIBarButtonItem = {
         let button = UIBarButtonItem()
         button.image = UIImage(systemName: "plus")

@@ -7,6 +7,8 @@ class DetailedNoteViewController: UIViewController {
         }
     }
 
+    var index: Int?
+
     let noteTextView: UITextView = {
         let textView = UITextView()
         textView.font = .preferredFont(forTextStyle: .callout)
@@ -28,6 +30,7 @@ class DetailedNoteViewController: UIViewController {
         configureHierarchy()
         configureConstraints()
         self.view.backgroundColor = .white
+        self.noteTextView.delegate = self
     }
 
     // MARK: - Configure Views
@@ -64,5 +67,26 @@ class DetailedNoteViewController: UIViewController {
         content.append(body)
 
         noteTextView.attributedText = content
+    }
+}
+
+extension DetailedNoteViewController: UITextViewDelegate {
+    func textViewDidChange(_ textView: UITextView) {
+        var content = textView.text.components(separatedBy: ["\n"])
+        var title = content.removeFirst()
+        var body = content.joined(separator: "")
+
+        if title.count > 100 {
+            title = String(textView.text.prefix(100))
+            body = String(textView.text.suffix(textView.text.count - 100))
+        }
+
+        let modifiedDate = Date().timeIntervalSince1970
+        let newNote = Note(title: title, body: body, lastModifiedDate: modifiedDate)
+
+        NotificationCenter.default.post(
+            name: NSNotification.Name("NoteModified"),
+            object: (index, newNote)
+        )
     }
 }

@@ -10,7 +10,7 @@
 		185EF24627B101E200204AEA /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 185EF24527B101E200204AEA /* .swiftlint.yml */; };
 		185EF24927B23C1800204AEA /* JSONParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185EF24827B23C1800204AEA /* JSONParser.swift */; };
 		185EF24B27B23D9D00204AEA /* DataStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185EF24A27B23D9D00204AEA /* DataStorage.swift */; };
-		185EF24D27B23E0A00204AEA /* DataProvidable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185EF24C27B23E0A00204AEA /* DataProvidable.swift */; };
+		185EF24D27B23E0A00204AEA /* NoteListViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185EF24C27B23E0A00204AEA /* NoteListViewControllerDelegate.swift */; };
 		1A4CDBD379C838A981008068 /* Pods_CloudNotesTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8797059B2E1AE8C63E4A9A70 /* Pods_CloudNotesTests.framework */; };
 		636B914927B238E80027D4A4 /* Sample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636B914827B238E80027D4A4 /* Sample.swift */; };
 		636B914B27B253EB0027D4A4 /* NoteListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636B914A27B253EB0027D4A4 /* NoteListTableViewCell.swift */; };
@@ -48,7 +48,7 @@
 		185EF24527B101E200204AEA /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		185EF24827B23C1800204AEA /* JSONParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONParser.swift; sourceTree = "<group>"; };
 		185EF24A27B23D9D00204AEA /* DataStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStorage.swift; sourceTree = "<group>"; };
-		185EF24C27B23E0A00204AEA /* DataProvidable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataProvidable.swift; sourceTree = "<group>"; };
+		185EF24C27B23E0A00204AEA /* NoteListViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteListViewControllerDelegate.swift; sourceTree = "<group>"; };
 		1E231DE067500A8F54483010 /* Pods_CloudNotes.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CloudNotes.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		636B914827B238E80027D4A4 /* Sample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sample.swift; sourceTree = "<group>"; };
 		636B914A27B253EB0027D4A4 /* NoteListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteListTableViewCell.swift; sourceTree = "<group>"; };
@@ -108,7 +108,7 @@
 		185EF24E27B24D0E00204AEA /* Utility */ = {
 			isa = PBXGroup;
 			children = (
-				185EF24C27B23E0A00204AEA /* DataProvidable.swift */,
+				185EF24C27B23E0A00204AEA /* NoteListViewControllerDelegate.swift */,
 				185EF24827B23C1800204AEA /* JSONParser.swift */,
 			);
 			path = Utility;
@@ -458,7 +458,7 @@
 				C7481C7825BBCF3900B9CA55 /* CloudNotes.xcdatamodeld in Sources */,
 				FB8B343227B208D500D85311 /* NoteDetailViewController.swift in Sources */,
 				185EF24927B23C1800204AEA /* JSONParser.swift in Sources */,
-				185EF24D27B23E0A00204AEA /* DataProvidable.swift in Sources */,
+				185EF24D27B23E0A00204AEA /* NoteListViewControllerDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

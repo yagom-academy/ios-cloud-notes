@@ -1,7 +1,12 @@
 import UIKit
 
+protocol NoteListViewControllerDelegate: AnyObject {
+    func noteListViewController(didSelectedCell data: Sample)
+}
+
 class NoteListViewController: UIViewController {
     var dataStorage: DataStorage?
+    weak var delegate: NoteListViewControllerDelegate?
     private var listTableView: UITableView = {
         var tableView = UITableView(frame: .zero)
         tableView.register(NoteListTableViewCell.self, forCellReuseIdentifier: "cell")
@@ -11,8 +16,8 @@ class NoteListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        dataStorage = DataStorage()
         view.backgroundColor = .white
+        dataStorage = DataStorage()
         view.addSubview(listTableView)
         listTableView.dataSource = self
         listTableView.delegate = self
@@ -36,7 +41,9 @@ class NoteListViewController: UIViewController {
 
 extension NoteListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //
+        if let data = dataStorage?.assetData[indexPath.row] {
+            delegate?.noteListViewController(didSelectedCell: data)
+        }
     }
 }
 

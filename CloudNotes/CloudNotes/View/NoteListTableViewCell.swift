@@ -9,13 +9,14 @@ class NoteListTableViewCell: UITableViewCell {
     
     private var dateLabel: UILabel = {
         var label = UILabel()
-         label.font = .preferredFont(forTextStyle: .caption2)
+        label.font = .preferredFont(forTextStyle: .caption2)
          return label
      }()
     
     private var previewLabel: UILabel = {
         var label = UILabel()
-         label.font = .preferredFont(forTextStyle: .caption2)
+        label.font = .preferredFont(forTextStyle: .title1)
+        label.tintColor = .green
          return label
      }()
     
@@ -23,8 +24,7 @@ class NoteListTableViewCell: UITableViewCell {
        var stackView = UIStackView(arrangedSubviews: [dateLabel, previewLabel])
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
-        stackView.distribution = .equalSpacing
-        stackView.spacing = 15
+        stackView.distribution = .fillEqually
         stackView.alignment = .center
         return stackView
     }()
@@ -46,6 +46,7 @@ class NoteListTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.addSubview(textVerticalStackView)
+        setUpLayout()
     }
     
     func updateLabel(param: Sample) {
@@ -63,17 +64,15 @@ class NoteListTableViewCell: UITableViewCell {
     }
     
     func updatePreviewLabel(with preview: String) {
-        previewLabel.text = String(preview.prefix(5))
+        previewLabel.text = String(preview.prefix(15))
     }
     
     private func setUpLayout() {
         NSLayoutConstraint.activate([
-            textVerticalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5),
+            textVerticalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             textVerticalStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             textVerticalStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            textVerticalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            textVerticalStackView.heightAnchor.constraint(equalTo: contentView.heightAnchor),
-            textVerticalStackView.widthAnchor.constraint(equalTo: contentView.widthAnchor)
+            textVerticalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
     }
 }

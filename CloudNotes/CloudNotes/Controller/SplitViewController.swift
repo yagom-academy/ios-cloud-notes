@@ -34,6 +34,7 @@ class SplitViewController: UISplitViewController {
 
         noteListViewController.noteData = data
         detailedNoteViewController.noteData = dataSourceProvider?.noteList.first
+        detailedNoteViewController.index = 0
     }
 
     // MARK: - Configure Notification

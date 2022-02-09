@@ -32,22 +32,24 @@ class SplitViewController: UISplitViewController {
             return
         }
 
-        noteListViewController.noteData = data
-        detailedNoteViewController.noteData = dataSourceProvider?.noteList.first
+        noteListViewController.noteListData = data
+        detailedNoteViewController.noteData = data.first
         detailedNoteViewController.index = 0
     }
 
     // MARK: - Configure Notification
 
     func configurePostNotification() {
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(passNote(notification:)),
-                                               name: NSNotification.Name("NoteListSelected"),
-                                               object: nil)
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(passModifiedNote(notification:)),
-                                               name: NSNotification.Name("NoteModified"),
-                                               object: nil)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(passNote(notification:)),
+            name: NSNotification.Name("NoteListSelected"),
+            object: nil)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(passModifiedNote(notification:)),
+            name: NSNotification.Name("NoteModified"),
+            object: nil)
     }
 
     @objc
@@ -65,6 +67,7 @@ class SplitViewController: UISplitViewController {
         guard let noteData = notification.object as? (index: Int, note: Note) else {
             return
         }
-        noteListViewController.noteData[noteData.index] = noteData.note
+
+        noteListViewController.noteListData[noteData.index] = noteData.note
     }
 }

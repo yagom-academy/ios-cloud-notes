@@ -1,11 +1,12 @@
 import UIKit
 
 class NoteListViewController: UITableViewController {
-    var noteData = [Note]() {
+    var noteListData = [Note]() {
         didSet {
             tableView.reloadData()
         }
     }
+
     let addButton: UIBarButtonItem = {
         let button = UIBarButtonItem()
         button.image = UIImage(systemName: "plus")
@@ -15,11 +16,11 @@ class NoteListViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
         self.tableView.register(
             NoteListCell.self,
             forCellReuseIdentifier: NoteListCell.reuseIdentifer
         )
-
         configureNavigationBar()
     }
 
@@ -34,10 +35,13 @@ class NoteListViewController: UITableViewController {
     // MARK: - Table View Data Source
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return noteData.count
+        return noteListData.count
     }
 
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func tableView(
+        _ tableView: UITableView,
+        cellForRowAt indexPath: IndexPath
+    ) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(
             withIdentifier: NoteListCell.reuseIdentifer,
             for: indexPath
@@ -45,9 +49,9 @@ class NoteListViewController: UITableViewController {
             return UITableViewCell()
         }
 
-        cell.titleLabel.text = noteData[indexPath.row].title
-        cell.dateLabel.text = noteData[indexPath.row].formattedDateString
-        cell.previewLabel.text = noteData[indexPath.row].body
+        cell.titleLabel.text = noteListData[indexPath.row].title
+        cell.dateLabel.text = noteListData[indexPath.row].formattedDateString
+        cell.previewLabel.text = noteListData[indexPath.row].body
 
         return cell
     }
@@ -56,8 +60,9 @@ class NoteListViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let notificationCenter = NotificationCenter.default
-        notificationCenter.post(name: NSNotification.Name("NoteListSelected"),
-                                object: indexPath.row)
+        notificationCenter.post(
+            name: NSNotification.Name("NoteListSelected"),
+            object: indexPath.row)
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }

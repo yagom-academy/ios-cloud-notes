@@ -2,7 +2,7 @@ import UIKit
 
 class NoteListCell: UITableViewCell {
     static let reuseIdentifer: String = "cell"
-    
+
     let cellStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical

@@ -1,7 +1,25 @@
 import UIKit
 
+protocol MemoSelectionDelegate: AnyObject {
+    func applyData(with description: String)
+}
+
 class MasterTableViewController: UITableViewController {
     private var memos: [Memo]?
+    weak var delegate: MemoSelectionDelegate?
+    
+    override init(style: UITableView.Style) {
+        super.init(style: style)
+    }
+    
+    convenience init(style: UITableView.Style, delegate: MemoSelectionDelegate) {
+        self.init(style: style)
+        self.delegate = delegate
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,5 +66,17 @@ class MasterTableViewController: UITableViewController {
         cell.applyData(memos[indexPath.row])
         
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let memos = memos else {
+            return
+        }
+        
+        guard let destination = delegate as? DetailViewController else {
+            return
+        }
+        destination.applyData(with: memos[indexPath.row].description)
+        splitViewController?.showDetailViewController(UINavigationController(rootViewController: destination), sender: self)
     }
 }

@@ -1,6 +1,9 @@
 import UIKit
 
 class MainSplitViewController: UISplitViewController {
+    private var masterViewController: MasterTableViewController!
+    private var detailViewController: DetailViewController!
+    
     override init(style: UISplitViewController.Style = .doubleColumn) {
         super.init(style: style)
     }
@@ -18,9 +21,12 @@ class MainSplitViewController: UISplitViewController {
         preferredSplitBehavior = .tile
         preferredDisplayMode = .oneBesideSecondary
         
+        detailViewController = DetailViewController()
+        masterViewController = MasterTableViewController(style: .plain, delegate: detailViewController)
+        
         self.viewControllers = [
-            UINavigationController(rootViewController: MasterTableViewController(style: .plain)),
-            UINavigationController(rootViewController: DetailViewController())
+            UINavigationController(rootViewController: masterViewController),
+            UINavigationController(rootViewController: detailViewController)
         ]
     }
 }

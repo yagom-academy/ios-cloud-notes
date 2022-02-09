@@ -45,8 +45,7 @@ class NoteListTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        self.addSubview(textVerticalStackView)
-        setUpLayout()
+        contentView.addSubview(textVerticalStackView)
     }
     
     func updateLabel(param: Sample) {
@@ -64,7 +63,7 @@ class NoteListTableViewCell: UITableViewCell {
     }
     
     func updatePreviewLabel(with preview: String) {
-        previewLabel.text = String(preview.prefix(20))
+        previewLabel.text = String(preview.prefix(5))
     }
     
     private func setUpLayout() {
@@ -73,7 +72,8 @@ class NoteListTableViewCell: UITableViewCell {
             textVerticalStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             textVerticalStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
             textVerticalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            textVerticalStackView.heightAnchor.constraint(equalTo: contentView.heightAnchor)
+            textVerticalStackView.heightAnchor.constraint(equalTo: contentView.heightAnchor),
+            textVerticalStackView.widthAnchor.constraint(equalTo: contentView.widthAnchor)
         ])
     }
 }

@@ -60,6 +60,7 @@ extension NoteListViewController: UITableViewDataSource {
             param: self.dataStorage?.assetData[indexPath.row] ??
             Sample(title: "123", body: "123", lastModified: 3)
         )
+        cell.accessoryType = .disclosureIndicator
         return cell
     }
 }

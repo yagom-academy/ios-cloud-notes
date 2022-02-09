@@ -8,15 +8,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
         
-        let noteDetailViewController = NoteDetailViewController()
-        let noteTableViewController = NoteListViewController()
-        let navigationController = UINavigationController(rootViewController: noteTableViewController)
-        
-        let splitViewController = NoteSplitViewController()
-        
-        splitViewController.viewControllers = [navigationController, noteDetailViewController]
-        splitViewController.preferredPrimaryColumnWidthFraction = 1/3
-
+        let splitViewController = NoteSplitViewController(style: .doubleColumn)
+  
         window?.rootViewController = splitViewController
         window?.makeKeyAndVisible()
     }

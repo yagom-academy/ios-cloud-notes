@@ -8,11 +8,7 @@ class DetailViewController: UIViewController {
     return textView
   }()
   
-  private var memo: Memo? {
-    didSet {
-      refreshUI()
-    }
-  }
+  private var memo: Memo?
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -23,6 +19,7 @@ class DetailViewController: UIViewController {
     textView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
     textView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
     textView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+    textView.delegate = self
     
     setNavigationBar()
   }
@@ -30,7 +27,7 @@ class DetailViewController: UIViewController {
   private func refreshUI() {
     let title = memo?.title ?? ""
     let body = memo?.body ?? ""
-    textView.text = title + "\n\n" + body
+    textView.text = title.isEmpty && body.isEmpty ? "" : title + "\n" + body
   }
   
   private func setNavigationBar() {
@@ -45,5 +42,17 @@ class DetailViewController: UIViewController {
 extension DetailViewController: DetailViewControllerDelegate {
   func load(memo: Memo) {
     self.memo = memo
+    refreshUI()
+  }
+}
+
+//MARK: - UITextViewDelegate
+
+extension DetailViewController: UITextViewDelegate {
+  func textViewDidChange(_ textView: UITextView) {
+    let memoComponents = textView.text.split(separator: "\n", maxSplits: 1, omittingEmptySubsequences: false).map(String.init)
+    memo?.title = memoComponents[safe: 0] ?? ""
+    memo?.body = memoComponents[safe: 1] ?? ""
+    memo?.lastModified = Date()
   }
 }

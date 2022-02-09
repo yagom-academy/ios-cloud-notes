@@ -1,9 +1,15 @@
 import UIKit.UIFont
 
-struct Memo: Decodable {
-  let title: String
-  let body: String
-  let lastModified: Date
+class Memo: Decodable {
+  var title: String
+  var body: String
+  var lastModified: Date
+
+  init(title: String, body: String, lastModified: Date) {
+    self.title = title
+    self.body = body
+    self.lastModified = lastModified
+  }
 }
 
 extension Memo {
@@ -28,15 +34,5 @@ extension Memo {
       ]
     ))
     return attributedString
-  }
-}
-
-private extension String {
-  func truncated(limit: Int) -> String {
-    if self.count > limit {
-      let endIndex = self.index(self.startIndex, offsetBy: limit)
-      return String(self[...endIndex])
-    }
-    return self
   }
 }

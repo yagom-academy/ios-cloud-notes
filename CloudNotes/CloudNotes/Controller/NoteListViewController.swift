@@ -2,6 +2,12 @@ import UIKit
 
 class NoteListViewController: UITableViewController {
     var noteData = [Note]()
+    let addButton: UIBarButtonItem = {
+        let button = UIBarButtonItem()
+        button.image = UIImage(systemName: "plus")
+
+        return button
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -9,6 +15,16 @@ class NoteListViewController: UITableViewController {
             NoteListCell.self,
             forCellReuseIdentifier: NoteListCell.reuseIdentifer
         )
+
+        configureNavigationBar()
+    }
+
+    // MARK: - Configure Navigation Bar
+
+    func configureNavigationBar() {
+        self.title = "메모"
+
+        self.navigationItem.rightBarButtonItem = addButton
     }
 
     // MARK: - Table view data source

@@ -7,7 +7,7 @@ struct Memo {
 }
 
 extension Memo {
-  var subTitle: NSAttributedString {
+  var subtitle: NSAttributedString {
     let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "yyyy. MM. dd. "
     let dateString = dateFormatter.string(from: lastModified)
@@ -22,7 +22,7 @@ extension Memo {
       string: truncatedBody,
       attributes: [
         .font: UIFont.preferredFont(forTextStyle: .caption1),
-        .foregroundColor : UIColor.secondaryLabel
+        .foregroundColor: UIColor.secondaryLabel
       ]
     ))
     return attributedString

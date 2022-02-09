@@ -52,18 +52,18 @@ class RootViewController: UICollectionViewController {
   
   override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
-    guard let cell = cell as? UICollectionViewListCell else {
+    guard let listCell = cell as? UICollectionViewListCell else {
       return cell
     }
-    var configuration = cell.defaultContentConfiguration()
+    var configuration = listCell.defaultContentConfiguration()
     let title = memos[indexPath.row].title
     configuration.text = title.isEmpty ? "새로운 메모" : title
-    configuration.secondaryAttributedText = memos[indexPath.row].subTitle
+    configuration.secondaryAttributedText = memos[indexPath.row].subtitle
     configuration.textProperties.numberOfLines = 1
     configuration.secondaryTextProperties.numberOfLines = 1
-    cell.contentConfiguration = configuration
-    cell.accessories = [.disclosureIndicator()]
-    return cell
+    listCell.contentConfiguration = configuration
+    listCell.accessories = [.disclosureIndicator()]
+    return listCell
   }
   
   override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

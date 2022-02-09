@@ -1,9 +1,14 @@
 import UIKit.UIFont
 
 struct Memo: Decodable {
+  let id = UUID()
   var title: String
   var body: String
   var lastModified: Date
+  
+  enum CodingKeys: CodingKey {
+    case title, body, lastModified
+  }
 }
 
 extension Memo {
@@ -28,5 +33,17 @@ extension Memo {
       ]
     ))
     return attributedString
+  }
+}
+
+extension Memo: Hashable {
+  func hash(into hasher: inout Hasher) {
+    hasher.combine(id)
+  }
+}
+
+extension Memo: Equatable {
+  static func == (lhs: Self, rhs: Self) -> Bool {
+    return lhs.id == rhs.id
   }
 }

@@ -2,10 +2,32 @@ import UIKit
 
 private let reuseIdentifier = "Cell"
 
-class MemoListViewController: UICollectionViewController {
-  private var memos = [Memo]()
+class MemoListViewController: UIViewController {
   weak var delegate: MemoListViewControllerDelegate?
-  lazy var listLayout: UICollectionViewCompositionalLayout = {
+  private var memos = [Memo]()
+  private lazy var collectionView: UICollectionView = {
+    let collectionView = UICollectionView(frame: .zero, collectionViewLayout: listLayout)
+    collectionView.register(UICollectionViewListCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+    return collectionView
+  }()
+  private lazy var dataSource: UICollectionViewDiffableDataSource<Int, Memo> = {
+    let cellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, Memo> { cell, _, item in
+      var configuration = cell.defaultContentConfiguration()
+      let title = item.title
+      configuration.text = title.isEmpty ? "새로운 메모" : title
+      configuration.secondaryAttributedText = item.subtitle
+      configuration.textProperties.numberOfLines = 1
+      configuration.secondaryTextProperties.numberOfLines = 1
+      cell.contentConfiguration = configuration
+      cell.accessories = [.disclosureIndicator()]
+    }
+    let dataSource = UICollectionViewDiffableDataSource<Int, Memo>(collectionView: collectionView) { collectionView, indexPath, itemIdentifier in
+      collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: itemIdentifier)
+    }
+    return dataSource
+  }()
+  private var memoSnapShot = NSDiffableDataSourceSnapshot<Int, Memo>()
+  private lazy var listLayout: UICollectionViewCompositionalLayout = {
     var configuration = UICollectionLayoutListConfiguration(appearance: .plain)
     configuration.trailingSwipeActionsConfigurationProvider = { [weak self] indexPath -> UISwipeActionsConfiguration? in
       let actionHandler: UIContextualAction.Handler = { action, view, completion in
@@ -22,22 +44,22 @@ class MemoListViewController: UICollectionViewController {
     return layout
   }()
   
-  init() {
-    let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
-    let listLayout = UICollectionViewCompositionalLayout.list(using: configuration)
-    super.init(collectionViewLayout: listLayout)
-  }
-  
-  required init?(coder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
-  }
-  
   override func viewDidLoad() {
     super.viewDidLoad()
-    collectionView.collectionViewLayout = listLayout
-    collectionView.register(UICollectionViewListCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+    view.addSubview(collectionView)
+    collectionView.translatesAutoresizingMaskIntoConstraints = false
+    NSLayoutConstraint.activate([
+      collectionView.topAnchor.constraint(equalTo: view.topAnchor),
+      collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+      collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+      collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+    ])
+    
     setNavigationBar()
     loadJSON()
+    memoSnapShot.appendSections([0])
+    memoSnapShot.appendItems(memos, toSection: 0)
+    dataSource.apply(memoSnapShot)
   }
   
   private func setNavigationBar() {
@@ -66,33 +88,6 @@ class MemoListViewController: UICollectionViewController {
     } catch let error {
       print(error)
     }
-  }
-  
-  // MARK: UICollectionViewDataSource
-  
-  override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return memos.count
-  }
-  
-  override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
-    guard let listCell = cell as? UICollectionViewListCell else {
-      return cell
-    }
-    var configuration = listCell.defaultContentConfiguration()
-    let title = memos[indexPath.row].title
-    configuration.text = title.isEmpty ? "새로운 메모" : title
-    configuration.secondaryAttributedText = memos[indexPath.row].subtitle
-    configuration.textProperties.numberOfLines = 1
-    configuration.secondaryTextProperties.numberOfLines = 1
-    listCell.contentConfiguration = configuration
-    listCell.accessories = [.disclosureIndicator()]
-    return listCell
-  }
-  
-  override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    let memo = memos[indexPath.row]
-    delegate?.load(memo: memo)
   }
 }
 

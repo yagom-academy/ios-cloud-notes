@@ -56,3 +56,17 @@ extension PrimaryTableViewController {
         return cell
     }
 }
+
+// MARK: - UITableViewDelegate
+
+extension PrimaryTableViewController {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let data = memo[indexPath.row]
+        
+        guard let notesSplitViewController = self.splitViewController as? NotesSplitViewController else {
+            return
+        }
+        
+        notesSplitViewController.showSecondaryView(with: data)
+    }
+}

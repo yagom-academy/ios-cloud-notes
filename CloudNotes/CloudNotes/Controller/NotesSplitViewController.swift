@@ -8,6 +8,9 @@
 import UIKit
 
 class NotesSplitViewController: UISplitViewController {
+    private var primaryTableViewController = PrimaryTableViewController()
+    private var secondaryViewController = SecondaryViewController()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureSplitViewController()
@@ -16,7 +19,12 @@ class NotesSplitViewController: UISplitViewController {
     private func configureSplitViewController() {
         preferredSplitBehavior = .tile
         preferredDisplayMode = .oneBesideSecondary
-        setViewController(PrimaryTableViewController(), for: .primary)
-        setViewController(SecondaryViewController(), for: .secondary)
+        setViewController(primaryTableViewController, for: .primary)
+        setViewController(secondaryViewController, for: .secondary)
+    }
+    
+    func showSecondaryView(with memo: Memo) {
+        secondaryViewController.updateMemo(text: memo.body)
+        show(.secondary)
     }
 }

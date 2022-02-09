@@ -58,5 +58,6 @@ class NoteListViewController: UITableViewController {
         let notificationCenter = NotificationCenter.default
         notificationCenter.post(name: NSNotification.Name("NoteListSelected"),
                                 object: indexPath.row)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }

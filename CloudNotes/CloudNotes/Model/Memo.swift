@@ -9,13 +9,15 @@ struct Memo: Decodable {
 extension Memo {
   var subtitle: NSAttributedString {
     let dateFormatter = DateFormatter()
-    dateFormatter.dateFormat = "yyyy. MM. dd. "
+    dateFormatter.locale = .current
+    dateFormatter.dateStyle = .medium
+    dateFormatter.timeStyle = .none
     let dateString = dateFormatter.string(from: lastModified)
     let truncatedBody = body.truncated(limit: 100)
     
     let attributedString = NSMutableAttributedString()
     attributedString.append(NSAttributedString(
-      string: dateString,
+      string: dateString + " ",
       attributes: [.font: UIFont.preferredFont(forTextStyle: .footnote)]
     ))
     attributedString.append(NSAttributedString(

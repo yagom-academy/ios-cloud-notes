@@ -1,14 +1,6 @@
 import UIKit
 
-class NoteSplitViewController: UISplitViewController, NoteListViewControllerDelegate {
-    func noteListViewController(didSelectedCell data: Sample) {
-        guard let vc = viewController(for: .secondary) as? NoteDetailViewController else {
-            return
-        }
-        vc.setUpText(with: data)
-    }
-    
-
+class NoteSplitViewController: UISplitViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpSplitViewController()
@@ -22,5 +14,15 @@ class NoteSplitViewController: UISplitViewController, NoteListViewControllerDele
         setViewController(noteDetailViewController, for: .secondary)
         preferredPrimaryColumnWidthFraction = 1/3
         preferredDisplayMode = .oneBesideSecondary
+    }
+}
+
+extension NoteSplitViewController: NoteListViewControllerDelegate {
+    func noteListViewController(didSelectedCell data: Sample) {
+        guard let secondaryViewController = viewController(
+            for: .secondary) as? NoteDetailViewController else {
+            return
+        }
+        secondaryViewController.setUpText(with: data)
     }
 }

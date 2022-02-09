@@ -31,9 +31,11 @@ class MemoListViewController: UIViewController {
     var configuration = UICollectionLayoutListConfiguration(appearance: .plain)
     configuration.trailingSwipeActionsConfigurationProvider = { [weak self] indexPath -> UISwipeActionsConfiguration? in
       let actionHandler: UIContextualAction.Handler = { action, view, completion in
+        guard let self = self else { return }
         completion(true)
-        self?.memos.remove(at: indexPath.row)
-        self?.collectionView.reloadData()
+        let item = self.memoSnapShot.itemIdentifiers[indexPath.item]
+        self.memoSnapShot.deleteItems([item])
+        self.dataSource.apply(self.memoSnapShot)
       }
       let action = UIContextualAction(style: .normal, title: "Delete", handler: actionHandler)
       action.image = UIImage(systemName: "trash")
@@ -43,7 +45,7 @@ class MemoListViewController: UIViewController {
     let layout = UICollectionViewCompositionalLayout.list(using: configuration)
     return layout
   }()
-  
+
   override func viewDidLoad() {
     super.viewDidLoad()
     view.addSubview(collectionView)
@@ -61,7 +63,7 @@ class MemoListViewController: UIViewController {
     memoSnapShot.appendItems(memos, toSection: 0)
     dataSource.apply(memoSnapShot)
   }
-  
+
   private func setNavigationBar() {
     let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addMemo))
     navigationItem.rightBarButtonItem = addButton

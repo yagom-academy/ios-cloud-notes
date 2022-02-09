@@ -15,10 +15,12 @@ class DetailViewController: UIViewController {
     
     view.addSubview(textView)
     textView.translatesAutoresizingMaskIntoConstraints = false
-    textView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-    textView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-    textView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-    textView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+    NSLayoutConstraint.activate([
+      textView.topAnchor.constraint(equalTo: view.topAnchor),
+      textView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+      textView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+      textView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+    ])
     textView.delegate = self
     
     setNavigationBar()

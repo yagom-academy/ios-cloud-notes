@@ -1,15 +1,9 @@
 import UIKit.UIFont
 
-class Memo: Decodable {
+struct Memo: Decodable {
   var title: String
   var body: String
   var lastModified: Date
-
-  init(title: String, body: String, lastModified: Date) {
-    self.title = title
-    self.body = body
-    self.lastModified = lastModified
-  }
 }
 
 extension Memo {

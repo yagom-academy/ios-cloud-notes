@@ -95,3 +95,13 @@ class MemoListViewController: UICollectionViewController {
     delegate?.load(memo: memo)
   }
 }
+
+extension MemoListViewController: DetailViewControllerDelegate {
+  func update(_ memo: Memo) {
+    let indexPath = collectionView.indexPathsForSelectedItems?.first
+    guard let index = indexPath?.row else { return }
+    memos[index] = memo
+    collectionView.reloadData()
+    collectionView.selectItem(at: indexPath, animated: false, scrollPosition: .top)
+  }
+}

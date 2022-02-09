@@ -16,6 +16,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     let rootViewController = MemoListViewController()
     let detailViewController = DetailViewController()
     rootViewController.delegate = detailViewController
+    detailViewController.delegate = rootViewController
     
     let rootNavigationController = UINavigationController(rootViewController: rootViewController)
     let detailNavigationController = UINavigationController(rootViewController: detailViewController)

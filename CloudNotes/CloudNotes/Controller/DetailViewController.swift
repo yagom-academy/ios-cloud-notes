@@ -1,7 +1,6 @@
 import UIKit
 
 class DetailViewController: UIViewController {
-  
   private let textView: UITextView = {
     let textView = UITextView()
     textView.font = UIFont.preferredFont(forTextStyle: .body)
@@ -9,6 +8,7 @@ class DetailViewController: UIViewController {
   }()
   
   private var memo: Memo?
+  weak var delegate: DetailViewControllerDelegate?
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -54,5 +54,7 @@ extension DetailViewController: UITextViewDelegate {
     memo?.title = memoComponents[safe: 0] ?? ""
     memo?.body = memoComponents[safe: 1] ?? ""
     memo?.lastModified = Date()
+    guard let memo = memo else { return }
+    delegate?.update(memo)
   }
 }

@@ -5,29 +5,26 @@ private let reuseIdentifier = "Cell"
 class RootViewController: UICollectionViewController {
   private var memos = [Memo]()
   weak var delegate: DetailViewControllerDelegate?
-  
-  init() {
+  lazy var listLayout: UICollectionViewCompositionalLayout = {
     var configuration = UICollectionLayoutListConfiguration(appearance: .plain)
-    configuration.trailingSwipeActionsConfigurationProvider = { indexPath -> UISwipeActionsConfiguration? in
+    configuration.trailingSwipeActionsConfigurationProvider = { [weak self] indexPath -> UISwipeActionsConfiguration? in
       let actionHandler: UIContextualAction.Handler = { action, view, completion in
+        completion(true)
+        self?.memos.remove(at: indexPath.row)
+        self?.collectionView.reloadData()
       }
-      
       let action = UIContextualAction(style: .normal, title: "Delete", handler: actionHandler)
       action.image = UIImage(systemName: "trash")
       action.backgroundColor = .systemRed
-      
       return UISwipeActionsConfiguration(actions: [action])
     }
     let layout = UICollectionViewCompositionalLayout.list(using: configuration)
-    super.init(collectionViewLayout: layout)
-  }
-  
-  required init?(coder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
-  }
+    return layout
+  }()
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    collectionView.collectionViewLayout = listLayout
     collectionView.register(UICollectionViewListCell.self, forCellWithReuseIdentifier: reuseIdentifier)
     setNavigationBar()
     loadJSON()

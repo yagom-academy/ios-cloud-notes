@@ -37,9 +37,9 @@ class DetailViewController: UIViewController {
   }
 }
 
-//MARK: - DetailViewControllerDelegate
+//MARK: - MemoListViewControllerDelegate
 
-extension DetailViewController: DetailViewControllerDelegate {
+extension DetailViewController: MemoListViewControllerDelegate {
   func load(memo: Memo) {
     self.memo = memo
     refreshUI()

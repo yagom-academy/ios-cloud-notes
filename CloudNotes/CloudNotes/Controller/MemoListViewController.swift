@@ -2,9 +2,9 @@ import UIKit
 
 private let reuseIdentifier = "Cell"
 
-class RootViewController: UICollectionViewController {
+class MemoListViewController: UICollectionViewController {
   private var memos = [Memo]()
-  weak var delegate: DetailViewControllerDelegate?
+  weak var delegate: MemoListViewControllerDelegate?
   lazy var listLayout: UICollectionViewCompositionalLayout = {
     var configuration = UICollectionLayoutListConfiguration(appearance: .plain)
     configuration.trailingSwipeActionsConfigurationProvider = { [weak self] indexPath -> UISwipeActionsConfiguration? in

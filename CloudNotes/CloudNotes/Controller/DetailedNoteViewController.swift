@@ -50,6 +50,19 @@ class DetailedNoteViewController: UIViewController {
     }
 
     func configureTextView() {
-        noteTextView.text = noteData?.body
+        guard let note = noteData else {
+            return
+        }
+        let content = NSMutableAttributedString()
+        let title = NSMutableAttributedString(string: note.title)
+        let body = NSMutableAttributedString(string: "\n" + note.body)
+        title.addAttribute(
+            .font, value: UIFont.preferredFont(forTextStyle: .title2),
+            range: NSRange(location: 0, length: title.length)
+        )
+        content.append(title)
+        content.append(body)
+
+        noteTextView.attributedText = content
     }
 }

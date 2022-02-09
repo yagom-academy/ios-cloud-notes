@@ -30,6 +30,7 @@ class RootViewController: UICollectionViewController {
     super.viewDidLoad()
     collectionView.register(UICollectionViewListCell.self, forCellWithReuseIdentifier: reuseIdentifier)
     setNavigationBar()
+    loadJSON()
   }
   
   private func setNavigationBar() {
@@ -42,6 +43,22 @@ class RootViewController: UICollectionViewController {
     let newMemo = Memo(title: "", body: "", lastModified: Date())
     memos.append(newMemo)
     collectionView.reloadData()
+  }
+
+  private func loadJSON() {
+    guard let data = NSDataAsset(name: "memo")?.data else {
+      return
+    }
+    do {
+      let decoder = JSONDecoder()
+      decoder.keyDecodingStrategy = .convertFromSnakeCase
+      decoder.dateDecodingStrategy = .secondsSince1970
+      let memo = try decoder.decode([Memo].self, from: data)
+      memos.append(contentsOf: memo)
+      collectionView.reloadData()
+    } catch let error {
+      print(error)
+    }
   }
   
   // MARK: UICollectionViewDataSource

@@ -1,6 +1,6 @@
 import UIKit.UIFont
 
-struct Memo {
+struct Memo: Decodable {
   let title: String
   let body: String
   let lastModified: Date

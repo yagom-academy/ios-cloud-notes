@@ -14,6 +14,7 @@ class NotesSplitViewController: UISplitViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureSplitViewController()
+        delegate = self
     }
     
     private func configureSplitViewController() {
@@ -26,5 +27,13 @@ class NotesSplitViewController: UISplitViewController {
     func showSecondaryView(with memo: Memo) {
         secondaryViewController.updateMemo(text: memo.body)
         show(.secondary)
+    }
+}
+
+// MARK: - UISplitViewControllerDelegate
+
+extension NotesSplitViewController: UISplitViewControllerDelegate {
+    func splitViewController(_ svc: UISplitViewController, topColumnForCollapsingToProposedTopColumn proposedTopColumn: UISplitViewController.Column) -> UISplitViewController.Column {
+        return .primary
     }
 }

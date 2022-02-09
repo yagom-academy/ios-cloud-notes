@@ -32,6 +32,10 @@ class PrimaryTableViewController: UITableViewController {
     }
     
     private func configureTableView() {
+        if self.splitViewController?.isCollapsed == false {
+            let initialIndexPath = IndexPath(row: 0, section: 0)
+            tableView.delegate?.tableView?(tableView, didSelectRowAt: initialIndexPath)
+        }
         tableView.separatorInset = UIEdgeInsets.zero
     }
 }

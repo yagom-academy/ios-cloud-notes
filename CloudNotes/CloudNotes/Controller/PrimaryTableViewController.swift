@@ -9,7 +9,6 @@ import UIKit
 
 class PrimaryTableViewController: UITableViewController {
     private var memo = [Memo]()
-    private var currentSelectedIndexPath: IndexPath = IndexPath(row: 0, section: 0)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -17,16 +16,6 @@ class PrimaryTableViewController: UITableViewController {
         fetchMemoData()
         configureNavigationBar()
         configureTableView()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        selectCell(from: currentSelectedIndexPath)
-    }
-    
-    private func selectCell(from indexPath: IndexPath) {
-        tableView.selectRow(at: indexPath, animated: true, scrollPosition: .top)
-        tableView.delegate?.tableView?(tableView, didSelectRowAt: indexPath)
     }
     
     private func fetchMemoData() {
@@ -79,6 +68,5 @@ extension PrimaryTableViewController {
         }
         
         notesSplitViewController.showSecondaryView(with: data)
-        currentSelectedIndexPath = indexPath
     }
 }

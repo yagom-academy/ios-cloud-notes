@@ -13,12 +13,24 @@ class NoteDetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        noteDetailScrollView.delegate = self
+        setup()
         setupNoteDetailScrollView()
         addObserverKeyboardNotification()
     }
     
+    private func setup() {
+        let rightButtonImage = UIImage(systemName: "ellipsis.circle")
+        let rightButton = UIBarButtonItem(
+          image: rightButtonImage,
+          style: .done,
+          target: nil,
+          action: nil
+        )
+        navigationItem.setRightBarButton(rightButton, animated: false)
+    }
+    
     private func setupNoteDetailScrollView() {
+        noteDetailScrollView.delegate = self
         view.addSubview(noteDetailScrollView)
         noteDetailScrollView.setupConstraint(view: view)
     }

@@ -13,6 +13,7 @@ class NoteDetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        noteDetailScrollView.delegate = self
         setupNoteDetailScrollView()
     }
     
@@ -29,11 +30,24 @@ class NoteDetailViewController: UIViewController {
     }
     
     private func scrollTextViewToVisible() {
-        DispatchQueue.main.async {
-            self.noteDetailScrollView.scrollRectToVisible(
-              self.noteDetailScrollView.noteDetailTextView.frame,
-              animated: true
-            )
+        DispatchQueue.main.async { [weak self] in
+            if let dateLabelHeight = self?.noteDetailScrollView.lastModifiedDateLabel.frame.height {
+                self?.noteDetailScrollView.setContentOffset(CGPoint(x: 0, y: dateLabelHeight), animated: true)
+            }
+        }
+    }
+}
+
+extension NoteDetailViewController: UIScrollViewDelegate {
+    func scrollViewWillEndDragging(
+        _ scrollView: UIScrollView,
+        withVelocity velocity: CGPoint,
+        targetContentOffset: UnsafeMutablePointer<CGPoint>
+    ) {
+        let dateLabelHeight = noteDetailScrollView.lastModifiedDateLabel.frame.height
+
+        if scrollView.contentOffset.y < dateLabelHeight {
+            targetContentOffset.pointee = CGPoint(x: 0, y: 0)
         }
     }
 }

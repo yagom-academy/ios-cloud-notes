@@ -46,12 +46,12 @@ class NoteDetailScrollView: UIScrollView {
     private func setupStackViewConstraint() {
         noteDetailStackView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            noteDetailStackView.topAnchor.constraint(equalTo: topAnchor),
-            noteDetailStackView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            noteDetailStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            noteDetailStackView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            noteDetailStackView.widthAnchor.constraint(equalTo: widthAnchor),
-            noteDetailStackView.heightAnchor.constraint(equalTo: heightAnchor)
+            noteDetailStackView.topAnchor.constraint(equalTo: contentLayoutGuide.topAnchor),
+            noteDetailStackView.bottomAnchor.constraint(equalTo: contentLayoutGuide.bottomAnchor),
+            noteDetailStackView.leadingAnchor.constraint(equalTo: contentLayoutGuide.leadingAnchor),
+            noteDetailStackView.trailingAnchor.constraint(equalTo: contentLayoutGuide.trailingAnchor),
+            noteDetailStackView.widthAnchor.constraint(equalTo: frameLayoutGuide.widthAnchor),
+            noteDetailStackView.heightAnchor.constraint(greaterThanOrEqualTo: frameLayoutGuide.heightAnchor)
         ])
     }
     

@@ -17,10 +17,21 @@ class NoteDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpTextViewLayout()
+        setUpNavigationItems()
     }
     
     func setUpText(with data: Sample) {
         textView.text = data.body
+    }
+    
+    private func setUpNavigationItems() {
+        let circleImage = UIImage(systemName: "ellipsis.circle")
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            image: circleImage,
+            style: .plain,
+            target: nil,
+            action: nil
+        )
     }
     
     private func setUpTextViewLayout() {

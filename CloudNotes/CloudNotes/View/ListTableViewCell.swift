@@ -7,6 +7,7 @@ final class ListTableViewCell: UITableViewCell {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.spacing = 10
+        
         return stackView
     }()
     private let titleLabel: UILabel = {
@@ -14,6 +15,7 @@ final class ListTableViewCell: UITableViewCell {
         label.font = .preferredFont(forTextStyle: .title2)
         label.numberOfLines = 1
         label.lineBreakMode = .byTruncatingTail
+        
         return label
     }()
     private let secondaryStackView: UIStackView = {
@@ -21,12 +23,14 @@ final class ListTableViewCell: UITableViewCell {
         stackView.axis = .horizontal
         stackView.spacing = 5
         stackView.alignment = .center
+        
         return stackView
     }()
     private let dateLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .body)
         label.numberOfLines = 1
+        
         return label
     }()
     private let previewLabel: UILabel = {
@@ -35,6 +39,7 @@ final class ListTableViewCell: UITableViewCell {
         label.textColor = .systemGray
         label.numberOfLines = 1
         label.lineBreakMode = .byTruncatingTail
+        
         return label
     }()
     

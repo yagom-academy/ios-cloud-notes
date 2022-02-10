@@ -5,6 +5,7 @@ final class MemoViewController: UIViewController {
         let textView = UITextView()
         textView.font = .preferredFont(forTextStyle: .body)
         textView.adjustsFontForContentSizeCategory = true
+        
         return textView
     }()
     private let navigationButtonImageName = "ellipsis.circle"

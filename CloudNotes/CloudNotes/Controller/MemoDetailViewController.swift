@@ -102,12 +102,8 @@ extension MemoDetailViewController: UITextViewDelegate {
     private func createMemoData(with text: String) -> Memo {
         let data = text.split(separator: Constant.lineBreak, maxSplits: 1)
         let lastModified = Date().timeIntervalSince1970
-        guard let title = data[safe: 0]?.description else {
-            return Memo(title: Constant.newMemo, body: Constant.emptyBody, lastModified: lastModified)
-        }
-        guard let body = data[safe: 1]?.trimmingCharacters(in: Constant.trimmingStringSet) else {
-            return Memo(title: title, body: Constant.emptyBody, lastModified: lastModified)
-        }
+        let title = data[safe: 0]?.description ?? Constant.newMemo
+        let body = data[safe: 1]?.trimmingCharacters(in: Constant.trimmingStringSet) ?? Constant.emptyBody
         return Memo(title: title, body: body, lastModified: lastModified)
     }
 }

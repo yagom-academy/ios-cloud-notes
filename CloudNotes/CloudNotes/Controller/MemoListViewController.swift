@@ -66,7 +66,7 @@ class MemoListViewController: UIViewController {
 
 extension MemoListViewController: DetailViewControllerDelegate {
   func update(_ memo: Memo) {
-    let indexPath = tableView.indexPathsForSelectedRows?.first
+    let indexPath = tableView.indexPathForSelectedRow
     guard let index = indexPath?.row else { return }
     memos[index] = memo
     tableView.reloadData()

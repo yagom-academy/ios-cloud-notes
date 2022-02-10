@@ -4,10 +4,15 @@ class DetailViewController: UIViewController {
   private let textView: UITextView = {
     let textView = UITextView()
     textView.font = UIFont.preferredFont(forTextStyle: .body)
+    textView.keyboardDismissMode = .interactive
     return textView
   }()
   private var currentMemo: Memo {
-    let memoComponents = textView.text.split(separator: "\n", maxSplits: 1, omittingEmptySubsequences: false).map(String.init)
+    let memoComponents = textView.text.split(
+      separator: "\n",
+      maxSplits: 1,
+      omittingEmptySubsequences: false
+    ).map(String.init)
     let title = memoComponents[safe: 0] ?? ""
     let body = memoComponents[safe: 1] ?? ""
     let date = Date()
@@ -30,6 +35,33 @@ class DetailViewController: UIViewController {
     textView.delegate = self
     
     setNavigationBar()
+    NotificationCenter.default.addObserver(
+      self,
+      selector: #selector(keyboardWillShow),
+      name: UIResponder.keyboardWillShowNotification,
+      object: nil
+    )
+    NotificationCenter.default.addObserver(
+      self,
+      selector: #selector(keyboardWillHide),
+      name: UIResponder.keyboardWillHideNotification,
+      object: nil
+    )
+  }
+  
+  @objc private func keyboardWillShow(_ notification: Notification) {
+    guard
+      let userInfo = notification.userInfo,
+      let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else {
+        return
+      }
+    textView.contentInset.bottom = keyboardFrame.height
+    textView.verticalScrollIndicatorInsets.bottom = keyboardFrame.height
+  }
+  
+  @objc private func keyboardWillHide(_ notification: Notification) {
+    textView.contentInset.bottom = 0
+    textView.verticalScrollIndicatorInsets.bottom = 0
   }
   
   private func setNavigationBar() {

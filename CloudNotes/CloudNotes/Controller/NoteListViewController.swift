@@ -68,11 +68,12 @@ extension NoteListViewController: UITableViewDataSource {
         ) as? NoteListTableViewCell else {
             return UITableViewCell()
         }
-        cell.updateLabel(
-            param: self.dataStorage?.assetData[indexPath.row] ??
-            Sample(title: "123", body: "123", lastModified: 3)
-        )
+        guard let data = self.dataStorage?.assetData[indexPath.row] else {
+            fatalError()
+        }
+        cell.updateLabel(title: data.title, date: data.formattedDate, preview: data.body)
         cell.accessoryType = .disclosureIndicator
+        
         return cell
     }
 }

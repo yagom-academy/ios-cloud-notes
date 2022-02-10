@@ -6,6 +6,12 @@ class NoteModelManager {
     var noteDataCount: Int {
         return noteData.count
     }
+    private let formatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.setLocalizedDateFormatFromTemplate("yyyy MM dd")
+        formatter.locale = NSLocale.current
+        return formatter
+    }()
     
     func fetchData() {
         let decoder: JSONDecoder = {
@@ -23,8 +29,19 @@ class NoteModelManager {
         }
     }
     
-    func fetchDetailData(at index: Int) -> Note {
-        return noteData[index]
+    func fetchTitle(at index: Int) -> String {
+        let noteData = self.noteData[index]
+        return noteData.title
     }
     
+    func fetchDate(at index: Int) -> String {
+        let noteData = self.noteData[index]
+        let formattedDate = formatter.string(from: noteData.lastModified).replacingOccurrences(of: "/", with: ". ")
+        return formattedDate
+    }
+
+    func fetchBody(at index: Int) -> String {
+        let noteData = self.noteData[index]
+        return noteData.body
+    }
 }

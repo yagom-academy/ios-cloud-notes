@@ -107,7 +107,6 @@
 			children = (
 				C7481C7125BBCF3900B9CA55 /* NoteDetailViewController.swift */,
 				84474C7927B251E200A1E83E /* NoteListTableViewController.swift */,
-				C181739827B4B0FA00011200 /* NoteListTableViewCell.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -126,6 +125,7 @@
 		C1C3151C27B217CB00FB69CE /* View */ = {
 			isa = PBXGroup;
 			children = (
+				C181739827B4B0FA00011200 /* NoteListTableViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";

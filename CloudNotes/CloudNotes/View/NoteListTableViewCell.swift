@@ -1,10 +1,3 @@
-//
-//  NoteListTableViewCell.swift
-//  CloudNotes
-//
-//  Created by JeongTaek Han on 2022/02/10.
-//
-
 import UIKit
 
 class NoteListTableViewCell: UITableViewCell {
@@ -24,6 +17,7 @@ class NoteListTableViewCell: UITableViewCell {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
         stackView.distribution = .fill
+        stackView.spacing = 5
         stackView.alignment = .fill
         return stackView
     }()
@@ -31,38 +25,33 @@ class NoteListTableViewCell: UITableViewCell {
     let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .preferredFont(forTextStyle: .body)
         return label
     }()
     
     let lastModifiedLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .preferredFont(forTextStyle: .footnote)
         return label
     }()
     
     let bodyLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .preferredFont(forTextStyle: .caption2)
+        label.textColor = .systemGray
         return label
     }()
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        configureHierarchy()
     }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configureHierarchy()
-        
-        NSLayoutConstraint.activate([
-            primaryStackView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
-            primaryStackView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor),
-            primaryStackView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor),
-            primaryStackView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor)
-        ])
-        
-        self.accessoryType = .disclosureIndicator
+        configureLayout()
     }
     
     private func configureHierarchy() {
@@ -72,7 +61,20 @@ class NoteListTableViewCell: UITableViewCell {
         supplementaryStackView.addArrangedSubview(lastModifiedLabel)
         supplementaryStackView.addArrangedSubview(bodyLabel)
         
-        self.addSubview(primaryStackView)
+        self.contentView.addSubview(primaryStackView)
     }
 
+    private func configureLayout() {
+        NSLayoutConstraint.activate([
+            primaryStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
+            primaryStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            primaryStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+            primaryStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)])
+        
+        lastModifiedLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
+        bodyLabel.setContentHuggingPriority(.required, for: .horizontal)
+        
+        self.accessoryType = .disclosureIndicator
+    }
+    
 }

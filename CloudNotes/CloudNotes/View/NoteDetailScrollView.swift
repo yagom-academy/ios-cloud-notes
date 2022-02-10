@@ -77,7 +77,21 @@ class NoteDetailScrollView: UIScrollView {
     }
     
     func configure(with noteInformation: NoteInformation) {
+        let attributedString = NSMutableAttributedString()
+            .preferredFont(string: noteInformation.title + "\n\n", forTextStyle: .title2)
+            .preferredFont(string: noteInformation.content, forTextStyle: .body)
         lastModifiedDateLabel.text = noteInformation.localizedDateString
-        noteDetailTextView.text = noteInformation.content
+        noteDetailTextView.attributedText = attributedString
+    }
+}
+
+extension NSMutableAttributedString {
+    func preferredFont(
+      string: String,
+      forTextStyle: UIFont.TextStyle
+    ) -> NSMutableAttributedString {
+        let attributeFont: [NSAttributedString.Key: Any] = [.font: UIFont.preferredFont(forTextStyle: forTextStyle)]
+        self.append(NSAttributedString(string: string, attributes: attributeFont))
+        return self
     }
 }

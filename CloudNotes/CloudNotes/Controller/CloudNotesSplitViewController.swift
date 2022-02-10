@@ -17,8 +17,10 @@ final class CloudNotesSplitViewController: UISplitViewController {
         
         let noteDataSource = CloudNotesDataSource()
         let noteListViewController = NoteListViewController()
+        noteListViewController.delegate = self
         noteListViewController.noteDataSource = noteDataSource
         let noteDetailViewController = NoteDetailViewController()
+        noteDetailViewController.noteDataSource = noteDataSource
         setViewController(
           noteListViewController,
           for: .primary
@@ -27,5 +29,13 @@ final class CloudNotesSplitViewController: UISplitViewController {
           noteDetailViewController,
           for: .secondary
         )
+    }
+}
+
+extension CloudNotesSplitViewController: NoteListViewDelegate {
+    func noteListView(didSeletedCell row: Int) {
+        if let detailViewController = viewController(for: .secondary) as? NoteDetailViewController {
+            detailViewController.setupDetailView(index: row)
+        }
     }
 }

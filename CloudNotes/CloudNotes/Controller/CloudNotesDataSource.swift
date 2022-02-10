@@ -48,10 +48,10 @@ extension CloudNotesDataSource: UITableViewDataSource {
         ) as? NoteListCell else {
             return UITableViewCell()
         }
-        guard let informations = noteInformations else {
+        guard let information = noteInformations?[indexPath.row] else {
             return UITableViewCell()
         }
-        cell.configure(with: informations[indexPath.row])
+        cell.configure(with: information)
         return cell
     }
 }

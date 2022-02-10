@@ -7,9 +7,14 @@
 
 import UIKit
 
+protocol NoteListViewDelegate: AnyObject {
+    func noteListView(didSeletedCell row: Int)
+}
+
 class NoteListViewController: UIViewController {
     var noteDataSource: CloudNotesDataSource?
     private let tableView: UITableView = UITableView()
+    weak var delegate: NoteListViewDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,6 +27,7 @@ class NoteListViewController: UIViewController {
             return
         }
         tableView.dataSource = noteDataSource
+        tableView.delegate = self
         tableView.register(
             NoteListCell.self,
             forCellReuseIdentifier: NoteListCell.identifier
@@ -38,5 +44,11 @@ class NoteListViewController: UIViewController {
             tableView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor)
         ])
+    }
+}
+
+extension NoteListViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        delegate?.noteListView(didSeletedCell: indexPath.row)
     }
 }

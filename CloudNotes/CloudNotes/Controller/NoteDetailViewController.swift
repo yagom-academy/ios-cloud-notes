@@ -8,6 +8,7 @@
 import UIKit
 
 class NoteDetailViewController: UIViewController {
+    var noteDataSource: CloudNotesDataSource?
     private let noteDetailScrollView = NoteDetailScrollView()
 
     override func viewDidLoad() {
@@ -18,5 +19,11 @@ class NoteDetailViewController: UIViewController {
     private func setupNoteDetailScrollView() {
         view.addSubview(noteDetailScrollView)
         noteDetailScrollView.setupConstraint(view: view)
+    }
+    
+    func setupDetailView(index: Int) {
+        if let information = noteDataSource?.noteInformations?[index] {
+            noteDetailScrollView.configure(with: information)
+        }
     }
 }

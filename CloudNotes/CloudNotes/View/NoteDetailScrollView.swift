@@ -66,4 +66,9 @@ class NoteDetailScrollView: UIScrollView {
     private func setupNoteDetailTextView() {
         noteDetailTextView.isScrollEnabled = false
     }
+    
+    func configure(with noteInformation: NoteInformation) {
+        lastModifiedDateLabel.text = noteInformation.localizedDateString
+        noteDetailTextView.text = noteInformation.content
+    }
 }

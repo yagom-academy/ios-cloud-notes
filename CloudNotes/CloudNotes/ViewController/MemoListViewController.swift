@@ -4,17 +4,22 @@ final class MemoListViewController: UIViewController {
     private let tableView = UITableView()
     private var memos: [Memo] = []
     private let navigationTitle = "메모"
-    weak var memoViewController: MemoContentViewController?
 
-    convenience init(memos: [Memo]) {
+    convenience init() {
         self.init(nibName: nil, bundle: nil)
-        self.memos = memos
         configureNavigationBar()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        loadMemos()
         setupMainListView()
+    }
+    
+    private func loadMemos() {
+        guard let data = Assets.sampleData,
+              let decodedData = try? JSONDecoder().decode([Memo].self, from: data.data) else { return }
+        memos = decodedData
     }
     
     private func setupMainListView() {
@@ -67,9 +72,8 @@ extension MemoListViewController: UITableViewDataSource {
 
 extension MemoListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let memoViewController = memoViewController else { return }
+        guard let splitViewController = splitViewController as? MainSplitViewController else { return }
         let selectedMemo = memos[indexPath.row]
-        memoViewController.updateTextView(with: selectedMemo)
-        showDetailViewController(memoViewController, sender: nil)
+        splitViewController.updateMemoContentsView(with: selectedMemo)
     }
 }

@@ -1,31 +1,27 @@
 import UIKit
 
 final class MainSplitViewController: UISplitViewController {
-    private var memos: [Memo] = []
+    private let listViewController = MemoListViewController()
+    private let contentViewController = MemoContentViewController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        loadMemos()
         setupMainSplitView()
     }
     
-    private func loadMemos() {
-        guard let data = Assets.sampleData,
-              let decodedData = try? JSONDecoder().decode([Memo].self, from: data.data) else { return }
-        memos = decodedData
+    func updateMemoContentsView(with memo: Memo) {
+        contentViewController.updateTextView(with: memo)
+        showDetailViewController(contentViewController, sender: nil)
     }
-    
+     
     private func setupMainSplitView() {
         configureSplitView()
         configureNavigationBar()
     }
     
     private func configureSplitView() {
-        let listViewController = MemoListViewController(memos: memos)
-        let memoViewController = MemoContentViewController()
-        listViewController.memoViewController = memoViewController
         setViewController(listViewController, for: .primary)
-        setViewController(memoViewController, for: .secondary)
+        setViewController(contentViewController, for: .secondary)
     }
     
     private func configureNavigationBar() {

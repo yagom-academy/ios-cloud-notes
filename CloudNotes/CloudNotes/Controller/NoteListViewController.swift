@@ -18,8 +18,22 @@ class NoteListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setup()
         setupTableView()
         setupConstraints()
+        selectFirstNote()
+    }
+    
+    private func setup() {
+        title = "메모"
+        let rightButtonImage = UIImage(systemName: "plus")
+        let rightButton = UIBarButtonItem(
+          image: rightButtonImage,
+          style: .done,
+          target: nil,
+          action: nil
+        )
+        navigationItem.setRightBarButton(rightButton, animated: false)
     }
     
     private func setupTableView() {
@@ -44,6 +58,15 @@ class NoteListViewController: UIViewController {
             tableView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor)
         ])
+    }
+    
+    private func selectFirstNote() {
+        if let noteInformations = noteDataSource?.noteInformations,
+           noteInformations.count > 0 {
+            let indexPath = IndexPath(row: 0, section: 0)
+            tableView.selectRow(at: indexPath, animated: false, scrollPosition: .top)
+            delegate?.noteListView(didSeletedCell: indexPath.row)
+        }
     }
 }
 

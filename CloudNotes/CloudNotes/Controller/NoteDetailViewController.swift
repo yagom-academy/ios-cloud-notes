@@ -24,6 +24,16 @@ class NoteDetailViewController: UIViewController {
     func setupDetailView(index: Int) {
         if let information = noteDataSource?.noteInformations?[index] {
             noteDetailScrollView.configure(with: information)
+            scrollTextViewToVisible()
+        }
+    }
+    
+    private func scrollTextViewToVisible() {
+        DispatchQueue.main.async {
+            self.noteDetailScrollView.scrollRectToVisible(
+              self.noteDetailScrollView.noteDetailTextView.frame,
+              animated: true
+            )
         }
     }
 }

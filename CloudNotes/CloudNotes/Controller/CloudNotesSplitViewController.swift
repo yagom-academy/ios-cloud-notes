@@ -14,7 +14,7 @@ final class CloudNotesSplitViewController: UISplitViewController {
     
     private func setup() {
         preferredDisplayMode = .oneBesideSecondary
-        
+        view.backgroundColor = .white
         let noteDataSource = CloudNotesDataSource()
         let noteListViewController = NoteListViewController()
         noteListViewController.delegate = self
@@ -34,7 +34,9 @@ final class CloudNotesSplitViewController: UISplitViewController {
 
 extension CloudNotesSplitViewController: NoteListViewDelegate {
     func noteListView(didSeletedCell row: Int) {
-        if let detailViewController = viewController(for: .secondary) as? NoteDetailViewController {
+        if let detailViewController = viewController(
+            for: .secondary
+        ) as? NoteDetailViewController {
             detailViewController.setupDetailView(index: row)
         }
     }

@@ -9,8 +9,8 @@ import UIKit
 
 class NoteDetailScrollView: UIScrollView {
     private let noteDetailStackView = UIStackView()
-    private let lastModifiedDateLabel = UILabel()
-    private let noteDetailTextView = UITextView()
+    private(set) var lastModifiedDateLabel = UILabel()
+    private(set) var noteDetailTextView = UITextView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -27,10 +27,10 @@ class NoteDetailScrollView: UIScrollView {
     func setupConstraint(view: UIView) {
         translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            topAnchor.constraint(equalTo: view.topAnchor),
+            topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
         ])
     }
     
@@ -61,10 +61,19 @@ class NoteDetailScrollView: UIScrollView {
           for: .vertical
         )
         lastModifiedDateLabel.textAlignment = .center
+        lastModifiedDateLabel.font = .preferredFont(forTextStyle: .caption1)
     }
     
     private func setupNoteDetailTextView() {
         noteDetailTextView.isScrollEnabled = false
+        noteDetailTextView.font = .preferredFont(forTextStyle: .body)
+        let inset: CGFloat = 10
+        noteDetailTextView.textContainerInset = UIEdgeInsets(
+          top: inset,
+          left: inset,
+          bottom: inset,
+          right: inset
+        )
     }
     
     func configure(with noteInformation: NoteInformation) {

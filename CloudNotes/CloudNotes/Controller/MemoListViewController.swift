@@ -1,7 +1,16 @@
 import UIKit
 
 class MemoListViewController: UITableViewController {
-    private var memoListInfo = [MemoListInfo]()
+    enum Constant {
+        static let navigationTitle = "메모"
+        static let lastModified = "lastModified"
+    }
+    
+    private var memoListInfo = [MemoListInfo]() {
+        didSet {
+            tableView.reloadData()
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,8 +30,22 @@ class MemoListViewController: UITableViewController {
     }
     
     private func setUpNavigationItem() {
-        navigationItem.title = "메모"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: nil)
+        navigationItem.title = Constant.navigationTitle
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .add,
+            target: self,
+            action: #selector(tappedAddButton)
+        )
+    }
+    
+    @objc private func tappedAddButton() {
+        let newMemo = [Constant.lastModified: Date().timeIntervalSince1970]
+        MemoDataManager.shared.insert(items: newMemo)
+        guard let splitVC = self.splitViewController as? SplitViewController,
+              let newData = MemoDataManager.shared.fetch() else {
+            return
+        }
+        splitVC.updateData(newData)
     }
 }
 

@@ -39,6 +39,7 @@ extension MemoDataManager {
         return update(managedObject, items: items)
     }
     
+    @discardableResult
     func fetch(
         entityName: String = "Memo",
         predicate: NSPredicate? = nil,
@@ -65,6 +66,7 @@ extension MemoDataManager {
             }
         }
         saveContext()
+        fetch()
         return managedObject as? Memo
     }
     
@@ -73,5 +75,16 @@ extension MemoDataManager {
         let memo = item as NSManagedObject
         context.delete(memo)
         saveContext()
+    }
+
+    func createMemo(entityName: String = "Memo", title: String?, body: String?, lastModified: TimeInterval) -> Memo? {
+        let managedObject: NSManagedObject = NSEntityDescription.insertNewObject(
+            forEntityName: entityName,
+            into: persistentContainer.viewContext
+        )
+        managedObject.setValue(title, forKey: "title")
+        managedObject.setValue(body, forKey: "body")
+        managedObject.setValue(lastModified, forKey: "lastModified")
+        return managedObject as? Memo
     }
 }

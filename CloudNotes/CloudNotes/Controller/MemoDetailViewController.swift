@@ -89,6 +89,10 @@ extension MemoDetailViewController: UITextViewDelegate {
         static let trimmingStringSet: CharacterSet = ["\n", " "]
         static let newMemo = "새로운 메모"
         static let emptyBody = "추가 텍스트 없음"
+        static let title = "title"
+        static let body = "body"
+        static let lastModified = "lastModified"
+        static let memo = "Memo"
     }
     
     func textViewDidChange(_ textView: UITextView) {
@@ -98,12 +102,12 @@ extension MemoDetailViewController: UITextViewDelegate {
         let memo = createMemoData(with: textView.text)
         splitVC.updateMemoList(at: currentIndex, with: memo)
     }
-    
-    private func createMemoData(with text: String) -> Memo {
+
+    private func createMemoData(with text: String) -> Memo? {
         let data = text.split(separator: Constant.lineBreak, maxSplits: 1)
         let lastModified = Date().timeIntervalSince1970
-        let title = data[safe: 0]?.description ?? Constant.newMemo
-        let body = data[safe: 1]?.trimmingCharacters(in: Constant.trimmingStringSet) ?? Constant.emptyBody
-        return Memo(title: title, body: body, lastModified: lastModified)
+        let title = data[safe: 0]?.description
+        let body = data[safe: 1]?.trimmingCharacters(in: Constant.trimmingStringSet)
+        return MemoDataManager.shared.createMemo(title: title, body: body, lastModified: lastModified)
     }
 }

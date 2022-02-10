@@ -6,7 +6,12 @@ class SplitViewController: UISplitViewController {
         static let maximumBodyLength = 70
     }
     
-    private var memoList = [Memo]()
+    private var memoList = [Memo]() {
+        didSet {
+            setUpDataForMemoList()
+        }
+    }
+    
     private let primaryVC = MemoListViewController(style: .insetGrouped)
     private let secondaryVC = MemoDetailViewController()
     
@@ -19,7 +24,14 @@ class SplitViewController: UISplitViewController {
         hideKeyboard()
     }
     
-    func updateMemoList(at index: Int, with data: Memo) {
+    func updateData(_ data: [Memo]) {
+        memoList = data
+    }
+    
+    func updateMemoList(at index: Int, with data: Memo?) {
+        guard let data = data else {
+            return
+        }
         memoList[index] = data
         let title = data.title?.prefix(Constans.maximumTitleLength).description ?? "새로운 메모"
         let body = data.body?.prefix(Constans.maximumBodyLength).description ?? "추가 텍스트 없음"
@@ -55,7 +67,6 @@ extension SplitViewController {
             return
         }
         memoList = fetchedData
-        
     }
     
     private func setUpDataForMemoList() {

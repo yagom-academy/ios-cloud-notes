@@ -15,6 +15,7 @@ class NoteDetailViewController: UIViewController {
         super.viewDidLoad()
         noteDetailScrollView.delegate = self
         setupNoteDetailScrollView()
+        addObserverKeyboardNotification()
     }
     
     private func setupNoteDetailScrollView() {
@@ -26,13 +27,15 @@ class NoteDetailViewController: UIViewController {
         if let information = noteDataSource?.noteInformations?[index] {
             noteDetailScrollView.configure(with: information)
             scrollTextViewToVisible()
+            view.endEditing(true)
         }
     }
     
     private func scrollTextViewToVisible() {
         DispatchQueue.main.async { [weak self] in
             if let dateLabelHeight = self?.noteDetailScrollView.lastModifiedDateLabel.frame.height {
-                self?.noteDetailScrollView.setContentOffset(CGPoint(x: 0, y: dateLabelHeight), animated: true)
+                let offset = CGPoint(x: 0, y: dateLabelHeight)
+                self?.noteDetailScrollView.setContentOffset(offset, animated: true)
             }
         }
     }
@@ -47,7 +50,44 @@ extension NoteDetailViewController: UIScrollViewDelegate {
         let dateLabelHeight = noteDetailScrollView.lastModifiedDateLabel.frame.height
 
         if scrollView.contentOffset.y < dateLabelHeight {
-            targetContentOffset.pointee = CGPoint(x: 0, y: 0)
+            targetContentOffset.pointee = CGPoint.zero
         }
+    }
+}
+
+extension NoteDetailViewController {
+    private func addObserverKeyboardNotification() {
+        NotificationCenter.default.addObserver(
+          self,
+          selector: #selector(keyboardWillShow),
+          name: UIResponder.keyboardWillShowNotification,
+          object: nil
+        )
+        NotificationCenter.default.addObserver(
+          self,
+          selector: #selector(keyboardWillHide),
+          name: UIResponder.keyboardWillHideNotification,
+          object: nil
+        )
+    }
+    
+    @objc func keyboardWillShow(_ sender: Notification) {
+        guard let info = sender.userInfo else {
+            return
+        }
+        
+        let userInfo = info as NSDictionary
+        guard let keyboardFrame = userInfo.value(
+          forKey: UIResponder.keyboardFrameEndUserInfoKey
+        ) as? NSValue else {
+            return
+        }
+        
+        let keyboardRect = keyboardFrame.cgRectValue
+        noteDetailScrollView.contentInset.bottom = keyboardRect.height
+    }
+    
+    @objc func keyboardWillHide(_ sender: Notification) {
+        noteDetailScrollView.contentInset.bottom = .zero
     }
 }

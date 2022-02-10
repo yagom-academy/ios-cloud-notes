@@ -85,7 +85,7 @@ class NoteDetailScrollView: UIScrollView {
     }
 }
 
-extension NSMutableAttributedString {
+private extension NSMutableAttributedString {
     func preferredFont(
       string: String,
       forTextStyle: UIFont.TextStyle

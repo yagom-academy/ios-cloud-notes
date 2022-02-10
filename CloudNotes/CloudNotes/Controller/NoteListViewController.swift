@@ -5,26 +5,30 @@ protocol NoteListViewControllerDelegate: AnyObject {
 }
 
 class NoteListViewController: UIViewController {
-    var dataStorage: DataStorage?
+    private var dataStorage: DataStorage?
     weak var delegate: NoteListViewControllerDelegate?
-    var listTableView: UITableView = {
+    private var listTableView: UITableView = {
         var tableView = UITableView(frame: .zero)
         tableView.register(NoteListTableViewCell.self, forCellReuseIdentifier: "cell")
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
     
+    override func loadView() {
+        view = .init()
+        view.backgroundColor = .white
+        view.addSubview(listTableView)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
         dataStorage = DataStorage()
-        view.addSubview(listTableView)
         listTableView.dataSource = self
         listTableView.delegate = self
         setUpLayout()
         setUpNavigationItems()
     }
-    
+
     private func setUpLayout() {
         NSLayoutConstraint.activate([
             listTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
@@ -53,10 +57,6 @@ extension NoteListViewController: UITableViewDelegate {
 }
 
 extension NoteListViewController: UITableViewDataSource {
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         dataStorage?.assetData.count ?? .zero
     }
@@ -68,9 +68,11 @@ extension NoteListViewController: UITableViewDataSource {
         ) as? NoteListTableViewCell else {
             return UITableViewCell()
         }
+        
         guard let data = self.dataStorage?.assetData[safe: indexPath.row] else {
             fatalError()
         }
+        
         cell.updateLabel(title: data.title, date: data.formattedDate, preview: data.body)
         cell.accessoryType = .disclosureIndicator
         

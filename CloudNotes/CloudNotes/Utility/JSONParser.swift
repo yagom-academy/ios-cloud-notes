@@ -8,9 +8,10 @@ enum JSONParser {
         }
         
         let decoder = JSONDecoder()
-        guard let decodedData = try? decoder.decode(how, from: data.data) else { fatalError() }
+        guard let decodedData = try? decoder.decode(how, from: data.data) else {
+            fatalError()
+        }
         
         return decodedData
     }
-    
 }

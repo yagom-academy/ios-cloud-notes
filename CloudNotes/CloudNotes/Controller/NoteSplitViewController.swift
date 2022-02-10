@@ -1,15 +1,16 @@
 import UIKit
 
 class NoteSplitViewController: UISplitViewController {
+    let noteListViewController = NoteListViewController()
+    let noteDetailViewController = NoteDetailViewController()
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        noteListViewController.delegate = self
         setUpSplitViewController()
     }
     
     private func setUpSplitViewController() {
-        let noteListViewController = NoteListViewController()
-        noteListViewController.delegate = self
-        let noteDetailViewController = NoteDetailViewController()
         setViewController(noteListViewController, for: .primary)
         setViewController(noteDetailViewController, for: .secondary)
         preferredPrimaryColumnWidthFraction = 1/3

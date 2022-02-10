@@ -75,6 +75,7 @@ final class DetailViewController: UIViewController {
 
 extension DetailViewController: MemoListViewControllerDelegate {
   func load(memo: Memo?) {
+    view.endEditing(true)
     let title = memo?.title ?? ""
     let body = memo?.body ?? ""
     textView.text = title.isEmpty && body.isEmpty ? "" : title + "\n" + body

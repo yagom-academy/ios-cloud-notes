@@ -6,6 +6,12 @@ class DetailViewController: UIViewController {
     textView.font = UIFont.preferredFont(forTextStyle: .body)
     return textView
   }()
+  private var memoComponents: (title: String, body: String) {
+    let memoComponents = textView.text.split(separator: "\n", maxSplits: 1, omittingEmptySubsequences: false).map(String.init)
+    let title = memoComponents[safe: 0] ?? ""
+    let body = memoComponents[safe: 1] ?? ""
+    return (title, body)
+  }
   
   private var memo: Memo?
   weak var delegate: DetailViewControllerDelegate?
@@ -52,9 +58,8 @@ extension DetailViewController: MemoListViewControllerDelegate {
 
 extension DetailViewController: UITextViewDelegate {
   func textViewDidChange(_ textView: UITextView) {
-    let memoComponents = textView.text.split(separator: "\n", maxSplits: 1, omittingEmptySubsequences: false).map(String.init)
-    memo?.title = memoComponents[safe: 0] ?? ""
-    memo?.body = memoComponents[safe: 1] ?? ""
+    memo?.title = memoComponents.title
+    memo?.body = memoComponents.body
     memo?.lastModified = Date()
     guard let memo = memo else { return }
     delegate?.update(memo)

@@ -1,7 +1,7 @@
 import UIKit
 
 final class DetailViewController: UIViewController {
-  weak var delegate: DetailViewControllerDelegate?
+  weak var delegate: MemoStorable?
   private let textView: UITextView = {
     let textView = UITextView()
     textView.font = UIFont.preferredFont(forTextStyle: .body)
@@ -75,10 +75,10 @@ final class DetailViewController: UIViewController {
   }
 }
 
-// MARK: - MemoListViewControllerDelegate
+// MARK: - MemoDisplayable
 
-extension DetailViewController: MemoListViewControllerDelegate {
-  func load(memo: Memo?) {
+extension DetailViewController: MemoDisplayable {
+  func show(memo: Memo?) {
     view.endEditing(true)
     let title = memo?.title ?? ""
     let body = memo?.body ?? ""

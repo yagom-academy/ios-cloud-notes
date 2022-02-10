@@ -3,7 +3,7 @@ import UIKit
 private let reuseIdentifier = "Cell"
 
 final class MemoListViewController: UIViewController {
-  weak var delegate: MemoListViewControllerDelegate?
+  weak var delegate: MemoDisplayable?
   private var memos = [Memo]()
   private let tableView = UITableView()
   
@@ -65,11 +65,13 @@ final class MemoListViewController: UIViewController {
 
   private func loadDetail(at indexPath: IndexPath) {
     let memo = memos[indexPath.row]
-    delegate?.load(memo: memo)
+    delegate?.show(memo: memo)
   }
 }
 
-extension MemoListViewController: DetailViewControllerDelegate {
+// MARK: - MemoStorable
+
+extension MemoListViewController: MemoStorable {
   func update(_ memo: Memo) {
     let indexPath = tableView.indexPathForSelectedRow
     guard let index = indexPath?.row else { return }
@@ -78,6 +80,8 @@ extension MemoListViewController: DetailViewControllerDelegate {
     tableView.selectRow(at: indexPath, animated: false, scrollPosition: .top)
   }
 }
+
+// MARK: - UITableViewDataSource
 
 extension MemoListViewController: UITableViewDataSource {
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -98,6 +102,8 @@ extension MemoListViewController: UITableViewDataSource {
     return cell
   }
 }
+
+// MARK: - UITableViewDelegate
 
 extension MemoListViewController: UITableViewDelegate {
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

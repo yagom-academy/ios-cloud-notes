@@ -10,9 +10,9 @@
 		3A2AAA0227B2117500078B2C /* MemoListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A2AAA0127B2117500078B2C /* MemoListViewController.swift */; };
 		3A2AAA0427B211A500078B2C /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A2AAA0327B211A500078B2C /* DetailViewController.swift */; };
 		3AA2070527B0ED0900EFC97A /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 3AA2070427B0ED0900EFC97A /* .swiftlint.yml */; };
-		3AFDA11827B3B56D0000E55B /* DetailViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AFDA11727B3B56D0000E55B /* DetailViewControllerDelegate.swift */; };
+		3AFDA11827B3B56D0000E55B /* MemoStorable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AFDA11727B3B56D0000E55B /* MemoStorable.swift */; };
 		3B8F330627B23308006E47C5 /* Memo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8F330527B23308006E47C5 /* Memo.swift */; };
-		3B8F330A27B26724006E47C5 /* MemoListViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8F330927B26724006E47C5 /* MemoListViewControllerDelegate.swift */; };
+		3B8F330A27B26724006E47C5 /* MemoDisplayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8F330927B26724006E47C5 /* MemoDisplayable.swift */; };
 		C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */; };
 		C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */; };
 		C7481C7825BBCF3900B9CA55 /* CloudNotes.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C7481C7625BBCF3900B9CA55 /* CloudNotes.xcdatamodeld */; };
@@ -46,9 +46,9 @@
 		3A2AAA0327B211A500078B2C /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		3AA2070427B0ED0900EFC97A /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		3AFDA11627B38F400000E55B /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
-		3AFDA11727B3B56D0000E55B /* DetailViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewControllerDelegate.swift; sourceTree = "<group>"; };
+		3AFDA11727B3B56D0000E55B /* MemoStorable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoStorable.swift; sourceTree = "<group>"; };
 		3B8F330527B23308006E47C5 /* Memo.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = Memo.swift; sourceTree = "<group>"; };
-		3B8F330927B26724006E47C5 /* MemoListViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoListViewControllerDelegate.swift; sourceTree = "<group>"; };
+		3B8F330927B26724006E47C5 /* MemoDisplayable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoDisplayable.swift; sourceTree = "<group>"; };
 		C7481C6A25BBCF3900B9CA55 /* CloudNotes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CloudNotes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -111,8 +111,8 @@
 		3B8F330B27B26728006E47C5 /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
-				3B8F330927B26724006E47C5 /* MemoListViewControllerDelegate.swift */,
-				3AFDA11727B3B56D0000E55B /* DetailViewControllerDelegate.swift */,
+				3B8F330927B26724006E47C5 /* MemoDisplayable.swift */,
+				3AFDA11727B3B56D0000E55B /* MemoStorable.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -339,9 +339,9 @@
 			files = (
 				3A2AAA0227B2117500078B2C /* MemoListViewController.swift in Sources */,
 				E933D22B27B3AC6500F12F9C /* String+Extension.swift in Sources */,
-				3B8F330A27B26724006E47C5 /* MemoListViewControllerDelegate.swift in Sources */,
+				3B8F330A27B26724006E47C5 /* MemoDisplayable.swift in Sources */,
 				C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */,
-				3AFDA11827B3B56D0000E55B /* DetailViewControllerDelegate.swift in Sources */,
+				3AFDA11827B3B56D0000E55B /* MemoStorable.swift in Sources */,
 				3A2AAA0427B211A500078B2C /* DetailViewController.swift in Sources */,
 				C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */,
 				C7481C7825BBCF3900B9CA55 /* CloudNotes.xcdatamodeld in Sources */,

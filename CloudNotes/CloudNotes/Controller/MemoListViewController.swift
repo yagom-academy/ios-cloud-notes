@@ -63,6 +63,9 @@ class MemoListViewController: UIViewController {
     memoSnapShot.appendSections([0])
     memoSnapShot.appendItems(memos, toSection: 0)
     dataSource.apply(memoSnapShot)
+    let firstCellIndexPath = IndexPath(item: 0, section: 0)
+    collectionView.selectItem(at: firstCellIndexPath, animated: true, scrollPosition: .top)
+    loadDetail(at: firstCellIndexPath)
   }
 
   private func setNavigationBar() {
@@ -76,6 +79,9 @@ class MemoListViewController: UIViewController {
     guard let firstMemo = memoSnapShot.itemIdentifiers.first else { return }
     memoSnapShot.insertItems([newMemo], beforeItem: firstMemo)
     dataSource.apply(memoSnapShot)
+    let firstCellIndexPath = IndexPath(item: 0, section: 0)
+    collectionView.selectItem(at: firstCellIndexPath, animated: true, scrollPosition: .top)
+    loadDetail(at: firstCellIndexPath)
   }
 
   private func loadJSON() {
@@ -93,6 +99,11 @@ class MemoListViewController: UIViewController {
       print(error)
     }
   }
+
+  private func loadDetail(at indexPath: IndexPath) {
+    let memo = dataSource.itemIdentifier(for: indexPath)
+    delegate?.load(memo: memo)
+  }
 }
 
 extension MemoListViewController: DetailViewControllerDelegate {
@@ -107,7 +118,6 @@ extension MemoListViewController: DetailViewControllerDelegate {
 
 extension MemoListViewController: UICollectionViewDelegate {
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    let memo = dataSource.itemIdentifier(for: indexPath)
-    delegate?.load(memo: memo)
+    loadDetail(at: indexPath)
   }
 }

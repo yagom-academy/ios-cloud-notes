@@ -14,6 +14,7 @@ class NoteSplitViewController: UISplitViewController {
         setViewController(noteDetailViewController, for: .secondary)
         preferredPrimaryColumnWidthFraction = 1/3
         preferredDisplayMode = .oneBesideSecondary
+        preferredSplitBehavior = .tile
     }
 }
 

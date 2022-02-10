@@ -3,20 +3,24 @@ import UIKit
 class NoteListTableViewCell: UITableViewCell {
     private var titleLabel: UILabel = {
        var label = UILabel()
-        label.font = .preferredFont(forTextStyle: .caption2)
+        label.font = .preferredFont(forTextStyle: .body)
+        label.lineBreakMode = .byTruncatingTail
         return label
     }()
     
     private var dateLabel: UILabel = {
         var label = UILabel()
-        label.font = .preferredFont(forTextStyle: .caption2)
+        label.font = .preferredFont(forTextStyle: .caption1)
+        label.setContentHuggingPriority(.required, for: .horizontal)
+        label.setContentCompressionResistancePriority(.required, for: .horizontal)
          return label
      }()
     
     private var previewLabel: UILabel = {
         var label = UILabel()
-        label.font = .preferredFont(forTextStyle: .title1)
-        label.tintColor = .green
+        label.font = .preferredFont(forTextStyle: .caption2)
+        label.lineBreakMode = .byTruncatingTail
+        label.textColor = .systemGray
          return label
      }()
     
@@ -24,7 +28,8 @@ class NoteListTableViewCell: UITableViewCell {
        var stackView = UIStackView(arrangedSubviews: [dateLabel, previewLabel])
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
-        stackView.distribution = .fillEqually
+        stackView.distribution = .fill
+        stackView.spacing = 5
         stackView.alignment = .center
         return stackView
     }()
@@ -33,9 +38,6 @@ class NoteListTableViewCell: UITableViewCell {
         var stackView = UIStackView(arrangedSubviews: [titleLabel, textHorizontalStackView])
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
-        stackView.distribution = .equalSpacing
-        stackView.spacing = 5
-        stackView.alignment = .fill
         return stackView
     }()
     
@@ -56,7 +58,7 @@ class NoteListTableViewCell: UITableViewCell {
     }
     
     func updateTitleLabel(with name: String) {
-        titleLabel.text = String(name.prefix(10))
+        titleLabel.text = name
     }
     
     func updateDateLabel(with date: Int) {
@@ -64,15 +66,15 @@ class NoteListTableViewCell: UITableViewCell {
     }
     
     func updatePreviewLabel(with preview: String) {
-        previewLabel.text = String(preview.prefix(15))
+        previewLabel.text = preview
     }
     
     private func setUpLayout() {
         NSLayoutConstraint.activate([
-            textVerticalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            textVerticalStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            textVerticalStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            textVerticalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            textVerticalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15),
+            textVerticalStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
+            textVerticalStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 7),
+            textVerticalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -7),
         ])
     }
 }

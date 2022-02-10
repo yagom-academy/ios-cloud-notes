@@ -46,7 +46,7 @@ class NoteListViewController: UIViewController {
 
 extension NoteListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let data = dataStorage?.assetData[indexPath.row] {
+        if let data = dataStorage?.assetData[safe: indexPath.row] {
             delegate?.noteListViewController(didSelectedCell: data)
         }
     }
@@ -68,7 +68,7 @@ extension NoteListViewController: UITableViewDataSource {
         ) as? NoteListTableViewCell else {
             return UITableViewCell()
         }
-        guard let data = self.dataStorage?.assetData[indexPath.row] else {
+        guard let data = self.dataStorage?.assetData[safe: indexPath.row] else {
             fatalError()
         }
         cell.updateLabel(title: data.title, date: data.formattedDate, preview: data.body)

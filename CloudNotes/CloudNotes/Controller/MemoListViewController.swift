@@ -37,7 +37,7 @@ class MemoListViewController: UIViewController {
     let newMemo = Memo(title: "", body: "", lastModified: Date())
     memos.insert(newMemo, at: 0)
     let firstCellIndexPath = IndexPath(row: 0, section: 0)
-    tableView.reloadData()
+    tableView.insertRows(at: [firstCellIndexPath], with: .fade)
     tableView.selectRow(at: firstCellIndexPath, animated: true, scrollPosition: .top)
     loadDetail(at: firstCellIndexPath)
   }
@@ -98,13 +98,14 @@ extension MemoListViewController: UITableViewDelegate {
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     loadDetail(at: indexPath)
   }
+  
   func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
     let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, completionHandler in
       self.memos.remove(at: indexPath.row)
       if self.memos.isEmpty {
         self.addMemo()
       } else {
-        tableView.reloadData()
+        tableView.deleteRows(at: [indexPath], with: .fade)
         let firstRowIndexPath = IndexPath(row: 0, section: 0)
         tableView.selectRow(at: firstRowIndexPath, animated: false, scrollPosition: .top)
         self.loadDetail(at: firstRowIndexPath)

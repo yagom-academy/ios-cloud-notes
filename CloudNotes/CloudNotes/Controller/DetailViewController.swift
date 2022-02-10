@@ -39,7 +39,7 @@ class DetailViewController: UIViewController {
   }
 }
 
-//MARK: - MemoListViewControllerDelegate
+// MARK: - MemoListViewControllerDelegate
 
 extension DetailViewController: MemoListViewControllerDelegate {
   func load(memo: Memo?) {
@@ -48,7 +48,7 @@ extension DetailViewController: MemoListViewControllerDelegate {
   }
 }
 
-//MARK: - UITextViewDelegate
+// MARK: - UITextViewDelegate
 
 extension DetailViewController: UITextViewDelegate {
   func textViewDidChange(_ textView: UITextView) {

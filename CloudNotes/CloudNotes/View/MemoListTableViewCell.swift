@@ -88,8 +88,8 @@ final class MemoListTableViewCell: UITableViewCell {
     }
     
     private func configureListCellAutoLayout() {
-        contentView.topAnchor.constraint(equalTo: cellStackView.topAnchor, constant: -10).isActive = true
-        contentView.bottomAnchor.constraint(equalTo: cellStackView.bottomAnchor, constant: 10).isActive = true
+        cellStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10).isActive = true
+        cellStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10).isActive = true
         cellStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10).isActive = true
         cellStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5).isActive = true
         previewLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)

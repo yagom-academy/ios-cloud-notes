@@ -1,6 +1,6 @@
 import UIKit
 
-final class MemoViewController: UIViewController {
+final class MemoContentViewController: UIViewController {
     private let textView: UITextView = {
         let textView = UITextView()
         textView.font = .preferredFont(forTextStyle: .body)

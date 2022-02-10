@@ -21,8 +21,8 @@ final class MainSplitViewController: UISplitViewController {
     }
     
     private func configureSplitView() {
-        let listViewController = ListViewController(memos: memos)
-        let memoViewController = MemoViewController()
+        let listViewController = MemoListViewController(memos: memos)
+        let memoViewController = MemoContentViewController()
         listViewController.memoViewController = memoViewController
         setViewController(listViewController, for: .primary)
         setViewController(memoViewController, for: .secondary)

@@ -1,11 +1,11 @@
 import UIKit
 
-final class ListViewController: UIViewController {
+final class MemoListViewController: UIViewController {
     private let tableView = UITableView()
     private var memos: [Memo] = []
     private let navigationTitle = "메모"
     private let navigationButtonImageName = "plus"
-    weak var memoViewController: MemoViewController?
+    weak var memoViewController: MemoContentViewController?
 
     convenience init(memos: [Memo]) {
         self.init(nibName: nil, bundle: nil)
@@ -27,7 +27,7 @@ final class ListViewController: UIViewController {
     private func configureTableView() {
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.register(ListTableViewCell.self, forCellReuseIdentifier: ListTableViewCell.identifier)
+        tableView.register(MemoListTableViewCell.self, forCellReuseIdentifier: MemoListTableViewCell.identifier)
     }
 
     private func configureListView() {
@@ -50,14 +50,14 @@ final class ListViewController: UIViewController {
     }
 }
 
-extension ListViewController: UITableViewDataSource {
+extension MemoListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return memos.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: ListTableViewCell.identifier, for: indexPath)
-        guard let listCell = cell as? ListTableViewCell else {
+        let cell = tableView.dequeueReusableCell(withIdentifier: MemoListTableViewCell.identifier, for: indexPath)
+        guard let listCell = cell as? MemoListTableViewCell else {
             return UITableViewCell()
         }
         listCell.setupLabel(from: memos[indexPath.row])
@@ -66,7 +66,7 @@ extension ListViewController: UITableViewDataSource {
     }
 }
 
-extension ListViewController: UITableViewDelegate {
+extension MemoListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let memoViewController = memoViewController else { return }
         let selectedMemo = memos[indexPath.row]

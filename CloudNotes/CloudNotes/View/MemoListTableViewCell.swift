@@ -1,6 +1,6 @@
 import UIKit
 
-final class ListTableViewCell: UITableViewCell {
+final class MemoListTableViewCell: UITableViewCell {
     static let identifier = String(describing: self)
     
     private let cellStackView: UIStackView = {

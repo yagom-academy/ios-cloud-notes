@@ -4,6 +4,7 @@ class NoteListTableViewController: UITableViewController {
     
     let noteModelManager = NoteModelManager()
     let cellId = "reuseIdentifier"
+    weak var delegate: NoteDetailDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,6 +34,11 @@ class NoteListTableViewController: UITableViewController {
             return cell
         }
         return cell
+    }
+    
+    // MARK: - Table View Delegate
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        delegate?.selectNote(at: indexPath.row)
     }
     
 }

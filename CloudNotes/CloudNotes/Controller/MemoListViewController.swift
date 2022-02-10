@@ -5,7 +5,7 @@ private let reuseIdentifier = "Cell"
 final class MemoListViewController: UIViewController {
   weak var delegate: MemoListViewControllerDelegate?
   private var memos = [Memo]()
-  private var tableView = UITableView()
+  private let tableView = UITableView()
   
   override func viewDidLoad() {
     super.viewDidLoad()

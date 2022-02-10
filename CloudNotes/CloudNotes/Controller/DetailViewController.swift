@@ -1,12 +1,14 @@
 import UIKit
 
 final class DetailViewController: UIViewController {
+  weak var delegate: DetailViewControllerDelegate?
   private let textView: UITextView = {
     let textView = UITextView()
     textView.font = UIFont.preferredFont(forTextStyle: .body)
     textView.keyboardDismissMode = .interactive
     return textView
   }()
+  
   private var currentMemo: Memo {
     let memoComponents = textView.text.split(
       separator: "\n",
@@ -18,8 +20,6 @@ final class DetailViewController: UIViewController {
     let date = Date()
     return Memo(title: title, body: body, lastModified: date)
   }
-  
-  weak var delegate: DetailViewControllerDelegate?
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -35,18 +35,7 @@ final class DetailViewController: UIViewController {
     textView.delegate = self
     
     setNavigationBar()
-    NotificationCenter.default.addObserver(
-      self,
-      selector: #selector(keyboardWillShow),
-      name: UIResponder.keyboardWillShowNotification,
-      object: nil
-    )
-    NotificationCenter.default.addObserver(
-      self,
-      selector: #selector(keyboardWillHide),
-      name: UIResponder.keyboardWillHideNotification,
-      object: nil
-    )
+    addObservers()
   }
   
   @objc private func keyboardWillShow(_ notification: Notification) {
@@ -62,6 +51,21 @@ final class DetailViewController: UIViewController {
   @objc private func keyboardWillHide(_ notification: Notification) {
     textView.contentInset.bottom = 0
     textView.verticalScrollIndicatorInsets.bottom = 0
+  }
+  
+  private func addObservers() {
+    NotificationCenter.default.addObserver(
+      self,
+      selector: #selector(keyboardWillShow),
+      name: UIResponder.keyboardWillShowNotification,
+      object: nil
+    )
+    NotificationCenter.default.addObserver(
+      self,
+      selector: #selector(keyboardWillHide),
+      name: UIResponder.keyboardWillHideNotification,
+      object: nil
+    )
   }
   
   private func setNavigationBar() {

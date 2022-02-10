@@ -2,7 +2,7 @@ import UIKit
 
 private let reuseIdentifier = "Cell"
 
-class MemoListViewController: UIViewController {
+final class MemoListViewController: UIViewController {
   weak var delegate: MemoListViewControllerDelegate?
   private var memos = [Memo]()
   private var tableView = UITableView()
@@ -35,9 +35,14 @@ class MemoListViewController: UIViewController {
 
   @objc private func addMemo() {
     let newMemo = Memo(title: "", body: "", lastModified: Date())
-    memos.insert(newMemo, at: 0)
     let firstCellIndexPath = IndexPath(row: 0, section: 0)
-    tableView.insertRows(at: [firstCellIndexPath], with: .fade)
+    if memos.isEmpty {
+      memos.append(newMemo)
+      tableView.reloadRows(at: [firstCellIndexPath], with: .fade)
+    } else {
+      memos.insert(newMemo, at: 0)
+      tableView.insertRows(at: [firstCellIndexPath], with: .fade)
+    }
     tableView.selectRow(at: firstCellIndexPath, animated: true, scrollPosition: .top)
     loadDetail(at: firstCellIndexPath)
   }
@@ -107,7 +112,7 @@ extension MemoListViewController: UITableViewDelegate {
       } else {
         tableView.deleteRows(at: [indexPath], with: .fade)
         let firstRowIndexPath = IndexPath(row: 0, section: 0)
-        tableView.selectRow(at: firstRowIndexPath, animated: false, scrollPosition: .top)
+        tableView.selectRow(at: firstRowIndexPath, animated: false, scrollPosition: .none)
         self.loadDetail(at: firstRowIndexPath)
       }
       completionHandler(true)

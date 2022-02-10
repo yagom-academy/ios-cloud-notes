@@ -1,6 +1,6 @@
 import UIKit
 
-class DetailViewController: UIViewController {
+final class DetailViewController: UIViewController {
   private let textView: UITextView = {
     let textView = UITextView()
     textView.font = UIFont.preferredFont(forTextStyle: .body)

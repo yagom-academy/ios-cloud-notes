@@ -7,7 +7,7 @@ class NoteListTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellId)
+        tableView.register(NoteListTableViewCell.self, forCellReuseIdentifier: cellId)
         
         noteModelManager.fetchData()
         self.navigationController?.navigationBar.topItem?.title = "메모"
@@ -27,10 +27,16 @@ class NoteListTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let noteData = noteModelManager.fetchDetailData(at: indexPath.row)
         let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath)
-        var content = cell.defaultContentConfiguration()
         
-        content.text = noteData.title
-        cell.contentConfiguration = content
+        if let cell = cell as? NoteListTableViewCell {
+            let formatter = DateFormatter()
+            
+            cell.titleLabel.text = noteData.title
+            cell.lastModifiedLabel.text = formatter.string(from: noteData.lastModified)
+            cell.bodyLabel.text = noteData.body
+            return cell
+        }
+        
         return cell
     }
     

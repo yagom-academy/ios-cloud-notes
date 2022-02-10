@@ -5,67 +5,26 @@ private let reuseIdentifier = "Cell"
 class MemoListViewController: UIViewController {
   weak var delegate: MemoListViewControllerDelegate?
   private var memos = [Memo]()
-  private lazy var collectionView: UICollectionView = {
-    let collectionView = UICollectionView(frame: .zero, collectionViewLayout: listLayout)
-    collectionView.register(UICollectionViewListCell.self, forCellWithReuseIdentifier: reuseIdentifier)
-    return collectionView
-  }()
-  private lazy var dataSource: UICollectionViewDiffableDataSource<Int, Memo> = {
-    let cellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, Memo> { cell, _, item in
-      var configuration = cell.defaultContentConfiguration()
-      let title = item.title
-      configuration.text = title.isEmpty ? "새로운 메모" : title
-      configuration.secondaryAttributedText = item.subtitle
-      configuration.textProperties.numberOfLines = 1
-      configuration.secondaryTextProperties.numberOfLines = 1
-      cell.contentConfiguration = configuration
-      cell.accessories = [.disclosureIndicator()]
-    }
-    let dataSource = UICollectionViewDiffableDataSource<Int, Memo>(collectionView: collectionView) { collectionView, indexPath, itemIdentifier in
-      collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: itemIdentifier)
-    }
-    return dataSource
-  }()
-  private var memoSnapShot = NSDiffableDataSourceSnapshot<Int, Memo>()
-  private lazy var listLayout: UICollectionViewCompositionalLayout = {
-    var configuration = UICollectionLayoutListConfiguration(appearance: .plain)
-    configuration.trailingSwipeActionsConfigurationProvider = { [weak self] indexPath -> UISwipeActionsConfiguration? in
-      let actionHandler: UIContextualAction.Handler = { action, view, completion in
-        guard let self = self else { return }
-        completion(true)
-        let item = self.memoSnapShot.itemIdentifiers[indexPath.item]
-        self.memoSnapShot.deleteItems([item])
-        self.dataSource.apply(self.memoSnapShot)
-      }
-      let action = UIContextualAction(style: .normal, title: "Delete", handler: actionHandler)
-      action.image = UIImage(systemName: "trash")
-      action.backgroundColor = .systemRed
-      return UISwipeActionsConfiguration(actions: [action])
-    }
-    let layout = UICollectionViewCompositionalLayout.list(using: configuration)
-    return layout
-  }()
-
+  private var tableView = UITableView()
+  
   override func viewDidLoad() {
     super.viewDidLoad()
-    view.addSubview(collectionView)
-    collectionView.translatesAutoresizingMaskIntoConstraints = false
+    view.addSubview(tableView)
+    tableView.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
-      collectionView.topAnchor.constraint(equalTo: view.topAnchor),
-      collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-      collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-      collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+      tableView.topAnchor.constraint(equalTo: view.topAnchor),
+      tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+      tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+      tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
     ])
-    
-    collectionView.delegate = self
+    tableView.register(UITableViewCell.self, forCellReuseIdentifier: reuseIdentifier)
+    tableView.dataSource = self
+    tableView.delegate = self
     setNavigationBar()
     loadJSON()
-    memoSnapShot.appendSections([0])
-    memoSnapShot.appendItems(memos, toSection: 0)
-    dataSource.apply(memoSnapShot)
-    let firstCellIndexPath = IndexPath(item: 0, section: 0)
-    collectionView.selectItem(at: firstCellIndexPath, animated: true, scrollPosition: .top)
-    loadDetail(at: firstCellIndexPath)
+    let firstRowIndexPath = IndexPath(row: 0, section: 0)
+    tableView.selectRow(at: firstRowIndexPath, animated: false, scrollPosition: .top)
+    loadDetail(at: firstRowIndexPath)
   }
 
   private func setNavigationBar() {
@@ -73,17 +32,16 @@ class MemoListViewController: UIViewController {
     navigationItem.rightBarButtonItem = addButton
     navigationItem.title = "메모"
   }
-  
+
   @objc private func addMemo() {
     let newMemo = Memo(title: "", body: "", lastModified: Date())
-    guard let firstMemo = memoSnapShot.itemIdentifiers.first else { return }
-    memoSnapShot.insertItems([newMemo], beforeItem: firstMemo)
-    dataSource.apply(memoSnapShot)
-    let firstCellIndexPath = IndexPath(item: 0, section: 0)
-    collectionView.selectItem(at: firstCellIndexPath, animated: true, scrollPosition: .top)
+    memos.insert(newMemo, at: 0)
+    let firstCellIndexPath = IndexPath(row: 0, section: 0)
+    tableView.reloadData()
+    tableView.selectRow(at: firstCellIndexPath, animated: true, scrollPosition: .top)
     loadDetail(at: firstCellIndexPath)
   }
-
+  
   private func loadJSON() {
     guard let data = NSDataAsset(name: "memo")?.data else {
       return
@@ -94,30 +52,50 @@ class MemoListViewController: UIViewController {
       decoder.dateDecodingStrategy = .secondsSince1970
       let memo = try decoder.decode([Memo].self, from: data)
       memos.append(contentsOf: memo)
-      collectionView.reloadData()
+      tableView.reloadData()
     } catch let error {
       print(error)
     }
   }
 
   private func loadDetail(at indexPath: IndexPath) {
-    let memo = dataSource.itemIdentifier(for: indexPath)
+    let memo = memos[indexPath.row]
     delegate?.load(memo: memo)
   }
 }
 
 extension MemoListViewController: DetailViewControllerDelegate {
   func update(_ memo: Memo) {
-    let indexPath = collectionView.indexPathsForSelectedItems?.first
+    let indexPath = tableView.indexPathsForSelectedRows?.first
     guard let index = indexPath?.row else { return }
     memos[index] = memo
-    collectionView.reloadData()
-    collectionView.selectItem(at: indexPath, animated: false, scrollPosition: .top)
+    tableView.reloadData()
+    tableView.selectRow(at: indexPath, animated: false, scrollPosition: .top)
   }
 }
 
-extension MemoListViewController: UICollectionViewDelegate {
-  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+extension MemoListViewController: UITableViewDataSource {
+  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    return memos.count
+  }
+  
+  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
+    let memo = memos[indexPath.row]
+    var configuration = cell.defaultContentConfiguration()
+    let title = memo.title
+    configuration.text = title.isEmpty ? "새로운 메모" : title
+    configuration.secondaryAttributedText = memo.subtitle
+    configuration.textProperties.numberOfLines = 1
+    configuration.secondaryTextProperties.numberOfLines = 1
+    cell.contentConfiguration = configuration
+    cell.accessoryType = .disclosureIndicator
+    return cell
+  }
+}
+
+extension MemoListViewController: UITableViewDelegate {
+  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     loadDetail(at: indexPath)
   }
 }

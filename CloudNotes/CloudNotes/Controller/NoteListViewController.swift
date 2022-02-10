@@ -7,7 +7,7 @@ protocol NoteListViewControllerDelegate: AnyObject {
 class NoteListViewController: UIViewController {
     var dataStorage: DataStorage?
     weak var delegate: NoteListViewControllerDelegate?
-    private var listTableView: UITableView = {
+    var listTableView: UITableView = {
         var tableView = UITableView(frame: .zero)
         tableView.register(NoteListTableViewCell.self, forCellReuseIdentifier: "cell")
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -26,7 +26,12 @@ class NoteListViewController: UIViewController {
     }
     
     private func setUpLayout() {
-        listTableView.frame = view.bounds
+        NSLayoutConstraint.activate([
+            listTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            listTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            listTableView.widthAnchor.constraint(equalTo: view.safeAreaLayoutGuide.widthAnchor),
+            listTableView.heightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.heightAnchor)
+        ])
     }
     
     func setUpNavigationItems() {

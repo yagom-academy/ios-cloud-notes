@@ -71,10 +71,10 @@ class NoteListTableViewCell: UITableViewCell {
     
     private func setUpLayout() {
         NSLayoutConstraint.activate([
-            textVerticalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15),
+            textVerticalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5),
             textVerticalStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
             textVerticalStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 7),
-            textVerticalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -7),
+            textVerticalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -7)
         ])
     }
 }

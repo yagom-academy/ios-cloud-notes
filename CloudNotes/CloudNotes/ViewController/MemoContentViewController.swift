@@ -8,8 +8,7 @@ final class MemoContentViewController: UIViewController {
         
         return textView
     }()
-    private let navigationButtonImageName = "ellipsis.circle"
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupMainMemoView()
@@ -40,6 +39,6 @@ final class MemoContentViewController: UIViewController {
     
     private func configureNavigationBar() {
         navigationItem.rightBarButtonItem = UIBarButtonItem()
-        navigationItem.rightBarButtonItem?.image = UIImage(systemName: navigationButtonImageName)
+        navigationItem.rightBarButtonItem?.image = Assets.ellipsisCircleImage
     }
 }

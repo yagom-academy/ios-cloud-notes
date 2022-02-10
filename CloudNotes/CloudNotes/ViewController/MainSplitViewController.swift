@@ -10,7 +10,7 @@ final class MainSplitViewController: UISplitViewController {
     }
     
     private func loadMemos() {
-        guard let data = NSDataAsset(name: "sample"),
+        guard let data = Assets.sampleData,
               let decodedData = try? JSONDecoder().decode([Memo].self, from: data.data) else { return }
         memos = decodedData
     }

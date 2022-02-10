@@ -4,7 +4,6 @@ final class MemoListViewController: UIViewController {
     private let tableView = UITableView()
     private var memos: [Memo] = []
     private let navigationTitle = "메모"
-    private let navigationButtonImageName = "plus"
     weak var memoViewController: MemoContentViewController?
 
     convenience init(memos: [Memo]) {
@@ -46,7 +45,7 @@ final class MemoListViewController: UIViewController {
     private func configureNavigationBar() {
         navigationItem.title = navigationTitle
         navigationItem.rightBarButtonItem = UIBarButtonItem()
-        navigationItem.rightBarButtonItem?.image = UIImage(systemName: navigationButtonImageName)
+        navigationItem.rightBarButtonItem?.image = Assets.plusImage
     }
 }
 

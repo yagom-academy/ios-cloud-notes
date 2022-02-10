@@ -101,10 +101,14 @@ extension MemoListViewController: UITableViewDelegate {
   func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
     let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, completionHandler in
       self.memos.remove(at: indexPath.row)
-      tableView.reloadData()
-      let firstRowIndexPath = IndexPath(row: 0, section: 0)
-      tableView.selectRow(at: firstRowIndexPath, animated: false, scrollPosition: .top)
-      self.loadDetail(at: firstRowIndexPath)
+      if self.memos.isEmpty {
+        self.addMemo()
+      } else {
+        tableView.reloadData()
+        let firstRowIndexPath = IndexPath(row: 0, section: 0)
+        tableView.selectRow(at: firstRowIndexPath, animated: false, scrollPosition: .top)
+        self.loadDetail(at: firstRowIndexPath)
+      }
       completionHandler(true)
     }
     deleteAction.image = UIImage(systemName: "trash")

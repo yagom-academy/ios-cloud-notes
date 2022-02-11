@@ -77,16 +77,29 @@ extension MemoListViewController {
     
     override func tableView(
         _ tableView: UITableView,
-        commit editingStyle: UITableViewCell.EditingStyle,
-        forRowAt indexPath: IndexPath) {
+        trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
+    ) -> UISwipeActionsConfiguration? {
+        let deleteAction = UIContextualAction(style: .destructive, title: "delete") { _, _, completeHandeler in
             guard let splitVC = self.splitViewController as? SplitViewController else {
                 return
             }
-            if editingStyle == .delete {
-                let item = MemoDataManager.shared.removeMemoList(at: indexPath.row)
-                MemoDataManager.shared.delete(item)
-                splitVC.clearMemoTextView()
-                tableView.deleteRows(at: [indexPath], with: .fade)
+            let item = MemoDataManager.shared.removeMemoList(at: indexPath.row)
+            MemoDataManager.shared.delete(item)
+            splitVC.clearMemoTextView()
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            completeHandeler(true)
+        }
+        let shareAction = UIContextualAction(style: .normal, title: "share") { _, _, completeHandeler in
+            guard let splitVC = self.splitViewController as? SplitViewController else {
+                return
             }
+            self.showActivityViewController(
+                view: splitVC,
+                data: MemoDataManager.shared.memoList[indexPath.row].body ?? ""
+            )
+            completeHandeler(true)
+        }
+        shareAction.backgroundColor = .systemBlue
+        return UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
     }
 }

@@ -4,6 +4,7 @@ class MemoListViewController: UITableViewController {
     enum Constant {
         static let navigationTitle = "메모"
         static let lastModified = "lastModified"
+        static let id = "id"
     }
     
     override func viewDidLoad() {
@@ -30,7 +31,7 @@ class MemoListViewController: UITableViewController {
     @objc private func tappedAddButton() {
         let newMemo: [String : Any] = [
             Constant.lastModified: Date().timeIntervalSince1970,
-            "id": UUID()
+            Constant.id: UUID()
         ]
         MemoDataManager.shared.insert(items: newMemo)
         insertCell()
@@ -60,7 +61,7 @@ extension MemoListViewController {
         ) as? MemoListCell else {
             return UITableViewCell()
         }
-        cell.configure(with: MemoDataManager.shared.memoList[indexPath.row])
+        cell.configure(with: MemoDataManager.shared.memoList[safe: indexPath.row])
         return cell
     }
 }
@@ -72,5 +73,20 @@ extension MemoListViewController {
             return
         }
         splitVC.present(at: indexPath.row)
+    }
+    
+    override func tableView(
+        _ tableView: UITableView,
+        commit editingStyle: UITableViewCell.EditingStyle,
+        forRowAt indexPath: IndexPath) {
+            guard let splitVC = self.splitViewController as? SplitViewController else {
+                return
+            }
+            if editingStyle == .delete {
+                let item = MemoDataManager.shared.removeMemoList(at: indexPath.row)
+                MemoDataManager.shared.delete(item)
+                splitVC.clearMemoTextView()
+                tableView.deleteRows(at: [indexPath], with: .fade)
+            }
     }
 }

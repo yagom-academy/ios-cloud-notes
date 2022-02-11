@@ -27,6 +27,10 @@ class MemoDetailViewController: UIViewController {
         currentIndex = index
         memoDetailTextView.text = MemoDataManager.shared.memoList[safe: currentIndex]?.body
     }
+    
+    func clearTextView() {
+        memoDetailTextView.text = nil
+    }
 }
 
 // MARK: - 초기 ViewController 설정

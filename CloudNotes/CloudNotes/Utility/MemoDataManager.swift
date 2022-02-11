@@ -40,7 +40,10 @@ extension MemoDataManager {
             return
         }
         self.memoList = newData
-//        MemoDataManager.shared.deleteAll(memoList)
+    }
+    
+    func removeMemoList(at index: Int) -> Memo {
+        return memoList.remove(at: index)
     }
     
     func deleteAll(_ item: [Memo]) {

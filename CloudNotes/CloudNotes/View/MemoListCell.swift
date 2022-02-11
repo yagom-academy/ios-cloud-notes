@@ -57,11 +57,11 @@ class MemoListCell: UITableViewCell {
         super.init(coder: coder)
     }
     
-    func configure(with item: Memo) {
-        let data = item.body?.split(separator: "\n")
-        let title = item.title ?? "새로운 메모"
+    func configure(with item: Memo?) {
+        let data = item?.body?.split(separator: "\n")
+        let title = item?.title ?? "새로운 메모"
         let body = data?[safe: 1]?.trimmingCharacters(in: ["\n", " "]) ?? "추가 텍스트 없음"
-        let lastModified = item.lastModified.formattedDate
+        let lastModified = item?.lastModified.formattedDate ?? Date().timeIntervalSince1970.formattedDate
         
         titleLabel.text = title
         bodyLabel.text = body

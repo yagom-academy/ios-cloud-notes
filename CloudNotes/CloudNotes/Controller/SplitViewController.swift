@@ -26,6 +26,10 @@ class SplitViewController: UISplitViewController {
         secondaryVC.updateData(with: indexPath)
         show(.secondary)
     }
+    
+    func clearMemoTextView() {
+        secondaryVC.clearTextView()
+    }
 }
 
 // MARK: - 초기 ViewController 설정

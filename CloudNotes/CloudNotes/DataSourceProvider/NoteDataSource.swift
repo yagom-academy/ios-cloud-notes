@@ -1,7 +1,7 @@
 import Foundation
 
 protocol NoteDataSource {
-    var noteList: [Note] { get set }
+    var noteList: [Note] { get }
 
     mutating func fetch() throws
 }

@@ -62,6 +62,9 @@ final class MasterTableViewCell: UITableViewCell {
     func configureUI() {
         configureLabels()
         accessoryType = .disclosureIndicator
+        let bgView = UIView()
+        bgView.backgroundColor = .systemBlue
+        selectedBackgroundView = bgView
     }
     
     private func configureLabels() {

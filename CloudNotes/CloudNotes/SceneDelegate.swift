@@ -19,7 +19,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(windowScene: windowScene)
         
         let detailViewController = DetailViewController()
-        let masterViewController = MasterTableViewController(style: .plain, delegate: detailViewController)
+        let masterViewController = MasterTableViewController(style: .insetGrouped, delegate: detailViewController)
         
         let mainSplitViewController = MainSplitViewController(masterViewController: masterViewController, detailViewController: detailViewController)
         window?.rootViewController = mainSplitViewController

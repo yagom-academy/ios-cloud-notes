@@ -5,6 +5,8 @@ class SplitViewController: UISplitViewController {
     let detailedNoteViewController = DetailedNoteViewController()
     var dataSourceProvider: NoteDataSource?
 
+    var currentNoteIndex: Int?
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -36,7 +38,7 @@ class SplitViewController: UISplitViewController {
 
         noteListViewController.noteListData = data
         detailedNoteViewController.noteData = data.first
-        detailedNoteViewController.index = 0
+        self.currentNoteIndex = 0
     }
 }
 
@@ -44,12 +46,15 @@ class SplitViewController: UISplitViewController {
 
 extension SplitViewController: NoteListViewDelegate, DetailedNoteViewDelegate {
     func passNote(index: Int) {
+        self.currentNoteIndex = index
         detailedNoteViewController.noteData = dataSourceProvider?.noteList[index]
-        detailedNoteViewController.index = index
     }
 
-    func passModifiedNote(note: Note, index: Int) {
+    func passModifiedNote(note: Note) {
+        guard let index = self.currentNoteIndex else {
+            return
+        }
+
         noteListViewController.noteListData[index] = note
     }
 }
-1

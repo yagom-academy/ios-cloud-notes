@@ -6,7 +6,6 @@ class DetailedNoteViewController: UIViewController {
             configureTextView()
         }
     }
-    var index: Int?
     private weak var dataSourceDelegate: DetailedNoteViewDelegate?
 
     let noteTextView: UITextView = {
@@ -88,10 +87,6 @@ extension DetailedNoteViewController: UITextViewDelegate {
         let modifiedDate = Date().timeIntervalSince1970
         let newNote = Note(title: title, body: body, lastModifiedDate: modifiedDate)
 
-        guard let index = index else {
-            return
-        }
-
-        dataSourceDelegate?.passModifiedNote(note: newNote, index: index)
+        dataSourceDelegate?.passModifiedNote(note: newNote)
     }
 }

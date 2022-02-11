@@ -9,16 +9,37 @@ final class DetailViewController: UIViewController {
         
         return textView
     }()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        configureKeyboardNotificationCenter()
+       
     }
-
-    func configureUI() {
+    
+    private func configureUI() {
         configureContentView()
         configureNavigationBar()
         configureTextView()
+    }
+    
+    private func configureKeyboardNotificationCenter() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+    }
+    
+    @objc private func keyboardWillShow(_ sender: Notification) {
+        guard let userInfo = sender.userInfo as NSDictionary? else {
+            return
+        }
+        
+        guard let keyboardFrame: NSValue = userInfo.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as? NSValue else {
+            return
+        }
+        
+        let keyboardRectangle = keyboardFrame.cgRectValue
+        let keyboardHeight = keyboardRectangle.height
+       
+        textView.contentInset.bottom = keyboardHeight
     }
     
     private func configureContentView() {

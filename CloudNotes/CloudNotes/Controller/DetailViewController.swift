@@ -25,7 +25,6 @@ class DetailViewController: UIViewController {
         view.addSubview(textView)
         textView.adjustsFontForContentSizeCategory = true
         textView.font = .preferredFont(forTextStyle: .body)
-        textView.contentOffset = .zero
         
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true

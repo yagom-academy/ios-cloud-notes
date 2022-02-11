@@ -19,11 +19,7 @@ class MemoTableViewController: UITableViewController {
     }
     
     private func fetchMemoData() {
-        guard let memoData = JSONConverter<[Memo]>().decode(from: "sample") else {
-            return
-        }
-        
-        memo = memoData
+        // TODO: Core Data create method
     }
     
     private func configureNavigationBar() {
@@ -32,7 +28,7 @@ class MemoTableViewController: UITableViewController {
     }
     
     private func configureTableView() {
-        if self.splitViewController?.isCollapsed == false {
+        if self.splitViewController?.isCollapsed == false && memo.isEmpty == false {
             let initialIndexPath = IndexPath(row: 0, section: 0)
             tableView.delegate?.tableView?(tableView, didSelectRowAt: initialIndexPath)
         }

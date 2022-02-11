@@ -1,14 +1,14 @@
 import UIKit
 
 class DetailedNoteViewController: UIViewController {
-    var noteData: Note? {
+    private var noteData: Note? {
         didSet {
             configureTextView()
         }
     }
     private weak var dataSourceDelegate: DetailedNoteViewDelegate?
 
-    let noteTextView: UITextView = {
+    private let noteTextView: UITextView = {
         let textView = UITextView()
         textView.font = .preferredFont(forTextStyle: .body)
         textView.translatesAutoresizingMaskIntoConstraints = false
@@ -16,7 +16,7 @@ class DetailedNoteViewController: UIViewController {
         return textView
     }()
 
-    let actionButton: UIBarButtonItem = {
+    private let actionButton: UIBarButtonItem = {
         let button = UIBarButtonItem()
         button.image = UIImage(systemName: "ellipsis.circle")
 
@@ -36,13 +36,17 @@ class DetailedNoteViewController: UIViewController {
         self.dataSourceDelegate = delegate
     }
 
+    func setNoteData(_ data: Note?) {
+        self.noteData = data
+    }
+
     // MARK: - Configure Views
 
-    func configureHierarchy() {
+    private func configureHierarchy() {
         self.view.addSubview(noteTextView)
     }
 
-    func configureConstraints() {
+    private func configureConstraints() {
         NSLayoutConstraint.activate([
             noteTextView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 4),
             noteTextView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -4),
@@ -51,11 +55,11 @@ class DetailedNoteViewController: UIViewController {
         ])
     }
 
-    func configureNavigationBar() {
+    private func configureNavigationBar() {
         self.navigationItem.rightBarButtonItem = actionButton
     }
 
-    func configureTextView() {
+    private func configureTextView() {
         guard let note = noteData else {
             return
         }

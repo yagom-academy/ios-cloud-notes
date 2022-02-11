@@ -2,7 +2,7 @@ import UIKit
 
 class NoteListCell: UITableViewCell {
 
-    let cellStackView: UIStackView = {
+    private let cellStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.distribution = .fill
@@ -13,7 +13,7 @@ class NoteListCell: UITableViewCell {
         return stackView
     }()
 
-    let contentStackView: UIStackView = {
+    private let contentStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.distribution = .fill
@@ -23,7 +23,7 @@ class NoteListCell: UITableViewCell {
         return stackView
     }()
 
-    let titleLabel: UILabel = {
+    private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .title2)
         label.adjustsFontForContentSizeCategory = true
@@ -32,7 +32,7 @@ class NoteListCell: UITableViewCell {
         return label
     }()
 
-    let dateLabel: UILabel = {
+    private let dateLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .body)
         label.adjustsFontForContentSizeCategory = true
@@ -40,7 +40,7 @@ class NoteListCell: UITableViewCell {
         return label
     }()
 
-    let previewLabel: UILabel = {
+    private let previewLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .caption2)
         label.textColor = .systemGray2
@@ -62,7 +62,7 @@ class NoteListCell: UITableViewCell {
     }
 
     // MARK: - Configure Views
-    func configureHierarchy() {
+    private func configureHierarchy() {
         self.contentView.addSubview(cellStackView)
         self.cellStackView.addArrangedSubview(titleLabel)
         self.cellStackView.addArrangedSubview(contentStackView)
@@ -70,14 +70,20 @@ class NoteListCell: UITableViewCell {
         self.contentStackView.addArrangedSubview(previewLabel)
     }
 
-    func configureConstraints() {
+    private func configureConstraints() {
         NSLayoutConstraint.activate([
             self.cellStackView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 10),
             self.cellStackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -10),
             self.cellStackView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 18),
             self.cellStackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor,
-                                                        constant: -2)
+                                                         constant: -2)
         ])
         self.previewLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+    }
+
+    func configureContent(for note: Note) {
+        self.titleLabel.text = note.title
+        self.dateLabel.text = note.formattedDateString
+        self.previewLabel.text = note.body
     }
 }

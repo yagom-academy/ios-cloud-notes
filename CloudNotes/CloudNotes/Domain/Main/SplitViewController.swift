@@ -1,11 +1,11 @@
 import UIKit
 
 class SplitViewController: UISplitViewController {
-    let noteListViewController = NoteListViewController()
-    let detailedNoteViewController = DetailedNoteViewController()
-    var dataSourceProvider: NoteDataSource?
+    private let noteListViewController = NoteListViewController()
+    private let detailedNoteViewController = DetailedNoteViewController()
+    private var dataSourceProvider: NoteDataSource?
 
-    var currentNoteIndex: Int?
+    private var currentNoteIndex: Int?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,7 +21,7 @@ class SplitViewController: UISplitViewController {
         detailedNoteViewController.setDelegate(delegate: self)
     }
 
-    func fetchNotes() {
+    private func fetchNotes() {
         do {
             try dataSourceProvider?.fetch()
         } catch {
@@ -31,13 +31,13 @@ class SplitViewController: UISplitViewController {
         passInitialData()
     }
 
-    func passInitialData() {
+    private func passInitialData() {
         guard let data = dataSourceProvider?.noteList else {
             return
         }
 
-        noteListViewController.noteListData = data
-        detailedNoteViewController.noteData = data.first
+        noteListViewController.setNoteListData(data)
+        detailedNoteViewController.setNoteData(data.first)
         self.currentNoteIndex = 0
     }
 }
@@ -47,7 +47,7 @@ class SplitViewController: UISplitViewController {
 extension SplitViewController: NoteListViewDelegate, DetailedNoteViewDelegate {
     func passNote(index: Int) {
         self.currentNoteIndex = index
-        detailedNoteViewController.noteData = dataSourceProvider?.noteList[index]
+        detailedNoteViewController.setNoteData(dataSourceProvider?.noteList[index])
     }
 
     func passModifiedNote(note: Note) {
@@ -55,6 +55,6 @@ extension SplitViewController: NoteListViewDelegate, DetailedNoteViewDelegate {
             return
         }
 
-        noteListViewController.noteListData[index] = note
+        noteListViewController.setNoteData(note, index: index)
     }
 }

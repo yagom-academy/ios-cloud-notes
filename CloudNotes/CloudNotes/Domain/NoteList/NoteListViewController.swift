@@ -1,14 +1,14 @@
 import UIKit
 
 class NoteListViewController: UITableViewController {
-    var noteListData = [Note]() {
+    private var noteListData = [Note]() {
         didSet {
             tableView.reloadData()
         }
     }
     private weak var dataSourceDelegate: NoteListViewDelegate?
 
-    let addButton: UIBarButtonItem = {
+    private let addButton: UIBarButtonItem = {
         let button = UIBarButtonItem()
         button.image = UIImage(systemName: "plus")
 
@@ -30,9 +30,17 @@ class NoteListViewController: UITableViewController {
         self.dataSourceDelegate = delegate
     }
 
+    func setNoteListData(_ data: [Note]) {
+        self.noteListData = data
+    }
+
+    func setNoteData(_ data: Note, index: Int) {
+        self.noteListData[index] = data
+    }
+
     // MARK: - Configure Navigation Bar
 
-    func configureNavigationBar() {
+    private func configureNavigationBar() {
         self.title = "메모"
 
         self.navigationItem.rightBarButtonItem = addButton
@@ -55,9 +63,7 @@ class NoteListViewController: UITableViewController {
             return UITableViewCell()
         }
 
-        cell.titleLabel.text = noteListData[indexPath.row].title
-        cell.dateLabel.text = noteListData[indexPath.row].formattedDateString
-        cell.previewLabel.text = noteListData[indexPath.row].body
+        cell.configureContent(for: noteListData[indexPath.row])
 
         return cell
     }

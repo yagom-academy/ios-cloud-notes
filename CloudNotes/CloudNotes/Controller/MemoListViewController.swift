@@ -19,6 +19,13 @@ class MemoListViewController: UITableViewController {
         tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .none)
     }
     
+    func moveCell(at index: Int) {
+        tableView.moveRow(
+            at: IndexPath(row: index, section: .zero),
+            to: IndexPath(row: .zero, section: .zero)
+        )
+    }
+    
     private func setUpNavigationItem() {
         navigationItem.title = Constant.navigationTitle
         navigationItem.rightBarButtonItem = UIBarButtonItem(

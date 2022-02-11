@@ -34,6 +34,10 @@ class SplitViewController: UISplitViewController {
     func deleteTableViewCell(indexPath: IndexPath) {
         primaryVC.deleteCell(indexPath: indexPath)
     }
+    
+    func moveTableViewCell(at index: Int) {
+        primaryVC.moveCell(at: index)
+    }
 }
 
 // MARK: - 초기 ViewController 설정

@@ -110,6 +110,12 @@ extension MemoDetailViewController: UITextViewDelegate {
         }
         updateMemoData(with: textView.text)
         splitVC.updateMemoList(at: currentIndex)
+        guard currentIndex != .zero else {
+            return
+        }
+        MemoDataManager.shared.moveMemoList(from: currentIndex, to: .zero)
+        splitVC.moveTableViewCell(at: currentIndex)
+        currentIndex = .zero
     }
 
     private func updateMemoData(with text: String) {

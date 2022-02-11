@@ -51,6 +51,10 @@ extension MemoDataManager {
             delete(item)
         }
     }
+    
+    func moveMemoList(from oldIndex: Int, to newIndex: Int) {
+        memoList.move(from: oldIndex, to: newIndex)
+    }
 }
 
 // MARK: - CRUD

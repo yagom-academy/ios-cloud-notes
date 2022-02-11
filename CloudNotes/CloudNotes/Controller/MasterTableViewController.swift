@@ -9,7 +9,7 @@ final class MasterTableViewController: UITableViewController {
     let memoDataSource = MasterTableViewDataSource()
     weak var delegate: MemoSelectionDelegate?
     
-    // MARK: - Methods
+    // MARK: - Initializer
     override init(style: UITableView.Style) {
         super.init(style: style)
     }
@@ -23,12 +23,14 @@ final class MasterTableViewController: UITableViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         configureNavigationBar()
         configureTableView()
     }
     
+    // MARK: - Methods
     private func configureNavigationBar() {
         navigationItem.title = "메모"
         navigationController?.navigationBar.titleTextAttributes = [.font: UIFont.preferredFont(forTextStyle: .headline)]

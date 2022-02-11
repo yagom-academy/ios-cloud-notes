@@ -1,7 +1,14 @@
 import UIKit
 
 final class DetailViewController: UIViewController {
-    private let textView = UITextView()
+    private let textView: UITextView = {
+        let textView = UITextView()
+        textView.adjustsFontForContentSizeCategory = true
+        textView.font = .preferredFont(forTextStyle: .body)
+        textView.translatesAutoresizingMaskIntoConstraints = false
+        
+        return textView
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,10 +30,6 @@ final class DetailViewController: UIViewController {
     
     private func configureTextView() {
         view.addSubview(textView)
-        textView.adjustsFontForContentSizeCategory = true
-        textView.font = .preferredFont(forTextStyle: .body)
-        
-        textView.translatesAutoresizingMaskIntoConstraints = false
         textView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
         textView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         textView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true

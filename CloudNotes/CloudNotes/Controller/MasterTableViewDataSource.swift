@@ -4,14 +4,14 @@ final class MasterTableViewDataSource: NSObject {
     private(set) lazy var memos = fetchData()
     
     private func fetchData() -> [Memo]? {
-        guard let file = Bundle.main.path(forResource: "sample", ofType: "json") else {
+        guard let url = Bundle.main.url(forResource: "sample", withExtension: "json") else {
             return nil
         }
         
-        guard let data = try? String(contentsOfFile: file).data(using: .utf8) else {
+        guard let data = try? Data(contentsOf: url) else {
             return nil
         }
-        
+
         let memos = try? JSONDecoder().decode([Memo].self, from: data)
         
         return memos

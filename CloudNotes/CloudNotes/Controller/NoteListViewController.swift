@@ -19,7 +19,7 @@ class NoteListViewController: UITableViewController {
 
         self.tableView.register(
             NoteListCell.self,
-            forCellReuseIdentifier: NoteListCell.reuseIdentifer
+            forCellReuseIdentifier: String(describing: NoteListCell.self)
         )
         configureNavigationBar()
     }
@@ -43,7 +43,7 @@ class NoteListViewController: UITableViewController {
         cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(
-            withIdentifier: NoteListCell.reuseIdentifer,
+            withIdentifier: String(describing: NoteListCell.self),
             for: indexPath
         ) as? NoteListCell else {
             return UITableViewCell()

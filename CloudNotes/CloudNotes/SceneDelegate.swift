@@ -10,6 +10,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         mainSplitViewController.preferredDisplayMode = .oneBesideSecondary
         mainSplitViewController.preferredSplitBehavior = .tile
         window?.rootViewController = mainSplitViewController
+        window?.backgroundColor = .systemBackground
         window?.makeKeyAndVisible()
     }
 

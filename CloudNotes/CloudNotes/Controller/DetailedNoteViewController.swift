@@ -6,8 +6,8 @@ class DetailedNoteViewController: UIViewController {
             configureTextView()
         }
     }
-
     var index: Int?
+    private weak var dataSourceDelegate: DetailedNoteViewDelegate?
 
     let noteTextView: UITextView = {
         let textView = UITextView()
@@ -31,6 +31,10 @@ class DetailedNoteViewController: UIViewController {
         configureConstraints()
         self.view.backgroundColor = .white
         self.noteTextView.delegate = self
+    }
+
+    func setDelegate(delegate: DetailedNoteViewDelegate) {
+        self.dataSourceDelegate = delegate
     }
 
     // MARK: - Configure Views
@@ -84,9 +88,10 @@ extension DetailedNoteViewController: UITextViewDelegate {
         let modifiedDate = Date().timeIntervalSince1970
         let newNote = Note(title: title, body: body, lastModifiedDate: modifiedDate)
 
-        NotificationCenter.default.post(
-            name: NSNotification.Name("NoteModified"),
-            object: (index, newNote)
-        )
+        guard let index = index else {
+            return
+        }
+
+        dataSourceDelegate?.passModifiedNote(note: newNote, index: index)
     }
 }

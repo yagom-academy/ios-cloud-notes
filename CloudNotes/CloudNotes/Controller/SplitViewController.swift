@@ -14,7 +14,9 @@ class SplitViewController: UISplitViewController {
         self.setViewController(noteListViewController, for: .primary)
         self.setViewController(detailedNoteViewController, for: .secondary)
         fetchNotes()
-        configurePostNotification()
+
+        noteListViewController.setDelegate(delegate: self)
+        detailedNoteViewController.setDelegate(delegate: self)
     }
 
     func fetchNotes() {
@@ -36,38 +38,18 @@ class SplitViewController: UISplitViewController {
         detailedNoteViewController.noteData = data.first
         detailedNoteViewController.index = 0
     }
+}
 
-    // MARK: - Configure Notification
+// MARK: - Note Data Source Delegate
 
-    func configurePostNotification() {
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(passNote(notification:)),
-            name: NSNotification.Name("NoteListSelected"),
-            object: nil)
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(passModifiedNote(notification:)),
-            name: NSNotification.Name("NoteModified"),
-            object: nil)
-    }
-
-    @objc
-    func passNote(notification: Notification) {
-        guard let index = notification.object as? Int else {
-            return
-        }
-
+extension SplitViewController: NoteListViewDelegate, DetailedNoteViewDelegate {
+    func passNote(index: Int) {
         detailedNoteViewController.noteData = dataSourceProvider?.noteList[index]
         detailedNoteViewController.index = index
     }
 
-    @objc
-    func passModifiedNote(notification: Notification) {
-        guard let noteData = notification.object as? (index: Int, note: Note) else {
-            return
-        }
-
-        noteListViewController.noteListData[noteData.index] = noteData.note
+    func passModifiedNote(note: Note, index: Int) {
+        noteListViewController.noteListData[index] = note
     }
 }
+1

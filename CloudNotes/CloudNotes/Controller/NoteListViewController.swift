@@ -6,6 +6,7 @@ class NoteListViewController: UITableViewController {
             tableView.reloadData()
         }
     }
+    private weak var dataSourceDelegate: NoteListViewDelegate?
 
     let addButton: UIBarButtonItem = {
         let button = UIBarButtonItem()
@@ -21,7 +22,12 @@ class NoteListViewController: UITableViewController {
             NoteListCell.self,
             forCellReuseIdentifier: String(describing: NoteListCell.self)
         )
+
         configureNavigationBar()
+    }
+
+    func setDelegate(delegate: NoteListViewDelegate) {
+        self.dataSourceDelegate = delegate
     }
 
     // MARK: - Configure Navigation Bar
@@ -59,10 +65,7 @@ class NoteListViewController: UITableViewController {
     // MARK: - Table View Delegate
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let notificationCenter = NotificationCenter.default
-        notificationCenter.post(
-            name: NSNotification.Name("NoteListSelected"),
-            object: indexPath.row)
+        dataSourceDelegate?.passNote(index: indexPath.row)
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }

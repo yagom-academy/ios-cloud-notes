@@ -63,7 +63,7 @@ extension MemoDataManager {
     func fetch(
         entityName: String = "Memo",
         predicate: NSPredicate? = nil,
-        sortDescriptors: [NSSortDescriptor]? = nil
+        sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: "lastModified", ascending: false)]
     ) -> [Memo]? {
         let context = persistentContainer.viewContext
         let request = NSFetchRequest<NSManagedObject>(entityName: entityName)

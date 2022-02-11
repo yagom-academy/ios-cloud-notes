@@ -1,6 +1,10 @@
 import UIKit
 
 class MemoDetailViewController: UIViewController {
+    enum Constant {
+        static let lineBreak: Character = "\n"
+        static let navigationBarIconName = "ellipsis.circle"
+    }
     private var currentIndex: Int = 0
     private let memoDetailTextView: UITextView = {
         let textView = UITextView()
@@ -29,7 +33,7 @@ class MemoDetailViewController: UIViewController {
 extension MemoDetailViewController {
     private func setUpNavigationItem() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(
-            image: UIImage(systemName: "ellipsis.circle"),
+            image: UIImage(systemName: Constant.navigationBarIconName),
             style: .plain,
             target: self,
             action: nil
@@ -81,17 +85,6 @@ extension MemoDetailViewController {
 
 // MARK: - TextViewDelegate
 extension MemoDetailViewController: UITextViewDelegate {
-    enum Constant {
-        static let lineBreak: Character = "\n"
-        static let trimmingStringSet: CharacterSet = ["\n", " "]
-        static let newMemo = "새로운 메모"
-        static let emptyBody = "추가 텍스트 없음"
-        static let title = "title"
-        static let body = "body"
-        static let lastModified = "lastModified"
-        static let memo = "Memo"
-    }
-    
     func textViewDidChange(_ textView: UITextView) {
         guard let splitVC = self.splitViewController as? SplitViewController else {
             return
@@ -103,8 +96,8 @@ extension MemoDetailViewController: UITextViewDelegate {
     private func updateMemoData(with text: String) {
         let data = text.split(separator: Constant.lineBreak, maxSplits: 1)
         let lastModified = Date().timeIntervalSince1970
-        let title = data[safe: 0]?.description
-        let body = data[safe: 1]?.trimmingCharacters(in: Constant.trimmingStringSet)
+        let title = data[safe: .zero]?.description
+        let body = text
         guard let id = MemoDataManager.shared.memoList[safe: currentIndex]?.id else {
             return
         }

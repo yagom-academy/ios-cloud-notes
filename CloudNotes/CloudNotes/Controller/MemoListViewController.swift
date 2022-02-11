@@ -33,6 +33,7 @@ class MemoListViewController: UITableViewController {
             "id": UUID()
         ]
         MemoDataManager.shared.insert(items: newMemo)
+        insertCell()
     }
     
     func insertCell() {

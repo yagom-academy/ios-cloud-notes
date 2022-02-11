@@ -41,7 +41,7 @@ final class MasterTableViewController: UITableViewController {
     
     private func configureTableView() {
         tableView.dataSource = memoDataSource
-        tableView.register(MasterTableViewCell.self, forCellReuseIdentifier: String(describing: MasterTableViewCell.self))
+        tableView.register(MasterTableViewCell.self, forCellReuseIdentifier: MasterTableViewCell.reuseIdentifier)
     }
     
     // MARK: - Table view delegate

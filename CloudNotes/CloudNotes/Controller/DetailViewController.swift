@@ -16,9 +16,13 @@ final class DetailViewController: UIViewController {
     }
 
     func configureUI() {
-        view.backgroundColor = .white
+        configureContentView()
         configureNavigationBar()
         configureTextView()
+    }
+    
+    private func configureContentView() {
+        view.backgroundColor = .white
     }
     
     private func configureNavigationBar() {

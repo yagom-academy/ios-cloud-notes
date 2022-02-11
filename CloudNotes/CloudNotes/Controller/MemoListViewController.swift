@@ -6,12 +6,6 @@ class MemoListViewController: UITableViewController {
         static let lastModified = "lastModified"
     }
     
-    private var memoListInfo = [MemoListInfo]() {
-        didSet {
-            tableView.reloadData()
-        }
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.dataSource = self
@@ -20,12 +14,7 @@ class MemoListViewController: UITableViewController {
         tableView.register(MemoListCell.self, forCellReuseIdentifier: MemoListCell.identifier)
     }
     
-    func setUpData(data: [MemoListInfo]) {
-        memoListInfo = data
-    }
-    
-    func updateData(at index: Int, with data: MemoListInfo) {
-        memoListInfo[index] = data
+    func updateData(at index: Int) {
         tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .none)
     }
     
@@ -39,20 +28,28 @@ class MemoListViewController: UITableViewController {
     }
     
     @objc private func tappedAddButton() {
-        let newMemo = [Constant.lastModified: Date().timeIntervalSince1970]
+        let newMemo: [String : Any] = [
+            Constant.lastModified: Date().timeIntervalSince1970,
+            "id": UUID()
+        ]
         MemoDataManager.shared.insert(items: newMemo)
+    }
+    
+    func insertCell() {
         guard let splitVC = self.splitViewController as? SplitViewController,
-              let newData = MemoDataManager.shared.fetch() else {
+              let newData = MemoDataManager.shared.fetch()?.first else {
             return
         }
-        splitVC.updateData(newData)
+        MemoDataManager.shared.insertMemoList(newData)
+        splitVC.present(at: .zero)
+        tableView.insertRows(at: [IndexPath(row: .zero, section: .zero)], with: .fade)
     }
 }
 
 // MARK: - DataSource
 extension MemoListViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return memoListInfo.count
+        return MemoDataManager.shared.memoList.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -62,7 +59,7 @@ extension MemoListViewController {
         ) as? MemoListCell else {
             return UITableViewCell()
         }
-        cell.configure(with: memoListInfo[indexPath.row])
+        cell.configure(with: MemoDataManager.shared.memoList[indexPath.row])
         return cell
     }
 }

@@ -19,12 +19,9 @@ class MemoDetailViewController: UIViewController {
         memoDetailTextView.delegate = self
     }
     
-    func updateTextView(with memoDetailInfo: MemoDetailInfo) {
-        self.memoDetailTextView.text = memoDetailInfo.text
-    }
-    
-    func updateIndex(with index: Int) {
+    func updateData(with index: Int) {
         currentIndex = index
+        memoDetailTextView.text = MemoDataManager.shared.memoList[safe: currentIndex]?.body
     }
 }
 
@@ -99,15 +96,18 @@ extension MemoDetailViewController: UITextViewDelegate {
         guard let splitVC = self.splitViewController as? SplitViewController else {
             return
         }
-        let memo = createMemoData(with: textView.text)
-        splitVC.updateMemoList(at: currentIndex, with: memo)
+        updateMemoData(with: textView.text)
+        splitVC.updateMemoList(at: currentIndex)
     }
 
-    private func createMemoData(with text: String) -> Memo? {
+    private func updateMemoData(with text: String) {
         let data = text.split(separator: Constant.lineBreak, maxSplits: 1)
         let lastModified = Date().timeIntervalSince1970
         let title = data[safe: 0]?.description
         let body = data[safe: 1]?.trimmingCharacters(in: Constant.trimmingStringSet)
-        return MemoDataManager.shared.createMemo(title: title, body: body, lastModified: lastModified)
+        guard let id = MemoDataManager.shared.memoList[safe: currentIndex]?.id else {
+            return
+        }
+        MemoDataManager.shared.updateMemo(id: id, title: title, body: body, lastModified: lastModified)
     }
 }

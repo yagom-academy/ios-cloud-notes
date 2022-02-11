@@ -30,6 +30,26 @@ class MemoDataManager {
     }
 }
 
+extension MemoDataManager {
+    func insertMemoList(_ memo: Memo) {
+        memoList.insert(memo, at: 0)
+    }
+    
+    func setUpMemoList() {
+        guard let newData = fetch() else {
+            return
+        }
+        self.memoList = newData
+//        MemoDataManager.shared.deleteAll(memoList)
+    }
+    
+    func deleteAll(_ item: [Memo]) {
+        item.forEach { item in
+            delete(item)
+        }
+    }
+}
+
 // MARK: - CRUD
 extension MemoDataManager {
     @discardableResult
@@ -53,7 +73,6 @@ extension MemoDataManager {
         guard let newData = try? context.fetch(request) as? [Memo] else {
             return nil
         }
-        memoList = newData
         return newData
     }
     
@@ -77,14 +96,23 @@ extension MemoDataManager {
         saveContext()
     }
 
-    func createMemo(entityName: String = "Memo", title: String?, body: String?, lastModified: TimeInterval) -> Memo? {
-        let managedObject: NSManagedObject = NSEntityDescription.insertNewObject(
-            forEntityName: entityName,
-            into: persistentContainer.viewContext
-        )
-        managedObject.setValue(title, forKey: "title")
-        managedObject.setValue(body, forKey: "body")
-        managedObject.setValue(lastModified, forKey: "lastModified")
-        return managedObject as? Memo
+    func updateMemo(
+        entityName: String = "Memo",
+        id: UUID?,
+        title: String?,
+        body: String?,
+        lastModified: TimeInterval
+    ) {
+        guard let id = id else {
+            return
+        }
+        let predicate = NSPredicate(format: "id == %@", id as CVarArg)
+        guard let memo = fetch(entityName: entityName, predicate: predicate)?.first else {
+            return
+        }
+        memo.title = title
+        memo.body = body
+        memo.lastModified = lastModified
+        saveContext()
     }
 }

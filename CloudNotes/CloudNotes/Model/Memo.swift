@@ -5,11 +5,9 @@ struct Memo: Codable {
     let lastModified: TimeInterval
     
     var convertedDate: String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.timeZone = .autoupdatingCurrent
-        dateFormatter.locale = .current
-        dateFormatter.dateFormat = "yyyy. MM. dd."
+        let dateFormatter = DateFormatter.shared
         let currentDate = Date(timeIntervalSince1970: lastModified)
+        
         return dateFormatter.string(from: currentDate)
     }
     
@@ -17,4 +15,15 @@ struct Memo: Codable {
         case title, body
         case lastModified = "last_modified"
     }
+}
+
+private extension DateFormatter {
+    static let shared: DateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.timeZone = .autoupdatingCurrent
+        dateFormatter.locale = .current
+        dateFormatter.dateFormat = "yyyy. MM. dd."
+        
+        return dateFormatter
+    }()
 }

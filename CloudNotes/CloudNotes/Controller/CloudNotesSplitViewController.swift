@@ -13,8 +13,9 @@ final class CloudNotesSplitViewController: UISplitViewController {
     }
     
     private func setup() {
+        preferredSplitBehavior = .tile
         preferredDisplayMode = .oneBesideSecondary
-        view.backgroundColor = .white
+        view.backgroundColor = .systemBackground
         let noteDataSource = CloudNotesDataSource()
         let noteListViewController = NoteListViewController()
         noteListViewController.delegate = self

@@ -40,6 +40,12 @@ class MemoTableViewCell: UITableViewCell {
         super.init(coder: coder)
     }
     
+    func configureCellContent(from memo: Memo) {
+        titleLabel.text = memo.title
+        dateLabel.text = memo.lastModified.dateString
+        previewLabel.text = memo.body
+    }
+    
     private func configureCellLayout() {
         contentView.addSubview(titleLabel)
         contentView.addSubview(dateLabel)
@@ -65,11 +71,5 @@ class MemoTableViewCell: UITableViewCell {
         self.selectedBackgroundView = backgroundView
         
         self.accessoryType = .disclosureIndicator
-    }
-    
-    func configureCellContent(from memo: Memo) {
-        titleLabel.text = memo.title
-        dateLabel.text = memo.lastModified.dateString
-        previewLabel.text = memo.body
     }
 }

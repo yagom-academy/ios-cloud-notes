@@ -54,11 +54,10 @@ class MemoDetailViewController: UIViewController {
     }
     
     @objc private func keyboardWillShow(_ sender: Notification) {
-        guard let info = sender.userInfo else {
+        guard let userInfo = sender.userInfo as NSDictionary? else {
             return
         }
         
-        let userInfo = info as NSDictionary
         guard let keyboardFrame = userInfo.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as? NSValue else {
             return
         }

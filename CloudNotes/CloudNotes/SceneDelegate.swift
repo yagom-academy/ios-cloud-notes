@@ -18,7 +18,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
         
-        let mainSplitViewController = MainSplitViewController()
+        let detailViewController = DetailViewController()
+        let masterViewController = MasterTableViewController(style: .plain, delegate: detailViewController)
+        
+        let mainSplitViewController = MainSplitViewController(masterViewController: masterViewController, detailViewController: detailViewController)
         window?.rootViewController = mainSplitViewController
         window?.makeKeyAndVisible()
     }

@@ -1,11 +1,13 @@
 import UIKit
 
 class MainSplitViewController: UISplitViewController {
-    private var masterViewController: MasterTableViewController!
-    private var detailViewController: DetailViewController!
-    
     override init(style: UISplitViewController.Style = .doubleColumn) {
         super.init(style: style)
+    }
+    
+    convenience init(masterViewController: MasterTableViewController, detailViewController: DetailViewController, style: UISplitViewController.Style = .doubleColumn) {
+        self.init(style: style)
+        configureChildViewController(masterViewController, detailViewController)
     }
     
     required init?(coder: NSCoder) {
@@ -20,10 +22,9 @@ class MainSplitViewController: UISplitViewController {
     private func configureUI() {
         preferredSplitBehavior = .tile
         preferredDisplayMode = .oneBesideSecondary
-        
-        detailViewController = DetailViewController()
-        masterViewController = MasterTableViewController(style: .plain, delegate: detailViewController)
-        
+    }
+    
+    func configureChildViewController(_ masterViewController: MasterTableViewController, _ detailViewController: DetailViewController) {
         self.viewControllers = [
             UINavigationController(rootViewController: masterViewController),
             UINavigationController(rootViewController: detailViewController)

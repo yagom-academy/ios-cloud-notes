@@ -80,13 +80,7 @@ extension MemoListViewController {
         trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
     ) -> UISwipeActionsConfiguration? {
         let deleteAction = UIContextualAction(style: .destructive, title: "delete") { _, _, completeHandeler in
-            guard let splitVC = self.splitViewController as? SplitViewController else {
-                return
-            }
-            let item = MemoDataManager.shared.removeMemoList(at: indexPath.row)
-            MemoDataManager.shared.delete(item)
-            splitVC.clearMemoTextView()
-            tableView.deleteRows(at: [indexPath], with: .fade)
+            self.deleteCell(indexPath: indexPath)
             completeHandeler(true)
         }
         let shareAction = UIContextualAction(style: .normal, title: "share") { _, _, completeHandeler in
@@ -101,5 +95,15 @@ extension MemoListViewController {
         }
         shareAction.backgroundColor = .systemBlue
         return UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
+    }
+    
+    func deleteCell(indexPath: IndexPath) {
+        guard let splitVC = self.splitViewController as? SplitViewController else {
+            return
+        }
+        let item = MemoDataManager.shared.removeMemoList(at: indexPath.row)
+        MemoDataManager.shared.delete(item)
+        splitVC.clearMemoTextView()
+        tableView.deleteRows(at: [indexPath], with: .fade)
     }
 }

@@ -30,6 +30,10 @@ class SplitViewController: UISplitViewController {
     func clearMemoTextView() {
         secondaryVC.clearTextView()
     }
+    
+    func deleteTableViewCell(indexPath: IndexPath) {
+        primaryVC.deleteCell(indexPath: indexPath)
+    }
 }
 
 // MARK: - 초기 ViewController 설정

@@ -40,8 +40,23 @@ extension MemoDetailViewController {
             image: UIImage(systemName: Constant.navigationBarIconName),
             style: .plain,
             target: self,
-            action: nil
+            action: #selector(moreViewbuttonTapped(_:))
         )
+    }
+    @objc func moreViewbuttonTapped(_ sender: UIBarButtonItem) {
+        guard let splitVC = self.splitViewController as? SplitViewController else {
+            return
+        }
+        print(sender)
+        self.showMemoActionSheet(shareHandler: { _ in
+            self.showActivityViewController(view: splitVC, data: MemoDataManager.shared.memoList[self.currentIndex].body ?? "")
+        }, deleteHandler: {_ in
+            self.showAlert(message: "정말 삭제하시겠습니까?", actionTitle: "OK") { _ in
+                splitVC.deleteTableViewCell(indexPath: IndexPath(row: self.currentIndex, section: .zero))
+            }
+        }, sender: sender)
+        
+
     }
     
     private func setUpTextView() {

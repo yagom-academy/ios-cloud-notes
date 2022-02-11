@@ -10,7 +10,7 @@ class DetailedNoteViewController: UIViewController {
 
     let noteTextView: UITextView = {
         let textView = UITextView()
-        textView.font = .preferredFont(forTextStyle: .callout)
+        textView.font = .preferredFont(forTextStyle: .body)
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 20)
         return textView
@@ -63,8 +63,12 @@ class DetailedNoteViewController: UIViewController {
         let title = NSMutableAttributedString(string: note.title)
         let body = NSMutableAttributedString(string: "\n" + note.body)
         title.addAttribute(
-            .font, value: UIFont.preferredFont(forTextStyle: .title2),
+            .font, value: UIFont.preferredFont(for: .title3, weight: .medium),
             range: NSRange(location: 0, length: title.length)
+        )
+        body.addAttribute(
+            .font, value: UIFont.preferredFont(forTextStyle: .callout),
+            range: NSRange(location: 0, length: body.length)
         )
         content.append(title)
         content.append(body)
@@ -88,5 +92,25 @@ extension DetailedNoteViewController: UITextViewDelegate {
         let newNote = Note(title: title, body: body, lastModifiedDate: modifiedDate)
 
         dataSourceDelegate?.passModifiedNote(note: newNote)
+    }
+
+    func textView(_ textView: UITextView,
+                  shouldChangeTextIn range: NSRange,
+                  replacementText text: String
+    ) -> Bool {
+        let originalText = self.noteTextView.text as NSString
+        let replacedText = originalText.replacingCharacters(in: range, with: text) as NSString
+        let titleRange = replacedText.range(of: "\n")
+        if titleRange.location <= range.location {
+            self.noteTextView.typingAttributes = [
+                NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .callout)
+            ]
+        } else {
+            self.noteTextView.typingAttributes = [
+                NSAttributedString.Key.font: UIFont.preferredFont(for: .title3, weight: .medium)
+            ]
+        }
+
+        return true
     }
 }

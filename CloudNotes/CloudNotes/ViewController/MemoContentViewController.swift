@@ -1,6 +1,8 @@
 import UIKit
 
 final class MemoContentViewController: UIViewController {
+    weak var selectedMemo: Memo?
+    
     private let textView: UITextView = {
         let textView = UITextView()
         textView.font = .preferredFont(forTextStyle: .body)
@@ -38,7 +40,32 @@ final class MemoContentViewController: UIViewController {
     }
     
     private func configureNavigationBar() {
-        navigationItem.rightBarButtonItem = UIBarButtonItem()
-        navigationItem.rightBarButtonItem?.image = Assets.ellipsisCircleImage
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            image: Assets.ellipsisCircleImage,
+            style: .plain,
+            target: self,
+            action: #selector(deleteMemo)
+            )
+    }
+}
+
+extension MemoContentViewController {
+    @objc func deleteMemo() {
+        let context = AppDelegate.persistentContainer.viewContext
+        guard let currentMemo = selectedMemo else { return }
+        context.delete(currentMemo)
+        do {
+            try context.save()
+            reloadMemoList()
+            textView.text = nil
+            self.selectedMemo = nil
+        } catch {
+            print(error)
+        }
+    }
+    
+    private func reloadMemoList() {
+        guard let splitViewController = splitViewController as? MainSplitViewController else { return }
+        splitViewController.reloadMemoList()
     }
 }

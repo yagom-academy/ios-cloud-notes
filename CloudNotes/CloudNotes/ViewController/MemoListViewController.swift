@@ -77,22 +77,18 @@ extension MemoListViewController: UITableViewDelegate {
 
 // MARK: - Core Data
 extension MemoListViewController {
-    private func loadMemos() {
+    func loadMemos() {
         do {
-            guard let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext else {
-                return
-            }
+            let context = AppDelegate.persistentContainer.viewContext
             memos = try context.fetch(Memo.fetchRequest())
             tableView.reloadData()
-        } catch { // error
+        } catch {
             print(error)
         }
     }
     
     @objc func createMemo() {
-        guard let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext else {
-            return
-        }
+        let context = AppDelegate.persistentContainer.viewContext
         
         let memo = Memo(context: context)
         memo.title = "제목1"

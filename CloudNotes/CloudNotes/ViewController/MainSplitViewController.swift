@@ -12,7 +12,12 @@ final class MainSplitViewController: UISplitViewController {
     
     func updateMemoContentsView(with memo: Memo) {
         contentViewController.updateTextView(with: memo)
+        contentViewController.selectedMemo = memo
         showDetailViewController(contentViewController, sender: nil)
+    }
+    
+    func reloadMemoList() {
+        listViewController.loadMemos()
     }
      
     private func setupMainSplitView() {

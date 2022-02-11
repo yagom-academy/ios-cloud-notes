@@ -1,6 +1,6 @@
 import UIKit
 
-class MainSplitViewController: UISplitViewController {
+final class MainSplitViewController: UISplitViewController {
     override init(style: UISplitViewController.Style = .doubleColumn) {
         super.init(style: style)
     }

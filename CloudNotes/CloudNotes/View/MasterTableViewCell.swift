@@ -1,6 +1,6 @@
 import UIKit
 
-class MasterTableViewCell: UITableViewCell {
+final class MasterTableViewCell: UITableViewCell {
     // MARK: - Properties
     private let entireStackView: UIStackView = {
         let stackView = UIStackView()

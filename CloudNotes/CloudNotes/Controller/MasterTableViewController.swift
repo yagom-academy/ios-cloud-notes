@@ -4,9 +4,9 @@ protocol MemoSelectionDelegate: AnyObject {
     func applyData(with description: String)
 }
 
-class MasterTableViewController: UITableViewController {
+final class MasterTableViewController: UITableViewController {
     // MARK: - Properties
-    private var memos: [Memo]?
+    let memoDataSource = MasterTableViewDataSource()
     weak var delegate: MemoSelectionDelegate?
     
     // MARK: - Methods
@@ -27,7 +27,6 @@ class MasterTableViewController: UITableViewController {
         super.viewDidLoad()
         configureNavigationBar()
         configureTableView()
-        fetchData()
     }
     
     private func configureNavigationBar() {
@@ -39,41 +38,13 @@ class MasterTableViewController: UITableViewController {
     }
     
     private func configureTableView() {
+        tableView.dataSource = memoDataSource
         tableView.register(MasterTableViewCell.self, forCellReuseIdentifier: String(describing: MasterTableViewCell.self))
     }
     
-    private func fetchData() {
-        guard let file = Bundle.main.path(forResource: "sample", ofType: "json") else {
-            return
-        }
-        
-        guard let data = try? String(contentsOfFile: file).data(using: .utf8) else {
-            return
-        }
-        
-        memos = try? JSONDecoder().decode([Memo].self, from: data)
-    }
-
-    // MARK: - Table view data source
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return memos?.count ?? 0
-    }
-    
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withClass: MasterTableViewCell.self, for: indexPath)
-        
-        guard let memos = memos else {
-            return UITableViewCell()
-        }
-        
-        cell.configureUI()
-        cell.applyData(memos[indexPath.row])
-        
-        return cell
-    }
-    
+    // MARK: - Table view delegate
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let memos = memos else {
+        guard let memos = memoDataSource.memos else {
             return
         }
         

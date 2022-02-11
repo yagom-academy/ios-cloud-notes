@@ -1,6 +1,6 @@
 import UIKit
 
-class DetailViewController: UIViewController {
+final class DetailViewController: UIViewController {
     private let textView = UITextView()
     
     override func viewDidLoad() {

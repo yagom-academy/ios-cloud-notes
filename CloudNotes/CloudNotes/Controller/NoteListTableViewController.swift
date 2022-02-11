@@ -2,7 +2,7 @@ import UIKit
 
 class NoteListTableViewController: UITableViewController {
     
-    let noteModelManager = NoteModelManager()
+    var noteModelManager = NoteModelManager()
     let cellId = "reuseIdentifier"
     weak var delegate: NoteDetailDelegate?
     
@@ -13,6 +13,11 @@ class NoteListTableViewController: UITableViewController {
         self.navigationController?.navigationBar.topItem?.title = "메모"
         let addBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: nil, action: nil)
         self.navigationItem.rightBarButtonItem = addBarButtonItem
+    }
+    
+    convenience init(model: NoteModelManager) {
+        self.init()
+        self.noteModelManager = model
     }
     
     // MARK: - Table view data source
@@ -38,7 +43,9 @@ class NoteListTableViewController: UITableViewController {
     
     // MARK: - Table View Delegate
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        delegate?.selectNote(at: indexPath.row)
+        let title = noteModelManager.fetchTitle(at: indexPath.row)
+        let body = noteModelManager.fetchBody(at: indexPath.row)
+        delegate?.selectNote(title: title, body: body)
     }
     
 }

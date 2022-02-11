@@ -15,6 +15,12 @@ class NoteDetailViewController: UIViewController {
         return scrollView
     }()
     
+    let detailBarButtonItem: UIBarButtonItem = {
+        let image = UIImage(systemName: "ellipsis.circle")
+        let barButtonItem = UIBarButtonItem(image: image, style: .plain, target: nil, action: nil)
+        return barButtonItem
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureHierarchy()
@@ -39,12 +45,16 @@ class NoteDetailViewController: UIViewController {
             noteDetailTextView.bottomAnchor.constraint(equalTo: self.scrollView.contentLayoutGuide.bottomAnchor),
             noteDetailTextView.leadingAnchor.constraint(equalTo: self.scrollView.contentLayoutGuide.leadingAnchor),
             noteDetailTextView.trailingAnchor.constraint(equalTo: self.scrollView.contentLayoutGuide.trailingAnchor)])
+        
+        self.navigationController?.navigationBar.topItem?.setRightBarButton(detailBarButtonItem, animated: true)
     }
     
 }
 
 extension NoteDetailViewController: NoteDetailDelegate {
     
-    func selectNote(at index: Int) { }
+    func selectNote(title: String, body: String) {
+        self.noteDetailTextView.text = "\(title)\n\n\(body)"
+    }
 
 }

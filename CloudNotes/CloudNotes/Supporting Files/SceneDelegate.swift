@@ -12,6 +12,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let primaryViewController = NoteListTableViewController()
         let secondaryViewController = NoteDetailViewController()
         
+        primaryViewController.delegate = secondaryViewController
+        mainViewController.view.backgroundColor = .systemBackground
+        
         mainViewController.setViewController(primaryViewController, for: .primary)
         mainViewController.setViewController(secondaryViewController, for: .secondary)
         

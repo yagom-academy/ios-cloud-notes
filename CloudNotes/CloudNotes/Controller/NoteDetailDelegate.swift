@@ -2,6 +2,6 @@ import Foundation
 
 protocol NoteDetailDelegate: AnyObject {
     
-    func selectNote(at index: Int)
+    func selectNote(title: String, body: String)
     
 }

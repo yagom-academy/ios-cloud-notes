@@ -1,5 +1,5 @@
 //
-//  NotesSplitViewController.swift
+//  MemoSplitViewController.swift
 //  CloudNotes
 //
 //  Created by 이차민 on 2022/02/08.
@@ -7,9 +7,9 @@
 
 import UIKit
 
-class NotesSplitViewController: UISplitViewController {
-    private var primaryTableViewController = PrimaryTableViewController(style: .insetGrouped)
-    private var secondaryViewController = SecondaryViewController()
+class MemoSplitViewController: UISplitViewController {
+    private var memoTableViewController = MemoTableViewController(style: .insetGrouped)
+    private var memoDetailViewController = MemoDetailViewController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,19 +20,19 @@ class NotesSplitViewController: UISplitViewController {
     private func configureSplitViewController() {
         preferredSplitBehavior = .tile
         preferredDisplayMode = .oneBesideSecondary
-        setViewController(primaryTableViewController, for: .primary)
-        setViewController(secondaryViewController, for: .secondary)
+        setViewController(memoTableViewController, for: .primary)
+        setViewController(memoDetailViewController, for: .secondary)
     }
     
     func showSecondaryView(with memo: Memo) {
-        secondaryViewController.updateMemo(text: memo.body)
+        memoDetailViewController.updateMemo(text: memo.body)
         show(.secondary)
     }
 }
 
 // MARK: - UISplitViewControllerDelegate
 
-extension NotesSplitViewController: UISplitViewControllerDelegate {
+extension MemoSplitViewController: UISplitViewControllerDelegate {
     func splitViewController(_ svc: UISplitViewController, topColumnForCollapsingToProposedTopColumn proposedTopColumn: UISplitViewController.Column) -> UISplitViewController.Column {
         return .primary
     }

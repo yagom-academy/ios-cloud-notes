@@ -16,7 +16,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             return
         }
         window = UIWindow(windowScene: windowScene)
-        window?.rootViewController = NotesSplitViewController(style: .doubleColumn)
+        window?.rootViewController = MemoSplitViewController(style: .doubleColumn)
         window?.makeKeyAndVisible()
     }
 

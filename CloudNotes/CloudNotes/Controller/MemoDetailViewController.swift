@@ -1,5 +1,5 @@
 //
-//  SecondaryViewController.swift
+//  MemoDetailViewController.swift
 //  CloudNotes
 //
 //  Created by 예거 on 2022/02/08.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SecondaryViewController: UIViewController {
+class MemoDetailViewController: UIViewController {
     private let memoTextView: UITextView = {
         let textView = UITextView()
         textView.font = .preferredFont(forTextStyle: .title2)

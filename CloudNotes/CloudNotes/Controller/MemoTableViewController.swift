@@ -1,5 +1,5 @@
 //
-//  PrimaryTableViewController.swift
+//  MemoTableViewController.swift
 //  CloudNotes
 //
 //  Created by 예거 on 2022/02/08.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class PrimaryTableViewController: UITableViewController {
+class MemoTableViewController: UITableViewController {
     private var memo = [Memo]()
     
     override func viewDidLoad() {
@@ -42,7 +42,7 @@ class PrimaryTableViewController: UITableViewController {
 
 // MARK: - UITableViewDataSource
 
-extension PrimaryTableViewController {
+extension MemoTableViewController {
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -63,14 +63,14 @@ extension PrimaryTableViewController {
 
 // MARK: - UITableViewDelegate
 
-extension PrimaryTableViewController {
+extension MemoTableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let data = memo[indexPath.row]
         
-        guard let notesSplitViewController = self.splitViewController as? NotesSplitViewController else {
+        guard let memoSplitViewController = self.splitViewController as? MemoSplitViewController else {
             return
         }
         
-        notesSplitViewController.showSecondaryView(with: data)
+        memoSplitViewController.showSecondaryView(with: data)
     }
 }

@@ -145,7 +145,6 @@
 			isa = PBXGroup;
 			children = (
 				538B2C4C27B3896E00C31617 /* Memo.swift */,
-				538B2C4E27B3897800C31617 /* sample.json */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -161,6 +160,16 @@
 				6829F29A7D89A5F65CA68DF2 /* Pods-CloudNotesTests.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		A6B0103A27B5FE3900D70609 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				538B2C4E27B3897800C31617 /* sample.json */,
+				C7481C7925BBCF3A00B9CA55 /* Assets.xcassets */,
+				C7481C7B25BBCF3A00B9CA55 /* LaunchScreen.storyboard */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		C7481C6125BBCF3900B9CA55 = {
@@ -195,8 +204,7 @@
 				3626675327B24DA600622FC3 /* Extensions */,
 				C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */,
 				C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */,
-				C7481C7925BBCF3A00B9CA55 /* Assets.xcassets */,
-				C7481C7B25BBCF3A00B9CA55 /* LaunchScreen.storyboard */,
+				A6B0103A27B5FE3900D70609 /* Resources */,
 				C7481C7E25BBCF3A00B9CA55 /* Info.plist */,
 				C7481C7625BBCF3900B9CA55 /* CloudNotes.xcdatamodeld */,
 			);

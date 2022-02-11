@@ -31,7 +31,7 @@ final class MemoListViewController: UIViewController {
     private func configureTableView() {
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.register(MemoListTableViewCell.self, forCellReuseIdentifier: MemoListTableViewCell.identifier)
+        tableView.register(MemoListTableViewCell.self)
     }
 
     private func configureListView() {
@@ -60,13 +60,12 @@ extension MemoListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: MemoListTableViewCell.identifier, for: indexPath)
-        guard let listCell = cell as? MemoListTableViewCell else {
+        guard let cell = tableView.dequeueReusableCell(MemoListTableViewCell.self, for: indexPath) else {
             return UITableViewCell()
         }
-        listCell.setupLabel(from: memos[indexPath.row])
+        cell.setupLabel(from: memos[indexPath.row])
 
-        return listCell
+        return cell
     }
 }
 

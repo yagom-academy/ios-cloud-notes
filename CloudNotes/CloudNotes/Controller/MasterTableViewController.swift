@@ -1,6 +1,7 @@
 import UIKit
 
 protocol MemoSelectionDelegate: AnyObject {
+    var memoSelectionDestination: UIViewController { get }
     func applyData(with description: String)
 }
 
@@ -50,7 +51,7 @@ final class MasterTableViewController: UITableViewController {
             return
         }
         
-        guard let destination = delegate as? DetailViewController else {
+        guard let destination = delegate?.memoSelectionDestination as? DetailViewController else {
             return
         }
         

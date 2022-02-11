@@ -42,6 +42,10 @@ final class DetailViewController: UIViewController {
 }
 
 extension DetailViewController: MemoSelectionDelegate {
+    var memoSelectionDestination: UIViewController {
+        return self
+    }
+    
     func applyData(with description: String) {
         textView.text = description
     }

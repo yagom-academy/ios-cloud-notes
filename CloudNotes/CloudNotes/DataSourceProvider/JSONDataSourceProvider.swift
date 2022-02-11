@@ -8,9 +8,7 @@ struct JSONDataSourceProvider: NoteDataSource {
             throw DataSourceError.jsonNotFound
         }
 
-        guard let decodedData: [Note] = try? DecodingUtility.decode(data: data) else {
-            throw DataSourceError.decodingFailure
-        }
+        let decodedData: [Note] = try DecodingUtility.decode(data: data)
 
         self.noteList = decodedData
     }

@@ -14,7 +14,6 @@ final class DetailViewController: UIViewController {
         super.viewDidLoad()
         configureUI()
         configureKeyboardNotificationCenter()
-       
     }
     
     private func configureUI() {

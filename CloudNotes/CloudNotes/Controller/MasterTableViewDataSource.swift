@@ -1,9 +1,14 @@
 import UIKit
 
-final class MasterTableViewDataSource: NSObject {
-    private(set) lazy var memos = fetchData()
+protocol MasterTableViewDataSourceProtocol: AnyObject {
+    var memos: [Memo]? { get }
+    func fetchData() -> [Memo]?
+}
+
+final class MasterTableViewDataSource: NSObject, MasterTableViewDataSourceProtocol {
+    private(set) lazy var memos: [Memo]? = fetchData()
     
-    private func fetchData() -> [Memo]? {
+    func fetchData() -> [Memo]? {
         guard let url = Bundle.main.url(forResource: "sample", withExtension: "json") else {
             return nil
         }

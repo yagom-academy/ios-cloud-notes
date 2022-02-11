@@ -7,7 +7,7 @@ protocol MemoSelectionDelegate: AnyObject {
 
 final class MasterTableViewController: UITableViewController {
     // MARK: - Properties
-    let memoDataSource = MasterTableViewDataSource()
+    var memoDataSource: MasterTableViewDataSourceProtocol?
     weak var delegate: MemoSelectionDelegate?
     
     // MARK: - Initializer
@@ -15,8 +15,9 @@ final class MasterTableViewController: UITableViewController {
         super.init(style: style)
     }
     
-    convenience init(style: UITableView.Style, delegate: MemoSelectionDelegate) {
+    convenience init(style: UITableView.Style, dataSource: MasterTableViewDataSourceProtocol = MasterTableViewDataSource(), delegate: MemoSelectionDelegate) {
         self.init(style: style)
+        self.memoDataSource = dataSource
         self.delegate = delegate
     }
     
@@ -41,13 +42,13 @@ final class MasterTableViewController: UITableViewController {
     }
     
     private func configureTableView() {
-        tableView.dataSource = memoDataSource
+        tableView.dataSource = memoDataSource as? UITableViewDataSource
         tableView.register(MasterTableViewCell.self, forCellReuseIdentifier: MasterTableViewCell.reuseIdentifier)
     }
     
     // MARK: - Table view delegate
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let memos = memoDataSource.memos else {
+        guard let memos = memoDataSource?.memos else {
             return
         }
         

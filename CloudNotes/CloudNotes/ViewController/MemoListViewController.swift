@@ -15,13 +15,7 @@ final class MemoListViewController: UIViewController {
         loadMemos()
         setupMainListView()
     }
-    
-    private func loadMemos() {
-        guard let data = Assets.sampleData,
-              let decodedData = try? JSONDecoder().decode([Memo].self, from: data.data) else { return }
-        memos = decodedData
-    }
-    
+
     private func setupMainListView() {
         configureTableView()
         configureListView()
@@ -49,8 +43,12 @@ final class MemoListViewController: UIViewController {
     
     private func configureNavigationBar() {
         navigationItem.title = navigationTitle
-        navigationItem.rightBarButtonItem = UIBarButtonItem()
-        navigationItem.rightBarButtonItem?.image = Assets.plusImage
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            image: Assets.plusImage,
+            style: .plain,
+            target: self,
+            action: #selector(createMemo)
+        )
     }
 }
 
@@ -74,5 +72,38 @@ extension MemoListViewController: UITableViewDelegate {
         guard let splitViewController = splitViewController as? MainSplitViewController else { return }
         let selectedMemo = memos[indexPath.row]
         splitViewController.updateMemoContentsView(with: selectedMemo)
+    }
+}
+
+// MARK: - Core Data
+extension MemoListViewController {
+    private func loadMemos() {
+        do {
+            guard let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext else {
+                return
+            }
+            memos = try context.fetch(Memo.fetchRequest())
+            tableView.reloadData()
+        } catch { // error
+            print(error)
+        }
+    }
+    
+    @objc func createMemo() {
+        guard let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext else {
+            return
+        }
+        
+        let memo = Memo(context: context)
+        memo.title = "제목1"
+        memo.body = "내용1"
+        memo.lastModified = Date().timeIntervalSince1970
+        
+        do {
+            try context.save()
+            loadMemos()
+        } catch {
+            print(error)
+        }
     }
 }

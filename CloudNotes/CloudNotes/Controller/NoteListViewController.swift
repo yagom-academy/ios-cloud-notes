@@ -12,9 +12,15 @@ protocol NoteListViewDelegate: AnyObject {
 }
 
 class NoteListViewController: UIViewController {
-    var noteDataSource: CloudNotesDataSource?
+    
+    // MARK: - Properties
+    
     private let tableView: UITableView = UITableView()
+    
     weak var delegate: NoteListViewDelegate?
+    var noteDataSource: CloudNotesDataSource?
+    
+    // MARK: - Methods
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,6 +75,8 @@ class NoteListViewController: UIViewController {
         }
     }
 }
+
+// MARK: - Table View Delegate
 
 extension NoteListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

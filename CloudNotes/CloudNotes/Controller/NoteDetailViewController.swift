@@ -8,9 +8,14 @@
 import UIKit
 
 class NoteDetailViewController: UIViewController {
-    var noteDataSource: CloudNotesDataSource?
+    
+    // MARK: - Properties
+    
     private let noteDetailScrollView = NoteDetailScrollView()
+    var noteDataSource: CloudNotesDataSource?
 
+    // MARK: - Methods
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
@@ -53,6 +58,8 @@ class NoteDetailViewController: UIViewController {
     }
 }
 
+// MARK: - ScrollView Delegate
+
 extension NoteDetailViewController: UIScrollViewDelegate {
     func scrollViewWillEndDragging(
         _ scrollView: UIScrollView,
@@ -66,6 +73,8 @@ extension NoteDetailViewController: UIScrollViewDelegate {
         }
     }
 }
+
+// MARK: - Keyboard
 
 extension NoteDetailViewController {
     private func addObserverKeyboardNotification() {

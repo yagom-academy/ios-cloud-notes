@@ -8,9 +8,14 @@
 import UIKit
 
 class CloudNotesDataSource: NSObject {
-    lazy var noteInformations: [NoteInformation]? = setupNoteInformations()
     
-    func setupNoteInformations() -> [NoteInformation]? {
+    // MARK: - Properties
+    
+    lazy private(set) var noteInformations: [NoteInformation]? = setupNoteInformations()
+    
+    // MARK: - Methods
+    
+    private func setupNoteInformations() -> [NoteInformation]? {
         guard let jsonData = NSDataAsset(name: "sample")?.data else {
             return nil
         }
@@ -29,6 +34,9 @@ class CloudNotesDataSource: NSObject {
         }
     }
 }
+
+
+// MARK: - Table View DataSource
 
 extension CloudNotesDataSource: UITableViewDataSource {
     func tableView(

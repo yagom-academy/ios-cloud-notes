@@ -44,4 +44,8 @@ class NoteModelManager {
         let noteData = self.noteData[index]
         return noteData.body
     }
+    
+    func deleteNote(at index: Int) {
+        noteData.remove(at: index)
+    }
 }

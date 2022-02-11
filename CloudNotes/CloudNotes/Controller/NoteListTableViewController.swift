@@ -14,12 +14,7 @@ class NoteListTableViewController: UITableViewController {
         let addBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: nil, action: nil)
         self.navigationItem.rightBarButtonItem = addBarButtonItem
     }
-    
-    convenience init(model: NoteModelManager) {
-        self.init()
-        self.noteModelManager = model
-    }
-    
+
     // MARK: - Table view data source
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1

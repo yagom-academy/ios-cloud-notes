@@ -107,9 +107,9 @@
 		C1C3151A27B216A100FB69CE /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				894E47A727B5115E0099893B /* NoteDetailDelegate.swift */,
-				C7481C7125BBCF3900B9CA55 /* NoteDetailViewController.swift */,
 				84474C7927B251E200A1E83E /* NoteListTableViewController.swift */,
+				C7481C7125BBCF3900B9CA55 /* NoteDetailViewController.swift */,
+				894E47A727B5115E0099893B /* NoteDetailDelegate.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";

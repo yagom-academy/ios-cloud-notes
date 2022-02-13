@@ -1,0 +1,12 @@
+disabled_rules:
+
+included:
+ - CloudNotes
+
+excluded:
+ - Pods
+ - CloudNotes/AppDelegate.swift
+ - CloudNotes/SceneDelegate.swift
+
+trailing_whitespace:
+ ignores_empty_lines: true

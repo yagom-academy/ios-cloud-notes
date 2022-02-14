@@ -1,12 +1,17 @@
 import UIKit
 
 protocol NoteListViewControllerDelegate: AnyObject {
-    func noteListViewController(didSelectedCell data: Sample)
+    func noteListViewController(_ viewController: NoteListViewController, didSelectedCell indexPath: IndexPath)
+}
+
+protocol NoteListViewControllerDataSource: AnyObject {
+    func noteListViewControllerNumberOfData(_ viewController: NoteListViewController) -> Int
+    func noteListViewControllerSampleForCell(_ viewController: NoteListViewController, indexPath: IndexPath) -> Sample?
 }
 
 class NoteListViewController: UIViewController {
-    private var dataStorage: DataStorage?
     weak var delegate: NoteListViewControllerDelegate?
+    weak var dataSource: NoteListViewControllerDataSource?
     private var listTableView: UITableView = {
         var tableView = UITableView(frame: .zero)
         tableView.register(cellWithClass: NoteListTableViewCell.self)
@@ -22,7 +27,6 @@ class NoteListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        dataStorage = DataStorage()
         listTableView.dataSource = self
         listTableView.delegate = self
         setUpLayout()
@@ -50,15 +54,13 @@ class NoteListViewController: UIViewController {
 
 extension NoteListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let data = dataStorage?.assetData[safe: indexPath.row] {
-            delegate?.noteListViewController(didSelectedCell: data)
-        }
+            delegate?.noteListViewController(self, didSelectedCell: indexPath)
     }
 }
 
 extension NoteListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        dataStorage?.assetData.count ?? .zero
+        dataSource?.noteListViewControllerNumberOfData(self) ?? .zero
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -66,8 +68,11 @@ extension NoteListViewController: UITableViewDataSource {
             withClass: NoteListTableViewCell.self,
             for: indexPath)
         
-        guard let data = self.dataStorage?.assetData[safe: indexPath.row] else {
-            return NoteListTableViewCell()
+        guard let data = dataSource?.noteListViewControllerSampleForCell(
+            self,
+            indexPath: indexPath
+        ) else {
+            return UITableViewCell()
         }
         
         cell.updateLabel(title: data.title, date: data.formattedDate, preview: data.body)

@@ -7,8 +7,20 @@ class NoteListTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.register(NoteListTableViewCell.self)
+        loadNoteData()
+        configureTableView()
+        configureLayout()
+    }
+    
+    private func loadNoteData() {
         noteModelManager.fetchData()
+    }
+    
+    private func configureTableView() {
+        tableView.register(NoteListTableViewCell.self)
+    }
+    
+    private func configureLayout() {
         self.navigationController?.navigationBar.topItem?.title = "메모"
         let addBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: nil, action: nil)
         self.navigationItem.rightBarButtonItem = addBarButtonItem

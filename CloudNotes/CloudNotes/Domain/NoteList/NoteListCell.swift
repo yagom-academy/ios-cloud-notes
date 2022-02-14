@@ -81,7 +81,7 @@ class NoteListCell: UITableViewCell {
         self.previewLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
     }
 
-    func configureContent(for note: Note) {
+    func configureContent(for note: Content) {
         self.titleLabel.text = note.title
         self.dateLabel.text = note.formattedDateString
         self.previewLabel.text = note.body

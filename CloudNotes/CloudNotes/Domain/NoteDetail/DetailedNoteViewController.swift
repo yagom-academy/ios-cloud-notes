@@ -1,7 +1,7 @@
 import UIKit
 
 class DetailedNoteViewController: UIViewController {
-    private var noteData: Note? {
+    private var noteData: Content? {
         didSet {
             configureTextView()
         }
@@ -36,7 +36,7 @@ class DetailedNoteViewController: UIViewController {
         self.dataSourceDelegate = delegate
     }
 
-    func setNoteData(_ data: Note?) {
+    func setNoteData(_ data: Content?) {
         self.noteData = data
     }
 
@@ -93,7 +93,7 @@ extension DetailedNoteViewController: UITextViewDelegate {
         }
 
         let modifiedDate = Date().timeIntervalSince1970
-        let newNote = Note(title: title, body: body, lastModifiedDate: modifiedDate)
+        let newNote = Content(title: title, body: body, lastModifiedDate: modifiedDate)
 
         dataSourceDelegate?.passModifiedNote(note: newNote)
     }

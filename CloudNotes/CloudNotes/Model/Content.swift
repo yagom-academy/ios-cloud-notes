@@ -1,6 +1,6 @@
 import Foundation
 
-struct Note: Decodable {
+struct Content: Decodable {
     var title: String
     var body: String
     var lastModifiedDate: Double
@@ -11,7 +11,7 @@ struct Note: Decodable {
     }
 }
 
-extension Note {
+extension Content {
     var formattedDateString: String {
         let date = Date(timeIntervalSince1970: self.lastModifiedDate)
         return DateFormatter.memoDate.string(from: date)

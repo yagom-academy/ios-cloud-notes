@@ -1,7 +1,7 @@
 import UIKit
 
 class NoteListViewController: UITableViewController {
-    private var noteListData = [Note]() {
+    private var noteListData = [Content]() {
         didSet {
             tableView.reloadData()
         }
@@ -30,11 +30,11 @@ class NoteListViewController: UITableViewController {
         self.dataSourceDelegate = delegate
     }
 
-    func setNoteListData(_ data: [Note]) {
+    func setNoteListData(_ data: [Content]) {
         self.noteListData = data
     }
 
-    func setNoteData(_ data: Note, index: Int) {
+    func setNoteData(_ data: Content, index: Int) {
         self.noteListData[index] = data
     }
 

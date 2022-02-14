@@ -50,7 +50,7 @@ extension SplitViewController: NoteListViewDelegate, DetailedNoteViewDelegate {
         detailedNoteViewController.setNoteData(dataSourceProvider?.noteList[index])
     }
 
-    func passModifiedNote(note: Note) {
+    func passModifiedNote(note: Content) {
         guard let index = self.currentNoteIndex else {
             return
         }

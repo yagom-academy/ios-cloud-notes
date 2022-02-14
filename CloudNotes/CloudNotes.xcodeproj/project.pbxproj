@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0D3DAAE427B23D59005F9502 /* SplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3DAAE327B23D58005F9502 /* SplitViewController.swift */; };
-		0D3DAAE727B24919005F9502 /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3DAAE627B24919005F9502 /* Note.swift */; };
+		0D3DAAE727B24919005F9502 /* Content.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3DAAE627B24919005F9502 /* Content.swift */; };
 		0D3DAAEA27B2589D005F9502 /* DataSourceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3DAAE927B2589D005F9502 /* DataSourceError.swift */; };
 		0D3DAAEC27B259D6005F9502 /* DecodingUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3DAAEB27B259D6005F9502 /* DecodingUtility.swift */; };
 		0D89DF6F27B629DE00ADF3F6 /* NoteListViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D89DF6E27B629DE00ADF3F6 /* NoteListViewDelegate.swift */; };
@@ -21,6 +21,9 @@
 		3361C9D127B24D140074B6B7 /* JSONDataSourceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3361C9D027B24D130074B6B7 /* JSONDataSourceProvider.swift */; };
 		3361C9D327B25F890074B6B7 /* NoteListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3361C9D227B25F880074B6B7 /* NoteListCell.swift */; };
 		3399D41A27B64E3000DBF577 /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3399D41927B64E3000DBF577 /* UIFont+Extension.swift */; };
+		339A3F8127BA171000241E74 /* CDDataSourceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339A3F8027BA171000241E74 /* CDDataSourceProvider.swift */; };
+		339A3FAF27BA25B200241E74 /* Note+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339A3FAE27BA25B200241E74 /* Note+CoreDataProperties.swift */; };
+		339A3FB027BA25B200241E74 /* Note+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339A3FAD27BA25B200241E74 /* Note+CoreDataClass.swift */; };
 		33A2AF6527B2905E00877CEC /* DateFormatter+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A2AF6427B2905E00877CEC /* DateFormatter+Extension.swift */; };
 		41C46D59E466870636042C13 /* Pods_CloudNotes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05CB22C62AD44A5BEB012F9A /* Pods_CloudNotes.framework */; };
 		C569208F295181F6C2064D11 /* Pods_CloudNotesTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 171506D4D23C24FEEE14CA85 /* Pods_CloudNotesTests.framework */; };
@@ -52,7 +55,7 @@
 /* Begin PBXFileReference section */
 		05CB22C62AD44A5BEB012F9A /* Pods_CloudNotes.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CloudNotes.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0D3DAAE327B23D58005F9502 /* SplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitViewController.swift; sourceTree = "<group>"; };
-		0D3DAAE627B24919005F9502 /* Note.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Note.swift; sourceTree = "<group>"; };
+		0D3DAAE627B24919005F9502 /* Content.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Content.swift; sourceTree = "<group>"; };
 		0D3DAAE927B2589D005F9502 /* DataSourceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSourceError.swift; sourceTree = "<group>"; };
 		0D3DAAEB27B259D6005F9502 /* DecodingUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodingUtility.swift; sourceTree = "<group>"; };
 		0D89DF6E27B629DE00ADF3F6 /* NoteListViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteListViewDelegate.swift; sourceTree = "<group>"; };
@@ -68,6 +71,9 @@
 		3361C9D027B24D130074B6B7 /* JSONDataSourceProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONDataSourceProvider.swift; sourceTree = "<group>"; };
 		3361C9D227B25F880074B6B7 /* NoteListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteListCell.swift; sourceTree = "<group>"; };
 		3399D41927B64E3000DBF577 /* UIFont+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extension.swift"; sourceTree = "<group>"; };
+		339A3F8027BA171000241E74 /* CDDataSourceProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDDataSourceProvider.swift; sourceTree = "<group>"; };
+		339A3FAD27BA25B200241E74 /* Note+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Note+CoreDataClass.swift"; path = "/Users/sj/Developer/ios-cloud-notes/CloudNotes/Note+CoreDataClass.swift"; sourceTree = "<absolute>"; };
+		339A3FAE27BA25B200241E74 /* Note+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Note+CoreDataProperties.swift"; path = "/Users/sj/Developer/ios-cloud-notes/CloudNotes/Note+CoreDataProperties.swift"; sourceTree = "<absolute>"; };
 		33A2AF6427B2905E00877CEC /* DateFormatter+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Extension.swift"; sourceTree = "<group>"; };
 		6E3ECB8C9B3FD64FDB494A09 /* Pods_CloudNotes_CloudNotesUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CloudNotes_CloudNotesUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		75D242E741D95FB17FB9AAA9 /* Pods-CloudNotes.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudNotes.debug.xcconfig"; path = "Target Support Files/Pods-CloudNotes/Pods-CloudNotes.debug.xcconfig"; sourceTree = "<group>"; };
@@ -131,7 +137,7 @@
 		0D3DAAE527B24901005F9502 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				0D3DAAE627B24919005F9502 /* Note.swift */,
+				0D3DAAE627B24919005F9502 /* Content.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -178,6 +184,7 @@
 				3361C9CE27B24CD10074B6B7 /* NoteDataSource.swift */,
 				3361C9D027B24D130074B6B7 /* JSONDataSourceProvider.swift */,
 				0D3DAAEB27B259D6005F9502 /* DecodingUtility.swift */,
+				339A3F8027BA171000241E74 /* CDDataSourceProvider.swift */,
 			);
 			path = DataSourceProvider;
 			sourceTree = "<group>";
@@ -207,6 +214,15 @@
 				3361C9C827B246BD0074B6B7 /* DetailedNoteViewController.swift */,
 			);
 			path = NoteDetail;
+			sourceTree = "<group>";
+		};
+		339A3FB127BA264E00241E74 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				339A3FAD27BA25B200241E74 /* Note+CoreDataClass.swift */,
+				339A3FAE27BA25B200241E74 /* Note+CoreDataProperties.swift */,
+			);
+			path = CoreData;
 			sourceTree = "<group>";
 		};
 		33A2AF6627B293AE00877CEC /* Extension */ = {
@@ -254,6 +270,7 @@
 		C7481C6C25BBCF3900B9CA55 /* CloudNotes */ = {
 			isa = PBXGroup;
 			children = (
+				339A3FB127BA264E00241E74 /* CoreData */,
 				33A2AF6627B293AE00877CEC /* Extension */,
 				3361C9CD27B24C400074B6B7 /* DataSourceProvider */,
 				0D3DAAE527B24901005F9502 /* Model */,
@@ -507,7 +524,7 @@
 				3361C9C927B246BD0074B6B7 /* DetailedNoteViewController.swift in Sources */,
 				C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */,
 				3361C9D127B24D140074B6B7 /* JSONDataSourceProvider.swift in Sources */,
-				0D3DAAE727B24919005F9502 /* Note.swift in Sources */,
+				0D3DAAE727B24919005F9502 /* Content.swift in Sources */,
 				0D89DF7127B6338C00ADF3F6 /* DetailedNoteViewDelegate.swift in Sources */,
 				C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */,
 				C7481C7825BBCF3900B9CA55 /* CloudNotes.xcdatamodeld in Sources */,
@@ -517,8 +534,11 @@
 				0D3DAAEC27B259D6005F9502 /* DecodingUtility.swift in Sources */,
 				0D3DAAEA27B2589D005F9502 /* DataSourceError.swift in Sources */,
 				33A2AF6527B2905E00877CEC /* DateFormatter+Extension.swift in Sources */,
+				339A3F8127BA171000241E74 /* CDDataSourceProvider.swift in Sources */,
 				3399D41A27B64E3000DBF577 /* UIFont+Extension.swift in Sources */,
 				0D89DF6F27B629DE00ADF3F6 /* NoteListViewDelegate.swift in Sources */,
+				339A3FAF27BA25B200241E74 /* Note+CoreDataProperties.swift in Sources */,
+				339A3FB027BA25B200241E74 /* Note+CoreDataClass.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

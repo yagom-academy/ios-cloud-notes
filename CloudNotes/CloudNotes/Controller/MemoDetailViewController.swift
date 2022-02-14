@@ -1,9 +1,11 @@
 import UIKit
 
 class MemoDetailViewController: UIViewController {
-    enum Constant {
+    private enum Constant {
         static let lineBreak: Character = "\n"
         static let navigationBarIconName = "ellipsis.circle"
+        static let deleteWarningMessage = "정말 삭제하시겠습니까?"
+        static let deleteAlertActionTitle = "OK"
         static let headerAttributes: [NSAttributedString.Key : Any] = [
             .font: UIFont.preferredFont(for: .title1, weight: .bold),
             .foregroundColor: UIColor.label
@@ -13,7 +15,7 @@ class MemoDetailViewController: UIViewController {
             .foregroundColor: UIColor.label
         ]
     }
-    private var currentIndex: Int = 0
+    private var currentIndex: Int = .zero
     private let memoDetailTextView: UITextView = {
         let textView = UITextView()
         textView.font = .preferredFont(forTextStyle: .body)
@@ -30,7 +32,10 @@ class MemoDetailViewController: UIViewController {
         setUpNotification()
         memoDetailTextView.delegate = self
     }
-    
+}
+
+// MARK: - Update
+extension MemoDetailViewController {
     func updateData(with index: Int) {
         currentIndex = index
         memoDetailTextView.text = MemoDataManager.shared.memoList[safe: currentIndex]?.body
@@ -42,45 +47,7 @@ class MemoDetailViewController: UIViewController {
     }
 }
 
-// MARK: - UITextView Font Setting
-extension MemoDetailViewController {
-    private func configureTextStyle() -> NSMutableAttributedString? {
-        guard let memo = MemoDataManager.shared.memoList[safe: currentIndex]?.body?.split(
-            separator: Constant.lineBreak,
-            maxSplits: 1
-        ) else {
-            return nil
-        }
-        let titleText = memo[safe: 0]?.description
-        let bodyText = memo[safe: 1]?.description
-        
-        let attributedString = NSMutableAttributedString()
-        let title = attributedText(
-            (titleText ?? "") + Constant.lineBreak.description,
-            font: .preferredFont(for: .title1, weight: .bold),
-            color: .label
-        )
-        let body = attributedText(
-            bodyText ?? "",
-            font: .preferredFont(forTextStyle: .body),
-            color: .label
-        )
-        attributedString.append(title)
-        attributedString.append(body)
-        return attributedString
-    }
-    
-    private func attributedText(_ text: String, font: UIFont, color: UIColor) -> NSMutableAttributedString {
-        let string = text as NSString
-        let attributedText = NSMutableAttributedString(string: text)
-        let range: NSRange = string.range(of: text)
-        attributedText.addAttribute(.font, value: font, range: range)
-        attributedText.addAttribute(.foregroundColor, value: color, range: range)
-        return attributedText
-    }
-}
-
-// MARK: - 초기 ViewController 설정
+// MARK: - SetUp Navigation Item
 extension MemoDetailViewController {
     private func setUpNavigationItem() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(
@@ -94,16 +61,26 @@ extension MemoDetailViewController {
         guard let splitVC = self.splitViewController as? SplitViewController else {
             return
         }
-        print(sender)
         self.showMemoActionSheet(shareHandler: { _ in
-            self.showActivityViewController(view: splitVC, data: MemoDataManager.shared.memoList[self.currentIndex].body ?? "")
+            self.showActivityViewController(
+                view: splitVC,
+                data: MemoDataManager.shared.memoList[self.currentIndex].body ?? ""
+            )
         }, deleteHandler: {_ in
-            self.showAlert(message: "정말 삭제하시겠습니까?", actionTitle: "OK") { _ in
-                splitVC.deleteTableViewCell(indexPath: IndexPath(row: self.currentIndex, section: .zero))
+            self.showAlert(
+                message: Constant.deleteWarningMessage,
+                actionTitle: Constant.deleteAlertActionTitle
+            ) { _ in
+                splitVC.deleteTableViewCell(
+                    indexPath: IndexPath(row: self.currentIndex, section: .zero)
+                )
             }
         }, sender: sender)
     }
-    
+}
+
+// MARK: - SetUp UITextView
+extension MemoDetailViewController {
     private func setUpTextView() {
         view.addSubview(memoDetailTextView)
         NSLayoutConstraint.activate([
@@ -147,8 +124,57 @@ extension MemoDetailViewController {
     }
 }
 
+// MARK: - UITextView Font Setting
+extension MemoDetailViewController {
+    private func configureTextStyle() -> NSMutableAttributedString? {
+        guard let memo = MemoDataManager.shared.memoList[safe: currentIndex]?.body?.split(
+            separator: Constant.lineBreak,
+            maxSplits: 1
+        ) else {
+            return nil
+        }
+        let titleText = memo[safe: 0]?.description
+        let bodyText = memo[safe: 1]?.description
+        
+        let attributedString = NSMutableAttributedString()
+        let title = attributedText(
+            (titleText ?? "") + Constant.lineBreak.description,
+            font: .preferredFont(for: .title1, weight: .bold),
+            color: .label
+        )
+        let body = attributedText(
+            bodyText ?? "",
+            font: .preferredFont(forTextStyle: .body),
+            color: .label
+        )
+        attributedString.append(title)
+        attributedString.append(body)
+        return attributedString
+    }
+    
+    private func attributedText(_ text: String, font: UIFont, color: UIColor) -> NSMutableAttributedString {
+        let string = text as NSString
+        let attributedText = NSMutableAttributedString(string: text)
+        let range: NSRange = string.range(of: text)
+        attributedText.addAttribute(.font, value: font, range: range)
+        attributedText.addAttribute(.foregroundColor, value: color, range: range)
+        return attributedText
+    }
+}
+
 // MARK: - TextViewDelegate
 extension MemoDetailViewController: UITextViewDelegate {
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        let currentText = textView.text as NSString
+        let titleRange = currentText.range(of: Constant.lineBreak.description)
+        if titleRange.location < range.location {
+            textView.typingAttributes = Constant.bodyAttributes
+        } else {
+            textView.typingAttributes = Constant.headerAttributes
+        }
+        return true
+    }
+    
     func textViewDidChange(_ textView: UITextView) {
         guard let splitVC = self.splitViewController as? SplitViewController else {
             return
@@ -161,17 +187,6 @@ extension MemoDetailViewController: UITextViewDelegate {
         MemoDataManager.shared.moveMemoList(from: currentIndex, to: .zero)
         splitVC.moveTableViewCell(at: currentIndex)
         currentIndex = .zero
-    }
-    
-    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        let currentText = textView.text as NSString
-        let titleRange = currentText.range(of: "\n")
-        if titleRange.location < range.location {
-            textView.typingAttributes = Constant.bodyAttributes
-        } else {
-            textView.typingAttributes = Constant.headerAttributes
-        }
-        return true
     }
     
     private func updateMemoData(with text: String) {

@@ -3,7 +3,7 @@ import UIKit
 class NoteModelManager {
     
     private var noteData: [Note] = []
-    var noteDataCount: Int {
+    var countOfNoteData: Int {
         return noteData.count
     }
     private let formatter: DateFormatter = {

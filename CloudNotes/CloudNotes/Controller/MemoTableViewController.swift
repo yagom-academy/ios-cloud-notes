@@ -43,10 +43,21 @@ class MemoTableViewController: UITableViewController {
         tableView.scrollToRow(at: initialIndexPath, at: .bottom, animated: true)
     }
     
-    func deleteMemo(at indexPath: IndexPath) {
+    private func deleteMemo(at indexPath: IndexPath) {
         self.memoStorage.delete(memo: self.memo[indexPath.row])
         fetchMemo()
         tableView.deleteRows(at: [indexPath], with: .fade)
+    }
+    
+    func presentDeleteAlert(at indexPath: IndexPath) {
+        let alert = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+        let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { action in
+            self.deleteMemo(at: indexPath)
+        }
+        alert.addAction(cancelAction)
+        alert.addAction(deleteAction)
+        self.present(alert, animated: true)
     }
 }
 
@@ -81,7 +92,7 @@ extension MemoTableViewController {
             return
         }
         
-        memoSplitViewController.showSecondaryView(with: data)
+        memoSplitViewController.showSecondaryView(with: data, indexPath: indexPath)
     }
     
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {

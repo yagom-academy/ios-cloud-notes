@@ -8,6 +8,8 @@
 import UIKit
 
 class MemoDetailViewController: UIViewController {
+    private var currentIndexPath: IndexPath?
+    
     private let memoTextView: UITextView = {
         let textView = UITextView()
         textView.font = .preferredFont(forTextStyle: .title2)
@@ -19,6 +21,10 @@ class MemoDetailViewController: UIViewController {
         super.viewDidLoad()
         configureUI()
         addKeyboardNotificationObserver()
+    }
+    
+    func updateCurrentIndexPath(with indexPath: IndexPath) {
+        currentIndexPath = indexPath
     }
     
     func updateMemo(text: String?) {
@@ -35,6 +41,18 @@ class MemoDetailViewController: UIViewController {
     
     private func configureNavigationBar() {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: nil)
+    }
+    
+    @objc private func requestDeleteMemo() {
+        guard let memoSplitViewController = self.splitViewController as? MemoSplitViewController else {
+            return
+        }
+        
+        guard let currentIndexPath = currentIndexPath else {
+            return
+        }
+        
+        memoSplitViewController.deleteMemo(at: currentIndexPath)
     }
     
     private func configureTextView() {

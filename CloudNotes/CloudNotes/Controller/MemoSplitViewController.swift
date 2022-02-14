@@ -24,9 +24,14 @@ class MemoSplitViewController: UISplitViewController {
         setViewController(memoDetailViewController, for: .secondary)
     }
     
-    func showSecondaryView(with memo: Memo) {
+    func showSecondaryView(with memo: Memo, indexPath: IndexPath) {
         memoDetailViewController.updateMemo(text: memo.body)
+        memoDetailViewController.updateCurrentIndexPath(with: indexPath)
         show(.secondary)
+    }
+    
+    func deleteMemo(at indexPath: IndexPath) {
+        memoTableViewController.presentDeleteAlert(at: indexPath)
     }
 }
 

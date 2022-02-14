@@ -25,6 +25,7 @@ final class MemoListViewController: UIViewController {
     private func configureTableView() {
         tableView.dataSource = self
         tableView.delegate = self
+        tableView.keyboardDismissMode = .onDrag
         tableView.register(MemoListTableViewCell.self)
     }
 

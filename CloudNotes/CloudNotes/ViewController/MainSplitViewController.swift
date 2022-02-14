@@ -52,11 +52,6 @@ extension MainSplitViewController {
         )
     }
     
-    private func hideKeyboard() {
-        let tapEmptySpace = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        view.addGestureRecognizer(tapEmptySpace)
-    }
-    
     @objc private func keyboardWillShow(_ sender: Notification) {
         guard let keyboardFrame = sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue,
               let window = view.window else { return }
@@ -69,9 +64,5 @@ extension MainSplitViewController {
     @objc private func keyboardWillHide(_ sender: Notification) {
         guard let window = view.window else { return }
         view.frame = window.frame
-    }
-    
-    @objc private func dismissKeyboard() {
-        view.endEditing(true)
     }
 }

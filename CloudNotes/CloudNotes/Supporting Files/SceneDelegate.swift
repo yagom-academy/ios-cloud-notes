@@ -3,36 +3,36 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     var window: UIWindow?
+    private let primaryViewController = NoteListTableViewController()
+    private let secondaryViewController = NoteDetailViewController()
+    private let rootViewController: UISplitViewController = {
+        let splitViewController = UISplitViewController(style: .doubleColumn)
+        splitViewController.view.backgroundColor = .systemBackground
+        return splitViewController
+    }()
     
-    func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
+    func scene(
+        _ scene: UIScene,
+        willConnectTo session: UISceneSession,
+        options connectionOptions: UIScene.ConnectionOptions
+    ) {
         guard let windewScene = (scene as? UIWindowScene) else {
             return
         }
-        let mainViewController = UISplitViewController(style: .doubleColumn)
-        let primaryViewController = NoteListTableViewController()
-        let secondaryViewController = NoteDetailViewController()
-        
-        primaryViewController.delegate = secondaryViewController
-        mainViewController.view.backgroundColor = .systemBackground
-        
-        mainViewController.setViewController(primaryViewController, for: .primary)
-        mainViewController.setViewController(secondaryViewController, for: .secondary)
-        
+        configureRootView()
         window = UIWindow(windowScene: windewScene)
-        window?.rootViewController = mainViewController
+        window?.rootViewController = rootViewController
         window?.makeKeyAndVisible()
     }
 
-    func sceneDidDisconnect(_ scene: UIScene) {}
-
-    func sceneDidBecomeActive(_ scene: UIScene) {}
-
-    func sceneWillResignActive(_ scene: UIScene) {}
-
-    func sceneWillEnterForeground(_ scene: UIScene) {}
-
     func sceneDidEnterBackground(_ scene: UIScene) {
         (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
+    }
+    
+    private func configureRootView() {
+        primaryViewController.delegate = secondaryViewController
+        rootViewController.setViewController(primaryViewController, for: .primary)
+        rootViewController.setViewController(secondaryViewController, for: .secondary)
     }
     
 }

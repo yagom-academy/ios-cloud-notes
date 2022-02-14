@@ -11,7 +11,7 @@ final class CloudNotesDataSource: NSObject {
     
     // MARK: - Properties
     
-    lazy private(set) var noteInformations = setupNoteInformations()
+    lazy var noteInformations = setupNoteInformations()
     
     // MARK: - Methods
     
@@ -32,7 +32,7 @@ final class CloudNotesDataSource: NSObject {
 //            print(error.localizedDescription)
 //            return nil
 //        }
-        return nil
+        return []
     }
 }
 

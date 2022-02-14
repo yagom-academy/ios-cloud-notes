@@ -37,10 +37,24 @@ final class NoteListViewController: UIViewController {
         let rightButton = UIBarButtonItem(
           image: addButtonImage,
           style: .done,
-          target: nil,
-          action: nil
+          target: self,
+          action: #selector(addEmptyNote)
         )
         navigationItem.setRightBarButton(rightButton, animated: false)
+    }
+    
+    @objc func addEmptyNote() {
+        tableView.performBatchUpdates {
+            let emptyNoteInformation = NoteInformation(
+                title: "새로운 메모",
+                content: "추가 텍스트 없음",
+                lastModifiedDate: Date().timeIntervalSince1970
+            )
+            noteDataSource?.noteInformations?.append(emptyNoteInformation)
+            tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .none)
+        } completion: {_ in
+            self.tableView.backgroundView?.isHidden = true
+        }
     }
     
     private func setupTableView() {

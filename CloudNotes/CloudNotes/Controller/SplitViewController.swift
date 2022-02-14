@@ -51,6 +51,7 @@ extension SplitViewController {
         delegate = self
         preferredSplitBehavior = .tile
         preferredDisplayMode = .oneBesideSecondary
+        view.tintColor = .systemOrange
     }
 }
 

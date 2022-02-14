@@ -57,6 +57,19 @@ class MemoListCell: UITableViewCell {
         super.init(coder: coder)
     }
     
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+        if selected {
+            titleLabel.textColor = .white
+            dateLabel.textColor = .systemGray6
+            bodyLabel.textColor = .systemGray6
+        } else {
+            titleLabel.textColor = .label
+            dateLabel.textColor = .systemGray
+            bodyLabel.textColor = .systemGray
+        }
+    }
+    
     func configure(with item: Memo?) {
         let data = item?.body?.split(separator: "\n")
         let title = item?.title ?? "새로운 메모"
@@ -74,6 +87,9 @@ class MemoListCell: UITableViewCell {
         outsideStackView.addArrangedSubview(insideStackView)
         insideStackView.addArrangedSubview(dateLabel)
         insideStackView.addArrangedSubview(bodyLabel)
+        let selectedBackgroundView = UIView()
+        selectedBackgroundView.backgroundColor = .systemOrange
+        self.selectedBackgroundView = selectedBackgroundView
     }
     
     private func setUpConstraints() {

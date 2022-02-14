@@ -16,14 +16,20 @@ class MemoListViewController: UITableViewController {
     }
     
     func updateData(at index: Int) {
-        tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .none)
+        guard self.tableView.numberOfRows(inSection: .zero) != .zero else {
+            return
+        }
+        tableView.reloadRows(at: [IndexPath(row: index, section: .zero)], with: .none)
+        tableView.selectRow(at: IndexPath(row: .zero, section: .zero), animated: false, scrollPosition: .middle)
     }
     
     func moveCell(at index: Int) {
+        let newIndexPath = IndexPath(row: .zero, section: .zero)
         tableView.moveRow(
             at: IndexPath(row: index, section: .zero),
-            to: IndexPath(row: .zero, section: .zero)
+            to: newIndexPath
         )
+        tableView.selectRow(at: newIndexPath, animated: true, scrollPosition: .middle)
     }
     
     private func setUpNavigationItem() {
@@ -51,7 +57,9 @@ class MemoListViewController: UITableViewController {
         }
         MemoDataManager.shared.insertMemoList(newData)
         splitVC.present(at: .zero)
-        tableView.insertRows(at: [IndexPath(row: .zero, section: .zero)], with: .fade)
+        let newIndexPath = IndexPath(row: .zero, section: .zero)
+        tableView.insertRows(at: [newIndexPath], with: .fade)
+        tableView.selectRow(at: newIndexPath, animated: true, scrollPosition: .middle)
     }
 }
 
@@ -112,5 +120,14 @@ extension MemoListViewController {
         MemoDataManager.shared.delete(item)
         splitVC.clearMemoTextView()
         tableView.deleteRows(at: [indexPath], with: .fade)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            let index = indexPath.row == 0 ? 0 : indexPath.row - 1
+            let newindexPath = IndexPath(row: index, section: .zero)
+            splitVC.present(at: index)
+            guard self.tableView.numberOfRows(inSection: .zero) != .zero else {
+                return
+            }
+            self.tableView.selectRow(at: newindexPath, animated: true, scrollPosition: .middle)
+        }
     }
 }

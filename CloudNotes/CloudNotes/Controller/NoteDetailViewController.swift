@@ -18,12 +18,12 @@ final class NoteDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setup()
+        setupNavigation()
         setupNoteDetailScrollView()
         addObserverKeyboardNotification()
     }
     
-    private func setup() {
+    private func setupNavigation() {
         let rightButtonImage = UIImage(systemName: "ellipsis.circle")
         let rightButton = UIBarButtonItem(
           image: rightButtonImage,

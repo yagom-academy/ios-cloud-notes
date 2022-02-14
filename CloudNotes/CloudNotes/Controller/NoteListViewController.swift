@@ -24,13 +24,13 @@ final class NoteListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setup()
+        setupNavigation()
         setupTableView()
         setupConstraints()
         selectFirstNote()
     }
     
-    private func setup() {
+    private func setupNavigation() {
         title = "메모"
         let rightButtonImage = UIImage(systemName: "plus")
         let rightButton = UIBarButtonItem(

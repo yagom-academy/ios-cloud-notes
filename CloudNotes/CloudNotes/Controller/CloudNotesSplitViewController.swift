@@ -12,11 +12,11 @@ final class CloudNotesSplitViewController: UISplitViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setup()
+        setupSplitView()
         setupChildViewControllers()
     }
     
-    private func setup() {
+    private func setupSplitView() {
         preferredSplitBehavior = .tile
         preferredDisplayMode = .oneBesideSecondary
         view.backgroundColor = .systemBackground

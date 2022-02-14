@@ -16,22 +16,23 @@ final class CloudNotesDataSource: NSObject {
     // MARK: - Methods
     
     private func setupNoteInformations() -> [NoteInformation]? {
-        guard let jsonData = NSDataAsset(name: AssetFileNames.sampleFile)?.data else {
-            return nil
-        }
-        
-        let result = JSONParser().decode(
-          from: jsonData,
-          decodingType: [NoteInformation].self
-        )
-        
-        switch result {
-        case .success(let noteInformations):
-            return noteInformations
-        case .failure(let error):
-            print(error.localizedDescription)
-            return nil
-        }
+//        guard let jsonData = NSDataAsset(name: AssetFileNames.sampleFile)?.data else {
+//            return nil
+//        }
+//        
+//        let result = JSONParser().decode(
+//          from: jsonData,
+//          decodingType: [NoteInformation].self
+//        )
+//
+//        switch result {
+//        case .success(let noteInformations):
+//            return noteInformations
+//        case .failure(let error):
+//            print(error.localizedDescription)
+//            return nil
+//        }
+        return nil
     }
 }
 

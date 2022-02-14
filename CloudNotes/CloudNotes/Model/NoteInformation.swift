@@ -1,15 +1,9 @@
 import Foundation
 
-struct NoteInformation: Decodable {
+struct NoteInformation {
     let title: String
     let content: String
     let lastModifiedDate: Double
-    
-    enum CodingKeys: String, CodingKey {
-        case title
-        case content = "body"
-        case lastModifiedDate = "lastModified"
-    }
     
     var localizedDateString: String {
         return DateFormatter().localizedString(from: self.lastModifiedDate)

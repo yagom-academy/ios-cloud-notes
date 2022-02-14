@@ -28,6 +28,7 @@ final class NoteListViewController: UIViewController {
         setupTableView()
         setupConstraints()
         selectFirstNote()
+        setupbackgroundLabel()
     }
     
     private func setupNavigation() {
@@ -64,6 +65,15 @@ final class NoteListViewController: UIViewController {
             tableView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor)
         ])
+    }
+    
+    private func setupbackgroundLabel() {
+        let backgroundLabel = UILabel()
+        backgroundLabel.text = "메모없음"
+        backgroundLabel.textColor = .systemGray
+        backgroundLabel.font = .preferredFont(forTextStyle: .title1)
+        backgroundLabel.textAlignment = .center
+        tableView.backgroundView = backgroundLabel
     }
     
     private func selectFirstNote() {

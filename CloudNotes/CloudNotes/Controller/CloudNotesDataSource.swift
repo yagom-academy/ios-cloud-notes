@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CloudNotesDataSource: NSObject {
+final class CloudNotesDataSource: NSObject {
     
     // MARK: - Properties
     
@@ -34,7 +34,6 @@ class CloudNotesDataSource: NSObject {
         }
     }
 }
-
 
 // MARK: - Table View DataSource
 

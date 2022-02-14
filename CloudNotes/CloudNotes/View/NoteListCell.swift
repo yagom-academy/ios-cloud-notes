@@ -7,7 +7,7 @@
 
 import UIKit
 
-class NoteListCell: UITableViewCell {
+final class NoteListCell: UITableViewCell {
     static let identifier = "NoteListCell"
     
     private let cellStackView = UIStackView()

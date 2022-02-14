@@ -11,7 +11,7 @@ protocol NoteListViewDelegate: AnyObject {
     func noteListView(didSeletedCell row: Int)
 }
 
-class NoteListViewController: UIViewController {
+final class NoteListViewController: UIViewController {
     
     // MARK: - Properties
     

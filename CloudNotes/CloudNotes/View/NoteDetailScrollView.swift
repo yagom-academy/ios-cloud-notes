@@ -7,7 +7,7 @@
 
 import UIKit
 
-class NoteDetailScrollView: UIScrollView {
+final class NoteDetailScrollView: UIScrollView {
     private let noteDetailStackView = UIStackView()
     private(set) var lastModifiedDateLabel = UILabel()
     private(set) var noteDetailTextView = UITextView()

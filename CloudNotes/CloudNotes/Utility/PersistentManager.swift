@@ -1,11 +1,11 @@
 import Foundation
 import CoreData
 
-class MemoDataManager {
-    static let shared = MemoDataManager()
+class PersistentManager {
+    static let shared = PersistentManager()
     private init() {}
 
-    private(set) var memoList = [Memo]()
+    private(set) var notes = [Note]()
     
     lazy var persistentContainer: NSPersistentCloudKitContainer = {
         let container = NSPersistentCloudKitContainer(name: "CloudNotes")
@@ -30,37 +30,37 @@ class MemoDataManager {
     }
 }
 
-extension MemoDataManager {
-    func insertMemoList(_ memo: Memo) {
-        memoList.insert(memo, at: 0)
+extension PersistentManager {
+    func insertNote(_ note: Note) {
+        notes.insert(note, at: 0)
     }
     
-    func setUpMemoList() {
+    func setUpNotes() {
         guard let newData = fetch() else {
             return
         }
-        self.memoList = newData
+        self.notes = newData
     }
     
-    func removeMemoList(at index: Int) -> Memo {
-        return memoList.remove(at: index)
+    func removeNote(at index: Int) -> Note {
+        return notes.remove(at: index)
     }
     
-    func deleteAll(_ item: [Memo]) {
+    func deleteAll(_ item: [Note]) {
         item.forEach { item in
             delete(item)
         }
     }
     
-    func moveMemoList(from oldIndex: Int, to newIndex: Int) {
-        memoList.move(from: oldIndex, to: newIndex)
+    func moveNotes(from oldIndex: Int, to newIndex: Int) {
+        notes.move(from: oldIndex, to: newIndex)
     }
 }
 
 // MARK: - CRUD
-extension MemoDataManager {
+extension PersistentManager {
     @discardableResult
-    func insert(entityName: String = "Memo", items: [String: Any]) -> Memo? {
+    func insert(entityName: String = "Note", items: [String: Any]) -> Note? {
         let context = persistentContainer.viewContext
         let managedObject = NSEntityDescription.insertNewObject(forEntityName: entityName, into: context)
         return update(managedObject, items: items)
@@ -68,23 +68,23 @@ extension MemoDataManager {
     
     @discardableResult
     func fetch(
-        entityName: String = "Memo",
+        entityName: String = "Note",
         predicate: NSPredicate? = nil,
         sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: "lastModified", ascending: false)]
-    ) -> [Memo]? {
+    ) -> [Note]? {
         let context = persistentContainer.viewContext
         let request = NSFetchRequest<NSManagedObject>(entityName: entityName)
         request.predicate = predicate
         request.returnsObjectsAsFaults = false
         request.sortDescriptors = sortDescriptors
-        guard let newData = try? context.fetch(request) as? [Memo] else {
+        guard let newData = try? context.fetch(request) as? [Note] else {
             return nil
         }
         return newData
     }
     
     @discardableResult
-    func update(_ managedObject: NSManagedObject, items: [String: Any]) -> Memo? {
+    func update(_ managedObject: NSManagedObject, items: [String: Any]) -> Note? {
         let keys = managedObject.entity.attributesByName.keys
         for key in keys {
             if let value = items[key] {
@@ -93,18 +93,18 @@ extension MemoDataManager {
         }
         saveContext()
         fetch()
-        return managedObject as? Memo
+        return managedObject as? Note
     }
     
-    func delete(_ item: Memo) {
+    func delete(_ item: Note) {
         let context = persistentContainer.viewContext
-        let memo = item as NSManagedObject
-        context.delete(memo)
+        let note = item as NSManagedObject
+        context.delete(note)
         saveContext()
     }
 
-    func updateMemo(
-        entityName: String = "Memo",
+    func updateNote(
+        entityName: String = "Note",
         id: UUID?,
         title: String?,
         body: String?,
@@ -114,12 +114,12 @@ extension MemoDataManager {
             return
         }
         let predicate = NSPredicate(format: "id == %@", id as CVarArg)
-        guard let memo = fetch(entityName: entityName, predicate: predicate)?.first else {
+        guard let note = fetch(entityName: entityName, predicate: predicate)?.first else {
             return
         }
-        memo.title = title
-        memo.body = body
-        memo.lastModified = lastModified
+        note.title = title
+        note.body = body
+        note.lastModified = lastModified
         saveContext()
     }
 }

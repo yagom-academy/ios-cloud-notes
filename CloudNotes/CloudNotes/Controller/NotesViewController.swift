@@ -1,6 +1,6 @@
 import UIKit
 
-class MemoListViewController: UITableViewController {
+class NotesViewController: UITableViewController {
     enum Constant {
         static let navigationTitle = "메모"
         static let lastModified = "lastModified"
@@ -14,7 +14,7 @@ class MemoListViewController: UITableViewController {
         setUpNavigationItem()
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.register(MemoListCell.self, forCellReuseIdentifier: MemoListCell.identifier)
+        tableView.register(NotesCell.self, forCellReuseIdentifier: NotesCell.identifier)
     }
     
     private func setUpNavigationItem() {
@@ -27,22 +27,22 @@ class MemoListViewController: UITableViewController {
     }
 }
 // MARK: - Add
-extension MemoListViewController {
+extension NotesViewController {
     @objc private func tappedAddButton() {
-        let newMemo: [String : Any] = [
+        let newNote: [String : Any] = [
             Constant.lastModified: Date().timeIntervalSince1970,
             Constant.id: UUID()
         ]
-        MemoDataManager.shared.insert(items: newMemo)
+        PersistentManager.shared.insert(items: newNote)
         insertCell()
     }
     
     private func insertCell() {
         guard let splitVC = self.splitViewController as? SplitViewController,
-              let newData = MemoDataManager.shared.fetch()?.first else {
+              let newData = PersistentManager.shared.fetch()?.first else {
             return
         }
-        MemoDataManager.shared.insertMemoList(newData)
+        PersistentManager.shared.insertNote(newData)
         splitVC.present(at: .zero)
         let newIndexPath = IndexPath(row: .zero, section: .zero)
         tableView.insertRows(at: [newIndexPath], with: .fade)
@@ -51,7 +51,7 @@ extension MemoListViewController {
 }
 
 // MARK: - Update
-extension MemoListViewController {
+extension NotesViewController {
     func updateData(at index: Int) {
         guard self.tableView.numberOfRows(inSection: .zero) != .zero else {
             return
@@ -71,25 +71,25 @@ extension MemoListViewController {
 }
 
 // MARK: - DataSource
-extension MemoListViewController {
+extension NotesViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return MemoDataManager.shared.memoList.count
+        return PersistentManager.shared.notes.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(
-            withIdentifier: MemoListCell.identifier,
+            withIdentifier: NotesCell.identifier,
             for: indexPath
-        ) as? MemoListCell else {
+        ) as? NotesCell else {
             return UITableViewCell()
         }
-        cell.configure(with: MemoDataManager.shared.memoList[safe: indexPath.row])
+        cell.configure(with: PersistentManager.shared.notes[safe: indexPath.row])
         return cell
     }
 }
 
 // MARK: - Delegate
-extension MemoListViewController {
+extension NotesViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let splitVC = self.splitViewController as? SplitViewController else {
             return
@@ -118,7 +118,7 @@ extension MemoListViewController {
     }
     
     private func showActivityView(at index: Int) {
-        self.showActivityViewController(data: MemoDataManager.shared.memoList[index].body ?? "")
+        self.showActivityViewController(data: PersistentManager.shared.notes[index].body ?? "")
     }
     
     // MARK: - Delete
@@ -126,9 +126,9 @@ extension MemoListViewController {
         guard let splitVC = self.splitViewController as? SplitViewController else {
             return
         }
-        let item = MemoDataManager.shared.removeMemoList(at: indexPath.row)
-        MemoDataManager.shared.delete(item)
-        splitVC.clearMemoTextView()
+        let item = PersistentManager.shared.removeNote(at: indexPath.row)
+        PersistentManager.shared.delete(item)
+        splitVC.clearNoteTextView()
         tableView.deleteRows(at: [indexPath], with: .fade)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             let index = indexPath.row == .zero ? .zero : indexPath.row - 1

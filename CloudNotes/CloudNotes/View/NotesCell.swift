@@ -1,7 +1,7 @@
 import UIKit
 
-class MemoListCell: UITableViewCell {
-    static let identifier = "MemoListCell"
+class NotesCell: UITableViewCell {
+    static let identifier = "NoteListCell"
     
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -70,7 +70,7 @@ class MemoListCell: UITableViewCell {
         }
     }
     
-    func configure(with item: Memo?) {
+    func configure(with item: Note?) {
         let data = item?.body?.split(separator: "\n")
         let title = item?.title ?? "새로운 메모"
         let body = data?[safe: 1]?.trimmingCharacters(in: ["\n", " "]) ?? "추가 텍스트 없음"

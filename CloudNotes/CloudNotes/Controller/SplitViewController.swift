@@ -1,14 +1,14 @@
 import UIKit
 
 class SplitViewController: UISplitViewController {
-    private let primaryVC = MemoListViewController(style: .insetGrouped)
-    private let secondaryVC = MemoDetailViewController()
+    private let primaryVC = NotesViewController(style: .insetGrouped)
+    private let secondaryVC = NoteDetailViewController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpChildView()
         setUpDisplay()
-        MemoDataManager.shared.setUpMemoList()
+        PersistentManager.shared.setUpNotes()
         present(at: .zero)
         hideKeyboard()
     }
@@ -16,7 +16,7 @@ class SplitViewController: UISplitViewController {
 
 // MARK: - Primary Related Method
 extension SplitViewController {
-    func updateMemoList(at index: Int) {
+    func updateNotes(at index: Int) {
         primaryVC.updateData(at: index)
     }
     
@@ -36,7 +36,7 @@ extension SplitViewController {
         show(.secondary)
     }
     
-    func clearMemoTextView() {
+    func clearNoteTextView() {
         secondaryVC.clearTextView()
     }
 }

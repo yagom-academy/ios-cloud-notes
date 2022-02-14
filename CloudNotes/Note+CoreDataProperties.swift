@@ -2,10 +2,10 @@ import Foundation
 import CoreData
 
 
-extension Memo {
+extension Note {
 
-    @nonobjc public class func fetchRequest() -> NSFetchRequest<Memo> {
-        return NSFetchRequest<Memo>(entityName: "Memo")
+    @nonobjc public class func fetchRequest() -> NSFetchRequest<Note> {
+        return NSFetchRequest<Note>(entityName: "Note")
     }
 
     @NSManaged public var id: UUID?
@@ -15,6 +15,6 @@ extension Memo {
 
 }
 
-extension Memo : Identifiable {
+extension Note : Identifiable {
 
 }

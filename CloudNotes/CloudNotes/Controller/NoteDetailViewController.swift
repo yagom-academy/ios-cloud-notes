@@ -1,6 +1,6 @@
 import UIKit
 
-class MemoDetailViewController: UIViewController {
+class NoteDetailViewController: UIViewController {
     private enum Constant {
         static let lineBreak: Character = "\n"
         static let navigationBarIconName = "ellipsis.circle"
@@ -16,7 +16,7 @@ class MemoDetailViewController: UIViewController {
         ]
     }
     private var currentIndex: Int = .zero
-    private let memoDetailTextView: UITextView = {
+    private let noteDetailTextView: UITextView = {
         let textView = UITextView()
         textView.font = .preferredFont(forTextStyle: .body)
         textView.adjustsFontForContentSizeCategory = true
@@ -30,25 +30,25 @@ class MemoDetailViewController: UIViewController {
         setUpNavigationItem()
         setUpTextView()
         setUpNotification()
-        memoDetailTextView.delegate = self
+        noteDetailTextView.delegate = self
     }
 }
 
 // MARK: - Update
-extension MemoDetailViewController {
+extension NoteDetailViewController {
     func updateData(with index: Int) {
         currentIndex = index
-        memoDetailTextView.text = MemoDataManager.shared.memoList[safe: currentIndex]?.body
-        memoDetailTextView.attributedText = configureTextStyle()
+        noteDetailTextView.text = PersistentManager.shared.notes[safe: currentIndex]?.body
+        noteDetailTextView.attributedText = configureTextStyle()
     }
     
     func clearTextView() {
-        memoDetailTextView.text = nil
+        noteDetailTextView.text = nil
     }
 }
 
 // MARK: - SetUp Navigation Item
-extension MemoDetailViewController {
+extension NoteDetailViewController {
     private func setUpNavigationItem() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             image: UIImage(systemName: Constant.navigationBarIconName),
@@ -61,8 +61,8 @@ extension MemoDetailViewController {
         guard let splitVC = self.splitViewController as? SplitViewController else {
             return
         }
-        self.showMemoActionSheet(shareHandler: { _ in
-            self.showActivityViewController(data: MemoDataManager.shared.memoList[self.currentIndex].body ?? "")
+        self.showNoteActionSheet(shareHandler: { _ in
+            self.showActivityViewController(data: PersistentManager.shared.notes[self.currentIndex].body ?? "")
         }, deleteHandler: {_ in
             self.showAlert(
                 message: Constant.deleteWarningMessage,
@@ -77,14 +77,14 @@ extension MemoDetailViewController {
 }
 
 // MARK: - SetUp UITextView
-extension MemoDetailViewController {
+extension NoteDetailViewController {
     private func setUpTextView() {
-        view.addSubview(memoDetailTextView)
+        view.addSubview(noteDetailTextView)
         NSLayoutConstraint.activate([
-            memoDetailTextView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            memoDetailTextView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            memoDetailTextView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            memoDetailTextView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
+            noteDetailTextView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            noteDetailTextView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            noteDetailTextView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            noteDetailTextView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
         ])
     }
     
@@ -109,29 +109,29 @@ extension MemoDetailViewController {
             return
         }
         keyboardFrame = view.convert(keyboardFrame, from: nil)
-        var contentInset = memoDetailTextView.contentInset
+        var contentInset = noteDetailTextView.contentInset
         contentInset.bottom = keyboardFrame.size.height
-        memoDetailTextView.contentInset = contentInset
-        memoDetailTextView.scrollIndicatorInsets = memoDetailTextView.contentInset
+        noteDetailTextView.contentInset = contentInset
+        noteDetailTextView.scrollIndicatorInsets = noteDetailTextView.contentInset
     }
     
     @objc private func keyboardWillHide(_ notification: Notification) {
-        memoDetailTextView.contentInset = UIEdgeInsets.zero
-        memoDetailTextView.scrollIndicatorInsets = memoDetailTextView.contentInset
+        noteDetailTextView.contentInset = UIEdgeInsets.zero
+        noteDetailTextView.scrollIndicatorInsets = noteDetailTextView.contentInset
     }
 }
 
 // MARK: - UITextView Font Setting
-extension MemoDetailViewController {
+extension NoteDetailViewController {
     private func configureTextStyle() -> NSMutableAttributedString? {
-        guard let memo = MemoDataManager.shared.memoList[safe: currentIndex]?.body?.split(
+        guard let note = PersistentManager.shared.notes[safe: currentIndex]?.body?.split(
             separator: Constant.lineBreak,
             maxSplits: 1
         ) else {
             return nil
         }
-        let titleText = memo[safe: 0]?.description
-        let bodyText = memo[safe: 1]?.description
+        let titleText = note[safe: 0]?.description
+        let bodyText = note[safe: 1]?.description
         
         let attributedString = NSMutableAttributedString()
         let title = attributedText(
@@ -160,7 +160,7 @@ extension MemoDetailViewController {
 }
 
 // MARK: - TextViewDelegate
-extension MemoDetailViewController: UITextViewDelegate {
+extension NoteDetailViewController: UITextViewDelegate {
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         let currentText = textView.text as NSString
         let titleRange = currentText.range(of: Constant.lineBreak.description)
@@ -176,24 +176,24 @@ extension MemoDetailViewController: UITextViewDelegate {
         guard let splitVC = self.splitViewController as? SplitViewController else {
             return
         }
-        updateMemoData(with: textView.text)
-        splitVC.updateMemoList(at: currentIndex)
+        updateNoteData(with: textView.text)
+        splitVC.updateNotes(at: currentIndex)
         guard currentIndex != .zero else {
             return
         }
-        MemoDataManager.shared.moveMemoList(from: currentIndex, to: .zero)
+        PersistentManager.shared.moveNotes(from: currentIndex, to: .zero)
         splitVC.moveTableViewCell(at: currentIndex)
         currentIndex = .zero
     }
     
-    private func updateMemoData(with text: String) {
+    private func updateNoteData(with text: String) {
         let data = text.split(separator: Constant.lineBreak, maxSplits: 1)
         let lastModified = Date().timeIntervalSince1970
         let title = data[safe: .zero]?.description
         let body = text
-        guard let id = MemoDataManager.shared.memoList[safe: currentIndex]?.id else {
+        guard let id = PersistentManager.shared.notes[safe: currentIndex]?.id else {
             return
         }
-        MemoDataManager.shared.updateMemo(id: id, title: title, body: body, lastModified: lastModified)
+        PersistentManager.shared.updateNote(id: id, title: title, body: body, lastModified: lastModified)
     }
 }

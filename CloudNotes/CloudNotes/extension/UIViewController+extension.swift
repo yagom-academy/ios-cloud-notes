@@ -29,7 +29,7 @@ extension UIViewController {
         self.present(activityViewController, animated: true, completion: nil)
     }
     
-    func showMemoActionSheet(
+    func showNoteActionSheet(
         shareHandler: @escaping (UIAlertAction) -> Void,
         deleteHandler: @escaping (UIAlertAction) -> Void,
         barButtonItem: UIBarButtonItem? = nil

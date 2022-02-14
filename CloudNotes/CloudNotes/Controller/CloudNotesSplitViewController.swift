@@ -28,6 +28,7 @@ final class CloudNotesSplitViewController: UISplitViewController {
         noteListViewController.delegate = self
         noteListViewController.noteDataSource = noteDataSource
         let noteDetailViewController = NoteDetailViewController()
+        noteDetailViewController.delegate = self
         noteDetailViewController.noteDataSource = noteDataSource
         setViewController(
           noteListViewController,
@@ -49,5 +50,13 @@ extension CloudNotesSplitViewController: NoteListViewDelegate {
         ) as? NoteDetailViewController {
             detailViewController.setupDetailView(index: row)
         }
+    }
+}
+
+// MARK: - NoteDetailView Delegate
+
+extension CloudNotesSplitViewController: NoteDetailViewDelegate {
+    func textViewDidChange(noteInformation: NoteInformation) {
+        
     }
 }

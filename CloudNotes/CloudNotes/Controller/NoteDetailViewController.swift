@@ -7,12 +7,17 @@
 
 import UIKit
 
+protocol NoteDetailViewDelegate: AnyObject {
+    func textViewDidChange(noteInformation: NoteInformation)
+}
+
 final class NoteDetailViewController: UIViewController {
     
     // MARK: - Properties
     
     private let noteDetailScrollView = NoteDetailScrollView()
     var noteDataSource: CloudNotesDataSource?
+    weak var delegate: NoteDetailViewDelegate?
 
     // MARK: - Methods
     
@@ -75,6 +80,8 @@ extension NoteDetailViewController: UIScrollViewDelegate {
     }
 }
 
+// MARK: - TextView Delegate
+
 extension NoteDetailViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         var title = ""
@@ -92,6 +99,8 @@ extension NoteDetailViewController: UITextViewDelegate {
         } else {
             title = text
         }
+        let information = NoteInformation(title: title, content: body, lastModifiedDate: Date().timeIntervalSince1970)
+        delegate?.textViewDidChange(noteInformation: information)
     }
 }
 

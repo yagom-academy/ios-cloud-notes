@@ -1,0 +1,11 @@
+disabled_rules:
+  - line_length
+  - trailing_whitespace
+opt_in_rules:
+  - force_unwrapping
+included:
+  - CloudNotes
+excluded:
+  - Pods
+  - CloudNotes/AppDelegate.swift
+  - CloudNotes/SceneDelegate.swift

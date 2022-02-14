@@ -12,11 +12,25 @@ class SplitViewController: UISplitViewController {
         present(at: .zero)
         hideKeyboard()
     }
-    
+}
+
+// MARK: - Primary related Method
+extension SplitViewController {
     func updateMemoList(at index: Int) {
         primaryVC.updateData(at: index)
     }
     
+    func moveTableViewCell(at index: Int) {
+        primaryVC.moveCell(at: index)
+    }
+    
+    func deleteTableViewCell(indexPath: IndexPath) {
+        primaryVC.deleteCell(indexPath: indexPath)
+    }
+}
+
+// MARK: - Secondary related Method
+extension SplitViewController {
     func present(at indexPath: Int) {
         secondaryVC.updateData(with: indexPath)
         show(.secondary)
@@ -24,14 +38,6 @@ class SplitViewController: UISplitViewController {
     
     func clearMemoTextView() {
         secondaryVC.clearTextView()
-    }
-    
-    func deleteTableViewCell(indexPath: IndexPath) {
-        primaryVC.deleteCell(indexPath: indexPath)
-    }
-    
-    func moveTableViewCell(at index: Int) {
-        primaryVC.moveCell(at: index)
     }
 }
 

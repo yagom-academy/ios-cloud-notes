@@ -6,6 +6,7 @@ final class MemoListViewController: UIViewController {
   weak var delegate: MemoDisplayable?
   private var memos = [Memo]()
   private let tableView = UITableView()
+  private let firstRowIndexPath = IndexPath(row: 0, section: 0)
   private var keyboardShowNotification: NSObjectProtocol?
   private var keyboardHideNotification: NSObjectProtocol?
 
@@ -14,7 +15,6 @@ final class MemoListViewController: UIViewController {
     addTableView()
     setNavigationBar()
     loadJSON()
-    let firstRowIndexPath = IndexPath(row: 0, section: 0)
     tableView.selectRow(at: firstRowIndexPath, animated: false, scrollPosition: .top)
     loadDetail(at: firstRowIndexPath)
   }
@@ -87,16 +87,15 @@ final class MemoListViewController: UIViewController {
 
   @objc private func addMemo() {
     let newMemo = Memo(title: "", body: "", lastModified: Date())
-    let firstCellIndexPath = IndexPath(row: 0, section: 0)
     if memos.isEmpty {
       memos.append(newMemo)
-      tableView.reloadRows(at: [firstCellIndexPath], with: .fade)
+      tableView.reloadRows(at: [firstRowIndexPath], with: .fade)
     } else {
       memos.insert(newMemo, at: 0)
-      tableView.insertRows(at: [firstCellIndexPath], with: .fade)
+      tableView.insertRows(at: [firstRowIndexPath], with: .fade)
     }
-    tableView.selectRow(at: firstCellIndexPath, animated: true, scrollPosition: .top)
-    loadDetail(at: firstCellIndexPath)
+    tableView.selectRow(at: firstRowIndexPath, animated: true, scrollPosition: .top)
+    loadDetail(at: firstRowIndexPath)
   }
   
   private func loadJSON() {
@@ -163,13 +162,12 @@ extension MemoListViewController: UITableViewDelegate {
   }
   
   func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-    let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, completionHandler in
+    let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [firstRowIndexPath] _, _, completionHandler in
       self.memos.remove(at: indexPath.row)
       if self.memos.isEmpty {
         self.addMemo()
       } else {
         tableView.deleteRows(at: [indexPath], with: .fade)
-        let firstRowIndexPath = IndexPath(row: 0, section: 0)
         tableView.selectRow(at: firstRowIndexPath, animated: false, scrollPosition: .none)
         self.loadDetail(at: firstRowIndexPath)
       }

@@ -98,6 +98,7 @@ extension MemoListViewController {
             self.deleteCell(indexPath: indexPath)
             completeHandeler(true)
         }
+        deleteAction.image = UIImage(systemName: "trash.fill")
         let shareAction = UIContextualAction(style: .normal, title: "share") { _, _, completeHandeler in
             guard let splitVC = self.splitViewController as? SplitViewController else {
                 return
@@ -108,6 +109,7 @@ extension MemoListViewController {
             )
             completeHandeler(true)
         }
+        shareAction.image = UIImage(systemName: "square.and.arrow.up")
         shareAction.backgroundColor = .systemBlue
         return UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
     }

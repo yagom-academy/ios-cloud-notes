@@ -32,7 +32,11 @@ extension UIViewController {
     func showMemoActionSheet(shareHandler: @escaping (UIAlertAction) -> Void, deleteHandler: @escaping (UIAlertAction) -> Void, sender: UIBarButtonItem? = nil) {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let shareAction = UIAlertAction(title: "Share...", style: .default, handler: shareHandler)
+        shareAction.setValue(0, forKey: "titleTextAlignment")
+        shareAction.setValue(UIImage(systemName: "square.and.arrow.up"), forKey: "image")
         let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: deleteHandler)
+        deleteAction.setValue(0, forKey: "titleTextAlignment")
+        deleteAction.setValue(UIImage(systemName: "trash.fill"), forKey: "image")
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         alert.addAction(shareAction)
         alert.addAction(deleteAction)

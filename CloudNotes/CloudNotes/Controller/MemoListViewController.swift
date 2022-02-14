@@ -7,6 +7,7 @@ final class MemoListViewController: UIViewController {
   private var memos = [Memo]()
   private let tableView = UITableView()
   private let firstRowIndexPath = IndexPath(row: 0, section: 0)
+  private var currentMemoIndexPath = IndexPath(row: 0, section: 0)
   private var keyboardShowNotification: NSObjectProtocol?
   private var keyboardHideNotification: NSObjectProtocol?
 
@@ -116,6 +117,7 @@ final class MemoListViewController: UIViewController {
 
   private func loadDetail(at indexPath: IndexPath) {
     let memo = memos[indexPath.row]
+    currentMemoIndexPath = indexPath
     delegate?.show(memo: memo)
   }
 }
@@ -124,11 +126,10 @@ final class MemoListViewController: UIViewController {
 
 extension MemoListViewController: MemoStorable {
   func update(_ memo: Memo) {
-    let indexPath = tableView.indexPathForSelectedRow
-    guard let index = indexPath?.row else { return }
+    let index = currentMemoIndexPath.row
     memos[index] = memo
     tableView.reloadData()
-    tableView.selectRow(at: indexPath, animated: false, scrollPosition: .top)
+    tableView.selectRow(at: currentMemoIndexPath, animated: false, scrollPosition: .none)
   }
 }
 
@@ -168,13 +169,17 @@ extension MemoListViewController: UITableViewDelegate {
         self.addMemo()
       } else {
         tableView.deleteRows(at: [indexPath], with: .fade)
-        tableView.selectRow(at: firstRowIndexPath, animated: false, scrollPosition: .none)
-        self.loadDetail(at: firstRowIndexPath)
+        self.currentMemoIndexPath.row -= self.currentMemoIndexPath.row > indexPath.row ?  1 : 0
       }
       completionHandler(true)
     }
     deleteAction.image = UIImage(systemName: "trash")
     let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
     return configuration
+  }
+  
+  func tableView(_ tableView: UITableView, didEndEditingRowAt indexPath: IndexPath?) {
+    tableView.selectRow(at: currentMemoIndexPath, animated: false, scrollPosition: .none)
+    self.loadDetail(at: currentMemoIndexPath)
   }
 }

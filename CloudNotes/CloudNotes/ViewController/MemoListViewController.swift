@@ -82,6 +82,7 @@ extension MemoListViewController {
         do {
             let context = AppDelegate.persistentContainer.viewContext
             memos = try context.fetch(Memo.fetchRequest())
+            memos = memos.reversed()
             tableView.reloadData()
         } catch {
             print(error)

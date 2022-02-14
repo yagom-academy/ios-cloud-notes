@@ -40,14 +40,14 @@ class MemoDetailViewController: UIViewController {
     }
     
     private func configureNavigationBar() {
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: nil)
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: #selector(requestDeleteMemo))
     }
     
     @objc private func requestDeleteMemo() {
         guard let memoSplitViewController = self.splitViewController as? MemoSplitViewController else {
             return
         }
-        
+
         guard let currentIndexPath = currentIndexPath else {
             return
         }

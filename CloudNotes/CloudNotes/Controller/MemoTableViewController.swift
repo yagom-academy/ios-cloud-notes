@@ -50,10 +50,15 @@ class MemoTableViewController: UITableViewController {
     }
     
     func presentDeleteAlert(at indexPath: IndexPath) {
+        guard let memoSplitViewController = self.splitViewController as? MemoSplitViewController else {
+            return
+        }
+        
         let alert = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
         let cancelAction = UIAlertAction(title: "취소", style: .cancel)
-        let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { action in
+        let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
             self.deleteMemo(at: indexPath)
+            memoSplitViewController.showPrimaryView()
         }
         alert.addAction(cancelAction)
         alert.addAction(deleteAction)

@@ -33,6 +33,10 @@ class MemoSplitViewController: UISplitViewController {
     func deleteMemo(at indexPath: IndexPath) {
         memoTableViewController.presentDeleteAlert(at: indexPath)
     }
+    
+    func showPrimaryView() {
+        show(.primary)
+    }
 }
 
 // MARK: - UISplitViewControllerDelegate

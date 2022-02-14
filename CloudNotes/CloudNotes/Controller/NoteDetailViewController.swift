@@ -56,5 +56,9 @@ extension NoteDetailViewController: NoteDetailDelegate {
     func selectNote(title: String, body: String) {
         self.noteDetailTextView.text = "\(title)\n\n\(body)"
     }
-
+    
+    func selectBlankNote() {
+        selectNote(title: "", body: "")
+    }
+    
 }

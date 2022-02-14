@@ -67,7 +67,7 @@ class NoteListTableViewController: UITableViewController {
         if editingStyle == .delete {
             noteModelManager.deleteNote(at: indexPath.row)
             tableView.reloadData()
-            delegate?.selectNote(title: "", body: "")
+            delegate?.selectBlankNote()
         }
     }
     

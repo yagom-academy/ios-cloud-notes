@@ -1,9 +1,9 @@
 import UIKit
 
 class NoteSplitViewController: UISplitViewController {
-    let dataStorage = DataStorage()
-    let noteListViewController = NoteListViewController()
-    let noteDetailViewController = NoteDetailViewController()
+    private let dataStorage = DataStorage()
+    private let noteListViewController = NoteListViewController()
+    private let noteDetailViewController = NoteDetailViewController()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,12 +33,10 @@ extension NoteSplitViewController: NoteListViewControllerDelegate {
 
 extension NoteSplitViewController: NoteListViewControllerDataSource {
     func noteListViewControllerNumberOfData(_ viewController: NoteListViewController) -> Int {
-        dataStorage.assetData.count ?? .zero
+        dataStorage.assetData.count
     }
     
     func noteListViewControllerSampleForCell(_ viewController: NoteListViewController, indexPath: IndexPath) -> Sample? {
         dataStorage.assetData[safe: indexPath.row]
     }
-    
-    
 }

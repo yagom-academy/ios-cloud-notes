@@ -1,12 +1,20 @@
 import UIKit
 
 protocol NoteListViewControllerDelegate: AnyObject {
-    func noteListViewController(_ viewController: NoteListViewController, didSelectedCell indexPath: IndexPath)
+    func noteListViewController(
+        _ viewController: NoteListViewController,
+        didSelectedCell indexPath: IndexPath
+    )
 }
 
 protocol NoteListViewControllerDataSource: AnyObject {
-    func noteListViewControllerNumberOfData(_ viewController: NoteListViewController) -> Int
-    func noteListViewControllerSampleForCell(_ viewController: NoteListViewController, indexPath: IndexPath) -> Sample?
+    func noteListViewControllerNumberOfData(
+        _ viewController: NoteListViewController
+    ) -> Int
+    func noteListViewControllerSampleForCell(
+        _ viewController: NoteListViewController,
+        indexPath: IndexPath
+    ) -> Sample?
 }
 
 class NoteListViewController: UIViewController {

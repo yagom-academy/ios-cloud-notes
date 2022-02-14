@@ -1,7 +1,7 @@
 import Foundation
 import CoreData
 
-class PersistentManager {
+final class PersistentManager {
     static let shared = PersistentManager()
     private init() {}
 

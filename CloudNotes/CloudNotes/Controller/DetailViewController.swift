@@ -46,10 +46,46 @@ final class DetailViewController: UIViewController {
     }
     
     private func configureNavigationBar() {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"),
-                                                            style: .plain,
-                                                            target: self,
-                                                            action: nil)
+        let detailButton = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"),
+                                           style: .plain,
+                                           target: self,
+                                           action: #selector(touchUpDetailButton))
+        navigationItem.rightBarButtonItem = detailButton
+    }
+    
+    @objc private func touchUpDetailButton() {
+        // ActivityView 나타내기
+        let shareAction = UIAlertAction(title: "Share...", style: .default) { _ in
+            
+            let title = "Jokes Are Us Diagnostics:"
+            let text = "Some Text"
+            
+            let textToShare: [Any] = [ title ]
+            let acitivityView = UIActivityViewController(activityItems: textToShare, applicationActivities: nil)
+                        
+            let alertPopover = acitivityView.popoverPresentationController
+            alertPopover?.barButtonItem = self.navigationItem.rightBarButtonItem
+            
+            self.present(acitivityView, animated: true, completion: nil)
+        }
+        
+        // 삭제 Alert 나타내기
+        let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
+            let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+            let deleteAction = UIAlertAction(title: "삭제", style: .destructive, handler: nil)
+            
+            let alert = AlertFactory().createAlert(style: .alert, title: "진짜요?", message: "정말로 삭제하시겠어요?", actions: cancelAction, deleteAction)
+            
+            self.present(alert, animated: true)
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        let alert = AlertFactory().createAlert(style: .actionSheet, title: nil, message: nil, actions: shareAction, deleteAction, cancelAction)
+        let alertPopover = alert.popoverPresentationController
+        alertPopover?.barButtonItem = navigationItem.rightBarButtonItem
+        
+        present(alert, animated: true)
     }
     
     private func configureTextView() {

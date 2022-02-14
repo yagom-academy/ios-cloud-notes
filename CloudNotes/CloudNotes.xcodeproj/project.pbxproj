@@ -14,6 +14,7 @@
 		2585787F27B4D90100889D06 /* Memo+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2585787D27B4D90100889D06 /* Memo+CoreDataClass.swift */; };
 		2585788027B4D90100889D06 /* Memo+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2585787E27B4D90100889D06 /* Memo+CoreDataProperties.swift */; };
 		2585788227B4D98300889D06 /* MemoDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2585788127B4D98300889D06 /* MemoDataManager.swift */; };
+		258578FF27BA292200889D06 /* UIFont+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258578FE27BA292200889D06 /* UIFont+extension.swift */; };
 		9A45A7DC27B65B6800CE33DD /* Array+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A45A7DB27B65B6800CE33DD /* Array+extension.swift */; };
 		9A7A1B1627B25FF000639908 /* Collection+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7A1B1527B25FF000639908 /* Collection+extension.swift */; };
 		9A7A1B1827B28D3800639908 /* UIViewController+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7A1B1727B28D3800639908 /* UIViewController+extension.swift */; };
@@ -53,6 +54,7 @@
 		2585787D27B4D90100889D06 /* Memo+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Memo+CoreDataClass.swift"; sourceTree = "<group>"; };
 		2585787E27B4D90100889D06 /* Memo+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Memo+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		2585788127B4D98300889D06 /* MemoDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoDataManager.swift; sourceTree = "<group>"; };
+		258578FE27BA292200889D06 /* UIFont+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+extension.swift"; sourceTree = "<group>"; };
 		9A45A7DB27B65B6800CE33DD /* Array+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+extension.swift"; sourceTree = "<group>"; };
 		9A7A1B1527B25FF000639908 /* Collection+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Collection+extension.swift"; sourceTree = "<group>"; };
 		9A7A1B1727B28D3800639908 /* UIViewController+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+extension.swift"; sourceTree = "<group>"; };
@@ -131,6 +133,7 @@
 				9A7A1B1527B25FF000639908 /* Collection+extension.swift */,
 				9A7A1B1727B28D3800639908 /* UIViewController+extension.swift */,
 				9A45A7DB27B65B6800CE33DD /* Array+extension.swift */,
+				258578FE27BA292200889D06 /* UIFont+extension.swift */,
 			);
 			path = extension;
 			sourceTree = "<group>";
@@ -365,6 +368,7 @@
 				2585788027B4D90100889D06 /* Memo+CoreDataProperties.swift in Sources */,
 				9A45A7DC27B65B6800CE33DD /* Array+extension.swift in Sources */,
 				2585788227B4D98300889D06 /* MemoDataManager.swift in Sources */,
+				258578FF27BA292200889D06 /* UIFont+extension.swift in Sources */,
 				9A7A1B1627B25FF000639908 /* Collection+extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

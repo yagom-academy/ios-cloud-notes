@@ -4,6 +4,14 @@ class MemoDetailViewController: UIViewController {
     enum Constant {
         static let lineBreak: Character = "\n"
         static let navigationBarIconName = "ellipsis.circle"
+        static let headerAttributes: [NSAttributedString.Key : Any] = [
+            .font: UIFont.preferredFont(for: .title1, weight: .bold),
+            .foregroundColor: UIColor.label
+        ]
+        static let bodyAttributes: [NSAttributedString.Key : Any] = [
+            .font: UIFont.preferredFont(forTextStyle: .body),
+            .foregroundColor: UIColor.label
+        ]
     }
     private var currentIndex: Int = 0
     private let memoDetailTextView: UITextView = {
@@ -55,8 +63,6 @@ extension MemoDetailViewController {
                 splitVC.deleteTableViewCell(indexPath: IndexPath(row: self.currentIndex, section: .zero))
             }
         }, sender: sender)
-        
-
     }
     
     private func setUpTextView() {
@@ -117,7 +123,18 @@ extension MemoDetailViewController: UITextViewDelegate {
         splitVC.moveTableViewCell(at: currentIndex)
         currentIndex = .zero
     }
-
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        let currentText = textView.text as NSString
+        let titleRange = currentText.range(of: "\n")
+        if titleRange.location < range.location {
+            textView.typingAttributes = Constant.bodyAttributes
+        } else {
+            textView.typingAttributes = Constant.headerAttributes
+        }
+        return true
+    }
+    
     private func updateMemoData(with text: String) {
         let data = text.split(separator: Constant.lineBreak, maxSplits: 1)
         let lastModified = Date().timeIntervalSince1970

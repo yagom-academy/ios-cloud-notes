@@ -44,11 +44,7 @@ final class DetailViewController: UIViewController {
   }
 
   override func viewWillDisappear(_ animated: Bool) {
-    guard
-      let keyboardShowNotification = keyboardShowNotification,
-      let keyboardHideNotification = keyboardHideNotification else { return }
-    NotificationCenter.default.removeObserver(keyboardShowNotification)
-    NotificationCenter.default.removeObserver(keyboardHideNotification)
+    removeObservers()
   }
 
   private func addObservers() {
@@ -68,7 +64,7 @@ final class DetailViewController: UIViewController {
     }
 
     keyboardShowNotification = NotificationCenter.default.addObserver(
-      forName: UIResponder.keyboardDidShowNotification,
+      forName: UIResponder.keyboardWillShowNotification,
       object: nil,
       queue: nil,
       using: addSafeAreaInset
@@ -79,6 +75,14 @@ final class DetailViewController: UIViewController {
       queue: nil,
       using: removeSafeAreaInset
     )
+  }
+
+  private func removeObservers() {
+    guard
+      let keyboardShowNotification = keyboardShowNotification,
+      let keyboardHideNotification = keyboardHideNotification else { return }
+    NotificationCenter.default.removeObserver(keyboardShowNotification)
+    NotificationCenter.default.removeObserver(keyboardHideNotification)
   }
   
   private func setNavigationBar() {

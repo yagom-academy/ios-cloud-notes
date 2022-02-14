@@ -8,9 +8,30 @@ final class MemoListViewController: UIViewController {
   private let tableView = UITableView()
   private var keyboardShowNotification: NSObjectProtocol?
   private var keyboardHideNotification: NSObjectProtocol?
+
+  fileprivate func extractedFunc() {
+    let firstRowIndexPath = IndexPath(row: 0, section: 0)
+    tableView.selectRow(at: firstRowIndexPath, animated: false, scrollPosition: .top)
+    loadDetail(at: firstRowIndexPath)
+  }
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    addTableView()
+    setNavigationBar()
+    loadJSON()
+    extractedFunc()
+  }
+  
+  override func viewDidAppear(_ animated: Bool) {
+    addObservers()
+  }
+
+  override func viewWillDisappear(_ animated: Bool) {
+    removeObservers()
+  }
+
+  private func addTableView() {
     view.addSubview(tableView)
     tableView.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
@@ -22,19 +43,6 @@ final class MemoListViewController: UIViewController {
     tableView.register(UITableViewCell.self, forCellReuseIdentifier: reuseIdentifier)
     tableView.dataSource = self
     tableView.delegate = self
-    setNavigationBar()
-    loadJSON()
-    let firstRowIndexPath = IndexPath(row: 0, section: 0)
-    tableView.selectRow(at: firstRowIndexPath, animated: false, scrollPosition: .top)
-    loadDetail(at: firstRowIndexPath)
-  }
-  
-  override func viewDidAppear(_ animated: Bool) {
-    addObservers()
-  }
-
-  override func viewWillDisappear(_ animated: Bool) {
-    removeObservers()
   }
 
   private func addObservers() {

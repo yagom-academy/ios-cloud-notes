@@ -51,7 +51,7 @@ class NoteDetailViewController: UIViewController {
     
 }
 
-extension NoteDetailViewController: NoteDetailDelegate {
+extension NoteDetailViewController: NoteListTableViewDelegate {
     
     func selectNote(title: String, body: String) {
         self.noteDetailTextView.text = "\(title)\n\n\(body)"

@@ -1,6 +1,6 @@
 import Foundation
 
-protocol NoteDetailDelegate: AnyObject {
+protocol NoteListTableViewDelegate: AnyObject {
     
     func selectNote(title: String, body: String)
     func selectBlankNote()

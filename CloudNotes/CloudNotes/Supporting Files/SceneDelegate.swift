@@ -3,8 +3,8 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     var window: UIWindow?
-    private let noteModelManaget: NoteModel = NoteModelManager()
-    private lazy var primaryViewController = NoteListTableViewController(model: noteModelManaget)
+    private let noteModelManager: NoteModel = NoteModelManager()
+    private lazy var primaryViewController = NoteListTableViewController(model: noteModelManager)
     private lazy var secondaryViewController = NoteDetailViewController()
     private lazy var rootViewController: UISplitViewController = {
         let splitViewController = UISplitViewController(style: .doubleColumn)
@@ -17,11 +17,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         willConnectTo session: UISceneSession,
         options connectionOptions: UIScene.ConnectionOptions
     ) {
-        guard let windewScene = (scene as? UIWindowScene) else {
+        guard let windowScene = (scene as? UIWindowScene) else {
             return
         }
         configureRootView()
-        window = UIWindow(windowScene: windewScene)
+        window = UIWindow(windowScene: windowScene)
         window?.rootViewController = rootViewController
         window?.makeKeyAndVisible()
     }

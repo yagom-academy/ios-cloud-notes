@@ -1,7 +1,7 @@
 import UIKit
 
 class NotesCell: UITableViewCell {
-    static let identifier = "NoteListCell"
+    static let identifier = "NotesCell"
     
     private let titleLabel: UILabel = {
         let label = UILabel()

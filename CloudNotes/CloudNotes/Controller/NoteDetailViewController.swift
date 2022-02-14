@@ -57,6 +57,7 @@ extension NoteDetailViewController {
             action: #selector(moreViewbuttonTapped(_:))
         )
     }
+    
     @objc func moreViewbuttonTapped(_ sender: UIBarButtonItem) {
         guard let splitVC = self.splitViewController as? SplitViewController else {
             return

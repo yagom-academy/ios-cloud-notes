@@ -1,7 +1,7 @@
 import UIKit
 
 class NotesViewController: UITableViewController {
-    enum Constant {
+    private enum Constant {
         static let navigationTitle = "메모"
         static let lastModified = "lastModified"
         static let id = "id"
@@ -26,6 +26,7 @@ class NotesViewController: UITableViewController {
         )
     }
 }
+
 // MARK: - Add
 extension NotesViewController {
     @objc private func tappedAddButton() {
@@ -66,7 +67,7 @@ extension NotesViewController {
             at: IndexPath(row: index, section: .zero),
             to: newIndexPath
         )
-        tableView.selectRow(at: newIndexPath, animated: true, scrollPosition: .middle)
+        tableView.selectRow(at: newIndexPath, animated: false, scrollPosition: .middle)
     }
 }
 

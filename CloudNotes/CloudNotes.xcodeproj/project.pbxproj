@@ -14,6 +14,7 @@
 		1A4CDBD379C838A981008068 /* Pods_CloudNotesTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8797059B2E1AE8C63E4A9A70 /* Pods_CloudNotesTests.framework */; };
 		636B914927B238E80027D4A4 /* Sample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636B914827B238E80027D4A4 /* Sample.swift */; };
 		636B914B27B253EB0027D4A4 /* NoteListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636B914A27B253EB0027D4A4 /* NoteListTableViewCell.swift */; };
+		63B93E5B27BA2D51008E407F /* UITableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B93E5A27BA2D51008E407F /* UITableView+Extension.swift */; };
 		C53BDE968A7FBF8F48ECC6F7 /* Pods_CloudNotes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E231DE067500A8F54483010 /* Pods_CloudNotes.framework */; };
 		C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */; };
 		C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */; };
@@ -52,6 +53,7 @@
 		1E231DE067500A8F54483010 /* Pods_CloudNotes.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CloudNotes.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		636B914827B238E80027D4A4 /* Sample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sample.swift; sourceTree = "<group>"; };
 		636B914A27B253EB0027D4A4 /* NoteListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteListTableViewCell.swift; sourceTree = "<group>"; };
+		63B93E5A27BA2D51008E407F /* UITableView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Extension.swift"; sourceTree = "<group>"; };
 		6D758B06DD58F0F1200E2FD2 /* Pods-CloudNotesTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudNotesTests.debug.xcconfig"; path = "Target Support Files/Pods-CloudNotesTests/Pods-CloudNotesTests.debug.xcconfig"; sourceTree = "<group>"; };
 		8797059B2E1AE8C63E4A9A70 /* Pods_CloudNotesTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CloudNotesTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		939A57F67E92DC2225A1DCAB /* Pods_CloudNotes_CloudNotesUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CloudNotes_CloudNotesUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -108,8 +110,8 @@
 		185EF24E27B24D0E00204AEA /* Utility */ = {
 			isa = PBXGroup;
 			children = (
+				63B93E5927BA2CF6008E407F /* Extension */,
 				185EF24827B23C1800204AEA /* JSONParser.swift */,
-				185EF28D27B52D0D00204AEA /* Array+Extension.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -135,6 +137,15 @@
 				EF184B50C5C46510C9CF8F3D /* Pods-CloudNotesTests.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		63B93E5927BA2CF6008E407F /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				185EF28D27B52D0D00204AEA /* Array+Extension.swift */,
+				63B93E5A27BA2D51008E407F /* UITableView+Extension.swift */,
+			);
+			path = Extension;
 			sourceTree = "<group>";
 		};
 		C7481C6125BBCF3900B9CA55 = {
@@ -459,6 +470,7 @@
 				C7481C7825BBCF3900B9CA55 /* CloudNotes.xcdatamodeld in Sources */,
 				FB8B343227B208D500D85311 /* NoteDetailViewController.swift in Sources */,
 				185EF24927B23C1800204AEA /* JSONParser.swift in Sources */,
+				63B93E5B27BA2D51008E407F /* UITableView+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -9,7 +9,7 @@ class NoteListViewController: UIViewController {
     weak var delegate: NoteListViewControllerDelegate?
     private var listTableView: UITableView = {
         var tableView = UITableView(frame: .zero)
-        tableView.register(NoteListTableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.register(cellWithClass: NoteListTableViewCell.self)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
@@ -62,15 +62,12 @@ extension NoteListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(
-            withIdentifier: "cell",
-            for: indexPath
-        ) as? NoteListTableViewCell else {
-            return UITableViewCell()
-        }
+        let cell = tableView.dequeueReusableCell(
+            withClass: NoteListTableViewCell.self,
+            for: indexPath)
         
         guard let data = self.dataStorage?.assetData[safe: indexPath.row] else {
-            fatalError()
+            return NoteListTableViewCell()
         }
         
         cell.updateLabel(title: data.title, date: data.formattedDate, preview: data.body)

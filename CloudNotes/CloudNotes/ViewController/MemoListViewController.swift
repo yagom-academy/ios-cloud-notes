@@ -92,8 +92,6 @@ extension MemoListViewController {
         let context = AppDelegate.persistentContainer.viewContext
         
         let memo = Memo(context: context)
-        memo.title = "제목1"
-        memo.body = "내용1"
         memo.lastModified = Date().timeIntervalSince1970
         
         do {

@@ -14,10 +14,13 @@ final class MemoContentViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupMainMemoView()
+        textView.delegate = self
     }
     
     func updateTextView(with memo: Memo) {
-        textView.text = memo.body
+        let title = memo.title ?? ""
+        let body = memo.body ?? ""
+        textView.text = "\(title)\n\(body)"
     }
     
     private func setupMainMemoView() {
@@ -67,5 +70,36 @@ extension MemoContentViewController {
     private func reloadMemoList() {
         guard let splitViewController = splitViewController as? MainSplitViewController else { return }
         splitViewController.reloadMemoList()
+    }
+}
+
+extension MemoContentViewController: UITextViewDelegate {
+    func textViewDidChange(_ textView: UITextView) {
+        guard let memoDetail = textView.text else { return }
+        
+        if let firstLineBreakIndex = memoDetail.firstIndex(of: "\n") {
+            let title = String(memoDetail[..<firstLineBreakIndex])
+            let bodyStartIndex = memoDetail.index(after: firstLineBreakIndex)
+            let bodyEndIndex = memoDetail.endIndex
+            let body = String(memoDetail[bodyStartIndex..<bodyEndIndex])
+            updateMemo(title: title, body: body)
+        } else {
+            let title = memoDetail
+            updateMemo(title: title, body: nil)
+        }
+    }
+    
+    private func updateMemo(title: String, body: String?) {
+        guard let currentMemo = selectedMemo else { return }
+        currentMemo.title = title
+        currentMemo.body = body
+        currentMemo.lastModified = Date().timeIntervalSince1970
+        let context = AppDelegate.persistentContainer.viewContext
+        do {
+            try context.save()
+            reloadMemoList()
+        } catch {
+            print(error)
+        }
     }
 }

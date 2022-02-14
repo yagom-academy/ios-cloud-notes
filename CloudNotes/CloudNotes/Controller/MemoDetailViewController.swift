@@ -40,10 +40,19 @@ class MemoDetailViewController: UIViewController {
     }
     
     private func configureNavigationBar() {
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: #selector(requestDeleteMemo))
+        let moreOptionButton = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: nil)
+        let shareAction = UIAction(title: "공유", image: UIImage(systemName: "square.and.arrow.up.fill")) { _ in
+            // TODO: 공유 기능
+        }
+        let deleteAction = UIAction(title: "삭제", image: UIImage(systemName: "trash.fill"), attributes: .destructive) { _ in
+            self.requestDeleteMemo()
+        }
+        let optionMenu = UIMenu(options: .displayInline, children: [shareAction, deleteAction])
+        moreOptionButton.menu = optionMenu
+        self.navigationItem.rightBarButtonItem = moreOptionButton
     }
     
-    @objc private func requestDeleteMemo() {
+    private func requestDeleteMemo() {
         guard let memoSplitViewController = self.splitViewController as? MemoSplitViewController else {
             return
         }

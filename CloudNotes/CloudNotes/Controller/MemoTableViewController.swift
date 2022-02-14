@@ -58,7 +58,9 @@ class MemoTableViewController: UITableViewController {
         let cancelAction = UIAlertAction(title: "취소", style: .cancel)
         let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
             self.deleteMemo(at: indexPath)
-            memoSplitViewController.showPrimaryView()
+            if memoSplitViewController.isCollapsed {
+                memoSplitViewController.showPrimaryView()
+            }
         }
         alert.addAction(cancelAction)
         alert.addAction(deleteAction)

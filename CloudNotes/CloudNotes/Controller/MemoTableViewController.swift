@@ -25,22 +25,22 @@ class MemoTableViewController: UITableViewController {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addEmptyMemo))
     }
     
-    @objc private func addEmptyMemo() {
-        memoStorage.create()
-        fetchMemo()
-        tableView.insertRows(at: [initialIndexPath], with: .fade)
-        tableView.scrollToRow(at: initialIndexPath, at: .bottom, animated: true)
+    private func configureTableView() {
+        if self.splitViewController?.isCollapsed == false && memo.isEmpty == false {
+            tableView.delegate?.tableView?(tableView, didSelectRowAt: initialIndexPath)
+        }
+        tableView.separatorInset = UIEdgeInsets.zero
     }
     
     private func fetchMemo() {
         memo = memoStorage.fetchAll()
     }
     
-    private func configureTableView() {
-        if self.splitViewController?.isCollapsed == false && memo.isEmpty == false {
-            tableView.delegate?.tableView?(tableView, didSelectRowAt: initialIndexPath)
-        }
-        tableView.separatorInset = UIEdgeInsets.zero
+    @objc private func addEmptyMemo() {
+        memoStorage.create()
+        fetchMemo()
+        tableView.insertRows(at: [initialIndexPath], with: .fade)
+        tableView.scrollToRow(at: initialIndexPath, at: .bottom, animated: true)
     }
     
     func deleteMemo(at indexPath: IndexPath) {
@@ -85,7 +85,7 @@ extension MemoTableViewController {
     }
     
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let deleteAction = UIContextualAction(style: .normal, title: nil) { _, _, completionHandler in
+        let deleteAction = UIContextualAction(style: .destructive, title: nil) { _, _, completionHandler in
             self.deleteMemo(at: indexPath)
             completionHandler(true)
         }

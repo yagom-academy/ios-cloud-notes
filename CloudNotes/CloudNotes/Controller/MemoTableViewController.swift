@@ -9,23 +9,35 @@ import UIKit
 
 class MemoTableViewController: UITableViewController {
     private let memoStorage = MemoStorage()
-    private lazy var memo = memoStorage.fetchAll()
+    private var memo = [Memo]()
+    private let initialIndexPath = IndexPath(row: 0, section: 0)
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.register(cellWithClass: MemoTableViewCell.self)
+        fetchMemo()
         configureNavigationBar()
         configureTableView()
     }
     
     private func configureNavigationBar() {
         self.navigationItem.title = "메모"
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: nil)
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addEmptyMemo))
+    }
+    
+    @objc private func addEmptyMemo() {
+        memoStorage.create()
+        fetchMemo()
+        tableView.insertRows(at: [initialIndexPath], with: .fade)
+        tableView.scrollToRow(at: initialIndexPath, at: .bottom, animated: true)
+    }
+    
+    private func fetchMemo() {
+        memo = memoStorage.fetchAll()
     }
     
     private func configureTableView() {
         if self.splitViewController?.isCollapsed == false && memo.isEmpty == false {
-            let initialIndexPath = IndexPath(row: 0, section: 0)
             tableView.delegate?.tableView?(tableView, didSelectRowAt: initialIndexPath)
         }
         tableView.separatorInset = UIEdgeInsets.zero

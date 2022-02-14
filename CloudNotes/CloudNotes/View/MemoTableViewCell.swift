@@ -7,6 +7,11 @@
 
 import UIKit
 
+private enum PlaceholderText {
+    static let title = "새로운 메모"
+    static let body = "추가 텍스트 없음"
+}
+
 class MemoTableViewCell: UITableViewCell {    
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -41,9 +46,9 @@ class MemoTableViewCell: UITableViewCell {
     }
     
     func configureCellContent(from memo: Memo) {
-        titleLabel.text = memo.title
+        titleLabel.text = memo.title?.isEmpty == true ? PlaceholderText.title : memo.title
         dateLabel.text = memo.lastModified.dateString
-        previewLabel.text = memo.body
+        previewLabel.text = memo.body?.isEmpty == true ? PlaceholderText.body : memo.body
     }
     
     private func configureCellLayout() {

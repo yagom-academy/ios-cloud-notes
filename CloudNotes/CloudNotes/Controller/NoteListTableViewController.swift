@@ -2,7 +2,7 @@ import UIKit
 
 class NoteListTableViewController: UITableViewController {
     
-    private var noteModelManager = NoteModelManager()
+    private var noteModelManager: NoteModel = NoteModelManager()
     weak var delegate: NoteDetailDelegate?
     
     override func viewDidLoad() {

@@ -1,6 +1,6 @@
 import UIKit
 
-class NoteModelManager {
+class NoteModelManager: NoteModel {
     
     private var noteData: [Note] = []
     var countOfNoteData: Int {

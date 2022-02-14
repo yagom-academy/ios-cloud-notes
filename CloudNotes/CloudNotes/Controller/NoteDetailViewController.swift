@@ -62,7 +62,8 @@ extension NoteDetailViewController {
         guard let splitVC = self.splitViewController as? SplitViewController else {
             return
         }
-        self.showNoteActionSheet(shareHandler: { _ in
+        self.showNoteActionSheet(
+            shareHandler: { _ in
             self.showActivityViewController(data: PersistentManager.shared.notes[self.currentIndex].body ?? "")
         }, deleteHandler: {_ in
             self.showAlert(

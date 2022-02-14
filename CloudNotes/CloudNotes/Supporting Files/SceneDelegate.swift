@@ -3,9 +3,10 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     var window: UIWindow?
-    private let primaryViewController = NoteListTableViewController()
-    private let secondaryViewController = NoteDetailViewController()
-    private let rootViewController: UISplitViewController = {
+    private let noteModelManaget: NoteModel = NoteModelManager()
+    private lazy var primaryViewController = NoteListTableViewController(model: noteModelManaget)
+    private lazy var secondaryViewController = NoteDetailViewController()
+    private lazy var rootViewController: UISplitViewController = {
         let splitViewController = UISplitViewController(style: .doubleColumn)
         splitViewController.view.backgroundColor = .systemBackground
         return splitViewController

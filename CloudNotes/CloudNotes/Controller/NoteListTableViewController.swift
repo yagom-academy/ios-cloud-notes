@@ -12,6 +12,11 @@ class NoteListTableViewController: UITableViewController {
         configureLayout()
     }
     
+    convenience init(model: NoteModel) {
+        self.init()
+        noteModelManager = model
+    }
+    
     private func loadNoteData() {
         noteModelManager.fetchData()
     }

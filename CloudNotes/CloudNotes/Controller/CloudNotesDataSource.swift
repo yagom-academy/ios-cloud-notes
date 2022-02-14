@@ -11,7 +11,7 @@ final class CloudNotesDataSource: NSObject {
     
     // MARK: - Properties
     
-    lazy private(set) var noteInformations: [NoteInformation]? = setupNoteInformations()
+    lazy private(set) var noteInformations = setupNoteInformations()
     
     // MARK: - Methods
     

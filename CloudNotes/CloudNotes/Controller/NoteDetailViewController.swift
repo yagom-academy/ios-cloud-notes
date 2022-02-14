@@ -92,7 +92,7 @@ extension NoteDetailViewController {
         )
     }
     
-    @objc func keyboardWillShow(_ sender: Notification) {
+    @objc private func keyboardWillShow(_ sender: Notification) {
         guard let info = sender.userInfo else {
             return
         }
@@ -108,7 +108,7 @@ extension NoteDetailViewController {
         noteDetailScrollView.contentInset.bottom = keyboardRect.height
     }
     
-    @objc func keyboardWillHide(_ sender: Notification) {
+    @objc private func keyboardWillHide(_ sender: Notification) {
         noteDetailScrollView.contentInset.bottom = .zero
     }
 }

@@ -67,12 +67,13 @@ final class NoteListViewController: UIViewController {
     }
     
     private func selectFirstNote() {
-        if let noteInformations = noteDataSource?.noteInformations,
-           noteInformations.count > 0 {
-            let indexPath = IndexPath(row: 0, section: 0)
-            tableView.selectRow(at: indexPath, animated: false, scrollPosition: .top)
-            delegate?.noteListView(didSeletedCell: indexPath.row)
+        guard let noteInformations = noteDataSource?.noteInformations,
+              noteInformations.count > 0 else {
+               return
         }
+        let indexPath = IndexPath(row: 0, section: 0)
+        tableView.selectRow(at: indexPath, animated: false, scrollPosition: .top)
+        delegate?.noteListView(didSeletedCell: indexPath.row)
     }
 }
 

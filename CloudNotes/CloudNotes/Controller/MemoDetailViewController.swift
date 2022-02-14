@@ -21,7 +21,7 @@ class MemoDetailViewController: UIViewController {
         addKeyboardNotificationObserver()
     }
     
-    func updateMemo(text: String) {
+    func updateMemo(text: String?) {
         memoTextView.resignFirstResponder()
         memoTextView.text = text
         memoTextView.contentOffset = .zero

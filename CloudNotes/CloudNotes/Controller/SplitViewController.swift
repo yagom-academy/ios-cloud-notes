@@ -3,6 +3,7 @@ import UIKit
 class SplitViewController: UISplitViewController {
     private let primaryVC = NotesViewController(style: .insetGrouped)
     private let secondaryVC = NoteDetailViewController()
+    var popoverController: UIPopoverPresentationController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -11,6 +12,17 @@ class SplitViewController: UISplitViewController {
         PersistentManager.shared.setUpNotes()
         present(at: .zero)
         hideKeyboard()
+    }
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        if let popoverController = self.popoverController {
+            popoverController.sourceRect = CGRect(
+                x: size.width * 0.5,
+                y: size.height * 0.5,
+                width: .zero,
+                height: .zero
+            )
+        }
     }
 }
 

@@ -25,6 +25,8 @@ extension UIViewController {
                 height: .zero
             )
             popoverController.permittedArrowDirections = []
+            let splitViewController = self.splitViewController as? SplitViewController
+            splitViewController?.popoverController = popoverController
         }
         self.present(activityViewController, animated: true, completion: nil)
     }

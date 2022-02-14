@@ -19,17 +19,17 @@ class MemoStorage {
         return container
     }()
     
-    func create(with memo: Memo) {
-        guard let noteEntity = NSEntityDescription.entity(forEntityName: "Note", in: context) else {
+    func create() {
+        guard let memoEntity = NSEntityDescription.entity(forEntityName: "Memo", in: context) else {
             return
         }
         
-        let noteManagedObject = NSManagedObject(entity: noteEntity, insertInto: context)
+        let memoManagedObject = NSManagedObject(entity: memoEntity, insertInto: context)
         
-        noteManagedObject.setValue(memo.id, forKey: "id")
-        noteManagedObject.setValue(memo.title, forKey: "title")
-        noteManagedObject.setValue(memo.body, forKey: "body")
-        noteManagedObject.setValue(memo.lastModified, forKey: "lastModified")
+        memoManagedObject.setValue(UUID(), forKey: "id")
+        memoManagedObject.setValue("", forKey: "title")
+        memoManagedObject.setValue("", forKey: "body")
+        memoManagedObject.setValue(Date().timeIntervalSince1970, forKey: "lastModified")
         
         do {
             try context.save()

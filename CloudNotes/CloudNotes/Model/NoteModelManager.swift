@@ -48,4 +48,5 @@ class NoteModelManager {
     func deleteNote(at index: Int) {
         noteData.remove(at: index)
     }
+    
 }

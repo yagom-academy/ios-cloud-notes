@@ -13,12 +13,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
   func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
     guard let windowScene = (scene as? UIWindowScene) else { return }
     
-    let rootViewController = MemoListViewController()
+    let memoListViewController = MemoListViewController()
     let detailViewController = DetailViewController()
-    rootViewController.delegate = detailViewController
-    detailViewController.delegate = rootViewController
+    memoListViewController.delegate = detailViewController
+    detailViewController.delegate = memoListViewController
     
-    let rootNavigationController = UINavigationController(rootViewController: rootViewController)
+    let rootNavigationController = UINavigationController(rootViewController: memoListViewController)
     let detailNavigationController = UINavigationController(rootViewController: detailViewController)
     
     let splitViewController = UISplitViewController(style: .doubleColumn)

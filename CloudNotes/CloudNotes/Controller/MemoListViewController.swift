@@ -9,18 +9,14 @@ final class MemoListViewController: UIViewController {
   private var keyboardShowNotification: NSObjectProtocol?
   private var keyboardHideNotification: NSObjectProtocol?
 
-  fileprivate func extractedFunc() {
-    let firstRowIndexPath = IndexPath(row: 0, section: 0)
-    tableView.selectRow(at: firstRowIndexPath, animated: false, scrollPosition: .top)
-    loadDetail(at: firstRowIndexPath)
-  }
-  
   override func viewDidLoad() {
     super.viewDidLoad()
     addTableView()
     setNavigationBar()
     loadJSON()
-    extractedFunc()
+    let firstRowIndexPath = IndexPath(row: 0, section: 0)
+    tableView.selectRow(at: firstRowIndexPath, animated: false, scrollPosition: .top)
+    loadDetail(at: firstRowIndexPath)
   }
   
   override func viewDidAppear(_ animated: Bool) {

@@ -6,6 +6,8 @@ final class MemoListViewController: UIViewController {
   weak var delegate: MemoDisplayable?
   private var memos = [Memo]()
   private let tableView = UITableView()
+  private var keyboardShowNotification: NSObjectProtocol?
+  private var keyboardHideNotification: NSObjectProtocol?
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -25,6 +27,52 @@ final class MemoListViewController: UIViewController {
     let firstRowIndexPath = IndexPath(row: 0, section: 0)
     tableView.selectRow(at: firstRowIndexPath, animated: false, scrollPosition: .top)
     loadDetail(at: firstRowIndexPath)
+  }
+  
+  override func viewDidAppear(_ animated: Bool) {
+    addObservers()
+  }
+
+  override func viewWillDisappear(_ animated: Bool) {
+    removeObservers()
+  }
+
+  private func addObservers() {
+    let bottomInset = view.safeAreaInsets.bottom
+    let addSafeAreaInset: (Notification) -> Void = { [weak self] notification in
+      guard
+        let self = self,
+        let userInfo = notification.userInfo,
+        let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else {
+        return
+      }
+      self.additionalSafeAreaInsets.bottom = keyboardFrame.height - bottomInset
+    }
+
+    let removeSafeAreaInset: (Notification) -> Void = { [weak self] _ in
+      self?.additionalSafeAreaInsets.bottom = 0
+    }
+
+    keyboardShowNotification = NotificationCenter.default.addObserver(
+      forName: UIResponder.keyboardWillShowNotification,
+      object: nil,
+      queue: nil,
+      using: addSafeAreaInset
+    )
+    keyboardHideNotification = NotificationCenter.default.addObserver(
+      forName: UIResponder.keyboardWillHideNotification,
+      object: nil,
+      queue: nil,
+      using: removeSafeAreaInset
+    )
+  }
+
+  private func removeObservers() {
+    guard
+      let keyboardShowNotification = keyboardShowNotification,
+      let keyboardHideNotification = keyboardHideNotification else { return }
+    NotificationCenter.default.removeObserver(keyboardShowNotification)
+    NotificationCenter.default.removeObserver(keyboardHideNotification)
   }
 
   private func setNavigationBar() {

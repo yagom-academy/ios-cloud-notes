@@ -37,4 +37,10 @@ class MemoStorage {
             print(error)
         }
     }
+    
+    func fetchAll() -> [Memo] {
+        let request = Memo.fetchRequest()
+        let fetchedMemo = try? context.fetch(request)
+        return fetchedMemo ?? []
+    }
 }

@@ -8,18 +8,14 @@
 import UIKit
 
 class MemoTableViewController: UITableViewController {
-    private var memo = [Memo]()
+    private let memoStorage = MemoStorage()
+    private lazy var memo = memoStorage.fetchAll()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.register(cellWithClass: MemoTableViewCell.self)
-        fetchMemoData()
         configureNavigationBar()
         configureTableView()
-    }
-    
-    private func fetchMemoData() {
-        // TODO: Core Data create method
     }
     
     private func configureNavigationBar() {

@@ -1,10 +1,3 @@
-//
-//  Array+extension.swift
-//  CloudNotes
-//
-//  Created by Ari on 2022/02/11.
-//
-
 import Foundation
 
 extension Array {

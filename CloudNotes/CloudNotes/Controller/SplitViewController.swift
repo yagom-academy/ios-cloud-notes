@@ -1,11 +1,6 @@
 import UIKit
 
 class SplitViewController: UISplitViewController {
-    enum Constans {
-        static let maximumTitleLength = 40
-        static let maximumBodyLength = 70
-    }
-    
     private let primaryVC = MemoListViewController(style: .insetGrouped)
     private let secondaryVC = MemoDetailViewController()
     
@@ -14,7 +9,7 @@ class SplitViewController: UISplitViewController {
         setUpChildView()
         setUpDisplay()
         MemoDataManager.shared.setUpMemoList()
-        present(at: 0)
+        present(at: .zero)
         hideKeyboard()
     }
     

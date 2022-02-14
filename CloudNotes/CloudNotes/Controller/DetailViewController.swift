@@ -96,10 +96,12 @@ final class DetailViewController: UIViewController {
 
 extension DetailViewController: MemoDisplayable {
   func show(memo: Memo?) {
-    view.endEditing(true)
     let title = memo?.title ?? ""
     let body = memo?.body ?? ""
     textView.text = title.isEmpty && body.isEmpty ? "" : title + "\n" + body
+    textView.endEditing(true)
+    let topOffset = CGPoint(x: 0, y: 0 - view.safeAreaInsets.top)
+    textView.setContentOffset(topOffset, animated: false)
   }
 }
 

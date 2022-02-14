@@ -61,7 +61,7 @@ class CDDataSourceProvider: NoteDataSource {
         let context = self.context
         let request = Note.fetchRequest()
         let predicate = NSPredicate(
-            format: "identification ==%&",
+            format: "identification == %@",
             updatedNote.identification.uuidString
         )
         request.predicate = predicate
@@ -85,7 +85,7 @@ class CDDataSourceProvider: NoteDataSource {
     func deleteNote(uuid: UUID) {
         let context = self.context
         let request = Note.fetchRequest()
-        let predicate = NSPredicate(format: "identification ==%&", uuid.uuidString)
+        let predicate = NSPredicate(format: "identification == %@", uuid.uuidString)
         request.predicate = predicate
 
         do {
@@ -112,5 +112,4 @@ class CDDataSourceProvider: NoteDataSource {
             }
         }
     }
-
 }

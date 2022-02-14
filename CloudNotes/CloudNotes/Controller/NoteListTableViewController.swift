@@ -3,18 +3,17 @@ import UIKit
 class NoteListTableViewController: UITableViewController {
     
     private var noteModelManager = NoteModelManager()
-    private let cellId = "reuseIdentifier"
     weak var delegate: NoteDetailDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.register(NoteListTableViewCell.self, forCellReuseIdentifier: cellId)
+        tableView.register(NoteListTableViewCell.self)
         noteModelManager.fetchData()
         self.navigationController?.navigationBar.topItem?.title = "메모"
         let addBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: nil, action: nil)
         self.navigationItem.rightBarButtonItem = addBarButtonItem
     }
-
+    
     // MARK: - Table view data source
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -25,7 +24,7 @@ class NoteListTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: NoteListTableViewCell.reuseIdentifier, for: indexPath)
         
         if let cell = cell as? NoteListTableViewCell {
             cell.setLabelText(
@@ -59,12 +58,20 @@ class NoteListTableViewController: UITableViewController {
             delegate?.selectNote(title: "", body: "")
         }
     }
-
+    
     // MARK: - Table View Delegate
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let title = noteModelManager.fetchTitle(at: indexPath.row)
         let body = noteModelManager.fetchBody(at: indexPath.row)
         delegate?.selectNote(title: title, body: body)
+    }
+    
+}
+
+extension UITableView {
+    
+    func register<Cell: UITableViewCell>(_: Cell.Type) where Cell: Reusable {
+        register(Cell.self, forCellReuseIdentifier: Cell.reuseIdentifier)
     }
     
 }

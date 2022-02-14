@@ -83,3 +83,5 @@ class NoteListTableViewCell: UITableViewCell {
         self.lastModifiedLabel.text = lastModified
     }
 }
+
+extension NoteListTableViewCell: Reusable {}

@@ -77,4 +77,9 @@ class NoteListTableViewCell: UITableViewCell {
         self.accessoryType = .disclosureIndicator
     }
     
+    func setLabelText(title: String, body: String, lastModified: String) {
+        self.titleLabel.text = title
+        self.bodyLabel.text = body
+        self.lastModifiedLabel.text = lastModified
+    }
 }

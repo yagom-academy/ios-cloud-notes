@@ -28,10 +28,11 @@ class NoteListTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath)
         
         if let cell = cell as? NoteListTableViewCell {
-            cell.titleLabel.text = noteModelManager.fetchTitle(at: indexPath.row)
-            cell.lastModifiedLabel.text = noteModelManager.fetchDate(at: indexPath.row)
-            cell.bodyLabel.text = noteModelManager.fetchBody(at: indexPath.row)
-            return cell
+            cell.setLabelText(
+                title: noteModelManager.fetchTitle(at: indexPath.row),
+                body: noteModelManager.fetchBody(at: indexPath.row),
+                lastModified: noteModelManager.fetchDate(at: indexPath.row)
+            )
         }
         return cell
     }

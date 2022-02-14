@@ -2,8 +2,8 @@ import UIKit
 
 class NoteListTableViewController: UITableViewController {
     
-    var noteModelManager = NoteModelManager()
-    let cellId = "reuseIdentifier"
+    private var noteModelManager = NoteModelManager()
+    private let cellId = "reuseIdentifier"
     weak var delegate: NoteDetailDelegate?
     
     override func viewDidLoad() {

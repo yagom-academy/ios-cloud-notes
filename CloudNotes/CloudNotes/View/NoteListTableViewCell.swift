@@ -2,7 +2,7 @@ import UIKit
 
 class NoteListTableViewCell: UITableViewCell {
     
-    let primaryStackView: UIStackView = {
+    private let primaryStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
@@ -12,7 +12,7 @@ class NoteListTableViewCell: UITableViewCell {
         return stackView
     }()
     
-    let supplementaryStackView: UIStackView = {
+    private let supplementaryStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
@@ -22,21 +22,21 @@ class NoteListTableViewCell: UITableViewCell {
         return stackView
     }()
     
-    let titleLabel: UILabel = {
+    private let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .preferredFont(forTextStyle: .body)
         return label
     }()
     
-    let lastModifiedLabel: UILabel = {
+    private let lastModifiedLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .preferredFont(forTextStyle: .footnote)
         return label
     }()
     
-    let bodyLabel: UILabel = {
+    private let bodyLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .preferredFont(forTextStyle: .caption2)

@@ -2,20 +2,20 @@ import UIKit
 
 class NoteDetailViewController: UIViewController {
     
-    let noteDetailTextView: UITextView = {
+    private let noteDetailTextView: UITextView = {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.isScrollEnabled = false
         return textView
     }()
     
-    let scrollView: UIScrollView = {
+    private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         return scrollView
     }()
     
-    let detailBarButtonItem: UIBarButtonItem = {
+    private let detailBarButtonItem: UIBarButtonItem = {
         let image = UIImage(systemName: "ellipsis.circle")
         let barButtonItem = UIBarButtonItem(image: image, style: .plain, target: nil, action: nil)
         return barButtonItem

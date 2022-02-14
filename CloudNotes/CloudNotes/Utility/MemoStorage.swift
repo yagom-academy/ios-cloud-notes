@@ -31,16 +31,25 @@ class MemoStorage {
         memoManagedObject.setValue("", forKey: "body")
         memoManagedObject.setValue(Date().timeIntervalSince1970, forKey: "lastModified")
         
-        do {
-            try context.save()
-        } catch {
-            print(error)
-        }
+        saveContext()
     }
     
     func fetchAll() -> [Memo] {
         let request = Memo.fetchRequest()
         let fetchedMemo = try? context.fetch(request)
         return fetchedMemo ?? []
+    }
+    
+    func delete(memo: Memo) {
+        context.delete(memo)
+        saveContext()
+    }
+    
+    private func saveContext() {
+        do {
+            try context.save()
+        } catch {
+            print(error)
+        }
     }
 }

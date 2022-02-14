@@ -42,6 +42,12 @@ class MemoTableViewController: UITableViewController {
         }
         tableView.separatorInset = UIEdgeInsets.zero
     }
+    
+    func deleteMemo(at indexPath: IndexPath) {
+        self.memoStorage.delete(memo: self.memo[indexPath.row])
+        fetchMemo()
+        tableView.deleteRows(at: [indexPath], with: .fade)
+    }
 }
 
 // MARK: - UITableViewDataSource
@@ -76,5 +82,25 @@ extension MemoTableViewController {
         }
         
         memoSplitViewController.showSecondaryView(with: data)
+    }
+    
+    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let deleteAction = UIContextualAction(style: .normal, title: nil) { _, _, completionHandler in
+            self.deleteMemo(at: indexPath)
+            completionHandler(true)
+        }
+        deleteAction.image = UIImage(systemName: "trash.fill")
+        deleteAction.backgroundColor = .systemRed
+        
+        let shareAction = UIContextualAction(style: .normal, title: nil) { _, _, completionHandler in
+            // TODO: 메모 공유 메서드
+            completionHandler(true)
+        }
+        shareAction.image = UIImage(systemName: "square.and.arrow.up.fill")
+        shareAction.backgroundColor = .systemIndigo
+        
+        let swipeActions = UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
+        swipeActions.performsFirstActionWithFullSwipe = false
+        return swipeActions
     }
 }

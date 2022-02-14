@@ -14,7 +14,7 @@ class SplitViewController: UISplitViewController {
     }
 }
 
-// MARK: - Primary related Method
+// MARK: - Primary Related Method
 extension SplitViewController {
     func updateMemoList(at index: Int) {
         primaryVC.updateData(at: index)
@@ -29,7 +29,7 @@ extension SplitViewController {
     }
 }
 
-// MARK: - Secondary related Method
+// MARK: - Secondary Related Method
 extension SplitViewController {
     func present(at indexPath: Int) {
         secondaryVC.updateData(with: indexPath)
@@ -41,7 +41,7 @@ extension SplitViewController {
     }
 }
 
-// MARK: - 초기 ViewController 설정
+// MARK: - SetUp Initial ViewController
 extension SplitViewController {
     private func setUpChildView() {
         setViewController(primaryVC, for: .primary)

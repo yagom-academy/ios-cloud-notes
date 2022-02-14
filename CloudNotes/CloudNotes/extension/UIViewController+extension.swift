@@ -11,41 +11,48 @@ extension UIViewController {
         view.endEditing(true)
     }
     
-    func showActivityViewController(view: UIViewController, data: String...) {
+    func showActivityViewController(data: String...) {
         let activityViewController = UIActivityViewController(
             activityItems: data,
             applicationActivities: nil
         )
         if let popoverController = activityViewController.popoverPresentationController {
-            popoverController.sourceView = view.view
+            popoverController.sourceView = splitViewController?.view
             popoverController.sourceRect = CGRect(
-                x: view.view.bounds.midX,
-                y: view.view.bounds.midY,
-                width: 0,
-                height: 0
+                x: splitViewController?.view.bounds.midX ?? .zero,
+                y: splitViewController?.view.bounds.midY ?? .zero,
+                width: .zero,
+                height: .zero
             )
             popoverController.permittedArrowDirections = []
         }
         self.present(activityViewController, animated: true, completion: nil)
     }
     
-    func showMemoActionSheet(shareHandler: @escaping (UIAlertAction) -> Void, deleteHandler: @escaping (UIAlertAction) -> Void, sender: UIBarButtonItem? = nil) {
+    func showMemoActionSheet(
+        shareHandler: @escaping (UIAlertAction) -> Void,
+        deleteHandler: @escaping (UIAlertAction) -> Void,
+        barButtonItem: UIBarButtonItem? = nil
+    ) {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
         let shareAction = UIAlertAction(title: "Share...", style: .default, handler: shareHandler)
         shareAction.setValue(0, forKey: "titleTextAlignment")
         shareAction.setValue(UIImage(systemName: "square.and.arrow.up"), forKey: "image")
+        
         let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: deleteHandler)
         deleteAction.setValue(0, forKey: "titleTextAlignment")
         deleteAction.setValue(UIImage(systemName: "trash.fill"), forKey: "image")
+        
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
         alert.addAction(shareAction)
         alert.addAction(deleteAction)
         alert.addAction(cancelAction)
         
         if let popoverController = alert.popoverPresentationController {
             popoverController.sourceView = self.splitViewController?.view
-            popoverController.barButtonItem = sender as? UIBarButtonItem
-
+            popoverController.barButtonItem = barButtonItem
         }
         present(alert, animated: true, completion: nil)
     }

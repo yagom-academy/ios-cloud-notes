@@ -118,13 +118,7 @@ extension MemoListViewController {
     }
     
     private func showActivityView(at index: Int) {
-        guard let splitVC = self.splitViewController as? SplitViewController else {
-            return
-        }
-        self.showActivityViewController(
-            view: splitVC,
-            data: MemoDataManager.shared.memoList[index].body ?? ""
-        )
+        self.showActivityViewController(data: MemoDataManager.shared.memoList[index].body ?? "")
     }
     
     // MARK: - Delete

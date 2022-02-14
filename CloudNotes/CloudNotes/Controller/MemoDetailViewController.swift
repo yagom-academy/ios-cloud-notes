@@ -62,10 +62,7 @@ extension MemoDetailViewController {
             return
         }
         self.showMemoActionSheet(shareHandler: { _ in
-            self.showActivityViewController(
-                view: splitVC,
-                data: MemoDataManager.shared.memoList[self.currentIndex].body ?? ""
-            )
+            self.showActivityViewController(data: MemoDataManager.shared.memoList[self.currentIndex].body ?? "")
         }, deleteHandler: {_ in
             self.showAlert(
                 message: Constant.deleteWarningMessage,
@@ -75,7 +72,7 @@ extension MemoDetailViewController {
                     indexPath: IndexPath(row: self.currentIndex, section: .zero)
                 )
             }
-        }, sender: sender)
+        }, barButtonItem: sender)
     }
 }
 

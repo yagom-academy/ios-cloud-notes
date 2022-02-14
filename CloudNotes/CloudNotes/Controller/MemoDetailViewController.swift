@@ -34,10 +34,49 @@ class MemoDetailViewController: UIViewController {
     func updateData(with index: Int) {
         currentIndex = index
         memoDetailTextView.text = MemoDataManager.shared.memoList[safe: currentIndex]?.body
+        memoDetailTextView.attributedText = configureTextStyle()
     }
     
     func clearTextView() {
         memoDetailTextView.text = nil
+    }
+}
+
+// MARK: - UITextView Font Setting
+extension MemoDetailViewController {
+    private func configureTextStyle() -> NSMutableAttributedString? {
+        guard let memo = MemoDataManager.shared.memoList[safe: currentIndex]?.body?.split(
+            separator: Constant.lineBreak,
+            maxSplits: 1
+        ) else {
+            return nil
+        }
+        let titleText = memo[safe: 0]?.description
+        let bodyText = memo[safe: 1]?.description
+        
+        let attributedString = NSMutableAttributedString()
+        let title = attributedText(
+            (titleText ?? "") + Constant.lineBreak.description,
+            font: .preferredFont(for: .title1, weight: .bold),
+            color: .label
+        )
+        let body = attributedText(
+            bodyText ?? "",
+            font: .preferredFont(forTextStyle: .body),
+            color: .label
+        )
+        attributedString.append(title)
+        attributedString.append(body)
+        return attributedString
+    }
+    
+    private func attributedText(_ text: String, font: UIFont, color: UIColor) -> NSMutableAttributedString {
+        let string = text as NSString
+        let attributedText = NSMutableAttributedString(string: text)
+        let range: NSRange = string.range(of: text)
+        attributedText.addAttribute(.font, value: font, range: range)
+        attributedText.addAttribute(.foregroundColor, value: color, range: range)
+        return attributedText
     }
 }
 

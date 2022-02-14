@@ -32,9 +32,9 @@ final class NoteListViewController: UIViewController {
     
     private func setupNavigation() {
         title = "메모"
-        let rightButtonImage = UIImage(systemName: "plus")
+        let addButtonImage = UIImage(systemName: ImageNames.plusImageName)
         let rightButton = UIBarButtonItem(
-          image: rightButtonImage,
+          image: addButtonImage,
           style: .done,
           target: nil,
           action: nil

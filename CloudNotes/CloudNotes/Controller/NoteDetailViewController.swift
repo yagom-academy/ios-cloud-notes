@@ -24,9 +24,9 @@ final class NoteDetailViewController: UIViewController {
     }
     
     private func setupNavigation() {
-        let rightButtonImage = UIImage(systemName: "ellipsis.circle")
+        let seeMoreMenuButtonImage = UIImage(systemName: ImageNames.ellipsisCircleImageName)
         let rightButton = UIBarButtonItem(
-          image: rightButtonImage,
+          image: seeMoreMenuButtonImage,
           style: .done,
           target: nil,
           action: nil

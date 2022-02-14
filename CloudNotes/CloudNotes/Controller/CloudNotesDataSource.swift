@@ -16,7 +16,7 @@ final class CloudNotesDataSource: NSObject {
     // MARK: - Methods
     
     private func setupNoteInformations() -> [NoteInformation]? {
-        guard let jsonData = NSDataAsset(name: "sample")?.data else {
+        guard let jsonData = NSDataAsset(name: AssetFileNames.sampleFile)?.data else {
             return nil
         }
         

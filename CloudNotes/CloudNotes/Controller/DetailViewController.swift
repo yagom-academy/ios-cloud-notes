@@ -8,7 +8,9 @@ final class DetailViewController: UIViewController {
     textView.keyboardDismissMode = .interactive
     return textView
   }()
-  
+  private var keyboardShowNotification: NSObjectProtocol?
+  private var keyboardHideNotification: NSObjectProtocol?
+
   private var currentMemo: Memo {
     let memoComponents = textView.text.split(
       separator: "\n",
@@ -35,36 +37,47 @@ final class DetailViewController: UIViewController {
     textView.delegate = self
     
     setNavigationBar()
+  }
+
+  override func viewDidAppear(_ animated: Bool) {
     addObservers()
   }
-  
-  @objc private func keyboardWillShow(_ notification: Notification) {
+
+  override func viewWillDisappear(_ animated: Bool) {
     guard
-      let userInfo = notification.userInfo,
-      let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else {
+      let keyboardShowNotification = keyboardShowNotification,
+      let keyboardHideNotification = keyboardHideNotification else { return }
+    NotificationCenter.default.removeObserver(keyboardShowNotification)
+    NotificationCenter.default.removeObserver(keyboardHideNotification)
+  }
+
+  private func addObservers() {
+    let bottomInset = view.safeAreaInsets.bottom
+    let addSafeAreaInset: (Notification) -> Void = { [weak self] notification in
+      guard
+        let self = self,
+        let userInfo = notification.userInfo,
+        let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else {
         return
       }
-    textView.contentInset.bottom = keyboardFrame.height
-    textView.verticalScrollIndicatorInsets.bottom = keyboardFrame.height
-  }
-  
-  @objc private func keyboardWillHide(_ notification: Notification) {
-    textView.contentInset.bottom = 0
-    textView.verticalScrollIndicatorInsets.bottom = 0
-  }
-  
-  private func addObservers() {
-    NotificationCenter.default.addObserver(
-      self,
-      selector: #selector(keyboardWillShow),
-      name: UIResponder.keyboardWillShowNotification,
-      object: nil
+      self.additionalSafeAreaInsets.bottom = keyboardFrame.height - bottomInset
+    }
+
+    let removeSafeAreaInset: (Notification) -> Void = { [weak self] _ in
+      self?.additionalSafeAreaInsets.bottom = 0
+    }
+
+    keyboardShowNotification = NotificationCenter.default.addObserver(
+      forName: UIResponder.keyboardDidShowNotification,
+      object: nil,
+      queue: nil,
+      using: addSafeAreaInset
     )
-    NotificationCenter.default.addObserver(
-      self,
-      selector: #selector(keyboardWillHide),
-      name: UIResponder.keyboardWillHideNotification,
-      object: nil
+    keyboardHideNotification = NotificationCenter.default.addObserver(
+      forName: UIResponder.keyboardWillHideNotification,
+      object: nil,
+      queue: nil,
+      using: removeSafeAreaInset
     )
   }
   

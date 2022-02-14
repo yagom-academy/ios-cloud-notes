@@ -10,7 +10,7 @@ class SplitViewController: UISplitViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        dataSourceProvider = JSONDataSourceProvider()
+        dataSourceProvider = CDDataSourceProvider()
         self.preferredDisplayMode = .oneBesideSecondary
         self.preferredSplitBehavior = .tile
         self.setViewController(noteListViewController, for: .primary)

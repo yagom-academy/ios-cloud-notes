@@ -93,7 +93,16 @@ extension DetailedNoteViewController: UITextViewDelegate {
         }
 
         let modifiedDate = Date().timeIntervalSince1970
-        let newNote = Content(title: title, body: body, lastModifiedDate: modifiedDate)
+        guard let id = self.noteData?.identification else {
+            return
+        }
+
+        let newNote = Content(
+            title: title,
+            body: body,
+            lastModifiedDate: modifiedDate,
+            identification: id
+        )
 
         dataSourceDelegate?.passModifiedNote(note: newNote)
     }

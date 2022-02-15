@@ -7,17 +7,28 @@
 
 import UIKit
 
-class MemoTableViewController: UITableViewController {
-    private let memoStorage = MemoStorage()
-    private var memo = [Memo]()
+class MemoTableViewController: UITableViewController {    
     private let initialIndexPath = IndexPath(row: 0, section: 0)
+    private weak var delegate: MemoManageable?
+    
+    private var isSplitViewCollapsed: Bool? {
+        return self.splitViewController?.isCollapsed
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.register(cellWithClass: MemoTableViewCell.self)
-        fetchMemo()
         configureNavigationBar()
         configureTableView()
+    }
+        
+    init(style: UITableView.Style, delegate: MemoManageable) {
+        self.delegate = delegate
+        super.init(style: style)
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
     }
     
     private func configureNavigationBar() {
@@ -26,49 +37,22 @@ class MemoTableViewController: UITableViewController {
     }
     
     private func configureTableView() {
-        if self.splitViewController?.isCollapsed == false && memo.isEmpty == false {
+        if isSplitViewCollapsed == false && delegate?.isMemoStorageEmpty == false {
             tableView.delegate?.tableView?(tableView, didSelectRowAt: initialIndexPath)
         }
         tableView.separatorInset = UIEdgeInsets.zero
     }
-    
-    private func fetchMemo() {
-        memo = memoStorage.fetchAll()
-    }
-    
+
     @objc private func addEmptyMemo() {
-        memoStorage.create()
-        fetchMemo()
+        delegate?.create()
         tableView.insertRows(at: [initialIndexPath], with: .fade)
         tableView.scrollToRow(at: initialIndexPath, at: .bottom, animated: true)
+        tableView.isEditing = false
     }
     
-    private func deleteMemo(at indexPath: IndexPath) {
-        self.memoStorage.delete(memo: self.memo[indexPath.row])
-        fetchMemo()
+    func deleteMemo(at indexPath: IndexPath) {
+        delegate?.delete(at: indexPath)
         tableView.deleteRows(at: [indexPath], with: .fade)
-    }
-    
-    func presentDeleteAlert(at indexPath: IndexPath) {
-        guard let memoSplitViewController = self.splitViewController as? MemoSplitViewController else {
-            return
-        }
-        
-        let alert = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
-        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
-        let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
-            self.deleteMemo(at: indexPath)
-            if memoSplitViewController.isCollapsed {
-                memoSplitViewController.showPrimaryView()
-            }
-        }
-        alert.addAction(cancelAction)
-        alert.addAction(deleteAction)
-        self.present(alert, animated: true)
-    }
-    
-    func fetchSelectedMemo(at indexPath: IndexPath) -> Memo {
-        return memo[indexPath.row]
     }
 }
 
@@ -80,13 +64,16 @@ extension MemoTableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return memo.count
+        return delegate?.memosCount ?? 0
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withClass: MemoTableViewCell.self, for: indexPath)
         
-        let data = memo[indexPath.row]
+        guard let data = delegate?.fetch(at: indexPath) else {
+            return cell
+        }
+        
         cell.configureCellContent(from: data)
         
         return cell
@@ -97,18 +84,10 @@ extension MemoTableViewController {
 
 extension MemoTableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let data = memo[indexPath.row]
-        
-        guard let memoSplitViewController = self.splitViewController as? MemoSplitViewController else {
-            return
-        }
-        
-        memoSplitViewController.showSecondaryView(with: data, indexPath: indexPath)
+        delegate?.showSecondaryView(of: indexPath)
     }
     
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let memoSplitViewController = self.splitViewController as? MemoSplitViewController
-        
         let deleteAction = UIContextualAction(style: .destructive, title: nil) { _, _, completionHandler in
             self.deleteMemo(at: indexPath)
             completionHandler(true)
@@ -117,7 +96,7 @@ extension MemoTableViewController {
         deleteAction.backgroundColor = .systemRed
         
         let shareAction = UIContextualAction(style: .normal, title: nil) { _, _, completionHandler in
-            memoSplitViewController?.presentShareActivity(at: indexPath)
+            self.delegate?.presentShareActivity(at: indexPath)
             completionHandler(true)
         }
         shareAction.image = UIImage(systemName: "square.and.arrow.up.fill")

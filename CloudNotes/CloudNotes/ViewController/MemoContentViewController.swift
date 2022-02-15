@@ -22,9 +22,7 @@ final class MemoContentViewController: UIViewController, MemoReloadable {
             textView.text = nil
             return
         }
-        let title = currentMemo.title ?? ""
-        let body = currentMemo.body ?? ""
-        textView.text = "\(title)\n\(body)"
+        textView.text = currentMemo.entireContent
         let startPosition = textView.beginningOfDocument
         textView.selectedTextRange = textView.textRange(from: startPosition, to: startPosition)
     }

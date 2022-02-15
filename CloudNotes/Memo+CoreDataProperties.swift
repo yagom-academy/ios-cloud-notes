@@ -18,4 +18,13 @@ extension Memo {
         
         return dateFormatter.string(from: currentDate)
     }
+    
+    var entireContent: String {
+        let title = title ?? ""
+        if let body = body {
+            return "\(title)\n\(body)"
+        } else {
+            return title
+        }
+    }
 }

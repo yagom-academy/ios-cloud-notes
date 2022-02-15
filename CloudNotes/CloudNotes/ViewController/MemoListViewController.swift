@@ -83,4 +83,40 @@ extension MemoListViewController: UITableViewDelegate {
         let selectedMemo = memos[indexPath.row]
         splitViewController.updateMemoContentsView(with: selectedMemo)
     }
+    
+    func tableView(
+        _ tableView: UITableView,
+        trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
+    ) -> UISwipeActionsConfiguration? {
+        let deleteAction = UIContextualAction(style: .destructive, title: "삭제") { _, _, _  in
+            self.presentDeleteAlert(currentMemo: self.memos[indexPath.row])
+        }
+        let shareAction = UIContextualAction(style: .normal, title: "공유") { _, sourceView, _ in
+            self.presentActivityViewController(currentMemo: self.memos[indexPath.row], at: sourceView)
+        }
+        shareAction.backgroundColor = .systemBlue
+        
+        return UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
+    }
+    
+    private func presentDeleteAlert(currentMemo: Memo) {
+        let alert = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
+            CoreDataManager.shared.delete(data: currentMemo)
+        }
+        alert.addAction(cancelAction)
+        alert.addAction(deleteAction)
+        present(alert, animated: true)
+    }
+    
+    private func presentActivityViewController(currentMemo: Memo, at sourceView: UIView) {
+        let memoDetail = currentMemo.entireContent
+        let activityViewController = UIActivityViewController(
+            activityItems: [memoDetail],
+            applicationActivities: nil
+        )
+        activityViewController.popoverPresentationController?.sourceView = sourceView
+        present(activityViewController, animated: true)
+    }
 }

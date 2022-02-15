@@ -84,4 +84,4 @@ class NoteListTableViewCell: UITableViewCell {
     }
 }
 
-extension NoteListTableViewCell: Reusable {}
+extension NoteListTableViewCell: TypeNameConvertible {}

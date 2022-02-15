@@ -87,7 +87,7 @@ class NoteListTableViewController: UITableViewController {
 
 extension UITableView {
     
-    func register<Cell: UITableViewCell>(_: Cell.Type) where Cell: Reusable {
+    func register<Cell: UITableViewCell>(_: Cell.Type) where Cell: TypeNameConvertible {
         register(Cell.self, forCellReuseIdentifier: Cell.reuseIdentifier)
     }
     

@@ -1,12 +1,12 @@
 import UIKit
 
-protocol Reusable: AnyObject {
+protocol TypeNameConvertible: AnyObject {
     
     static var reuseIdentifier: String { get }
     
 }
 
-extension Reusable where Self: UIView {
+extension TypeNameConvertible where Self: UIView {
     
     static var reuseIdentifier: String {
         return String(describing: self)

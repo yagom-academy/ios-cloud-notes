@@ -2,21 +2,33 @@ import UIKit
 import CoreData
 
 class NoteSplitViewController: UISplitViewController {
-    private let dataStorage = DataStorage()
-    private let memos: [Memo] = []
+    private var dataStorage: CoreDataManager<CDMemo>?
     private let noteListViewController = NoteListViewController()
     private let noteDetailViewController = NoteDetailViewController()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        noteListViewController.delegate = self
-        noteListViewController.dataSource = self
+        configureNoteListViewController()
         setUpSplitViewController()
+        configureColumnStyle()
+        configureDataStorage()
     }
     
     private func setUpSplitViewController() {
         setViewController(noteListViewController, for: .primary)
         setViewController(noteDetailViewController, for: .secondary)
+    }
+    
+    private func configureNoteListViewController() {
+        noteListViewController.delegate = self
+        noteListViewController.dataSource = self
+    }
+    
+    private func configureDataStorage() {
+        dataStorage = CoreDataManager<CDMemo>()
+    }
+    
+    private func configureColumnStyle() {
         preferredPrimaryColumnWidthFraction = 1/3
         preferredDisplayMode = .oneBesideSecondary
         preferredSplitBehavior = .tile
@@ -29,16 +41,20 @@ extension NoteSplitViewController: NoteListViewControllerDelegate {
             for: .secondary) as? NoteDetailViewController else {
             return
         }
-        secondaryViewController.setUpText(with: dataStorage.assetData[indexPath.row])
+        
+        guard let memo = dataStorage?.dataList[indexPath.row] else {
+            return
+        }
+        secondaryViewController.setUpText(with: memo)
     }
 }
 
 extension NoteSplitViewController: NoteListViewControllerDataSource {
     func noteListViewControllerNumberOfData(_ viewController: NoteListViewController) -> Int {
-        dataStorage.assetData.count
+        dataStorage?.dataList.count ?? .zero
     }
     
-    func noteListViewControllerSampleForCell(_ viewController: NoteListViewController, indexPath: IndexPath) -> Sample? {
-        dataStorage.assetData[safe: indexPath.row]
+    func noteListViewControllerSampleForCell(_ viewController: NoteListViewController, indexPath: IndexPath) -> CDMemo? {
+        dataStorage?.dataList[safe: indexPath.row]
     }
 }

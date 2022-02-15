@@ -20,7 +20,7 @@ class NoteDetailViewController: UIViewController {
         setUpNavigationItems()
     }
     
-    func setUpText(with data: Sample) {
+    func setUpText(with data: CDMemo) {
         textView.text = data.body
     }
     

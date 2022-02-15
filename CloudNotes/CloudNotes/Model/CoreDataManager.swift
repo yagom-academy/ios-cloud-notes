@@ -1,34 +1,17 @@
 import UIKit
 import CoreData
-
-protocol CoreDataProvidable {
-    associatedtype Entity: NSManagedObject
-    var dataList: [Entity] { get set }
-    
-    func provideIntialData(request: NSFetchRequest<Entity>) -> [Entity]
-    func create(target: Entity, attributes: [String: Any])
-    func fetchAll(request: NSFetchRequest<Entity>)
-    func update(target: Entity, attributes: [String: Any])
-    func delete(target: Entity)
-    func save()
-}
-
-final class DataManager<T: NSManagedObject>: CoreDataProvidable {
-    typealias Entity = T
-    
+ 
+final class CoreDataManager<T: NSManagedObject> {
     private let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext
-    internal var dataList: [Entity] = []
-    
-    func provideIntialData(request: NSFetchRequest<Entity>) -> [Entity] {
-        fetchAll(request: request)
-        return dataList
-    }
-    
-    func create(target: Entity, attributes: [String: Any]) {
-        guard let context = context else { return }
+    var dataList: [T] = []
+ 
+    func create(target: T, attributes: [String: Any]) {
+        guard let context = context else {
+            return
+        }
         
         guard let entity = NSEntityDescription.entity(
-            forEntityName: String(describing: Entity.self),
+            forEntityName: String(describing: T.self),
             in: context
         ) else {
             return
@@ -42,7 +25,7 @@ final class DataManager<T: NSManagedObject>: CoreDataProvidable {
         save()
     }
     
-    func fetchAll(request: NSFetchRequest<Entity>) {
+    func fetchAll(request: NSFetchRequest<T>) {
         guard let context = context else {
             return
         }
@@ -55,7 +38,7 @@ final class DataManager<T: NSManagedObject>: CoreDataProvidable {
         }
     }
     
-    func update(target: Entity, attributes: [String: Any]) {
+    func update(target: T, attributes: [String: Any]) {
         attributes.forEach { (key: String, value: Any) in
             target.setValue(value, forKey: key)
         }
@@ -64,7 +47,7 @@ final class DataManager<T: NSManagedObject>: CoreDataProvidable {
         save()
     }
     
-    func delete(target: Entity) {
+    func delete(target: T) {
         context?.delete(target)
         save()
     }

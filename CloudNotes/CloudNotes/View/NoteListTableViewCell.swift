@@ -51,9 +51,9 @@ class NoteListTableViewCell: UITableViewCell {
         setUpLayout() 
     }
     
-    func updateLabel(title: String, date: String, preview: String) {
+    func updateLabel(title: String, date: Int64, preview: String) {
         titleLabel.text = title
-        dateLabel.text = date
+        dateLabel.text = date.description
         previewLabel.text = preview
     }
     

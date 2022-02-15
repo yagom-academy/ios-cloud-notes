@@ -14,7 +14,7 @@ protocol NoteListViewControllerDataSource: AnyObject {
     func noteListViewControllerSampleForCell(
         _ viewController: NoteListViewController,
         indexPath: IndexPath
-    ) -> Sample?
+    ) -> CDMemo?
 }
 
 class NoteListViewController: UIViewController {
@@ -83,7 +83,7 @@ extension NoteListViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        cell.updateLabel(title: data.title, date: data.formattedDate, preview: data.body)
+        cell.updateLabel(title: data.title ?? "", date: data.lastModified, preview: data.body ?? "")
         cell.accessoryType = .disclosureIndicator
         
         return cell

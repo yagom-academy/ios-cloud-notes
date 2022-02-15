@@ -3,30 +3,16 @@ import CoreData
 
 class CDDataSourceProvider: NoteDataSource {
     var noteList: [Content]
+    private let persistentManager = PersistentManager.shared
 
     init() {
         self.noteList = []
     }
 
-    lazy var persistentContainer: NSPersistentContainer = {
-        let container = NSPersistentCloudKitContainer(name: "CloudNotes")
-        container.loadPersistentStores { (storeDescription, error) in
-            if let error = error as NSError? {
-                fatalError()
-            }
-        }
-
-        return container
-    }()
-
-    var context: NSManagedObjectContext {
-        return self.persistentContainer.newBackgroundContext()
-    }
-
     func fetch() throws {
         let request = Note.fetchRequest()
         self.noteList = []
-        let notes = try self.context.fetch(request)
+        let notes = try persistentManager.fetch(request: request)
         notes.forEach { note in
             guard let title = note.title, let body = note.body, let id = note.identification else {
                 return
@@ -43,63 +29,49 @@ class CDDataSourceProvider: NoteDataSource {
     }
 
     func createNote(_ note: Content) {
-        let context = self.context
-        let entity = NSEntityDescription.entity(forEntityName: "Note", in: context)
+        let values: [String : Any] = [
+            "title": note.title,
+            "body": note.body,
+            "modifiedDate": note.lastModifiedDate,
+            "identification": note.identification
+        ]
 
-        if let entity = entity {
-            let content = NSManagedObject(entity: entity, insertInto: context)
-            content.setValue(note.title, forKey: "title")
-            content.setValue(note.body, forKey: "body")
-            content.setValue(note.lastModifiedDate, forKey: "modifiedDate")
-            content.setValue(note.identification, forKey: "identification")
-        }
-
-        self.saveContext(context)
+        persistentManager.create(entityName: String(describing: Note.self), values: values)
     }
 
-    func updateNote(updatedNote: Content) {
-        let context = self.context
+    func updateNote(_ updatedNote: Content) throws {
         let request = Note.fetchRequest()
         let predicate = NSPredicate(
             format: "identification == %@",
             updatedNote.identification.uuidString
         )
-        request.predicate = predicate
-
-        do {
-            let notes = try context.fetch(request)
-            guard let note = notes.first else {
-                return
-            }
-
-            note.setValue(note.title, forKey: "title")
-            note.setValue(note.body, forKey: "body")
-            note.setValue(note.modifiedDate, forKey: "modifiedDate")
-        } catch {
-            print(error)
+        let notes = try persistentManager.fetch(request: request, predicate: predicate)
+        guard let note = notes.first else {
+            return
         }
 
-        self.saveContext(context)
+        let values: [String : Any] = [
+            "title": updatedNote.title,
+            "body": updatedNote.body,
+            "modifiedDate": updatedNote.lastModifiedDate
+        ]
+
+        persistentManager.update(object: note, values: values)
     }
 
-    func deleteNote(uuid: UUID) {
-        let context = self.context
+    func deleteNote(_ noteToDelete: Note) throws {
         let request = Note.fetchRequest()
-        let predicate = NSPredicate(format: "identification == %@", uuid.uuidString)
-        request.predicate = predicate
-
-        do {
-            let notes = try context.fetch(request)
-            guard let note = notes.first else {
-                return
-            }
-
-            context.delete(note)
-        } catch {
-            print(error)
+        guard let uuid = noteToDelete.identification?.uuidString else {
+            return
         }
 
-        self.saveContext(context)
+        let predicate = NSPredicate(format: "identification == %@", uuid)
+        let notes = try persistentManager.fetch(request: request, predicate: predicate)
+        guard let note = notes.first else {
+            return
+        }
+
+        persistentManager.delete(object: note)
     }
 
     func saveContext(_ context: NSManagedObjectContext) {

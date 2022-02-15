@@ -15,6 +15,7 @@
 		0D89DF7127B6338C00ADF3F6 /* DetailedNoteViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D89DF7027B6338C00ADF3F6 /* DetailedNoteViewDelegate.swift */; };
 		0DE02F3E27BA28D600E05C33 /* Note+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE02F3D27BA28D600E05C33 /* Note+CoreDataClass.swift */; };
 		0DE02F4027BA28E500E05C33 /* Note+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE02F3F27BA28E500E05C33 /* Note+CoreDataProperties.swift */; };
+		0DE02F4327BB3B9C00E05C33 /* PersistentManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE02F4227BB3B9C00E05C33 /* PersistentManager.swift */; };
 		0F54B39373C5EF8AE00908CA /* Pods_CloudNotes_CloudNotesUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E3ECB8C9B3FD64FDB494A09 /* Pods_CloudNotes_CloudNotesUITests.framework */; };
 		3361C9C527B237720074B6B7 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 3361C9C427B237720074B6B7 /* .swiftlint.yml */; };
 		3361C9C727B245190074B6B7 /* NoteListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3361C9C627B245190074B6B7 /* NoteListViewController.swift */; };
@@ -62,6 +63,7 @@
 		0D89DF7027B6338C00ADF3F6 /* DetailedNoteViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailedNoteViewDelegate.swift; sourceTree = "<group>"; };
 		0DE02F3D27BA28D600E05C33 /* Note+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Note+CoreDataClass.swift"; path = "CloudNotes/CoreData/Note+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
 		0DE02F3F27BA28E500E05C33 /* Note+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Note+CoreDataProperties.swift"; path = "CloudNotes/CoreData/Note+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
+		0DE02F4227BB3B9C00E05C33 /* PersistentManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentManager.swift; sourceTree = "<group>"; };
 		101A74F46C2C12E8F12E449A /* Pods-CloudNotesTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudNotesTests.debug.xcconfig"; path = "Target Support Files/Pods-CloudNotesTests/Pods-CloudNotesTests.debug.xcconfig"; sourceTree = "<group>"; };
 		171506D4D23C24FEEE14CA85 /* Pods_CloudNotesTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CloudNotesTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2057D6A129B2310431C6B7D5 /* Pods-CloudNotes-CloudNotesUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudNotes-CloudNotesUITests.release.xcconfig"; path = "Target Support Files/Pods-CloudNotes-CloudNotesUITests/Pods-CloudNotes-CloudNotesUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -194,6 +196,7 @@
 				3361C9D027B24D130074B6B7 /* JSONDataSourceProvider.swift */,
 				0D3DAAEB27B259D6005F9502 /* DecodingUtility.swift */,
 				339A3F8027BA171000241E74 /* CDDataSourceProvider.swift */,
+				0DE02F4227BB3B9C00E05C33 /* PersistentManager.swift */,
 			);
 			path = DataSourceProvider;
 			sourceTree = "<group>";
@@ -526,6 +529,7 @@
 				3361C9D127B24D140074B6B7 /* JSONDataSourceProvider.swift in Sources */,
 				0D3DAAE727B24919005F9502 /* Content.swift in Sources */,
 				0D89DF7127B6338C00ADF3F6 /* DetailedNoteViewDelegate.swift in Sources */,
+				0DE02F4327BB3B9C00E05C33 /* PersistentManager.swift in Sources */,
 				C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */,
 				C7481C7825BBCF3900B9CA55 /* CloudNotes.xcdatamodeld in Sources */,
 				0DE02F4027BA28E500E05C33 /* Note+CoreDataProperties.swift in Sources */,

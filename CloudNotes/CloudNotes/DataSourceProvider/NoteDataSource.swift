@@ -7,7 +7,7 @@ protocol NoteDataSource {
     
     func createNote(_ note: Content)
 
-    func updateNote(updatedNote: Content)
+    func updateNote(_ updatedNote: Content) throws
 
-    func deleteNote(uuid: UUID)
+    func deleteNote(_ noteToDelete: Note) throws
 }

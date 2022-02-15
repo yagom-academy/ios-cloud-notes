@@ -3,7 +3,6 @@ import CoreData
 
 class CoreDataManager {
     static let shared = CoreDataManager()
-    private init() {}
     
     lazy var persistentContainer: NSPersistentCloudKitContainer = {
         let container = NSPersistentCloudKitContainer(name: "CloudNotes")
@@ -15,65 +14,70 @@ class CoreDataManager {
         return container
     }()
     
-    func fetch() -> [Memo] {
-        let context = self.persistentContainer.viewContext
-        
+    var context: NSManagedObjectContext {
+        return persistentContainer.viewContext
+    }
+    
+    private init() {}
+    
+    func fetch<Element: NSManagedObject>(_ request: NSFetchRequest<Element>) -> [Element]? {
         do {
-            let contact = try context.fetch(Memo.fetchRequest())
-            return contact
+            let elements = try context.fetch(request)
+            return elements
         } catch {
             fatalError("\(error)")
         }
     }
 
     func saveContext(memo: TemporaryMemo) {
-        let viewContext = self.persistentContainer.viewContext
-        
-        guard let entity = NSEntityDescription.entity(forEntityName: "Memo", in: viewContext) else {
+        guard let entity = NSEntityDescription.entity(forEntityName: "Memo", in: context) else {
             return
         }
 
-        let managedObject = NSManagedObject(entity: entity, insertInto: viewContext)
-        managedObject.setValue(memo.id, forKey: "id")
+        let managedObject = NSManagedObject(entity: entity, insertInto: context)
+        managedObject.setValue(memo.id, forKey: "memoId")
         managedObject.setValue(memo.title, forKey: "title")
         managedObject.setValue(memo.body, forKey: "body")
         managedObject.setValue(memo.lastModifiedDate, forKey: "lastModifiedDate")
     
         do {
-            try viewContext.save()
+            try context.save()
         } catch {
             fatalError("\(error)")
         }
     }
     
-    func delete(id: UUID) {
-        let viewContext = self.persistentContainer.viewContext
-        
-        let deleteRequest = NSFetchRequest<Memo>(entityName: "Memo")
-        deleteRequest.predicate = NSPredicate(format: "id = %@", id.uuidString)
-        
+    func delete<Element: NSManagedObject>(request: NSFetchRequest<Element>) {
         do {
-            guard let memo = try viewContext.fetch(deleteRequest).first else {
-                return
+            let elementsToDelete = try context.fetch(request)
+            
+            elementsToDelete.forEach { element in
+                context.delete(element)
             }
             
-            viewContext.delete(memo)
-            
-            try viewContext.save()
+            try context.save()
         } catch {
             fatalError("\(error)")
         }
+    }
+    
+    func deleteMemo(memoId: UUID?) {
+        guard let memoId = memoId else {
+            return
+        }
+
+        let deleteRequest = Memo.fetchRequest()
+        deleteRequest.predicate = NSPredicate(format: "memoId = %@", memoId.uuidString)
+        
+        delete(request: deleteRequest)
     }
     
     func deleteAll() {
-        let viewContext = self.persistentContainer.viewContext
-        
         let deleteAllRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Memo")
-        
         let batchDeleteRequest = NSBatchDeleteRequest(fetchRequest: deleteAllRequest)
         
         do {
-            try viewContext.execute(batchDeleteRequest)
+            try context.execute(batchDeleteRequest)
         } catch {
             fatalError("\(error)")
         }

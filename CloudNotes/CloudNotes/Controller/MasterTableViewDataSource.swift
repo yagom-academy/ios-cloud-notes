@@ -10,7 +10,8 @@ final class MasterTableViewDataSource: NSObject, MasterTableViewDataSourceProtoc
     lazy var memos: [Memo]? = fetchData()
     
     func fetchData() -> [Memo]? {
-        return CoreDataManager.shared.fetch()
+        let request = Memo.fetchRequest()
+        return CoreDataManager.shared.fetch(request)
     }
 }
 

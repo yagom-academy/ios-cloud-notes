@@ -1,7 +1,8 @@
 import UIKit
 
 final class DetailViewController: UIViewController {
-    var memo = Memo()
+    var memo: Memo?
+   
     private let textView: UITextView = {
         let textView = UITextView()
         textView.adjustsFontForContentSizeCategory = true
@@ -15,6 +16,7 @@ final class DetailViewController: UIViewController {
         super.viewDidLoad()
         configureUI()
         configureKeyboardNotificationCenter()
+        textView.delegate = self
     }
     
     private func configureUI() {
@@ -74,7 +76,7 @@ final class DetailViewController: UIViewController {
         let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
             let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
             let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
-                CoreDataManager.shared.deleteAll()
+                CoreDataManager.shared.deleteMemo(memoId: self.memo?.memoId)
             }
             
             let alert = AlertFactory().createAlert(style: .alert, title: "진짜요?", message: "정말로 삭제하시겠어요?", actions: cancelAction, deleteAction)
@@ -111,6 +113,31 @@ extension DetailViewController: MemoSelectionDelegate {
     }
     
     func updateTextView() {
-        textView.text = memo.title
+        let titleAttributes = [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .title1)]
+        let bodyAttributes = [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .body)]
+        
+        let titleAttributedText = NSAttributedString(string: memo?.title ?? "", attributes: titleAttributes)
+        let bodyAattributedText = NSAttributedString(string: "\n\(memo?.body ?? "")", attributes: bodyAttributes)
+        
+        textView.attributedText = titleAttributedText
+        textView.textStorage.append(bodyAattributedText)
+    }
+}
+
+extension DetailViewController: UITextViewDelegate {
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        let titleAttributes = [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .title1)]
+        let bodyAttributes = [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .body)]
+        
+        let textAsNSString = textView.text as NSString
+        let titleRange = textAsNSString.range(of: "\n")
+        
+        if titleRange.location >= range.location {
+            self.textView.typingAttributes = titleAttributes
+        } else {
+            self.textView.typingAttributes = bodyAttributes
+        }
+        
+        return true
     }
 }

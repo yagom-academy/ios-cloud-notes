@@ -33,6 +33,11 @@ final class MasterTableViewController: UITableViewController {
         tableView.reloadData()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        selectFirstMemo()
+    }
+    
     // MARK: - Methods
     private func configureNavigationBar() {
         navigationItem.title = "메모"
@@ -44,16 +49,25 @@ final class MasterTableViewController: UITableViewController {
     }
     
     @objc func touchUpAddMemoButton() {
-        let memo = TemporaryMemo(title: "안녕하세요", body: nil, lastModifiedDate: 1231232213, id: UUID()) // Test
+        let memo = TemporaryMemo(title: "안녕하세요", body: "안녕히가세요", lastModifiedDate: 1231232213, id: UUID()) // Test
+        let request = Memo.fetchRequest()
         
         CoreDataManager.shared.saveContext(memo: memo)
-        memoDataSource?.memos = CoreDataManager.shared.fetch()
+        memoDataSource?.memos = CoreDataManager.shared.fetch(request)
         tableView.reloadData()
     }
     
     private func configureTableView() {
         tableView.dataSource = memoDataSource as? UITableViewDataSource
         tableView.register(MasterTableViewCell.self, forCellReuseIdentifier: MasterTableViewCell.reuseIdentifier)
+    }
+    
+    private func selectFirstMemo() {
+        if memoDataSource?.memos?.count != 0 {
+            let indexPath = IndexPath(row: 0, section: 0)
+            tableView.selectRow(at: indexPath, animated: true, scrollPosition: .none)
+            tableView.delegate?.tableView?(tableView, didSelectRowAt: indexPath)
+        }
     }
     
     // MARK: - Table view delegate

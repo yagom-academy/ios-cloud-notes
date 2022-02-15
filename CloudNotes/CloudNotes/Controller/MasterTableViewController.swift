@@ -30,6 +30,7 @@ final class MasterTableViewController: UITableViewController {
         super.viewDidLoad()
         configureNavigationBar()
         configureTableView()
+        configureNotificationCenter()
         tableView.reloadData()
     }
     
@@ -49,7 +50,7 @@ final class MasterTableViewController: UITableViewController {
     }
     
     @objc func touchUpAddMemoButton() {
-        let memo = TemporaryMemo(title: "안녕하세요", body: "안녕히가세요", lastModifiedDate: 1231232213, id: UUID()) // Test
+        let memo = TemporaryMemo(title: "안녕하세요", body: "안녕히가세요", lastModifiedDate: 1231232213, memoId: UUID()) // Test
         let request = Memo.fetchRequest()
         
         CoreDataManager.shared.saveContext(memo: memo)
@@ -60,6 +61,14 @@ final class MasterTableViewController: UITableViewController {
     private func configureTableView() {
         tableView.dataSource = memoDataSource as? UITableViewDataSource
         tableView.register(MasterTableViewCell.self, forCellReuseIdentifier: MasterTableViewCell.reuseIdentifier)
+    }
+    
+    private func configureNotificationCenter() {
+        NotificationCenter.default.addObserver(self, selector: #selector(update), name: Notification.Name("didChangeTextView"), object: nil)
+    }
+    
+    @objc func update() {
+        tableView.reloadData()
     }
     
     private func selectFirstMemo() {

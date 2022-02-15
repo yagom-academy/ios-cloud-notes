@@ -16,7 +16,7 @@ final class DetailViewController: UIViewController {
         super.viewDidLoad()
         configureUI()
         configureKeyboardNotificationCenter()
-        textView.delegate = self
+        setupTextView()
     }
     
     private func configureUI() {
@@ -27,6 +27,10 @@ final class DetailViewController: UIViewController {
     
     private func configureKeyboardNotificationCenter() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+    }
+    
+    private func setupTextView() {
+        textView.delegate = self
     }
     
     @objc private func keyboardWillShow(_ sender: Notification) {
@@ -63,7 +67,7 @@ final class DetailViewController: UIViewController {
             let title = "Jokes Are Us Diagnostics:"
             let text = "Some Text"
             
-            let textToShare: [Any] = [ title ]
+            let textToShare: [Any] = [title]
             let acitivityView = UIActivityViewController(activityItems: textToShare, applicationActivities: nil)
                         
             let alertPopover = acitivityView.popoverPresentationController
@@ -100,6 +104,25 @@ final class DetailViewController: UIViewController {
         textView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         textView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
     }
+    
+    func updateCoreData() {
+        let texts = textView.text.split(separator: "\n", maxSplits: 1)  // components는 split 횟수를 정할 수 없음 (줄바꿈이 여러 번일 때 bodyText 반영에 문제가 발생함)
+        let strings = texts.map { String($0) }
+        var titleText: String = ""
+        var bodyText: String = ""
+        
+        if texts.count == 2 {
+            titleText = strings[0]
+            bodyText = strings[1]
+        } else if texts.count == 1 {
+            titleText = strings[0]
+        }
+
+        let currentTime = NSDate().timeIntervalSince1970
+        let memo = TemporaryMemo(title: titleText, body: bodyText, lastModifiedDate: currentTime, memoId: (memo?.memoId)!)
+        
+        CoreDataManager.shared.updateMemo(memo)
+    }
 }
 
 extension DetailViewController: MemoSelectionDelegate {
@@ -133,10 +156,13 @@ extension DetailViewController: UITextViewDelegate {
         let titleRange = textAsNSString.range(of: "\n")
         
         if titleRange.location >= range.location {
-            self.textView.typingAttributes = titleAttributes
+            textView.typingAttributes = titleAttributes
         } else {
-            self.textView.typingAttributes = bodyAttributes
+            textView.typingAttributes = bodyAttributes
         }
+        
+        updateCoreData()
+        NotificationCenter.default.post(name: Notification.Name("didChangeTextView"), object: nil)
         
         return true
     }

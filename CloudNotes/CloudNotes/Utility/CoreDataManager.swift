@@ -35,12 +35,30 @@ class CoreDataManager {
         }
 
         let managedObject = NSManagedObject(entity: entity, insertInto: context)
-        managedObject.setValue(memo.id, forKey: "memoId")
+        managedObject.setValue(memo.memoId, forKey: "memoId")
         managedObject.setValue(memo.title, forKey: "title")
         managedObject.setValue(memo.body, forKey: "body")
         managedObject.setValue(memo.lastModifiedDate, forKey: "lastModifiedDate")
     
         do {
+            try context.save()
+        } catch {
+            fatalError("\(error)")
+        }
+    }
+    
+    func updateMemo(_ memo: TemporaryMemo) {
+        let request: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest<NSFetchRequestResult>(entityName: "Memo")
+        request.predicate = NSPredicate(format: "memoId = %@", memo.memoId.uuidString)
+        
+        do {
+            let memoToUpdate = try context.fetch(request)
+            
+            let managedObject = memoToUpdate.first as? NSManagedObject
+            managedObject?.setValue(memo.title, forKey: "title")
+            managedObject?.setValue(memo.body ?? "", forKey: "body")
+            managedObject?.setValue(memo.lastModifiedDate, forKey: "lastModifiedDate")
+            
             try context.save()
         } catch {
             fatalError("\(error)")

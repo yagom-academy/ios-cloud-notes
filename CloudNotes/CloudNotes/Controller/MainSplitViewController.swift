@@ -25,9 +25,6 @@ final class MainSplitViewController: UISplitViewController {
     }
     
     func configureChildViewController(_ masterViewController: MasterTableViewController, _ detailViewController: DetailViewController) {
-        self.viewControllers = [
-            UINavigationController(rootViewController: masterViewController),
-            UINavigationController(rootViewController: detailViewController)
-        ]
+        viewControllers = [masterViewController, detailViewController]
     }
 }

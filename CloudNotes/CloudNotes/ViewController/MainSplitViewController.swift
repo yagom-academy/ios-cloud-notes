@@ -8,30 +8,23 @@ final class MainSplitViewController: UISplitViewController {
         super.viewDidLoad()
         setupMainSplitView()
         setupKeyboardNotification()
+        CoreDataManager.shared.memoListViewController = listViewController
+        CoreDataManager.shared.memoContentViewController = contentViewController
     }
     
     func updateMemoContentsView(with memo: Memo) {
-        contentViewController.updateTextView(with: memo)
         contentViewController.selectedMemo = memo
+        contentViewController.reload()
         showDetailViewController(contentViewController, sender: nil)
     }
-    
-    func reloadMemoList() {
-        listViewController.loadMemos()
-    }
-     
+
     private func setupMainSplitView() {
         configureSplitView()
-        configureNavigationBar()
     }
     
     private func configureSplitView() {
         setViewController(listViewController, for: .primary)
         setViewController(contentViewController, for: .secondary)
-    }
-    
-    private func configureNavigationBar() {
-        navigationItem.leftBarButtonItem = displayModeButtonItem
     }
 }
 

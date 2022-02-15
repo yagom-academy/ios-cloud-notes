@@ -1,6 +1,6 @@
 import UIKit
 
-final class MemoContentViewController: UIViewController {
+final class MemoContentViewController: UIViewController, MemoReloadable {
     weak var selectedMemo: Memo?
     
     private let textView: UITextView = {
@@ -17,12 +17,18 @@ final class MemoContentViewController: UIViewController {
         textView.delegate = self
     }
     
-    func updateTextView(with memo: Memo) {
-        let title = memo.title ?? ""
-        let body = memo.body ?? ""
+    func reload() {
+        guard let currentMemo = selectedMemo else {
+            textView.text = nil
+            return
+        }
+        let title = currentMemo.title ?? ""
+        let body = currentMemo.body ?? ""
         textView.text = "\(title)\n\(body)"
+        let startPosition = textView.beginningOfDocument
+        textView.selectedTextRange = textView.textRange(from: startPosition, to: startPosition)
     }
-    
+
     private func setupMainMemoView() {
         configureMemoView()
         configureMemoViewAutoLayout()
@@ -89,52 +95,25 @@ extension MemoContentViewController {
     }
     
     private func deleteMemo() {
-        let context = AppDelegate.persistentContainer.viewContext
         guard let currentMemo = selectedMemo else { return }
-        context.delete(currentMemo)
-        do {
-            try context.save()
-            reloadMemoList()
-            textView.text = nil
-            self.selectedMemo = nil
-        } catch {
-            print(error)
-        }
-    }
-    
-    private func reloadMemoList() {
-        guard let splitViewController = splitViewController as? MainSplitViewController else { return }
-        splitViewController.reloadMemoList()
+        CoreDataManager.shared.delete(data: currentMemo)
     }
 }
 
 extension MemoContentViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
-        guard let memoDetail = textView.text else { return }
+        guard let memoDetail = textView.text,
+              let currentMemo = selectedMemo else { return }
         
         if let firstLineBreakIndex = memoDetail.firstIndex(of: "\n") {
             let title = String(memoDetail[..<firstLineBreakIndex])
             let bodyStartIndex = memoDetail.index(after: firstLineBreakIndex)
             let bodyEndIndex = memoDetail.endIndex
             let body = String(memoDetail[bodyStartIndex..<bodyEndIndex])
-            updateMemo(title: title, body: body)
+            CoreDataManager.shared.update(data: currentMemo, title: title, body: body)
         } else {
             let title = memoDetail
-            updateMemo(title: title, body: nil)
-        }
-    }
-    
-    private func updateMemo(title: String, body: String?) {
-        guard let currentMemo = selectedMemo else { return }
-        currentMemo.title = title
-        currentMemo.body = body
-        currentMemo.lastModified = Date().timeIntervalSince1970
-        let context = AppDelegate.persistentContainer.viewContext
-        do {
-            try context.save()
-            reloadMemoList()
-        } catch {
-            print(error)
+            CoreDataManager.shared.update(data: currentMemo, title: title, body: nil)
         }
     }
 }

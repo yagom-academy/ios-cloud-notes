@@ -1,6 +1,6 @@
 import UIKit
 
-final class MemoListViewController: UIViewController {
+final class MemoListViewController: UIViewController, MemoReloadable {
     private let tableView = UITableView()
     private var memos: [Memo] = []
     private let navigationTitle = "메모"
@@ -12,8 +12,13 @@ final class MemoListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        loadMemos()
+        reload()
         setupMainListView()
+    }
+    
+    func reload() {
+        memos = CoreDataManager.shared.load()
+        tableView.reloadData()
     }
 
     private func setupMainListView() {
@@ -51,6 +56,10 @@ final class MemoListViewController: UIViewController {
             action: #selector(createMemo)
         )
     }
+    
+    @objc private func createMemo() {
+        CoreDataManager.shared.create()
+    }
 }
 
 extension MemoListViewController: UITableViewDataSource {
@@ -73,33 +82,5 @@ extension MemoListViewController: UITableViewDelegate {
         guard let splitViewController = splitViewController as? MainSplitViewController else { return }
         let selectedMemo = memos[indexPath.row]
         splitViewController.updateMemoContentsView(with: selectedMemo)
-    }
-}
-
-// MARK: - Core Data
-extension MemoListViewController {
-    func loadMemos() {
-        do {
-            let context = AppDelegate.persistentContainer.viewContext
-            memos = try context.fetch(Memo.fetchRequest())
-            memos = memos.reversed()
-            tableView.reloadData()
-        } catch {
-            print(error)
-        }
-    }
-    
-    @objc func createMemo() {
-        let context = AppDelegate.persistentContainer.viewContext
-        
-        let memo = Memo(context: context)
-        memo.lastModified = Date().timeIntervalSince1970
-        
-        do {
-            try context.save()
-            loadMemos()
-        } catch {
-            print(error)
-        }
     }
 }

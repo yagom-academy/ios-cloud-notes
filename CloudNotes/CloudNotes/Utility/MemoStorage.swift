@@ -45,6 +45,14 @@ class MemoStorage {
         saveContext()
     }
     
+    func update(to memo: Memo, title: String, body: String) {
+        let currentDate = Date().timeIntervalSince1970
+        memo.setValue(title, forKey: "title")
+        memo.setValue(body, forKey: "body")
+        memo.setValue(currentDate, forKey: "lastModified")
+        saveContext()
+    }
+    
     private func saveContext() {
         do {
             try context.save()

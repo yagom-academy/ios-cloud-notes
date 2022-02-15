@@ -17,6 +17,7 @@ protocol MemoStorageManageable: AnyObject {
     func fetchAll()
     func fetch(at indexPath: IndexPath) -> Memo
     func delete(at indexPath: IndexPath)
+    func update(at indexPath: IndexPath, title: String, body: String)
 }
 
 protocol MemoSplitViewManageable: AnyObject {

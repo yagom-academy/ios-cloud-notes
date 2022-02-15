@@ -49,7 +49,7 @@ extension MemoSplitViewController: MemoSplitViewManageable {
     
     func showSecondaryView(of indexPath: IndexPath) {
         let memoToShow = memos[indexPath.row]
-        memoDetailViewController.updateMemo(text: memoToShow.body) // TODO: Title 추가, body 구분 
+        memoDetailViewController.updateMemo(title: memoToShow.title, body: memoToShow.body) 
         memoDetailViewController.updateCurrentIndexPath(with: indexPath)
         show(.secondary)
     }
@@ -58,7 +58,7 @@ extension MemoSplitViewController: MemoSplitViewManageable {
         let alert = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
         let cancelAction = UIAlertAction(title: "취소", style: .cancel)
         let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
-            self.memoTableViewController.deleteMemo(at: indexPath)
+            self.delete(at: indexPath)
             if self.isCollapsed {
                 self.showPrimaryView()
             }
@@ -104,10 +104,16 @@ extension MemoSplitViewController: MemoStorageManageable {
     func fetch(at indexPath: IndexPath) -> Memo {
         return memos[indexPath.row]
     }
+    
+    func update(at indexPath: IndexPath, title: String, body: String) {
+        let memoToUpdate = memos[indexPath.row]
+        memoStorage.update(to: memoToUpdate, title: title, body: body)
+    }
 
     func delete(at indexPath: IndexPath) {
         let memoToDelete = memos[indexPath.row]
         memoStorage.delete(memo: memoToDelete)
         fetchAll()
+        self.memoTableViewController.deleteRow(at: indexPath)
     }
 }

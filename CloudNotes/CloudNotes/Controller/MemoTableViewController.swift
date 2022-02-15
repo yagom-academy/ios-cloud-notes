@@ -50,8 +50,7 @@ class MemoTableViewController: UITableViewController {
         tableView.isEditing = false
     }
     
-    func deleteMemo(at indexPath: IndexPath) {
-        delegate?.delete(at: indexPath)
+    func deleteRow(at indexPath: IndexPath) {
         tableView.deleteRows(at: [indexPath], with: .fade)
     }
 }
@@ -89,7 +88,7 @@ extension MemoTableViewController {
     
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let deleteAction = UIContextualAction(style: .destructive, title: nil) { _, _, completionHandler in
-            self.deleteMemo(at: indexPath)
+            self.delegate?.delete(at: indexPath)
             completionHandler(true)
         }
         deleteAction.image = UIImage(systemName: "trash.fill")

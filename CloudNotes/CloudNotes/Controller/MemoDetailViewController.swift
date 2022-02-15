@@ -9,7 +9,7 @@ import UIKit
 
 class MemoDetailViewController: UIViewController {
     private var currentIndexPath = IndexPath(row: 0, section: 0)
-    private weak var delegate: MemoSplitViewManageable?
+    private weak var delegate: MemoManageable?
     
     private let memoTextView: UITextView = {
         let textView = UITextView()
@@ -20,11 +20,12 @@ class MemoDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        memoTextView.delegate = self
         configureUI()
         addKeyboardNotificationObserver()
     }
     
-    init(delegate: MemoSplitViewManageable) {
+    init(delegate: MemoManageable) {
         self.delegate = delegate
         super.init(nibName: nil, bundle: nil)
     }
@@ -37,9 +38,9 @@ class MemoDetailViewController: UIViewController {
         currentIndexPath = indexPath
     }
     
-    func updateMemo(text: String?) {
+    func updateMemo(title: String?, body: String?) {
         memoTextView.resignFirstResponder()
-        memoTextView.text = text
+        memoTextView.text = (title ?? "") + "\n" + (body ?? "")
         memoTextView.contentOffset = .zero
     }
     
@@ -96,5 +97,22 @@ class MemoDetailViewController: UIViewController {
     @objc private func keyboardWillHide() {
         memoTextView.contentInset.bottom = .zero
         memoTextView.verticalScrollIndicatorInsets.bottom = .zero
+    }
+}
+
+extension MemoDetailViewController: UITextViewDelegate {
+    func textViewDidEndEditing(_ textView: UITextView) {
+        let splitedText = textView.text.split(separator: "\n", maxSplits: 1).map { String($0) }
+        
+        if splitedText.count == 1 {
+            // title O, body X
+            delegate?.update(at: currentIndexPath, title: splitedText[0], body: "")
+        } else if splitedText.count == 2 {
+            // title O, body O
+            delegate?.update(at: currentIndexPath, title: splitedText[0], body: splitedText[1])
+        } else {
+            // title X, body X
+            delegate?.delete(at: currentIndexPath)
+        }
     }
 }

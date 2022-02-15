@@ -77,4 +77,19 @@ class NoteListViewController: UITableViewController {
         dataSourceDelegate?.passNote(index: indexPath.row)
         tableView.deselectRow(at: indexPath, animated: true)
     }
+
+    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let action = UIContextualAction(
+            style: .destructive,
+            title: "삭제"
+        ) { action, view, completionHandler in
+            let note = self.noteListData[indexPath.row]
+            self.dataSourceDelegate?.deleteNote(note)
+//            tableView.deleteRows(at: [indexPath], with: .fade)
+
+            
+        }
+
+        return UISwipeActionsConfiguration(actions: [action])
+    }
 }

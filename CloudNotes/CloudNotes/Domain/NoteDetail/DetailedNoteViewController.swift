@@ -61,6 +61,7 @@ class DetailedNoteViewController: UIViewController {
 
     private func configureTextView() {
         guard let note = noteData else {
+            noteTextView.text = ""
             return
         }
         let content = NSMutableAttributedString()

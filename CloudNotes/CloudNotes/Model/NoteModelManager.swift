@@ -2,7 +2,7 @@ import UIKit
 
 class NoteModelManager: NoteModel {
     
-    private var noteData: [Note] = []
+    var noteData: [Note] = []
     var countOfNoteData: Int {
         return noteData.count
     }
@@ -26,6 +26,10 @@ class NoteModelManager: NoteModel {
         }
         if let result = try? decoder.decode([Note].self, from: jsonData) {
             noteData = result
+            
+            noteData.indices.forEach { index in
+                noteData[index].identifier = UUID()
+            }
         }
     }
     

@@ -11,6 +11,8 @@
 		1D18BA4195A1CA22024E8A91 /* Pods_CloudNotesTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F84953C3DD6D773598164256 /* Pods_CloudNotesTests.framework */; };
 		843FEDBA27B20778009AA0ED /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 843FEDB927B20778009AA0ED /* .swiftlint.yml */; };
 		84474C7A27B251E200A1E83E /* NoteListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84474C7927B251E200A1E83E /* NoteListTableViewController.swift */; };
+		890192CE27BBA94C00233A9B /* NoteListTableViewDiffableDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 890192CD27BBA94C00233A9B /* NoteListTableViewDiffableDataSource.swift */; };
+		890192D027BBA9B100233A9B /* Section.swift in Sources */ = {isa = PBXBuildFile; fileRef = 890192CF27BBA9B100233A9B /* Section.swift */; };
 		894E47A827B5115E0099893B /* NoteListTableViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 894E47A727B5115E0099893B /* NoteListTableViewDelegate.swift */; };
 		8991779727BA440E009D5690 /* NoteModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8991779627BA440E009D5690 /* NoteModel.swift */; };
 		89C7EBD727B25F4400221EC7 /* NoteModelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89C7EBD627B25F4400221EC7 /* NoteModelManager.swift */; };
@@ -55,6 +57,8 @@
 		843FEDB927B20778009AA0ED /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		84474C7927B251E200A1E83E /* NoteListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteListTableViewController.swift; sourceTree = "<group>"; };
 		85F41C9FA46A836565CC82C4 /* Pods-CloudNotes.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudNotes.release.xcconfig"; path = "Target Support Files/Pods-CloudNotes/Pods-CloudNotes.release.xcconfig"; sourceTree = "<group>"; };
+		890192CD27BBA94C00233A9B /* NoteListTableViewDiffableDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteListTableViewDiffableDataSource.swift; sourceTree = "<group>"; };
+		890192CF27BBA9B100233A9B /* Section.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Section.swift; sourceTree = "<group>"; };
 		894E47A727B5115E0099893B /* NoteListTableViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteListTableViewDelegate.swift; sourceTree = "<group>"; };
 		8991779627BA440E009D5690 /* NoteModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteModel.swift; sourceTree = "<group>"; };
 		89C7EBD627B25F4400221EC7 /* NoteModelManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteModelManager.swift; sourceTree = "<group>"; };
@@ -112,6 +116,7 @@
 			isa = PBXGroup;
 			children = (
 				84474C7927B251E200A1E83E /* NoteListTableViewController.swift */,
+				890192CD27BBA94C00233A9B /* NoteListTableViewDiffableDataSource.swift */,
 				C7481C7125BBCF3900B9CA55 /* NoteDetailViewController.swift */,
 				894E47A727B5115E0099893B /* NoteListTableViewDelegate.swift */,
 			);
@@ -144,6 +149,7 @@
 				C1C3151E27B237DA00FB69CE /* Note.swift */,
 				89C7EBD627B25F4400221EC7 /* NoteModelManager.swift */,
 				8991779627BA440E009D5690 /* NoteModel.swift */,
+				890192CF27BBA9B100233A9B /* Section.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -452,8 +458,10 @@
 				894E47A827B5115E0099893B /* NoteListTableViewDelegate.swift in Sources */,
 				C181739927B4B0FA00011200 /* NoteListTableViewCell.swift in Sources */,
 				C7481C7225BBCF3900B9CA55 /* NoteDetailViewController.swift in Sources */,
+				890192D027BBA9B100233A9B /* Section.swift in Sources */,
 				8991779727BA440E009D5690 /* NoteModel.swift in Sources */,
 				C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */,
+				890192CE27BBA94C00233A9B /* NoteListTableViewDiffableDataSource.swift in Sources */,
 				C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */,
 				C7481C7825BBCF3900B9CA55 /* CloudNotes.xcdatamodeld in Sources */,
 			);

@@ -55,7 +55,9 @@ final class MemoContentViewController: UIViewController {
 extension MemoContentViewController {
     @objc func presentPopover(sender: UIBarButtonItem) {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let shareAction = UIAlertAction(title: "Share...", style: .default, handler: nil)
+        let shareAction = UIAlertAction(title: "Share...", style: .default) { _ in
+            self.presentActivityViewController(sender: sender)
+        }
         let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
             self.presentDeleteAlert()
         }
@@ -63,6 +65,16 @@ extension MemoContentViewController {
         alert.addAction(deleteAction)
         alert.popoverPresentationController?.barButtonItem = sender
         present(alert, animated: true)
+    }
+    
+    private func presentActivityViewController(sender: UIBarButtonItem) {
+        guard let memoDetail = textView.text else { return }
+        let activityViewController = UIActivityViewController(
+            activityItems: [memoDetail],
+            applicationActivities: nil
+        )
+        activityViewController.popoverPresentationController?.barButtonItem = sender
+        present(activityViewController, animated: true)
     }
     
     private func presentDeleteAlert() {

@@ -55,7 +55,6 @@ extension SplitViewController: NoteListViewDelegate {
             return
         }
 
-        noteListViewController.setNoteListData(noteList)
         detailedNoteViewController.setNoteData(noteList.first)
     }
 
@@ -77,6 +76,7 @@ extension SplitViewController: NoteListViewDelegate {
     func passNote(index: Int) {
         self.currentNoteIndex = index
         detailedNoteViewController.setNoteData(dataSourceProvider?.noteList[index])
+        self.view.endEditing(true)
     }
 }
 
@@ -87,6 +87,11 @@ extension SplitViewController: DetailedNoteViewDelegate {
         } catch let error {
             print(error)
         }
-        noteListViewController.setNoteListData(dataSourceProvider!.noteList)
+
+        guard let noteList = dataSourceProvider?.noteList else {
+            return
+        }
+
+        noteListViewController.setNoteListData(noteList)
     }
 }

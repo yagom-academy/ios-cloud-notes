@@ -7,6 +7,7 @@ class DetailedNoteViewController: UIViewController {
         }
     }
     private weak var dataSourceDelegate: DetailedNoteViewDelegate?
+    private var shouldCreateNote = false
 
     private let noteTextView: UITextView = {
         let textView = UITextView()
@@ -62,6 +63,8 @@ class DetailedNoteViewController: UIViewController {
     private func configureTextView() {
         guard let note = noteData else {
             noteTextView.text = ""
+            self.view.endEditing(true)
+            self.shouldCreateNote = true
             return
         }
         let content = NSMutableAttributedString()
@@ -83,6 +86,13 @@ class DetailedNoteViewController: UIViewController {
 }
 
 extension DetailedNoteViewController: UITextViewDelegate {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if self.shouldCreateNote {
+            self.dataSourceDelegate?.creatNote()
+            self.shouldCreateNote = false
+        }
+    }
+
     func textViewDidChange(_ textView: UITextView) {
         var content = textView.text.components(separatedBy: ["\n"])
         var title = content.removeFirst()

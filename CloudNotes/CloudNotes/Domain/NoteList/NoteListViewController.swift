@@ -12,6 +12,17 @@ class NoteListViewController: UITableViewController {
         return button
     }()
 
+    private lazy var activityController: UIActivityViewController = {
+        let controller = UIActivityViewController(
+            activityItems: ["memo"],
+            applicationActivities: nil
+        )
+        controller.popoverPresentationController?.sourceView = self.view
+        controller.popoverPresentationController?.sourceRect = self.view.bounds
+
+        return controller
+    }()
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -25,6 +36,10 @@ class NoteListViewController: UITableViewController {
 
     func setDelegate(delegate: NoteListViewDelegate) {
         self.dataSourceDelegate = delegate
+    }
+
+    private func showActivityController() {
+        self.present(self.activityController, animated: true, completion: nil)
     }
 
     // MARK: - Manipulate DataSource
@@ -78,7 +93,14 @@ class NoteListViewController: UITableViewController {
         _ tableView: UITableView,
         trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
     ) -> UISwipeActionsConfiguration? {
-        let action = UIContextualAction(
+        let share = UIContextualAction(
+            style: .normal,
+            title: "공유"
+        ) { action, view, completionHandler in
+            self.showActivityController()
+        }
+
+        let delete = UIContextualAction(
             style: .destructive,
             title: "삭제"
         ) { action, view, completionHandler in
@@ -88,6 +110,6 @@ class NoteListViewController: UITableViewController {
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
 
-        return UISwipeActionsConfiguration(actions: [action])
+        return UISwipeActionsConfiguration(actions: [share, delete])
     }
 }

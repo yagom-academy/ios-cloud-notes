@@ -25,4 +25,5 @@ protocol MemoSplitViewManageable: AnyObject {
     func showSecondaryView(of indexPath: IndexPath)
     func presentShareActivity(at indexPath: IndexPath)
     func presentDeleteAlert(at indexPath: IndexPath)
+    func reloadRow(at indexPath: IndexPath, title: String, body: String)
 }

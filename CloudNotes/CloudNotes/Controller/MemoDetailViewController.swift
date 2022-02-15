@@ -9,6 +9,7 @@ import UIKit
 
 class MemoDetailViewController: UIViewController {
     private var currentIndexPath = IndexPath(row: 0, section: 0)
+    private var currentText: String?
     private weak var delegate: MemoManageable?
     
     private let memoTextView: UITextView = {
@@ -40,7 +41,18 @@ class MemoDetailViewController: UIViewController {
     
     func updateMemo(title: String?, body: String?) {
         memoTextView.resignFirstResponder()
-        memoTextView.text = (title ?? "") + "\n" + (body ?? "")
+        
+        guard let title = title,
+              let body = body else {
+                  return
+              }
+        
+        if title.isEmpty && body.isEmpty {
+            memoTextView.text = ""
+        } else {
+            memoTextView.text = title + "\n" + body // TODO: Attributed Text 적용
+        }
+        
         memoTextView.contentOffset = .zero
     }
     
@@ -98,21 +110,43 @@ class MemoDetailViewController: UIViewController {
         memoTextView.contentInset.bottom = .zero
         memoTextView.verticalScrollIndicatorInsets.bottom = .zero
     }
+    
+    func splitText(text: String) -> (title: String, body: String) {
+        let splitedText = text.split(separator: "\n", maxSplits: 1).map { String($0) }
+        
+        if splitedText.count == 1 {
+            return (splitedText[0], "")
+        } else if splitedText.count == 2 {
+            return (splitedText[0], splitedText[1])
+        } else {
+            return ("", "")
+        }
+    }
 }
 
 extension MemoDetailViewController: UITextViewDelegate {
     func textViewDidEndEditing(_ textView: UITextView) {
-        let splitedText = textView.text.split(separator: "\n", maxSplits: 1).map { String($0) }
-        
-        if splitedText.count == 1 {
-            // title O, body X
-            delegate?.update(at: currentIndexPath, title: splitedText[0], body: "")
-        } else if splitedText.count == 2 {
-            // title O, body O
-            delegate?.update(at: currentIndexPath, title: splitedText[0], body: splitedText[1])
-        } else {
-            // title X, body X
+        guard textView.hasText else {
             delegate?.delete(at: currentIndexPath)
+            return
         }
+        
+        guard currentText != textView.text else {
+            return
+        }
+        
+        let (title, body) = splitText(text: textView.text)
+        delegate?.update(at: currentIndexPath, title: title, body: body)
+        
+        currentIndexPath = IndexPath(row: 0, section: 0)
+    }
+    
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        currentText = textView.text
+    }
+    
+    func textViewDidChange(_ textView: UITextView) {
+        let (title, body) = splitText(text: textView.text)
+        delegate?.reloadRow(at: currentIndexPath, title: title, body: body)
     }
 }

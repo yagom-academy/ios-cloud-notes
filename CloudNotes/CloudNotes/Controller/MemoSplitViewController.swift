@@ -11,7 +11,11 @@ class MemoSplitViewController: UISplitViewController {
     private lazy var memoTableViewController = MemoTableViewController(style: .insetGrouped, delegate: self)
     private lazy var memoDetailViewController = MemoDetailViewController(delegate: self)
     private let memoStorage = MemoStorage()
-    private var memos = [Memo]()
+    private var memos = [Memo]() {
+        didSet {
+            memos.sort { $0.lastModified > $1.lastModified }
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -79,6 +83,14 @@ extension MemoSplitViewController: MemoSplitViewManageable {
 
         self.present(shareActivity, animated: true, completion: nil)
     }
+    
+    func reloadRow(at indexPath: IndexPath, title: String, body: String) {
+        let memo = memos[indexPath.row]
+        memo.title = title
+        memo.body = body
+        self.memoTableViewController.tableView.reloadRows(at: [indexPath], with: .none)
+        self.memoTableViewController.tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
+    }
 }
 
 // MARK: - MemoStorageManageable
@@ -108,6 +120,8 @@ extension MemoSplitViewController: MemoStorageManageable {
     func update(at indexPath: IndexPath, title: String, body: String) {
         let memoToUpdate = memos[indexPath.row]
         memoStorage.update(to: memoToUpdate, title: title, body: body)
+        fetchAll()
+        self.memoTableViewController.tableView.moveRow(at: indexPath, to: IndexPath(row: 0, section: 0))
     }
 
     func delete(at indexPath: IndexPath) {

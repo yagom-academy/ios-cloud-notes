@@ -3,10 +3,12 @@ import UIKit
 class MemoListViewController: UIViewController {
     private let cellIdentifier = "Cell"
     private let tableView = UITableView()
+    weak var delegate: MemoDetailViewControllerDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.dataSource = self
+        tableView.delegate = self
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellIdentifier)
         setupTableView()
         setupNavigationBar()
@@ -31,8 +33,9 @@ class MemoListViewController: UIViewController {
     
     @objc private func addMemo() {
         let newMemo = Memo(title: "새로운 메모", body: "", lastModified: Date())
-        MemoDataManager.shared.memos.append(newMemo)
+        MemoDataManager.shared.memos.insert(newMemo, at: 0)
         tableView.reloadData()
+        tableView.selectRow(at: IndexPath(row: 0, section: 0), animated: true, scrollPosition: .top)
     }
 }
 
@@ -55,5 +58,12 @@ extension MemoListViewController: UITableViewDataSource {
         cell.contentConfiguration = configuration
         cell.accessoryType = .disclosureIndicator
         return cell
+    }
+}
+
+extension MemoListViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let memo = MemoDataManager.shared.memos[indexPath.row]
+        delegate?.memoDetailViewController(didChangeTextViewWith: memo)
     }
 }

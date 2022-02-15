@@ -47,13 +47,36 @@ final class MemoContentViewController: UIViewController {
             image: Assets.ellipsisCircleImage,
             style: .plain,
             target: self,
-            action: #selector(deleteMemo)
-            )
+            action: #selector(presentPopover)
+        )
     }
 }
 
 extension MemoContentViewController {
-    @objc func deleteMemo() {
+    @objc func presentPopover(sender: UIBarButtonItem) {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let shareAction = UIAlertAction(title: "Share...", style: .default, handler: nil)
+        let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
+            self.presentDeleteAlert()
+        }
+        alert.addAction(shareAction)
+        alert.addAction(deleteAction)
+        alert.popoverPresentationController?.barButtonItem = sender
+        present(alert, animated: true)
+    }
+    
+    private func presentDeleteAlert() {
+        let alert = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
+            self.deleteMemo()
+        }
+        alert.addAction(cancelAction)
+        alert.addAction(deleteAction)
+        present(alert, animated: true)
+    }
+    
+    private func deleteMemo() {
         let context = AppDelegate.persistentContainer.viewContext
         guard let currentMemo = selectedMemo else { return }
         context.delete(currentMemo)

@@ -2,7 +2,7 @@ import UIKit
 
 protocol MemoSelectionDelegate: AnyObject {
     var memoSelectionDestination: UIViewController { get }
-    func applyData(with description: String)
+    func applyData(with data: Memo)
 }
 
 final class MasterTableViewController: UITableViewController {
@@ -30,15 +30,25 @@ final class MasterTableViewController: UITableViewController {
         super.viewDidLoad()
         configureNavigationBar()
         configureTableView()
+        tableView.reloadData()
     }
     
     // MARK: - Methods
     private func configureNavigationBar() {
         navigationItem.title = "메모"
         navigationController?.navigationBar.titleTextAttributes = [.font: UIFont.preferredFont(forTextStyle: .headline)]
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
-                                                            target: self,
-                                                            action: nil)
+        let addMemoButton = UIBarButtonItem(barButtonSystemItem: .add,
+                                            target: self,
+                                            action: #selector(touchUpAddMemoButton))
+        navigationItem.rightBarButtonItem = addMemoButton
+    }
+    
+    @objc func touchUpAddMemoButton() {
+        let memo = TemporaryMemo(title: "안녕하세요", body: nil, lastModifiedDate: 1231232213, id: UUID()) // Test
+        
+        CoreDataManager.shared.saveContext(memo: memo)
+        memoDataSource?.memos = CoreDataManager.shared.fetch()
+        tableView.reloadData()
     }
     
     private func configureTableView() {
@@ -56,7 +66,7 @@ final class MasterTableViewController: UITableViewController {
             return
         }
         
-        destination.applyData(with: memos[indexPath.row].description)
+        destination.applyData(with: memos[indexPath.row])
         splitViewController?.showDetailViewController(UINavigationController(rootViewController: destination), sender: self)
     }
 }

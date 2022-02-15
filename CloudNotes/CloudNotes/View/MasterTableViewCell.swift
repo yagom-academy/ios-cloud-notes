@@ -87,6 +87,6 @@ final class MasterTableViewCell: UITableViewCell {
         self.titleLabel.text = data.title
         let date = Date(timeIntervalSince1970: data.lastModifiedDate)
         self.dateLabel.text = dateFormatter.string(from: date)
-        self.previewLabel.text = data.description
+        self.previewLabel.text = data.body
     }
 }

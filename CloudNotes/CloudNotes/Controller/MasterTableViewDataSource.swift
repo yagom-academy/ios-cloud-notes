@@ -1,25 +1,16 @@
 import UIKit
+import CoreData
 
 protocol MasterTableViewDataSourceProtocol: AnyObject {
-    var memos: [Memo]? { get }
+    var memos: [Memo]? { get set }
     func fetchData() -> [Memo]?
 }
 
 final class MasterTableViewDataSource: NSObject, MasterTableViewDataSourceProtocol {
-    private(set) lazy var memos: [Memo]? = fetchData()
+    lazy var memos: [Memo]? = fetchData()
     
     func fetchData() -> [Memo]? {
-        guard let url = Bundle.main.url(forResource: "sample", withExtension: "json") else {
-            return nil
-        }
-        
-        guard let data = try? Data(contentsOf: url) else {
-            return nil
-        }
-
-        let memos = try? JSONDecoder().decode([Memo].self, from: data)
-        
-        return memos
+        return CoreDataManager.shared.fetch()
     }
 }
 
@@ -40,5 +31,5 @@ extension MasterTableViewDataSource: UITableViewDataSource {
         cell.applyData(memos[indexPath.row])
         
         return cell
-    }
+    }      
 }

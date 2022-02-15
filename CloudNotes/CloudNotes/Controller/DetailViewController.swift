@@ -1,6 +1,7 @@
 import UIKit
 
 final class DetailViewController: UIViewController {
+    var memo = Memo()
     private let textView: UITextView = {
         let textView = UITextView()
         textView.adjustsFontForContentSizeCategory = true
@@ -72,7 +73,9 @@ final class DetailViewController: UIViewController {
         // 삭제 Alert 나타내기
         let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
             let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
-            let deleteAction = UIAlertAction(title: "삭제", style: .destructive, handler: nil)
+            let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
+                CoreDataManager.shared.deleteAll()
+            }
             
             let alert = AlertFactory().createAlert(style: .alert, title: "진짜요?", message: "정말로 삭제하시겠어요?", actions: cancelAction, deleteAction)
             
@@ -102,7 +105,12 @@ extension DetailViewController: MemoSelectionDelegate {
         return self
     }
     
-    func applyData(with description: String) {
-        textView.text = description
+    func applyData(with data: Memo) {
+        memo = data
+        updateTextView()
+    }
+    
+    func updateTextView() {
+        textView.text = memo.title
     }
 }

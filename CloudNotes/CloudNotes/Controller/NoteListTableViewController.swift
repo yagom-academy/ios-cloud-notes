@@ -2,7 +2,7 @@ import UIKit
 
 class NoteListTableViewController: UITableViewController {
     
-    private var noteModelManager: NoteModel = NoteModelManager()
+    private var noteModelManager: NoteModel
     weak var delegate: NoteListTableViewDelegate?
     
     override func viewDidLoad() {
@@ -12,9 +12,13 @@ class NoteListTableViewController: UITableViewController {
         configureLayout()
     }
     
-    convenience init(model: NoteModel) {
-        self.init()
-        noteModelManager = model
+    init(model: NoteModel) {
+        self.noteModelManager = model
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     private func loadNoteData() {

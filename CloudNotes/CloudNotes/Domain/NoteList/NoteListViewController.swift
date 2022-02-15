@@ -8,10 +8,11 @@ class NoteListViewController: UITableViewController {
     }
     private weak var dataSourceDelegate: NoteListViewDelegate?
 
-    private let addButton: UIBarButtonItem = {
+    private lazy var addButton: UIBarButtonItem = {
         let button = UIBarButtonItem()
         button.image = UIImage(systemName: "plus")
-
+        button.target = self
+        button.action = #selector(touchUpPlusButton)
         return button
     }()
 
@@ -30,12 +31,22 @@ class NoteListViewController: UITableViewController {
         self.dataSourceDelegate = delegate
     }
 
+    // MARK: - Manipulate DataSource
+
     func setNoteListData(_ data: [Content]) {
         self.noteListData = data
     }
 
     func setNoteData(_ data: Content, index: Int) {
         self.noteListData[index] = data
+    }
+
+    func createNoteData(_ data: Content) {
+        self.noteListData.insert(data, at: 0)
+    }
+
+    @objc func touchUpPlusButton() {
+        self.dataSourceDelegate?.creatNote()
     }
 
     // MARK: - Configure Navigation Bar

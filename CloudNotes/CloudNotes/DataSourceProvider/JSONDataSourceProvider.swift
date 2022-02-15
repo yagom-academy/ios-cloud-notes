@@ -12,4 +12,10 @@ final class JSONDataSourceProvider: NoteDataSource {
 
         self.noteList = decodedData
     }
+
+    func createNote(_ note: Content) { }
+
+    func updateNote(updatedNote: Content) { }
+
+    func deleteNote(uuid: UUID) { }
 }

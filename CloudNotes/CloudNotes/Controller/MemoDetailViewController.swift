@@ -7,7 +7,7 @@ protocol MemoDetailViewControllerDelegate: AnyObject {
 class MemoDetailViewController: UIViewController {
     weak var delegate: MemoListViewControllerDelegate?
     
-    let textView: UITextView = {
+    private let textView: UITextView = {
         let textView = UITextView()
         textView.font = .preferredFont(forTextStyle: .body)
         textView.adjustsFontForContentSizeCategory = true

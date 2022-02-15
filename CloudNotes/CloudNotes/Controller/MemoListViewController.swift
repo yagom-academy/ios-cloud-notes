@@ -9,7 +9,7 @@ class MemoListViewController: UIViewController {
     
     private let cellIdentifier = "Cell"
     private let tableView = UITableView()
-        
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.dataSource = self
@@ -64,19 +64,41 @@ extension MemoListViewController: UITableViewDataSource {
         configuration.secondaryTextProperties.numberOfLines = 1
         configuration.textProperties.adjustsFontForContentSizeCategory = true
         configuration.secondaryTextProperties.adjustsFontForContentSizeCategory = true
-
+        
         cell.contentConfiguration = configuration
         cell.accessoryType = .disclosureIndicator
         return cell
     }
 }
 
+// MARK: - UITableViewDelegate
+
 extension MemoListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let memo = MemoDataManager.shared.memos[indexPath.row]
         delegate?.memoDetailViewController(showTextViewWith: memo)
     }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, _ in
+            MemoDataManager.shared.memos.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            let memo = MemoDataManager.shared.memos[indexPath.row]
+            self.delegate?.memoDetailViewController(showTextViewWith: memo)
+            
+            tableView.allowsSelectionDuringEditing = true
+            tableView.selectRow(at: indexPath, animated: false, scrollPosition: .top)
+        }
+        deleteAction.image = UIImage(systemName: "trash")
+        return UISwipeActionsConfiguration(actions: [deleteAction])
+    }
+    
+    func tableView(_ tableView: UITableView, didEndEditingRowAt indexPath: IndexPath?) {
+        tableView.selectRow(at: indexPath, animated: false, scrollPosition: .top)
+    }
 }
+
+// MARK: - MemoListViewControllerDelegate
 
 extension MemoListViewController: MemoListViewControllerDelegate {
     func memoListViewController(updateTableViewCellWith memo: Memo) {

@@ -2,10 +2,9 @@ import UIKit
 
 private let reuseIdentifier = "Cell"
 
-final class MemoListViewController: UIViewController {
+final class MemoListViewController: UITableViewController {
   weak var delegate: MemoDisplayable?
   private var memos = [Memo]()
-  private let tableView = UITableView()
   private let firstRowIndexPath = IndexPath(row: 0, section: 0)
   private var currentMemoIndexPath = IndexPath(row: 0, section: 0)
   private var keyboardShowNotification: NSObjectProtocol?
@@ -13,33 +12,29 @@ final class MemoListViewController: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    addTableView()
     setNavigationBar()
+    tableView.register(UITableViewCell.self, forCellReuseIdentifier: reuseIdentifier)
+    tableView.allowsSelectionDuringEditing = true
     loadJSON()
-    tableView.selectRow(at: firstRowIndexPath, animated: false, scrollPosition: .top)
     loadDetail(at: firstRowIndexPath)
+  }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    tableView.selectRow(at: currentMemoIndexPath, animated: false, scrollPosition: .top)
   }
   
   override func viewDidAppear(_ animated: Bool) {
     addObservers()
   }
 
-  override func viewWillDisappear(_ animated: Bool) {
+  override func viewDidDisappear(_ animated: Bool) {
     removeObservers()
   }
-
-  private func addTableView() {
-    view.addSubview(tableView)
-    tableView.translatesAutoresizingMaskIntoConstraints = false
-    NSLayoutConstraint.activate([
-      tableView.topAnchor.constraint(equalTo: view.topAnchor),
-      tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-      tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-      tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-    ])
-    tableView.register(UITableViewCell.self, forCellReuseIdentifier: reuseIdentifier)
-    tableView.dataSource = self
-    tableView.delegate = self
+  
+  override func setEditing(_ editing: Bool, animated: Bool) {
+    super.setEditing(editing, animated: animated)
+    tableView.selectRow(at: currentMemoIndexPath, animated: false, scrollPosition: .none)
   }
 
   private func addObservers() {
@@ -53,31 +48,37 @@ final class MemoListViewController: UIViewController {
       }
       self.additionalSafeAreaInsets.bottom = keyboardFrame.height - bottomInset
     }
-
     let removeSafeAreaInset: (Notification) -> Void = { [weak self] _ in
       self?.additionalSafeAreaInsets.bottom = 0
     }
-
-    keyboardShowNotification = NotificationCenter.default.addObserver(
-      forName: UIResponder.keyboardWillShowNotification,
-      object: nil,
-      queue: nil,
-      using: addSafeAreaInset
-    )
-    keyboardHideNotification = NotificationCenter.default.addObserver(
-      forName: UIResponder.keyboardWillHideNotification,
-      object: nil,
-      queue: nil,
-      using: removeSafeAreaInset
-    )
+    
+    if keyboardShowNotification == nil {
+      keyboardShowNotification = NotificationCenter.default.addObserver(
+        forName: UIResponder.keyboardWillShowNotification,
+        object: nil,
+        queue: nil,
+        using: addSafeAreaInset
+      )
+    }
+    if keyboardHideNotification == nil {
+      keyboardHideNotification = NotificationCenter.default.addObserver(
+        forName: UIResponder.keyboardWillHideNotification,
+        object: nil,
+        queue: nil,
+        using: removeSafeAreaInset
+      )
+    }
   }
 
   private func removeObservers() {
-    guard
-      let keyboardShowNotification = keyboardShowNotification,
-      let keyboardHideNotification = keyboardHideNotification else { return }
-    NotificationCenter.default.removeObserver(keyboardShowNotification)
-    NotificationCenter.default.removeObserver(keyboardHideNotification)
+    if let keyboardShowNotification = keyboardShowNotification {
+      NotificationCenter.default.removeObserver(keyboardShowNotification)
+      self.keyboardShowNotification = nil
+    }
+    if let keyboardHideNotification = keyboardHideNotification {
+      NotificationCenter.default.removeObserver(keyboardHideNotification)
+      self.keyboardHideNotification = nil
+    }
   }
 
   private func setNavigationBar() {
@@ -135,12 +136,12 @@ extension MemoListViewController: MemoStorable {
 
 // MARK: - UITableViewDataSource
 
-extension MemoListViewController: UITableViewDataSource {
-  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+extension MemoListViewController {
+  override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     return memos.count
   }
   
-  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+  override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
     let memo = memos[indexPath.row]
     var configuration = cell.defaultContentConfiguration()
@@ -157,13 +158,13 @@ extension MemoListViewController: UITableViewDataSource {
 
 // MARK: - UITableViewDelegate
 
-extension MemoListViewController: UITableViewDelegate {
-  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+extension MemoListViewController {
+  override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     loadDetail(at: indexPath)
   }
   
-  func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-    let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [firstRowIndexPath] _, _, completionHandler in
+  override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+    let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, completionHandler in
       self.memos.remove(at: indexPath.row)
       if self.memos.isEmpty {
         self.addMemo()
@@ -178,8 +179,20 @@ extension MemoListViewController: UITableViewDelegate {
     return configuration
   }
   
-  func tableView(_ tableView: UITableView, didEndEditingRowAt indexPath: IndexPath?) {
-    tableView.selectRow(at: currentMemoIndexPath, animated: false, scrollPosition: .none)
-    self.loadDetail(at: currentMemoIndexPath)
+  override func tableView(_ tableView: UITableView, didEndEditingRowAt indexPath: IndexPath?) {
+    let section = currentMemoIndexPath.section
+    let numberOfRows = tableView.numberOfRows(inSection: section)
+    let maximumVaildRow = numberOfRows - 1
+    let willSelectIndexPath: IndexPath
+    
+    if maximumVaildRow < currentMemoIndexPath.row {
+      willSelectIndexPath = IndexPath(row: maximumVaildRow, section: section)
+    } else if numberOfRows > 1 {
+      willSelectIndexPath = currentMemoIndexPath
+    } else {
+      willSelectIndexPath = firstRowIndexPath
+    }
+    tableView.selectRow(at: willSelectIndexPath, animated: false, scrollPosition: .none)
+    self.loadDetail(at: willSelectIndexPath)
   }
 }

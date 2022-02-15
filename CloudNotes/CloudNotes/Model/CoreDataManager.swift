@@ -5,7 +5,7 @@ final class CoreDataManager<T: NSManagedObject> {
     private let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext
     var dataList: [T] = []
  
-    func create(target: T, attributes: [String: Any]) {
+    func create(target: T.Type, attributes: [String: Any]) {
         guard let context = context else {
             return
         }
@@ -42,8 +42,6 @@ final class CoreDataManager<T: NSManagedObject> {
         attributes.forEach { (key: String, value: Any) in
             target.setValue(value, forKey: key)
         }
-        let time = extractCurrentDate()
-        target.setValue(time, forKey: "lastModified")
         save()
     }
     
@@ -62,14 +60,6 @@ final class CoreDataManager<T: NSManagedObject> {
                 print(error.localizedDescription)
             }
         }
-    }
-    
-    private func extractCurrentDate() -> Int {
-        let date = Date()
-        let dateFormatter = DateFormatter()
-        dateFormatter.locale = .autoupdatingCurrent
-        dateFormatter.dateFormat = "yyyy. MM. dd"
-        return Int(dateFormatter.string(from: date)) ?? .zero
     }
     
     //TODO: SearchController 추후 구현

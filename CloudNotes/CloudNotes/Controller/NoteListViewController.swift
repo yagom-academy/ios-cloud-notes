@@ -5,6 +5,8 @@ protocol NoteListViewControllerDelegate: AnyObject {
         _ viewController: NoteListViewController,
         didSelectedCell indexPath: IndexPath
     )
+    
+    func createNewMemo(completion: @escaping () -> Void)
 }
 
 protocol NoteListViewControllerDataSource: AnyObject {
@@ -54,9 +56,23 @@ class NoteListViewController: UIViewController {
         navigationItem.title = "메모"
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             barButtonSystemItem: .add,
-            target: nil,
-            action: nil
+            target: self,
+            action: #selector(tappedPlusButton)
         )
+    }
+    // + 버튼 누르면
+    // TextView를 띄운다
+    // entity만든다 -> DataManager
+    // CoreData에 저장 -> DataManager
+    // fetchAll -> DataManager
+    // reloadData -> TaleView
+    // 새로운 메모
+    @objc func tappedPlusButton() {
+        delegate?.createNewMemo {
+            DispatchQueue.main.async {
+                self.listTableView.reloadData()
+            }
+        }
     }
 }
 
@@ -83,7 +99,7 @@ extension NoteListViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        cell.updateLabel(title: data.title ?? "", date: data.lastModified, preview: data.body ?? "")
+        cell.updateLabel(title: data.title ?? "", lastModified: data.lastModified ?? Date(), preview: data.body ?? "")
         cell.accessoryType = .disclosureIndicator
         
         return cell

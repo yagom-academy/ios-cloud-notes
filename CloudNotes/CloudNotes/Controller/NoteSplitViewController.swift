@@ -12,6 +12,7 @@ class NoteSplitViewController: UISplitViewController {
         setUpSplitViewController()
         configureColumnStyle()
         configureDataStorage()
+        dataStorage?.fetchAll(request: CDMemo.fetchRequest())
     }
     
     private func setUpSplitViewController() {
@@ -46,6 +47,13 @@ extension NoteSplitViewController: NoteListViewControllerDelegate {
             return
         }
         secondaryViewController.setUpText(with: memo)
+    }
+    
+    func createNewMemo(completion: @escaping () -> Void) {
+        let attributes = [ "title": "새로운 메모", "body": "", "lastModified": Date()] as [String : Any]
+        dataStorage?.create(target: CDMemo.self, attributes: attributes)
+        dataStorage?.fetchAll(request: CDMemo.fetchRequest())
+        completion()
     }
 }
 

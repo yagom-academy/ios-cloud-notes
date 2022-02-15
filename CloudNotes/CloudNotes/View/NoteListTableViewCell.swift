@@ -51,9 +51,15 @@ class NoteListTableViewCell: UITableViewCell {
         setUpLayout() 
     }
     
-    func updateLabel(title: String, date: Int64, preview: String) {
+    func updateLabel(title: String, lastModified: Date, preview: String) {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = .autoupdatingCurrent
+        dateFormatter.dateFormat = "yyyy. MM. dd"
+        let int = lastModified.timeIntervalSince1970
+        let formattedDate = Date(timeIntervalSince1970: int)
+
         titleLabel.text = title
-        dateLabel.text = date.description
+        dateLabel.text = dateFormatter.string(from: formattedDate)
         previewLabel.text = preview
     }
     

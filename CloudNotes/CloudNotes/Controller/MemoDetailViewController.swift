@@ -21,11 +21,13 @@ class MemoDetailViewController: UIViewController {
             maxSplits: 1
         ).map(String.init)
         
-        let title = memoComponents[safe: 0] ?? ""
-        let body = memoComponents[safe: 1] ?? ""
-        let date = Date()
+        let memo = Memo(context: MemoDataManager.shared.viewContext)
         
-        return Memo(title: title, body: body, lastModified: date)
+        memo.title = memoComponents[safe: 0] ?? ""
+        memo.body = memoComponents[safe: 1] ?? ""
+        memo.lastModified = Date()
+        
+        return memo
     }
     
     override func viewDidLoad() {
@@ -33,7 +35,9 @@ class MemoDetailViewController: UIViewController {
         view.backgroundColor = .systemBackground
         setupTextView()
         setupNavigationItem()
-        memoDetailViewController(showTextViewWith: MemoDataManager.shared.memos[0])
+        if !MemoDataManager.shared.isEmpty {
+            memoDetailViewController(showTextViewWith: MemoDataManager.shared.memos[0])
+        }
         textView.delegate = self
         setUpNotification()
     }

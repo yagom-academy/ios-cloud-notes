@@ -17,7 +17,10 @@ class MemoListViewController: UIViewController {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellIdentifier)
         setupTableView()
         setupNavigationBar()
-        tableView.selectRow(at: IndexPath(row: 0, section: 0), animated: false, scrollPosition: .top)
+        
+        if !MemoDataManager.shared.isEmpty {
+            tableView.selectRow(at: IndexPath(row: 0, section: 0), animated: false, scrollPosition: .top)
+        }
     }
     
     private func setupTableView() {
@@ -38,7 +41,8 @@ class MemoListViewController: UIViewController {
     }
     
     @objc private func addMemo() {
-        let newMemo = Memo(title: "", body: "", lastModified: Date())
+        let newMemo = MemoDataManager.shared.newMemo
+        
         MemoDataManager.shared.memos.insert(newMemo, at: 0)
         tableView.reloadData()
         tableView.selectRow(at: IndexPath(row: 0, section: 0), animated: true, scrollPosition: .top)

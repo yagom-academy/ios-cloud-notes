@@ -9,7 +9,7 @@ import UIKit
 
 class MemoSplitViewController: UISplitViewController {
     private lazy var memoTableViewController = MemoTableViewController(style: .insetGrouped, delegate: self)
-    private var memoDetailViewController = MemoDetailViewController()
+    private lazy var memoDetailViewController = MemoDetailViewController(delegate: self)
     private let memoStorage = MemoStorage()
     private var memos = [Memo]()
     

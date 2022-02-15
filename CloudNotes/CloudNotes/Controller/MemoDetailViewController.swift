@@ -8,7 +8,8 @@
 import UIKit
 
 class MemoDetailViewController: UIViewController {
-    private var currentIndexPath: IndexPath?
+    private var currentIndexPath = IndexPath(row: 0, section: 0)
+    private weak var delegate: MemoSplitViewManageable?
     
     private let memoTextView: UITextView = {
         let textView = UITextView()
@@ -21,6 +22,15 @@ class MemoDetailViewController: UIViewController {
         super.viewDidLoad()
         configureUI()
         addKeyboardNotificationObserver()
+    }
+    
+    init(delegate: MemoSplitViewManageable) {
+        self.delegate = delegate
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
     }
     
     func updateCurrentIndexPath(with indexPath: IndexPath) {
@@ -42,38 +52,14 @@ class MemoDetailViewController: UIViewController {
     private func configureNavigationBar() {
         let moreOptionButton = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: nil)
         let shareAction = UIAction(title: "공유", image: UIImage(systemName: "square.and.arrow.up.fill")) { _ in
-            self.requestShareMemo()
+            self.delegate?.presentShareActivity(at: self.currentIndexPath)
         }
         let deleteAction = UIAction(title: "삭제", image: UIImage(systemName: "trash.fill"), attributes: .destructive) { _ in
-            self.requestDeleteMemo()
+            self.delegate?.presentDeleteAlert(at: self.currentIndexPath)
         }
         let optionMenu = UIMenu(options: .displayInline, children: [shareAction, deleteAction])
         moreOptionButton.menu = optionMenu
         self.navigationItem.rightBarButtonItem = moreOptionButton
-    }
-    
-    private func requestDeleteMemo() {
-        guard let memoSplitViewController = self.splitViewController as? MemoSplitViewController else {
-            return
-        }
-
-        guard let currentIndexPath = currentIndexPath else {
-            return
-        }
-        
-        memoSplitViewController.deleteMemo(at: currentIndexPath)
-    }
-    
-    private func requestShareMemo() {
-        guard let memoSplitViewController = self.splitViewController as? MemoSplitViewController else {
-            return
-        }
-        
-        guard let currentIndexPath = currentIndexPath else {
-            return
-        }
-        
-        memoSplitViewController.presentShareActivity(at: currentIndexPath)
     }
     
     private func configureTextView() {

@@ -37,14 +37,6 @@ class NoteListViewController: UITableViewController {
         self.noteListData = data
     }
 
-    func setNoteData(_ data: Content, index: Int) {
-        self.noteListData[index] = data
-    }
-
-    func createNoteData(_ data: Content) {
-        self.noteListData.insert(data, at: 0)
-    }
-
     @objc func touchUpPlusButton() {
         self.dataSourceDelegate?.creatNote()
     }

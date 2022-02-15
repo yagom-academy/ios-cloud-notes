@@ -13,9 +13,9 @@ final class JSONDataSourceProvider: NoteDataSource {
         self.noteList = decodedData
     }
 
-    func createNote(_ note: Content) { }
+    func createNote(_ note: Content) throws { }
 
     func updateNote(_ updatedNote: Content) throws { }
 
-    func deleteNote(_ noteToDelete: Note) throws { }
+    func deleteNote(_ noteToDelete: Content) throws { }
 }

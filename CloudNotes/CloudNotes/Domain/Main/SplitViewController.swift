@@ -44,11 +44,15 @@ class SplitViewController: UISplitViewController {
 
 // MARK: - Note Data Source Delegate
 
-extension SplitViewController: NoteListViewDelegate, DetailedNoteViewDelegate {
+extension SplitViewController: NoteListViewDelegate {
     func creatNote() {
         let note = Content(title: "", body: "", lastModifiedDate: Date().timeIntervalSince1970, identification: UUID())
-        dataSourceProvider?.createNote(note)
-        noteListViewController.createNoteData(note)
+        do {
+            try dataSourceProvider?.createNote(note)
+        } catch let error {
+            print(error)
+        }
+        noteListViewController.setNoteListData(dataSourceProvider!.noteList)
         detailedNoteViewController.setNoteData(note)
     }
 
@@ -56,12 +60,15 @@ extension SplitViewController: NoteListViewDelegate, DetailedNoteViewDelegate {
         self.currentNoteIndex = index
         detailedNoteViewController.setNoteData(dataSourceProvider?.noteList[index])
     }
+}
 
+extension SplitViewController: DetailedNoteViewDelegate {
     func passModifiedNote(note: Content) {
-        guard let index = self.currentNoteIndex else {
-            return
+        do {
+            try dataSourceProvider?.updateNote(note)
+        } catch let error {
+            print(error)
         }
-
-        noteListViewController.setNoteData(note, index: index)
+        noteListViewController.setNoteListData(dataSourceProvider!.noteList)
     }
 }

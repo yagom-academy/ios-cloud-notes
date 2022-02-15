@@ -12,7 +12,10 @@ class CDDataSourceProvider: NoteDataSource {
     func fetch() throws {
         let request = Note.fetchRequest()
         self.noteList = []
+        let sort = NSSortDescriptor(key: "modifiedDate", ascending: false)
+        request.sortDescriptors = [sort]
         let notes = try persistentManager.fetch(request: request)
+
         notes.forEach { note in
             guard let title = note.title, let body = note.body, let id = note.identification else {
                 return
@@ -23,11 +26,12 @@ class CDDataSourceProvider: NoteDataSource {
                 body: body,
                 lastModifiedDate: note.modifiedDate,
                 identification: id)
+
             self.noteList.append(newNote)
         }
     }
 
-    func createNote(_ note: Content) {
+    func createNote(_ note: Content) throws {
         let values: [String: Any] = [
             "title": note.title,
             "body": note.body,
@@ -36,6 +40,7 @@ class CDDataSourceProvider: NoteDataSource {
         ]
 
         persistentManager.create(entityName: String(describing: Note.self), values: values)
+        try fetch()
     }
 
     func updateNote(_ updatedNote: Content) throws {
@@ -56,13 +61,12 @@ class CDDataSourceProvider: NoteDataSource {
         ]
 
         persistentManager.update(object: note, values: values)
+        try fetch()
     }
 
-    func deleteNote(_ noteToDelete: Note) throws {
+    func deleteNote(_ noteToDelete: Content) throws {
         let request = Note.fetchRequest()
-        guard let uuid = noteToDelete.identification?.uuidString else {
-            return
-        }
+        let uuid = noteToDelete.identification.uuidString
 
         let predicate = NSPredicate(format: "identification == %@", uuid)
         let notes = try persistentManager.fetch(request: request, predicate: predicate)
@@ -71,6 +75,7 @@ class CDDataSourceProvider: NoteDataSource {
         }
 
         persistentManager.delete(object: note)
+        try fetch()
     }
 
     func saveContext(_ context: NSManagedObjectContext) {

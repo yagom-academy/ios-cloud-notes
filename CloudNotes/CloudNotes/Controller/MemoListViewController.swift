@@ -1,10 +1,15 @@
 import UIKit
 
+protocol MemoListViewControllerDelegate: AnyObject {
+    func memoListViewController(updateTableViewCellWith memo: Memo)
+}
+
 class MemoListViewController: UIViewController {
-    private let cellIdentifier = "Cell"
-    private let tableView = UITableView()
     weak var delegate: MemoDetailViewControllerDelegate?
     
+    private let cellIdentifier = "Cell"
+    private let tableView = UITableView()
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.dataSource = self
@@ -12,6 +17,7 @@ class MemoListViewController: UIViewController {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellIdentifier)
         setupTableView()
         setupNavigationBar()
+        tableView.selectRow(at: IndexPath(row: 0, section: 0), animated: false, scrollPosition: .top)
     }
     
     private func setupTableView() {
@@ -32,10 +38,11 @@ class MemoListViewController: UIViewController {
     }
     
     @objc private func addMemo() {
-        let newMemo = Memo(title: "새로운 메모", body: "", lastModified: Date())
+        let newMemo = Memo(title: "", body: "", lastModified: Date())
         MemoDataManager.shared.memos.insert(newMemo, at: 0)
         tableView.reloadData()
         tableView.selectRow(at: IndexPath(row: 0, section: 0), animated: true, scrollPosition: .top)
+        delegate?.memoDetailViewController(showTextViewWith: newMemo)
     }
 }
 
@@ -50,11 +57,14 @@ extension MemoListViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
         
         var configuration = cell.defaultContentConfiguration()
-        configuration.text = MemoDataManager.shared.memos[indexPath.row].title
-        configuration.secondaryAttributedText = MemoDataManager.shared.memos[indexPath.row].subtitle
+        let memo = MemoDataManager.shared.memos[indexPath.row]
+        configuration.text = memo.title.isEmpty ? "새로운 메모" : memo.title
+        configuration.secondaryAttributedText = memo.subtitle
         configuration.textProperties.numberOfLines = 1
         configuration.secondaryTextProperties.numberOfLines = 1
-        
+        configuration.textProperties.adjustsFontForContentSizeCategory = true
+        configuration.secondaryTextProperties.adjustsFontForContentSizeCategory = true
+
         cell.contentConfiguration = configuration
         cell.accessoryType = .disclosureIndicator
         return cell
@@ -64,6 +74,17 @@ extension MemoListViewController: UITableViewDataSource {
 extension MemoListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let memo = MemoDataManager.shared.memos[indexPath.row]
-        delegate?.memoDetailViewController(didChangeTextViewWith: memo)
+        delegate?.memoDetailViewController(showTextViewWith: memo)
+    }
+}
+
+extension MemoListViewController: MemoListViewControllerDelegate {
+    func memoListViewController(updateTableViewCellWith memo: Memo) {
+        guard let indexPath = tableView.indexPathForSelectedRow else {
+            return
+        }
+        MemoDataManager.shared.memos[indexPath.row] = memo
+        tableView.reloadRows(at: [indexPath], with: .none)
+        tableView.selectRow(at: indexPath, animated: true, scrollPosition: .none)
     }
 }

@@ -9,6 +9,7 @@ class SplitViewController: UISplitViewController {
         setUpChildView()
         setUpDisplay()
         listViewController.delegate = detailViewController
+        detailViewController.delegate = listViewController
     }
     
     private func setUpChildView() {

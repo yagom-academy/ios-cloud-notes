@@ -23,13 +23,12 @@ class CDDataSourceProvider: NoteDataSource {
                 body: body,
                 lastModifiedDate: note.modifiedDate,
                 identification: id)
-
             self.noteList.append(newNote)
         }
     }
 
     func createNote(_ note: Content) {
-        let values: [String : Any] = [
+        let values: [String: Any] = [
             "title": note.title,
             "body": note.body,
             "modifiedDate": note.lastModifiedDate,
@@ -50,7 +49,7 @@ class CDDataSourceProvider: NoteDataSource {
             return
         }
 
-        let values: [String : Any] = [
+        let values: [String: Any] = [
             "title": updatedNote.title,
             "body": updatedNote.body,
             "modifiedDate": updatedNote.lastModifiedDate

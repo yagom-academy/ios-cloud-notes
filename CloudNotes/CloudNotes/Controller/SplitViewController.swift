@@ -10,6 +10,7 @@ class SplitViewController: UISplitViewController {
         setUpDisplay()
         listViewController.delegate = detailViewController
         detailViewController.delegate = listViewController
+        hideKeyboard()
     }
     
     private func setUpChildView() {

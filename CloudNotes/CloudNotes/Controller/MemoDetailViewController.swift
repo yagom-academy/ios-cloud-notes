@@ -35,13 +35,32 @@ class MemoDetailViewController: UIViewController {
         setupNavigationItem()
         memoDetailViewController(showTextViewWith: MemoDataManager.shared.memos[0])
         textView.delegate = self
+        setUpNotification()
+    }
+    
+    private func setUpNotification() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillShow),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil
+        )
+    }
+    
+    @objc func keyboardWillShow(_ sender: Notification) {
+        let userInfo: NSDictionary = sender.userInfo! as NSDictionary
+        guard let keyboardFrame: NSValue = userInfo.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as? NSValue else {return}
+
+        let keyboardRect = keyboardFrame.cgRectValue
+        textView.contentInset.bottom = keyboardRect.height
+        textView.scrollIndicatorInsets = textView.contentInset
     }
     
     private func setupTextView() {
         view.addSubview(textView)
         NSLayoutConstraint.activate([
             textView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            textView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            textView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             textView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             textView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
         ])

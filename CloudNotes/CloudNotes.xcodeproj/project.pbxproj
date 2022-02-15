@@ -17,6 +17,7 @@
 		EA8574A327BB411900F9D5E3 /* SplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8574A227BB411900F9D5E3 /* SplitViewController.swift */; };
 		EA8574A527BB43EA00F9D5E3 /* MemoListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8574A427BB43EA00F9D5E3 /* MemoListViewController.swift */; };
 		EA8574A727BB43F800F9D5E3 /* MemoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8574A627BB43F800F9D5E3 /* MemoDetailViewController.swift */; };
+		EA8574A927BBB0B800F9D5E3 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8574A827BBB0B800F9D5E3 /* UIViewController+Extension.swift */; };
 		FB5C7F5927BB46D100C91626 /* Memo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB5C7F5827BB46D100C91626 /* Memo.swift */; };
 		FB5C7F5C27BB4B7E00C91626 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB5C7F5B27BB4B7E00C91626 /* String+Extension.swift */; };
 		FB5C7F5E27BB4D8400C91626 /* MemoDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB5C7F5D27BB4D8400C91626 /* MemoDataManager.swift */; };
@@ -57,6 +58,7 @@
 		EA8574A227BB411900F9D5E3 /* SplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitViewController.swift; sourceTree = "<group>"; };
 		EA8574A427BB43EA00F9D5E3 /* MemoListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoListViewController.swift; sourceTree = "<group>"; };
 		EA8574A627BB43F800F9D5E3 /* MemoDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoDetailViewController.swift; sourceTree = "<group>"; };
+		EA8574A827BBB0B800F9D5E3 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		FB5C7F5827BB46D100C91626 /* Memo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memo.swift; sourceTree = "<group>"; };
 		FB5C7F5B27BB4B7E00C91626 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		FB5C7F5D27BB4D8400C91626 /* MemoDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoDataManager.swift; sourceTree = "<group>"; };
@@ -147,6 +149,7 @@
 				EA8574A227BB411900F9D5E3 /* SplitViewController.swift */,
 				EA8574A427BB43EA00F9D5E3 /* MemoListViewController.swift */,
 				EA8574A627BB43F800F9D5E3 /* MemoDetailViewController.swift */,
+				EA8574A827BBB0B800F9D5E3 /* UIViewController+Extension.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -330,6 +333,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FB5C7F5C27BB4B7E00C91626 /* String+Extension.swift in Sources */,
+				EA8574A927BBB0B800F9D5E3 /* UIViewController+Extension.swift in Sources */,
 				FB5C7F6227BB851000C91626 /* Collection+Extension.swift in Sources */,
 				FB5C7F5E27BB4D8400C91626 /* MemoDataManager.swift in Sources */,
 				FB5C7F5927BB46D100C91626 /* Memo.swift in Sources */,

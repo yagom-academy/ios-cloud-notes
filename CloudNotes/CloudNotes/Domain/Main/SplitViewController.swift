@@ -46,7 +46,7 @@ class SplitViewController: UISplitViewController {
 
 extension SplitViewController: NoteListViewDelegate, DetailedNoteViewDelegate {
     func creatNote() {
-        let note = Content(title: "as ", body: " ", lastModifiedDate: Date().timeIntervalSince1970, identification: UUID())
+        let note = Content(title: "", body: "", lastModifiedDate: Date().timeIntervalSince1970, identification: UUID())
         dataSourceProvider?.createNote(note)
         noteListViewController.createNoteData(note)
         detailedNoteViewController.setNoteData(note)

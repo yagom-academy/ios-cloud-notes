@@ -82,8 +82,8 @@ class NoteListCell: UITableViewCell {
     }
 
     func configureContent(for note: Content) {
-        self.titleLabel.text = note.title
+        self.titleLabel.text = note.title == "" ? "새로운 메모" : note.title
         self.dateLabel.text = note.formattedDateString
-        self.previewLabel.text = note.body
+        self.previewLabel.text = note.body == "" ? "추가 텍스트 없음" : note.body
     }
 }

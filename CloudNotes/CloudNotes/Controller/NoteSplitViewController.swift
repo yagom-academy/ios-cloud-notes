@@ -1,7 +1,9 @@
 import UIKit
+import CoreData
 
 class NoteSplitViewController: UISplitViewController {
     private let dataStorage = DataStorage()
+    private let memos: [Memo] = []
     private let noteListViewController = NoteListViewController()
     private let noteDetailViewController = NoteDetailViewController()
 

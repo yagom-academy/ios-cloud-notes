@@ -66,6 +66,10 @@ class MemoTableViewController: UITableViewController {
         alert.addAction(deleteAction)
         self.present(alert, animated: true)
     }
+    
+    func fetchSelectedMemo(at indexPath: IndexPath) -> Memo {
+        return memo[indexPath.row]
+    }
 }
 
 // MARK: - UITableViewDataSource
@@ -103,6 +107,8 @@ extension MemoTableViewController {
     }
     
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let memoSplitViewController = self.splitViewController as? MemoSplitViewController
+        
         let deleteAction = UIContextualAction(style: .destructive, title: nil) { _, _, completionHandler in
             self.deleteMemo(at: indexPath)
             completionHandler(true)
@@ -111,7 +117,7 @@ extension MemoTableViewController {
         deleteAction.backgroundColor = .systemRed
         
         let shareAction = UIContextualAction(style: .normal, title: nil) { _, _, completionHandler in
-            // TODO: 메모 공유 메서드
+            memoSplitViewController?.presentShareActivity(at: indexPath)
             completionHandler(true)
         }
         shareAction.image = UIImage(systemName: "square.and.arrow.up.fill")

@@ -42,7 +42,7 @@ class MemoDetailViewController: UIViewController {
     private func configureNavigationBar() {
         let moreOptionButton = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: nil)
         let shareAction = UIAction(title: "공유", image: UIImage(systemName: "square.and.arrow.up.fill")) { _ in
-            // TODO: 공유 기능
+            self.requestShareMemo()
         }
         let deleteAction = UIAction(title: "삭제", image: UIImage(systemName: "trash.fill"), attributes: .destructive) { _ in
             self.requestDeleteMemo()
@@ -62,6 +62,18 @@ class MemoDetailViewController: UIViewController {
         }
         
         memoSplitViewController.deleteMemo(at: currentIndexPath)
+    }
+    
+    private func requestShareMemo() {
+        guard let memoSplitViewController = self.splitViewController as? MemoSplitViewController else {
+            return
+        }
+        
+        guard let currentIndexPath = currentIndexPath else {
+            return
+        }
+        
+        memoSplitViewController.presentShareActivity(at: currentIndexPath)
     }
     
     private func configureTextView() {

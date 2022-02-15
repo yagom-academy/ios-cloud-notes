@@ -37,6 +37,18 @@ class MemoSplitViewController: UISplitViewController {
     func showPrimaryView() {
         show(.primary)
     }
+    
+    func presentShareActivity(at indexPath: IndexPath) {
+        let memoToShare = memoTableViewController.fetchSelectedMemo(at: indexPath)
+        let shareActivity = UIActivityViewController(activityItems: [memoToShare.title, memoToShare.body], applicationActivities: nil)
+        
+        shareActivity.modalPresentationStyle = .popover
+        shareActivity.popoverPresentationController?.sourceRect = CGRect(origin: self.view.center, size: .zero)
+        shareActivity.popoverPresentationController?.sourceView = self.view
+        shareActivity.popoverPresentationController?.permittedArrowDirections = []
+        
+        self.present(shareActivity, animated: true, completion: nil)
+    }
 }
 
 // MARK: - UISplitViewControllerDelegate

@@ -1,0 +1,7 @@
+included:
+    - CloudNotes
+excluded:
+    - Pods
+    - CloudNotes/Supporting Files
+disabled_rules:
+    - trailing_whitespace

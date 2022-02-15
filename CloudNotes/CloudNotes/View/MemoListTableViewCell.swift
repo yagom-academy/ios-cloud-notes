@@ -67,7 +67,11 @@ final class MemoListTableViewCell: UITableViewCell {
     }
     
     func setupLabel(from memo: Memo) {
-        titleLabel.text = memo.title
+        if memo.title == nil || memo.title?.count == 0 {
+            titleLabel.text = "새로운 메모"
+        } else {
+            titleLabel.text = memo.title
+        }
         dateLabel.text = memo.convertedDate
         previewLabel.text = memo.body
     }

@@ -1,7 +1,7 @@
 import UIKit
 
 class MemoDataManager {
-    let shared = MemoDataManager()
+    static let shared = MemoDataManager()
     var memos = [Memo]()
     
     private init() {

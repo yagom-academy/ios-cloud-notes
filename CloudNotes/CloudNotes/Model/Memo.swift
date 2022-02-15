@@ -14,7 +14,7 @@ extension Memo {
         dateFormatter.dateStyle = .medium
         
         let dateString = dateFormatter.string(from: lastModified)
-        let truncatedBody = body.truncated(limit: 30)
+        let truncatedBody = body.truncated(limit: 40)
         
         let attributedString = NSMutableAttributedString()
         

@@ -68,7 +68,12 @@ extension SplitViewController: NoteListViewDelegate {
     }
 
     func creatNote() {
-        let note = Content(title: "", body: "", lastModifiedDate: Date().timeIntervalSince1970, identification: UUID())
+        let note = Content(
+            title: "",
+            body: "",
+            lastModifiedDate: Date().timeIntervalSince1970,
+            identification: UUID()
+        )
         do {
             try dataSourceProvider?.createNote(note)
         } catch let error {
@@ -83,6 +88,8 @@ extension SplitViewController: NoteListViewDelegate {
         }
 
         noteListViewController.insertNoteData(note)
+        noteListViewController.selectedIndexPath = IndexPath(row: 0, section: 0)
+
         detailedNoteViewController.setNoteData(note)
     }
 

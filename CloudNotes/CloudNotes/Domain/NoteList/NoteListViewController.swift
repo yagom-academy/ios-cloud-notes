@@ -3,6 +3,11 @@ import UIKit
 class NoteListViewController: UITableViewController {
     private var noteListData = [Content]()
     private weak var dataSourceDelegate: NoteListViewDelegate?
+    var selectedIndexPath: IndexPath? = IndexPath(row: 0, section: 0) {
+        didSet {
+            tableView.selectRow(at: selectedIndexPath, animated: true, scrollPosition: .none)
+        }
+    }
 
     private lazy var addButton: UIBarButtonItem = {
         let button = UIBarButtonItem()
@@ -11,7 +16,6 @@ class NoteListViewController: UITableViewController {
         button.action = #selector(touchUpPlusButton)
         return button
     }()
-
 
     private lazy var activityController: UIActivityViewController = {
         let controller = UIActivityViewController(
@@ -22,6 +26,8 @@ class NoteListViewController: UITableViewController {
         return controller
     }()
 
+    // MARK: - Override Method
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -31,6 +37,24 @@ class NoteListViewController: UITableViewController {
         )
 
         configureNavigationBar()
+        configureTableView()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        self.tableView.selectRow(
+            at: self.selectedIndexPath,
+            animated: false,
+            scrollPosition: .none
+        )
+    }
+
+    override func setEditing(_ editing: Bool, animated: Bool) {
+        super.setEditing(editing, animated: animated)
+        self.tableView.selectRow(
+            at: self.selectedIndexPath,
+            animated: false,
+            scrollPosition: .none
+        )
     }
 
     func setDelegate(delegate: NoteListViewDelegate) {
@@ -77,12 +101,16 @@ class NoteListViewController: UITableViewController {
         self.dataSourceDelegate?.creatNote()
     }
 
-    // MARK: - Configure Navigation Bar
+    // MARK: - Configure Views
 
     private func configureNavigationBar() {
         self.title = "메모"
 
         self.navigationItem.rightBarButtonItem = addButton
+    }
+
+    private func configureTableView() {
+        self.tableView.allowsSelectionDuringEditing = true
     }
 
     // MARK: - Table View Data Source
@@ -108,10 +136,15 @@ class NoteListViewController: UITableViewController {
     }
 
     // MARK: - Table View Delegate
-
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.selectedIndexPath = indexPath
         dataSourceDelegate?.passNote(index: indexPath.row)
     }
+
+    override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        self.selectedIndexPath = nil
+    }
+
 
     override func tableView(
         _ tableView: UITableView,

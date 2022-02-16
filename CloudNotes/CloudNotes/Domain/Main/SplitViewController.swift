@@ -43,7 +43,6 @@ class SplitViewController: UISplitViewController {
 }
 
 // MARK: - Note Data Source Delegate
-
 extension SplitViewController: NoteListViewDelegate {
     func deleteNote(_ note: Content, index: Int) {
         do {
@@ -55,7 +54,17 @@ extension SplitViewController: NoteListViewDelegate {
             return
         }
         noteListViewController.delete(at: index)
-        detailedNoteViewController.setNoteData(noteList.first)
+        var changedIndex: Int?
+        if noteList.count == index {
+            changedIndex = index - 1
+        } else {
+            changedIndex = index
+        }
+        guard let index = changedIndex else {
+            return
+        }
+
+        detailedNoteViewController.setNoteData(noteList[safe: index])
     }
 
     func creatNote() {
@@ -110,5 +119,13 @@ extension SplitViewController: DetailedNoteViewDelegate {
         }
 
         noteListViewController.setNoteListData(noteList)
+    }
+}
+
+// MARK: - Array Extension
+
+private extension Array {
+    subscript (safe index: Int) -> Element? {
+        return indices ~= index ? self[index] : nil
     }
 }

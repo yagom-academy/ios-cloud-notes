@@ -9,15 +9,15 @@ class SplitViewController: UISplitViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        dataSourceProvider = CDDataSourceProvider()
+        self.dataSourceProvider = CDDataSourceProvider()
         self.preferredDisplayMode = .oneBesideSecondary
         self.preferredSplitBehavior = .tile
         self.setViewController(noteListViewController, for: .primary)
         self.setViewController(detailedNoteViewController, for: .secondary)
-        fetchNotes()
+        self.fetchNotes()
 
-        noteListViewController.setDelegate(delegate: self)
-        detailedNoteViewController.setDelegate(delegate: self)
+        self.noteListViewController.setDelegate(delegate: self)
+        self.detailedNoteViewController.setDelegate(delegate: self)
     }
 
     private func fetchNotes() {
@@ -27,7 +27,7 @@ class SplitViewController: UISplitViewController {
             print(error.localizedDescription)
         }
 
-        passInitialData()
+        self.passInitialData()
     }
 
     private func passInitialData() {
@@ -35,8 +35,8 @@ class SplitViewController: UISplitViewController {
             return
         }
 
-        noteListViewController.setNoteList(data)
-        detailedNoteViewController.setNoteData(data.first)
+        self.noteListViewController.setNoteList(data)
+        self.detailedNoteViewController.setNoteData(data.first)
         self.currentNoteIndex = 0
     }
 }
@@ -45,16 +45,16 @@ class SplitViewController: UISplitViewController {
 extension SplitViewController: NoteListViewDelegate {
     func deleteNote(_ note: Content, index: Int) {
         do {
-            try dataSourceProvider?.deleteNote(note)
+            try self.dataSourceProvider?.deleteNote(note)
         } catch {
             print(error)
         }
 
-        guard let noteList = dataSourceProvider?.noteList else {
+        guard let noteList = self.dataSourceProvider?.noteList else {
             return
         }
 
-        noteListViewController.delete(at: index)
+        self.noteListViewController.delete(at: index)
         var changedIndex: Int?
         if noteList.count == index {
             changedIndex = index - 1
@@ -66,7 +66,8 @@ extension SplitViewController: NoteListViewDelegate {
             return
         }
 
-        detailedNoteViewController.setNoteData(noteList[safe: index])
+        self.noteListViewController.selectedIndexPath = IndexPath(row: index, section: 0)
+        self.detailedNoteViewController.setNoteData(noteList[safe: index])
     }
 
     func creatNote() {
@@ -82,11 +83,7 @@ extension SplitViewController: NoteListViewDelegate {
             print(error)
         }
 
-        guard let noteList = dataSourceProvider?.noteList else {
-            return
-        }
-
-        guard let note = noteList.first else {
+        guard let note = dataSourceProvider?.noteList.first else {
             return
         }
 

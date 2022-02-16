@@ -1,7 +1,11 @@
 import UIKit
 
 class NoteListViewController: UITableViewController {
-    private var noteListData = [Content]()
+    private var noteListData = [Content]() {
+        willSet {
+            print(newValue)
+        }
+    }
     private weak var dataSourceDelegate: NoteListViewDelegate?
     private let firstIndex = IndexPath(row: 0, section: 0)
     lazy var selectedIndexPath: IndexPath? = self.firstIndex {

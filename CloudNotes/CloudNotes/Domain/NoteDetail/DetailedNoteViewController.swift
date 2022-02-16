@@ -17,11 +17,35 @@ class DetailedNoteViewController: UIViewController {
         return textView
     }()
 
-    private let actionButton: UIBarButtonItem = {
+    private lazy var actionButton: UIBarButtonItem = {
         let button = UIBarButtonItem()
         button.image = UIImage(systemName: "ellipsis.circle")
-
+        button.target = self
+        button.action = #selector(actionButtonDidTap)
         return button
+    }()
+
+    private lazy var activityController: UIActivityViewController = {
+        let controller = UIActivityViewController(
+            activityItems: ["memo"],
+            applicationActivities: nil
+        )
+        return controller
+    }()
+
+    private lazy var actionSheet: UIAlertController = {
+        let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let shareAction = UIAlertAction(title: "공유", style: .default) { _ in
+            self.showActivityController()
+            }
+        let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
+            self.showDeleteAlert()
+        }
+
+        actionSheet.addAction(shareAction)
+        actionSheet.addAction(deleteAction)
+
+        return actionSheet
     }()
 
     override func viewDidLoad() {
@@ -82,6 +106,40 @@ class DetailedNoteViewController: UIViewController {
         content.append(body)
 
         noteTextView.attributedText = content
+    }
+
+// MARK: - Action Method
+
+    func showActivityController() {
+        activityController.popoverPresentationController?.barButtonItem = actionButton
+        self.present(activityController, animated: true, completion: nil)
+    }
+
+    func showDeleteAlert() {
+        let alert = UIAlertController(
+            title: "메모를 삭제하시겠습니까?",
+            message: nil,
+            preferredStyle: .alert
+        )
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel) { action in
+            self.dismiss(animated: true, completion: nil)
+        }
+        let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { action in
+            guard let note = self.noteData else {
+                return
+            }
+
+            self.dataSourceDelegate?.deleteNote(note)
+        }
+
+        alert.addAction(deleteAction)
+        alert.addAction(cancelAction)
+        self.present(alert, animated: true, completion: nil)
+    }
+
+    @objc func actionButtonDidTap(_ sender: UIBarButtonItem) {
+        actionSheet.popoverPresentationController?.barButtonItem = sender
+        self.present(actionSheet, animated: true, completion: nil)
     }
 }
 

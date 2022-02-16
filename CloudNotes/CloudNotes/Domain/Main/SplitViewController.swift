@@ -54,7 +54,7 @@ extension SplitViewController: NoteListViewDelegate {
         guard let noteList = dataSourceProvider?.noteList else {
             return
         }
-
+        noteListViewController.delete(at: self.currentNoteIndex!)
         detailedNoteViewController.setNoteData(noteList.first)
     }
 

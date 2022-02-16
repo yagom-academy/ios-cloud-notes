@@ -12,13 +12,12 @@ class NoteListViewController: UITableViewController {
         return button
     }()
 
+
     private lazy var activityController: UIActivityViewController = {
         let controller = UIActivityViewController(
             activityItems: ["memo"],
             applicationActivities: nil
         )
-        controller.popoverPresentationController?.sourceView = self.view
-        controller.popoverPresentationController?.sourceRect = self.view.bounds
 
         return controller
     }()
@@ -38,8 +37,33 @@ class NoteListViewController: UITableViewController {
         self.dataSourceDelegate = delegate
     }
 
-    private func showActivityController() {
-        self.present(self.activityController, animated: true, completion: nil)
+    func showActivityController() {
+        activityController.popoverPresentationController?.sourceView = self.view
+        self.present(activityController, animated: true, completion: nil)
+    }
+
+    func showDeleteAlert(indexPath: IndexPath) {
+        let alert = UIAlertController(
+            title: "메모를 삭제하시겠습니까?",
+            message: nil,
+            preferredStyle: .alert
+        )
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel) { action in
+            self.dismiss(animated: true, completion: nil)
+        }
+        let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { action in
+            let note = self.noteListData[indexPath.row]
+            self.dataSourceDelegate?.deleteNote(note)
+        }
+
+        alert.addAction(deleteAction)
+        alert.addAction(cancelAction)
+        self.present(alert, animated: true, completion: nil)
+    }
+
+    func delete(at index: Int) {
+        self.noteListData.remove(at: index)
+        self.tableView.deleteRows(at: [IndexPath(row: index, section: 0)], with: .fade)
     }
 
     // MARK: - Manipulate DataSource
@@ -98,16 +122,15 @@ class NoteListViewController: UITableViewController {
             title: "공유"
         ) { action, view, completionHandler in
             self.showActivityController()
+            completionHandler(true)
         }
 
         let delete = UIContextualAction(
             style: .destructive,
             title: "삭제"
         ) { action, view, completionHandler in
-            let note = self.noteListData[indexPath.row]
-            self.dataSourceDelegate?.deleteNote(note)
-            self.noteListData.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .fade)
+            self.showDeleteAlert(indexPath: indexPath)
+            completionHandler(true)
         }
 
         return UISwipeActionsConfiguration(actions: [share, delete])

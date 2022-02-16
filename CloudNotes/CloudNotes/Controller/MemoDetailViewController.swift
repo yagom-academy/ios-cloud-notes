@@ -20,7 +20,7 @@ private enum TextAttribute {
 }
 
 class MemoDetailViewController: UIViewController {
-    private var currentIndexPath = IndexPath(row: 0, section: 0)
+    private var currentIndexPath: IndexPath = .zero
     private var currentText: String?
     private weak var delegate: MemoManageable?
     
@@ -60,7 +60,7 @@ class MemoDetailViewController: UIViewController {
         }
         
         if title.isEmpty && body.isEmpty {
-            memoTextView.text = ""
+            memoTextView.text = .blank
         } else {
             memoTextView.attributedText = convertToAttributedString(title: title, body: body)
         }
@@ -72,7 +72,7 @@ class MemoDetailViewController: UIViewController {
         let mutableAttributedString = NSMutableAttributedString()
         
         let titleAttributedText = NSAttributedString(string: title, attributes: TextAttribute.title)
-        let spacing = NSAttributedString(string: "\n", attributes: TextAttribute.body)
+        let spacing = NSAttributedString(string: .lineBreak, attributes: TextAttribute.body)
         let bodyAttributedText = NSAttributedString(string: body, attributes: TextAttribute.body)
         
         mutableAttributedString.append(titleAttributedText)
@@ -89,11 +89,11 @@ class MemoDetailViewController: UIViewController {
     }
     
     private func configureNavigationBar() {
-        let moreOptionButton = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: nil)
-        let shareAction = UIAction(title: "공유", image: UIImage(systemName: "square.and.arrow.up.fill")) { _ in
+        let moreOptionButton = UIBarButtonItem(image: UIImage(systemName: SystemIcon.moreOption), style: .plain, target: self, action: nil)
+        let shareAction = UIAction(title: ActionTitle.share, image: UIImage(systemName: SystemIcon.share)) { _ in
             self.delegate?.presentShareActivity(at: self.currentIndexPath)
         }
-        let deleteAction = UIAction(title: "삭제", image: UIImage(systemName: "trash.fill"), attributes: .destructive) { _ in
+        let deleteAction = UIAction(title: ActionTitle.delete, image: UIImage(systemName: SystemIcon.trash), attributes: .destructive) { _ in
             self.delegate?.presentDeleteAlert(at: self.currentIndexPath)
         }
         let optionMenu = UIMenu(options: .displayInline, children: [shareAction, deleteAction])
@@ -138,14 +138,14 @@ class MemoDetailViewController: UIViewController {
     }
     
     func splitText(text: String) -> (title: String, body: String) {
-        let splitedText = text.split(separator: "\n", maxSplits: 1).map { String($0) }
+        let splitedText = text.split(separator: .lineBreak, maxSplits: 1).map { String($0) }
         
         if splitedText.count == 1 {
-            return (splitedText[0], "")
+            return (splitedText[0], .blank)
         } else if splitedText.count == 2 {
             return (splitedText[0], splitedText[1])
         } else {
-            return ("", "")
+            return (.blank, .blank)
         }
     }
 }
@@ -164,7 +164,7 @@ extension MemoDetailViewController: UITextViewDelegate {
         let (title, body) = splitText(text: textView.text)
         delegate?.update(at: currentIndexPath, title: title, body: body)
         
-        currentIndexPath = IndexPath(row: 0, section: 0)
+        currentIndexPath = .zero
     }
     
     func textViewDidBeginEditing(_ textView: UITextView) {
@@ -179,7 +179,7 @@ extension MemoDetailViewController: UITextViewDelegate {
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         let textAsNSString = textView.text as NSString
         let replacedString = textAsNSString.replacingCharacters(in: range, with: text) as NSString
-        let titleRange = replacedString.range(of: "\n")
+        let titleRange = replacedString.range(of: .lineBreak)
         
         if titleRange.location > range.location {
             textView.typingAttributes = TextAttribute.title

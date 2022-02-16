@@ -18,6 +18,11 @@
 		C7481C9325BBCF3A00B9CA55 /* CloudNotesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C9225BBCF3A00B9CA55 /* CloudNotesUITests.swift */; };
 		C94DE44527BB79ED0002875C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94DE44427BB79ED0002875C /* AppDelegate.swift */; };
 		C982B2DD27BB79770021B14C /* MemoManageable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C982B2DC27BB79760021B14C /* MemoManageable.swift */; };
+		C9B3074A27BCE96E00C275A8 /* Character+lineBreak.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B3074927BCE96E00C275A8 /* Character+lineBreak.swift */; };
+		C9B3074C27BCEBFE00C275A8 /* String+customString.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B3074B27BCEBFE00C275A8 /* String+customString.swift */; };
+		C9B3074E27BCEC1900C275A8 /* IndexPath+zero.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B3074D27BCEC1900C275A8 /* IndexPath+zero.swift */; };
+		C9B3075027BCEFA000C275A8 /* ActionTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B3074F27BCEFA000C275A8 /* ActionTitle.swift */; };
+		C9B3075227BCF00900C275A8 /* SystemIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B3075127BCF00900C275A8 /* SystemIcon.swift */; };
 		C9D36D0B27BA2E590070A768 /* Memo+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D36D0927BA2E580070A768 /* Memo+CoreDataClass.swift */; };
 		C9D36D0C27BA2E590070A768 /* Memo+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D36D0A27BA2E590070A768 /* Memo+CoreDataProperties.swift */; };
 		C9F424F627B1064700BC4BF0 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = C9F424F527B1064700BC4BF0 /* .swiftlint.yml */; };
@@ -65,6 +70,11 @@
 		C7481C9425BBCF3A00B9CA55 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C94DE44427BB79ED0002875C /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C982B2DC27BB79760021B14C /* MemoManageable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoManageable.swift; sourceTree = "<group>"; };
+		C9B3074927BCE96E00C275A8 /* Character+lineBreak.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Character+lineBreak.swift"; sourceTree = "<group>"; };
+		C9B3074B27BCEBFE00C275A8 /* String+customString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+customString.swift"; sourceTree = "<group>"; };
+		C9B3074D27BCEC1900C275A8 /* IndexPath+zero.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "IndexPath+zero.swift"; sourceTree = "<group>"; };
+		C9B3074F27BCEFA000C275A8 /* ActionTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionTitle.swift; sourceTree = "<group>"; };
+		C9B3075127BCF00900C275A8 /* SystemIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemIcon.swift; sourceTree = "<group>"; };
 		C9D36D0927BA2E580070A768 /* Memo+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Memo+CoreDataClass.swift"; sourceTree = "<group>"; };
 		C9D36D0A27BA2E590070A768 /* Memo+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Memo+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		C9F424F527B1064700BC4BF0 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
@@ -180,8 +190,9 @@
 				C13E938227B233F400446D79 /* Utility */,
 				C9F4255A27B24EBD00BC4BF0 /* Extension */,
 				C982B2DE27BB797F0021B14C /* Protocol */,
-				C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */,
+				C9B3074827BCE70E00C275A8 /* Constant */,
 				C94DE44427BB79ED0002875C /* AppDelegate.swift */,
+				C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */,
 				C7481C7925BBCF3A00B9CA55 /* Assets.xcassets */,
 				C7481C7E25BBCF3A00B9CA55 /* Info.plist */,
 				C7481C7625BBCF3900B9CA55 /* CloudNotes.xcdatamodeld */,
@@ -214,11 +225,23 @@
 			path = Protocol;
 			sourceTree = "<group>";
 		};
+		C9B3074827BCE70E00C275A8 /* Constant */ = {
+			isa = PBXGroup;
+			children = (
+				C9B3074F27BCEFA000C275A8 /* ActionTitle.swift */,
+				C9B3075127BCF00900C275A8 /* SystemIcon.swift */,
+			);
+			path = Constant;
+			sourceTree = "<group>";
+		};
 		C9F4255A27B24EBD00BC4BF0 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
 				C9F4255B27B24F2200BC4BF0 /* UITableView+dequeueReusableCell.swift */,
 				C9F4255D27B2595F00BC4BF0 /* TimeInterval+dateString.swift */,
+				C9B3074927BCE96E00C275A8 /* Character+lineBreak.swift */,
+				C9B3074B27BCEBFE00C275A8 /* String+customString.swift */,
+				C9B3074D27BCEC1900C275A8 /* IndexPath+zero.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -446,16 +469,21 @@
 				C9F4255C27B24F2200BC4BF0 /* UITableView+dequeueReusableCell.swift in Sources */,
 				C9F4255E27B2595F00BC4BF0 /* TimeInterval+dateString.swift in Sources */,
 				C9F4255227B20BE900BC4BF0 /* MemoSplitViewController.swift in Sources */,
+				C9B3074A27BCE96E00C275A8 /* Character+lineBreak.swift in Sources */,
 				C94DE44527BB79ED0002875C /* AppDelegate.swift in Sources */,
+				C9B3075227BCF00900C275A8 /* SystemIcon.swift in Sources */,
 				C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */,
 				C9D36D0B27BA2E590070A768 /* Memo+CoreDataClass.swift in Sources */,
+				C9B3075027BCEFA000C275A8 /* ActionTitle.swift in Sources */,
 				C982B2DD27BB79770021B14C /* MemoManageable.swift in Sources */,
 				C1D3DCAB27B64A8400A646BC /* MemoStorage.swift in Sources */,
 				C13E937F27B212D200446D79 /* MemoTableViewController.swift in Sources */,
+				C9B3074C27BCEBFE00C275A8 /* String+customString.swift in Sources */,
 				C7481C7825BBCF3900B9CA55 /* CloudNotes.xcdatamodeld in Sources */,
 				C9D36D0C27BA2E590070A768 /* Memo+CoreDataProperties.swift in Sources */,
 				C13E938627B244F900446D79 /* MemoTableViewCell.swift in Sources */,
 				C13E938127B2179B00446D79 /* MemoDetailViewController.swift in Sources */,
+				C9B3074E27BCEC1900C275A8 /* IndexPath+zero.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

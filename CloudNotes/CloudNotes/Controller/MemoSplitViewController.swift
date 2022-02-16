@@ -7,6 +7,29 @@
 
 import UIKit
 
+private enum AlertMessage {
+    case delete
+    case deleteCaution
+    
+    var title: String {
+        switch self {
+        case .delete:
+            return "진짜요?"
+        case .deleteCaution:
+            return "삭제할 수 없습니다"
+        }
+    }
+    
+    var message: String {
+        switch self {
+        case .delete:
+            return "정말로 삭제하시겠어요?"
+        case .deleteCaution:
+            return "메모는 최소 한 개 존재해야합니다"
+        }
+    }
+}
+
 class MemoSplitViewController: UISplitViewController {
     private lazy var memoTableViewController = MemoTableViewController(style: .insetGrouped, delegate: self)
     private lazy var memoDetailViewController = MemoDetailViewController(delegate: self)
@@ -44,8 +67,8 @@ class MemoSplitViewController: UISplitViewController {
     }
     
     private func presentDeleteCautionAlert() {
-        let alert = UIAlertController(title: "삭제할 수 없습니다", message: "메모는 최소 한 개 존재해야합니다", preferredStyle: .alert)
-        let confirmAction = UIAlertAction(title: "확인", style: .default)
+        let alert = UIAlertController(title: AlertMessage.deleteCaution.title, message: AlertMessage.deleteCaution.message, preferredStyle: .alert)
+        let confirmAction = UIAlertAction(title: ActionTitle.confirm, style: .default)
         alert.addAction(confirmAction)
         self.present(alert, animated: true, completion: nil)
     }
@@ -74,9 +97,9 @@ extension MemoSplitViewController: MemoSplitViewManageable {
     }
     
     func presentDeleteAlert(at indexPath: IndexPath) {
-        let alert = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
-        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
-        let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
+        let alert = UIAlertController(title: AlertMessage.delete.title, message: AlertMessage.delete.message, preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: ActionTitle.cancel, style: .cancel)
+        let deleteAction = UIAlertAction(title: ActionTitle.delete, style: .destructive) { _ in
             self.delete(at: indexPath)
             if self.isCollapsed {
                 self.showPrimaryView()
@@ -142,7 +165,7 @@ extension MemoSplitViewController: MemoStorageManageable {
         let memoToUpdate = memos[indexPath.row]
         memoStorage.update(to: memoToUpdate, title: title, body: body)
         fetchAll()
-        self.memoTableViewController.tableView.moveRow(at: indexPath, to: IndexPath(row: 0, section: 0))
+        self.memoTableViewController.tableView.moveRow(at: indexPath, to: .zero)
     }
 
     func delete(at indexPath: IndexPath) {

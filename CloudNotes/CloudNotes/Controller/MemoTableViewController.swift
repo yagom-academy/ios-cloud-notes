@@ -8,7 +8,7 @@
 import UIKit
 
 class MemoTableViewController: UITableViewController {    
-    private let initialIndexPath = IndexPath(row: 0, section: 0)
+    private let initialIndexPath: IndexPath = .zero
     lazy var selectedIndexPath = initialIndexPath
     private weak var delegate: MemoManageable?
     
@@ -97,14 +97,14 @@ extension MemoTableViewController {
             self.delegate?.delete(at: indexPath)
             completionHandler(true)
         }
-        deleteAction.image = UIImage(systemName: "trash.fill")
+        deleteAction.image = UIImage(systemName: SystemIcon.trash)
         deleteAction.backgroundColor = .systemRed
         
         let shareAction = UIContextualAction(style: .normal, title: nil) { _, _, completionHandler in
             self.delegate?.presentShareActivity(at: indexPath)
             completionHandler(true)
         }
-        shareAction.image = UIImage(systemName: "square.and.arrow.up.fill")
+        shareAction.image = UIImage(systemName: SystemIcon.share)
         shareAction.backgroundColor = .systemIndigo
         
         let swipeActions = UISwipeActionsConfiguration(actions: [deleteAction, shareAction])

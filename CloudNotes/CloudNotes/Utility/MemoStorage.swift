@@ -27,8 +27,8 @@ class MemoStorage {
         let memoManagedObject = NSManagedObject(entity: memoEntity, insertInto: context)
         
         memoManagedObject.setValue(UUID(), forKey: "id")
-        memoManagedObject.setValue("", forKey: "title")
-        memoManagedObject.setValue("", forKey: "body")
+        memoManagedObject.setValue(String.blank, forKey: "title")
+        memoManagedObject.setValue(String.blank, forKey: "body")
         memoManagedObject.setValue(Date().timeIntervalSince1970, forKey: "lastModified")
         
         saveContext()

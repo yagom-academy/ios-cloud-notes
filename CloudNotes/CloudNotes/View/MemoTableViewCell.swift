@@ -47,7 +47,7 @@ class MemoTableViewCell: UITableViewCell {
     }
     
     func configureCellContent(from memo: Memo) {
-        let trimmedBodyText = memo.body?.trimmingCharacters(in: ["\n"])
+        let trimmedBodyText = memo.body?.trimmingCharacters(in: CharacterSet(charactersIn: .lineBreak))
         
         titleLabel.text = memo.title?.isEmpty == true ? PlaceholderText.title : memo.title
         dateLabel.text = memo.lastModified.dateString

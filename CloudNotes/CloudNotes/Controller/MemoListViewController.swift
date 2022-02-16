@@ -87,8 +87,11 @@ extension MemoListViewController: UITableViewDelegate {
         let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, _ in
             self.deleteMemo(at: indexPath)
         }
+        let shareAction = UIContextualAction(style: .normal, title: "Share") { _, _, _ in
+            self.showActivityView(indexPath: indexPath)
+        }
         deleteAction.image = UIImage(systemName: "trash")
-        return UISwipeActionsConfiguration(actions: [deleteAction])
+        return UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
     }
     
     private func deleteMemo(at indexPath: IndexPath) {
@@ -101,6 +104,28 @@ extension MemoListViewController: UITableViewDelegate {
             tableView.allowsSelectionDuringEditing = true
             tableView.selectRow(at: indexPath, animated: false, scrollPosition: .top)
         }
+    }
+    
+    private func showActivityView(indexPath: IndexPath) {
+        guard let splitViewController = splitViewController as? SplitViewController else {
+            return
+        }
+        let memo = MemoDataManager.shared.memos[indexPath.row]
+        let title = memo.title ?? ""
+        let body = memo.body ?? ""
+        let memoToShare = "\(title)\n\(body)"
+        let activityViewController = UIActivityViewController(activityItems: [memoToShare], applicationActivities: nil)
+        
+        if let popOver = activityViewController.popoverPresentationController {
+            popOver.sourceView = splitViewController.view
+            popOver.sourceRect = CGRect(x: splitViewController.view.bounds.midX,
+                                        y: splitViewController.view.bounds.midY,
+                                        width: 0,
+                                        height: 0
+            )
+            popOver.permittedArrowDirections = []
+        }
+        present(activityViewController, animated: true)
     }
     
     func tableView(_ tableView: UITableView, didEndEditingRowAt indexPath: IndexPath?) {

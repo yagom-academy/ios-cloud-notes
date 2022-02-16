@@ -36,7 +36,7 @@ class NoteDetailViewController: UIViewController {
     }
 }
 
-// MARK: - SetUp Navigation Item
+// MARK: - Set up Navigation Item
 extension NoteDetailViewController {
     private func setUpNavigationItem() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(
@@ -47,23 +47,34 @@ extension NoteDetailViewController {
         )
     }
     
-    @objc func moreViewbuttonTapped(_ sender: UIBarButtonItem) {
-        self.showNoteActionSheet(
-            shareHandler: { _ in
-            self.showActivityViewController(data: PersistentManager.shared.notes[self.currentIndex].body ?? "")
-        }, deleteHandler: {_ in
-            self.showAlert(
-                message: Constant.deleteWarningMessage,
-                actionTitle: Constant.deleteAlertActionTitle
-            ) { _ in
-                self.delegate?.deleteCell(indexPath: IndexPath(row: self.currentIndex, section: .zero)
+    @objc private func moreViewbuttonTapped(_ sender: UIBarButtonItem) {
+        showNoteActionSheet(
+            shareHandler: showActivityview(handler:),
+            deleteHandler: showWariningMessage(handler:),
+            barButtonItem: sender
+        )
+    }
+    
+    private func showActivityview(handler: UIAlertAction) {
+        showActivityViewController(data: PersistentManager.shared.notes[self.currentIndex].body ?? "")
+    }
+    
+    private func showWariningMessage(handler: UIAlertAction) {
+        showAlert(
+            message: Constant.deleteWarningMessage,
+            actionTitle: Constant.deleteAlertActionTitle
+        ) { _ in
+            self.delegate?.deleteCell(
+                indexPath: IndexPath(
+                    row: self.currentIndex,
+                    section: .zero
                 )
-            }
-        }, barButtonItem: sender)
+            )
+        }
     }
 }
 
-// MARK: - SetUp UITextView
+// MARK: - Set up UITextView
 extension NoteDetailViewController {
     private func setUpTextView() {
         view.addSubview(noteDetailTextView)
@@ -162,6 +173,10 @@ extension NoteDetailViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         updateNoteData(with: textView.text)
         delegate?.updateData(at: currentIndex)
+        moveNote()
+    }
+    
+    private func moveNote() {
         guard currentIndex != .zero else {
             return
         }

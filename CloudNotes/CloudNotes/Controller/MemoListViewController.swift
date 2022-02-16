@@ -96,14 +96,18 @@ extension MemoListViewController: UITableViewDelegate {
     }
     
     private func deleteMemo(at indexPath: IndexPath) {
+        let deletedMemo = MemoDataManager.shared.memos[indexPath.row]
         MemoDataManager.shared.memos.remove(at: indexPath.row)
         tableView.deleteRows(at: [indexPath], with: .fade)
+        MemoDataManager.shared.deleteMemo(deletedMemo)
         
         if indexPath.row <= MemoDataManager.shared.memos.count - 1 {
             let memo = MemoDataManager.shared.memos[indexPath.row]
             delegate?.memoDetailViewController(showTextViewWith: memo)
             tableView.allowsSelectionDuringEditing = true
             tableView.selectRow(at: indexPath, animated: false, scrollPosition: .top)
+        } else {
+            delegate?.showEmptyTextView()
         }
     }
     
@@ -159,23 +163,5 @@ extension MemoListViewController: MemoListViewControllerDelegate {
         } catch {
             print("error")
         }
-        
-        
-        
-//        guard let indexPath = tableView.indexPathForSelectedRow else {
-//            return
-//        }
-//        let memo = MemoDataManager.shared.memos[indexPath.row]
-//        memo.title = title
-//        memo.body = body
-//        memo.lastModified = lastModified
-//        tableView.reloadRows(at: [indexPath], with: .none)
-//        tableView.selectRow(at: indexPath, animated: true, scrollPosition: .none)
-//
-//        do {
-//            try MemoDataManager.shared.viewContext.save()
-//        } catch {
-//            print("error")
-//        }
     }
 }

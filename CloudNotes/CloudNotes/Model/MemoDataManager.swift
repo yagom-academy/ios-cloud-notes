@@ -31,7 +31,6 @@ class MemoDataManager {
         }
     }
     
-    
     func fetchNotes() {
         let request: NSFetchRequest<Memo> = Memo.fetchRequest()
         let sortDescriptor = NSSortDescriptor(keyPath: \Memo.lastModified, ascending: false)
@@ -54,7 +53,7 @@ class MemoDataManager {
         request.predicate = predicate
         request.returnsObjectsAsFaults = false
         request.sortDescriptors = sortDescriptors
-        guard let newData = try? viewContext.fetch(request) as? [Memo] else {
+        guard let newData = try? viewContext.fetch(request) else {
             return nil
         }
         return newData
@@ -77,6 +76,11 @@ class MemoDataManager {
         memo.title = title
         memo.body = body
         memo.lastModified = lastModified
+        saveViewContext()
+    }
+    
+    func deleteMemo(_ memo: Memo) {
+        viewContext.delete(memo)
         saveViewContext()
     }
 }

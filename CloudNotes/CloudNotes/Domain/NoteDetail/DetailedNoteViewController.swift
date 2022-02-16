@@ -37,7 +37,7 @@ class DetailedNoteViewController: UIViewController {
         let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let shareAction = UIAlertAction(title: "공유", style: .default) { _ in
             self.showActivityController()
-            }
+        }
         let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
             self.showDeleteAlert()
         }
@@ -93,22 +93,25 @@ class DetailedNoteViewController: UIViewController {
         }
         let content = NSMutableAttributedString()
         let title = NSMutableAttributedString(string: note.title)
-        let body = NSMutableAttributedString(string: "\n" + note.body)
         title.addAttribute(
             .font, value: UIFont.preferredFont(for: .title3, weight: .medium),
             range: NSRange(location: 0, length: title.length)
         )
-        body.addAttribute(
-            .font, value: UIFont.preferredFont(forTextStyle: .callout),
-            range: NSRange(location: 0, length: body.length)
-        )
         content.append(title)
-        content.append(body)
+
+        if note.body != "" {
+            let body = NSMutableAttributedString(string: "\n" + note.body)
+            body.addAttribute(
+                .font, value: UIFont.preferredFont(forTextStyle: .callout),
+                range: NSRange(location: 0, length: body.length)
+            )
+            content.append(body)
+        }
 
         noteTextView.attributedText = content
     }
 
-// MARK: - Action Method
+    // MARK: - Action Method
 
     func showActivityController() {
         activityController.popoverPresentationController?.barButtonItem = actionButton

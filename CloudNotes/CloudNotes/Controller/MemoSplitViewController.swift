@@ -21,7 +21,7 @@ class MemoSplitViewController: UISplitViewController {
         super.viewDidLoad()
         delegate = self
         configureSplitViewController()
-        fetchAll()
+        configureMemoData()
     }
     
     func deleteMemo(at indexPath: IndexPath) {
@@ -33,6 +33,14 @@ class MemoSplitViewController: UISplitViewController {
         preferredDisplayMode = .oneBesideSecondary
         setViewController(memoTableViewController, for: .primary)
         setViewController(memoDetailViewController, for: .secondary)
+    }
+    
+    private func configureMemoData() {
+        fetchAll()
+        
+        if memos.isEmpty {
+            create()
+        }
     }
     
     private func presentDeleteCautionAlert() {
@@ -81,7 +89,13 @@ extension MemoSplitViewController: MemoSplitViewManageable {
     
     func presentShareActivity(at indexPath: IndexPath) {
         let memoToShare = memos[indexPath.row]
-        let shareActivity = UIActivityViewController(activityItems: [memoToShare.title, memoToShare.body], applicationActivities: nil)
+        
+        guard let title = memoToShare.title,
+              let body = memoToShare.body else {
+            return
+        }
+        
+        let shareActivity = UIActivityViewController(activityItems: [title, body], applicationActivities: nil)
 
         shareActivity.modalPresentationStyle = .popover
         shareActivity.popoverPresentationController?.sourceRect = CGRect(origin: self.view.center, size: .zero)

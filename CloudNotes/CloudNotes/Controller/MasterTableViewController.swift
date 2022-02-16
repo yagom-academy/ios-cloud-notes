@@ -51,16 +51,16 @@ final class MasterTableViewController: UITableViewController {
     
     @objc func touchUpAddMemoButton() {
         let currentTime = NSDate().timeIntervalSince1970
-        let memo = TemporaryMemo(title: "테스트임", body: "ㅎㅇㅎㅇ", lastModifiedDate: currentTime, memoId: UUID()) // Test
+        let memo = TemporaryMemo(title: "새로운 메모", body: "테스트용 메모입니다.", lastModifiedDate: currentTime, memoId: UUID()) // Test
         let request = Memo.fetchRequest()
         let firstIndexPath = IndexPath(row: 0, section: 0)
         
         CoreDataManager.shared.saveContext(memo: memo)
         memoDataSource?.memos = CoreDataManager.shared.fetch(request)
-        //tableView.reloadData() selectFirstCell 비정상작동
+        // tableView.reloadData()  // selectFirstCell 비정상작동
         tableView.insertRows(at: [firstIndexPath], with: .none)
         tableView(tableView, didSelectRowAt: firstIndexPath)
-        tableView.selectRow(at: firstIndexPath, animated: true, scrollPosition: .none)
+        tableView.selectRow(at: firstIndexPath, animated: true, scrollPosition: .middle)
     }
     
     private func configureTableView() {
@@ -94,13 +94,7 @@ final class MasterTableViewController: UITableViewController {
             return
         }
         
-        guard let memoToDelete = memoDataSource?.memos?.remove(at: currentIndexPath.row) else {
-            return
-        }
-        
-        CoreDataManager.shared.deleteMemo(memoId: memoToDelete.memoId)
-        tableView.deleteRows(at: [currentIndexPath], with: .automatic)
-        selectFirstCell()
+        deleteMemo(at: currentIndexPath)
     }
     
     private func deleteMemo(at index: IndexPath) {
@@ -113,7 +107,7 @@ final class MasterTableViewController: UITableViewController {
     private func selectFirstCell() {
         if memoDataSource?.memos?.isEmpty == false {
             let firstIndexPath = IndexPath(row: 0, section: 0)
-            tableView.selectRow(at: firstIndexPath, animated: true, scrollPosition: .top)
+            tableView.selectRow(at: firstIndexPath, animated: true, scrollPosition: .middle)
             tableView(tableView, didSelectRowAt: firstIndexPath)
         }
     }

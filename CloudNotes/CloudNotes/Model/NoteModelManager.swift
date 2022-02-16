@@ -2,6 +2,7 @@ import UIKit
 
 class NoteModelManager: NoteModel {
     
+    var persistentDataManager: PersistentDataManager
     var noteData: [Note] = [] {
         didSet {
             updateHandler?()
@@ -19,6 +20,10 @@ class NoteModelManager: NoteModel {
         formatter.locale = NSLocale.current
         return formatter
     }()
+    
+    init(persistentDataManager: PersistentDataManager) {
+        self.persistentDataManager = persistentDataManager
+    }
     
     func fetchData() {
         let decoder: JSONDecoder = {
@@ -58,6 +63,15 @@ class NoteModelManager: NoteModel {
     
     func deleteNote(at index: Int) {
         noteData.remove(at: index)
+    }
+    
+    func createNote(_ note: Note) {
+        let identifier = UUID()
+        let title = note.title
+        let body = note.body
+        let lastModified = note.lastModified
+        
+        persistentDataManager.create(identifier: identifier, title: title, body: body, lastModified: lastModified)
     }
     
 }

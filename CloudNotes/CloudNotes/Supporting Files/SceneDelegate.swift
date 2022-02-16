@@ -3,7 +3,7 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     var window: UIWindow?
-    var persistentDataManager = PersistentDataManager()
+    let persistentDataManager = PersistentDataManager()
     
     func scene(
         _ scene: UIScene,
@@ -28,7 +28,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 extension SceneDelegate {
     
     private func configureSplitView() -> UISplitViewController {
-        let noteModelManager: NoteModel = NoteModelManager()
+        let noteModelManager: NoteModel = NoteModelManager(persistentDataManager: persistentDataManager)
         let primaryViewController = NoteListTableViewController(model: noteModelManager)
         let secondaryViewController = NoteDetailViewController()
         let splitViewController = UISplitViewController(style: .doubleColumn)

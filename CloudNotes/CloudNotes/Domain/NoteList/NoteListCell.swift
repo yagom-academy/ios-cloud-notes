@@ -1,6 +1,7 @@
 import UIKit
 
 class NoteListCell: UITableViewCell {
+    // MARK: - View Component
 
     private let cellStackView: UIStackView = {
         let stackView = UIStackView()

@@ -9,6 +9,8 @@ class DetailedNoteViewController: UIViewController {
     private weak var dataSourceDelegate: DetailedNoteViewDelegate?
     private var shouldCreateNote = false
 
+    // MARK: - View Component
+
     private let noteTextView: UITextView = {
         let textView = UITextView()
         textView.font = .preferredFont(forTextStyle: .body)
@@ -36,10 +38,10 @@ class DetailedNoteViewController: UIViewController {
     private lazy var actionSheet: UIAlertController = {
         let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let shareAction = UIAlertAction(title: "공유", style: .default) { _ in
-            self.showActivityController()
+            self.presentActivityController()
         }
         let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
-            self.showDeleteAlert()
+            self.presentDeleteAlert()
         }
 
         actionSheet.addAction(shareAction)
@@ -47,6 +49,8 @@ class DetailedNoteViewController: UIViewController {
 
         return actionSheet
     }()
+
+    // MARK: - View Life Cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,9 +61,49 @@ class DetailedNoteViewController: UIViewController {
         self.noteTextView.delegate = self
     }
 
+    // MARK: - Action Method
+
+    @objc func actionButtonDidTap(_ sender: UIBarButtonItem) {
+        actionSheet.popoverPresentationController?.barButtonItem = sender
+        self.present(actionSheet, animated: true, completion: nil)
+    }
+
+    // MARK: - Present Method
+
+    func presentActivityController() {
+        activityController.popoverPresentationController?.barButtonItem = actionButton
+        self.present(activityController, animated: true, completion: nil)
+    }
+
+    func presentDeleteAlert() {
+        let alert = UIAlertController(
+            title: "메모를 삭제하시겠습니까?",
+            message: nil,
+            preferredStyle: .alert
+        )
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel) { action in
+            self.dismiss(animated: true, completion: nil)
+        }
+        let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { action in
+            guard let note = self.noteData else {
+                return
+            }
+
+            self.dataSourceDelegate?.deleteNote(note)
+        }
+
+        alert.addAction(deleteAction)
+        alert.addAction(cancelAction)
+        self.present(alert, animated: true, completion: nil)
+    }
+
+    // MARK: - Set Delegate Method
+
     func setDelegate(delegate: DetailedNoteViewDelegate) {
         self.dataSourceDelegate = delegate
     }
+
+    // MARK: - Manipulate DataSource
 
     func setNoteData(_ data: Content?) {
         self.noteData = data
@@ -110,41 +154,9 @@ class DetailedNoteViewController: UIViewController {
 
         noteTextView.attributedText = content
     }
-
-    // MARK: - Action Method
-
-    func showActivityController() {
-        activityController.popoverPresentationController?.barButtonItem = actionButton
-        self.present(activityController, animated: true, completion: nil)
-    }
-
-    func showDeleteAlert() {
-        let alert = UIAlertController(
-            title: "메모를 삭제하시겠습니까?",
-            message: nil,
-            preferredStyle: .alert
-        )
-        let cancelAction = UIAlertAction(title: "취소", style: .cancel) { action in
-            self.dismiss(animated: true, completion: nil)
-        }
-        let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { action in
-            guard let note = self.noteData else {
-                return
-            }
-
-            self.dataSourceDelegate?.deleteNote(note)
-        }
-
-        alert.addAction(deleteAction)
-        alert.addAction(cancelAction)
-        self.present(alert, animated: true, completion: nil)
-    }
-
-    @objc func actionButtonDidTap(_ sender: UIBarButtonItem) {
-        actionSheet.popoverPresentationController?.barButtonItem = sender
-        self.present(actionSheet, animated: true, completion: nil)
-    }
 }
+
+// MARK: - Text View Delegate
 
 extension DetailedNoteViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
@@ -158,7 +170,6 @@ extension DetailedNoteViewController: UITextViewDelegate {
         var content = textView.text.components(separatedBy: ["\n"])
         var title = content.removeFirst()
         var body = content.joined(separator: "")
-
         if title.count > 100 {
             title = String(textView.text.prefix(100))
             body = String(textView.text.suffix(textView.text.count - 100))
@@ -175,8 +186,7 @@ extension DetailedNoteViewController: UITextViewDelegate {
             lastModifiedDate: modifiedDate,
             identification: id
         )
-
-        dataSourceDelegate?.passModifiedNote(note: newNote)
+        dataSourceDelegate?.passModifiedNote(newNote)
     }
 
     func textView(_ textView: UITextView,

@@ -3,11 +3,14 @@ import UIKit
 class NoteListViewController: UITableViewController {
     private var noteListData = [Content]()
     private weak var dataSourceDelegate: NoteListViewDelegate?
-    var selectedIndexPath: IndexPath? = IndexPath(row: 0, section: 0) {
+    private let firstIndex = IndexPath(row: 0, section: 0)
+    lazy var selectedIndexPath: IndexPath? = self.firstIndex {
         didSet {
             tableView.selectRow(at: selectedIndexPath, animated: true, scrollPosition: .none)
         }
     }
+
+    // MARK: - View Component
 
     private lazy var addButton: UIBarButtonItem = {
         let button = UIBarButtonItem()
@@ -22,20 +25,17 @@ class NoteListViewController: UITableViewController {
             activityItems: ["memo"],
             applicationActivities: nil
         )
-
         return controller
     }()
 
-    // MARK: - Override Method
+    // MARK: - View Life Cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         self.tableView.register(
             NoteListCell.self,
             forCellReuseIdentifier: String(describing: NoteListCell.self)
         )
-
         configureNavigationBar()
         configureTableView()
     }
@@ -48,6 +48,8 @@ class NoteListViewController: UITableViewController {
         )
     }
 
+    // MARK: - Override Method
+
     override func setEditing(_ editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: animated)
         self.tableView.selectRow(
@@ -57,9 +59,19 @@ class NoteListViewController: UITableViewController {
         )
     }
 
+    // MARK: - Action Method
+
+    @objc func touchUpPlusButton() {
+        self.dataSourceDelegate?.creatNote()
+    }
+
+    // MARK: - Set Delegate Method
+
     func setDelegate(delegate: NoteListViewDelegate) {
         self.dataSourceDelegate = delegate
     }
+
+    // MARK: - Present Method
 
     func showActivityController() {
         activityController.popoverPresentationController?.sourceView = self.view
@@ -79,31 +91,26 @@ class NoteListViewController: UITableViewController {
             let note = self.noteListData[indexPath.row]
             self.dataSourceDelegate?.deleteNote(note, index: indexPath.row)
         }
-
         alert.addAction(deleteAction)
         alert.addAction(cancelAction)
         self.present(alert, animated: true, completion: nil)
     }
 
-    func delete(at index: Int) {
-        self.noteListData.remove(at: index)
-        self.tableView.deleteRows(at: [IndexPath(row: index, section: 0)], with: .fade)
-    }
-
     // MARK: - Manipulate DataSource
 
-    func setNoteListData(_ data: [Content]) {
+    func setNoteList(_ data: [Content]) {
         self.noteListData = data
         tableView.reloadData()
     }
 
-    func insertNoteData(_ note: Content) {
+    func insert(_ note: Content) {
         self.noteListData.insert(note, at: 0)
-        self.tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
+        self.tableView.insertRows(at: [firstIndex], with: .automatic)
     }
 
-    @objc func touchUpPlusButton() {
-        self.dataSourceDelegate?.creatNote()
+    func delete(at index: Int) {
+        self.noteListData.remove(at: index)
+        self.tableView.deleteRows(at: [IndexPath(row: index, section: 0)], with: .fade)
     }
 
     // MARK: - Configure Views
@@ -143,7 +150,7 @@ class NoteListViewController: UITableViewController {
     // MARK: - Table View Delegate
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.selectedIndexPath = indexPath
-        dataSourceDelegate?.passNote(index: indexPath.row)
+        dataSourceDelegate?.passNote(at: indexPath.row)
     }
 
     override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {

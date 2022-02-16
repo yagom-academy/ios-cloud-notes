@@ -4,7 +4,6 @@ class SplitViewController: UISplitViewController {
     private let noteListViewController = NoteListViewController()
     private let detailedNoteViewController = DetailedNoteViewController()
     private var dataSourceProvider: NoteDataSource?
-
     private var currentNoteIndex: Int?
 
     override func viewDidLoad() {
@@ -36,13 +35,13 @@ class SplitViewController: UISplitViewController {
             return
         }
 
-        noteListViewController.setNoteListData(data)
+        noteListViewController.setNoteList(data)
         detailedNoteViewController.setNoteData(data.first)
         self.currentNoteIndex = 0
     }
 }
 
-// MARK: - Note Data Source Delegate
+// MARK: - NoteList View Delegate
 extension SplitViewController: NoteListViewDelegate {
     func deleteNote(_ note: Content, index: Int) {
         do {
@@ -50,9 +49,11 @@ extension SplitViewController: NoteListViewDelegate {
         } catch {
             print(error)
         }
+
         guard let noteList = dataSourceProvider?.noteList else {
             return
         }
+
         noteListViewController.delete(at: index)
         var changedIndex: Int?
         if noteList.count == index {
@@ -60,6 +61,7 @@ extension SplitViewController: NoteListViewDelegate {
         } else {
             changedIndex = index
         }
+
         guard let index = changedIndex else {
             return
         }
@@ -79,6 +81,7 @@ extension SplitViewController: NoteListViewDelegate {
         } catch let error {
             print(error)
         }
+
         guard let noteList = dataSourceProvider?.noteList else {
             return
         }
@@ -87,18 +90,20 @@ extension SplitViewController: NoteListViewDelegate {
             return
         }
 
-        noteListViewController.insertNoteData(note)
+        noteListViewController.insert(note)
         noteListViewController.selectedIndexPath = IndexPath(row: 0, section: 0)
 
         detailedNoteViewController.setNoteData(note)
     }
 
-    func passNote(index: Int) {
+    func passNote(at index: Int) {
         self.currentNoteIndex = index
         detailedNoteViewController.setNoteData(dataSourceProvider?.noteList[index])
         self.view.endEditing(true)
     }
 }
+
+// MARK: - DetailedNote View Delegate
 
 extension SplitViewController: DetailedNoteViewDelegate {
     func deleteNote(_ note: Content) {
@@ -107,9 +112,11 @@ extension SplitViewController: DetailedNoteViewDelegate {
         } catch {
             print(error)
         }
+
         guard let noteList = dataSourceProvider?.noteList else {
             return
         }
+
         guard let index = self.currentNoteIndex else {
             return
         }
@@ -118,7 +125,7 @@ extension SplitViewController: DetailedNoteViewDelegate {
         detailedNoteViewController.setNoteData(noteList.first)
     }
 
-    func passModifiedNote(note: Content) {
+    func passModifiedNote(_ note: Content) {
         do {
             try dataSourceProvider?.updateNote(note)
         } catch let error {
@@ -129,7 +136,7 @@ extension SplitViewController: DetailedNoteViewDelegate {
             return
         }
 
-        noteListViewController.setNoteListData(noteList)
+        noteListViewController.setNoteList(noteList)
     }
 }
 

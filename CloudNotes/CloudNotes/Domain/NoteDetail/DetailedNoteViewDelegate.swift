@@ -5,5 +5,5 @@ protocol DetailedNoteViewDelegate: AnyObject {
 
     func deleteNote(_ note: Content)
 
-    func passModifiedNote(note: Content)
+    func passModifiedNote(_ note: Content)
 }

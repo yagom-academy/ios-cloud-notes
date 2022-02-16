@@ -50,7 +50,7 @@ final class MasterTableViewController: UITableViewController {
     }
     
     @objc func touchUpAddMemoButton() {
-        let memo = TemporaryMemo(title: "안녕하세요", body: "안녕히가세요", lastModifiedDate: 1231232213, memoId: UUID()) // Test
+        let memo = TemporaryMemo(title: "테스트임", body: "ㅎㅇㅎㅇ", lastModifiedDate: 1251232213, memoId: UUID()) // Test
         let request = Memo.fetchRequest()
         
         CoreDataManager.shared.saveContext(memo: memo)
@@ -64,11 +64,23 @@ final class MasterTableViewController: UITableViewController {
     }
     
     private func configureNotificationCenter() {
-        NotificationCenter.default.addObserver(self, selector: #selector(update), name: Notification.Name("didChangeTextView"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateTableView), name: Notification.Name("didChangeTextView"), object: nil)
     }
     
-    @objc func update() {
-        tableView.reloadData()
+    @objc func updateTableView() {
+        let firstIndexPath = IndexPath(row: 0, section: 0)
+        guard let previousIndexPath = tableView.indexPathForSelectedRow else {
+            return
+        }
+        
+        guard let memoToMove = memoDataSource?.memos?.remove(at: previousIndexPath.row) else {
+            return
+        }
+        memoDataSource?.memos?.insert(memoToMove, at: firstIndexPath.row)
+        
+        tableView.moveRow(at: previousIndexPath, to: firstIndexPath)
+        tableView.reloadRows(at: [firstIndexPath], with: .automatic)
+        tableView.selectRow(at: firstIndexPath, animated: true, scrollPosition: .none)
     }
     
     private func selectFirstMemo() {
@@ -88,8 +100,42 @@ final class MasterTableViewController: UITableViewController {
         guard let destination = delegate?.memoSelectionDestination as? DetailViewController else {
             return
         }
-        
+
         destination.applyData(with: memos[indexPath.row])
         splitViewController?.showDetailViewController(UINavigationController(rootViewController: destination), sender: self)
+    }
+    
+    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let deleteAction = UIContextualAction(style: .destructive, title: nil) { _, _, _ in
+            let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+            let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
+                self.deleteMemo(indexPath)
+            }
+            
+            let alert = AlertFactory().createAlert(style: .alert, title: "진짜요?", message: "정말로 삭제하시겠어요?", actions: cancelAction, deleteAction)
+            
+            self.present(alert, animated: true, completion: nil)
+        }
+        
+        let shareAction = UIContextualAction(style: .normal, title: nil) { _, _, _ in
+            let textToShare: [Any] = [ self.memoDataSource?.memos![indexPath.row].title ?? "" ]
+            let acitivityView = UIActivityViewController(activityItems: textToShare, applicationActivities: nil)
+    
+            let alertPopover = acitivityView.popoverPresentationController
+            alertPopover?.sourceView = tableView.cellForRow(at: indexPath)
+            
+            self.present(acitivityView, animated: true, completion: nil)
+        }
+        
+        deleteAction.image = UIImage(systemName: "trash")
+        shareAction.image = UIImage(systemName: "square.and.arrow.up")
+        
+        return UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
+    }
+        
+    func deleteMemo(_ index: IndexPath) {
+        let removedMemo = memoDataSource?.memos?.remove(at: index.row)
+        CoreDataManager.shared.deleteMemo(memoId: removedMemo?.memoId)
+        tableView.deleteRows(at: [index], with: .fade)
     }
 }

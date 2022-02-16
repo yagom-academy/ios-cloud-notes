@@ -22,6 +22,7 @@ class CoreDataManager {
     
     func fetch<Element: NSManagedObject>(_ request: NSFetchRequest<Element>) -> [Element]? {
         do {
+            request.sortDescriptors = [NSSortDescriptor(key: "lastModifiedDate", ascending: false)]
             let elements = try context.fetch(request)
             return elements
         } catch {
@@ -48,13 +49,13 @@ class CoreDataManager {
     }
     
     func updateMemo(_ memo: TemporaryMemo) {
-        let request: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest<NSFetchRequestResult>(entityName: "Memo")
+        let request: NSFetchRequest<Memo> = NSFetchRequest<Memo>(entityName: "Memo")
         request.predicate = NSPredicate(format: "memoId = %@", memo.memoId.uuidString)
         
         do {
-            let memoToUpdate = try context.fetch(request)
+            let memoToUpdate = self.fetch(request)
             
-            let managedObject = memoToUpdate.first as? NSManagedObject
+            let managedObject = memoToUpdate?.first
             managedObject?.setValue(memo.title, forKey: "title")
             managedObject?.setValue(memo.body ?? "", forKey: "body")
             managedObject?.setValue(memo.lastModifiedDate, forKey: "lastModifiedDate")

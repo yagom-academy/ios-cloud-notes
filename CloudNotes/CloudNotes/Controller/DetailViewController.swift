@@ -2,7 +2,7 @@ import UIKit
 
 final class DetailViewController: UIViewController {
     var memo: Memo?
-   
+
     private let textView: UITextView = {
         let textView = UITextView()
         textView.adjustsFontForContentSizeCategory = true
@@ -81,6 +81,7 @@ final class DetailViewController: UIViewController {
             let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
             let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
                 CoreDataManager.shared.deleteMemo(memoId: self.memo?.memoId)
+//                NotificationCenter.default.post(name: Notification.Name("didDeleteMemo"), object: nil)
             }
             
             let alert = AlertFactory().createAlert(style: .alert, title: "진짜요?", message: "정말로 삭제하시겠어요?", actions: cancelAction, deleteAction)
@@ -106,7 +107,7 @@ final class DetailViewController: UIViewController {
     }
     
     func updateCoreData() {
-        let texts = textView.text.split(separator: "\n", maxSplits: 1)  // components는 split 횟수를 정할 수 없음 (줄바꿈이 여러 번일 때 bodyText 반영에 문제가 발생함)
+        let texts = textView.text.split(separator: "\n", maxSplits: 1)
         let strings = texts.map { String($0) }
         var titleText: String = ""
         var bodyText: String = ""
@@ -119,9 +120,12 @@ final class DetailViewController: UIViewController {
         }
 
         let currentTime = NSDate().timeIntervalSince1970
-        let memo = TemporaryMemo(title: titleText, body: bodyText, lastModifiedDate: currentTime, memoId: (memo?.memoId)!)
+        guard let memoId = memo?.memoId else {
+            return
+        }
         
-        CoreDataManager.shared.updateMemo(memo)
+        let memoToUpdate = TemporaryMemo(title: titleText, body: bodyText, lastModifiedDate: currentTime, memoId: memoId)
+        CoreDataManager.shared.updateMemo(memoToUpdate)
     }
 }
 
@@ -161,9 +165,11 @@ extension DetailViewController: UITextViewDelegate {
             textView.typingAttributes = bodyAttributes
         }
         
+        return true
+    }
+    
+    func textViewDidChange(_ textView: UITextView) {
         updateCoreData()
         NotificationCenter.default.post(name: Notification.Name("didChangeTextView"), object: nil)
-        
-        return true
     }
 }

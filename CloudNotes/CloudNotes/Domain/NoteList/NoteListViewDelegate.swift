@@ -5,5 +5,5 @@ protocol NoteListViewDelegate: AnyObject {
 
     func creatNote()
 
-    func deleteNote(_ note: Content)
+    func deleteNote(_ note: Content, index: Int)
 }

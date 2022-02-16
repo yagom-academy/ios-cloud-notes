@@ -45,7 +45,7 @@ class SplitViewController: UISplitViewController {
 // MARK: - Note Data Source Delegate
 
 extension SplitViewController: NoteListViewDelegate {
-    func deleteNote(_ note: Content) {
+    func deleteNote(_ note: Content, index: Int) {
         do {
             try dataSourceProvider?.deleteNote(note)
         } catch {
@@ -54,7 +54,7 @@ extension SplitViewController: NoteListViewDelegate {
         guard let noteList = dataSourceProvider?.noteList else {
             return
         }
-        noteListViewController.delete(at: self.currentNoteIndex!)
+        noteListViewController.delete(at: index)
         detailedNoteViewController.setNoteData(noteList.first)
     }
 
@@ -81,6 +81,23 @@ extension SplitViewController: NoteListViewDelegate {
 }
 
 extension SplitViewController: DetailedNoteViewDelegate {
+    func deleteNote(_ note: Content) {
+        do {
+            try dataSourceProvider?.deleteNote(note)
+        } catch {
+            print(error)
+        }
+        guard let noteList = dataSourceProvider?.noteList else {
+            return
+        }
+        guard let index = self.currentNoteIndex else {
+            return
+        }
+
+        noteListViewController.delete(at: index)
+        detailedNoteViewController.setNoteData(noteList.first)
+    }
+
     func passModifiedNote(note: Content) {
         do {
             try dataSourceProvider?.updateNote(note)

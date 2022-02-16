@@ -53,7 +53,7 @@ class NoteListViewController: UITableViewController {
         }
         let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { action in
             let note = self.noteListData[indexPath.row]
-            self.dataSourceDelegate?.deleteNote(note)
+            self.dataSourceDelegate?.deleteNote(note, index: indexPath.row)
         }
 
         alert.addAction(deleteAction)

@@ -2,6 +2,8 @@ import UIKit
 
 final class MemoContentViewController: UIViewController, MemoReloadable {
     weak var selectedMemo: Memo?
+    let headerAttributes = [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .largeTitle)]
+    let bodyAttributes = [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .title3)]
     
     private let textView: UITextView = {
         let textView = UITextView()
@@ -20,9 +22,10 @@ final class MemoContentViewController: UIViewController, MemoReloadable {
     func reload() {
         guard let currentMemo = selectedMemo else {
             textView.text = nil
+            
             return
         }
-        textView.text = currentMemo.entireContent
+        setTextView(memo: currentMemo)
         let startPosition = textView.beginningOfDocument
         textView.selectedTextRange = textView.textRange(from: startPosition, to: startPosition)
     }
@@ -53,6 +56,27 @@ final class MemoContentViewController: UIViewController, MemoReloadable {
             target: self,
             action: #selector(presentPopover)
         )
+    }
+    
+    private func setTextView(memo: Memo) {
+        let attributtedString = NSMutableAttributedString(string: memo.entireContent)
+        let entireContent = memo.entireContent as NSString
+            
+        guard let title = memo.title else {
+            textView.attributedText = attributtedString
+            
+            return
+        }
+
+        if let body = memo.body {
+            attributtedString.addAttributes(headerAttributes, range: entireContent.range(of: title))
+            attributtedString.addAttributes(headerAttributes, range: entireContent.range(of: "\n"))
+            attributtedString.addAttributes(bodyAttributes, range: entireContent.range(of: body))
+            textView.attributedText = attributtedString
+        } else {
+            attributtedString.addAttributes(headerAttributes, range: entireContent.range(of: title))
+            textView.attributedText = attributtedString
+        }
     }
 }
 
@@ -113,5 +137,18 @@ extension MemoContentViewController: UITextViewDelegate {
             let title = memoDetail
             CoreDataManager.shared.update(data: currentMemo, title: title, body: nil)
         }
+    }
+     
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        let textAsNSString = self.textView.text as NSString
+        let replaced = textAsNSString.replacingCharacters(in: range, with: text) as NSString
+        let boldRange = replaced.range(of: "\n")
+        if boldRange.location <= range.location {
+            self.textView.typingAttributes = self.bodyAttributes
+        } else {
+            self.textView.typingAttributes = self.headerAttributes
+        }
+        
+        return true
     }
 }

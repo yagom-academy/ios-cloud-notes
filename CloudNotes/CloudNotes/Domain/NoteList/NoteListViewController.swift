@@ -157,7 +157,6 @@ class NoteListViewController: UITableViewController {
         self.selectedIndexPath = nil
     }
 
-
     override func tableView(
         _ tableView: UITableView,
         trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath

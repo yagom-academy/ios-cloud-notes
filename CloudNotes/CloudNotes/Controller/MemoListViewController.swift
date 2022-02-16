@@ -2,6 +2,7 @@ import UIKit
 
 protocol MemoListViewControllerDelegate: AnyObject {
     func memoListViewController(updateTableViewCellWith title: String, body: String, lastModified: Date)
+    func deleteTableViewCell()
 }
 
 class MemoListViewController: UIViewController {
@@ -17,11 +18,11 @@ class MemoListViewController: UIViewController {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellIdentifier)
         setupTableView()
         setupNavigationBar()
-        
+        MemoDataManager.shared.fetchNotes()
         if !MemoDataManager.shared.isEmpty {
             tableView.selectRow(at: IndexPath(row: 0, section: 0), animated: false, scrollPosition: .top)
+            tableView(tableView, didSelectRowAt: IndexPath(row: 0, section: 0))
         }
-        MemoDataManager.shared.fetchNotes()
     }
     
     private func setupTableView() {
@@ -98,8 +99,8 @@ extension MemoListViewController: UITableViewDelegate {
     private func deleteMemo(at indexPath: IndexPath) {
         let deletedMemo = MemoDataManager.shared.memos[indexPath.row]
         MemoDataManager.shared.memos.remove(at: indexPath.row)
-        tableView.deleteRows(at: [indexPath], with: .fade)
-        MemoDataManager.shared.deleteMemo(deletedMemo)
+        tableView.deleteRows(at: [indexPath], with: .none)
+        MemoDataManager.shared.deleteMemo(id: deletedMemo.id)
         
         if indexPath.row <= MemoDataManager.shared.memos.count - 1 {
             let memo = MemoDataManager.shared.memos[indexPath.row]
@@ -146,6 +147,13 @@ extension MemoListViewController: UITableViewDelegate {
 // MARK: - MemoListViewControllerDelegate
 
 extension MemoListViewController: MemoListViewControllerDelegate {
+    func deleteTableViewCell() {
+        guard let indexPath = tableView.indexPathForSelectedRow else {
+            return
+        }
+        deleteMemo(at: indexPath)
+    }
+    
     func memoListViewController(updateTableViewCellWith title: String, body: String, lastModified: Date) {
         
         guard let indexPath = tableView.indexPathForSelectedRow else {

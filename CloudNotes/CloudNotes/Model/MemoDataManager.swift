@@ -69,7 +69,7 @@ class MemoDataManager {
         guard let id = id else {
             return
         }
-        let predicate = NSPredicate(format: "id == %@", id as CVarArg)
+        let predicate = NSPredicate(format: "id == %@", id.uuidString)
         guard let memo = fetch(entityName: entityName, predicate: predicate)?.first else {
             return
         }
@@ -79,9 +79,21 @@ class MemoDataManager {
         saveViewContext()
     }
     
-    func deleteMemo(_ memo: Memo) {
-        viewContext.delete(memo)
-        saveViewContext()
+    func deleteMemo(id: UUID) {
+        let request: NSFetchRequest<Memo> = Memo.fetchRequest()
+        
+        let predicate = NSPredicate(format: "id == %@", id.uuidString)
+        request.predicate = predicate
+        do {
+            let memo = try viewContext.fetch(request)
+            guard let memoToDelete = memo.first else {
+                return
+            }
+            viewContext.delete(memoToDelete)
+            saveViewContext()
+        } catch {
+            print(error)
+        }
     }
 }
 

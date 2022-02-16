@@ -116,7 +116,7 @@ class MemoDetailViewController: UIViewController {
         let alert = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
         let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
         let delete = UIAlertAction(title: "삭제", style: .destructive) { _ in
-            print("삭제")
+            self.delegate?.deleteTableViewCell()
         }
         alert.addAction(cancel)
         alert.addAction(delete)

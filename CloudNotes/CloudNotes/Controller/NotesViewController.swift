@@ -9,13 +9,30 @@ class NotesViewController: UITableViewController {
         static let shareIconName = "square.and.arrow.up"
     }
     weak var delegate: NotesDetailViewControllerDelegate?
+    private var selectedIndex: IndexPath?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpNavigationItem()
-        tableView.dataSource = self
-        tableView.delegate = self
+        tableView.allowsSelectionDuringEditing = true
         tableView.register(NotesCell.self, forCellReuseIdentifier: NotesCell.identifier)
+    }
+    
+    override func setEditing(_ editing: Bool, animated: Bool) {
+        super.setEditing(editing, animated: animated)
+        tableView.selectRow(at: selectedIndex, animated: false, scrollPosition: .none)
+        if editing == false {
+            delegate?.clearTextView()
+            showNoteDetailView()
+        }
+    }
+    
+    private func showNoteDetailView() {
+        guard self.tableView.numberOfRows(inSection: .zero) != .zero else {
+            return
+        }
+        delegate?.updateData(with: selectedIndex?.row ?? .zero)
+        splitViewController?.show(.secondary)
     }
     
     private func setUpNavigationItem() {
@@ -43,12 +60,13 @@ extension NotesViewController {
         guard let newData = PersistentManager.shared.fetch()?.first else {
             return
         }
+        let newIndexPath = IndexPath(row: .zero, section: .zero)
         PersistentManager.shared.insertNote(newData)
         delegate?.updateData(with: .zero)
         splitViewController?.show(.secondary)
-        let newIndexPath = IndexPath(row: .zero, section: .zero)
         tableView.insertRows(at: [newIndexPath], with: .fade)
         tableView.selectRow(at: newIndexPath, animated: true, scrollPosition: .middle)
+        selectedIndex = newIndexPath
     }
 }
 
@@ -75,6 +93,7 @@ extension NotesViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         delegate?.updateData(with: indexPath.row)
         splitViewController?.show(.secondary)
+        selectedIndex = indexPath
     }
     
     override func tableView(
@@ -124,17 +143,17 @@ extension NotesViewController: NotesViewControllerDelegate {
     func deleteCell(indexPath: IndexPath) {
         let item = PersistentManager.shared.removeNote(at: indexPath.row)
         PersistentManager.shared.delete(item)
-        delegate?.clearTextView()
         tableView.deleteRows(at: [indexPath], with: .fade)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            let index = indexPath.row == .zero ? .zero : indexPath.row - 1
-            let newindexPath = IndexPath(row: index, section: .zero)
-            self.delegate?.updateData(with: index)
-            self.splitViewController?.show(.secondary)
-            guard self.tableView.numberOfRows(inSection: .zero) != .zero else {
-                return
-            }
-            self.tableView.selectRow(at: newindexPath, animated: true, scrollPosition: .middle)
+        changeSelectedIndex(indexPath: indexPath)
+    }
+    
+    private func changeSelectedIndex(indexPath: IndexPath) {
+        guard tableView.numberOfRows(inSection: .zero) > .zero else {
+            selectedIndex = nil
+            return
+        }
+        if let selectedIndex = selectedIndex, selectedIndex >= indexPath {
+            self.selectedIndex?.row = selectedIndex.row - 1 > 0 ? selectedIndex.row - 1 : 0
         }
     }
 }

@@ -23,13 +23,16 @@ final class CloudNotesSplitViewController: UISplitViewController {
     }
     
     private func setupChildViewControllers() {
-        let noteDataSource = CloudNotesDataSource()
+        let persistantManager = PersistantManager()
+        
         let noteListViewController = NoteListViewController()
+        noteListViewController.persistantManager = persistantManager
         noteListViewController.delegate = self
-        noteListViewController.noteDataSource = noteDataSource
+        
         let noteDetailViewController = NoteDetailViewController()
+        noteDetailViewController.persistantManager = persistantManager
         noteDetailViewController.delegate = self
-        noteDetailViewController.noteDataSource = noteDataSource
+        
         setViewController(
           noteListViewController,
           for: .primary

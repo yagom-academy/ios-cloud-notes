@@ -17,4 +17,8 @@ extension Note {
     @nonobjc public class func fetchRequest() -> NSFetchRequest<Note> {
         return NSFetchRequest<Note>(entityName: "Note")
     }
+    
+    var localizedDateString: String {
+        return DateFormatter().localizedString(from: self.lastModifiedDate)
+    }
 }

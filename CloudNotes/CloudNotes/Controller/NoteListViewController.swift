@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreData
 
 protocol NoteListViewDelegate: AnyObject {
     func noteListView(didSeletedCell row: Int)
@@ -18,7 +19,8 @@ final class NoteListViewController: UIViewController {
     private let tableView: UITableView = UITableView()
     
     weak var delegate: NoteListViewDelegate?
-    var noteDataSource: CloudNotesDataSource?
+    var persistantManager: PersistantManager?
+    lazy var noteDataSource = CloudNotesDataSource(persistantManager: persistantManager)
     
     // MARK: - Methods
     
@@ -50,7 +52,7 @@ final class NoteListViewController: UIViewController {
                 content: "추가 텍스트 없음",
                 lastModifiedDate: Date().timeIntervalSince1970
             )
-            noteDataSource?.noteInformations?.append(emptyNoteInformation)
+            persistantManager?.save(noteInformation: emptyNoteInformation)
             tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .none)
         } completion: {_ in
             self.tableView.backgroundView?.isHidden = true
@@ -58,9 +60,6 @@ final class NoteListViewController: UIViewController {
     }
     
     private func setupTableView() {
-        guard let noteDataSource = noteDataSource else {
-            return
-        }
         tableView.dataSource = noteDataSource
         tableView.delegate = self
         tableView.register(
@@ -91,7 +90,7 @@ final class NoteListViewController: UIViewController {
     }
     
     private func selectFirstNote() {
-        guard let noteInformations = noteDataSource?.noteInformations,
+        guard let noteInformations = persistantManager?.notes,
               noteInformations.count > 0 else {
                return
         }

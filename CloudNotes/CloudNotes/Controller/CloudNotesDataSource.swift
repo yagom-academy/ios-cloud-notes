@@ -11,28 +11,10 @@ final class CloudNotesDataSource: NSObject {
     
     // MARK: - Properties
     
-    lazy var noteInformations = setupNoteInformations()
+    let persistantManager: PersistantManager?
     
-    // MARK: - Methods
-    
-    private func setupNoteInformations() -> [NoteInformation]? {
-//        guard let jsonData = NSDataAsset(name: AssetFileNames.sampleFile)?.data else {
-//            return nil
-//        }
-//        
-//        let result = JSONParser().decode(
-//          from: jsonData,
-//          decodingType: [NoteInformation].self
-//        )
-//
-//        switch result {
-//        case .success(let noteInformations):
-//            return noteInformations
-//        case .failure(let error):
-//            print(error.localizedDescription)
-//            return nil
-//        }
-        return []
+    init(persistantManager: PersistantManager?) {
+        self.persistantManager = persistantManager
     }
 }
 
@@ -43,7 +25,7 @@ extension CloudNotesDataSource: UITableViewDataSource {
       _ tableView: UITableView,
       numberOfRowsInSection section: Int
     ) -> Int {
-        return noteInformations?.count ?? 0
+        return persistantManager?.notes.count ?? 0
     }
     
     func tableView(
@@ -56,7 +38,7 @@ extension CloudNotesDataSource: UITableViewDataSource {
         ) as? NoteListCell else {
             return UITableViewCell()
         }
-        guard let information = noteInformations?[indexPath.row] else {
+        guard let information = persistantManager?.notes[indexPath.row] else {
             return UITableViewCell()
         }
         cell.configure(with: information)

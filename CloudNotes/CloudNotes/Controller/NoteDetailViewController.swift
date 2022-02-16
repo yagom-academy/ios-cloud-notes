@@ -16,8 +16,8 @@ final class NoteDetailViewController: UIViewController {
     // MARK: - Properties
     
     private let noteDetailScrollView = NoteDetailScrollView()
-    var noteDataSource: CloudNotesDataSource?
     weak var delegate: NoteDetailViewDelegate?
+    var persistantManager: PersistantManager?
 
     // MARK: - Methods
     
@@ -47,7 +47,7 @@ final class NoteDetailViewController: UIViewController {
     }
     
     func setupDetailView(index: Int) {
-        if let information = noteDataSource?.noteInformations?[index] {
+        if let information = persistantManager?.notes[index] {
             noteDetailScrollView.configure(with: information)
             scrollTextViewToVisible()
             view.endEditing(true)

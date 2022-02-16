@@ -35,7 +35,7 @@ final class NoteListCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(with noteInformation: NoteInformation) {
+    func configure(with noteInformation: Note) {
         titleLabel.text = noteInformation.title
         dateLabel.text = noteInformation.localizedDateString
         contentLabel.text = noteInformation.content

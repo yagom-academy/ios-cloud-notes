@@ -53,9 +53,9 @@ class CoreDataManager {
         request.predicate = NSPredicate(format: "memoId = %@", memo.memoId.uuidString)
         
         do {
-            let memoToUpdate = self.fetch(request)
+            let memoToUpdate = try context.fetch(request)
             
-            let managedObject = memoToUpdate?.first
+            let managedObject = memoToUpdate.first
             managedObject?.setValue(memo.title, forKey: "title")
             managedObject?.setValue(memo.body ?? "", forKey: "body")
             managedObject?.setValue(memo.lastModifiedDate, forKey: "lastModifiedDate")

@@ -61,12 +61,8 @@ final class DetailViewController: UIViewController {
     }
     
     @objc private func touchUpDetailButton() {
-        // ActivityView 나타내기
         let shareAction = UIAlertAction(title: "Share...", style: .default) { _ in
-            
-            let title = "Jokes Are Us Diagnostics:"
-            let text = "Some Text"
-            
+            let title = self.memo?.title
             let textToShare: [Any] = [title]
             let acitivityView = UIActivityViewController(activityItems: textToShare, applicationActivities: nil)
                         
@@ -76,12 +72,12 @@ final class DetailViewController: UIViewController {
             self.present(acitivityView, animated: true, completion: nil)
         }
         
-        // 삭제 Alert 나타내기
         let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
             let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
             let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
                 CoreDataManager.shared.deleteMemo(memoId: self.memo?.memoId)
-//                NotificationCenter.default.post(name: Notification.Name("didDeleteMemo"), object: nil)
+                self.textView.text = nil
+                NotificationCenter.default.post(name: Notification.Name("didDeleteMemo"), object: nil)
             }
             
             let alert = AlertFactory().createAlert(style: .alert, title: "진짜요?", message: "정말로 삭제하시겠어요?", actions: cancelAction, deleteAction)

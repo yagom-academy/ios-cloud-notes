@@ -10,8 +10,10 @@ class SplitViewController: UISplitViewController {
         setUpChildView()
         setUpDisplay()
         PersistentManager.shared.setUpNotes()
-        present(at: .zero)
         hideKeyboard()
+        primaryVC.delegate = secondaryVC
+        secondaryVC.delegate = primaryVC
+        show(.secondary)
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -23,33 +25,6 @@ class SplitViewController: UISplitViewController {
                 height: .zero
             )
         }
-    }
-}
-
-// MARK: - Primary Related Method
-extension SplitViewController {
-    func updateNotes(at index: Int) {
-        primaryVC.updateData(at: index)
-    }
-    
-    func moveTableViewCell(at index: Int) {
-        primaryVC.moveCell(at: index)
-    }
-    
-    func deleteTableViewCell(indexPath: IndexPath) {
-        primaryVC.deleteCell(indexPath: indexPath)
-    }
-}
-
-// MARK: - Secondary Related Method
-extension SplitViewController {
-    func present(at indexPath: Int) {
-        secondaryVC.updateData(with: indexPath)
-        show(.secondary)
-    }
-    
-    func clearNoteTextView() {
-        secondaryVC.clearTextView()
     }
 }
 

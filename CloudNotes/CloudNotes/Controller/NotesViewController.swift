@@ -8,6 +8,7 @@ class NotesViewController: UITableViewController {
         static let deleteIconName = "trash.fill"
         static let shareIconName = "square.and.arrow.up"
     }
+    weak var delegate: NotesDetailViewControllerDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,39 +40,19 @@ extension NotesViewController {
     }
     
     private func insertCell() {
-        guard let splitVC = self.splitViewController as? SplitViewController,
-              let newData = PersistentManager.shared.fetch()?.first else {
+        guard let newData = PersistentManager.shared.fetch()?.first else {
             return
         }
         PersistentManager.shared.insertNote(newData)
-        splitVC.present(at: .zero)
+        delegate?.updateData(with: .zero)
+        splitViewController?.show(.secondary)
         let newIndexPath = IndexPath(row: .zero, section: .zero)
         tableView.insertRows(at: [newIndexPath], with: .fade)
         tableView.selectRow(at: newIndexPath, animated: true, scrollPosition: .middle)
     }
 }
 
-// MARK: - Update
-extension NotesViewController {
-    func updateData(at index: Int) {
-        guard self.tableView.numberOfRows(inSection: .zero) != .zero else {
-            return
-        }
-        tableView.reloadRows(at: [IndexPath(row: index, section: .zero)], with: .none)
-        tableView.selectRow(at: IndexPath(row: .zero, section: .zero), animated: false, scrollPosition: .middle)
-    }
-    
-    func moveCell(at index: Int) {
-        let newIndexPath = IndexPath(row: .zero, section: .zero)
-        tableView.moveRow(
-            at: IndexPath(row: index, section: .zero),
-            to: newIndexPath
-        )
-        tableView.selectRow(at: newIndexPath, animated: false, scrollPosition: .middle)
-    }
-}
-
-// MARK: - DataSource
+// MARK: - UITableViewDataSource
 extension NotesViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return PersistentManager.shared.notes.count
@@ -89,13 +70,11 @@ extension NotesViewController {
     }
 }
 
-// MARK: - Delegate
+// MARK: - UITableViewDelegate
 extension NotesViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let splitVC = self.splitViewController as? SplitViewController else {
-            return
-        }
-        splitVC.present(at: indexPath.row)
+        delegate?.updateData(with: indexPath.row)
+        splitViewController?.show(.secondary)
     }
     
     override func tableView(
@@ -121,20 +100,37 @@ extension NotesViewController {
     private func showActivityView(at index: Int) {
         self.showActivityViewController(data: PersistentManager.shared.notes[index].body ?? "")
     }
-    
-    // MARK: - Delete
-    func deleteCell(indexPath: IndexPath) {
-        guard let splitVC = self.splitViewController as? SplitViewController else {
+}
+
+// MARK: - NotesViewControllerDelegate
+extension NotesViewController: NotesViewControllerDelegate {
+    func updateData(at index: Int) {
+        guard self.tableView.numberOfRows(inSection: .zero) != .zero else {
             return
         }
+        tableView.reloadRows(at: [IndexPath(row: index, section: .zero)], with: .none)
+        tableView.selectRow(at: IndexPath(row: .zero, section: .zero), animated: false, scrollPosition: .middle)
+    }
+    
+    func moveCell(at index: Int) {
+        let newIndexPath = IndexPath(row: .zero, section: .zero)
+        tableView.moveRow(
+            at: IndexPath(row: index, section: .zero),
+            to: newIndexPath
+        )
+        tableView.selectRow(at: newIndexPath, animated: false, scrollPosition: .middle)
+    }
+
+    func deleteCell(indexPath: IndexPath) {
         let item = PersistentManager.shared.removeNote(at: indexPath.row)
         PersistentManager.shared.delete(item)
-        splitVC.clearNoteTextView()
+        delegate?.clearTextView()
         tableView.deleteRows(at: [indexPath], with: .fade)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             let index = indexPath.row == .zero ? .zero : indexPath.row - 1
             let newindexPath = IndexPath(row: index, section: .zero)
-            splitVC.present(at: index)
+            self.delegate?.updateData(with: index)
+            self.splitViewController?.show(.secondary)
             guard self.tableView.numberOfRows(inSection: .zero) != .zero else {
                 return
             }

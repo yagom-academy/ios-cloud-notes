@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		256119B427BCBF0A005B0A07 /* NotesViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 256119B327BCBF0A005B0A07 /* NotesViewControllerDelegate.swift */; };
+		256119B627BCBF22005B0A07 /* NotesDetailViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 256119B527BCBF22005B0A07 /* NotesDetailViewControllerDelegate.swift */; };
 		2585782A27B1023000889D06 /* JSONParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2585782927B1023000889D06 /* JSONParser.swift */; };
 		2585782E27B2060E00889D06 /* NotesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2585782D27B2060E00889D06 /* NotesViewController.swift */; };
 		2585783027B206EE00889D06 /* NoteDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2585782F27B206EE00889D06 /* NoteDetailViewController.swift */; };
@@ -47,6 +49,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		256119B327BCBF0A005B0A07 /* NotesViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesViewControllerDelegate.swift; sourceTree = "<group>"; };
+		256119B527BCBF22005B0A07 /* NotesDetailViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesDetailViewControllerDelegate.swift; sourceTree = "<group>"; };
 		2585782927B1023000889D06 /* JSONParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONParser.swift; sourceTree = "<group>"; };
 		2585782D27B2060E00889D06 /* NotesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesViewController.swift; sourceTree = "<group>"; };
 		2585782F27B206EE00889D06 /* NoteDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteDetailViewController.swift; sourceTree = "<group>"; };
@@ -100,6 +104,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		256119B727BCBF26005B0A07 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				256119B327BCBF0A005B0A07 /* NotesViewControllerDelegate.swift */,
+				256119B527BCBF22005B0A07 /* NotesDetailViewControllerDelegate.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
 		2585783727B2623700889D06 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -171,6 +184,7 @@
 		C7481C6C25BBCF3900B9CA55 /* CloudNotes */ = {
 			isa = PBXGroup;
 			children = (
+				256119B727BCBF26005B0A07 /* Protocol */,
 				2585788327B4D98B00889D06 /* Utility */,
 				2585783A27B2629700889D06 /* extension */,
 				2585783827B2624400889D06 /* View */,
@@ -355,6 +369,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				C7481C7225BBCF3900B9CA55 /* SplitViewController.swift in Sources */,
+				256119B627BCBF22005B0A07 /* NotesDetailViewControllerDelegate.swift in Sources */,
+				256119B427BCBF0A005B0A07 /* NotesViewControllerDelegate.swift in Sources */,
 				9A7A1B1827B28D3800639908 /* UIViewController+extension.swift in Sources */,
 				EA2CDF2927B210AB00D8BE65 /* NotesCell.swift in Sources */,
 				2585783627B23F8300889D06 /* TimeInterval+extension.swift in Sources */,

@@ -15,6 +15,7 @@ class NoteDetailViewController: UIViewController {
             .foregroundColor: UIColor.label
         ]
     }
+    weak var delegate: NotesViewControllerDelegate?
     private var currentIndex: Int = .zero
     private let noteDetailTextView: UITextView = {
         let textView = UITextView()
@@ -31,19 +32,7 @@ class NoteDetailViewController: UIViewController {
         setUpTextView()
         setUpNotification()
         noteDetailTextView.delegate = self
-    }
-}
-
-// MARK: - Update
-extension NoteDetailViewController {
-    func updateData(with index: Int) {
-        currentIndex = index
-        noteDetailTextView.text = PersistentManager.shared.notes[safe: currentIndex]?.body
-        noteDetailTextView.attributedText = configureTextStyle()
-    }
-    
-    func clearTextView() {
-        noteDetailTextView.text = nil
+        updateData(with: .zero)
     }
 }
 
@@ -59,9 +48,6 @@ extension NoteDetailViewController {
     }
     
     @objc func moreViewbuttonTapped(_ sender: UIBarButtonItem) {
-        guard let splitVC = self.splitViewController as? SplitViewController else {
-            return
-        }
         self.showNoteActionSheet(
             shareHandler: { _ in
             self.showActivityViewController(data: PersistentManager.shared.notes[self.currentIndex].body ?? "")
@@ -70,8 +56,7 @@ extension NoteDetailViewController {
                 message: Constant.deleteWarningMessage,
                 actionTitle: Constant.deleteAlertActionTitle
             ) { _ in
-                splitVC.deleteTableViewCell(
-                    indexPath: IndexPath(row: self.currentIndex, section: .zero)
+                self.delegate?.deleteCell(indexPath: IndexPath(row: self.currentIndex, section: .zero)
                 )
             }
         }, barButtonItem: sender)
@@ -175,16 +160,13 @@ extension NoteDetailViewController: UITextViewDelegate {
     }
     
     func textViewDidChange(_ textView: UITextView) {
-        guard let splitVC = self.splitViewController as? SplitViewController else {
-            return
-        }
         updateNoteData(with: textView.text)
-        splitVC.updateNotes(at: currentIndex)
+        delegate?.updateData(at: currentIndex)
         guard currentIndex != .zero else {
             return
         }
         PersistentManager.shared.moveNotes(from: currentIndex, to: .zero)
-        splitVC.moveTableViewCell(at: currentIndex)
+        delegate?.moveCell(at: currentIndex)
         currentIndex = .zero
     }
     
@@ -197,5 +179,18 @@ extension NoteDetailViewController: UITextViewDelegate {
             return
         }
         PersistentManager.shared.updateNote(id: id, title: title, body: body, lastModified: lastModified)
+    }
+}
+
+// MARK: - NotesDetailViewControllerDelegate
+extension NoteDetailViewController: NotesDetailViewControllerDelegate {
+    func updateData(with index: Int) {
+        currentIndex = index
+        noteDetailTextView.text = PersistentManager.shared.notes[safe: currentIndex]?.body
+        noteDetailTextView.attributedText = configureTextStyle()
+    }
+    
+    func clearTextView() {
+        noteDetailTextView.text = nil
     }
 }

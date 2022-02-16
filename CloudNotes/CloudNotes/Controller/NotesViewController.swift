@@ -9,7 +9,11 @@ class NotesViewController: UITableViewController {
         static let shareIconName = "square.and.arrow.up"
     }
     weak var delegate: NotesDetailViewControllerDelegate?
-    private var selectedIndex: IndexPath?
+    private var selectedIndex: IndexPath? {
+        didSet {
+            tableView.selectRow(at: selectedIndex, animated: false, scrollPosition: .none)
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,7 +69,6 @@ extension NotesViewController {
         delegate?.updateData(with: .zero)
         splitViewController?.show(.secondary)
         tableView.insertRows(at: [newIndexPath], with: .fade)
-        tableView.selectRow(at: newIndexPath, animated: true, scrollPosition: .middle)
         selectedIndex = newIndexPath
     }
 }

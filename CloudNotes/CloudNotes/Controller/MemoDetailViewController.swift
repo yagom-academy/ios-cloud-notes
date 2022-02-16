@@ -82,14 +82,20 @@ class MemoDetailViewController: UIViewController {
     @objc func showActivityView() {
         print("AA")
     }
-    
 }
 
 // MARK: MemoDetailViewControllerDelegate
 
 extension MemoDetailViewController: MemoDetailViewControllerDelegate {
     func memoDetailViewController(showTextViewWith memo: Memo) {
-        textView.text = "\(memo.title)\n\(memo.body)"
+        let title = memo.title ?? ""
+        let body = memo.body ?? ""
+        
+        if title.isEmpty && body.isEmpty {
+            textView.text = ""
+            return
+        }
+        textView.text = "\(title)\n\(body)"
     }
 }
 

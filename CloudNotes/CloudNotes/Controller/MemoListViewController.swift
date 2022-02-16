@@ -85,20 +85,31 @@ extension MemoListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, _ in
-            MemoDataManager.shared.memos.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .fade)
-            let memo = MemoDataManager.shared.memos[indexPath.row]
-            self.delegate?.memoDetailViewController(showTextViewWith: memo)
-            
-            tableView.allowsSelectionDuringEditing = true
-            tableView.selectRow(at: indexPath, animated: false, scrollPosition: .top)
+            self.deleteMemo(at: indexPath)
         }
         deleteAction.image = UIImage(systemName: "trash")
         return UISwipeActionsConfiguration(actions: [deleteAction])
     }
     
+    private func deleteMemo(at indexPath: IndexPath) {
+        MemoDataManager.shared.memos.remove(at: indexPath.row)
+        tableView.deleteRows(at: [indexPath], with: .fade)
+        
+        if indexPath.row <= MemoDataManager.shared.memos.count - 1 {
+            let memo = MemoDataManager.shared.memos[indexPath.row]
+            delegate?.memoDetailViewController(showTextViewWith: memo)
+            tableView.allowsSelectionDuringEditing = true
+            tableView.selectRow(at: indexPath, animated: false, scrollPosition: .top)
+        }
+    }
+    
     func tableView(_ tableView: UITableView, didEndEditingRowAt indexPath: IndexPath?) {
-        tableView.selectRow(at: indexPath, animated: false, scrollPosition: .top)
+        guard let indexPath = indexPath else {
+            return
+        }
+        if indexPath.row <= MemoDataManager.shared.memos.count - 1 {
+            tableView.selectRow(at: indexPath, animated: false, scrollPosition: .top)
+        }
     }
 }
 

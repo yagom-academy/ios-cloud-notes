@@ -78,7 +78,11 @@ extension SplitViewController: NoteListViewDelegate {
             return
         }
 
-        noteListViewController.setNoteListData(noteList)
+        guard let note = noteList.first else {
+            return
+        }
+
+        noteListViewController.insertNoteData(note)
         detailedNoteViewController.setNoteData(note)
     }
 

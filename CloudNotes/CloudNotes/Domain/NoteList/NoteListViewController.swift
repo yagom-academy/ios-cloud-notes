@@ -97,6 +97,11 @@ class NoteListViewController: UITableViewController {
         tableView.reloadData()
     }
 
+    func insertNoteData(_ note: Content) {
+        self.noteListData.insert(note, at: 0)
+        self.tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
+    }
+
     @objc func touchUpPlusButton() {
         self.dataSourceDelegate?.creatNote()
     }

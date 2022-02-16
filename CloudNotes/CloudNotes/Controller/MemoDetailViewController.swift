@@ -75,21 +75,21 @@ class MemoDetailViewController: UIViewController {
             image: UIImage(systemName: "ellipsis.circle"),
             style: .plain,
             target: self,
-            action: #selector(showActivityView)
+            action: #selector(viewMoreButtonTapped)
         )
     }
     
-    @objc func showActivityView(_ sender: UIBarButtonItem) {
+    @objc func viewMoreButtonTapped(_ sender: UIBarButtonItem) {
         makeAlert(sender)
     }
     
     func makeAlert(_ sender: UIBarButtonItem) {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let share = UIAlertAction(title: "Share...", style: .default) { _ in
-            print("share")
+            self.showActivityView(sender)
         }
         let delete = UIAlertAction(title: "Delete", style: .destructive) { _ in
-            print("delete")
+            self.showDeleteAlert(sender)
         }
         let cancel = UIAlertAction(title: "Cancel", style: .default, handler: nil)
         alert.addAction(share)
@@ -100,6 +100,26 @@ class MemoDetailViewController: UIViewController {
             popoverController.barButtonItem = sender
         }
         present(alert, animated: true, completion: nil)
+    }
+    
+    func showActivityView(_ sender: UIBarButtonItem) {
+        guard let textToShare = textView.text else {
+            return
+        }
+        let activityViewController = UIActivityViewController(activityItems: [textToShare], applicationActivities: nil)
+        activityViewController.popoverPresentationController?.barButtonItem = sender
+        present(activityViewController, animated: true)
+    }
+    
+    func showDeleteAlert(_ sender: UIBarButtonItem) {
+        let alert = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
+        let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        let delete = UIAlertAction(title: "삭제", style: .destructive) { _ in
+            print("삭제")
+        }
+        alert.addAction(cancel)
+        alert.addAction(delete)
+        present(alert, animated: true)
     }
 }
 

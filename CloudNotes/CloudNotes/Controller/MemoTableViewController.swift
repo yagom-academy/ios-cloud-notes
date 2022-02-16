@@ -9,6 +9,7 @@ import UIKit
 
 class MemoTableViewController: UITableViewController {    
     private let initialIndexPath = IndexPath(row: 0, section: 0)
+    lazy var selectedIndexPath = initialIndexPath
     private weak var delegate: MemoManageable?
     
     private var isSplitViewCollapsed: Bool? {
@@ -53,6 +54,10 @@ class MemoTableViewController: UITableViewController {
     func deleteRow(at indexPath: IndexPath) {
         tableView.deleteRows(at: [indexPath], with: .fade)
     }
+    
+    func updateSelectedIndexPath(with indexPath: IndexPath) {
+        selectedIndexPath = indexPath
+    }
 }
 
 // MARK: - UITableViewDataSource
@@ -83,6 +88,7 @@ extension MemoTableViewController {
 
 extension MemoTableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        selectedIndexPath = indexPath
         delegate?.showSecondaryView(of: indexPath)
     }
     

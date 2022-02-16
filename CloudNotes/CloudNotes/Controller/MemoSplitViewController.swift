@@ -24,6 +24,10 @@ class MemoSplitViewController: UISplitViewController {
         fetchAll()
     }
     
+    func deleteMemo(at indexPath: IndexPath) {
+        presentDeleteAlert(at: indexPath)
+    }
+    
     private func configureSplitViewController() {
         preferredSplitBehavior = .tile
         preferredDisplayMode = .oneBesideSecondary
@@ -31,8 +35,11 @@ class MemoSplitViewController: UISplitViewController {
         setViewController(memoDetailViewController, for: .secondary)
     }
     
-    func deleteMemo(at indexPath: IndexPath) {
-        presentDeleteAlert(at: indexPath)
+    private func presentDeleteCautionAlert() {
+        let alert = UIAlertController(title: "삭제할 수 없습니다", message: "메모는 최소 한 개 존재해야합니다", preferredStyle: .alert)
+        let confirmAction = UIAlertAction(title: "확인", style: .default)
+        alert.addAction(confirmAction)
+        self.present(alert, animated: true, completion: nil)
     }
 }
 
@@ -125,9 +132,26 @@ extension MemoSplitViewController: MemoStorageManageable {
     }
 
     func delete(at indexPath: IndexPath) {
+        guard memos.count > 1 else {
+            presentDeleteCautionAlert()
+            return
+        }
+        
         let memoToDelete = memos[indexPath.row]
         memoStorage.delete(memo: memoToDelete)
         fetchAll()
+        
         self.memoTableViewController.deleteRow(at: indexPath)
+        let selectedIndexPath = self.memoTableViewController.selectedIndexPath
+        var newIndexPath = selectedIndexPath
+        
+        if selectedIndexPath.row > indexPath.row {
+            newIndexPath = IndexPath(row: selectedIndexPath.row - 1, section: selectedIndexPath.section)
+        } else if selectedIndexPath.row == memos.count {
+            newIndexPath = IndexPath(row: selectedIndexPath.row - 1, section: selectedIndexPath.section)
+        }
+        
+        self.memoTableViewController.updateSelectedIndexPath(with: newIndexPath)
+        showSecondaryView(of: newIndexPath)
     }
 }

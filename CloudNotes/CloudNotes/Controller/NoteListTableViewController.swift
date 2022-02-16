@@ -24,9 +24,9 @@ class NoteListTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         loadNoteData()
-        updateUI()
         configureTableView()
         configureLayout()
+        updateUI()
     }
     
     init(model: NoteModel) {

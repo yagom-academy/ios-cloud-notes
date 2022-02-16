@@ -49,7 +49,7 @@ class MemoTableViewCell: UITableViewCell {
     func configureCellContent(from memo: Memo) {
         titleLabel.text = memo.title?.isEmpty == true ? PlaceholderText.title : memo.title
         dateLabel.text = memo.lastModified.dateString
-        previewLabel.text = memo.body?.isEmpty == true ? PlaceholderText.body : memo.body
+        previewLabel.text = memo.body?.isEmpty == true ? PlaceholderText.body : memo.body?.trimmingCharacters(in: ["\n"])
     }
     
     private func configureCellLayout() {

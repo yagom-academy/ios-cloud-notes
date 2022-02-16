@@ -3,6 +3,8 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     var window: UIWindow?
+    var persistentDataManager = PersistentDataManager()
+    
     func scene(
         _ scene: UIScene,
         willConnectTo session: UISceneSession,
@@ -18,9 +20,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func sceneDidEnterBackground(_ scene: UIScene) {
-        (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
+        persistentDataManager.saveContext()
     }
-
+    
 }
 
 extension SceneDelegate {

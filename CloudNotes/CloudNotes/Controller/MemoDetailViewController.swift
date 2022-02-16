@@ -7,6 +7,18 @@
 
 import UIKit
 
+private enum TextAttribute {
+    static let title = [
+        NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .largeTitle),
+        NSAttributedString.Key.foregroundColor: UIColor.label
+    ]
+    
+    static let body = [
+        NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .title2),
+        NSAttributedString.Key.foregroundColor: UIColor.label
+    ]
+}
+
 class MemoDetailViewController: UIViewController {
     private var currentIndexPath = IndexPath(row: 0, section: 0)
     private var currentText: String?
@@ -14,7 +26,7 @@ class MemoDetailViewController: UIViewController {
     
     private let memoTextView: UITextView = {
         let textView = UITextView()
-        textView.font = .preferredFont(forTextStyle: .title2)
+        textView.font = .preferredFont(forTextStyle: .largeTitle)
         textView.translatesAutoresizingMaskIntoConstraints = false
         return textView
     }()
@@ -44,16 +56,30 @@ class MemoDetailViewController: UIViewController {
         
         guard let title = title,
               let body = body else {
-                  return
-              }
+            return
+        }
         
         if title.isEmpty && body.isEmpty {
             memoTextView.text = ""
         } else {
-            memoTextView.text = title + "\n" + body // TODO: Attributed Text 적용
+            memoTextView.attributedText = convertToAttributedString(title: title, body: body)
         }
         
         memoTextView.contentOffset = .zero
+    }
+    
+    private func convertToAttributedString(title: String, body: String) -> NSMutableAttributedString {
+        let mutableAttributedString = NSMutableAttributedString()
+        
+        let titleAttributedText = NSAttributedString(string: title, attributes: TextAttribute.title)
+        let spacing = NSAttributedString(string: "\n", attributes: TextAttribute.body)
+        let bodyAttributedText = NSAttributedString(string: body, attributes: TextAttribute.body)
+        
+        mutableAttributedString.append(titleAttributedText)
+        mutableAttributedString.append(spacing)
+        mutableAttributedString.append(bodyAttributedText)
+        
+        return mutableAttributedString
     }
     
     private func configureUI() {
@@ -148,5 +174,19 @@ extension MemoDetailViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         let (title, body) = splitText(text: textView.text)
         delegate?.reloadRow(at: currentIndexPath, title: title, body: body)
+    }
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        let textAsNSString = textView.text as NSString
+        let replacedString = textAsNSString.replacingCharacters(in: range, with: text) as NSString
+        let titleRange = replacedString.range(of: "\n")
+        
+        if titleRange.location > range.location {
+            textView.typingAttributes = TextAttribute.title
+        } else {
+            textView.typingAttributes = TextAttribute.body
+        }
+        
+        return true
     }
 }

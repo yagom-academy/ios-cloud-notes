@@ -47,9 +47,11 @@ class MemoTableViewCell: UITableViewCell {
     }
     
     func configureCellContent(from memo: Memo) {
+        let trimmedBodyText = memo.body?.trimmingCharacters(in: ["\n"])
+        
         titleLabel.text = memo.title?.isEmpty == true ? PlaceholderText.title : memo.title
         dateLabel.text = memo.lastModified.dateString
-        previewLabel.text = memo.body?.isEmpty == true ? PlaceholderText.body : memo.body?.trimmingCharacters(in: ["\n"])
+        previewLabel.text = trimmedBodyText?.isEmpty == true ? PlaceholderText.body : trimmedBodyText
     }
     
     private func configureCellLayout() {

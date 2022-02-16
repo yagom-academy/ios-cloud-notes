@@ -79,8 +79,27 @@ class MemoDetailViewController: UIViewController {
         )
     }
     
-    @objc func showActivityView() {
-        print("AA")
+    @objc func showActivityView(_ sender: UIBarButtonItem) {
+        makeAlert(sender)
+    }
+    
+    func makeAlert(_ sender: UIBarButtonItem) {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let share = UIAlertAction(title: "Share...", style: .default) { _ in
+            print("share")
+        }
+        let delete = UIAlertAction(title: "Delete", style: .destructive) { _ in
+            print("delete")
+        }
+        let cancel = UIAlertAction(title: "Cancel", style: .default, handler: nil)
+        alert.addAction(share)
+        alert.addAction(delete)
+        alert.addAction(cancel)
+        
+        if let popoverController = alert.popoverPresentationController {
+            popoverController.barButtonItem = sender
+        }
+        present(alert, animated: true, completion: nil)
     }
 }
 

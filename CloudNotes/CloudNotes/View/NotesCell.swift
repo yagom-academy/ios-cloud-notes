@@ -1,7 +1,7 @@
 import UIKit
 
-class MemoListCell: UITableViewCell {
-    static let identifier = "MemoListCell"
+class NotesCell: UITableViewCell {
+    static let identifier = "NotesCell"
     
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -57,10 +57,28 @@ class MemoListCell: UITableViewCell {
         super.init(coder: coder)
     }
     
-    func configure(with item: MemoListInfo) {
-        titleLabel.text = item.title
-        bodyLabel.text = item.body
-        dateLabel.text = item.lastModified
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+        if selected {
+            titleLabel.textColor = .white
+            dateLabel.textColor = .systemGray6
+            bodyLabel.textColor = .systemGray6
+        } else {
+            titleLabel.textColor = .label
+            dateLabel.textColor = .systemGray
+            bodyLabel.textColor = .systemGray
+        }
+    }
+    
+    func configure(with item: Note?) {
+        let data = item?.body?.split(separator: "\n")
+        let title = item?.title ?? "새로운 메모"
+        let body = data?[safe: 1]?.trimmingCharacters(in: ["\n", " "]) ?? "추가 텍스트 없음"
+        let lastModified = item?.lastModified.formattedDate ?? Date().timeIntervalSince1970.formattedDate
+        
+        titleLabel.text = title
+        bodyLabel.text = body
+        dateLabel.text = lastModified
     }
     
     private func setUpViews() {
@@ -69,6 +87,9 @@ class MemoListCell: UITableViewCell {
         outsideStackView.addArrangedSubview(insideStackView)
         insideStackView.addArrangedSubview(dateLabel)
         insideStackView.addArrangedSubview(bodyLabel)
+        let selectedBackgroundView = UIView()
+        selectedBackgroundView.backgroundColor = .systemOrange
+        self.selectedBackgroundView = selectedBackgroundView
     }
     
     private func setUpConstraints() {

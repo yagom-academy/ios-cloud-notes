@@ -1,9 +1,7 @@
 import Foundation
 import CoreData
 
-
 extension Memo {
-
     @nonobjc public class func fetchRequest() -> NSFetchRequest<Memo> {
         return NSFetchRequest<Memo>(entityName: "Memo")
     }

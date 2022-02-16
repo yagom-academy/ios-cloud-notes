@@ -2,8 +2,8 @@ import UIKit
 
 final class MemoContentViewController: UIViewController, MemoReloadable {
     weak var selectedMemo: Memo?
-    let headerAttributes = [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .largeTitle)]
-    let bodyAttributes = [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .title3)]
+    private let headerAttributes = [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .title1)]
+    private let bodyAttributes = [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .body)]
     
     private let textView: UITextView = {
         let textView = UITextView()
@@ -22,7 +22,6 @@ final class MemoContentViewController: UIViewController, MemoReloadable {
     func reload() {
         guard let currentMemo = selectedMemo else {
             textView.text = nil
-            
             return
         }
         setTextView(memo: currentMemo)
@@ -64,7 +63,6 @@ final class MemoContentViewController: UIViewController, MemoReloadable {
             
         guard let title = memo.title else {
             textView.attributedText = attributtedString
-            
             return
         }
 
@@ -80,6 +78,7 @@ final class MemoContentViewController: UIViewController, MemoReloadable {
     }
 }
 
+// MARK: - Popover
 extension MemoContentViewController {
     @objc func presentPopover(sender: UIBarButtonItem) {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
@@ -122,6 +121,7 @@ extension MemoContentViewController {
     }
 }
 
+// MARK: - TextViewDelegate
 extension MemoContentViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         guard let memoDetail = textView.text,

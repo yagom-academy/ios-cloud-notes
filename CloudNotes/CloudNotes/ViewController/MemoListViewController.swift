@@ -4,7 +4,7 @@ final class MemoListViewController: UIViewController, MemoReloadable {
     private let tableView = UITableView()
     private var memos: [Memo] = []
     private let navigationTitle = "메모"
-    var indexPath: IndexPath?
+    private var selectedIndexPath: IndexPath?
 
     convenience init() {
         self.init(nibName: nil, bundle: nil)
@@ -15,13 +15,12 @@ final class MemoListViewController: UIViewController, MemoReloadable {
         super.viewDidLoad()
         reload()
         setupMainListView()
-        tableView.allowsSelectionDuringEditing = true
     }
     
     func reload() {
         memos = CoreDataManager.shared.load()
         tableView.reloadData()
-        self.tableView.selectRow(at: self.indexPath, animated: false, scrollPosition: .none)
+        tableView.selectRow(at: selectedIndexPath, animated: false, scrollPosition: .none)
     }
 
     private func setupMainListView() {
@@ -34,6 +33,7 @@ final class MemoListViewController: UIViewController, MemoReloadable {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.keyboardDismissMode = .onDrag
+        tableView.allowsSelectionDuringEditing = true
         tableView.register(MemoListTableViewCell.self)
     }
 
@@ -63,11 +63,19 @@ final class MemoListViewController: UIViewController, MemoReloadable {
     @objc private func createMemo() {
         let newMemoIndex = IndexPath(row: 0, section: 0)
         CoreDataManager.shared.create()
-        didChangeSelectedCell(indexPath: newMemoIndex)
-        self.tableView.selectRow(at: newMemoIndex, animated: false, scrollPosition: .none)
+        changeSelectedCell(indexPath: newMemoIndex)
+        tableView.selectRow(at: newMemoIndex, animated: false, scrollPosition: .none)
+    }
+    
+    private func changeSelectedCell(indexPath: IndexPath) {
+        guard let splitViewController = splitViewController as? MainSplitViewController else { return }
+        let selectedMemo = memos[indexPath.row]
+        splitViewController.updateMemoContentsView(with: selectedMemo)
+        self.selectedIndexPath = indexPath
     }
 }
 
+// MARK: - TableViewDataSource
 extension MemoListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return memos.count
@@ -78,14 +86,14 @@ extension MemoListViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         cell.setupLabel(from: memos[indexPath.row])
-
         return cell
     }
 }
 
+// MARK: - TableViewDelegate
 extension MemoListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        didChangeSelectedCell(indexPath: indexPath)
+        changeSelectedCell(indexPath: indexPath)
     }
     
     func tableView(
@@ -104,11 +112,11 @@ extension MemoListViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, willBeginEditingRowAt indexPath: IndexPath) {
-        self.tableView.selectRow(at: self.indexPath, animated: false, scrollPosition: .none)
+        tableView.selectRow(at: selectedIndexPath, animated: false, scrollPosition: .none)
     }
 
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        self.indexPath = nil
+        selectedIndexPath = nil
     }
     
     private func presentDeleteAlert(currentMemo: Memo) {
@@ -130,12 +138,5 @@ extension MemoListViewController: UITableViewDelegate {
         )
         activityViewController.popoverPresentationController?.sourceView = sourceView
         present(activityViewController, animated: true)
-    }
-    
-    private func didChangeSelectedCell(indexPath: IndexPath) {
-        guard let splitViewController = splitViewController as? MainSplitViewController else { return }
-        let selectedMemo = memos[indexPath.row]
-        splitViewController.updateMemoContentsView(with: selectedMemo)
-        self.indexPath = indexPath
     }
 }

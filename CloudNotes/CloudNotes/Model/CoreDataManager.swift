@@ -6,9 +6,7 @@ class CoreDataManager {
     weak var memoListViewController: MemoReloadable?
     weak var memoContentViewController: MemoReloadable?
     
-    private init() {
-        
-    }
+    private init() { }
     
     func load() -> [Memo] {
         do {
@@ -17,6 +15,7 @@ class CoreDataManager {
         } catch {
             print(error)
         }
+        
         return []
     }
     

@@ -7,6 +7,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = scene as? UIWindowScene else { return }
         window = UIWindow(windowScene: windowScene)
         let mainSplitViewController = MainSplitViewController(style: .doubleColumn)
+        
         mainSplitViewController.preferredDisplayMode = .oneBesideSecondary
         mainSplitViewController.preferredSplitBehavior = .tile
         window?.rootViewController = mainSplitViewController

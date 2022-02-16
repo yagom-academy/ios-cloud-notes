@@ -10,6 +10,10 @@ final class MemoListViewController: UITableViewController {
   private var keyboardShowNotification: NSObjectProtocol?
   private var keyboardHideNotification: NSObjectProtocol?
 
+  deinit {
+    removeObservers()
+  }
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     setNavigationBar()
@@ -25,11 +29,8 @@ final class MemoListViewController: UITableViewController {
   }
   
   override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
     addObservers()
-  }
-
-  override func viewDidDisappear(_ animated: Bool) {
-    removeObservers()
   }
   
   override func setEditing(_ editing: Bool, animated: Bool) {
@@ -38,21 +39,18 @@ final class MemoListViewController: UITableViewController {
   }
 
   private func addObservers() {
-    let bottomInset = view.safeAreaInsets.bottom
-    let addSafeAreaInset: (Notification) -> Void = { [weak self] notification in
-      guard
-        let self = self,
-        let userInfo = notification.userInfo,
-        let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else {
-        return
-      }
-      self.additionalSafeAreaInsets.bottom = keyboardFrame.height - bottomInset
-    }
-    let removeSafeAreaInset: (Notification) -> Void = { [weak self] _ in
-      self?.additionalSafeAreaInsets.bottom = 0
-    }
-    
     if keyboardShowNotification == nil {
+      let bottomInset = view.safeAreaInsets.bottom
+      let addSafeAreaInset: (Notification) -> Void = { [weak self] notification in
+        guard
+          let self = self,
+          let userInfo = notification.userInfo,
+          let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else {
+          return
+        }
+        self.additionalSafeAreaInsets.bottom = keyboardFrame.height - bottomInset
+      }
+      
       keyboardShowNotification = NotificationCenter.default.addObserver(
         forName: UIResponder.keyboardWillShowNotification,
         object: nil,
@@ -61,6 +59,10 @@ final class MemoListViewController: UITableViewController {
       )
     }
     if keyboardHideNotification == nil {
+      let removeSafeAreaInset: (Notification) -> Void = { [weak self] _ in
+        self?.additionalSafeAreaInsets.bottom = 0
+      }
+      
       keyboardHideNotification = NotificationCenter.default.addObserver(
         forName: UIResponder.keyboardWillHideNotification,
         object: nil,
@@ -161,6 +163,7 @@ extension MemoListViewController {
 extension MemoListViewController {
   override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     loadDetail(at: indexPath)
+    splitViewController?.show(.secondary)
   }
   
   override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {

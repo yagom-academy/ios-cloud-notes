@@ -2,10 +2,17 @@ import UIKit
 
 class NoteModelManager: NoteModel {
     
-    var noteData: [Note] = []
+    var noteData: [Note] = [] {
+        didSet {
+            updateHandler?()
+        }
+    }
     var countOfNoteData: Int {
         return noteData.count
     }
+    
+    var updateHandler: (() -> Void)?
+    
     private let formatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.setLocalizedDateFormatFromTemplate("yyyy MM dd")

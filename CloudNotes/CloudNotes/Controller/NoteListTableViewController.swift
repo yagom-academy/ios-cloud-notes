@@ -17,6 +17,7 @@ class NoteListTableViewController: UITableViewController {
                     lastModified: self.noteModelManager.fetchDate(at: indexPath.row)
                 )
             }
+            
             return cell
         }
     }()
@@ -26,6 +27,7 @@ class NoteListTableViewController: UITableViewController {
         loadNoteData()
         configureTableView()
         configureLayout()
+        self.noteModelManager.updateHandler = updateUI
         updateUI()
     }
     

@@ -14,8 +14,12 @@ class PersistentDataManager {
         return container
     }()
     
+    var context: NSManagedObjectContext {
+        return persistentContainer.viewContext
+    }
+    
     // MARK: - Core Data Saving support
-    func saveContext () {
+    func saveContext() {
         let context = persistentContainer.viewContext
         if context.hasChanges {
             do {
@@ -27,35 +31,18 @@ class PersistentDataManager {
         }
     }
     
-    func create(identifier: UUID, title: String, body: String, lastModified: Date) {
-        let context = persistentContainer.viewContext
-        let entity = NSEntityDescription.entity(forEntityName: "CDNote", in: context)
-        
-        if let entity = entity {
-            let note = NSManagedObject(entity: entity, insertInto: context)
-            
-            note.setValue(identifier, forKey: "identifier")
-            note.setValue(title, forKey: "title")
-            note.setValue(body, forKey: "body")
-            note.setValue(lastModified, forKey: "lastModified")
-            
-            do {
-                try context.save()
-            } catch {
-                print(error.localizedDescription)
-            }
+    func create(entity name: String, handler: ((NSManagedObject) -> Void)? = nil) throws {
+        guard let entity = NSEntityDescription.entity(forEntityName: name, in: context) else {
+            return
         }
+        
+        let managedObject = NSManagedObject(entity: entity, insertInto: context)
+        handler?(managedObject)
+        try context.save()
     }
     
-    func fetch<T>(request: NSFetchRequest<T>) -> [T] {
-        let context = persistentContainer.viewContext
-        
-        do {
-            let note = try context.fetch(request)
-            return note
-        } catch {
-            return []
-        }
+    func fetch<T>(request: NSFetchRequest<T>) throws -> [T] {
+        try context.fetch(request)
     }
     
 }

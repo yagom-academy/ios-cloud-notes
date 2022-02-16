@@ -66,12 +66,16 @@ class NoteModelManager: NoteModel {
     }
     
     func createNote(_ note: Note) {
-        let identifier = UUID()
-        let title = note.title
-        let body = note.body
-        let lastModified = note.lastModified
-        
-        persistentDataManager.create(identifier: identifier, title: title, body: body, lastModified: lastModified)
+        try? persistentDataManager.create(entity: "CDNote") { managedObject in
+            [
+                "identifier": UUID(),
+                "title": note.title,
+                "body": note.body,
+                "lastModified": note.lastModified
+            ].forEach { key, value in
+                managedObject.setValue(value, forKey: key)
+            }
+        }
     }
     
 }

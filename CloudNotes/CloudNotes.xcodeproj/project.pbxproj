@@ -150,7 +150,6 @@
 				EA8574A227BB411900F9D5E3 /* SplitViewController.swift */,
 				EA8574A427BB43EA00F9D5E3 /* MemoListViewController.swift */,
 				EA8574A627BB43F800F9D5E3 /* MemoDetailViewController.swift */,
-				EA8574A827BBB0B800F9D5E3 /* UIViewController+Extension.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -180,6 +179,7 @@
 			children = (
 				FB5C7F5B27BB4B7E00C91626 /* String+Extension.swift */,
 				FB5C7F6127BB851000C91626 /* Collection+Extension.swift */,
+				EA8574A827BBB0B800F9D5E3 /* UIViewController+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";

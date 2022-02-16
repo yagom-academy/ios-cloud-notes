@@ -1,7 +1,7 @@
 import UIKit
 
 protocol MemoListViewControllerDelegate: AnyObject {
-    func memoListViewController(updateTableViewCellWith memo: Memo)
+    func memoListViewController(updateTableViewCellWith title: String, body: String, lastModified: Date)
 }
 
 class MemoListViewController: UIViewController {
@@ -21,6 +21,7 @@ class MemoListViewController: UIViewController {
         if !MemoDataManager.shared.isEmpty {
             tableView.selectRow(at: IndexPath(row: 0, section: 0), animated: false, scrollPosition: .top)
         }
+        MemoDataManager.shared.fetchNotes()
     }
     
     private func setupTableView() {
@@ -141,12 +142,40 @@ extension MemoListViewController: UITableViewDelegate {
 // MARK: - MemoListViewControllerDelegate
 
 extension MemoListViewController: MemoListViewControllerDelegate {
-    func memoListViewController(updateTableViewCellWith memo: Memo) {
+    func memoListViewController(updateTableViewCellWith title: String, body: String, lastModified: Date) {
+        
         guard let indexPath = tableView.indexPathForSelectedRow else {
             return
         }
-        MemoDataManager.shared.memos[indexPath.row] = memo
+        let id = MemoDataManager.shared.memos[indexPath.row].id
+        
+        MemoDataManager.shared.updateMemo(id: id, title: title, body: body)
+        
         tableView.reloadRows(at: [indexPath], with: .none)
         tableView.selectRow(at: indexPath, animated: true, scrollPosition: .none)
+        
+        do {
+            try MemoDataManager.shared.viewContext.save()
+        } catch {
+            print("error")
+        }
+        
+        
+        
+//        guard let indexPath = tableView.indexPathForSelectedRow else {
+//            return
+//        }
+//        let memo = MemoDataManager.shared.memos[indexPath.row]
+//        memo.title = title
+//        memo.body = body
+//        memo.lastModified = lastModified
+//        tableView.reloadRows(at: [indexPath], with: .none)
+//        tableView.selectRow(at: indexPath, animated: true, scrollPosition: .none)
+//
+//        do {
+//            try MemoDataManager.shared.viewContext.save()
+//        } catch {
+//            print("error")
+//        }
     }
 }

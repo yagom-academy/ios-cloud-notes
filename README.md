@@ -59,6 +59,12 @@
 - `viewWillTransition`
 - `UIFont`
     - `UIFontMetrics` `UIFontDescriptor`
+- `flatMap`
+- `Swift Package Manager`
+- `SwifryDropbox`
+    - `DispatchGroup`
+    - `FileManager`
+- `UIActivityIndicatorView`
 
 
 # STEP 1 : 리스트 및 메모영역 화면 UI구현
@@ -329,7 +335,7 @@ class MemoListViewController: UITableViewController {
 ## 1-5 PR 후 개선사항
 * View의 보여줄 요소들을 별도의 타입으로 만들어 보여주었던 부분을 제거후 Core Data로 모두 통일하여 리팩토링
 
-[![top](https://img.shields.io/badge/top-%23000000.svg?&amp;style=for-the-badge&amp;logo=Acclaim&amp;logoColor=white&amp;)](#-동기화-메모장)
+[![top](https://img.shields.io/badge/top-%23000000.svg?&amp;style=for-the-badge&amp;logo=Acclaim&amp;logoColor=white&amp;)](#동기화-메모장)
 
 # STEP 2 : 코어데이터 DB 구현
 
@@ -653,4 +659,111 @@ deleteAction.setValue(0, forKey: "titleTextAlignment")
 </div>
 </details>
 
-[![top](https://img.shields.io/badge/top-%23000000.svg?&amp;style=for-the-badge&amp;logo=Acclaim&amp;logoColor=white&amp;)](#-동기화-메모장)
+## 2-5 PR 후 개선사항
+
+* flatMap을 활용하여 옵셔널 바인딩 부분을 간결하게 개선
+* primary, secondary 서로의 이벤트 전달을 SplitViewController가 아니라  Delegate 패턴으로 개선
+* 가독성이 떨어지는 메소드를 메소드로 분리하여 개선
+* 셀을 선택하고 스와이프 했을 때 선택이 해제되는 버그 개선
+* 더보기 버튼에서 메모를 삭제한 후 다음 메모장을 보여주도록 개선
+
+[![top](https://img.shields.io/badge/top-%23000000.svg?&amp;style=for-the-badge&amp;logo=Acclaim&amp;logoColor=white&amp;)](#동기화-메모장)
+
+
+# STEP 3 : 클라우드 연동
+
+SwiftyDropbox 라이브러리를 활용하여 메모장과 클라우드 연동을 합니다.
+
+## 3-1 고민했던 것
+
+### 1. 업로드 시점
+
+* 업로드 하는 시점을 정할 때 고려한 것은 너무 빈번하게 업로드를 하지 않아야 하며, 앱이 의도치 않게 종료되어도 어느정도 방어가 되어야 한다는 점이었다. 
+* 처음에는 텍스트뷰에 변화가 일어날 때마다 하려고 하였으나 너무 빈번하게 일어날 것으로 보였다. 그래서 종료할 때 하려고 하니 의도치 않은 종료에 전혀 방어가 되지 않았다. 
+* 여러 고민을 한 결과 키보드를 내릴 때 마다 업로드를 하도록 하여 업로드가 빈번하게 일어나지 않도록 하였고 의도치 않게 종료되어도 방어를 할 수 있도록 하였다.
+
+### 2. 다운로드의 시점
+
+* 다운로드 시점은 처음에 사용자가 로그인을 성공하는 시점에 dropbox의 데이터를 다운로드 하여 보여주는 주도록 구현하길 원했다. 그래서 인증이 완료 되고 authResult(인증결과)가 success가 되면 download를 하도록 하였다. 
+* 또한, 다운로드는 비동기로 진행이 되기 떄문에 DispatchGroup을 사용하여 다운로드가 완료되면 앱에 데이터를 뿌려주고 테이블뷰를 업데이트 하도록 구현하였다.
+
+### 3. 다운로드가 진행중일 때 뷰의 상태
+
+* 다운로드가 진행될 동안 뷰는 아무것도 보여주지 않게 된다. 
+* 로딩중이라는 것을 사용자에게 알려주기 위해서 ActivityIndicator를 사용하였다.
+* 다운로드를 요청하고 ActivityIndicator를 사용자에게 보여주도록 하고 다운로드가 모두 완료되면 ActivityIndicator는 종료되며 데이터를 사용자에게 보여주도록 구현하였다.
+
+
+## 3-2 의문점
+
+* ScopeRequest의 scopes는 뭘까?
+* CoreData의 경로는 어디일까?
+* CoreData를 덮어쓰기가 아니라 원하는 데이터만 업데이트 해줄 수는 없을까?
+* `wal`, `shm이` 무슨뜻일까?
+
+## 3-3 Trouble Shooting
+
+* ### 1. download가 끝나는 시점에 뷰를 업데이트 하기
+
+> 다운로드가 끝난 후 CoreData를 fetch를 하고 TableView를 reload를 해주고 싶었으나 실패했었다.
+
+* `이유` 파일이 여러개가 존재하여, 여러개의 파일을 다운로드 하기 위해 반복문을 돌리고 있었으나, fetch와 reload를 for-in문 내부에서 해주고 있어서, 뷰가 업데이트 될 때가 있고, 안되기도 하는 현상이 나타났다.
+</br>
+* `해결` 그래서 `for-in문이 종료된 시점`에 `fetch`를 하고 view를 reload를 해주기 위해, 다운로드가 모두 완료되는 시점을 `DispatchGroup`를 활용하여 `추적`하고, 반복문에서 시작되었던 다운로드 작업이 모두 끝나게 되면 아래 뷰를 다시 설정하도록 코드를 수정하였다.
+
+```swift
+func download(_ tableViewController: NotesViewController?) {
+    let group = DispatchGroup() // 그룹 생성
+    for fileName in fileNames {
+        let destURL = applicationSupportDirectoryURL.appendingPathComponent(fileName)
+        let destination: (URL, HTTPURLResponse) -> URL = { _, _ in
+            return destURL
+        }
+        group.enter() // 작업 시작
+        client?.files.download(path: fileName, overwrite: true, destination: destination)
+            .response { _, error in
+                if let error = error {
+                    print(error)
+                }
+                group.leave() // 작업 끝
+            }
+    }
+    group.notify(queue: .main) { // 모든 작업이 끝난다면 ...
+        PersistentManager.shared.setUpNotes()
+        tableViewController?.tableView.reloadData()
+        tableViewController?.stopActivityIndicator()
+    }
+}
+```
+
+## 3-4 배운 개념
+
+<details>
+<summary>[Swift Package Manager를 사용하여 라이브러리 활용하기]</summary>
+<div markdown="1">
+
+
+> `Targets` -> `General` -> `Frameworks, Libraries, and Embedded Content` -> `+`
+
+![](https://i.imgur.com/MxRxY4R.png)
+
+> `Add Package Dependency...` 를 클릭
+
+![](https://i.imgur.com/3iPfMsZ.png)
+
+> 사용하고 싶은 라이브러리의 주소를 기입한다.
+
+![](https://i.imgur.com/YGUZll3.png)
+
+> 설치 시 원하는 버전, 브랜치 및 커밋을 설정할 수 있다. 이 후 원하는 packge product를 골라서 Finish 까지 하면...
+
+![](https://i.imgur.com/ejnhQOL.png)
+
+> `SwiftyDropbox`가 정상적으로 설치된 것을 확인할 수 있다.
+
+</div>
+</details>
+
+</br>
+
+[![top](https://img.shields.io/badge/top-%23000000.svg?&amp;style=for-the-badge&amp;logo=Acclaim&amp;logoColor=white&amp;)](#동기화-메모장)

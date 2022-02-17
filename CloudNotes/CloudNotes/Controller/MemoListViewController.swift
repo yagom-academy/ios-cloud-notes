@@ -13,19 +13,20 @@ class MemoListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellIdentifier)
-        setupTableView()
-        setupNavigationBar()
         MemoDataManager.shared.memos = MemoDataManager.shared.fetchMemos()
-        if !MemoDataManager.shared.isEmpty {
-            tableView.selectRow(at: IndexPath(row: 0, section: 0), animated: false, scrollPosition: .top)
-            tableView(tableView, didSelectRowAt: IndexPath(row: 0, section: 0))
-        }
+        setupTableView()
+        setupTableViewLayout()
+        setupNavigationBar()
+        setupRowSelection()
     }
     
     private func setupTableView() {
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellIdentifier)
+    }
+    
+    private func setupTableViewLayout() {
         view.addSubview(tableView)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -42,9 +43,15 @@ class MemoListViewController: UIViewController {
         navigationItem.title = "메모"
     }
     
+    private func setupRowSelection() {
+        if MemoDataManager.shared.isEmpty == false {
+            tableView.selectRow(at: IndexPath(row: 0, section: 0), animated: false, scrollPosition: .top)
+            tableView(tableView, didSelectRowAt: IndexPath(row: 0, section: 0))
+        }
+    }
+    
     @objc private func addMemo() {
         let newMemo = MemoDataManager.shared.newMemo
-        
         MemoDataManager.shared.memos.insert(newMemo, at: 0)
         tableView.reloadData()
         tableView.selectRow(at: IndexPath(row: 0, section: 0), animated: true, scrollPosition: .top)
@@ -61,7 +68,6 @@ extension MemoListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
-        
         var configuration = cell.defaultContentConfiguration()
         let memo = MemoDataManager.shared.memos[indexPath.row]
         configuration.text = memo.title.isEmpty ? "새로운 메모" : memo.title
@@ -127,8 +133,7 @@ extension MemoListViewController: UITableViewDelegate {
             popOver.sourceRect = CGRect(x: splitViewController.view.bounds.midX,
                                         y: splitViewController.view.bounds.midY,
                                         width: 0,
-                                        height: 0
-            )
+                                        height: 0)
             popOver.permittedArrowDirections = []
         }
         present(activityViewController, animated: true)
@@ -155,16 +160,13 @@ extension MemoListViewController: MemoListViewControllerDelegate {
     }
     
     func memoListViewController(updateTableViewCellWith title: String, body: String, lastModified: Date) {
-        
         guard let indexPath = tableView.indexPathForSelectedRow else {
             return
         }
         guard let id = MemoDataManager.shared.memos[indexPath.row].id else {
             return
         }
-        
         MemoDataManager.shared.updateMemo(id: id, title: title, body: body, lastModified: lastModified)
-        
         tableView.reloadRows(at: [indexPath], with: .none)
         tableView.selectRow(at: indexPath, animated: true, scrollPosition: .none)
     }

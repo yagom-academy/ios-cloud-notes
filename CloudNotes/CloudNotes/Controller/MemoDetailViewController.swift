@@ -39,8 +39,9 @@ class MemoDetailViewController: UIViewController {
     
     @objc func keyboardWillShow(_ sender: Notification) {
         let userInfo: NSDictionary = sender.userInfo! as NSDictionary
-        guard let keyboardFrame: NSValue = userInfo.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as? NSValue else {return}
-
+        guard let keyboardFrame: NSValue = userInfo.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as? NSValue else {
+            return
+        }
         let keyboardRect = keyboardFrame.cgRectValue
         textView.contentInset.bottom = keyboardRect.height
         textView.scrollIndicatorInsets = textView.contentInset
@@ -57,12 +58,10 @@ class MemoDetailViewController: UIViewController {
     }
     
     private func setupNavigationItem() {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(
-            image: UIImage(systemName: "ellipsis.circle"),
-            style: .plain,
-            target: self,
-            action: #selector(viewMoreButtonTapped)
-        )
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"),
+                                                            style: .plain,
+                                                            target: self,
+                                                            action: #selector(viewMoreButtonTapped))
     }
     
     @objc func viewMoreButtonTapped(_ sender: UIBarButtonItem) {

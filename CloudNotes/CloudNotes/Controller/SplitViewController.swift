@@ -6,21 +6,20 @@ class SplitViewController: UISplitViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUpChildView()
-        setUpDisplay()
+        setupChildView()
+        setupDisplay()
         listViewController.delegate = detailViewController
         detailViewController.delegate = listViewController
         hideKeyboard()
     }
     
-    private func setUpChildView() {
+    private func setupChildView() {
         setViewController(listViewController, for: .primary)
         setViewController(detailViewController, for: .secondary)
     }
     
-    private func setUpDisplay() {
+    private func setupDisplay() {
         preferredSplitBehavior = .tile
         preferredDisplayMode = .oneBesideSecondary
     }
-    
 }

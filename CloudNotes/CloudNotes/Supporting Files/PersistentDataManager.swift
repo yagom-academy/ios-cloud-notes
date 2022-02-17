@@ -45,4 +45,13 @@ class PersistentDataManager {
         try context.fetch(request)
     }
     
+    func update<T: NSManagedObject>(request: NSFetchRequest<T>, handler: ((NSManagedObject) -> Void)? = nil) throws {
+        let filteredResults = try context.fetch(request)
+        guard let filteredResult = filteredResults.first else {
+            return
+        }
+        
+        handler?(filteredResult)
+        try context.save()
+    }
 }

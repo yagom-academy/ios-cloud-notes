@@ -1,4 +1,5 @@
 import UIKit
+import CoreData
 
 class NoteModelManager: NoteModel {
     
@@ -74,6 +75,22 @@ class NoteModelManager: NoteModel {
                 "lastModified": note.lastModified
             ].forEach { key, value in
                 managedObject.setValue(value, forKey: key)
+            }
+        }
+    }
+    
+    func updateNote(_ note: Note) {
+        let identifier = UUID().uuidString
+        let request = NSFetchRequest<CDNote>(entityName: "CDNote")
+        request.predicate = NSPredicate(format: "identifier == %@", identifier)
+        
+        try? persistentDataManager.update(request: request) { filteredResult in
+            [
+                "title": note.title,
+                "body": note.body,
+                "lastModified": note.lastModified
+            ].forEach { key, value in
+                filteredResult.setValue(value, forKey: key)
             }
         }
     }

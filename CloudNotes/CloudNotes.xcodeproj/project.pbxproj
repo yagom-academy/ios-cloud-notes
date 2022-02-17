@@ -210,8 +210,8 @@
 			isa = PBXGroup;
 			children = (
 				C7481C8725BBCF3A00B9CA55 /* CloudNotesTests.swift */,
-				C7481C8925BBCF3A00B9CA55 /* Info.plist */,
 				89B8D32E27BCF2E30083C412 /* PersistentDataManagerTests.swift */,
+				C7481C8925BBCF3A00B9CA55 /* Info.plist */,
 			);
 			path = CloudNotesTests;
 			sourceTree = "<group>";

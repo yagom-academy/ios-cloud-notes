@@ -24,6 +24,12 @@ class PersistantManager {
         CoreDataStack.shared.saveContext()
     }
     
+    func delete(object: NSManagedObject) {
+        let context = CoreDataStack.shared.context
+        context.delete(object)
+        CoreDataStack.shared.saveContext()
+    }
+    
     func fetch() -> [Note] {
         let fetchRequest = Note.fetchRequest()
         let sort = NSSortDescriptor(key: "lastModifiedDate", ascending: false)

@@ -20,7 +20,6 @@ final class NoteListViewController: UIViewController {
     
     weak var delegate: NoteListViewDelegate?
     var persistantManager: PersistantManager?
-    lazy var noteDataSource = CloudNotesDataSource(persistantManager: persistantManager)
     
     // MARK: - Methods
     
@@ -29,7 +28,7 @@ final class NoteListViewController: UIViewController {
         setupNavigation()
         setupTableView()
         setupConstraints()
-        selectFirstNote()
+        selectNote(with: 0)
         setupbackgroundLabel()
     }
     
@@ -72,11 +71,12 @@ final class NoteListViewController: UIViewController {
         } completion: {_ in
             self.tableView.backgroundView?.isHidden = true
             self.tableView.reloadData()
+            self.selectNote(with: 0)
         }
     }
     
     private func setupTableView() {
-        tableView.dataSource = noteDataSource
+        tableView.dataSource = self
         tableView.delegate = self
         tableView.register(
             NoteListCell.self,
@@ -105,13 +105,13 @@ final class NoteListViewController: UIViewController {
         tableView.backgroundView = backgroundLabel
     }
     
-    private func selectFirstNote() {
+    private func selectNote(with index: Int) {
         guard let noteInformations = persistantManager?.notes,
               noteInformations.count > 0 else {
                return
         }
-        let indexPath = IndexPath(row: 0, section: 0)
-        tableView.selectRow(at: indexPath, animated: false, scrollPosition: .top)
+        let indexPath = IndexPath(row: index, section: 0)
+        self.tableView.selectRow(at: indexPath, animated: false, scrollPosition: .top)
         delegate?.noteListView(didSeletedCell: indexPath.row)
     }
 }
@@ -121,5 +121,51 @@ final class NoteListViewController: UIViewController {
 extension NoteListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         delegate?.noteListView(didSeletedCell: indexPath.row)
+    }
+}
+
+extension NoteListViewController: UITableViewDataSource {
+    func tableView(
+      _ tableView: UITableView,
+      numberOfRowsInSection section: Int
+    ) -> Int {
+        return persistantManager?.notes.count ?? 0
+    }
+    
+    func tableView(
+      _ tableView: UITableView,
+      cellForRowAt indexPath: IndexPath
+    ) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(
+          withIdentifier: NoteListCell.identifier,
+          for: indexPath
+        ) as? NoteListCell else {
+            return UITableViewCell()
+        }
+        guard let information = persistantManager?.notes[indexPath.row] else {
+            return UITableViewCell()
+        }
+        cell.configure(with: information)
+        return cell
+    }
+    
+    func tableView(
+        _ tableView: UITableView,
+        commit editingStyle: UITableViewCell.EditingStyle,
+        forRowAt indexPath: IndexPath
+    ) {
+        guard let object = persistantManager?.notes[indexPath.row] else {
+            return
+        }
+        if editingStyle == .delete {
+            persistantManager?.notes.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            persistantManager?.delete(object: object)
+            if persistantManager?.notes.count == indexPath.row {
+                selectNote(with: indexPath.row - 1)
+            } else {
+            selectNote(with: indexPath.row)
+            }
+        }
     }
 }

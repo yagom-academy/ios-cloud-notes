@@ -1,4 +1,5 @@
 import XCTest
+import CoreData
 
 @testable import CloudNotes
 class PersistentDataManagerTests: XCTestCase {
@@ -13,11 +14,72 @@ class PersistentDataManagerTests: XCTestCase {
         sut = nil
     }
 
-    func test_Create후_fetch를_이용하여_데이터가_정상적으로_저장되었는지_확인함() throws {
-        sut?.create(identifier: UUID(), title: "제목", body: "내용", lastModified: Date())
+    func test_create로_생성한데이터를_fetch로_조회할수있다() throws {
+        // given
+        let identifier = UUID()
+        let lastModified = Date()
         
-        let result = sut.fetch(request: CDNote.fetchRequest())
-        XCTAssertNotEqual([CDNote](), result)
+        // when
+        try sut?.create(entity: "CDNote") { managedObject in
+            [
+                "identifier": identifier,
+                "title": "제목",
+                "body": "내용",
+                "lastModified": lastModified
+            ].forEach { key, value in
+                managedObject.setValue(value, forKey: key)
+            }
+        }
+        
+        // then
+        let request = NSFetchRequest<CDNote>(entityName: "CDNote")
+        request.predicate = NSPredicate(format: "identifier == %@", identifier.uuidString)
+        let result = try sut.fetch(request: request).first
+        
+        XCTAssertEqual(result?.identifier, identifier)
+        XCTAssertEqual(result?.title, "제목")
+        XCTAssertEqual(result?.body, "내용")
+        XCTAssertEqual(result?.lastModified, lastModified)
+    }
+    
+    func test_생성된데이터를_update했을때_수정된다() throws {
+        // given
+        let identifier = UUID()
+        let lastModified = Date()
+        
+        try sut?.create(entity: "CDNote") { managedObject in
+            [
+                "identifier": identifier,
+                "title": "와라랄랄",
+                "body": "라랄라",
+                "lastModified": lastModified
+            ].forEach { key, value in
+                managedObject.setValue(value, forKey: key)
+            }
+        }
+        
+        // when
+        let request = NSFetchRequest<CDNote>(entityName: "CDNote")
+        request.predicate = NSPredicate(format: "identifier == %@", identifier.uuidString)
+        
+        try sut?.update(request: request) { managedObject in
+            [
+                "identifier": identifier,
+                "title": "수정된 제목",
+                "body": "수정된 내용",
+                "lastModified": lastModified
+            ].forEach { key, value in
+                managedObject.setValue(value, forKey: key)
+            }
+        }
+        
+        // then
+        let result = try sut.fetch(request: request).first
+        
+        XCTAssertEqual(result?.identifier, identifier)
+        XCTAssertEqual(result?.title, "수정된 제목")
+        XCTAssertEqual(result?.body, "수정된 내용")
+        XCTAssertEqual(result?.lastModified, lastModified)
     }
     
 }

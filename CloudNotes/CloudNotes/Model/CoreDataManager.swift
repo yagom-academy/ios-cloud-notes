@@ -3,7 +3,7 @@ import CoreData
  
 final class CoreDataManager<T: NSManagedObject> {
     private let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext
-    var dataList: [T] = []
+    private(set) var dataList: [T] = []
  
     func create(target: T.Type, attributes: [String: Any]) {
         guard let context = context else {

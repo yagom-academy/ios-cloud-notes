@@ -31,6 +31,7 @@ final class CoreDataManager<T: NSManagedObject> {
         }
         
         do {
+            request.sortDescriptors = [NSSortDescriptor(key: "lastModified", ascending: false)]
             self.dataList = try context.fetch(request)
         } catch {
             print(error.localizedDescription)

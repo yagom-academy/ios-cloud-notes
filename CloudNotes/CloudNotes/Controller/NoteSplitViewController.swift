@@ -13,6 +13,7 @@ class NoteSplitViewController: UISplitViewController {
         configureColumnStyle()
         configureDataStorage()
         dataManager?.fetchAll(request: CDMemo.fetchRequest())
+        configureNoteDetailViewController()
     }
     
     private func setUpSplitViewController() {
@@ -25,6 +26,10 @@ class NoteSplitViewController: UISplitViewController {
         noteListViewController.dataSource = self
     }
     
+    private func configureNoteDetailViewController() {
+        noteDetailViewController.delegate = self
+    }
+    
     private func configureDataStorage() {
         dataManager = CoreDataManager<CDMemo>()
     }
@@ -35,7 +40,7 @@ class NoteSplitViewController: UISplitViewController {
         preferredSplitBehavior = .tile
     }
     
-    func presentActivityView() {
+    private func presentActivityView() {
         let title = "dddd"
         let activityViewController = UIActivityViewController(
             activityItems: [title],
@@ -51,6 +56,16 @@ class NoteSplitViewController: UISplitViewController {
         }
         present(activityViewController, animated: true, completion: nil)
     }
+    
+    private func createAttributes(body: String) -> [String: Any] {
+        var attribute: [String: Any] = [:]
+        let title = body.components(separatedBy: "\n")[0]
+        let long = body.components(separatedBy: "\n")[1...].joined()
+        attribute.updateValue(title, forKey: "title")
+        attribute.updateValue(long, forKey: "body")
+        attribute.updateValue(Date(), forKey: "lastModified")
+        return attribute
+        }
 }
 
 extension NoteSplitViewController: NoteListViewControllerDelegate {
@@ -77,19 +92,42 @@ extension NoteSplitViewController: NoteListViewControllerDelegate {
     }
     
     func createNewMemo(completion: @escaping () -> Void) {
-        let attributes = [ "title": "새로운 메모", "body": "", "lastModified": Date()] as [String : Any]
+        let attributes = [ "title": "새로운 메모", "body": """
+Hi HI HI
+lily July 
+""", "lastModified": Date()] as [String : Any]
         dataManager?.create(target: CDMemo.self, attributes: attributes)
         dataManager?.fetchAll(request: CDMemo.fetchRequest())
         completion()
     }
 }
-
 extension NoteSplitViewController: NoteListViewControllerDataSource {
     func noteListViewControllerNumberOfData(_ viewController: NoteListViewController) -> Int {
         dataManager?.dataList.count ?? .zero
     }
     
     func noteListViewControllerSampleForCell(_ viewController: NoteListViewController, indexPath: IndexPath) -> CDMemo? {
-        dataManager?.dataList[safe: indexPath.row]
+        dataManager?.fetchAll(request: CDMemo.fetchRequest())
+        return dataManager?.dataList[safe: indexPath.row]
+    }
+}
+
+extension NoteSplitViewController: NoteDetailViewControllerDelegate {
+    func noteDetailViewController(changeDateForSelectedRow viewController: UIViewController) {
+        let selectedRowIndex = noteListViewController.extractSeletedRow()
+        guard let memo = dataManager?.dataList[selectedRowIndex?.row ?? .zero] else { return }
+        dataManager?.update(target: memo, attributes: ["lastModified": Date()])
+        dataManager?.fetchAll(request: CDMemo.fetchRequest())
+    }
+    
+    func noteDetailViewController(_ viewController: UIViewController, bodyForUpdate body: String) {
+        let attribute = createAttributes(body: body)
+        dataManager?.fetchAll(request: CDMemo.fetchRequest())
+        guard let selectedMemo = dataManager?.dataList.first else {
+            return
+        }
+        dataManager?.update(target: selectedMemo, attributes: attribute)
+        dataManager?.fetchAll(request: CDMemo.fetchRequest())
+        noteListViewController.update()
     }
 }

@@ -56,7 +56,7 @@ class NoteListViewController: UIViewController {
         ])
     }
     
-    func setUpNavigationItems() {
+    private func setUpNavigationItems() {
         navigationItem.title = "메모"
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             barButtonSystemItem: .add,
@@ -65,12 +65,20 @@ class NoteListViewController: UIViewController {
         )
     }
 
-    @objc func tappedPlusButton() {
+    @objc private func tappedPlusButton() {
         delegate?.createNewMemo {
             DispatchQueue.main.async {
                 self.listTableView.reloadData()
             }
         }
+    }
+    
+    func update() {
+        listTableView.reloadData()
+    }
+    
+    func extractSeletedRow() -> IndexPath? {
+        listTableView.indexPathForSelectedRow
     }
 }
 

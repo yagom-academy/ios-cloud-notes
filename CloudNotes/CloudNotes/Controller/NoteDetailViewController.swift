@@ -34,10 +34,17 @@ final class NoteDetailViewController: UIViewController {
         let rightButton = UIBarButtonItem(
           image: seeMoreMenuButtonImage,
           style: .done,
-          target: nil,
-          action: nil
+          target: self,
+          action: #selector(showPopover(_:))
         )
         navigationItem.setRightBarButton(rightButton, animated: false)
+        
+    }
+    
+    @objc func showPopover(_ sender: UIBarButtonItem) {
+        self.showActionSheet(titles: ("shared", "delete"), targetBarButton: sender) { _ in
+        } deleteHandler: { _ in
+        }
     }
     
     private func setupNoteDetailScrollView() {

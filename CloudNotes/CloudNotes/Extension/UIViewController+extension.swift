@@ -21,16 +21,20 @@ extension UIViewController {
     
     func showActionSheet(
         titles: (String, String),
-        message: String,
-        defaultHandler: @escaping (UIAlertAction) -> Void,
+        targetBarButton: UIBarButtonItem,
+        sharedHandler: @escaping (UIAlertAction) -> Void,
         deleteHandler: @escaping (UIAlertAction) -> Void
     ) {
-        let defaultAction = UIAlertAction(title: titles.0, style: .default, handler: defaultHandler)
+        let sharedAction = UIAlertAction(title: titles.0, style: .default, handler: sharedHandler)
         let deleteAction = UIAlertAction(title: titles.1, style: .destructive, handler: deleteHandler)
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
-        let alert = UIAlertController(title: nil, message: message, preferredStyle: .actionSheet)
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let popover = alert.popoverPresentationController
+        popover?.sourceView = self.view
+        popover?.barButtonItem = targetBarButton
+        
         alert.addAction(deleteAction)
-        alert.addAction(defaultAction)
+        alert.addAction(sharedAction)
         alert.addAction(cancelAction)
         self.present(alert, animated: true)
     }

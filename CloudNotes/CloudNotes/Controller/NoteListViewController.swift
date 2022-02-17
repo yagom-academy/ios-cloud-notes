@@ -6,12 +6,17 @@ protocol NoteListViewControllerDelegate: AnyObject {
         didSelectedCell indexPath: IndexPath
     )
     
-    //TODO: 삭제필요
-    func createNewMemo(completion: @escaping () -> Void)
+    func noteListViewController(addButtonTapped viewController: NoteListViewController)
     
-    func noteListViewController(_ viewController: NoteListViewController, cellToDelete indexPath: IndexPath)
+    func noteListViewController(
+        _ viewController: NoteListViewController,
+        cellToDelete indexPath: IndexPath
+    )
     
-    func noteListViewController(_ viewController: NoteListViewController, cellToShare indexPath: IndexPath)
+    func noteListViewController(
+        _ viewController: NoteListViewController,
+        cellToShare indexPath: IndexPath
+    )
 }
 
 protocol NoteListViewControllerDataSource: AnyObject {
@@ -31,6 +36,7 @@ class NoteListViewController: UIViewController {
         var tableView = UITableView(frame: .zero)
         tableView.register(cellWithClass: NoteListTableViewCell.self)
         tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.allowsSelectionDuringEditing = true
         return tableView
     }()
     
@@ -67,14 +73,10 @@ class NoteListViewController: UIViewController {
     }
 
     @objc private func tappedPlusButton() {
-        delegate?.createNewMemo {
-            DispatchQueue.main.async {
-                self.listTableView.reloadData()
-            }
-        }
+        delegate?.noteListViewController(addButtonTapped: self)
     }
     
-    func update() {
+    func updateTableView() {
         listTableView.reloadData()
     }
     
@@ -114,6 +116,7 @@ extension NoteListViewController: UITableViewDelegate {
         let actionConfigurations = UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
         return actionConfigurations
     }
+    
 }
 
 extension NoteListViewController: UITableViewDataSource {
@@ -121,7 +124,10 @@ extension NoteListViewController: UITableViewDataSource {
         dataSource?.noteListViewControllerNumberOfData(self) ?? .zero
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(
+        _ tableView: UITableView,
+        cellForRowAt indexPath: IndexPath
+    ) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(
             withClass: NoteListTableViewCell.self,
             for: indexPath)
@@ -133,7 +139,11 @@ extension NoteListViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        cell.updateLabel(title: data.title ?? "", lastModified: data.lastModified ?? Date(), preview: data.body ?? "")
+        guard let title = data.title, let preview = data.body, let lastModified = data.lastModified else {
+            return UITableViewCell()
+        }
+        
+        cell.updateLabel(title: title, lastModified: lastModified, preview: preview)
         cell.accessoryType = .disclosureIndicator
         
         return cell

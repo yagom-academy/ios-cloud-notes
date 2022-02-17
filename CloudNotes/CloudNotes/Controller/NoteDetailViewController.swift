@@ -28,7 +28,10 @@ class NoteDetailViewController: UIViewController {
     }
     
     func setUpText(with data: CDMemo) {
-        textView.text = "\(data.title)\n\(data.body)"
+        guard let title = data.title, let body = data.body else {
+             return
+        }
+        textView.text = "\(title)\n\(body)"
     }
     
     private func setUpNavigationItems() {

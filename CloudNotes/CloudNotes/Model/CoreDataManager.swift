@@ -62,6 +62,13 @@ final class CoreDataManager<T: NSManagedObject> {
         }
     }
     
+    func extractData(indexPath: IndexPath) -> T? {
+        guard let data = dataList[safe: indexPath.row] else {
+            return nil
+        }
+        return data
+    }
+    
     //TODO: SearchController 추후 구현
     //    func search(title: String) -> [Memo]{
     //        let request = NSFetchRequest<Memo>(entityName: "Memo")

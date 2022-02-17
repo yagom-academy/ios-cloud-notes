@@ -8,7 +8,7 @@ extension CDMemo {
     }
 
     @NSManaged public var body: String?
-    @NSManaged public var lastModified: Int64
+    @NSManaged public var lastModified: Date?
     @NSManaged public var title: String?
 
 }

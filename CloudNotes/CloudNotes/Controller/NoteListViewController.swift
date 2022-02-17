@@ -7,6 +7,7 @@ protocol NoteListViewControllerDelegate: AnyObject {
     )
     
     func createNewMemo(completion: @escaping () -> Void)
+    func noteListViewController(_ viewController: NoteListViewController, cellToDelete indexPath: IndexPath)
 }
 
 protocol NoteListViewControllerDataSource: AnyObject {
@@ -60,13 +61,7 @@ class NoteListViewController: UIViewController {
             action: #selector(tappedPlusButton)
         )
     }
-    // + 버튼 누르면
-    // TextView를 띄운다
-    // entity만든다 -> DataManager
-    // CoreData에 저장 -> DataManager
-    // fetchAll -> DataManager
-    // reloadData -> TaleView
-    // 새로운 메모
+
     @objc func tappedPlusButton() {
         delegate?.createNewMemo {
             DispatchQueue.main.async {
@@ -79,6 +74,25 @@ class NoteListViewController: UIViewController {
 extension NoteListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
             delegate?.noteListViewController(self, didSelectedCell: indexPath)
+    }
+    
+    func tableView(
+        _ tableView: UITableView,
+        trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
+    ) -> UISwipeActionsConfiguration? {
+        let action = UIContextualAction(
+            style: .destructive,
+            title: nil,
+            handler: { _, _, _ in
+                self.delegate?.noteListViewController(
+                    self,
+                    cellToDelete: indexPath
+                )
+            tableView.reloadData()
+            })
+        action.image = UIImage(systemName: "trash.fill")
+        let actionConfigurations = UISwipeActionsConfiguration(actions: [action])
+        return actionConfigurations
     }
 }
 

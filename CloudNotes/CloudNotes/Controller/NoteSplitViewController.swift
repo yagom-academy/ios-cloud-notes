@@ -2,7 +2,7 @@ import UIKit
 import CoreData
 
 class NoteSplitViewController: UISplitViewController {
-    private var dataStorage: CoreDataManager<CDMemo>?
+    private var dataManager: CoreDataManager<CDMemo>?
     private let noteListViewController = NoteListViewController()
     private let noteDetailViewController = NoteDetailViewController()
 
@@ -12,7 +12,7 @@ class NoteSplitViewController: UISplitViewController {
         setUpSplitViewController()
         configureColumnStyle()
         configureDataStorage()
-        dataStorage?.fetchAll(request: CDMemo.fetchRequest())
+        dataManager?.fetchAll(request: CDMemo.fetchRequest())
     }
     
     private func setUpSplitViewController() {
@@ -26,7 +26,7 @@ class NoteSplitViewController: UISplitViewController {
     }
     
     private func configureDataStorage() {
-        dataStorage = CoreDataManager<CDMemo>()
+        dataManager = CoreDataManager<CDMemo>()
     }
     
     private func configureColumnStyle() {
@@ -37,13 +37,19 @@ class NoteSplitViewController: UISplitViewController {
 }
 
 extension NoteSplitViewController: NoteListViewControllerDelegate {
+    func noteListViewController(_ viewController: NoteListViewController, cellToDelete indexPath: IndexPath) {
+        guard let deletedData = dataManager?.extractData(indexPath: indexPath) else { return }
+        dataManager?.delete(target: deletedData)
+        dataManager?.fetchAll(request: CDMemo.fetchRequest())
+    }
+    
     func noteListViewController(_ viewController: NoteListViewController, didSelectedCell indexPath: IndexPath) {
         guard let secondaryViewController = self.viewController(
             for: .secondary) as? NoteDetailViewController else {
             return
         }
         
-        guard let memo = dataStorage?.dataList[indexPath.row] else {
+        guard let memo = dataManager?.dataList[indexPath.row] else {
             return
         }
         secondaryViewController.setUpText(with: memo)
@@ -51,18 +57,18 @@ extension NoteSplitViewController: NoteListViewControllerDelegate {
     
     func createNewMemo(completion: @escaping () -> Void) {
         let attributes = [ "title": "새로운 메모", "body": "", "lastModified": Date()] as [String : Any]
-        dataStorage?.create(target: CDMemo.self, attributes: attributes)
-        dataStorage?.fetchAll(request: CDMemo.fetchRequest())
+        dataManager?.create(target: CDMemo.self, attributes: attributes)
+        dataManager?.fetchAll(request: CDMemo.fetchRequest())
         completion()
     }
 }
 
 extension NoteSplitViewController: NoteListViewControllerDataSource {
     func noteListViewControllerNumberOfData(_ viewController: NoteListViewController) -> Int {
-        dataStorage?.dataList.count ?? .zero
+        dataManager?.dataList.count ?? .zero
     }
     
     func noteListViewControllerSampleForCell(_ viewController: NoteListViewController, indexPath: IndexPath) -> CDMemo? {
-        dataStorage?.dataList[safe: indexPath.row]
+        dataManager?.dataList[safe: indexPath.row]
     }
 }

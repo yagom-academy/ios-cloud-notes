@@ -38,4 +38,22 @@ extension UIViewController {
         alert.addAction(cancelAction)
         self.present(alert, animated: true)
     }
+    
+    func showActivityView(note: Note, targetButton: UIBarButtonItem?) {
+        let noteTextToShare = "\(note.title ?? "")\n\(note.content ?? "")"
+        let activityViewController = UIActivityViewController(
+            activityItems: [noteTextToShare],
+            applicationActivities: nil
+        )
+        activityViewController.popoverPresentationController?.sourceView = self.view
+        activityViewController.popoverPresentationController?.sourceRect = CGRect(
+            x: UIScreen.main.bounds.width / 2,
+            y: UIScreen.main.bounds.height / 2,
+            width: 0,
+            height: 0
+        )
+        activityViewController.popoverPresentationController?.barButtonItem = targetButton
+        activityViewController.popoverPresentationController?.permittedArrowDirections = []
+        self.present(activityViewController, animated: true, completion: nil)
+    }
 }

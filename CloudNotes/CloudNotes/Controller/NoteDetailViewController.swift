@@ -9,6 +9,8 @@ import UIKit
 
 protocol NoteDetailViewDelegate: AnyObject {
     func textViewDidChange(noteInformation: NoteInformation)
+    func sharedNoteAction(_ sender: UIBarButtonItem)
+    func deleteNoteAction()
 }
 
 final class NoteDetailViewController: UIViewController {
@@ -18,6 +20,7 @@ final class NoteDetailViewController: UIViewController {
     private let noteDetailScrollView = NoteDetailScrollView()
     weak var delegate: NoteDetailViewDelegate?
     var persistantManager: PersistantManager?
+    var currentIndex = 0
 
     // MARK: - Methods
     
@@ -43,7 +46,9 @@ final class NoteDetailViewController: UIViewController {
     
     @objc func showPopover(_ sender: UIBarButtonItem) {
         self.showActionSheet(titles: ("shared", "delete"), targetBarButton: sender) { _ in
+            self.delegate?.sharedNoteAction(sender)
         } deleteHandler: { _ in
+            self.delegate?.deleteNoteAction()
         }
     }
     
@@ -54,6 +59,7 @@ final class NoteDetailViewController: UIViewController {
     }
     
     func setupDetailView(index: Int) {
+        currentIndex = index
         if let note = persistantManager?.notes[index] {
             noteDetailScrollView.configure(with: note)
             scrollTextViewToVisible()
@@ -105,22 +111,23 @@ extension NoteDetailViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         var title = ""
         var body = ""
-        guard let text = textView.text else {
+        guard let textViewText = textView.text else {
             return
         }
-        if text.contains("\n") {
-            let splitedText = textView.text.split(separator: "\n", maxSplits: 1, omittingEmptySubsequences: true)
+        if textViewText.contains("\n") {
+            let splitedText = textView.text.split(separator: "\n", maxSplits: 1, omittingEmptySubsequences: false)
             title = String(splitedText.first ?? "")
-            body = splitedText.last?.trimmingCharacters(in: .newlines) ?? ""
-        } else if text.contains("\n") == false && text.count > 100 {
-            title = text.substring(from: 0, to: 99)
-            body = text.substring(from: 100, to: text.count - 1)
+            body = String(splitedText.last ?? "")
+        } else if textViewText.contains("\n") == false && textViewText.count > 100 {
+            title = textViewText.substring(from: 0, to: 99)
+            body = textViewText.substring(from: 100, to: textViewText.count - 1)
         } else {
-            title = text
+            title = textViewText
         }
         let information = NoteInformation(title: title, content: body, lastModifiedDate: Date().timeIntervalSince1970)
         delegate?.textViewDidChange(noteInformation: information)
     }
+    
 }
 
 // MARK: - Keyboard

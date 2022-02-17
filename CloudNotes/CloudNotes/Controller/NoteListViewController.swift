@@ -117,23 +117,6 @@ final class NoteListViewController: UIViewController {
         ])
     }
     
-    func showActivityView(note: Note) {
-        let noteTextToShare = "\(note.title ?? "")\n\(note.content ?? "")"
-        let activityViewController = UIActivityViewController(
-            activityItems: [noteTextToShare],
-            applicationActivities: nil
-        )
-        activityViewController.popoverPresentationController?.sourceView = self.view
-        activityViewController.popoverPresentationController?.sourceRect = CGRect(
-            x: UIScreen.main.bounds.width / 2,
-            y: UIScreen.main.bounds.height / 2,
-            width: 0,
-            height: 0
-        )
-        activityViewController.popoverPresentationController?.permittedArrowDirections = []
-        self.present(activityViewController, animated: true, completion: nil)
-    }
-    
     private func setupbackgroundLabel() {
         let backgroundLabel = UILabel()
         backgroundLabel.text = "메모없음"
@@ -179,7 +162,7 @@ extension NoteListViewController: UITableViewDelegate {
         delete.image = UIImage(systemName: ImageNames.trashImageName)
         
         let shared = UIContextualAction(style: .normal, title: "Shared") { _, _, _ in
-            self.showActivityView(note: object)
+            self.showActivityView(note: object, targetButton: nil)
         }
         shared.backgroundColor = .systemBlue
         shared.image = UIImage(systemName: ImageNames.sharedImageName)

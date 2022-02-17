@@ -82,11 +82,13 @@ final class NoteDetailScrollView: UIScrollView {
             return
         }
         let attributedString = NSMutableAttributedString()
-            .preferredFont(string: title + "\n\n", forTextStyle: .title2)
+            .preferredFont(string: title + "\n", forTextStyle: .title2)
             .preferredFont(string: content, forTextStyle: .body)
         attributedString.color(to: .label)
-        lastModifiedDateLabel.text = noteInformation.localizedDateString
-        noteDetailTextView.attributedText = attributedString
+        DispatchQueue.main.async {
+            self.lastModifiedDateLabel.text = noteInformation.localizedDateString
+            self.noteDetailTextView.attributedText = attributedString
+        }
     }
 }
 

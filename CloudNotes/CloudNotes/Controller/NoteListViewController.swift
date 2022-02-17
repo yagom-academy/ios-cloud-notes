@@ -6,6 +6,7 @@ protocol NoteListViewControllerDelegate: AnyObject {
         didSelectedCell indexPath: IndexPath
     )
     
+    //TODO: 삭제필요
     func createNewMemo(completion: @escaping () -> Void)
     
     func noteListViewController(_ viewController: NoteListViewController, cellToDelete indexPath: IndexPath)

@@ -25,14 +25,15 @@ final class CoreDataManager<T: NSManagedObject> {
         save()
     }
     
-    func fetchAll(request: NSFetchRequest<T>) {
+    func fetchAll() {
         guard let context = context else {
             return
         }
         
         do {
-            request.sortDescriptors = [NSSortDescriptor(key: "lastModified", ascending: false)]
-            self.dataList = try context.fetch(request)
+            guard let fetchRequest = T.fetchRequest() as? NSFetchRequest<T> else { return }
+            fetchRequest.sortDescriptors = [NSSortDescriptor(key: "lastModified", ascending: false)]
+            self.dataList = try context.fetch(fetchRequest)
         } catch {
             print(error.localizedDescription)
             return
@@ -61,6 +62,7 @@ final class CoreDataManager<T: NSManagedObject> {
                 print(error.localizedDescription)
             }
         }
+        fetchAll()
     }
     
     func extractData(indexPath: IndexPath) -> T? {

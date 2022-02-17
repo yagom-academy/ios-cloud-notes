@@ -12,7 +12,7 @@ class NoteSplitViewController: UISplitViewController {
         setUpSplitViewController()
         configureColumnStyle()
         configureDataStorage()
-        dataManager?.fetchAll(request: CDMemo.fetchRequest())
+        dataManager?.fetchAll()
         configureNoteDetailViewController()
     }
     
@@ -72,7 +72,7 @@ extension NoteSplitViewController: NoteListViewControllerDelegate {
     func noteListViewController(_ viewController: NoteListViewController, cellToDelete indexPath: IndexPath) {
         guard let deletedData = dataManager?.extractData(indexPath: indexPath) else { return }
         dataManager?.delete(target: deletedData)
-        dataManager?.fetchAll(request: CDMemo.fetchRequest())
+        dataManager?.fetchAll()
     }
     
     func noteListViewController(_ viewController: NoteListViewController, didSelectedCell indexPath: IndexPath) {
@@ -97,7 +97,6 @@ Hi HI HI
 lily July 
 """, "lastModified": Date()] as [String : Any]
         dataManager?.create(target: CDMemo.self, attributes: attributes)
-        dataManager?.fetchAll(request: CDMemo.fetchRequest())
         completion()
     }
 }
@@ -107,7 +106,6 @@ extension NoteSplitViewController: NoteListViewControllerDataSource {
     }
     
     func noteListViewControllerSampleForCell(_ viewController: NoteListViewController, indexPath: IndexPath) -> CDMemo? {
-        dataManager?.fetchAll(request: CDMemo.fetchRequest())
         return dataManager?.dataList[safe: indexPath.row]
     }
 }
@@ -117,17 +115,16 @@ extension NoteSplitViewController: NoteDetailViewControllerDelegate {
         let selectedRowIndex = noteListViewController.extractSeletedRow()
         guard let memo = dataManager?.dataList[selectedRowIndex?.row ?? .zero] else { return }
         dataManager?.update(target: memo, attributes: ["lastModified": Date()])
-        dataManager?.fetchAll(request: CDMemo.fetchRequest())
+//        noteListViewController.update()
     }
     
     func noteDetailViewController(_ viewController: UIViewController, bodyForUpdate body: String) {
         let attribute = createAttributes(body: body)
-        dataManager?.fetchAll(request: CDMemo.fetchRequest())
+        dataManager?.fetchAll()
         guard let selectedMemo = dataManager?.dataList.first else {
             return
         }
         dataManager?.update(target: selectedMemo, attributes: attribute)
-        dataManager?.fetchAll(request: CDMemo.fetchRequest())
         noteListViewController.update()
     }
 }

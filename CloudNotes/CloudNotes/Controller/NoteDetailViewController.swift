@@ -2,7 +2,6 @@ import UIKit
 
 protocol NoteDetailViewControllerDelegate: AnyObject {
     func noteDetailViewController(_ viewController: UIViewController, bodyForUpdate body: String)
-    func noteDetailViewController(changeDateForSelectedRow viewController: UIViewController)
 }
 
 class NoteDetailViewController: UIViewController {
@@ -55,10 +54,6 @@ class NoteDetailViewController: UIViewController {
 extension NoteDetailViewController: UITextViewDelegate {
     func textViewDidChangeSelection(_ textView: UITextView) {
         
-    }
-    
-    func textViewDidBeginEditing(_ textView: UITextView) {
-        delegate?.noteDetailViewController(changeDateForSelectedRow: self)
     }
     
     func textViewDidChange(_ textView: UITextView) {

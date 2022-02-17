@@ -52,20 +52,8 @@ class NoteDetailViewController: UIViewController {
 }
 
 extension NoteDetailViewController: UITextViewDelegate {
-    func textViewDidChangeSelection(_ textView: UITextView) {
-        
-    }
-    
     func textViewDidChange(_ textView: UITextView) {
         let body = textView.text ?? "" // date를 업데이트
         delegate?.noteDetailViewController(self, bodyForUpdate: body)
     }
-    
-//    func textViewDidEndEditing(_ textView: UITextView) {
-//        let body = textView.text ?? ""
-//        delegate?.noteDetailViewController(self, bodyForUpdate: body)
-//        //최상단 셀이 아닐 경우. 셀 이동
-//        // 앞에 10글자 까지는 그렇게
-//        // tableView에 전달할 데이터, 아닐 데이터
-    
 }

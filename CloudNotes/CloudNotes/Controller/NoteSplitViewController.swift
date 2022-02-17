@@ -5,7 +5,7 @@ class NoteSplitViewController: UISplitViewController {
     private var dataManager: CoreDataManager<CDMemo>?
     private let noteListViewController = NoteListViewController()
     private let noteDetailViewController = NoteDetailViewController()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureNoteListViewController()
@@ -65,7 +65,7 @@ class NoteSplitViewController: UISplitViewController {
         attribute.updateValue(long, forKey: "body")
         attribute.updateValue(Date(), forKey: "lastModified")
         return attribute
-        }
+    }
 }
 
 extension NoteSplitViewController: NoteListViewControllerDelegate {
@@ -78,8 +78,8 @@ extension NoteSplitViewController: NoteListViewControllerDelegate {
     func noteListViewController(_ viewController: NoteListViewController, didSelectedCell indexPath: IndexPath) {
         guard let secondaryViewController = self.viewController(
             for: .secondary) as? NoteDetailViewController else {
-            return
-        }
+                return
+            }
         
         guard let memo = dataManager?.dataList[indexPath.row] else {
             return
@@ -111,19 +111,10 @@ extension NoteSplitViewController: NoteListViewControllerDataSource {
 }
 
 extension NoteSplitViewController: NoteDetailViewControllerDelegate {
-    func noteDetailViewController(changeDateForSelectedRow viewController: UIViewController) {
-        let selectedRowIndex = noteListViewController.extractSeletedRow()
-        guard let memo = dataManager?.dataList[selectedRowIndex?.row ?? .zero] else { return }
-        dataManager?.update(target: memo, attributes: ["lastModified": Date()])
-//        noteListViewController.update()
-    }
-    
     func noteDetailViewController(_ viewController: UIViewController, bodyForUpdate body: String) {
         let attribute = createAttributes(body: body)
-        dataManager?.fetchAll()
-        guard let selectedMemo = dataManager?.dataList.first else {
-            return
-        }
+        let selectedRowIndex = noteListViewController.extractSeletedRow()
+        guard let selectedMemo = dataManager?.dataList[selectedRowIndex?.row ?? .zero] else { return }
         dataManager?.update(target: selectedMemo, attributes: attribute)
         noteListViewController.update()
     }

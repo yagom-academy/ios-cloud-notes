@@ -44,6 +44,7 @@ final class CoreDataManager<T: NSManagedObject> {
         attributes.forEach { (key: String, value: Any) in
             target.setValue(value, forKey: key)
         }
+        target.setValue(Date(), forKey: "lastModified")
         save()
     }
     

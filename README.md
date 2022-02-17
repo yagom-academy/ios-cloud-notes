@@ -71,7 +71,7 @@ private func configureUI() {
 
 `fatalError`로 설정하여 앱을 강제종료하는 것보단 차라리 빈 셀을 내보내는 것이 훨씬 안전하고 UX도 좋을 것 같아 빈셀을 리턴해주는 방식을 택하였습니다. 
 
-```swift=
+```swift
 extension UITableView {
     func dequeueReusableCell<T: UITableViewCell>(withClass name: T.Type, for indexPath: IndexPath) -> T {
         guard let cell = dequeueReusableCell(withIdentifier: String(describing: name), for: indexPath) as? T else {

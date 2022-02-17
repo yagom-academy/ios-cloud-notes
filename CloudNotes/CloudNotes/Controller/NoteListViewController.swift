@@ -117,6 +117,23 @@ final class NoteListViewController: UIViewController {
         ])
     }
     
+    func showActivityView(note: Note) {
+        let noteTextToShare = "\(note.title ?? "")\n\(note.content ?? "")"
+        let activityViewController = UIActivityViewController(
+            activityItems: [noteTextToShare],
+            applicationActivities: nil
+        )
+        activityViewController.popoverPresentationController?.sourceView = self.view
+        activityViewController.popoverPresentationController?.sourceRect = CGRect(
+            x: UIScreen.main.bounds.width / 2,
+            y: UIScreen.main.bounds.height / 2,
+            width: 0,
+            height: 0
+        )
+        activityViewController.popoverPresentationController?.permittedArrowDirections = []
+        self.present(activityViewController, animated: true, completion: nil)
+    }
+    
     private func setupbackgroundLabel() {
         let backgroundLabel = UILabel()
         backgroundLabel.text = "메모없음"
@@ -154,15 +171,18 @@ extension NoteListViewController: UITableViewDelegate {
         }
         
         let delete = UIContextualAction(style: .normal, title: "Delete") { _, _, _ in
-            self.deleteNote(object: object, indexPath: indexPath)
+            self.showDeleteAlert(message: "정말로 삭제하시겠어요?") {
+                self.deleteNote(object: object, indexPath: indexPath)
+            }
         }
         delete.backgroundColor = .systemRed
-        delete.image = UIImage(systemName: "trash")
+        delete.image = UIImage(systemName: ImageNames.trashImageName)
         
         let shared = UIContextualAction(style: .normal, title: "Shared") { _, _, _ in
+            self.showActivityView(note: object)
         }
         shared.backgroundColor = .systemBlue
-        shared.image = UIImage(systemName: "square.and.arrow.up")
+        shared.image = UIImage(systemName: ImageNames.sharedImageName)
         
         return UISwipeActionsConfiguration(actions: [delete, shared])
     }

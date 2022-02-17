@@ -10,4 +10,6 @@ import Foundation
 struct ImageNames {
     static let plusImageName = "plus"
     static let ellipsisCircleImageName = "ellipsis.circle"
+    static let trashImageName = "trash"
+    static let sharedImageName = "square.and.arrow.up"
 }

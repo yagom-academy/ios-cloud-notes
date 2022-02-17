@@ -32,6 +32,7 @@
 		F3395A1027BD1A85005C213C /* Note+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3395A0E27BD1A85005C213C /* Note+CoreDataProperties.swift */; };
 		F3395A1227BD1ABB005C213C /* PersistantManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3395A1127BD1ABB005C213C /* PersistantManager.swift */; };
 		F3395A1427BD2091005C213C /* DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3395A1327BD2091005C213C /* DateFormatter.swift */; };
+		F3395A1C27BE369A005C213C /* UIViewController+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3395A1B27BE369A005C213C /* UIViewController+extension.swift */; };
 		F366B04627B1091F00EDC8EC /* NoteInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F366B04527B1091E00EDC8EC /* NoteInformation.swift */; };
 /* End PBXBuildFile section */
 
@@ -89,6 +90,7 @@
 		F3395A0E27BD1A85005C213C /* Note+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Note+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		F3395A1127BD1ABB005C213C /* PersistantManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistantManager.swift; sourceTree = "<group>"; };
 		F3395A1327BD2091005C213C /* DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatter.swift; sourceTree = "<group>"; };
+		F3395A1B27BE369A005C213C /* UIViewController+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+extension.swift"; sourceTree = "<group>"; };
 		F366B04527B1091E00EDC8EC /* NoteInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteInformation.swift; sourceTree = "<group>"; };
 		FC0E62716ABB31B332F0C997 /* Pods-CloudNotes.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudNotes.debug.xcconfig"; path = "Target Support Files/Pods-CloudNotes/Pods-CloudNotes.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -184,6 +186,7 @@
 			children = (
 				48F4C2C527BA51DA002BB381 /* String+Extension.swift */,
 				F3395A1327BD2091005C213C /* DateFormatter.swift */,
+				F3395A1B27BE369A005C213C /* UIViewController+extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -497,6 +500,7 @@
 				0876ABDC27B2407D009304B8 /* NoteListViewController.swift in Sources */,
 				F3395A1427BD2091005C213C /* DateFormatter.swift in Sources */,
 				480AE5A827B2518B007106D0 /* NoteDetailScrollView.swift in Sources */,
+				F3395A1C27BE369A005C213C /* UIViewController+extension.swift in Sources */,
 				C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */,
 				484E80F127B10CDC00AEB70F /* JSONParser.swift in Sources */,
 				48F4C2C627BA51DA002BB381 /* String+Extension.swift in Sources */,

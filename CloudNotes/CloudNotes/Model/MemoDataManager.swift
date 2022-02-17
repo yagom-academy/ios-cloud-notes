@@ -35,7 +35,7 @@ final class MemoDataManager {
     func fetchMemos(predicate: NSPredicate? = nil,
                     sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: "lastModified", ascending: false)]
     ) -> [Memo] {
-        let request: NSFetchRequest<Memo> = Memo.fetchRequest()
+        let request = Memo.fetchRequest()
         request.predicate = predicate
         request.returnsObjectsAsFaults = false
         request.sortDescriptors = sortDescriptors
@@ -65,13 +65,13 @@ final class MemoDataManager {
     }
     
     func deleteMemo(id: UUID) {
-        let request: NSFetchRequest<Memo> = Memo.fetchRequest()
-        
+        let request = Memo.fetchRequest()
         let predicate = NSPredicate(format: "id == %@", id.uuidString)
         request.predicate = predicate
+        
         do {
-            let memo = try viewContext.fetch(request)
-            guard let memoToDelete = memo.first else {
+            let memos = try viewContext.fetch(request)
+            guard let memoToDelete = memos.first else {
                 return
             }
             viewContext.delete(memoToDelete)

@@ -80,11 +80,12 @@ class NoteModelManager: NoteModel {
     }
     
     func updateNote(_ note: Note) {
-        let identifier = UUID().uuidString
-        let request = NSFetchRequest<CDNote>(entityName: "CDNote")
-        request.predicate = NSPredicate(format: "identifier == %@", identifier)
+        guard let identifier = note.identifier else {
+            return
+        }
+        let fetchRequest = CDNote.fetchNoteRequest(with: identifier)
         
-        try? persistentDataManager.update(request: request) { filteredResult in
+        try? persistentDataManager.update(request: fetchRequest) { filteredResult in
             [
                 "title": note.title,
                 "body": note.body,

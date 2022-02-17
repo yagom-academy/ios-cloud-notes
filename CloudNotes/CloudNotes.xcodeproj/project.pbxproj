@@ -12,6 +12,8 @@
 		843FEDBA27B20778009AA0ED /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 843FEDB927B20778009AA0ED /* .swiftlint.yml */; };
 		84474C7A27B251E200A1E83E /* NoteListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84474C7927B251E200A1E83E /* NoteListTableViewController.swift */; };
 		847E80D127BCD95600E5CC8B /* PersistentDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847E80D027BCD95600E5CC8B /* PersistentDataManager.swift */; };
+		8499EB4927BDFEFA001B013C /* CDNote+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8499EB4727BDFEF9001B013C /* CDNote+CoreDataClass.swift */; };
+		8499EB4A27BDFEFA001B013C /* CDNote+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8499EB4827BDFEFA001B013C /* CDNote+CoreDataProperties.swift */; };
 		890192CE27BBA94C00233A9B /* NoteListTableViewDiffableDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 890192CD27BBA94C00233A9B /* NoteListTableViewDiffableDataSource.swift */; };
 		890192D027BBA9B100233A9B /* Section.swift in Sources */ = {isa = PBXBuildFile; fileRef = 890192CF27BBA9B100233A9B /* Section.swift */; };
 		894E47A827B5115E0099893B /* NoteListTableViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 894E47A727B5115E0099893B /* NoteListTableViewDelegate.swift */; };
@@ -60,6 +62,8 @@
 		843FEDB927B20778009AA0ED /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		84474C7927B251E200A1E83E /* NoteListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteListTableViewController.swift; sourceTree = "<group>"; };
 		847E80D027BCD95600E5CC8B /* PersistentDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentDataManager.swift; sourceTree = "<group>"; };
+		8499EB4727BDFEF9001B013C /* CDNote+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CDNote+CoreDataClass.swift"; sourceTree = "<group>"; };
+		8499EB4827BDFEFA001B013C /* CDNote+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CDNote+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		85F41C9FA46A836565CC82C4 /* Pods-CloudNotes.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudNotes.release.xcconfig"; path = "Target Support Files/Pods-CloudNotes/Pods-CloudNotes.release.xcconfig"; sourceTree = "<group>"; };
 		890192CD27BBA94C00233A9B /* NoteListTableViewDiffableDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteListTableViewDiffableDataSource.swift; sourceTree = "<group>"; };
 		890192CF27BBA9B100233A9B /* Section.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Section.swift; sourceTree = "<group>"; };
@@ -135,7 +139,6 @@
 				C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */,
 				C7481C7925BBCF3A00B9CA55 /* Assets.xcassets */,
 				C7481C7B25BBCF3A00B9CA55 /* LaunchScreen.storyboard */,
-				847E80D027BCD95600E5CC8B /* PersistentDataManager.swift */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -153,9 +156,12 @@
 			isa = PBXGroup;
 			children = (
 				C1C3151E27B237DA00FB69CE /* Note.swift */,
-				89C7EBD627B25F4400221EC7 /* NoteModelManager.swift */,
 				8991779627BA440E009D5690 /* NoteModel.swift */,
 				890192CF27BBA9B100233A9B /* Section.swift */,
+				89C7EBD627B25F4400221EC7 /* NoteModelManager.swift */,
+				847E80D027BCD95600E5CC8B /* PersistentDataManager.swift */,
+				8499EB4727BDFEF9001B013C /* CDNote+CoreDataClass.swift */,
+				8499EB4827BDFEFA001B013C /* CDNote+CoreDataProperties.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -459,6 +465,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				C1C3151F27B237DA00FB69CE /* Note.swift in Sources */,
+				8499EB4927BDFEFA001B013C /* CDNote+CoreDataClass.swift in Sources */,
+				8499EB4A27BDFEFA001B013C /* CDNote+CoreDataProperties.swift in Sources */,
 				C10A886B27BA26060098589B /* TypeNameConvertible.swift in Sources */,
 				84474C7A27B251E200A1E83E /* NoteListTableViewController.swift in Sources */,
 				89C7EBD727B25F4400221EC7 /* NoteModelManager.swift in Sources */,

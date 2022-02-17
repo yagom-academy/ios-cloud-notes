@@ -85,6 +85,17 @@ final class NoteListViewController: UIViewController {
         self.delegate?.setupEmptyNoteContents()
     }
     
+    func deleteNote(object: NSManagedObject, indexPath: IndexPath) {
+        persistantManager?.notes.remove(at: indexPath.row)
+        tableView.deleteRows(at: [indexPath], with: .fade)
+        persistantManager?.delete(object: object)
+        if persistantManager?.notes.count == indexPath.row {
+            selectNote(with: indexPath.row - 1)
+        } else {
+            selectNote(with: indexPath.row)
+        }
+    }
+    
     private func setupTableView() {
         tableView.dataSource = self
         tableView.delegate = self
@@ -133,6 +144,28 @@ extension NoteListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         delegate?.noteListView(didSeletedCell: indexPath.row)
     }
+    
+    func tableView(
+        _ tableView: UITableView,
+        trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
+    ) -> UISwipeActionsConfiguration? {
+        guard let object = persistantManager?.notes[indexPath.row] else {
+            return UISwipeActionsConfiguration()
+        }
+        
+        let delete = UIContextualAction(style: .normal, title: "Delete") { _, _, _ in
+            self.deleteNote(object: object, indexPath: indexPath)
+        }
+        delete.backgroundColor = .systemRed
+        delete.image = UIImage(systemName: "trash")
+        
+        let shared = UIContextualAction(style: .normal, title: "Shared") { _, _, _ in
+        }
+        shared.backgroundColor = .systemBlue
+        shared.image = UIImage(systemName: "square.and.arrow.up")
+        
+        return UISwipeActionsConfiguration(actions: [delete, shared])
+    }
 }
 
 extension NoteListViewController: UITableViewDataSource {
@@ -158,25 +191,5 @@ extension NoteListViewController: UITableViewDataSource {
         }
         cell.configure(with: information)
         return cell
-    }
-    
-    func tableView(
-        _ tableView: UITableView,
-        commit editingStyle: UITableViewCell.EditingStyle,
-        forRowAt indexPath: IndexPath
-    ) {
-        guard let object = persistantManager?.notes[indexPath.row] else {
-            return
-        }
-        if editingStyle == .delete {
-            persistantManager?.notes.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .fade)
-            persistantManager?.delete(object: object)
-            if persistantManager?.notes.count == indexPath.row {
-                selectNote(with: indexPath.row - 1)
-            } else {
-            selectNote(with: indexPath.row)
-            }
-        }
     }
 }

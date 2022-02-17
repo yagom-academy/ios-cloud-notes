@@ -5,6 +5,7 @@
 // 
 
 import UIKit
+import SwiftyDropbox
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -19,6 +20,26 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let splitVC = SplitViewController(style: .doubleColumn)
         window?.rootViewController = splitVC
         window?.makeKeyAndVisible()
+    }
+    
+    func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+        // MARK: - Dropbox Redirection
+        let oauthCompletion: DropboxOAuthCompletion = {
+             if let authResult = $0 {
+                 switch authResult {
+                 case .success:
+                     print("Success! User is logged into DropboxClientsManager.")
+                 case .cancel:
+                     print("Authorization flow was manually canceled by user!")
+                 case .error(_, let description):
+                     print("Error: \(String(describing: description))")
+                 }
+             }
+           }
+
+           for context in URLContexts {
+               if DropboxClientsManager.handleRedirectURL(context.url, completion: oauthCompletion) { break }
+           }
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

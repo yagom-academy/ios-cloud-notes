@@ -1,4 +1,5 @@
 import UIKit
+import SwiftyDropbox
 
 class NotesViewController: UITableViewController {
     private enum Constant {
@@ -20,6 +21,20 @@ class NotesViewController: UITableViewController {
         setUpNavigationItem()
         tableView.allowsSelectionDuringEditing = true
         tableView.register(NotesCell.self, forCellReuseIdentifier: NotesCell.identifier)
+        authorize()
+    }
+    
+    func authorize() {
+        let scopeRequest = ScopeRequest(scopeType: .user, scopes: ["account_info.read"], includeGrantedScopes: false)
+        DropboxClientsManager.authorizeFromControllerV2(
+            UIApplication.shared,
+            controller: self,
+            loadingStatusDelegate: nil,
+            openURL: { (url: URL) -> Void in
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            },
+            scopeRequest: scopeRequest
+        )
     }
     
     override func setEditing(_ editing: Bool, animated: Bool) {

@@ -32,7 +32,11 @@
     + [Trouble Shooting](#2-3-Trouble-Shooting)
     + [배운 개념](#2-4-배운-개념)
     + [PR 후 개선사항](#2-5-PR-후-개선사항)
-
+- [STEP 3 : 클라우드 연동](#STEP-3--클라우드-연동)
+    + [고민했던 것](#3-1-고민했던-것)
+    + [의문점](#3-2-의문점)
+    + [Trouble Shooting](#3-3-Trouble-Shooting)
+    + [배운 개념](#3-4-배운-개념)
 
 ## ⌨️ 키워드
 
@@ -760,6 +764,203 @@ func download(_ tableViewController: NotesViewController?) {
 ![](https://i.imgur.com/ejnhQOL.png)
 
 > `SwiftyDropbox`가 정상적으로 설치된 것을 확인할 수 있다.
+
+</div>
+</details>
+
+
+<details>
+<summary>[프로젝트에 SwiftyDropbox 설정하기]</summary>
+<div markdown="1">
+
+> 아래 프로젝트 설정하는 튜토리얼을 참고하여 진행하였다.
+https://github.com/dropbox/SwiftyDropbox#configure-your-project
+
+> 먼저 Info.plist 파일을 수정해주어야 하는데, 그 전에 dropbox에 app을 등록해야 한다. 로그인 후 apps에 들어가면 아래와 같은 버튼이 있다.
+
+![](https://i.imgur.com/xBg2zZc.png)
+
+> 이후 필수 문항을 선택, 입력 후 create app 버튼을 눌러 만들어주면 된다.
+
+![](https://i.imgur.com/mqSylZ5.png)
+
+> 그러면 App key가 발급되는데, 이걸 이제 Info.plist를 수정하는데 활용할 것이다.
+
+![](https://i.imgur.com/QuHdJk5.png)
+
+튜토리얼에서 하라는데로 Info.plist를 예시와 같이 수정해준다.
+
+```
+<key>LSApplicationQueriesSchemes</key>
+    <array>
+        <string>dbapi-8-emm</string>
+        <string>dbapi-2</string>
+    </array>
+```
+
+> 아까 만들고 얻은 App key를 `db-` 뒤부터 기입해주면 된다.
+```
+<key>CFBundleURLTypes</key>
+    <array>
+        <dict>
+            <key>CFBundleURLSchemes</key>
+            <array>
+                <string>db-<APP_KEY></string>
+            </array>
+            <key>CFBundleURLName</key>
+            <string></string>
+        </dict>
+    </array>
+```
+
+![](https://i.imgur.com/ltONNs1.png)
+
+> 이후 코드로 돌아가서 AppDelegate에 DropboxClient 인스턴스를 초기화 해준다.
+
+```swift
+import SwiftyDropbox
+
+func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    DropboxClientsManager.setupWithAppKey("<APP_KEY>")
+    return true
+}
+```
+
+> 그리고 SceneDelegate에 아래와 같은 메소드를 추가한다.
+
+```swift
+import SwiftyDropbox
+
+func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+     let oauthCompletion: DropboxOAuthCompletion = {
+      if let authResult = $0 {
+          switch authResult {
+          case .success:
+              print("Success! User is logged into DropboxClientsManager.")
+          case .cancel:
+              print("Authorization flow was manually canceled by user!")
+          case .error(_, let description):
+              print("Error: \(String(describing: description))")
+          }
+      }
+    }
+
+    for context in URLContexts {
+        // stop iterating after the first handle-able url
+        if DropboxClientsManager.handleRedirectURL(context.url, completion: oauthCompletion) { break }
+    }
+}
+    }
+```
+
+> 이후 맨처음에 시작하는 뷰에 로그인을 해서 인증 토큰을 받아오는 작업을 추가한다. 이번 프로젝트 같은 경우 UISplitViewController를 사용했는데, rootView인 SplitViewController에서는 해당 작업이 정상적으로 뜨지않았다. (이유는 찾지 못했다.) 그래서 다른 UIViewController에서 진행해야하나.. 싶어서 UITableViewController의 viewDidLoad()에서 해당 작업을 실행해주니 로그인창이 정상적으로 떴다.
+
+```swift
+import SwiftyDropbox
+
+func myButtonInControllerPressed() {
+    // OAuth 2 code flow with PKCE that grants a short-lived token with scopes, and performs refreshes of the token automatically.
+    let scopeRequest = ScopeRequest(scopeType: .user, scopes: ["account_info.read"], includeGrantedScopes: false)
+    DropboxClientsManager.authorizeFromControllerV2(
+        UIApplication.shared,
+        controller: self,
+        loadingStatusDelegate: nil,
+        openURL: { (url: URL) -> Void in UIApplication.shared.open(url, options: [:], completionHandler: nil) },
+        scopeRequest: scopeRequest
+    )
+
+    // Note: this is the DEPRECATED authorization flow that grants a long-lived token.
+    // If you are still using this, please update your app to use the `authorizeFromControllerV2` call instead.
+    // See https://dropbox.tech/developers/migrating-app-permissions-and-access-tokens
+    DropboxClientsManager.authorizeFromController(UIApplication.shared,
+                                                  controller: self,
+                                                  openURL: { (url: URL) -> Void in
+                                                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                                                  })
+}
+```
+
+> 여기서 scopes라는 파라미터가 있는데, 이 부분은 앱이 Dropbox 계정 정보를 보고 관리할 수 있도록 권한의 범위를 뜻한다. 아까 App key를 얻었던 곳에서 Permissions 탭을 클릭하면 Account의 정보가 나온다. 따라서 필요한 Account를 scopes에 넣어주면 되겠다.
+
+![](https://i.imgur.com/1O8bJws.jpg)
+
+
+> 이 다음에 API에 호출할 DropboxClient 인스턴스를 생성한다.
+
+```swift
+import SwiftyDropbox
+
+// Reference after programmatic auth flow
+let client = DropboxClientsManager.authorizedClient
+```
+
+> client를 통해 업로드와 다운로드를 진행할 수 있다.
+
+```swift
+let fileData = "testing data example".data(using: String.Encoding.utf8, allowLossyConversion: false)!
+
+let request = client.files.upload(path: "/test/path/in/Dropbox/account", input: fileData)
+    .response { response, error in
+        if let response = response {
+            print(response)
+        } else if let error = error {
+            print(error)
+        }
+    }
+    .progress { progressData in
+        print(progressData)
+    }
+
+// in case you want to cancel the request
+if someConditionIsSatisfied {
+    request.cancel()
+}
+```
+
+```swift
+// Download to URL
+let fileManager = FileManager.default
+let directoryURL = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
+let destURL = directoryURL.appendingPathComponent("myTestFile")
+let destination: (URL, HTTPURLResponse) -> URL = { temporaryURL, response in
+    return destURL
+}
+client.files.download(path: "/test/path/in/Dropbox/account", overwrite: true, destination: destination)
+    .response { response, error in
+        if let response = response {
+            print(response)
+        } else if let error = error {
+            print(error)
+        }
+    }
+    .progress { progressData in
+        print(progressData)
+    }
+
+
+// Download to Data
+client.files.download(path: "/test/path/in/Dropbox/account")
+    .response { response, error in
+        if let response = response {
+            let responseMetadata = response.0
+            print(responseMetadata)
+            let fileContents = response.1
+            print(fileContents)
+        } else if let error = error {
+            print(error)
+        }
+    }
+    .progress { progressData in
+        print(progressData)
+    }
+```
+
+> 두가지의 공통점은 파일을 다운로드하고, 업로드할 때 `경로`가 필요하다는 점이다. 메모장 프로젝트의 경우 CoreData를 통해서 메모를 관리하고 있기 때문에 `백업`의 형태로 CoreData의 경로를 얻어내서 `.sqlite`, `.sqlite-shm`, `.sqlite-wal` 총 3개의 파일을 업로드 및 다운로드 해주도록 구현해주었다.
+
+> 업로드, 다운로드 모두 파일을 덮어쓸건지에 대한 옵션이 있으니 자세한건 아래 도큐먼트에서 검색해보면 되겠다.
+
+https://dropbox.github.io/SwiftyDropbox/api-docs/latest/index.html
+
 
 </div>
 </details>

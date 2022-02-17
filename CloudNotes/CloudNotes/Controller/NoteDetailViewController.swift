@@ -104,15 +104,14 @@ extension NoteDetailViewController {
     }
     
     @objc private func keyboardWillShow(_ notification: Notification) {
-        guard let userInfo = notification.userInfo as NSDictionary?,
-              var keyboardFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
-            return
-        }
-        keyboardFrame = view.convert(keyboardFrame, from: nil)
-        var contentInset = noteDetailTextView.contentInset
-        contentInset.bottom = keyboardFrame.size.height
-        noteDetailTextView.contentInset = contentInset
-        noteDetailTextView.scrollIndicatorInsets = noteDetailTextView.contentInset
+        notification.userInfo
+            .flatMap { $0[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect }
+            .flatMap {
+                var contentInset = noteDetailTextView.contentInset
+                contentInset.bottom = $0.size.height
+                noteDetailTextView.contentInset = contentInset
+                noteDetailTextView.scrollIndicatorInsets = noteDetailTextView.contentInset
+            }
     }
     
     @objc private func keyboardWillHide(_ notification: Notification) {
@@ -189,13 +188,13 @@ extension NoteDetailViewController: UITextViewDelegate {
     
     private func updateNoteData(with text: String) {
         let data = text.split(separator: Constant.lineBreak, maxSplits: 1)
-        let lastModified = Date().timeIntervalSince1970
-        let title = data[safe: .zero]?.description
-        let body = text
-        guard let id = PersistentManager.shared.notes[safe: currentIndex]?.id else {
-            return
-        }
-        PersistentManager.shared.updateNote(id: id, title: title, body: body, lastModified: lastModified)
+        let newItems: [String: Any] = [
+            "title": data[safe: .zero]?.description ?? "",
+            "body": text,
+            "lastModified": Date().timeIntervalSince1970,
+            "id": PersistentManager.shared.notes[safe: currentIndex]?.id ?? UUID()
+        ]
+        PersistentManager.shared.updateNote(items: newItems)
     }
 }
 

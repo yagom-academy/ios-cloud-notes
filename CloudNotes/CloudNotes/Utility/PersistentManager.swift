@@ -105,21 +105,12 @@ extension PersistentManager {
 
     func updateNote(
         entityName: String = "Note",
-        id: UUID?,
-        title: String?,
-        body: String?,
-        lastModified: TimeInterval
+        items: [String: Any]
     ) {
-        guard let id = id else {
-            return
-        }
-        let predicate = NSPredicate(format: "id == %@", id as CVarArg)
-        guard let note = fetch(entityName: entityName, predicate: predicate)?.first else {
-            return
-        }
-        note.title = title
-        note.body = body
-        note.lastModified = lastModified
-        saveContext()
+        _ = items["id"]
+            .flatMap { $0 as? UUID as CVarArg? }
+            .flatMap { fetch(entityName: entityName, predicate: NSPredicate(format: "id == %@", $0))?.first }
+            .flatMap { $0 as NSManagedObject }
+            .flatMap { update($0, items: items) }
     }
 }

@@ -54,4 +54,15 @@ class PersistentDataManager {
         handler?(filteredResult)
         try context.save()
     }
+    
+    func delete<T: NSManagedObject>(request: NSFetchRequest<T>, handler: ((NSManagedObject) -> Void)? = nil) throws {
+        let filteredResults = try context.fetch(request)
+        guard let filteredResult = filteredResults.first else {
+            return
+        }
+        
+        context.delete(filteredResult)
+        try context.save()
+    }
+    
 }

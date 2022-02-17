@@ -96,4 +96,13 @@ class NoteModelManager: NoteModel {
         }
     }
     
+    func deleteNote(_ note: Note) {
+        guard let identifier = note.identifier else {
+            return
+        }
+        let fetchRequest = CDNote.fetchNoteRequest(with: identifier)
+        
+        try? persistentDataManager.delete(request: fetchRequest)
+    }
+    
 }

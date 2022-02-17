@@ -9,6 +9,7 @@ class NotesViewController: UITableViewController {
         static let deleteIconName = "trash.fill"
         static let shareIconName = "square.and.arrow.up"
     }
+    let dropBoxManager = DropBoxManager()
     weak var delegate: NotesDetailViewControllerDelegate?
     private var selectedIndex: IndexPath? {
         didSet {
@@ -21,20 +22,7 @@ class NotesViewController: UITableViewController {
         setUpNavigationItem()
         tableView.allowsSelectionDuringEditing = true
         tableView.register(NotesCell.self, forCellReuseIdentifier: NotesCell.identifier)
-        authorize()
-    }
-    
-    func authorize() {
-        let scopeRequest = ScopeRequest(scopeType: .user, scopes: ["account_info.read"], includeGrantedScopes: false)
-        DropboxClientsManager.authorizeFromControllerV2(
-            UIApplication.shared,
-            controller: self,
-            loadingStatusDelegate: nil,
-            openURL: { (url: URL) -> Void in
-                UIApplication.shared.open(url, options: [:], completionHandler: nil)
-            },
-            scopeRequest: scopeRequest
-        )
+        dropBoxManager.authorize(self)
     }
     
     override func setEditing(_ editing: Bool, animated: Bool) {

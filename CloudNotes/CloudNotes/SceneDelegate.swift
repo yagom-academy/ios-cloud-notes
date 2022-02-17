@@ -28,6 +28,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                  switch authResult {
                  case .success:
                      print("Success! User is logged into DropboxClientsManager.")
+                     let splitVC = self.window?.rootViewController as? SplitViewController
+                     let primaryVC = splitVC?.viewController(for: .primary) as? UITableViewController
+                     DropBoxManager().download(primaryVC)
                  case .cancel:
                      print("Authorization flow was manually canceled by user!")
                  case .error(_, let description):

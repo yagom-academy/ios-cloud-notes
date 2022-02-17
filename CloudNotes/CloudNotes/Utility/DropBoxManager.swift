@@ -53,12 +53,14 @@ class DropBoxManager {
         }
     }
     
-    func download() {
+    func download(_ tableViewController: UITableViewController?) {
+        let group = DispatchGroup()
         for fileName in fileNames {
             let destURL = url.appendingPathComponent(fileName)
             let destination: (URL, HTTPURLResponse) -> URL = { _, _ in
                 return destURL
             }
+            group.enter()
             client?.files.download(path: fileName, overwrite: true, destination: destination)
                 .response { response, error in
                     if let response = response {
@@ -66,10 +68,15 @@ class DropBoxManager {
                     } else if let error = error {
                         print(error)
                     }
+                    group.leave()
                 }
                 .progress { progressData in
                     print(progressData)
                 }
+        }
+        group.notify(queue: .main) {
+            PersistentManager.shared.setUpNotes()
+            tableViewController?.tableView.reloadData()
         }
     }
 }

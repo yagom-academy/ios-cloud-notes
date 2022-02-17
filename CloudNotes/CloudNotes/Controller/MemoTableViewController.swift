@@ -48,6 +48,8 @@ class MemoTableViewController: UITableViewController {
         delegate?.create()
         tableView.insertRows(at: [initialIndexPath], with: .fade)
         tableView.scrollToRow(at: initialIndexPath, at: .bottom, animated: true)
+        tableView.selectRow(at: initialIndexPath, animated: true, scrollPosition: .none)
+        delegate?.showSecondaryView(of: initialIndexPath)
         tableView.isEditing = false
     }
     
@@ -57,6 +59,7 @@ class MemoTableViewController: UITableViewController {
     
     func updateSelectedIndexPath(with indexPath: IndexPath) {
         selectedIndexPath = indexPath
+        tableView.selectRow(at: selectedIndexPath, animated: true, scrollPosition: .none)
     }
 }
 

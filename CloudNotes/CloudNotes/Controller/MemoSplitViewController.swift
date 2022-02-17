@@ -162,10 +162,20 @@ extension MemoSplitViewController: MemoStorageManageable {
     }
     
     func update(at indexPath: IndexPath, title: String, body: String) {
+        memoTableViewController.tableView.performBatchUpdates {
+            if indexPath.row != 0 {
+                memoTableViewController.tableView.moveRow(at: indexPath, to: .zero)
+            }
+        } completion: { isCompleted in
+            if isCompleted {
+                self.memoTableViewController.tableView.reloadRows(at: [.zero], with: .none)
+                self.memoTableViewController.tableView.selectRow(at: .zero, animated: false, scrollPosition: .none)
+            }
+        }
+        
         let memoToUpdate = memos[indexPath.row]
         memoStorage.update(to: memoToUpdate, title: title, body: body)
         fetchAll()
-        self.memoTableViewController.tableView.moveRow(at: indexPath, to: .zero)
     }
 
     func delete(at indexPath: IndexPath) {
@@ -182,13 +192,19 @@ extension MemoSplitViewController: MemoStorageManageable {
         let selectedIndexPath = self.memoTableViewController.selectedIndexPath
         var newIndexPath = selectedIndexPath
         
-        if selectedIndexPath.row > indexPath.row {
+        if indexPath.row == 0 {
+            newIndexPath = .zero
+        } else if selectedIndexPath.row > indexPath.row {
             newIndexPath = IndexPath(row: selectedIndexPath.row - 1, section: selectedIndexPath.section)
-        } else if selectedIndexPath.row == memos.count {
-            newIndexPath = IndexPath(row: selectedIndexPath.row - 1, section: selectedIndexPath.section)
+        } else if indexPath.row == memos.count {
+            if selectedIndexPath.row == memos.count {
+                newIndexPath = IndexPath(row: indexPath.row - 1, section: indexPath.section)
+            }
         }
         
         self.memoTableViewController.updateSelectedIndexPath(with: newIndexPath)
-        showSecondaryView(of: newIndexPath)
+        if isCollapsed == false {
+            showSecondaryView(of: newIndexPath)
+        }
     }
 }

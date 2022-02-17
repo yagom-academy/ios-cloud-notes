@@ -21,7 +21,6 @@ private enum TextAttribute {
 
 class MemoDetailViewController: UIViewController {
     private var currentIndexPath: IndexPath = .zero
-    private var currentText: String?
     private weak var delegate: MemoManageable?
     
     private let memoTextView: UITextView = {
@@ -156,24 +155,12 @@ extension MemoDetailViewController: UITextViewDelegate {
             delegate?.delete(at: currentIndexPath)
             return
         }
-        
-        guard currentText != textView.text else {
-            return
-        }
-        
-        let (title, body) = splitText(text: textView.text)
-        delegate?.update(at: currentIndexPath, title: title, body: body)
-        
-        currentIndexPath = .zero
-    }
-    
-    func textViewDidBeginEditing(_ textView: UITextView) {
-        currentText = textView.text
     }
     
     func textViewDidChange(_ textView: UITextView) {
         let (title, body) = splitText(text: textView.text)
-        delegate?.reloadRow(at: currentIndexPath, title: title, body: body)
+        delegate?.update(at: currentIndexPath, title: title, body: body)
+        currentIndexPath = .zero
     }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {

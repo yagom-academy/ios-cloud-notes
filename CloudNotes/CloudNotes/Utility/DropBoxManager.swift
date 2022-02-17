@@ -33,7 +33,33 @@ class DropBoxManager {
     func upload() {
         for fileName in fileNames {
             let fileURL = url.appendingPathComponent(fileName)
-            client?.files.upload(path: fileName, input: fileURL)
+            client?.files.upload(
+                path: fileName,
+                mode: .overwrite,
+                autorename: true,
+                mute: true,
+                strictConflict: false,
+                input: fileURL
+            ).response { response, error in
+                    if let response = response {
+                        print(response)
+                    } else if let error = error {
+                        print(error)
+                    }
+                }
+                .progress { progressData in
+                    print(progressData)
+                }
+        }
+    }
+    
+    func download() {
+        for fileName in fileNames {
+            let destURL = url.appendingPathComponent(fileName)
+            let destination: (URL, HTTPURLResponse) -> URL = { _, _ in
+                return destURL
+            }
+            client?.files.download(path: fileName, overwrite: true, destination: destination)
                 .response { response, error in
                     if let response = response {
                         print(response)

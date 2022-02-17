@@ -16,21 +16,6 @@ class MemoDetailViewController: UIViewController {
         return textView
     }()
     
-    private var currentMemo: Memo {
-        let memoComponents = textView.text.split(
-            separator: "\n",
-            maxSplits: 1
-        ).map(String.init)
-        
-        let memo = Memo(context: MemoDataManager.shared.viewContext)
-        
-        memo.title = memoComponents[safe: 0] ?? ""
-        memo.body = memoComponents[safe: 1] ?? ""
-        memo.lastModified = Date()
-        
-        return memo
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground

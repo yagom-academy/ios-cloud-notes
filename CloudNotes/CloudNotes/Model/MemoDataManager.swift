@@ -4,8 +4,8 @@ import CoreData
 class MemoDataManager {
     static let shared = MemoDataManager(modelName: "CloudNotes")
     var memos = [Memo]()
-    let persistentContainer: NSPersistentContainer
-    var viewContext: NSManagedObjectContext {
+    private let persistentContainer: NSPersistentContainer
+    private var viewContext: NSManagedObjectContext {
         return persistentContainer.viewContext
     }
     
@@ -21,7 +21,7 @@ class MemoDataManager {
         }
     }
     
-    func saveViewContext() {
+    private func saveViewContext() {
         if viewContext.hasChanges {
             do {
                 try viewContext.save()
@@ -31,46 +31,31 @@ class MemoDataManager {
         }
     }
     
-    func fetchNotes() {
-        let request: NSFetchRequest<Memo> = Memo.fetchRequest()
-        let sortDescriptor = NSSortDescriptor(keyPath: \Memo.lastModified, ascending: false)
-        request.sortDescriptors = [sortDescriptor]
-        do {
-            memos = try MemoDataManager.shared.viewContext.fetch(request)
-        } catch {
-            print(error.localizedDescription)
-        }
-    }
-    
     @discardableResult
-    func fetch(
-        entityName: String = "Memo",
-        predicate: NSPredicate? = nil,
-        sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: "lastModified", ascending: false)]
-    ) -> [Memo]? {
-    
+    func fetchMemos(predicate: NSPredicate? = nil,
+                    sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: "lastModified", ascending: false)]
+    ) -> [Memo] {
         let request: NSFetchRequest<Memo> = Memo.fetchRequest()
         request.predicate = predicate
         request.returnsObjectsAsFaults = false
         request.sortDescriptors = sortDescriptors
-        guard let newData = try? viewContext.fetch(request) else {
-            return nil
+        
+        var memos: [Memo] = []
+        do {
+            memos = try viewContext.fetch(request)
+        } catch {
+            print(error.localizedDescription)
         }
-        return newData
+        return memos
     }
     
-    func updateMemo(
-        entityName: String = "Memo",
-        id: UUID?,
-        title: String?,
-        body: String?,
-        lastModified: Date = Date()
+    func updateMemo(id: UUID,
+                    title: String,
+                    body: String,
+                    lastModified: Date
     ) {
-        guard let id = id else {
-            return
-        }
         let predicate = NSPredicate(format: "id == %@", id.uuidString)
-        guard let memo = fetch(entityName: entityName, predicate: predicate)?.first else {
+        guard let memo = fetchMemos(predicate: predicate).first else {
             return
         }
         memo.title = title
@@ -92,7 +77,7 @@ class MemoDataManager {
             viewContext.delete(memoToDelete)
             saveViewContext()
         } catch {
-            print(error)
+            print(error.localizedDescription)
         }
     }
 }

@@ -18,7 +18,7 @@ class MemoListViewController: UIViewController {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellIdentifier)
         setupTableView()
         setupNavigationBar()
-        MemoDataManager.shared.fetchNotes()
+        MemoDataManager.shared.memos = MemoDataManager.shared.fetchMemos()
         if !MemoDataManager.shared.isEmpty {
             tableView.selectRow(at: IndexPath(row: 0, section: 0), animated: false, scrollPosition: .top)
             tableView(tableView, didSelectRowAt: IndexPath(row: 0, section: 0))
@@ -159,17 +159,13 @@ extension MemoListViewController: MemoListViewControllerDelegate {
         guard let indexPath = tableView.indexPathForSelectedRow else {
             return
         }
-        let id = MemoDataManager.shared.memos[indexPath.row].id
+        guard let id = MemoDataManager.shared.memos[indexPath.row].id else {
+            return
+        }
         
-        MemoDataManager.shared.updateMemo(id: id, title: title, body: body)
+        MemoDataManager.shared.updateMemo(id: id, title: title, body: body, lastModified: lastModified)
         
         tableView.reloadRows(at: [indexPath], with: .none)
         tableView.selectRow(at: indexPath, animated: true, scrollPosition: .none)
-        
-        do {
-            try MemoDataManager.shared.viewContext.save()
-        } catch {
-            print("error")
-        }
     }
 }

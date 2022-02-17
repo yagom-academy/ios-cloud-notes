@@ -10,6 +10,8 @@ import CoreData
 
 protocol NoteListViewDelegate: AnyObject {
     func noteListView(didSeletedCell row: Int)
+    func setupEmptyNoteContents()
+    func setupNotEmptyNoteContents()
 }
 
 final class NoteListViewController: UIViewController {
@@ -43,7 +45,7 @@ final class NoteListViewController: UIViewController {
           image: addButtonImage,
           style: .done,
           target: self,
-          action: #selector(addEmptyNote)
+          action: #selector(addNewNote)
         )
         navigationItem.setRightBarButton(rightButton, animated: false)
     }
@@ -58,11 +60,11 @@ final class NoteListViewController: UIViewController {
         }
     }
     
-    @objc func addEmptyNote() {
+    @objc func addNewNote() {
         tableView.performBatchUpdates {
             let emptyNoteInformation = NoteInformation(
-                title: "새로운 메모",
-                content: "추가 텍스트 없음",
+                title: "",
+                content: "",
                 lastModifiedDate: Date().timeIntervalSince1970
             )
             persistantManager?.save(noteInformation: emptyNoteInformation)
@@ -70,9 +72,17 @@ final class NoteListViewController: UIViewController {
             tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .none)
         } completion: {_ in
             self.tableView.backgroundView?.isHidden = true
+            self.delegate?.setupNotEmptyNoteContents()
             self.tableView.reloadData()
             self.selectNote(with: 0)
         }
+    }
+    
+    func setUpEmptyNotes() {
+        DispatchQueue.main.async {
+            self.tableView.backgroundView?.isHidden = false
+        }
+        self.delegate?.setupEmptyNoteContents()
     }
     
     private func setupTableView() {
@@ -108,8 +118,9 @@ final class NoteListViewController: UIViewController {
     private func selectNote(with index: Int) {
         guard let noteInformations = persistantManager?.notes,
               noteInformations.count > 0 else {
-               return
-        }
+                  self.setUpEmptyNotes()
+                  return
+              }
         let indexPath = IndexPath(row: index, section: 0)
         self.tableView.selectRow(at: indexPath, animated: false, scrollPosition: .top)
         delegate?.noteListView(didSeletedCell: indexPath.row)

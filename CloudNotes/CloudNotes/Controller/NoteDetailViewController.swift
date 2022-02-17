@@ -54,6 +54,18 @@ final class NoteDetailViewController: UIViewController {
         }
     }
     
+    func setupEmptyDetailView() {
+        DispatchQueue.main.async {
+            self.noteDetailScrollView.isHidden = true
+        }
+    }
+    
+    func setupNotEmptyDetailView() {
+        DispatchQueue.main.async {
+            self.noteDetailScrollView.isHidden = false
+        }
+    }
+    
     private func scrollTextViewToVisible() {
         DispatchQueue.main.async { [weak self] in
             if let dateLabelHeight = self?.noteDetailScrollView.lastModifiedDateLabel.frame.height {

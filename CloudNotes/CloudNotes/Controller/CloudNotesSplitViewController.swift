@@ -51,6 +51,22 @@ final class CloudNotesSplitViewController: UISplitViewController {
 // MARK: - NoteListView Delegate
 
 extension CloudNotesSplitViewController: NoteListViewDelegate {
+    func setupNotEmptyNoteContents() {
+        if let detailViewController = viewController(
+            for: .secondary
+        ) as? NoteDetailViewController {
+            detailViewController.setupNotEmptyDetailView()
+        }
+    }
+    
+    func setupEmptyNoteContents() {
+        if let detailViewController = viewController(
+            for: .secondary
+        ) as? NoteDetailViewController {
+            detailViewController.setupEmptyDetailView()
+        }
+    }
+    
     func noteListView(didSeletedCell row: Int) {
         if let detailViewController = viewController(
             for: .secondary

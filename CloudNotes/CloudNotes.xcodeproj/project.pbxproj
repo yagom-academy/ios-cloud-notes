@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		256119B427BCBF0A005B0A07 /* NotesViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 256119B327BCBF0A005B0A07 /* NotesViewControllerDelegate.swift */; };
 		256119B627BCBF22005B0A07 /* NotesDetailViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 256119B527BCBF22005B0A07 /* NotesDetailViewControllerDelegate.swift */; };
-		256119B927BDEFEC005B0A07 /* DropBoxManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 256119B827BDEFEC005B0A07 /* DropBoxManager.swift */; };
+		256119B927BDEFEC005B0A07 /* DropboxManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 256119B827BDEFEC005B0A07 /* DropboxManager.swift */; };
 		2585782A27B1023000889D06 /* JSONParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2585782927B1023000889D06 /* JSONParser.swift */; };
 		2585782E27B2060E00889D06 /* NotesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2585782D27B2060E00889D06 /* NotesViewController.swift */; };
 		2585783027B206EE00889D06 /* NoteDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2585782F27B206EE00889D06 /* NoteDetailViewController.swift */; };
@@ -53,7 +53,7 @@
 /* Begin PBXFileReference section */
 		256119B327BCBF0A005B0A07 /* NotesViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesViewControllerDelegate.swift; sourceTree = "<group>"; };
 		256119B527BCBF22005B0A07 /* NotesDetailViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesDetailViewControllerDelegate.swift; sourceTree = "<group>"; };
-		256119B827BDEFEC005B0A07 /* DropBoxManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropBoxManager.swift; sourceTree = "<group>"; };
+		256119B827BDEFEC005B0A07 /* DropboxManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropboxManager.swift; sourceTree = "<group>"; };
 		2585782927B1023000889D06 /* JSONParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONParser.swift; sourceTree = "<group>"; };
 		2585782D27B2060E00889D06 /* NotesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesViewController.swift; sourceTree = "<group>"; };
 		2585782F27B206EE00889D06 /* NoteDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteDetailViewController.swift; sourceTree = "<group>"; };
@@ -159,7 +159,7 @@
 			isa = PBXGroup;
 			children = (
 				2585788127B4D98300889D06 /* PersistentManager.swift */,
-				256119B827BDEFEC005B0A07 /* DropBoxManager.swift */,
+				256119B827BDEFEC005B0A07 /* DropboxManager.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -389,7 +389,7 @@
 				2585787F27B4D90100889D06 /* Note+CoreDataClass.swift in Sources */,
 				2585782A27B1023000889D06 /* JSONParser.swift in Sources */,
 				C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */,
-				256119B927BDEFEC005B0A07 /* DropBoxManager.swift in Sources */,
+				256119B927BDEFEC005B0A07 /* DropboxManager.swift in Sources */,
 				C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */,
 				2585782E27B2060E00889D06 /* NotesViewController.swift in Sources */,
 				C7481C7825BBCF3900B9CA55 /* CloudNotes.xcdatamodeld in Sources */,

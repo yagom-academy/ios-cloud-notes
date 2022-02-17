@@ -30,7 +30,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                  switch authResult {
                  case .success:
                      print("Success! User is logged into DropboxClientsManager.")
-                     DropBoxManager().download(primaryVC)
+                     DropboxManager().download(primaryVC)
                  case .cancel:
                      print("Authorization flow was manually canceled by user!")
                      primaryVC?.stopActivityIndicator()

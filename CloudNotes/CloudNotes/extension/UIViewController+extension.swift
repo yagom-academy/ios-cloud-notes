@@ -9,7 +9,7 @@ extension UIViewController {
 
     @objc func dismissKeyboard() {
         view.endEditing(true)
-        DropBoxManager().upload()
+        DropboxManager().upload()
     }
     
     func showActivityViewController(data: String...) {

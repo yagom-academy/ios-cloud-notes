@@ -1,11 +1,14 @@
 import SwiftyDropbox
 import UIKit
 
-class DropBoxManager {
-    let client = DropboxClientsManager.authorizedClient
-    let url = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
-    let fileNames: [String] = ["/CloudNotes.sqlite", "/CloudNotes.sqlite-shm", "/CloudNotes.sqlite-wal"]
-    let scope = [
+struct DropboxManager {
+    private let client = DropboxClientsManager.authorizedClient
+    private let applicationSupportDirectoryURl = FileManager.default.urls(
+        for: .applicationSupportDirectory,
+        in: .userDomainMask
+    )[0]
+    private let fileNames: [String] = ["/CloudNotes.sqlite", "/CloudNotes.sqlite-shm", "/CloudNotes.sqlite-wal"]
+    private let scopes = [
         "account_info.read",
         "account_info.write",
         "files.content.read",
@@ -17,7 +20,7 @@ class DropBoxManager {
     func authorize(_ viewController: UIViewController) {
         let scopeRequest = ScopeRequest(
             scopeType: .user,
-            scopes: scope,
+            scopes: scopes,
             includeGrantedScopes: false)
         DropboxClientsManager.authorizeFromControllerV2(
             UIApplication.shared,
@@ -32,7 +35,7 @@ class DropBoxManager {
     
     func upload() {
         for fileName in fileNames {
-            let fileURL = url.appendingPathComponent(fileName)
+            let fileURL = applicationSupportDirectoryURl.appendingPathComponent(fileName)
             client?.files.upload(
                 path: fileName,
                 mode: .overwrite,
@@ -56,7 +59,7 @@ class DropBoxManager {
     func download(_ tableViewController: NotesViewController?) {
         let group = DispatchGroup()
         for fileName in fileNames {
-            let destURL = url.appendingPathComponent(fileName)
+            let destURL = applicationSupportDirectoryURl.appendingPathComponent(fileName)
             let destination: (URL, HTTPURLResponse) -> URL = { _, _ in
                 return destURL
             }

@@ -9,7 +9,7 @@ class NotesViewController: UITableViewController {
         static let deleteIconName = "trash.fill"
         static let shareIconName = "square.and.arrow.up"
     }
-    let dropBoxManager = DropBoxManager()
+    let dropBoxManager = DropboxManager()
     weak var delegate: NotesDetailViewControllerDelegate?
     private var selectedIndex: IndexPath? {
         didSet {

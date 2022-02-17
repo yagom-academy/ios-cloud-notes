@@ -1,7 +1,7 @@
 import UIKit
 import CoreData
 
-class MemoDataManager {
+final class MemoDataManager {
     static let shared = MemoDataManager(modelName: "CloudNotes")
     var memos = [Memo]()
     private let persistentContainer: NSPersistentContainer

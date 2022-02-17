@@ -5,7 +5,7 @@ protocol MemoDetailViewControllerDelegate: AnyObject {
     func showEmptyTextView()
 }
 
-class MemoDetailViewController: UIViewController {
+final class MemoDetailViewController: UIViewController {
     weak var delegate: MemoListViewControllerDelegate?
     
     private let textView: UITextView = {
@@ -29,17 +29,15 @@ class MemoDetailViewController: UIViewController {
     }
     
     private func setUpNotification() {
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(keyboardWillShow),
-            name: UIResponder.keyboardWillShowNotification,
-            object: nil
-        )
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillShow),
+                                               name: UIResponder.keyboardWillShowNotification,
+                                               object: nil)
     }
     
-    @objc func keyboardWillShow(_ sender: Notification) {
+    @objc private func keyboardWillShow(_ sender: Notification) {
         let userInfo: NSDictionary = sender.userInfo! as NSDictionary
-        guard let keyboardFrame: NSValue = userInfo.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as? NSValue else {
+        guard let keyboardFrame = userInfo.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as? NSValue else {
             return
         }
         let keyboardRect = keyboardFrame.cgRectValue
@@ -64,11 +62,11 @@ class MemoDetailViewController: UIViewController {
                                                             action: #selector(viewMoreButtonTapped))
     }
     
-    @objc func viewMoreButtonTapped(_ sender: UIBarButtonItem) {
-        makeAlert(sender)
+    @objc private func viewMoreButtonTapped(_ sender: UIBarButtonItem) {
+        showAlert(sender)
     }
     
-    func makeAlert(_ sender: UIBarButtonItem) {
+    private func showAlert(_ sender: UIBarButtonItem) {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let share = UIAlertAction(title: "Share...", style: .default) { _ in
             self.showActivityView(sender)
@@ -87,7 +85,7 @@ class MemoDetailViewController: UIViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    func showActivityView(_ sender: UIBarButtonItem) {
+    private func showActivityView(_ sender: UIBarButtonItem) {
         guard let textToShare = textView.text else {
             return
         }
@@ -96,7 +94,7 @@ class MemoDetailViewController: UIViewController {
         present(activityViewController, animated: true)
     }
     
-    func showDeleteAlert(_ sender: UIBarButtonItem) {
+    private func showDeleteAlert(_ sender: UIBarButtonItem) {
         let alert = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
         let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
         let delete = UIAlertAction(title: "삭제", style: .destructive) { _ in
@@ -112,6 +110,7 @@ class MemoDetailViewController: UIViewController {
 
 extension MemoDetailViewController: MemoDetailViewControllerDelegate {
     func memoDetailViewController(showTextViewWith memo: Memo) {
+        textView.isEditable = true
         let title = memo.title ?? ""
         let body = memo.body ?? ""
         

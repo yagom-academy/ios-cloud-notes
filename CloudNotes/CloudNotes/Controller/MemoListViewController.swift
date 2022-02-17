@@ -5,7 +5,7 @@ protocol MemoListViewControllerDelegate: AnyObject {
     func deleteTableViewCell()
 }
 
-class MemoListViewController: UIViewController {
+final class MemoListViewController: UIViewController {
     weak var delegate: MemoDetailViewControllerDelegate?
     
     private let cellIdentifier = "Cell"
@@ -91,7 +91,9 @@ extension MemoListViewController: UITableViewDelegate {
         delegate?.memoDetailViewController(showTextViewWith: memo)
     }
     
-    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+    func tableView(_ tableView: UITableView,
+                   trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
+    ) -> UISwipeActionsConfiguration? {
         let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, _ in
             self.deleteMemo(at: indexPath)
         }
@@ -108,7 +110,7 @@ extension MemoListViewController: UITableViewDelegate {
         tableView.deleteRows(at: [indexPath], with: .none)
         MemoDataManager.shared.deleteMemo(id: deletedMemo.id)
         
-        if indexPath.row <= MemoDataManager.shared.memos.count - 1 {
+        if indexPath.row < MemoDataManager.shared.memos.count {
             let memo = MemoDataManager.shared.memos[indexPath.row]
             delegate?.memoDetailViewController(showTextViewWith: memo)
             tableView.allowsSelectionDuringEditing = true
@@ -160,10 +162,8 @@ extension MemoListViewController: MemoListViewControllerDelegate {
     }
     
     func memoListViewController(updateTableViewCellWith title: String, body: String, lastModified: Date) {
-        guard let indexPath = tableView.indexPathForSelectedRow else {
-            return
-        }
-        guard let id = MemoDataManager.shared.memos[indexPath.row].id else {
+        guard let indexPath = tableView.indexPathForSelectedRow,
+              let id = MemoDataManager.shared.memos[indexPath.row].id else {
             return
         }
         MemoDataManager.shared.updateMemo(id: id, title: title, body: body, lastModified: lastModified)

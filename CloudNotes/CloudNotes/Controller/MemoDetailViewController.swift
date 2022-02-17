@@ -135,10 +135,9 @@ extension MemoDetailViewController: MemoDetailViewControllerDelegate {
 
 extension MemoDetailViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
-        let memoComponents = textView.text.split(
-            separator: "\n",
-            maxSplits: 1
-        ).map(String.init)
+        let memoComponents = textView.text.split(separator: "\n",
+                                                 maxSplits: 1)
+                                                .map(String.init)
         
         let title = memoComponents[safe: 0] ?? ""
         let body = memoComponents[safe: 1] ?? ""

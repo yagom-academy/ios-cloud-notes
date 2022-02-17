@@ -120,6 +120,15 @@ extension MemoListViewController: UITableViewDelegate {
         }
     }
     
+    func tableView(_ tableView: UITableView, didEndEditingRowAt indexPath: IndexPath?) {
+        guard let indexPath = indexPath else {
+            return
+        }
+        if indexPath.row < MemoDataManager.shared.memos.count {
+            tableView.selectRow(at: indexPath, animated: false, scrollPosition: .top)
+        }
+    }
+    
     private func showActivityView(indexPath: IndexPath) {
         guard let splitViewController = splitViewController as? SplitViewController else {
             return
@@ -139,15 +148,6 @@ extension MemoListViewController: UITableViewDelegate {
             popOver.permittedArrowDirections = []
         }
         present(activityViewController, animated: true)
-    }
-    
-    func tableView(_ tableView: UITableView, didEndEditingRowAt indexPath: IndexPath?) {
-        guard let indexPath = indexPath else {
-            return
-        }
-        if indexPath.row <= MemoDataManager.shared.memos.count - 1 {
-            tableView.selectRow(at: indexPath, animated: false, scrollPosition: .top)
-        }
     }
 }
 

@@ -52,8 +52,8 @@ final class MemoDataManager {
     func updateMemo(id: UUID,
                     title: String,
                     body: String,
-                    lastModified: Date
-    ) {
+                    lastModified: Date)
+    {
         let predicate = NSPredicate(format: "id == %@", id.uuidString)
         guard let memo = fetchMemos(predicate: predicate).first else {
             return

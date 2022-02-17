@@ -7,24 +7,78 @@
 
 import UIKit
 
+private enum TextAttribute {
+    static let title = [
+        NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .largeTitle),
+        NSAttributedString.Key.foregroundColor: UIColor.label
+    ]
+    
+    static let body = [
+        NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .title2),
+        NSAttributedString.Key.foregroundColor: UIColor.label
+    ]
+}
+
 class MemoDetailViewController: UIViewController {
+    private var currentIndexPath: IndexPath = .zero
+    private weak var delegate: MemoManageable?
+    
     private let memoTextView: UITextView = {
         let textView = UITextView()
-        textView.font = .preferredFont(forTextStyle: .title2)
+        textView.font = .preferredFont(forTextStyle: .largeTitle)
         textView.translatesAutoresizingMaskIntoConstraints = false
         return textView
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        memoTextView.delegate = self
         configureUI()
         addKeyboardNotificationObserver()
     }
     
-    func updateMemo(text: String) {
+    init(delegate: MemoManageable) {
+        self.delegate = delegate
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+    
+    func updateCurrentIndexPath(with indexPath: IndexPath) {
+        currentIndexPath = indexPath
+    }
+    
+    func updateMemo(title: String?, body: String?) {
         memoTextView.resignFirstResponder()
-        memoTextView.text = text
+        
+        guard let title = title,
+              let body = body else {
+            return
+        }
+        
+        if title.isEmpty && body.isEmpty {
+            memoTextView.text = .blank
+        } else {
+            memoTextView.attributedText = convertToAttributedString(title: title, body: body)
+        }
+        
         memoTextView.contentOffset = .zero
+    }
+    
+    private func convertToAttributedString(title: String, body: String) -> NSMutableAttributedString {
+        let mutableAttributedString = NSMutableAttributedString()
+        
+        let titleAttributedText = NSAttributedString(string: title, attributes: TextAttribute.title)
+        let spacing = NSAttributedString(string: .lineBreak, attributes: TextAttribute.body)
+        let bodyAttributedText = NSAttributedString(string: body, attributes: TextAttribute.body)
+        
+        mutableAttributedString.append(titleAttributedText)
+        mutableAttributedString.append(spacing)
+        mutableAttributedString.append(bodyAttributedText)
+        
+        return mutableAttributedString
     }
     
     private func configureUI() {
@@ -34,7 +88,16 @@ class MemoDetailViewController: UIViewController {
     }
     
     private func configureNavigationBar() {
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: nil)
+        let moreOptionButton = UIBarButtonItem(image: UIImage(systemName: SystemIcon.moreOption), style: .plain, target: self, action: nil)
+        let shareAction = UIAction(title: ActionTitle.share, image: UIImage(systemName: SystemIcon.share)) { _ in
+            self.delegate?.presentShareActivity(at: self.currentIndexPath)
+        }
+        let deleteAction = UIAction(title: ActionTitle.delete, image: UIImage(systemName: SystemIcon.trash), attributes: .destructive) { _ in
+            self.delegate?.presentDeleteAlert(at: self.currentIndexPath)
+        }
+        let optionMenu = UIMenu(options: .displayInline, children: [shareAction, deleteAction])
+        moreOptionButton.menu = optionMenu
+        self.navigationItem.rightBarButtonItem = moreOptionButton
     }
     
     private func configureTextView() {
@@ -71,5 +134,46 @@ class MemoDetailViewController: UIViewController {
     @objc private func keyboardWillHide() {
         memoTextView.contentInset.bottom = .zero
         memoTextView.verticalScrollIndicatorInsets.bottom = .zero
+    }
+    
+    func splitText(text: String) -> (title: String, body: String) {
+        let splitedText = text.split(separator: .lineBreak, maxSplits: 1).map { String($0) }
+        
+        if splitedText.count == 1 {
+            return (splitedText[0], .blank)
+        } else if splitedText.count == 2 {
+            return (splitedText[0], splitedText[1])
+        } else {
+            return (.blank, .blank)
+        }
+    }
+}
+
+extension MemoDetailViewController: UITextViewDelegate {
+    func textViewDidEndEditing(_ textView: UITextView) {
+        guard textView.hasText else {
+            delegate?.delete(at: currentIndexPath)
+            return
+        }
+    }
+    
+    func textViewDidChange(_ textView: UITextView) {
+        let (title, body) = splitText(text: textView.text)
+        delegate?.update(at: currentIndexPath, title: title, body: body)
+        currentIndexPath = .zero
+    }
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        let textAsNSString = textView.text as NSString
+        let replacedString = textAsNSString.replacingCharacters(in: range, with: text) as NSString
+        let titleRange = replacedString.range(of: .lineBreak)
+        
+        if titleRange.location > range.location {
+            textView.typingAttributes = TextAttribute.title
+        } else {
+            textView.typingAttributes = TextAttribute.body
+        }
+        
+        return true
     }
 }

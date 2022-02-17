@@ -32,9 +32,8 @@ class PersistentDataManagerTests: XCTestCase {
         }
         
         // then
-        let request = NSFetchRequest<CDNote>(entityName: "CDNote")
-        request.predicate = NSPredicate(format: "identifier == %@", identifier.uuidString)
-        let result = try sut.fetch(request: request).first
+        let fetchRequest = CDNote.fetchNoteRequest(with: identifier)
+        let result = try sut.fetch(request: fetchRequest).first
         
         XCTAssertEqual(result?.identifier, identifier)
         XCTAssertEqual(result?.title, "제목")
@@ -59,10 +58,9 @@ class PersistentDataManagerTests: XCTestCase {
         }
         
         // when
-        let request = NSFetchRequest<CDNote>(entityName: "CDNote")
-        request.predicate = NSPredicate(format: "identifier == %@", identifier.uuidString)
+        let fetchRequest = CDNote.fetchNoteRequest(with: identifier)
         
-        try sut?.update(request: request) { managedObject in
+        try sut?.update(request: fetchRequest) { managedObject in
             [
                 "identifier": identifier,
                 "title": "수정된 제목",
@@ -74,7 +72,7 @@ class PersistentDataManagerTests: XCTestCase {
         }
         
         // then
-        let result = try sut.fetch(request: request).first
+        let result = try sut.fetch(request: fetchRequest).first
         
         XCTAssertEqual(result?.identifier, identifier)
         XCTAssertEqual(result?.title, "수정된 제목")

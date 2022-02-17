@@ -53,9 +53,11 @@ final class NoteListViewController: UIViewController {
                 lastModifiedDate: Date().timeIntervalSince1970
             )
             persistantManager?.save(noteInformation: emptyNoteInformation)
+            persistantManager?.notes = persistantManager?.fetch() ?? []
             tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .none)
         } completion: {_ in
             self.tableView.backgroundView?.isHidden = true
+            self.tableView.reloadData()
         }
     }
     

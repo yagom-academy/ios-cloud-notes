@@ -17,12 +17,28 @@ class NotesViewController: UITableViewController {
         }
     }
     
+    lazy var activityIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView()
+        activityIndicator.center = self.splitViewController?.view.center ?? CGPoint()
+        activityIndicator.style = UIActivityIndicatorView.Style.large
+        activityIndicator.startAnimating()
+        activityIndicator.isHidden = false
+        return activityIndicator
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpNavigationItem()
         tableView.allowsSelectionDuringEditing = true
         tableView.register(NotesCell.self, forCellReuseIdentifier: NotesCell.identifier)
         dropBoxManager.authorize(self)
+        splitViewController?.view.addSubview(activityIndicator)
+        view.isUserInteractionEnabled = false
+    }
+    
+    func stopActivityIndicator() {
+        activityIndicator.stopAnimating()
+        view.isUserInteractionEnabled = true
     }
     
     override func setEditing(_ editing: Bool, animated: Bool) {

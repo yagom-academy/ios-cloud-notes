@@ -53,7 +53,7 @@ class DropBoxManager {
         }
     }
     
-    func download(_ tableViewController: UITableViewController?) {
+    func download(_ tableViewController: NotesViewController?) {
         let group = DispatchGroup()
         for fileName in fileNames {
             let destURL = url.appendingPathComponent(fileName)
@@ -77,6 +77,7 @@ class DropBoxManager {
         group.notify(queue: .main) {
             PersistentManager.shared.setUpNotes()
             tableViewController?.tableView.reloadData()
+            tableViewController?.stopActivityIndicator()
         }
     }
 }

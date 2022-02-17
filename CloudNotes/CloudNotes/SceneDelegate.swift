@@ -22,19 +22,21 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+        let splitVC = self.window?.rootViewController as? SplitViewController
+        let primaryVC = splitVC?.viewController(for: .primary) as? NotesViewController
         // MARK: - Dropbox Redirection
         let oauthCompletion: DropboxOAuthCompletion = {
              if let authResult = $0 {
                  switch authResult {
                  case .success:
                      print("Success! User is logged into DropboxClientsManager.")
-                     let splitVC = self.window?.rootViewController as? SplitViewController
-                     let primaryVC = splitVC?.viewController(for: .primary) as? UITableViewController
                      DropBoxManager().download(primaryVC)
                  case .cancel:
                      print("Authorization flow was manually canceled by user!")
+                     primaryVC?.stopActivityIndicator()
                  case .error(_, let description):
                      print("Error: \(String(describing: description))")
+                     primaryVC?.stopActivityIndicator()
                  }
              }
            }

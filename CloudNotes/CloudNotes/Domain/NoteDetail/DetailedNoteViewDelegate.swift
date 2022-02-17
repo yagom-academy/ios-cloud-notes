@@ -1,5 +1,9 @@
 import Foundation
 
 protocol DetailedNoteViewDelegate: AnyObject {
-    func passModifiedNote(note: Note)
+    func creatNote()
+
+    func deleteNote(_ note: Content)
+
+    func passModifiedNote(_ note: Content)
 }

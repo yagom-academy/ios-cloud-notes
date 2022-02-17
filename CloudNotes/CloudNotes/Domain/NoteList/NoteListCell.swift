@@ -1,6 +1,7 @@
 import UIKit
 
 class NoteListCell: UITableViewCell {
+    // MARK: - View Component
 
     private let cellStackView: UIStackView = {
         let stackView = UIStackView()
@@ -81,9 +82,9 @@ class NoteListCell: UITableViewCell {
         self.previewLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
     }
 
-    func configureContent(for note: Note) {
-        self.titleLabel.text = note.title
+    func configureContent(for note: Content) {
+        self.titleLabel.text = note.title == "" ? "새로운 메모" : note.title
         self.dateLabel.text = note.formattedDateString
-        self.previewLabel.text = note.body
+        self.previewLabel.text = note.body == "" ? "추가 텍스트 없음" : note.body
     }
 }

@@ -1,12 +1,15 @@
 import UIKit
 
 class DetailedNoteViewController: UIViewController {
-    private var noteData: Note? {
+    private var noteData: Content? {
         didSet {
             configureTextView()
         }
     }
     private weak var dataSourceDelegate: DetailedNoteViewDelegate?
+    private var shouldCreateNote = false
+
+    // MARK: - View Component
 
     private let noteTextView: UITextView = {
         let textView = UITextView()
@@ -16,12 +19,38 @@ class DetailedNoteViewController: UIViewController {
         return textView
     }()
 
-    private let actionButton: UIBarButtonItem = {
+    private lazy var actionButton: UIBarButtonItem = {
         let button = UIBarButtonItem()
         button.image = UIImage(systemName: "ellipsis.circle")
-
+        button.target = self
+        button.action = #selector(actionButtonDidTap)
         return button
     }()
+
+    private lazy var activityController: UIActivityViewController = {
+        let controller = UIActivityViewController(
+            activityItems: ["memo"],
+            applicationActivities: nil
+        )
+        return controller
+    }()
+
+    private lazy var actionSheet: UIAlertController = {
+        let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let shareAction = UIAlertAction(title: "공유", style: .default) { _ in
+            self.presentActivityController()
+        }
+        let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
+            self.presentDeleteAlert()
+        }
+
+        actionSheet.addAction(shareAction)
+        actionSheet.addAction(deleteAction)
+
+        return actionSheet
+    }()
+
+    // MARK: - View Life Cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,11 +61,51 @@ class DetailedNoteViewController: UIViewController {
         self.noteTextView.delegate = self
     }
 
+    // MARK: - Action Method
+
+    @objc func actionButtonDidTap(_ sender: UIBarButtonItem) {
+        actionSheet.popoverPresentationController?.barButtonItem = sender
+        self.present(actionSheet, animated: true, completion: nil)
+    }
+
+    // MARK: - Present Method
+
+    func presentActivityController() {
+        activityController.popoverPresentationController?.barButtonItem = actionButton
+        self.present(activityController, animated: true, completion: nil)
+    }
+
+    func presentDeleteAlert() {
+        let alert = UIAlertController(
+            title: "메모를 삭제하시겠습니까?",
+            message: nil,
+            preferredStyle: .alert
+        )
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel) { action in
+            self.dismiss(animated: true, completion: nil)
+        }
+        let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { action in
+            guard let note = self.noteData else {
+                return
+            }
+
+            self.dataSourceDelegate?.deleteNote(note)
+        }
+
+        alert.addAction(deleteAction)
+        alert.addAction(cancelAction)
+        self.present(alert, animated: true, completion: nil)
+    }
+
+    // MARK: - Set Delegate Method
+
     func setDelegate(delegate: DetailedNoteViewDelegate) {
         self.dataSourceDelegate = delegate
     }
 
-    func setNoteData(_ data: Note?) {
+    // MARK: - Manipulate DataSource
+
+    func setNoteData(_ data: Content?) {
         self.noteData = data
     }
 
@@ -61,41 +130,63 @@ class DetailedNoteViewController: UIViewController {
 
     private func configureTextView() {
         guard let note = noteData else {
+            noteTextView.text = ""
+            self.view.endEditing(true)
+            self.shouldCreateNote = true
             return
         }
         let content = NSMutableAttributedString()
         let title = NSMutableAttributedString(string: note.title)
-        let body = NSMutableAttributedString(string: "\n" + note.body)
         title.addAttribute(
             .font, value: UIFont.preferredFont(for: .title3, weight: .medium),
             range: NSRange(location: 0, length: title.length)
         )
-        body.addAttribute(
-            .font, value: UIFont.preferredFont(forTextStyle: .callout),
-            range: NSRange(location: 0, length: body.length)
-        )
         content.append(title)
-        content.append(body)
+
+        if note.body != "" {
+            let body = NSMutableAttributedString(string: "\n" + note.body)
+            body.addAttribute(
+                .font, value: UIFont.preferredFont(forTextStyle: .callout),
+                range: NSRange(location: 0, length: body.length)
+            )
+            content.append(body)
+        }
 
         noteTextView.attributedText = content
     }
 }
 
+// MARK: - Text View Delegate
+
 extension DetailedNoteViewController: UITextViewDelegate {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if self.shouldCreateNote {
+            self.dataSourceDelegate?.creatNote()
+            self.shouldCreateNote = false
+        }
+    }
+
     func textViewDidChange(_ textView: UITextView) {
         var content = textView.text.components(separatedBy: ["\n"])
         var title = content.removeFirst()
         var body = content.joined(separator: "")
-
         if title.count > 100 {
             title = String(textView.text.prefix(100))
             body = String(textView.text.suffix(textView.text.count - 100))
         }
 
         let modifiedDate = Date().timeIntervalSince1970
-        let newNote = Note(title: title, body: body, lastModifiedDate: modifiedDate)
+        guard let id = self.noteData?.identification else {
+            return
+        }
 
-        dataSourceDelegate?.passModifiedNote(note: newNote)
+        let newNote = Content(
+            title: title,
+            body: body,
+            lastModifiedDate: modifiedDate,
+            identification: id
+        )
+        dataSourceDelegate?.passModifiedNote(newNote)
     }
 
     func textView(_ textView: UITextView,

@@ -7,7 +7,10 @@ protocol NoteListViewControllerDelegate: AnyObject {
     )
     
     func createNewMemo(completion: @escaping () -> Void)
+    
     func noteListViewController(_ viewController: NoteListViewController, cellToDelete indexPath: IndexPath)
+    
+    func noteListViewController(_ viewController: NoteListViewController, cellToShare indexPath: IndexPath)
 }
 
 protocol NoteListViewControllerDataSource: AnyObject {
@@ -80,7 +83,14 @@ extension NoteListViewController: UITableViewDelegate {
         _ tableView: UITableView,
         trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
     ) -> UISwipeActionsConfiguration? {
-        let action = UIContextualAction(
+        let shareAction = UIContextualAction(
+            style: .normal,
+            title: nil) { _, _, _ in
+                self.delegate?.noteListViewController(self, cellToShare: indexPath)
+            }
+        shareAction.image = UIImage(systemName: "square.and.arrow.up")
+        
+        let deleteAction = UIContextualAction(
             style: .destructive,
             title: nil,
             handler: { _, _, _ in
@@ -90,8 +100,9 @@ extension NoteListViewController: UITableViewDelegate {
                 )
             tableView.reloadData()
             })
-        action.image = UIImage(systemName: "trash.fill")
-        let actionConfigurations = UISwipeActionsConfiguration(actions: [action])
+        deleteAction.image = UIImage(systemName: "trash.fill")
+        
+        let actionConfigurations = UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
         return actionConfigurations
     }
 }

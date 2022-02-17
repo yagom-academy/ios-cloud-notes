@@ -34,6 +34,23 @@ class NoteSplitViewController: UISplitViewController {
         preferredDisplayMode = .oneBesideSecondary
         preferredSplitBehavior = .tile
     }
+    
+    func presentActivityView() {
+        let title = "dddd"
+        let activityViewController = UIActivityViewController(
+            activityItems: [title],
+            applicationActivities: nil
+        )
+        
+        if let popoverPresentationController = activityViewController.popoverPresentationController {
+            popoverPresentationController.sourceView = self.view
+            popoverPresentationController.sourceRect = CGRect(
+                origin: CGPoint(x: view.frame.width/2, y: view.frame.height/2),
+                size: CGSize(width: view.bounds.width/5, height: view.bounds.height/5)
+            )
+        }
+        present(activityViewController, animated: true, completion: nil)
+    }
 }
 
 extension NoteSplitViewController: NoteListViewControllerDelegate {
@@ -53,6 +70,10 @@ extension NoteSplitViewController: NoteListViewControllerDelegate {
             return
         }
         secondaryViewController.setUpText(with: memo)
+    }
+    
+    func noteListViewController(_ viewController: NoteListViewController, cellToShare indexPath: IndexPath) {
+        presentActivityView()
     }
     
     func createNewMemo(completion: @escaping () -> Void) {

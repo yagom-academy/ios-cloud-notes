@@ -1,13 +1,19 @@
 import UIKit
 import CoreData
 
-class NoteModelManager: NoteModel {
+class NoteModelManager: NSObject, NoteModel {
     
     var persistentDataManager: PersistentDataManager
-    var noteData: [Note] = [] {
-        didSet {
-            updateHandler?()
-        }
+    var noteData: [Note] {
+        return controller.fetchedObjects?.compactMap { note in
+            guard let identifier = note.identifier,
+                  let title = note.title,
+                  let body = note.body,
+                  let lastModified = note.lastModified else {
+                      return nil
+                  }
+            return Note(identifier: identifier, title: title, body: body, lastModified: lastModified)
+        } ?? []
     }
     var countOfNoteData: Int {
         return noteData.count
@@ -22,28 +28,19 @@ class NoteModelManager: NoteModel {
         return formatter
     }()
     
+    private lazy var controller = NSFetchedResultsController(
+        fetchRequest: CDNote.fetchSortedNoteRequest(),
+        managedObjectContext: persistentDataManager.context,
+        sectionNameKeyPath: nil,
+        cacheName: nil)
+
     init(persistentDataManager: PersistentDataManager) {
         self.persistentDataManager = persistentDataManager
     }
     
     func fetchData() {
-        let decoder: JSONDecoder = {
-            let decoder = JSONDecoder()
-            decoder.keyDecodingStrategy = .convertFromSnakeCase
-            decoder.dateDecodingStrategy = .secondsSince1970
-            return decoder
-        }()
-        let jsonAsset = NSDataAsset(name: "sample")
-        guard let jsonData = jsonAsset?.data else {
-            return
-        }
-        if let result = try? decoder.decode([Note].self, from: jsonData) {
-            noteData = result
-            
-            noteData.indices.forEach { index in
-                noteData[index].identifier = UUID()
-            }
-        }
+        controller.delegate = self
+        try? controller.performFetch()
     }
     
     func fetchTitle(at index: Int) -> String {
@@ -63,7 +60,12 @@ class NoteModelManager: NoteModel {
     }
     
     func deleteNote(at index: Int) {
-        noteData.remove(at: index)
+        guard let identifier = noteData[index].identifier else {
+            return
+        }
+        let fetchRequest = CDNote.fetchNoteRequest(with: identifier)
+        
+        try? persistentDataManager.delete(request: fetchRequest)
     }
     
     func createNote(_ note: Note) {
@@ -89,20 +91,19 @@ class NoteModelManager: NoteModel {
             [
                 "title": note.title,
                 "body": note.body,
-                "lastModified": note.lastModified
+                "lastModified": Date()
             ].forEach { key, value in
                 filteredResult.setValue(value, forKey: key)
             }
         }
     }
     
-    func deleteNote(_ note: Note) {
-        guard let identifier = note.identifier else {
-            return
-        }
-        let fetchRequest = CDNote.fetchNoteRequest(with: identifier)
-        
-        try? persistentDataManager.delete(request: fetchRequest)
+}
+
+extension NoteModelManager: NSFetchedResultsControllerDelegate {
+    
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        updateHandler?()
     }
     
 }

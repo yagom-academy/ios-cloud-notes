@@ -2,7 +2,7 @@ import Foundation
 
 protocol NoteModel {
     
-    var noteData: [Note] { get set }
+    var noteData: [Note] { get }
     var countOfNoteData: Int { get }
 
     var updateHandler: (() -> Void)? { get set }

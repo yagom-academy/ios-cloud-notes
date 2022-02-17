@@ -1,7 +1,7 @@
 # 📝 동기화 메모장
 
 1. 프로젝트 기간: 2022.02.07 - 2022.02.25
-2. 팀원: 앨리 제인 조이
+2. 팀원:  [Allie](https://github.com/wooyani77) [조이](https://github.com/na-young-kwon) [제인](https://github.com/siwonkim0)
 3. Ground Rules
     - 학습 시간
         - 시작시간 10시
@@ -18,9 +18,7 @@
 
 # 🗂 목차
 
-```swift
-# 목차
-
++ [📺 실행 화면](#-실행-화면)
 - [⌨️ 키워드](#-키워드)
 - [STEP 1 : 리스트 및 메모영역 화면 UI구현](#STEP-1--리스트-및-메모영역-화면-UI구현)
     + [고민했던 것](#1-1-고민했던-것)
@@ -30,15 +28,18 @@
     + [고민했던 것](#2-1-고민했던-것)
     + [Trouble Shooting](#2-2-Trouble-Shooting)
     + [배운 개념](#2-3-배운-개념)
-    + [PR 후 개선사항](#2-4-PR-후-개선사항)
+  
 
-+ [📌 프로젝트 개요](#-프로젝트-설명)   
-+ [📺 실행 화면](#-실행-화면)
-+ [🧑‍💻 네트워크 모델 구성](#-네트워크-모델-구성)
-+ [🎨 뷰 구성](#-뷰-구성)
 
-[![top](https://img.shields.io/badge/top-%23000000.svg?&amp;style=for-the-badge&amp;logo=Acclaim&amp;logoColor=white&amp;)](#-동기화-메모장)
-```
+
+# 실행화면
+
+|새로운 메모 추가 및 수정|메모 삭제 및 공유|
+|:---:|:---:|
+|<img src="https://user-images.githubusercontent.com/74536728/154419454-eec815b8-6383-4615-a4fb-dde1124846c2.gif" width="100%" height="100%">|![](https://i.imgur.com/CbAmiOu.gif)|
+
+
+
 
 ## Keyword
 
@@ -60,6 +61,7 @@
     - `UITableViewCell` `defaultContentConfiguration`
         - `NSMutableAttributedString`
         - `setSelected` `selectedBackgroundView`
+
 
 # STEP 1 : 리스트 및 메모영역 화면 UI구현
 

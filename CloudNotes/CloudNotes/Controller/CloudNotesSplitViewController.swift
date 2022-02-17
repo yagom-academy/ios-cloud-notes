@@ -8,6 +8,10 @@ import UIKit
 
 final class CloudNotesSplitViewController: UISplitViewController {
     
+    // MARK: - properties
+    
+    var currentIndex = 0
+    
     // MARK: - Methods
     
     override func viewDidLoad() {
@@ -52,6 +56,7 @@ extension CloudNotesSplitViewController: NoteListViewDelegate {
             for: .secondary
         ) as? NoteDetailViewController {
             detailViewController.setupDetailView(index: row)
+            currentIndex = row
         }
     }
 }
@@ -60,6 +65,10 @@ extension CloudNotesSplitViewController: NoteListViewDelegate {
 
 extension CloudNotesSplitViewController: NoteDetailViewDelegate {
     func textViewDidChange(noteInformation: NoteInformation) {
-        
+        if let listViewController = viewController(
+            for: .primary
+        ) as? NoteListViewController {
+            listViewController.updateListView(index: currentIndex, noteInformation: noteInformation)
+        }
     }
 }

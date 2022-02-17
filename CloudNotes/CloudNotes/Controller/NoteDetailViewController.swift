@@ -47,8 +47,8 @@ final class NoteDetailViewController: UIViewController {
     }
     
     func setupDetailView(index: Int) {
-        if let information = persistantManager?.notes[index] {
-            noteDetailScrollView.configure(with: information)
+        if let note = persistantManager?.notes[index] {
+            noteDetailScrollView.configure(with: note)
             scrollTextViewToVisible()
             view.endEditing(true)
         }

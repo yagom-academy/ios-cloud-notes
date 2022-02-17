@@ -25,11 +25,22 @@ class PersistantManager {
     }
     
     func fetch() -> [Note] {
+        let fetchRequest = Note.fetchRequest()
+        let sort = NSSortDescriptor(key: "lastModifiedDate", ascending: false)
+        fetchRequest.sortDescriptors = [sort]
         do {
-            return try CoreDataStack.shared.context.fetch(Note.fetchRequest())
+            return try CoreDataStack.shared.context.fetch(fetchRequest)
         } catch {
             print(error)
             return []
         }
+    }
+    
+    func update(object: NSManagedObject, noteInformation: NoteInformation) {
+        object.setValue(noteInformation.title, forKey: "title")
+        object.setValue(noteInformation.content, forKey: "content")
+        object.setValue(noteInformation.lastModifiedDate, forKey: "lastModifiedDate")
+        
+        CoreDataStack.shared.saveContext()
     }
 }

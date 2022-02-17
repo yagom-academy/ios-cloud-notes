@@ -33,6 +33,10 @@ final class NoteListViewController: UIViewController {
         setupbackgroundLabel()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        self.tableView.backgroundView?.isHidden = persistantManager?.notes.count == 0 ? false : true
+    }
+    
     private func setupNavigation() {
         title = "메모"
         let addButtonImage = UIImage(systemName: ImageNames.plusImageName)
@@ -43,6 +47,16 @@ final class NoteListViewController: UIViewController {
           action: #selector(addEmptyNote)
         )
         navigationItem.setRightBarButton(rightButton, animated: false)
+    }
+    
+    func updateListView(index: Int, noteInformation: NoteInformation) {
+        if let note = persistantManager?.notes[index] {
+            persistantManager?.update(object: note, noteInformation: noteInformation)
+            DispatchQueue.main.async {
+                self.tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .none)
+            }
+            view.endEditing(true)
+        }
     }
     
     @objc func addEmptyNote() {

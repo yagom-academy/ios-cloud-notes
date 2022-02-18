@@ -59,9 +59,18 @@ class NoteListTableViewController: UITableViewController {
     
     private func configureLayout() {
         self.navigationController?.navigationBar.topItem?.title = "메모"
-        let addBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: nil, action: nil)
+        let addBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNoteDidTap))
         self.navigationItem.rightBarButtonItem = addBarButtonItem
     }
+    
+    @objc
+    func addNoteDidTap(_ sender: UIBarButtonItem) {
+        noteModelManager.createNote()
+    }
+    
+}
+
+extension NoteListTableViewController {
     
     // MARK: - Table View Delegate
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

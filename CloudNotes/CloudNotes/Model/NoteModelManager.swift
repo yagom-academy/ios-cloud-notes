@@ -81,6 +81,16 @@ class NoteModelManager: NSObject, NoteModel {
         }
     }
     
+    func createNote() {
+        let note = Note(
+            identifier: nil,
+            title: "",
+            body: "",
+            lastModified: Date()
+        )
+        createNote(note)
+    }
+    
     func updateNote(_ note: Note) {
         guard let identifier = note.identifier else {
             return

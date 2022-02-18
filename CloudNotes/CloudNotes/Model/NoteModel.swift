@@ -13,4 +13,6 @@ protocol NoteModel {
     func fetchBody(at index: Int) -> String
     func deleteNote(at index: Int)
     
+    func createNote()
+    
 }

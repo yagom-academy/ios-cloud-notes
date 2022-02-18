@@ -109,7 +109,12 @@ class NoteListViewController: UITableViewController {
 
     func insert(_ note: Content) {
         self.noteListData.insert(note, at: 0)
-        self.tableView.insertRows(at: [firstIndex], with: .automatic)
+        switch self.noteListData.count {
+        case 1:
+            self.tableView.reloadData()
+        default:
+            self.tableView.insertRows(at: [firstIndex], with: .automatic)
+        }
     }
 
     func delete(at index: Int) {

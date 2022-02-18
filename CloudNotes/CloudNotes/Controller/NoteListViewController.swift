@@ -86,13 +86,16 @@ final class NoteListViewController: UIViewController {
     }
     
     func deleteNote(object: NSManagedObject, indexPath: IndexPath) {
-        persistantManager?.notes.remove(at: indexPath.row)
-        tableView.deleteRows(at: [indexPath], with: .fade)
-        persistantManager?.delete(object: object)
-        if persistantManager?.notes.count == indexPath.row {
-            selectNote(with: indexPath.row - 1)
-        } else {
-            selectNote(with: indexPath.row)
+        tableView.performBatchUpdates {
+            persistantManager?.notes.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            persistantManager?.delete(object: object)
+        } completion: { _ in
+            if self.persistantManager?.notes.count == indexPath.row {
+                self.selectNote(with: indexPath.row - 1)
+            } else {
+                self.selectNote(with: indexPath.row)
+            }
         }
     }
     

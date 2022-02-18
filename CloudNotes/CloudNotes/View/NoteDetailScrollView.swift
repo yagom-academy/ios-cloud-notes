@@ -79,16 +79,20 @@ final class NoteDetailScrollView: UIScrollView {
     func configure(with noteInformation: Note) {
         guard let title = noteInformation.title,
               let content = noteInformation.content else {
-            return
+                  return
+              }
+        if title == "" && content == "" {
+            self.noteDetailTextView.text = ""
+        } else {
+            let attributedString = NSMutableAttributedString()
+                .preferredFont(string: title + "\n", forTextStyle: .body)
+                .preferredFont(string: content, forTextStyle: .body)
+            attributedString.color(to: .label)
+            DispatchQueue.main.async {
+                self.noteDetailTextView.attributedText = attributedString
+            }
         }
-        let attributedString = NSMutableAttributedString()
-            .preferredFont(string: title + "\n", forTextStyle: .title2)
-            .preferredFont(string: content, forTextStyle: .body)
-        attributedString.color(to: .label)
-        DispatchQueue.main.async {
-            self.lastModifiedDateLabel.text = noteInformation.localizedDateString
-            self.noteDetailTextView.attributedText = attributedString
-        }
+        self.lastModifiedDateLabel.text = noteInformation.localizedDateString
     }
 }
 

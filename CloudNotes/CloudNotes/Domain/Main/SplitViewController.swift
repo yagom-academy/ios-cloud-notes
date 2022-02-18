@@ -1,4 +1,5 @@
 import UIKit
+import SwiftyDropbox
 
 class SplitViewController: UISplitViewController {
     private let noteListViewController = NoteListViewController()
@@ -18,6 +19,27 @@ class SplitViewController: UISplitViewController {
 
         self.noteListViewController.setDelegate(delegate: self)
         self.detailedNoteViewController.setDelegate(delegate: self)
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        myButtonInControllerPressed()
+    }
+
+// MARK: - DropBox Method
+
+    func myButtonInControllerPressed() {
+        let scopeRequest = ScopeRequest(
+            scopeType: .user, scopes: ["account_info.read"],
+            includeGrantedScopes: false
+        )
+        DropboxClientsManager.authorizeFromControllerV2(
+            UIApplication.shared,
+            controller: self,
+            loadingStatusDelegate: nil,
+            openURL: { (url: URL) -> Void in
+                UIApplication.shared.open(url, options: [:], completionHandler: nil) },
+            scopeRequest: scopeRequest
+        )
     }
 
     private func fetchNotes() {

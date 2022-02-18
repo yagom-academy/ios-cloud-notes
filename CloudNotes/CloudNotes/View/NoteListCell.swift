@@ -8,6 +8,9 @@
 import UIKit
 
 final class NoteListCell: UITableViewCell {
+    
+    // MARK: - properties
+    
     static let identifier = "NoteListCell"
     
     private let cellStackView = UIStackView()
@@ -15,6 +18,8 @@ final class NoteListCell: UITableViewCell {
     private let titleLabel = UILabel()
     private let dateLabel = UILabel()
     private let contentLabel = UILabel()
+    
+    // MARK: - init Method
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(
@@ -35,11 +40,15 @@ final class NoteListCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - internal Methods
+    
     func configure(with noteInformation: Note) {
         titleLabel.text = noteInformation.title == "" ? "새로운 메모" : noteInformation.title
         contentLabel.text = noteInformation.content == "" ? "추가 텍스트 없음" : noteInformation.content
         dateLabel.text = noteInformation.localizedDateString
     }
+    
+    // MARK: - private Methods
     
     private func setupAddSubviews() {
         contentView.addSubview(cellStackView)

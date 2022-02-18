@@ -9,13 +9,14 @@ import UIKit
 final class CloudNotesSplitViewController: UISplitViewController {
     
     // MARK: - properties
+    
     let persistantManager = PersistantManager()
     let noteListViewController = NoteListViewController()
     let noteDetailViewController = NoteDetailViewController()
     var popoverController: UIPopoverPresentationController?
     var currentIndex = 0
     
-    // MARK: - Methods
+    // MARK: - View LifeCycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,6 +37,8 @@ final class CloudNotesSplitViewController: UISplitViewController {
             popoverController.permittedArrowDirections = []
         }
     }
+    
+    // MARK: - Methods
     
     private func setupSplitView() {
         preferredSplitBehavior = .tile
@@ -59,7 +62,7 @@ final class CloudNotesSplitViewController: UISplitViewController {
         )
     }
     
-    func showActivityView(note: Note, targetButton: UIBarButtonItem?) {
+    private func showActivityView(note: Note, targetButton: UIBarButtonItem?) {
         let noteTextToShare = "\(note.title ?? "")\n\(note.content ?? "")"
         let activityViewController = UIActivityViewController(
             activityItems: [noteTextToShare],

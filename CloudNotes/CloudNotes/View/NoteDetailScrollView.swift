@@ -8,9 +8,14 @@
 import UIKit
 
 final class NoteDetailScrollView: UIScrollView {
+    
+    // MARK: - properties
+    
     private let noteDetailStackView = UIStackView()
     private(set) var lastModifiedDateLabel = UILabel()
     private(set) var noteDetailTextView = UITextView()
+    
+    // MARK: - init Method
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -24,6 +29,8 @@ final class NoteDetailScrollView: UIScrollView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - internal Methods
+    
     func setupConstraint(view: UIView) {
         translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -33,6 +40,27 @@ final class NoteDetailScrollView: UIScrollView {
             trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
         ])
     }
+    
+    func configure(with noteInformation: Note) {
+        guard let title = noteInformation.title,
+              let content = noteInformation.content else {
+                  return
+              }
+        if title == "" && content == "" {
+            self.noteDetailTextView.text = ""
+        } else {
+            let attributedString = NSMutableAttributedString()
+                .preferredFont(string: title + "\n", forTextStyle: .body)
+                .preferredFont(string: content, forTextStyle: .body)
+            attributedString.color(to: .label)
+            DispatchQueue.main.async {
+                self.noteDetailTextView.attributedText = attributedString
+            }
+        }
+        self.lastModifiedDateLabel.text = noteInformation.localizedDateString
+    }
+    
+    // MARK: - private Methods
     
     private func setupStackView() {
         addSubview(noteDetailStackView)
@@ -74,25 +102,6 @@ final class NoteDetailScrollView: UIScrollView {
           bottom: inset,
           right: inset
         )
-    }
-    
-    func configure(with noteInformation: Note) {
-        guard let title = noteInformation.title,
-              let content = noteInformation.content else {
-                  return
-              }
-        if title == "" && content == "" {
-            self.noteDetailTextView.text = ""
-        } else {
-            let attributedString = NSMutableAttributedString()
-                .preferredFont(string: title + "\n", forTextStyle: .body)
-                .preferredFont(string: content, forTextStyle: .body)
-            attributedString.color(to: .label)
-            DispatchQueue.main.async {
-                self.noteDetailTextView.attributedText = attributedString
-            }
-        }
-        self.lastModifiedDateLabel.text = noteInformation.localizedDateString
     }
 }
 

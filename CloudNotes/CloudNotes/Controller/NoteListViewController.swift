@@ -21,12 +21,11 @@ final class NoteListViewController: UIViewController {
     // MARK: - Properties
     
     private let tableView: UITableView = UITableView()
-    
     weak var delegate: NoteListViewDelegate?
     var dataSource: NoteListDataSource?
     var persistantManager: PersistantManager?
     
-    // MARK: - Methods
+    // MARK: - View LifeCycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,17 +40,7 @@ final class NoteListViewController: UIViewController {
         self.tableView.backgroundView?.isHidden = persistantManager?.notes.count == 0 ? false : true
     }
     
-    private func setupNavigation() {
-        title = "메모"
-        let addButtonImage = UIImage(systemName: ImageNames.plusImageName)
-        let rightButton = UIBarButtonItem(
-          image: addButtonImage,
-          style: .done,
-          target: self,
-          action: #selector(addNewNote)
-        )
-        navigationItem.setRightBarButton(rightButton, animated: false)
-    }
+    // MARK: - internal Methods
     
     func updateListView(index: Int, noteInformation: NoteInformation) {
         if let note = persistantManager?.notes[index] {
@@ -61,31 +50,6 @@ final class NoteListViewController: UIViewController {
             }
             view.endEditing(true)
         }
-    }
-    
-    @objc func addNewNote() {
-        tableView.performBatchUpdates {
-            let emptyNoteInformation = NoteInformation(
-                title: "",
-                content: "",
-                lastModifiedDate: Date().timeIntervalSince1970
-            )
-            persistantManager?.save(noteInformation: emptyNoteInformation)
-            persistantManager?.notes = persistantManager?.fetch() ?? []
-            tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .none)
-        } completion: {_ in
-            self.tableView.backgroundView?.isHidden = true
-            self.delegate?.setupNotEmptyNoteContents()
-            self.tableView.reloadData()
-            self.selectNote(with: 0)
-        }
-    }
-    
-    func setUpEmptyNotes() {
-        DispatchQueue.main.async {
-            self.tableView.backgroundView?.isHidden = false
-        }
-        self.delegate?.setupEmptyNoteContents()
     }
     
     func deleteNote(object: NSManagedObject, indexPath: IndexPath) {
@@ -100,6 +64,27 @@ final class NoteListViewController: UIViewController {
                 self.selectNote(with: indexPath.row)
             }
         }
+    }
+    
+    // MARK: - private Methods
+    
+    private func setupNavigation() {
+        title = "메모"
+        let addButtonImage = UIImage(systemName: ImageNames.plusImageName)
+        let rightButton = UIBarButtonItem(
+          image: addButtonImage,
+          style: .done,
+          target: self,
+          action: #selector(addNewNote)
+        )
+        navigationItem.setRightBarButton(rightButton, animated: false)
+    }
+    
+    private func setUpEmptyNotes() {
+        DispatchQueue.main.async {
+            self.tableView.backgroundView?.isHidden = false
+        }
+        self.delegate?.setupEmptyNoteContents()
     }
     
     private func setupTableView() {
@@ -132,9 +117,27 @@ final class NoteListViewController: UIViewController {
         tableView.backgroundView = backgroundLabel
     }
     
+    @objc private func addNewNote() {
+        tableView.performBatchUpdates {
+            let emptyNoteInformation = NoteInformation(
+                title: "",
+                content: "",
+                lastModifiedDate: Date().timeIntervalSince1970
+            )
+            persistantManager?.save(noteInformation: emptyNoteInformation)
+            persistantManager?.notes = persistantManager?.fetch() ?? []
+            tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .none)
+        } completion: {_ in
+            self.tableView.backgroundView?.isHidden = true
+            self.delegate?.setupNotEmptyNoteContents()
+            self.tableView.reloadData()
+            self.selectNote(with: 0)
+        }
+    }
+    
     private func selectNote(with index: Int) {
-        guard let noteInformations = persistantManager?.notes,
-              noteInformations.count > 0 else {
+        guard let notes = persistantManager?.notes,
+              notes.count > 0 else {
                   self.setUpEmptyNotes()
                   return
               }

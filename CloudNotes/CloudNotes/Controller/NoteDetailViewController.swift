@@ -22,7 +22,7 @@ final class NoteDetailViewController: UIViewController {
     var persistantManager: PersistantManager?
     var currentIndex = 0
 
-    // MARK: - Methods
+    // MARK: - View LifeCycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,31 +32,7 @@ final class NoteDetailViewController: UIViewController {
         noteDetailScrollView.noteDetailTextView.delegate = self
     }
     
-    private func setupNavigation() {
-        let seeMoreMenuButtonImage = UIImage(systemName: ImageNames.ellipsisCircleImageName)
-        let rightButton = UIBarButtonItem(
-          image: seeMoreMenuButtonImage,
-          style: .done,
-          target: self,
-          action: #selector(showPopover(_:))
-        )
-        navigationItem.setRightBarButton(rightButton, animated: false)
-        
-    }
-    
-    @objc func showPopover(_ sender: UIBarButtonItem) {
-        self.showActionSheet(titles: ("shared", "delete"), targetBarButton: sender) { _ in
-            self.delegate?.sharedNoteAction(sender)
-        } deleteHandler: { _ in
-            self.delegate?.deleteNoteAction()
-        }
-    }
-    
-    private func setupNoteDetailScrollView() {
-        noteDetailScrollView.delegate = self
-        view.addSubview(noteDetailScrollView)
-        noteDetailScrollView.setupConstraint(view: view)
-    }
+    // MARK: - internal Methods
     
     func setupDetailView(index: Int) {
         currentIndex = index
@@ -76,6 +52,34 @@ final class NoteDetailViewController: UIViewController {
     func setupNotEmptyDetailView() {
         DispatchQueue.main.async {
             self.noteDetailScrollView.isHidden = false
+        }
+    }
+    
+    // MARK: - private Methods
+    
+    private func setupNavigation() {
+        let seeMoreMenuButtonImage = UIImage(systemName: ImageNames.ellipsisCircleImageName)
+        let rightButton = UIBarButtonItem(
+          image: seeMoreMenuButtonImage,
+          style: .done,
+          target: self,
+          action: #selector(showPopover(_:))
+        )
+        navigationItem.setRightBarButton(rightButton, animated: false)
+        
+    }
+    
+    private func setupNoteDetailScrollView() {
+        noteDetailScrollView.delegate = self
+        view.addSubview(noteDetailScrollView)
+        noteDetailScrollView.setupConstraint(view: view)
+    }
+    
+    @objc private func showPopover(_ sender: UIBarButtonItem) {
+        self.showActionSheet(titles: ("shared", "delete"), targetBarButton: sender) { _ in
+            self.delegate?.sharedNoteAction(sender)
+        } deleteHandler: { _ in
+            self.delegate?.deleteNoteAction()
         }
     }
     

@@ -4,7 +4,7 @@ private let reuseIdentifier = "Cell"
 
 final class MemoListViewController: UITableViewController {
   weak var delegate: MemoDisplayable?
-  private var memos = [Memo]()
+  private var memos = CoreDataMemos()
   private let firstRowIndexPath = IndexPath(row: 0, section: 0)
   private var currentMemoIndexPath = IndexPath(row: 0, section: 0)
   private var keyboardShowNotification: NSObjectProtocol?
@@ -90,14 +90,13 @@ final class MemoListViewController: UITableViewController {
   }
 
   @objc private func addMemo() {
-    let newMemo = Memo(title: "", body: "", lastModified: Date())
-    if memos.isEmpty {
-      memos.append(newMemo)
-      tableView.reloadRows(at: [firstRowIndexPath], with: .fade)
-    } else {
-      memos.insert(newMemo, at: 0)
-      tableView.insertRows(at: [firstRowIndexPath], with: .fade)
+    do {
+      try memos.createFirst(title: "", body: "")
+    } catch let error as NSError {
+      print("Could not save \(error), \(error.userInfo)")
+      return
     }
+    tableView.insertRows(at: [firstRowIndexPath], with: .fade)
     tableView.selectRow(at: firstRowIndexPath, animated: true, scrollPosition: .top)
     loadDetail(at: firstRowIndexPath)
   }

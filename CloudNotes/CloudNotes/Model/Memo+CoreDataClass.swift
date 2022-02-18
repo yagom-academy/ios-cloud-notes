@@ -3,7 +3,11 @@ import CoreData
 
 @objc(Memo)
 public class Memo: NSManagedObject {
-  
+  public override init(entity: NSEntityDescription, insertInto context: NSManagedObjectContext?) {
+    super.init(entity: entity, insertInto: context)
+    self.id = UUID()
+    self.lastModified = Date()
+  }
 }
 
 extension Memo {

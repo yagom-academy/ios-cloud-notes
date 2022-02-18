@@ -12,6 +12,8 @@ protocol NoteListViewDelegate: AnyObject {
     func noteListView(didSeletedCell row: Int)
     func setupEmptyNoteContents()
     func setupNotEmptyNoteContents()
+    func sharedNoteActionWithSwipe()
+    func deleteNoteActionWithSwipe()
 }
 
 final class NoteListViewController: UIViewController {
@@ -157,15 +159,13 @@ extension NoteListViewController: UITableViewDelegate {
         }
         
         let delete = UIContextualAction(style: .normal, title: "Delete") { _, _, _ in
-            self.showDeleteAlert(message: "정말로 삭제하시겠어요?") {
-                self.deleteNote(object: object, indexPath: indexPath)
-            }
+            self.delegate?.deleteNoteActionWithSwipe()
         }
         delete.backgroundColor = .systemRed
         delete.image = UIImage(systemName: ImageNames.trashImageName)
         
         let shared = UIContextualAction(style: .normal, title: "Shared") { _, _, _ in
-            self.showActivityView(note: object, targetButton: nil)
+            self.delegate?.sharedNoteActionWithSwipe()
         }
         shared.backgroundColor = .systemBlue
         shared.image = UIImage(systemName: ImageNames.sharedImageName)

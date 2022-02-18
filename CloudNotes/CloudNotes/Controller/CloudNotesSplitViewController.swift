@@ -10,6 +10,9 @@ final class CloudNotesSplitViewController: UISplitViewController {
     
     // MARK: - properties
     let persistantManager = PersistantManager()
+    let noteListViewController = NoteListViewController()
+    let noteDetailViewController = NoteDetailViewController()
+    var popoverController: UIPopoverPresentationController?
     var currentIndex = 0
     
     // MARK: - Methods
@@ -20,6 +23,20 @@ final class CloudNotesSplitViewController: UISplitViewController {
         setupChildViewControllers()
     }
     
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        if let popoverController = popoverController {
+            popoverController.sourceView = self.view
+            popoverController.sourceRect = CGRect(
+                x: UIScreen.main.bounds.width / 2,
+                y: UIScreen.main.bounds.height / 2,
+                width: 0,
+                height: 0
+            )
+            popoverController.permittedArrowDirections = []
+        }
+    }
+    
     private func setupSplitView() {
         preferredSplitBehavior = .tile
         preferredDisplayMode = .oneBesideSecondary
@@ -27,11 +44,8 @@ final class CloudNotesSplitViewController: UISplitViewController {
     }
     
     private func setupChildViewControllers() {
-        let noteListViewController = NoteListViewController()
         noteListViewController.persistantManager = persistantManager
         noteListViewController.delegate = self
-        
-        let noteDetailViewController = NoteDetailViewController()
         noteDetailViewController.persistantManager = persistantManager
         noteDetailViewController.delegate = self
         
@@ -44,11 +58,49 @@ final class CloudNotesSplitViewController: UISplitViewController {
           for: .secondary
         )
     }
+    
+    func showActivityView(note: Note, targetButton: UIBarButtonItem?) {
+        let noteTextToShare = "\(note.title ?? "")\n\(note.content ?? "")"
+        let activityViewController = UIActivityViewController(
+            activityItems: [noteTextToShare],
+            applicationActivities: nil
+        )
+        popoverController = activityViewController.popoverPresentationController
+        popoverController?.sourceView = self.view
+        
+        if let targetButton = targetButton {
+            popoverController?.barButtonItem = targetButton
+        } else {
+            popoverController?.permittedArrowDirections = []
+            popoverController?.sourceRect = CGRect(
+                x: UIScreen.main.bounds.width / 2,
+                y: UIScreen.main.bounds.height / 2,
+                width: 0,
+                height: 0
+            )
+        }
+        self.present(activityViewController, animated: true, completion: nil)
+    }
 }
 
 // MARK: - NoteListView Delegate
 
 extension CloudNotesSplitViewController: NoteListViewDelegate {
+    func sharedNoteActionWithSwipe() {
+        let note = persistantManager.notes[currentIndex]
+        showActivityView(note: note, targetButton: nil)
+    }
+    
+    func deleteNoteActionWithSwipe() {
+        let note = persistantManager.notes[currentIndex]
+        self.showDeleteAlert(message: "정말로 삭제하시겠어요?") {
+            self.noteListViewController.deleteNote(
+                object: note,
+                indexPath: IndexPath(row: self.currentIndex, section: 0)
+            )
+        }
+    }
+    
     func setupNotEmptyNoteContents() {
         if let detailViewController = viewController(
             for: .secondary

@@ -31,6 +31,14 @@ class CoreDataMemos {
 }
 
 extension CoreDataMemos {
+  var count: Int {
+    return array.count
+  }
+  
+  var isEmpty: Bool {
+    return array.isEmpty
+  }
+  
   private func insert(_ memo: Memo, at index: Int) throws {
     array.insert(memo, at: index)
     try managedContext.save()
@@ -42,5 +50,17 @@ extension CoreDataMemos {
     memo.title = title
     memo.body = body
     try insert(memo, at: 0)
+  }
+  
+  func fetch() throws {
+    let request = Memo.fetchRequest()
+    let persistentData = try managedContext.fetch(request)
+    array = persistentData
+  }
+}
+
+extension CoreDataMemos {
+  subscript(index: Int) -> Memo {
+    return array[index]
   }
 }

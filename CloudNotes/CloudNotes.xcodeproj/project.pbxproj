@@ -159,6 +159,8 @@
 			isa = PBXGroup;
 			children = (
 				484E80F027B10CDC00AEB70F /* JSONParser.swift */,
+				48369D4427BD18C700E81F33 /* CoreDataStack.swift */,
+				F3395A1127BD1ABB005C213C /* PersistantManager.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -168,8 +170,6 @@
 			children = (
 				F3395A0D27BD1A85005C213C /* Note+CoreDataClass.swift */,
 				F3395A0E27BD1A85005C213C /* Note+CoreDataProperties.swift */,
-				48369D4427BD18C700E81F33 /* CoreDataStack.swift */,
-				F3395A1127BD1ABB005C213C /* PersistantManager.swift */,
 			);
 			path = CoreDataModel;
 			sourceTree = "<group>";

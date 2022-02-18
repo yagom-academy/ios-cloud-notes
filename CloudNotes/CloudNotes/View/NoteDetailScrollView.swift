@@ -41,9 +41,9 @@ final class NoteDetailScrollView: UIScrollView {
         ])
     }
     
-    func configure(with noteInformation: Note) {
-        guard let title = noteInformation.title,
-              let content = noteInformation.content else {
+    func configure(with note: Note) {
+        guard let title = note.title,
+              let content = note.content else {
                   return
               }
         if title == "" && content == "" {
@@ -57,7 +57,7 @@ final class NoteDetailScrollView: UIScrollView {
                 self.noteDetailTextView.attributedText = attributedString
             }
         }
-        self.lastModifiedDateLabel.text = noteInformation.localizedDateString
+        self.lastModifiedDateLabel.text = note.localizedDateString
     }
     
     // MARK: - private Methods

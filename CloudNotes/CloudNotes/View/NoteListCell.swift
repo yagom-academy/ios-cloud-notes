@@ -42,10 +42,10 @@ final class NoteListCell: UITableViewCell {
     
     // MARK: - internal Methods
     
-    func configure(with noteInformation: Note) {
-        titleLabel.text = noteInformation.title == "" ? "새로운 메모" : noteInformation.title
-        contentLabel.text = noteInformation.content == "" ? "추가 텍스트 없음" : noteInformation.content
-        dateLabel.text = noteInformation.localizedDateString
+    func configure(with note: Note) {
+        titleLabel.text = note.title == "" ? "새로운 메모" : note.title
+        contentLabel.text = note.content == "" ? "추가 텍스트 없음" : note.content
+        dateLabel.text = note.localizedDateString
     }
     
     // MARK: - private Methods

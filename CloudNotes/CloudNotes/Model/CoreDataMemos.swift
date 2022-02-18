@@ -2,7 +2,7 @@ import Foundation
 import CoreData
 
 class CoreDataMemos {
-  private var array = [Memo]()
+  private var memos = [Memo]()
   
   private lazy var entity = NSEntityDescription.entity(forEntityName: "\(Memo.self)", in: managedContext)
   private lazy var managedContext = persistentContainer.viewContext
@@ -16,7 +16,7 @@ class CoreDataMemos {
     return container
   }()
 
-  func saveContext () {
+  func saveContext() {
     let context = persistentContainer.viewContext
     if context.hasChanges {
       do {
@@ -32,15 +32,15 @@ class CoreDataMemos {
 
 extension CoreDataMemos {
   var count: Int {
-    return array.count
+    return memos.count
   }
   
   var isEmpty: Bool {
-    return array.isEmpty
+    return memos.isEmpty
   }
   
   private func insert(_ memo: Memo, at index: Int) throws {
-    array.insert(memo, at: index)
+    memos.insert(memo, at: index)
     try managedContext.save()
   }
   
@@ -52,15 +52,30 @@ extension CoreDataMemos {
     try insert(memo, at: 0)
   }
   
-  func fetch() throws {
-    let request = Memo.fetchRequest()
+  func reload() throws {
+    let request: NSFetchRequest<Memo> = Memo.fetchRequest()
     let persistentData = try managedContext.fetch(request)
-    array = persistentData
+    memos = persistentData
+  }
+
+  func remove(at index: Int) throws {
+    let memo = self[index]
+    managedContext.delete(memo)
+    try managedContext.save()
+    memos.remove(at: index)
+  }
+
+  func update(at index: Int, title: String, body: String) throws {
+    let memo = self[index]
+    memo.title = title
+    memo.body = body
+    memo.lastModified = Date()
+    try managedContext.save()
   }
 }
 
 extension CoreDataMemos {
   subscript(index: Int) -> Memo {
-    return array[index]
+    return memos[index]
   }
 }

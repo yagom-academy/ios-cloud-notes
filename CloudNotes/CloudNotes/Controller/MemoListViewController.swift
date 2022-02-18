@@ -19,7 +19,7 @@ final class MemoListViewController: UITableViewController {
     setNavigationBar()
     tableView.register(UITableViewCell.self, forCellReuseIdentifier: reuseIdentifier)
     tableView.allowsSelectionDuringEditing = true
-    loadJSON()
+    memos.reload()
     loadDetail(at: firstRowIndexPath)
   }
   
@@ -100,22 +100,6 @@ final class MemoListViewController: UITableViewController {
     tableView.selectRow(at: firstRowIndexPath, animated: true, scrollPosition: .top)
     loadDetail(at: firstRowIndexPath)
   }
-  
-  private func loadJSON() {
-    guard let data = NSDataAsset(name: "memo")?.data else {
-      return
-    }
-    do {
-      let decoder = JSONDecoder()
-      decoder.keyDecodingStrategy = .convertFromSnakeCase
-      decoder.dateDecodingStrategy = .secondsSince1970
-      let memo = try decoder.decode([Memo].self, from: data)
-      memos.append(contentsOf: memo)
-      tableView.reloadData()
-    } catch let error {
-      print(error)
-    }
-  }
 
   private func loadDetail(at indexPath: IndexPath) {
     let memo = memos[indexPath.row]
@@ -167,7 +151,7 @@ extension MemoListViewController {
   
   override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
     let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, completionHandler in
-      self.memos.remove(at: indexPath.row)
+      try self.memos.remove(at: indexPath.row)
       if self.memos.isEmpty {
         self.addMemo()
       } else {

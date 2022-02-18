@@ -23,6 +23,7 @@ final class NoteListViewController: UIViewController {
     private let tableView: UITableView = UITableView()
     
     weak var delegate: NoteListViewDelegate?
+    var dataSource: NoteListDataSource?
     var persistantManager: PersistantManager?
     
     // MARK: - Methods
@@ -102,7 +103,7 @@ final class NoteListViewController: UIViewController {
     }
     
     private func setupTableView() {
-        tableView.dataSource = self
+        tableView.dataSource = dataSource
         tableView.delegate = self
         tableView.register(
             NoteListCell.self,
@@ -154,10 +155,6 @@ extension NoteListViewController: UITableViewDelegate {
         _ tableView: UITableView,
         trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
     ) -> UISwipeActionsConfiguration? {
-        guard let object = persistantManager?.notes[indexPath.row] else {
-            return UISwipeActionsConfiguration()
-        }
-        
         let delete = UIContextualAction(style: .normal, title: "Delete") { _, _, _ in
             self.delegate?.deleteNoteActionWithSwipe()
         }
@@ -171,31 +168,5 @@ extension NoteListViewController: UITableViewDelegate {
         shared.image = UIImage(systemName: ImageNames.sharedImageName)
         
         return UISwipeActionsConfiguration(actions: [delete, shared])
-    }
-}
-
-extension NoteListViewController: UITableViewDataSource {
-    func tableView(
-      _ tableView: UITableView,
-      numberOfRowsInSection section: Int
-    ) -> Int {
-        return persistantManager?.notes.count ?? 0
-    }
-    
-    func tableView(
-      _ tableView: UITableView,
-      cellForRowAt indexPath: IndexPath
-    ) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(
-          withIdentifier: NoteListCell.identifier,
-          for: indexPath
-        ) as? NoteListCell else {
-            return UITableViewCell()
-        }
-        guard let information = persistantManager?.notes[indexPath.row] else {
-            return UITableViewCell()
-        }
-        cell.configure(with: information)
-        return cell
     }
 }

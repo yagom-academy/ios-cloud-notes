@@ -12,6 +12,7 @@
 		0876ABE027B2624E009304B8 /* NoteListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0876ABDF27B2624E009304B8 /* NoteListCell.swift */; };
 		20F9A7F38954600CDB775017 /* Pods_CloudNotes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B211C59CCF38987F31CCC931 /* Pods_CloudNotes.framework */; };
 		480AE5A827B2518B007106D0 /* NoteDetailScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480AE5A727B2518B007106D0 /* NoteDetailScrollView.swift */; };
+		480CF6D527BF320800754415 /* NoteListDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480CF6D427BF320800754415 /* NoteListDataSource.swift */; };
 		48369D4527BD18C700E81F33 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48369D4427BD18C700E81F33 /* CoreDataStack.swift */; };
 		484E80F127B10CDC00AEB70F /* JSONParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484E80F027B10CDC00AEB70F /* JSONParser.swift */; };
 		487AB3B027B1018500968C43 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 487AB3AF27B1018500968C43 /* .swiftlint.yml */; };
@@ -61,6 +62,7 @@
 		28061B643D312169EA4BA258 /* Pods-CloudNotesTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudNotesTests.debug.xcconfig"; path = "Target Support Files/Pods-CloudNotesTests/Pods-CloudNotesTests.debug.xcconfig"; sourceTree = "<group>"; };
 		2DA81AC9582489ADDC4D70B6 /* Pods_CloudNotesTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CloudNotesTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		480AE5A727B2518B007106D0 /* NoteDetailScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteDetailScrollView.swift; sourceTree = "<group>"; };
+		480CF6D427BF320800754415 /* NoteListDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteListDataSource.swift; sourceTree = "<group>"; };
 		48369D4427BD18C700E81F33 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		484E80F027B10CDC00AEB70F /* JSONParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONParser.swift; sourceTree = "<group>"; };
 		487AB3AF27B1018500968C43 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
@@ -129,6 +131,7 @@
 				C7481C7125BBCF3900B9CA55 /* CloudNotesSplitViewController.swift */,
 				0876ABDB27B2407D009304B8 /* NoteListViewController.swift */,
 				0876ABDD27B240BE009304B8 /* NoteDetailViewController.swift */,
+				480CF6D427BF320800754415 /* NoteListDataSource.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -509,6 +512,7 @@
 				F33959EE27BA3021005C213C /* AssetFileNames.swift in Sources */,
 				F3395A1027BD1A85005C213C /* Note+CoreDataProperties.swift in Sources */,
 				48369D4527BD18C700E81F33 /* CoreDataStack.swift in Sources */,
+				480CF6D527BF320800754415 /* NoteListDataSource.swift in Sources */,
 				C7481C7825BBCF3900B9CA55 /* CloudNotes.xcdatamodeld in Sources */,
 				F3395A0F27BD1A85005C213C /* Note+CoreDataClass.swift in Sources */,
 				F366B04627B1091F00EDC8EC /* NoteInformation.swift in Sources */,

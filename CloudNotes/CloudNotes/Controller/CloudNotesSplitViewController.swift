@@ -102,28 +102,16 @@ extension CloudNotesSplitViewController: NoteListViewDelegate {
     }
     
     func setupNotEmptyNoteContents() {
-        if let detailViewController = viewController(
-            for: .secondary
-        ) as? NoteDetailViewController {
-            detailViewController.setupNotEmptyDetailView()
-        }
+        noteDetailViewController.setupNotEmptyDetailView()
     }
     
     func setupEmptyNoteContents() {
-        if let detailViewController = viewController(
-            for: .secondary
-        ) as? NoteDetailViewController {
-            detailViewController.setupEmptyDetailView()
-        }
+        noteDetailViewController.setupEmptyDetailView()
     }
     
     func noteListView(didSeletedCell row: Int) {
-        if let detailViewController = viewController(
-            for: .secondary
-        ) as? NoteDetailViewController {
-            detailViewController.setupDetailView(index: row)
-            currentIndex = row
-        }
+        noteDetailViewController.setupDetailView(index: row)
+        currentIndex = row
     }
 }
 
@@ -132,25 +120,20 @@ extension CloudNotesSplitViewController: NoteListViewDelegate {
 extension CloudNotesSplitViewController: NoteDetailViewDelegate {
     func deleteNoteAction() {
         let note = persistantManager.notes[currentIndex]
-        if let listViewController = viewController(
-            for: .primary
-        ) as? NoteListViewController {
-            listViewController.showDeleteAlert(message: "정말로 삭제하시겠어요?") {
-                listViewController.deleteNote(object: note, indexPath: IndexPath(row: self.currentIndex, section: 0))
-            }
+        noteListViewController.showDeleteAlert(message: "정말로 삭제하시겠어요?") {
+            self.noteListViewController.deleteNote(
+                object: note,
+                indexPath: IndexPath(row: self.currentIndex, section: 0)
+            )
         }
     }
     
     func sharedNoteAction(_ sender: UIBarButtonItem) {
         let note = persistantManager.notes[currentIndex]
-        self.showActivityView(note: note, targetButton: sender)
+        showActivityView(note: note, targetButton: sender)
     }
     
     func textViewDidChange(noteInformation: NoteInformation) {
-        if let listViewController = viewController(
-            for: .primary
-        ) as? NoteListViewController {
-            listViewController.updateListView(index: currentIndex, noteInformation: noteInformation)
-        }
+        noteListViewController.updateListView(index: currentIndex, noteInformation: noteInformation)
     }
 }

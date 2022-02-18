@@ -55,19 +55,15 @@ extension SplitViewController: NoteListViewDelegate {
         }
 
         self.noteListViewController.delete(at: index)
-        var changedIndex: Int?
+        var changedIndex: Int
         if noteList.count == index {
             changedIndex = index - 1
         } else {
             changedIndex = index
         }
 
-        guard let index = changedIndex else {
-            return
-        }
-
-        self.noteListViewController.selectedIndexPath = IndexPath(row: index, section: 0)
-        self.detailedNoteViewController.setNoteData(noteList[safe: index])
+        self.noteListViewController.selectedIndexPath = IndexPath(row: changedIndex, section: 0)
+        self.detailedNoteViewController.setNoteData(noteList[safe: changedIndex])
     }
 
     func creatNote() {

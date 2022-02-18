@@ -2,19 +2,19 @@ import UIKit
 
 class NoteListTableViewController: UITableViewController {
     
-    private var noteModelManager: NoteModel
+    private var viewModel: NoteViewModel
     weak var delegate: NoteListTableViewDelegate?
     lazy var dataSource = {
         return NoteListTableViewDiffableDataSource(
-            model: noteModelManager,
-            tableView: self.tableView) { tableView, indexPath, item in
+            model: viewModel,
+            tableView: self.tableView) { tableView, _, item in
             let cell = tableView.dequeueReusableCell(withIdentifier: NoteListTableViewCell.reuseIdentifier)
             
             if let cell = cell as? NoteListTableViewCell {
                 cell.setLabelText(
                     title: item.title,
                     body: item.body,
-                    lastModified: self.noteModelManager.fetchDate(at: indexPath.row)
+                    lastModified: self.viewModel.fetchDate(note: item)
                 )
             }
             
@@ -24,15 +24,15 @@ class NoteListTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        loadNoteData()
         configureTableView()
         configureLayout()
-        self.noteModelManager.updateHandler = updateUI
+        viewModel.updateHandler = updateUI
+        viewModel.viewDidLoad()
         updateUI()
     }
     
-    init(model: NoteModel) {
-        self.noteModelManager = model
+    init(model: NoteViewModel) {
+        self.viewModel = model
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -44,13 +44,9 @@ class NoteListTableViewController: UITableViewController {
         var snapshot = NSDiffableDataSourceSnapshot<Section, Note>()
         
         snapshot.appendSections([.main])
-        snapshot.appendItems(noteModelManager.noteData, toSection: .main)
+        snapshot.appendItems(viewModel.noteData, toSection: .main)
         
         dataSource.apply(snapshot, animatingDifferences: true)
-    }
-    
-    private func loadNoteData() {
-        noteModelManager.fetchData()
     }
     
     private func configureTableView() {
@@ -59,13 +55,16 @@ class NoteListTableViewController: UITableViewController {
     
     private func configureLayout() {
         self.navigationController?.navigationBar.topItem?.title = "메모"
-        let addBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNoteDidTap))
+        let addBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .add,
+            target: self,
+            action: #selector(addNoteDidTap))
         self.navigationItem.rightBarButtonItem = addBarButtonItem
     }
     
     @objc
     func addNoteDidTap(_ sender: UIBarButtonItem) {
-        noteModelManager.createNote()
+        viewModel.createNote()
     }
     
 }
@@ -74,9 +73,11 @@ extension NoteListTableViewController {
     
     // MARK: - Table View Delegate
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let title = noteModelManager.fetchTitle(at: indexPath.row)
-        let body = noteModelManager.fetchBody(at: indexPath.row)
-        delegate?.selectNote(title: title, body: body)
+        let item = dataSource.itemIdentifier(for: indexPath)
+        guard let identifier = item?.identifier else {
+            return
+        }
+        delegate?.selectNote(with: identifier)
     }
     
     override func tableView(

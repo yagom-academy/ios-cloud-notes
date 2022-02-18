@@ -2,7 +2,6 @@ import Foundation
 
 protocol NoteListTableViewDelegate: AnyObject {
     
-    func selectNote(title: String, body: String)
-    func selectBlankNote()
+    func selectNote(with identifier: UUID)
     
 }

@@ -28,9 +28,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 extension SceneDelegate {
     
     private func configureSplitView() -> UISplitViewController {
-        let noteModelManager: NoteModel = NoteModelManager(persistentDataManager: persistentDataManager)
-        let primaryViewController = NoteListTableViewController(model: noteModelManager)
-        let secondaryViewController = NoteDetailViewController()
+        let model = NoteModel(persistentDataManager: persistentDataManager)
+        let viewModel = NoteViewModel(model: model)
+        
+        let primaryViewController = NoteListTableViewController(model: viewModel)
+        let secondaryViewController = NoteDetailViewController(model: viewModel)
         let splitViewController = UISplitViewController(style: .doubleColumn)
 
         primaryViewController.delegate = secondaryViewController

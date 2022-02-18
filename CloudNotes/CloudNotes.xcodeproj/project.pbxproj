@@ -17,13 +17,13 @@
 		890192CE27BBA94C00233A9B /* NoteListTableViewDiffableDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 890192CD27BBA94C00233A9B /* NoteListTableViewDiffableDataSource.swift */; };
 		890192D027BBA9B100233A9B /* Section.swift in Sources */ = {isa = PBXBuildFile; fileRef = 890192CF27BBA9B100233A9B /* Section.swift */; };
 		894E47A827B5115E0099893B /* NoteListTableViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 894E47A727B5115E0099893B /* NoteListTableViewDelegate.swift */; };
-		8991779727BA440E009D5690 /* NoteModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8991779627BA440E009D5690 /* NoteModel.swift */; };
 		89B8D32F27BCF2E30083C412 /* PersistentDataManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B8D32E27BCF2E30083C412 /* PersistentDataManagerTests.swift */; };
 		89B8D33027BCF2FC0083C412 /* PersistentDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847E80D027BCD95600E5CC8B /* PersistentDataManager.swift */; };
-		89C7EBD727B25F4400221EC7 /* NoteModelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89C7EBD627B25F4400221EC7 /* NoteModelManager.swift */; };
+		89C7EBD727B25F4400221EC7 /* NoteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89C7EBD627B25F4400221EC7 /* NoteViewModel.swift */; };
 		9F69498631A46B14F89CF962 /* Pods_CloudNotes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78F4966F65C64AD28790F8AD /* Pods_CloudNotes.framework */; };
 		C10A886B27BA26060098589B /* TypeNameConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10A886A27BA26060098589B /* TypeNameConvertible.swift */; };
 		C181739927B4B0FA00011200 /* NoteListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C181739827B4B0FA00011200 /* NoteListTableViewCell.swift */; };
+		C1947E6327BFC39600B0A7DE /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1947E6227BFC39600B0A7DE /* Model.swift */; };
 		C1C3151F27B237DA00FB69CE /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1C3151E27B237DA00FB69CE /* Note.swift */; };
 		C1C3152027B237DA00FB69CE /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1C3151E27B237DA00FB69CE /* Note.swift */; };
 		C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */; };
@@ -68,12 +68,12 @@
 		890192CD27BBA94C00233A9B /* NoteListTableViewDiffableDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteListTableViewDiffableDataSource.swift; sourceTree = "<group>"; };
 		890192CF27BBA9B100233A9B /* Section.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Section.swift; sourceTree = "<group>"; };
 		894E47A727B5115E0099893B /* NoteListTableViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteListTableViewDelegate.swift; sourceTree = "<group>"; };
-		8991779627BA440E009D5690 /* NoteModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteModel.swift; sourceTree = "<group>"; };
 		89B8D32E27BCF2E30083C412 /* PersistentDataManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentDataManagerTests.swift; sourceTree = "<group>"; };
-		89C7EBD627B25F4400221EC7 /* NoteModelManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteModelManager.swift; sourceTree = "<group>"; };
+		89C7EBD627B25F4400221EC7 /* NoteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteViewModel.swift; sourceTree = "<group>"; };
 		9DE46283F9B6A5044F064BD9 /* Pods-CloudNotes.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudNotes.debug.xcconfig"; path = "Target Support Files/Pods-CloudNotes/Pods-CloudNotes.debug.xcconfig"; sourceTree = "<group>"; };
 		C10A886A27BA26060098589B /* TypeNameConvertible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeNameConvertible.swift; sourceTree = "<group>"; };
 		C181739827B4B0FA00011200 /* NoteListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NoteListTableViewCell.swift; path = CloudNotes/View/NoteListTableViewCell.swift; sourceTree = SOURCE_ROOT; };
+		C1947E6227BFC39600B0A7DE /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		C1C3151E27B237DA00FB69CE /* Note.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Note.swift; sourceTree = "<group>"; };
 		C7481C6A25BBCF3900B9CA55 /* CloudNotes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CloudNotes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -156,9 +156,9 @@
 			isa = PBXGroup;
 			children = (
 				C1C3151E27B237DA00FB69CE /* Note.swift */,
-				8991779627BA440E009D5690 /* NoteModel.swift */,
 				890192CF27BBA9B100233A9B /* Section.swift */,
-				89C7EBD627B25F4400221EC7 /* NoteModelManager.swift */,
+				89C7EBD627B25F4400221EC7 /* NoteViewModel.swift */,
+				C1947E6227BFC39600B0A7DE /* Model.swift */,
 				847E80D027BCD95600E5CC8B /* PersistentDataManager.swift */,
 				8499EB4727BDFEF9001B013C /* CDNote+CoreDataClass.swift */,
 				8499EB4827BDFEFA001B013C /* CDNote+CoreDataProperties.swift */,
@@ -465,16 +465,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				C1C3151F27B237DA00FB69CE /* Note.swift in Sources */,
+				C1947E6327BFC39600B0A7DE /* Model.swift in Sources */,
 				8499EB4927BDFEFA001B013C /* CDNote+CoreDataClass.swift in Sources */,
 				8499EB4A27BDFEFA001B013C /* CDNote+CoreDataProperties.swift in Sources */,
 				C10A886B27BA26060098589B /* TypeNameConvertible.swift in Sources */,
 				84474C7A27B251E200A1E83E /* NoteListTableViewController.swift in Sources */,
-				89C7EBD727B25F4400221EC7 /* NoteModelManager.swift in Sources */,
+				89C7EBD727B25F4400221EC7 /* NoteViewModel.swift in Sources */,
 				894E47A827B5115E0099893B /* NoteListTableViewDelegate.swift in Sources */,
 				C181739927B4B0FA00011200 /* NoteListTableViewCell.swift in Sources */,
 				C7481C7225BBCF3900B9CA55 /* NoteDetailViewController.swift in Sources */,
 				890192D027BBA9B100233A9B /* Section.swift in Sources */,
-				8991779727BA440E009D5690 /* NoteModel.swift in Sources */,
 				C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */,
 				847E80D127BCD95600E5CC8B /* PersistentDataManager.swift in Sources */,
 				890192CE27BBA94C00233A9B /* NoteListTableViewDiffableDataSource.swift in Sources */,

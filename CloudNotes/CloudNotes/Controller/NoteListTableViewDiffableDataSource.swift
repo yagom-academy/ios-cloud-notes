@@ -2,14 +2,14 @@ import UIKit
 
 class NoteListTableViewDiffableDataSource: UITableViewDiffableDataSource<Section, Note> {
     
-    private var noteModelManager: NoteModel
+    private var viewModel: NoteViewModel
     
     init(
-        model: NoteModel,
+        model: NoteViewModel,
         tableView: UITableView,
         cellProvider: @escaping UITableViewDiffableDataSource<Section, Note>.CellProvider
     ) {
-        noteModelManager = model
+        viewModel = model
         super.init(tableView: tableView, cellProvider: cellProvider)
     }
     
@@ -23,7 +23,12 @@ class NoteListTableViewDiffableDataSource: UITableViewDiffableDataSource<Section
         forRowAt indexPath: IndexPath
     ) {
         if editingStyle == .delete {
-            noteModelManager.deleteNote(at: indexPath.row)
+            let item = self.itemIdentifier(for: indexPath)
+            guard let identifier = item?.identifier else {
+                return
+            }
+            viewModel.deleteNote(identifier: identifier)
         }
     }
+    
 }

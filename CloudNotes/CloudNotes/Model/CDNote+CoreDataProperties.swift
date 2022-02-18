@@ -20,8 +20,8 @@ extension CDNote {
     }
 
     @NSManaged public var body: String?
-    @NSManaged public var identifier: UUID?
-    @NSManaged public var lastModified: Date?
+    @NSManaged public var identifier: UUID
+    @NSManaged public var lastModified: Date
     @NSManaged public var title: String?
 
 }

@@ -135,6 +135,7 @@ class DetailedNoteViewController: UIViewController {
             self.shouldCreateNote = true
             return
         }
+        self.shouldCreateNote = false
         let content = NSMutableAttributedString()
         let title = NSMutableAttributedString(string: note.title)
         title.addAttribute(

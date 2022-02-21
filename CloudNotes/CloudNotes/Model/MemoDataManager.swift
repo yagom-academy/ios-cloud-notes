@@ -14,8 +14,8 @@ final class MemoDataManager {
     
     func loadPersistentContainer() {
         persistentContainer.loadPersistentStores { description, error in
-            guard error == nil else {
-                fatalError(error!.localizedDescription)
+            if let error = error {
+                print(error.localizedDescription)
             }
         }
     }
@@ -30,7 +30,6 @@ final class MemoDataManager {
         }
     }
     
-    @discardableResult
     func fetchMemos(predicate: NSPredicate? = nil,
                     sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: "lastModified", ascending: false)]
     ) -> [Memo] {
@@ -74,6 +73,8 @@ final class MemoDataManager {
                 return
             }
             viewContext.delete(memoToDelete)
+            let memoToDeleteInArray = self.memos.filter { $0.id == id }
+            self.memos = self.memos.filter { memoToDeleteInArray.contains($0) == false }
             saveViewContext()
         } catch {
             print(error.localizedDescription)
@@ -89,7 +90,7 @@ extension MemoDataManager {
         newMemo.body = ""
         newMemo.lastModified = Date()
         saveViewContext()
-
+        
         return newMemo
     }
     

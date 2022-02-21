@@ -106,9 +106,8 @@ extension MemoListViewController: UITableViewDelegate {
     
     private func deleteMemo(at indexPath: IndexPath) {
         let deletedMemo = MemoDataManager.shared.memos[indexPath.row]
-        MemoDataManager.shared.memos.remove(at: indexPath.row)
-        tableView.deleteRows(at: [indexPath], with: .none)
         MemoDataManager.shared.deleteMemo(id: deletedMemo.id)
+        tableView.deleteRows(at: [indexPath], with: .none)
         
         if indexPath.row < MemoDataManager.shared.memos.count {
             let memo = MemoDataManager.shared.memos[indexPath.row]
@@ -137,7 +136,7 @@ extension MemoListViewController: UITableViewDelegate {
         let activityViewController = UIActivityViewController(activityItems: [memoToShare], applicationActivities: nil)
         
         if let popOver = activityViewController.popoverPresentationController,
-           let splitViewController = splitViewController{
+           let splitViewController = splitViewController {
             popOver.sourceView = splitViewController.view
             popOver.sourceRect = CGRect(x: splitViewController.view.bounds.midX,
                                         y: splitViewController.view.bounds.midY,

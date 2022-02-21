@@ -16,7 +16,7 @@ final class DetailViewController: UIViewController {
     removeObservers()
   }
   
-  private var currentMemo: Memo {
+  private var currentMemo: (title: String, body: String) {
     let memoComponents = textView.text.split(
       separator: "\n",
       maxSplits: 1,
@@ -24,8 +24,7 @@ final class DetailViewController: UIViewController {
     ).map(String.init)
     let title = memoComponents[safe: 0] ?? ""
     let body = memoComponents[safe: 1] ?? ""
-    let date = Date()
-    return Memo(title: title, body: body, lastModified: date)
+    return (title, body)
   }
   
   override func viewDidLoad() {
@@ -104,9 +103,9 @@ final class DetailViewController: UIViewController {
 // MARK: - MemoDisplayable
 
 extension DetailViewController: MemoDisplayable {
-  func show(memo: Memo?) {
-    let title = memo?.title ?? ""
-    let body = memo?.body ?? ""
+  func showMemo(title: String?, body: String?) {
+    let title = title ?? ""
+    let body = body ?? ""
     textView.text = title.isEmpty && body.isEmpty ? "" : title + "\n" + body
     textView.endEditing(true)
     let topOffset = CGPoint(x: 0, y: 0 - view.safeAreaInsets.top)
@@ -119,6 +118,7 @@ extension DetailViewController: MemoDisplayable {
 
 extension DetailViewController: UITextViewDelegate {
   func textViewDidChange(_ textView: UITextView) {
-    delegate?.update(currentMemo)
+    let newMemo = currentMemo
+    delegate?.updateMemo(title: newMemo.title, body: newMemo.body)
   }
 }

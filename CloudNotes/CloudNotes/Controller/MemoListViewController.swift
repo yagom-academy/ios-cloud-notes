@@ -100,30 +100,33 @@ final class MemoListViewController: UITableViewController {
   @objc private func addMemo() {
     do {
       try memos.createFirst(title: "", body: "")
+      tableView.insertRows(at: [firstRowIndexPath], with: .fade)
+      tableView.selectRow(at: firstRowIndexPath, animated: true, scrollPosition: .top)
+      loadDetail(at: firstRowIndexPath)
     } catch {
       showAlert(title: "Save fail")
-      return
     }
-    tableView.insertRows(at: [firstRowIndexPath], with: .fade)
-    tableView.selectRow(at: firstRowIndexPath, animated: true, scrollPosition: .top)
-    loadDetail(at: firstRowIndexPath)
   }
 
   private func loadDetail(at indexPath: IndexPath) {
     let memo = memos[indexPath.row]
     currentMemoIndexPath = indexPath
-    delegate?.show(memo: memo)
+    delegate?.showMemo(title: memo.title, body: memo.body)
   }
 }
 
 // MARK: - MemoStorable
 
 extension MemoListViewController: MemoStorable {
-  func update(_ memo: Memo) {
+  func updateMemo(title: String, body: String) {
     let index = currentMemoIndexPath.row
-    memos[index] = memo
-    tableView.reloadData()
-    tableView.selectRow(at: currentMemoIndexPath, animated: false, scrollPosition: .none)
+    do {
+      try memos.update(at: index, title: title, body: body)
+      tableView.reloadData()
+      tableView.selectRow(at: currentMemoIndexPath, animated: false, scrollPosition: .none)
+    } catch {
+      showAlert(title: "Update fail")
+    }
   }
 }
 
@@ -138,7 +141,7 @@ extension MemoListViewController {
     let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
     let memo = memos[indexPath.row]
     var configuration = cell.defaultContentConfiguration()
-    let title = memo.title
+    let title = memo.title ?? ""
     configuration.text = title.isEmpty ? "새로운 메모" : title
     configuration.secondaryAttributedText = memo.subtitle
     configuration.textProperties.numberOfLines = 1
@@ -161,16 +164,14 @@ extension MemoListViewController {
     let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [unowned self] _, _, completionHandler in
       do {
         try self.memos.remove(at: indexPath.row)
+        tableView.deleteRows(at: [indexPath], with: .fade)
+        if self.memos.isEmpty == false {
+          self.currentMemoIndexPath.row -= self.currentMemoIndexPath.row > indexPath.row ?  1 : 0
+        }
+        completionHandler(true)
       } catch {
         self.showAlert(title: "Remove fail")
       }
-      if self.memos.isEmpty {
-        self.addMemo()
-      } else {
-        tableView.deleteRows(at: [indexPath], with: .fade)
-        self.currentMemoIndexPath.row -= self.currentMemoIndexPath.row > indexPath.row ?  1 : 0
-      }
-      completionHandler(true)
     }
     deleteAction.image = UIImage(systemName: "trash")
     let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
@@ -178,11 +179,12 @@ extension MemoListViewController {
   }
   
   override func tableView(_ tableView: UITableView, didEndEditingRowAt indexPath: IndexPath?) {
+    guard tableView.numberOfRows(inSection: 0) != 0 else { return }
     let section = currentMemoIndexPath.section
     let numberOfRows = tableView.numberOfRows(inSection: section)
     let maximumVaildRow = numberOfRows - 1
     let willSelectIndexPath: IndexPath
-    
+
     if maximumVaildRow < currentMemoIndexPath.row {
       willSelectIndexPath = IndexPath(row: maximumVaildRow, section: section)
     } else if numberOfRows > 1 {

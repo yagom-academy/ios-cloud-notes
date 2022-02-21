@@ -1,3 +1,3 @@
 protocol MemoDisplayable: AnyObject {
-  func show(memo: Memo?)
+  func showMemo(title: String?, body: String?)
 }

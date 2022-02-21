@@ -59,14 +59,7 @@ class MemoTableViewController: UITableViewController {
     }
     
     @objc private func connectDropbox() {
-        let scopeRequest = ScopeRequest(scopeType: .user, scopes: ["account_info.read"], includeGrantedScopes: false)
-        DropboxClientsManager.authorizeFromControllerV2(
-            UIApplication.shared,
-            controller: self,
-            loadingStatusDelegate: nil,
-            openURL: { (url: URL) -> Void in UIApplication.shared.open(url, options: [:], completionHandler: nil) },
-            scopeRequest: scopeRequest
-        )
+        // TODO: - AppDelegate의 DropboxManager 호출해서 Connnect 필요
     }
     
     func deleteRow(at indexPath: IndexPath) {

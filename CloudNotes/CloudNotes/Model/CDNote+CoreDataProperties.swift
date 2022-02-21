@@ -15,7 +15,7 @@ extension CDNote {
     
     @nonobjc public class func fetchSortedNoteRequest() -> NSFetchRequest<CDNote> {
         let fetchRequest = CDNote.fetchNoteRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "lastModified", ascending: true)]
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "lastModified", ascending: false)]
         return fetchRequest
     }
 

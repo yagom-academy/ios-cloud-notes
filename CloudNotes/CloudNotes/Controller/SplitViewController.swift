@@ -1,19 +1,19 @@
 import UIKit
 
-class SplitViewController: UISplitViewController {
+final class SplitViewController: UISplitViewController {
     private let listViewController = MemoListViewController()
     private let detailViewController = MemoDetailViewController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupChildView()
+        assignChlidViewController()
         setupDisplay()
         listViewController.delegate = detailViewController
         detailViewController.delegate = listViewController
         hideKeyboard()
     }
     
-    private func setupChildView() {
+    private func assignChlidViewController() {
         setViewController(listViewController, for: .primary)
         setViewController(detailViewController, for: .secondary)
     }

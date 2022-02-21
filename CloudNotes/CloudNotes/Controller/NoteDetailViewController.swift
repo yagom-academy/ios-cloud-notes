@@ -108,7 +108,6 @@ extension NoteDetailViewController: UITextViewDelegate {
     }
     
     func textViewDidChange(_ textView: UITextView) {
-        print("textViewDidChange")
         guard let identifier = self.identifier else {
             return
         }

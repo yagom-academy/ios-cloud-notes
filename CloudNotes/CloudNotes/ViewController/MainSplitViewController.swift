@@ -8,6 +8,7 @@ final class MainSplitViewController: UISplitViewController {
         super.viewDidLoad()
         setupMainSplitView()
         setupKeyboardNotification()
+        hideKeyboardWhenTappedBackground()
         CoreDataManager.shared.memoListViewController = listViewController
         CoreDataManager.shared.memoContentViewController = contentViewController
     }
@@ -57,5 +58,15 @@ extension MainSplitViewController {
     @objc private func keyboardWillHide(_ sender: Notification) {
         guard let window = view.window else { return }
         view.frame = window.frame
+    }
+
+    private func hideKeyboardWhenTappedBackground() {
+        let tapEvent = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        tapEvent.cancelsTouchesInView = false
+        view.addGestureRecognizer(tapEvent)
+    }
+    
+    @objc func dismissKeyboard() {
+        contentViewController.view.endEditing(true)
     }
 }

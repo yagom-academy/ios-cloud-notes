@@ -99,6 +99,7 @@ final class DetailViewController: UIViewController {
   private func setNavigationBar() {
     navigationItem.rightBarButtonItem = ellipsisCircleButton
   }
+  
   @objc private func showMoreButtonTapped(_ sender: UIBarButtonItem) {
     let textToShare = textView.text
     let delete = DeleteActivity()

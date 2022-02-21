@@ -147,6 +147,8 @@ extension MemoListViewController: MemoStorable {
   }
 }
 
+// MARK: - MemoActivityDelegate
+
 extension MemoListViewController: MemoActivityDelegate {
   func removeCurrentMemo() {
     if memos.isEmpty == false {

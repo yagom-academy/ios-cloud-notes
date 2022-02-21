@@ -52,7 +52,7 @@ struct DropboxManager {
         }
     }
     
-    func download(_ tableViewController: NotesViewController?) {
+    func download(complition: ((CallError<Files.DownloadError>?) -> Void)?) {
         let group = DispatchGroup()
         for fileName in fileNames {
             let destURL = applicationSupportDirectoryURL.appendingPathComponent(fileName)
@@ -64,14 +64,13 @@ struct DropboxManager {
                 .response { _, error in
                     if let error = error {
                         print(error)
+                        complition?(error)
                     }
                     group.leave()
                 }
         }
         group.notify(queue: .main) {
-            PersistentManager.shared.setUpNotes()
-            tableViewController?.tableView.reloadData()
-            tableViewController?.stopActivityIndicator()
+            complition?(nil)
         }
     }
 }

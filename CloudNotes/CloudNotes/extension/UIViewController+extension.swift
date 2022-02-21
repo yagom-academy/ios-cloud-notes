@@ -60,11 +60,18 @@ extension UIViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    func showAlert(message: String, actionTitle: String, handler: @escaping (UIAlertAction) -> Void) {
-        let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+    func showAlert(message: String, actionTitle: String, handler: ((UIAlertAction) -> Void)? = nil) {
+        let alert = UIAlertController(title: "알림", message: message, preferredStyle: .alert)
         let cancelAction = UIAlertAction(title: "cancel", style: .default, handler: nil)
         let okAction = UIAlertAction(title: actionTitle, style: .destructive, handler: handler)
         alert.addAction(cancelAction)
+        alert.addAction(okAction)
+        present(alert, animated: true, completion: nil)
+    }
+    
+    func showAlert(message: String, handler: ((UIAlertAction) -> Void)? = nil) {
+        let alert = UIAlertController(title: "알림", message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: handler)
         alert.addAction(okAction)
         present(alert, animated: true, completion: nil)
     }

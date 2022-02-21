@@ -2,6 +2,7 @@ import Foundation
 import CoreData
 
 class CoreDataMemos {
+  static let shared = CoreDataMemos()
   private var memos = [Memo]()
   
   private lazy var entity = NSEntityDescription.entity(forEntityName: "\(Memo.self)", in: managedContext)
@@ -16,6 +17,8 @@ class CoreDataMemos {
     return container
   }()
 
+  private init() { }
+  
   func saveContext() {
     let context = persistentContainer.viewContext
     if context.hasChanges {

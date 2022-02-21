@@ -147,6 +147,14 @@ extension MemoListViewController: MemoStorable {
   }
 }
 
+extension MemoListViewController: MemoActivityDelegate {
+  func removeCurrentMemo() {
+    if memos.isEmpty == false {
+      removeMemo(at: currentMemoIndexPath)
+    }
+  }
+}
+
 // MARK: - UITableViewDataSource
 
 extension MemoListViewController {

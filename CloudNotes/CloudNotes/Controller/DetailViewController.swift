@@ -8,6 +8,10 @@ final class DetailViewController: UIViewController {
     textView.keyboardDismissMode = .interactive
     return textView
   }()
+  private let ellipsisCircleButton: UIBarButtonItem = {
+    let buttonImage = UIImage(systemName: "ellipsis.circle")
+    return UIBarButtonItem(image: buttonImage, style: .plain, target: self, action: #selector(showMoreButtonTapped))
+  }()
   private var keyboardShowNotification: NSObjectProtocol?
   private var keyboardHideNotification: NSObjectProtocol?
 
@@ -93,9 +97,15 @@ final class DetailViewController: UIViewController {
   }
   
   private func setNavigationBar() {
-    let buttonImage = UIImage(systemName: "ellipsis.circle")
-    let ellipsisCircleButton = UIBarButtonItem(image: buttonImage, style: .plain, target: self, action: nil)
     navigationItem.rightBarButtonItem = ellipsisCircleButton
+  }
+  @objc private func showMoreButtonTapped(_ sender: UIBarButtonItem) {
+    let textToShare = textView.text
+    let delete = DeleteActivity()
+    delete.delegate = delegate as? MemoActivityDelegate
+    let activityViewController = UIActivityViewController(activityItems: [textToShare], applicationActivities: [delete])
+    activityViewController.popoverPresentationController?.barButtonItem = sender
+    present(activityViewController, animated: true)
   }
 }
 
@@ -113,6 +123,7 @@ extension DetailViewController: MemoDisplayable {
   
   func set(editable: Bool, needClear: Bool) {
     textView.isEditable = editable
+    ellipsisCircleButton.isEnabled = editable
     if needClear {
       textView.text = ""
     }
@@ -126,4 +137,32 @@ extension DetailViewController: UITextViewDelegate {
     let newMemo = currentMemo
     delegate?.updateMemo(title: newMemo.title, body: newMemo.body)
   }
+}
+
+extension DetailViewController {
+  class DeleteActivity: UIActivity {
+    weak var delegate: MemoActivityDelegate?
+
+    override var activityTitle: String? {
+      return "Delete"
+    }
+    override var activityImage: UIImage? {
+      return UIImage(systemName: "trash")
+    }
+    override class var activityCategory: UIActivity.Category {
+      return UIActivity.Category.action
+    }
+
+    override func canPerform(withActivityItems activityItems: [Any]) -> Bool {
+      return true
+    }
+    override func perform() {
+      delegate?.removeCurrentMemo()
+      activityDidFinish(true)
+    }
+  }
+}
+
+protocol MemoActivityDelegate: AnyObject {
+  func removeCurrentMemo()
 }

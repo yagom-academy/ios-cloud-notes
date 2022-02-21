@@ -22,7 +22,6 @@ final class MemoDetailViewController: UIViewController {
         textView.delegate = self
         setUpNotification()
         setupTextView()
-        setupRowSelection()
         setupNavigationItem()
     }
     
@@ -51,12 +50,6 @@ final class MemoDetailViewController: UIViewController {
             textView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             textView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
         ])
-    }
-    
-    private func setupRowSelection() {
-        if MemoDataManager.shared.isEmpty == false {
-            memoDetailViewController(showTextViewWith: MemoDataManager.shared.memos[0])
-        }
     }
     
     private func setupNavigationItem() {

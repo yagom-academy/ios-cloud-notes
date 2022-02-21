@@ -28,19 +28,20 @@ final class NoteDetailViewController: UIViewController {
         return barButtonItem
     }()
     
-    @objc func detailBarButtonItemDidTap() {
-        guard let identifier = self.identifier else {
+    @objc
+    private func detailBarButtonItemDidTap() {
+        guard let identifier = identifier else {
             return
         }
-        let shareAction = UIAlertAction(title: "Share", style: .default) { _ in
-            self.presentActivityView(items: [self.noteDetailTextView.text ?? ""]) { activityViewController in
-                activityViewController.popoverPresentationController?.barButtonItem = self.detailBarButtonItem
+        let shareAction = UIAlertAction(title: "Share", style: .default) { [self] _ in
+            presentActivityView(items: [noteDetailTextView.text ?? ""]) { activityViewController in
+                activityViewController.popoverPresentationController?.barButtonItem = detailBarButtonItem
             }
         }
         let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
             self.presentAlert(title: "진짜요?", message: "정말로 지워요?") { alert in
                 let actions = [
-                    UIAlertAction(title: "취소", style: .cancel, handler: nil),
+                    UIAlertAction(title: "취소", style: .cancel),
                     UIAlertAction(title: "삭제", style: .destructive) { _ in
                         self.viewModel.deleteNote(identifier: identifier)
                     }
@@ -72,25 +73,25 @@ final class NoteDetailViewController: UIViewController {
     }
     
     private func configureHierarchy() {
-        self.view.addSubview(scrollView)
+        view.addSubview(scrollView)
         scrollView.addSubview(noteDetailTextView)
     }
     
     private func configureLayout() {
         NSLayoutConstraint.activate([
-            scrollView.topAnchor.constraint(equalTo: self.view.topAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
-            scrollView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             
             noteDetailTextView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor),
             noteDetailTextView.heightAnchor.constraint(equalTo: scrollView.frameLayoutGuide.heightAnchor),
-            noteDetailTextView.topAnchor.constraint(equalTo: self.scrollView.contentLayoutGuide.topAnchor),
-            noteDetailTextView.bottomAnchor.constraint(equalTo: self.scrollView.contentLayoutGuide.bottomAnchor),
-            noteDetailTextView.leadingAnchor.constraint(equalTo: self.scrollView.contentLayoutGuide.leadingAnchor),
-            noteDetailTextView.trailingAnchor.constraint(equalTo: self.scrollView.contentLayoutGuide.trailingAnchor)])
+            noteDetailTextView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor),
+            noteDetailTextView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor),
+            noteDetailTextView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor),
+            noteDetailTextView.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor)])
         
-        self.navigationController?.navigationBar.topItem?.setRightBarButton(detailBarButtonItem, animated: true)
+        navigationController?.navigationBar.topItem?.setRightBarButton(detailBarButtonItem, animated: true)
     }
     
     private func configureDelegate() {
@@ -108,7 +109,7 @@ extension NoteDetailViewController: UITextViewDelegate {
     }
     
     func textViewDidChange(_ textView: UITextView) {
-        guard let identifier = self.identifier else {
+        guard let identifier = identifier else {
             return
         }
         
@@ -127,9 +128,9 @@ extension NoteDetailViewController: NoteListTableViewDelegate {
     
     func selectNote(with identifier: UUID) {
         self.identifier = identifier
-        let title = self.viewModel.fetchTitle(identifier: identifier)
-        let body = self.viewModel.fetchBody(identifier: identifier)
-        self.noteDetailTextView.text = "\(title)\n\(body)"
+        let title = viewModel.fetchTitle(identifier: identifier)
+        let body = viewModel.fetchBody(identifier: identifier)
+        noteDetailTextView.text = "\(title)\n\(body)"
     }
     
 }

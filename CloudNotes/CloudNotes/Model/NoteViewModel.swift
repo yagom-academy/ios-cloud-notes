@@ -3,7 +3,7 @@ import CoreData
 
 final class NoteViewModel: NSObject {
     
-    let model: NoteModel
+    private let model: NoteModel
     var updateHandler: (() -> Void)?
     
     init(model: NoteModel) {
@@ -11,7 +11,7 @@ final class NoteViewModel: NSObject {
     }
     
     func viewDidLoad() {
-        self.model.controller.delegate = self
+        model.controller.delegate = self
     }
     
     var noteData: [Note] {

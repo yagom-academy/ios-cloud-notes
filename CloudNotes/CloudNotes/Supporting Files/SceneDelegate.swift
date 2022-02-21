@@ -18,7 +18,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.rootViewController = mainSplitViewController
         window?.makeKeyAndVisible()
     }
-
+    
     func sceneDidEnterBackground(_ scene: UIScene) {
         persistentDataManager.saveContext()
     }
@@ -34,12 +34,12 @@ extension SceneDelegate {
         let primaryViewController = NoteListTableViewController(model: viewModel)
         let secondaryViewController = NoteDetailViewController(model: viewModel)
         let splitViewController = UISplitViewController(style: .doubleColumn)
-
+        
         primaryViewController.delegate = secondaryViewController
         splitViewController.view.backgroundColor = .systemBackground
         splitViewController.setViewController(primaryViewController, for: .primary)
         splitViewController.setViewController(secondaryViewController, for: .secondary)
-
+        
         return splitViewController
     }
     

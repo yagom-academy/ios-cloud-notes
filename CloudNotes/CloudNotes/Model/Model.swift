@@ -19,7 +19,7 @@ final class NoteModel {
     
     init(persistentDataManager: PersistentDataManager) {
         self.persistentDataManager = persistentDataManager
-        try? self.controller.performFetch()
+        try? controller.performFetch()
     }
     
     func fetchNote(identifier: UUID) -> Note? {

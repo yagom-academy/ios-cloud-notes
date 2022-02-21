@@ -1,6 +1,6 @@
 import UIKit
 
-class NoteListTableViewDiffableDataSource: UITableViewDiffableDataSource<Section, Note> {
+final class NoteListTableViewDiffableDataSource: UITableViewDiffableDataSource<Section, Note> {
     
     private var viewModel: NoteViewModel
     
@@ -23,7 +23,7 @@ class NoteListTableViewDiffableDataSource: UITableViewDiffableDataSource<Section
         forRowAt indexPath: IndexPath
     ) {
         if editingStyle == .delete {
-            let item = self.itemIdentifier(for: indexPath)
+            let item = itemIdentifier(for: indexPath)
             guard let identifier = item?.identifier else {
                 return
             }

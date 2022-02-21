@@ -61,7 +61,7 @@ class NoteListTableViewCell: UITableViewCell {
         supplementaryStackView.addArrangedSubview(lastModifiedLabel)
         supplementaryStackView.addArrangedSubview(bodyLabel)
         
-        self.contentView.addSubview(primaryStackView)
+        contentView.addSubview(primaryStackView)
     }
 
     private func configureLayout() {
@@ -74,14 +74,15 @@ class NoteListTableViewCell: UITableViewCell {
         lastModifiedLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
         bodyLabel.setContentHuggingPriority(.required, for: .horizontal)
         
-        self.accessoryType = .disclosureIndicator
+        accessoryType = .disclosureIndicator
     }
     
     func setLabelText(title: String, body: String, lastModified: String) {
-        self.titleLabel.text = title
-        self.bodyLabel.text = body
-        self.lastModifiedLabel.text = lastModified
+        titleLabel.text = title
+        bodyLabel.text = body
+        lastModifiedLabel.text = lastModified
     }
+    
 }
 
 extension NoteListTableViewCell: TypeNameConvertible {}

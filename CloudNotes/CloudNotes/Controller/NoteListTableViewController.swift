@@ -1,25 +1,25 @@
 import UIKit
 
-class NoteListTableViewController: UITableViewController {
+final class NoteListTableViewController: UITableViewController {
     
     private var viewModel: NoteViewModel
     weak var delegate: NoteListTableViewDelegate?
-    lazy var dataSource = {
+    private lazy var dataSource = {
         return NoteListTableViewDiffableDataSource(
             model: viewModel,
             tableView: self.tableView) { tableView, _, item in
-            let cell = tableView.dequeueReusableCell(withIdentifier: NoteListTableViewCell.reuseIdentifier)
-            
-            if let cell = cell as? NoteListTableViewCell {
-                cell.setLabelText(
-                    title: item.title,
-                    body: item.body,
-                    lastModified: self.viewModel.fetchDate(note: item)
-                )
+                let cell = tableView.dequeueReusableCell(withIdentifier: NoteListTableViewCell.reuseIdentifier)
+                
+                if let cell = cell as? NoteListTableViewCell {
+                    cell.setLabelText(
+                        title: item.title,
+                        body: item.body,
+                        lastModified: self.viewModel.fetchDate(note: item)
+                    )
+                }
+                
+                return cell
             }
-            
-            return cell
-        }
     }()
     
     override func viewDidLoad() {
@@ -54,16 +54,16 @@ class NoteListTableViewController: UITableViewController {
     }
     
     private func configureLayout() {
-        self.navigationController?.navigationBar.topItem?.title = "메모"
+        navigationController?.navigationBar.topItem?.title = "메모"
         let addBarButtonItem = UIBarButtonItem(
             barButtonSystemItem: .add,
             target: self,
             action: #selector(addNoteDidTap))
-        self.navigationItem.rightBarButtonItem = addBarButtonItem
+        navigationItem.rightBarButtonItem = addBarButtonItem
     }
     
     @objc
-    func addNoteDidTap(_ sender: UIBarButtonItem) {
+    private func addNoteDidTap(_ sender: UIBarButtonItem) {
         viewModel.createNote()
     }
     
@@ -85,14 +85,6 @@ extension NoteListTableViewController {
         editingStyleForRowAt indexPath: IndexPath
     ) -> UITableViewCell.EditingStyle {
         return .delete
-    }
-    
-}
-
-extension UITableView {
-    
-    func register<Cell: UITableViewCell>(_: Cell.Type) where Cell: TypeNameConvertible {
-        register(Cell.self, forCellReuseIdentifier: Cell.reuseIdentifier)
     }
     
 }

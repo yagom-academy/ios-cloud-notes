@@ -122,17 +122,25 @@ final class MemoListViewController: UITableViewController {
   }
   
   private func removeMemo(at indexPath: IndexPath) {
-    do {
-      try self.memos.remove(at: indexPath.row)
-      tableView.deleteRows(at: [indexPath], with: .fade)
-      if self.memos.isEmpty == false {
-        self.currentMemoIndexPath.row -= self.currentMemoIndexPath.row > indexPath.row ?  1 : 0
-      } else {
-        delegate?.set(editable: false, needClear: true)
+    let alertController = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
+    let cancel = UIAlertAction(title: "취소", style: .cancel)
+    let delete = UIAlertAction(title: "삭제", style: .destructive) { [weak self] _ in
+      guard let self = self else { return }
+      do {
+        try self.memos.remove(at: indexPath.row)
+        self.tableView.deleteRows(at: [indexPath], with: .fade)
+        if self.memos.isEmpty == false {
+          self.currentMemoIndexPath.row -= self.currentMemoIndexPath.row > indexPath.row ?  1 : 0
+        } else {
+          self.delegate?.set(editable: false, needClear: true)
+        }
+      } catch {
+        self.showAlert(title: "Remove fail")
       }
-    } catch {
-      self.showAlert(title: "Remove fail")
     }
+    alertController.addAction(cancel)
+    alertController.addAction(delete)
+    present(alertController, animated: true)
   }
 
   private func loadDetail(at indexPath: IndexPath) {

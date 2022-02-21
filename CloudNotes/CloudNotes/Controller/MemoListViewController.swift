@@ -26,6 +26,8 @@ final class MemoListViewController: UITableViewController {
     }
     if memos.isEmpty == false {
       loadDetail(at: firstRowIndexPath)
+    } else {
+      delegate?.set(editable: false, needClear: true)
     }
   }
   
@@ -107,11 +109,26 @@ final class MemoListViewController: UITableViewController {
       showAlert(title: "Save fail")
     }
   }
+  
+  private func removeMemo(at indexPath: IndexPath) {
+    do {
+      try self.memos.remove(at: indexPath.row)
+      tableView.deleteRows(at: [indexPath], with: .fade)
+      if self.memos.isEmpty == false {
+        self.currentMemoIndexPath.row -= self.currentMemoIndexPath.row > indexPath.row ?  1 : 0
+      } else {
+        delegate?.set(editable: false, needClear: true)
+      }
+    } catch {
+      self.showAlert(title: "Remove fail")
+    }
+  }
 
   private func loadDetail(at indexPath: IndexPath) {
     let memo = memos[indexPath.row]
     currentMemoIndexPath = indexPath
     delegate?.showMemo(title: memo.title, body: memo.body)
+    delegate?.set(editable: true, needClear: false)
   }
 }
 
@@ -162,16 +179,8 @@ extension MemoListViewController {
   
   override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
     let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [unowned self] _, _, completionHandler in
-      do {
-        try self.memos.remove(at: indexPath.row)
-        tableView.deleteRows(at: [indexPath], with: .fade)
-        if self.memos.isEmpty == false {
-          self.currentMemoIndexPath.row -= self.currentMemoIndexPath.row > indexPath.row ?  1 : 0
-        }
-        completionHandler(true)
-      } catch {
-        self.showAlert(title: "Remove fail")
-      }
+      self.removeMemo(at: indexPath)
+      completionHandler(true)
     }
     deleteAction.image = UIImage(systemName: "trash")
     let configuration = UISwipeActionsConfiguration(actions: [deleteAction])

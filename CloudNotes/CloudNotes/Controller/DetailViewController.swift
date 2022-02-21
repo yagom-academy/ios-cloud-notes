@@ -6,7 +6,6 @@ final class DetailViewController: UIViewController {
     let textView = UITextView()
     textView.font = UIFont.preferredFont(forTextStyle: .body)
     textView.keyboardDismissMode = .interactive
-    textView.isEditable = false
     return textView
   }()
   private var keyboardShowNotification: NSObjectProtocol?
@@ -110,7 +109,13 @@ extension DetailViewController: MemoDisplayable {
     textView.endEditing(true)
     let topOffset = CGPoint(x: 0, y: 0 - view.safeAreaInsets.top)
     textView.setContentOffset(topOffset, animated: false)
-    textView.isEditable = true
+  }
+  
+  func set(editable: Bool, needClear: Bool) {
+    textView.isEditable = editable
+    if needClear {
+      textView.text = ""
+    }
   }
 }
 

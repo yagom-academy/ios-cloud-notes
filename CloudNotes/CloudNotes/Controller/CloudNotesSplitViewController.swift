@@ -10,7 +10,7 @@ final class CloudNotesSplitViewController: UISplitViewController {
     
     // MARK: - properties
     
-    let persistantManager = PersistentManager()
+    let persistentManager = PersistentManager()
     let noteListViewController = NoteListViewController()
     let noteDetailViewController = NoteDetailViewController()
     var popoverController: UIPopoverPresentationController?
@@ -47,9 +47,9 @@ final class CloudNotesSplitViewController: UISplitViewController {
     }
     
     private func setupChildViewControllers() {
-        noteListViewController.persistantManager = persistantManager
+        noteListViewController.persistentManager = persistentManager
         noteListViewController.delegate = self
-        noteDetailViewController.persistantManager = persistantManager
+        noteDetailViewController.persistentManager = persistentManager
         noteDetailViewController.delegate = self
         
         setViewController(
@@ -90,12 +90,12 @@ final class CloudNotesSplitViewController: UISplitViewController {
 
 extension CloudNotesSplitViewController: NoteListViewDelegate {
     func sharedNoteActionWithSwipe() {
-        let note = persistantManager.notes[currentIndex]
+        let note = persistentManager.notes[currentIndex]
         showActivityView(note: note, targetButton: nil)
     }
     
     func deleteNoteActionWithSwipe() {
-        let note = persistantManager.notes[currentIndex]
+        let note = persistentManager.notes[currentIndex]
         self.showDeleteAlert(message: "정말로 삭제하시겠어요?") {
             self.noteListViewController.deleteNote(
                 object: note,
@@ -122,7 +122,7 @@ extension CloudNotesSplitViewController: NoteListViewDelegate {
 
 extension CloudNotesSplitViewController: NoteDetailViewDelegate {
     func deleteNoteAction() {
-        let note = persistantManager.notes[currentIndex]
+        let note = persistentManager.notes[currentIndex]
         noteListViewController.showDeleteAlert(message: "정말로 삭제하시겠어요?") {
             self.noteListViewController.deleteNote(
                 object: note,
@@ -132,7 +132,7 @@ extension CloudNotesSplitViewController: NoteDetailViewDelegate {
     }
     
     func sharedNoteAction(_ sender: UIBarButtonItem) {
-        let note = persistantManager.notes[currentIndex]
+        let note = persistentManager.notes[currentIndex]
         showActivityView(note: note, targetButton: sender)
     }
     

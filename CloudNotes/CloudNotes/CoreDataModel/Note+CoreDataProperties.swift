@@ -20,7 +20,6 @@ extension Note {
     static let contentKey = "content"
     static let lastModifiedDateKey = "lastModifiedDate"
     
-    
     var localizedDateString: String {
         return DateFormatter().localizedString(from: self.lastModifiedDate)
     }

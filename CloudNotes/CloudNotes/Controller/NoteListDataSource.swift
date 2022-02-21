@@ -8,10 +8,10 @@
 import UIKit
 
 final class NoteListDataSource: NSObject {
-    let persistantManager: PersistentManager?
+    let persistentManager: PersistentManager?
     
-    init(persistantManager: PersistentManager?) {
-        self.persistantManager = persistantManager
+    init(persistentManager: PersistentManager?) {
+        self.persistentManager = persistentManager
     }
 }
 
@@ -20,7 +20,7 @@ extension NoteListDataSource: UITableViewDataSource {
       _ tableView: UITableView,
       numberOfRowsInSection section: Int
     ) -> Int {
-        return persistantManager?.notes.count ?? 0
+        return persistentManager?.notes.count ?? 0
     }
     
     func tableView(
@@ -33,7 +33,7 @@ extension NoteListDataSource: UITableViewDataSource {
         ) as? NoteListCell else {
             return UITableViewCell()
         }
-        guard let information = persistantManager?.notes[indexPath.row] else {
+        guard let information = persistentManager?.notes[indexPath.row] else {
             return UITableViewCell()
         }
         cell.configure(with: information)

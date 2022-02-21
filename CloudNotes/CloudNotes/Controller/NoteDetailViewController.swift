@@ -19,7 +19,7 @@ final class NoteDetailViewController: UIViewController {
     
     private let noteDetailScrollView = NoteDetailScrollView()
     weak var delegate: NoteDetailViewDelegate?
-    var persistantManager: PersistentManager?
+    var persistentManager: PersistentManager?
     var currentIndex = 0
 
     // MARK: - View LifeCycle
@@ -36,7 +36,7 @@ final class NoteDetailViewController: UIViewController {
     
     func setupDetailView(index: Int) {
         currentIndex = index
-        if let note = persistantManager?.notes[index] {
+        if let note = persistentManager?.notes[index] {
             noteDetailScrollView.configure(with: note)
             scrollTextViewToVisible()
             view.endEditing(true)

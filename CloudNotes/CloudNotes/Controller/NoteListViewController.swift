@@ -22,8 +22,8 @@ final class NoteListViewController: UIViewController {
     
     private let tableView: UITableView = UITableView()
     weak var delegate: NoteListViewDelegate?
-    lazy var dataSource = NoteListDataSource(persistantManager: persistantManager)
-    var persistantManager: PersistentManager?
+    lazy var dataSource = NoteListDataSource(persistentManager: persistentManager)
+    var persistentManager: PersistentManager?
     
     // MARK: - View LifeCycle
     
@@ -37,14 +37,14 @@ final class NoteListViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        self.tableView.backgroundView?.isHidden = persistantManager?.notes.count == 0 ? false : true
+        self.tableView.backgroundView?.isHidden = persistentManager?.notes.count == 0 ? false : true
     }
     
     // MARK: - internal Methods
     
     func updateListView(index: Int, noteInformation: NoteInformation) {
-        if let note = persistantManager?.notes[index] {
-            persistantManager?.update(object: note, noteInformation: noteInformation)
+        if let note = persistentManager?.notes[index] {
+            persistentManager?.update(object: note, noteInformation: noteInformation)
             DispatchQueue.main.async {
                 self.tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .none)
             }
@@ -54,11 +54,11 @@ final class NoteListViewController: UIViewController {
     
     func deleteNote(object: NSManagedObject, indexPath: IndexPath) {
         tableView.performBatchUpdates {
-            persistantManager?.notes.remove(at: indexPath.row)
+            persistentManager?.notes.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
-            persistantManager?.delete(object: object)
+            persistentManager?.delete(object: object)
         } completion: { _ in
-            if self.persistantManager?.notes.count == indexPath.row {
+            if self.persistentManager?.notes.count == indexPath.row {
                 self.selectNote(with: indexPath.row - 1)
             } else {
                 self.selectNote(with: indexPath.row)
@@ -124,8 +124,8 @@ final class NoteListViewController: UIViewController {
                 content: "",
                 lastModifiedDate: Date().timeIntervalSince1970
             )
-            persistantManager?.save(noteInformation: emptyNoteInformation)
-            persistantManager?.notes = persistantManager?.fetch() ?? []
+            persistentManager?.save(noteInformation: emptyNoteInformation)
+            persistentManager?.notes = persistentManager?.fetch() ?? []
             tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .none)
         } completion: {_ in
             self.tableView.backgroundView?.isHidden = true
@@ -136,7 +136,7 @@ final class NoteListViewController: UIViewController {
     }
     
     private func selectNote(with index: Int) {
-        guard let notes = persistantManager?.notes,
+        guard let notes = persistentManager?.notes,
               notes.count > 0 else {
                   self.setUpEmptyNotes()
                   return

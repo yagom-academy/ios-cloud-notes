@@ -5,6 +5,7 @@ class NoteSplitViewController: UISplitViewController {
     private var dataManager: CoreDataManager<CDMemo>?
     private let noteListViewController = NoteListViewController()
     private let noteDetailViewController = NoteDetailViewController()
+    private var fetchedController: NSFetchedResultsController<CDMemo>?
     private var selectedIndexPath: IndexPath? {
         return noteListViewController.extractSeletedRow()
     }
@@ -16,6 +17,7 @@ class NoteSplitViewController: UISplitViewController {
         configureNoteListViewController()
         configureColumnStyle()
         configureDataStorage()
+        configureFetchedResultsController()
         dataManager?.fetchAll()
         configureNoteDetailViewController()
     }
@@ -42,6 +44,17 @@ class NoteSplitViewController: UISplitViewController {
     
     private func configureNoteDetailViewController() {
         noteDetailViewController.delegate = self
+    }
+    
+    private func configureFetchedResultsController(query: String? = nil) {
+        if query == nil {
+            fetchedController = dataManager?.createNoteFetchedResultsController()
+        } else {
+        fetchedController = dataManager?.createNoteFetchedResultsController(query: query)
+        }
+        
+        try? fetchedController?.performFetch()
+        fetchedController?.delegate = self
     }
     
     private func presentActivityView() {
@@ -79,7 +92,6 @@ extension NoteSplitViewController: NoteListViewControllerDelegate {
     ) {
         guard let deletedData = dataManager?.extractData(indexPath: indexPath) else { return }
         dataManager?.delete(target: deletedData)
-        dataManager?.fetchAll()
     }
     
     func noteListViewController(
@@ -109,6 +121,7 @@ extension NoteSplitViewController: NoteListViewControllerDelegate {
         noteListViewController.updateTableView()
     }
 }
+
 extension NoteSplitViewController: NoteListViewControllerDataSource {
     func noteListViewControllerNumberOfData(_ viewController: NoteListViewController) -> Int {
         dataManager?.dataList.count ?? .zero
@@ -133,4 +146,8 @@ extension NoteSplitViewController: NoteDetailViewControllerDelegate {
         dataManager?.update(target: selectedMemo, attributes: attribute)
         noteListViewController.updateTableView()
     }
+}
+
+extension NoteSplitViewController: NSFetchedResultsControllerDelegate {
+    
 }

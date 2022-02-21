@@ -73,11 +73,22 @@ final class CoreDataManager<T: NSManagedObject> {
         return data
     }
     
-    //TODO: SearchController 추후 구현
-    //    func search(title: String) -> [Memo]{
-    //        let request = NSFetchRequest<Memo>(entityName: "Memo")
-    //        let predicate = NSPredicate(format: "title == %@", [title])
-    //        request.predicate = predicate
-    //        return request
-    //    }
+    func createNoteFetchedResultsController(query: String? = nil) -> NSFetchedResultsController<T> {
+        guard let context = context else {
+            return NSFetchedResultsController()
+        }
+        
+        guard let fetchRequest = T.fetchRequest() as? NSFetchRequest<T> else {
+            return NSFetchedResultsController()
+        }
+        let sortDescriptor = NSSortDescriptor(key: "lastModified", ascending: false)
+        fetchRequest.sortDescriptors = [sortDescriptor]
+        
+        if let query = query {
+            let predicate = NSPredicate(format: "text contains[cd] %@", query)
+            fetchRequest.predicate = predicate
+        }
+        
+        return NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+    }
 }

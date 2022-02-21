@@ -136,7 +136,7 @@ extension NoteSplitViewController: NoteListViewControllerDataSource {
 extension NoteSplitViewController: NoteDetailViewControllerDelegate {
     func noteDetailViewController(
         _ viewController: UIViewController,
-        bodyForUpdate body: String
+        didChangeBody body: String
     ) {
         let attribute = createAttributes(body: body)
         

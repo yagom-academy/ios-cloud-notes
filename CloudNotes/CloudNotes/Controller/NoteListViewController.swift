@@ -96,17 +96,17 @@ extension NoteListViewController: UITableViewDelegate {
     ) -> UISwipeActionsConfiguration? {
         let shareAction = UIContextualAction(
             style: .normal,
-            title: nil) { _, _, _ in
-                self.delegate?.noteListViewController(self, cellToShare: indexPath)
+            title: nil) { [weak self] _, _, _ in
+                self?.delegate?.noteListViewController(self ?? NoteListViewController(), cellToShare: indexPath)
             }
         shareAction.image = UIImage(systemName: "square.and.arrow.up")
         
         let deleteAction = UIContextualAction(
             style: .destructive,
             title: nil,
-            handler: { _, _, _ in
-                self.delegate?.noteListViewController(
-                    self,
+            handler: { [weak self] _, _, _ in
+                self?.delegate?.noteListViewController(
+                    self ?? NoteListViewController(),
                     cellToDelete: indexPath
                 )
             tableView.reloadData()

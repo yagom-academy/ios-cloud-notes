@@ -1,7 +1,7 @@
 import UIKit
 
 protocol NoteDetailViewControllerDelegate: AnyObject {
-    func noteDetailViewController(_ viewController: UIViewController, bodyForUpdate body: String)
+    func noteDetailViewController(_ viewController: UIViewController, didChangeBody body: String)
 }
 
 class NoteDetailViewController: UIViewController {
@@ -57,7 +57,7 @@ class NoteDetailViewController: UIViewController {
 extension NoteDetailViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         let body = textView.text ?? "" // date를 업데이트
-        delegate?.noteDetailViewController(self, bodyForUpdate: body)
+        delegate?.noteDetailViewController(self, didChangeBody: body)
     }
     
    

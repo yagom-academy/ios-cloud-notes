@@ -20,12 +20,16 @@ final class MemoListViewController: UITableViewController {
     tableView.register(UITableViewCell.self, forCellReuseIdentifier: reuseIdentifier)
     tableView.allowsSelectionDuringEditing = true
     memos.reload()
-    loadDetail(at: firstRowIndexPath)
+    if memos.isEmpty == false {
+      loadDetail(at: firstRowIndexPath)
+    }
   }
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-    tableView.selectRow(at: currentMemoIndexPath, animated: false, scrollPosition: .top)
+    if memos.isEmpty == false {
+      tableView.selectRow(at: currentMemoIndexPath, animated: false, scrollPosition: .top)
+    }
   }
   
   override func viewDidAppear(_ animated: Bool) {

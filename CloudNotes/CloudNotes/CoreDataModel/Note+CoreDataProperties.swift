@@ -14,11 +14,18 @@ extension Note {
     @NSManaged public var content: String?
     @NSManaged public var lastModifiedDate: Double
     
-    @nonobjc public class func fetchRequest() -> NSFetchRequest<Note> {
-        return NSFetchRequest<Note>(entityName: "Note")
-    }
+    static let entityName = "Note"
+    
+    static let titleKey = "title"
+    static let contentKey = "content"
+    static let lastModifiedDateKey = "lastModifiedDate"
+    
     
     var localizedDateString: String {
         return DateFormatter().localizedString(from: self.lastModifiedDate)
+    }
+    
+    @nonobjc public class func fetchRequest() -> NSFetchRequest<Note> {
+        return NSFetchRequest<Note>(entityName: "Note")
     }
 }

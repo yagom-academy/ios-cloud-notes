@@ -23,7 +23,7 @@ final class NoteListViewController: UIViewController {
     private let tableView: UITableView = UITableView()
     weak var delegate: NoteListViewDelegate?
     lazy var dataSource = NoteListDataSource(persistantManager: persistantManager)
-    var persistantManager: PersistantManager?
+    var persistantManager: PersistentManager?
     
     // MARK: - View LifeCycle
     

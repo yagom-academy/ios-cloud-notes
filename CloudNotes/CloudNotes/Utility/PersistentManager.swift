@@ -8,18 +8,18 @@
 import Foundation
 import CoreData
 
-class PersistantManager {
+class PersistentManager {
     lazy var notes: [Note] = self.fetch()
     
     func save(noteInformation: NoteInformation) {
-        let context = CoreDataStack.shared.persistentContainer.viewContext
+        let context = CoreDataStack.shared.context
         let object = NSEntityDescription.insertNewObject(
-            forEntityName: "Note",
+            forEntityName: Note.entityName,
             into: context
         )
-        object.setValue(noteInformation.title, forKey: "title")
-        object.setValue(noteInformation.content, forKey: "content")
-        object.setValue(noteInformation.lastModifiedDate, forKey: "lastModifiedDate")
+        object.setValue(noteInformation.title, forKey: Note.titleKey)
+        object.setValue(noteInformation.content, forKey: Note.contentKey)
+        object.setValue(noteInformation.lastModifiedDate, forKey: Note.lastModifiedDateKey)
         
         CoreDataStack.shared.saveContext()
     }
@@ -32,7 +32,7 @@ class PersistantManager {
     
     func fetch() -> [Note] {
         let fetchRequest = Note.fetchRequest()
-        let sort = NSSortDescriptor(key: "lastModifiedDate", ascending: false)
+        let sort = NSSortDescriptor(key: Note.lastModifiedDateKey, ascending: false)
         fetchRequest.sortDescriptors = [sort]
         do {
             return try CoreDataStack.shared.context.fetch(fetchRequest)
@@ -43,9 +43,9 @@ class PersistantManager {
     }
     
     func update(object: NSManagedObject, noteInformation: NoteInformation) {
-        object.setValue(noteInformation.title, forKey: "title")
-        object.setValue(noteInformation.content, forKey: "content")
-        object.setValue(noteInformation.lastModifiedDate, forKey: "lastModifiedDate")
+        object.setValue(noteInformation.title, forKey: Note.titleKey)
+        object.setValue(noteInformation.content, forKey: Note.contentKey)
+        object.setValue(noteInformation.lastModifiedDate, forKey: Note.lastModifiedDateKey)
         
         CoreDataStack.shared.saveContext()
     }

@@ -19,7 +19,7 @@ final class NoteDetailViewController: UIViewController {
     
     private let noteDetailScrollView = NoteDetailScrollView()
     weak var delegate: NoteDetailViewDelegate?
-    var persistantManager: PersistantManager?
+    var persistantManager: PersistentManager?
     var currentIndex = 0
 
     // MARK: - View LifeCycle

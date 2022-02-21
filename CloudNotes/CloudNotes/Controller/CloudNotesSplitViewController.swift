@@ -10,7 +10,7 @@ final class CloudNotesSplitViewController: UISplitViewController {
     
     // MARK: - properties
     
-    let persistantManager = PersistantManager()
+    let persistantManager = PersistentManager()
     let noteListViewController = NoteListViewController()
     let noteDetailViewController = NoteDetailViewController()
     var popoverController: UIPopoverPresentationController?

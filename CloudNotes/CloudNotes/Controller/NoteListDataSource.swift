@@ -8,9 +8,9 @@
 import UIKit
 
 final class NoteListDataSource: NSObject {
-    let persistantManager: PersistantManager?
+    let persistantManager: PersistentManager?
     
-    init(persistantManager: PersistantManager?) {
+    init(persistantManager: PersistentManager?) {
         self.persistantManager = persistantManager
     }
 }

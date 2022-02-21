@@ -19,7 +19,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         splitViewController.setViewController(detailViewController, for: .secondary)
         splitViewController.preferredSplitBehavior = .tile
         splitViewController.preferredDisplayMode = .oneBesideSecondary
-
+        splitViewController.registerGestureRecognizer()
+        
         window = UIWindow(windowScene: windowScene)
         window?.rootViewController = splitViewController
         window?.makeKeyAndVisible()

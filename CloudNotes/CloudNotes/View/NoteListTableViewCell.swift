@@ -51,13 +51,26 @@ class NoteListTableViewCell: UITableViewCell {
         setUpLayout() 
     }
     
-    func updateLabel(title: String, date: String, preview: String) {
+    func updateLabel(title: String, lastModified: Date, preview: String) {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = .autoupdatingCurrent
+        dateFormatter.dateFormat = "yyyy. MM. dd"
+        let dateConvertedToTimeInterval = lastModified.timeIntervalSince1970
+        let formattedDate = Date(timeIntervalSince1970: dateConvertedToTimeInterval)
+
         titleLabel.text = title
-        dateLabel.text = date
+        if title.isEmpty {
+            titleLabel.text = "제목을 입력하세요"
+        }
+        dateLabel.text = dateFormatter.string(from: formattedDate)
         previewLabel.text = preview
     }
     
     private func setUpLayout() {
+        NSLayoutConstraint.activate([
+            titleLabel.heightAnchor.constraint(equalTo: self.safeAreaLayoutGuide.heightAnchor, multiplier: 0.5)
+        ])
+        
         NSLayoutConstraint.activate([
             textVerticalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5),
             textVerticalStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),

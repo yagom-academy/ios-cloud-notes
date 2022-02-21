@@ -5,6 +5,18 @@ protocol NoteListViewControllerDelegate: AnyObject {
         _ viewController: NoteListViewController,
         didSelectedCell indexPath: IndexPath
     )
+    
+    func noteListViewController(addButtonTapped viewController: NoteListViewController)
+    
+    func noteListViewController(
+        _ viewController: NoteListViewController,
+        cellToDelete indexPath: IndexPath
+    )
+    
+    func noteListViewController(
+        _ viewController: NoteListViewController,
+        cellToShare indexPath: IndexPath
+    )
 }
 
 protocol NoteListViewControllerDataSource: AnyObject {
@@ -14,7 +26,7 @@ protocol NoteListViewControllerDataSource: AnyObject {
     func noteListViewControllerSampleForCell(
         _ viewController: NoteListViewController,
         indexPath: IndexPath
-    ) -> Sample?
+    ) -> CDMemo?
 }
 
 class NoteListViewController: UIViewController {
@@ -24,6 +36,7 @@ class NoteListViewController: UIViewController {
         var tableView = UITableView(frame: .zero)
         tableView.register(cellWithClass: NoteListTableViewCell.self)
         tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.allowsSelectionDuringEditing = false
         return tableView
     }()
     
@@ -50,13 +63,25 @@ class NoteListViewController: UIViewController {
         ])
     }
     
-    func setUpNavigationItems() {
+    private func setUpNavigationItems() {
         navigationItem.title = "메모"
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             barButtonSystemItem: .add,
-            target: nil,
-            action: nil
+            target: self,
+            action: #selector(tappedPlusButton)
         )
+    }
+
+    @objc private func tappedPlusButton() {
+        delegate?.noteListViewController(addButtonTapped: self)
+    }
+    
+    func updateTableView() {
+        listTableView.reloadData()
+    }
+    
+    func extractSeletedRow() -> IndexPath? {
+        listTableView.indexPathForSelectedRow
     }
 }
 
@@ -64,6 +89,34 @@ extension NoteListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
             delegate?.noteListViewController(self, didSelectedCell: indexPath)
     }
+    
+    func tableView(
+        _ tableView: UITableView,
+        trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
+    ) -> UISwipeActionsConfiguration? {
+        let shareAction = UIContextualAction(
+            style: .normal,
+            title: nil) { [weak self] _, _, _ in
+                self?.delegate?.noteListViewController(self ?? NoteListViewController(), cellToShare: indexPath)
+            }
+        shareAction.image = UIImage(systemName: "square.and.arrow.up")
+        
+        let deleteAction = UIContextualAction(
+            style: .destructive,
+            title: nil,
+            handler: { [weak self] _, _, _ in
+                self?.delegate?.noteListViewController(
+                    self ?? NoteListViewController(),
+                    cellToDelete: indexPath
+                )
+            tableView.reloadData()
+            })
+        deleteAction.image = UIImage(systemName: "trash.fill")
+        
+        let actionConfigurations = UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
+        return actionConfigurations
+    }
+    
 }
 
 extension NoteListViewController: UITableViewDataSource {
@@ -71,7 +124,10 @@ extension NoteListViewController: UITableViewDataSource {
         dataSource?.noteListViewControllerNumberOfData(self) ?? .zero
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(
+        _ tableView: UITableView,
+        cellForRowAt indexPath: IndexPath
+    ) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(
             withClass: NoteListTableViewCell.self,
             for: indexPath)
@@ -83,7 +139,11 @@ extension NoteListViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        cell.updateLabel(title: data.title, date: data.formattedDate, preview: data.body)
+        guard let title = data.title, let preview = data.body, let lastModified = data.lastModified else {
+            return UITableViewCell()
+        }
+        
+        cell.updateLabel(title: title, lastModified: lastModified, preview: preview)
         cell.accessoryType = .disclosureIndicator
         
         return cell

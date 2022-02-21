@@ -1,6 +1,11 @@
 import UIKit
 
+protocol NoteDetailViewControllerDelegate: AnyObject {
+    func noteDetailViewController(_ viewController: UIViewController, didChangeBody body: String)
+}
+
 class NoteDetailViewController: UIViewController {
+    weak var delegate: NoteDetailViewControllerDelegate?
     private var textView: UITextView = {
         let textview = UITextView(frame: .zero)
         textview.font = .preferredFont(forTextStyle: .caption1)
@@ -12,16 +17,21 @@ class NoteDetailViewController: UIViewController {
         view = .init()
         view.backgroundColor = .white
         view.addSubview(textView)
+        textView.delegate = self
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpTextViewLayout()
         setUpNavigationItems()
+        textView.selectedRange = NSRange("\n") ?? NSRange()
     }
     
-    func setUpText(with data: Sample) {
-        textView.text = data.body
+    func setUpText(with data: CDMemo) {
+        guard let title = data.title, let body = data.body else {
+             return
+        }
+        textView.text = "\(title)\n\(body)"
     }
     
     private func setUpNavigationItems() {
@@ -42,4 +52,13 @@ class NoteDetailViewController: UIViewController {
             textView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
+}
+
+extension NoteDetailViewController: UITextViewDelegate {
+    func textViewDidChange(_ textView: UITextView) {
+        let body = textView.text ?? "" // date를 업데이트
+        delegate?.noteDetailViewController(self, didChangeBody: body)
+    }
+    
+   
 }

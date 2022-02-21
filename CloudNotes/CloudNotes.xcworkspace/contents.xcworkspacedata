@@ -2,6 +2,12 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:/Users/joyeongmin/Desktop/yagomProject/ios-cloud-notes/CloudNotes/CloudNotes/Model/CDMemo+CoreDataClass.swift">
+   </FileRef>
+   <FileRef
+      location = "group:/Users/joyeongmin/Desktop/yagomProject/ios-cloud-notes/CloudNotes/CloudNotes/Model/CDMemo+CoreDataProperties.swift">
+   </FileRef>
+   <FileRef
       location = "group:CloudNotes.xcodeproj">
    </FileRef>
    <FileRef

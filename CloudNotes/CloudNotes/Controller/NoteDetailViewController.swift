@@ -18,11 +18,38 @@ final class NoteDetailViewController: UIViewController {
         return scrollView
     }()
     
-    private let detailBarButtonItem: UIBarButtonItem = {
+    private lazy var detailBarButtonItem: UIBarButtonItem = {
         let image = UIImage(systemName: "ellipsis.circle")
-        let barButtonItem = UIBarButtonItem(image: image, style: .plain, target: nil, action: nil)
+        let barButtonItem = UIBarButtonItem(
+            image: image,
+            style: .plain,
+            target: self,
+            action: #selector(detailBarButtonItemDidTap))
         return barButtonItem
     }()
+    
+    @objc func detailBarButtonItemDidTap() {
+        guard let identifier = self.identifier else {
+            return
+        }
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let shareAction = UIAlertAction(title: "Share", style: .default) { _ in
+            let activityViewController = UIActivityViewController(
+                activityItems: [self.noteDetailTextView.text ?? ""],
+                applicationActivities: nil)
+            activityViewController.popoverPresentationController?.barButtonItem = self.detailBarButtonItem
+            self.present(activityViewController, animated: true, completion: nil)
+        }
+        let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
+            self.viewModel.deleteNote(identifier: identifier)
+        }
+        
+        alertController.addAction(shareAction)
+        alertController.addAction(deleteAction)
+        alertController.modalPresentationStyle = .popover
+        alertController.popoverPresentationController?.barButtonItem = detailBarButtonItem
+        self.present(alertController, animated: true)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -77,6 +104,7 @@ extension NoteDetailViewController: UITextViewDelegate {
     }
     
     func textViewDidChange(_ textView: UITextView) {
+        print("textViewDidChange")
         guard let identifier = self.identifier else {
             return
         }
@@ -98,7 +126,7 @@ extension NoteDetailViewController: NoteListTableViewDelegate {
         self.identifier = identifier
         let title = self.viewModel.fetchTitle(identifier: identifier)
         let body = self.viewModel.fetchBody(identifier: identifier)
-        self.noteDetailTextView.text = "\(title)\n\n\(body)"
+        self.noteDetailTextView.text = "\(title)\n\(body)"
     }
     
 }

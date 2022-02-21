@@ -83,11 +83,25 @@ class NoteListViewController: UIViewController {
     func extractSeletedRow() -> IndexPath? {
         listTableView.indexPathForSelectedRow
     }
+    
+    private func presentVerifyingDeletionAlert(indexPath: IndexPath) {
+        let alertController = UIAlertController(title: "삭제하시겠습니까?", message: "후회하지 않으시겠습니까?", preferredStyle: .alert)
+        let cancel = UIAlertAction(title: "취소", style: .cancel) { [weak self]_ in
+            self?.listTableView.reloadRows(at: [indexPath], with: .right)
+        }
+        let ok = UIAlertAction(title: "삭제", style: .destructive) { [weak self] _ in
+            self?.delegate?.noteListViewController(self ?? NoteListViewController(), cellToDelete: indexPath)
+        }
+        alertController.addAction(cancel)
+        alertController.addAction(ok)
+        
+        present(alertController, animated: true, completion: nil)
+    }
 }
 
 extension NoteListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-            delegate?.noteListViewController(self, didSelectedCell: indexPath)
+        delegate?.noteListViewController(self, didSelectedCell: indexPath)
     }
     
     func tableView(
@@ -105,18 +119,14 @@ extension NoteListViewController: UITableViewDelegate {
             style: .destructive,
             title: nil,
             handler: { [weak self] _, _, _ in
-                self?.delegate?.noteListViewController(
-                    self ?? NoteListViewController(),
-                    cellToDelete: indexPath
-                )
-            tableView.reloadData()
+                self?.presentVerifyingDeletionAlert(indexPath: indexPath)
             })
         deleteAction.image = UIImage(systemName: "trash.fill")
         
         let actionConfigurations = UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
+        
         return actionConfigurations
     }
-    
 }
 
 extension NoteListViewController: UITableViewDataSource {

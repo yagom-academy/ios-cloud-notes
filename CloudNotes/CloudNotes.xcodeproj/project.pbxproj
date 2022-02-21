@@ -16,6 +16,7 @@
 		8499EB4A27BDFEFA001B013C /* CDNote+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8499EB4827BDFEFA001B013C /* CDNote+CoreDataProperties.swift */; };
 		890192CE27BBA94C00233A9B /* NoteListTableViewDiffableDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 890192CD27BBA94C00233A9B /* NoteListTableViewDiffableDataSource.swift */; };
 		890192D027BBA9B100233A9B /* Section.swift in Sources */ = {isa = PBXBuildFile; fileRef = 890192CF27BBA9B100233A9B /* Section.swift */; };
+		89398A2E27C3887700B718A5 /* AlertUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89398A2D27C3887700B718A5 /* AlertUtilities.swift */; };
 		894E47A827B5115E0099893B /* NoteListTableViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 894E47A727B5115E0099893B /* NoteListTableViewDelegate.swift */; };
 		89B8D32F27BCF2E30083C412 /* PersistentDataManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B8D32E27BCF2E30083C412 /* PersistentDataManagerTests.swift */; };
 		89B8D33027BCF2FC0083C412 /* PersistentDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847E80D027BCD95600E5CC8B /* PersistentDataManager.swift */; };
@@ -67,6 +68,7 @@
 		85F41C9FA46A836565CC82C4 /* Pods-CloudNotes.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudNotes.release.xcconfig"; path = "Target Support Files/Pods-CloudNotes/Pods-CloudNotes.release.xcconfig"; sourceTree = "<group>"; };
 		890192CD27BBA94C00233A9B /* NoteListTableViewDiffableDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteListTableViewDiffableDataSource.swift; sourceTree = "<group>"; };
 		890192CF27BBA9B100233A9B /* Section.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Section.swift; sourceTree = "<group>"; };
+		89398A2D27C3887700B718A5 /* AlertUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertUtilities.swift; sourceTree = "<group>"; };
 		894E47A727B5115E0099893B /* NoteListTableViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteListTableViewDelegate.swift; sourceTree = "<group>"; };
 		89B8D32E27BCF2E30083C412 /* PersistentDataManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentDataManagerTests.swift; sourceTree = "<group>"; };
 		89C7EBD627B25F4400221EC7 /* NoteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteViewModel.swift; sourceTree = "<group>"; };
@@ -121,6 +123,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		89B52CDE27C38792008F2C98 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				89398A2D27C3887700B718A5 /* AlertUtilities.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
 		C1C3151A27B216A100FB69CE /* Controller */ = {
 			isa = PBXGroup;
 			children = (
@@ -202,6 +212,7 @@
 		C7481C6C25BBCF3900B9CA55 /* CloudNotes */ = {
 			isa = PBXGroup;
 			children = (
+				89B52CDE27C38792008F2C98 /* Extension */,
 				C1C3151B27B2170100FB69CE /* Supporting Files */,
 				C1C3151D27B217D700FB69CE /* Model */,
 				C1C3151C27B217CB00FB69CE /* View */,
@@ -477,6 +488,7 @@
 				890192D027BBA9B100233A9B /* Section.swift in Sources */,
 				C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */,
 				847E80D127BCD95600E5CC8B /* PersistentDataManager.swift in Sources */,
+				89398A2E27C3887700B718A5 /* AlertUtilities.swift in Sources */,
 				890192CE27BBA94C00233A9B /* NoteListTableViewDiffableDataSource.swift in Sources */,
 				C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */,
 				C7481C7825BBCF3900B9CA55 /* CloudNotes.xcdatamodeld in Sources */,

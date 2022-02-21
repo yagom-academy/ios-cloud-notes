@@ -32,23 +32,27 @@ final class NoteDetailViewController: UIViewController {
         guard let identifier = self.identifier else {
             return
         }
-        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let shareAction = UIAlertAction(title: "Share", style: .default) { _ in
-            let activityViewController = UIActivityViewController(
-                activityItems: [self.noteDetailTextView.text ?? ""],
-                applicationActivities: nil)
-            activityViewController.popoverPresentationController?.barButtonItem = self.detailBarButtonItem
-            self.present(activityViewController, animated: true, completion: nil)
+            self.presentActivityView(items: [self.noteDetailTextView.text ?? ""]) { activityViewController in
+                activityViewController.popoverPresentationController?.barButtonItem = self.detailBarButtonItem
+            }
         }
         let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
-            self.viewModel.deleteNote(identifier: identifier)
+            self.presentAlert(title: "진짜요?", message: "정말로 지워요?") { alert in
+                let actions = [
+                    UIAlertAction(title: "취소", style: .cancel, handler: nil),
+                    UIAlertAction(title: "삭제", style: .destructive) { _ in
+                        self.viewModel.deleteNote(identifier: identifier)
+                    }
+                ]
+                alert.addAction(actions)
+            }
         }
-        
-        alertController.addAction(shareAction)
-        alertController.addAction(deleteAction)
-        alertController.modalPresentationStyle = .popover
-        alertController.popoverPresentationController?.barButtonItem = detailBarButtonItem
-        self.present(alertController, animated: true)
+        presentAlert(preferredStyle: .actionSheet) { alertController in
+            alertController.modalPresentationStyle = .popover
+            alertController.popoverPresentationController?.barButtonItem = detailBarButtonItem
+            alertController.addAction([shareAction, deleteAction])
+        }
     }
     
     override func viewDidLoad() {

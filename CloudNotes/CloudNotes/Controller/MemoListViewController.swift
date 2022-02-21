@@ -99,6 +99,17 @@ final class MemoListViewController: UITableViewController {
     navigationItem.title = "메모"
   }
 
+  @objc private func shareActionTapped(_ sender: UIView, completionHandler: @escaping (Bool) -> Void) {
+    let memo = memos[currentMemoIndexPath.row]
+    let textToShare = memo.title ?? "" + "\n" + (memo.body ?? "")
+    let activityViewController = UIActivityViewController(activityItems: [textToShare], applicationActivities: nil)
+    activityViewController.completionWithItemsHandler = { _, completed, _, _ in
+      completionHandler(completed)
+    }
+    activityViewController.popoverPresentationController?.sourceView = sender
+    present(activityViewController, animated: true)
+  }
+
   @objc private func addMemo() {
     do {
       try memos.createFirst(title: "", body: "")
@@ -188,12 +199,16 @@ extension MemoListViewController {
   }
   
   override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+    let shareAction = UIContextualAction(style: .normal, title: "Share") { [unowned self] _, sourceView, completionHandler in
+      self.shareActionTapped(sourceView, completionHandler: completionHandler)
+    }
+    shareAction.image = UIImage(systemName: "square.and.arrow.up")
     let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [unowned self] _, _, completionHandler in
       self.removeMemo(at: indexPath)
       completionHandler(true)
     }
     deleteAction.image = UIImage(systemName: "trash")
-    let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
+    let configuration = UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
     return configuration
   }
   

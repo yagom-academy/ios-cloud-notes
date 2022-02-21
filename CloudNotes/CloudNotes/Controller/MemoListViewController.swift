@@ -19,7 +19,11 @@ final class MemoListViewController: UITableViewController {
     setNavigationBar()
     tableView.register(UITableViewCell.self, forCellReuseIdentifier: reuseIdentifier)
     tableView.allowsSelectionDuringEditing = true
-    memos.reload()
+    do {
+      try memos.reload()
+    } catch {
+      showAlert(title: "Load fail")
+    }
     if memos.isEmpty == false {
       loadDetail(at: firstRowIndexPath)
     }
@@ -96,8 +100,8 @@ final class MemoListViewController: UITableViewController {
   @objc private func addMemo() {
     do {
       try memos.createFirst(title: "", body: "")
-    } catch let error as NSError {
-      print("Could not save \(error), \(error.userInfo)")
+    } catch {
+      showAlert(title: "Save fail")
       return
     }
     tableView.insertRows(at: [firstRowIndexPath], with: .fade)
@@ -154,8 +158,12 @@ extension MemoListViewController {
   }
   
   override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-    let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, completionHandler in
-      try self.memos.remove(at: indexPath.row)
+    let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [unowned self] _, _, completionHandler in
+      do {
+        try self.memos.remove(at: indexPath.row)
+      } catch {
+        self.showAlert(title: "Remove fail")
+      }
       if self.memos.isEmpty {
         self.addMemo()
       } else {

@@ -3,7 +3,6 @@ import CoreData
  
 final class CoreDataManager<T: NSManagedObject> {
     private let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext
-    private(set) var dataList: [T] = []
  
     func create(target: T.Type, attributes: [String: Any]) {
         guard let context = context else {
@@ -33,7 +32,6 @@ final class CoreDataManager<T: NSManagedObject> {
         do {
             guard let fetchRequest = T.fetchRequest() as? NSFetchRequest<T> else { return }
             fetchRequest.sortDescriptors = [NSSortDescriptor(key: "lastModified", ascending: false)]
-            self.dataList = try context.fetch(fetchRequest)
         } catch {
             print(error.localizedDescription)
             return
@@ -64,13 +62,6 @@ final class CoreDataManager<T: NSManagedObject> {
             }
         }
         fetchAll()
-    }
-    
-    func extractData(indexPath: IndexPath) -> T? {
-        guard let data = dataList[safe: indexPath.row] else {
-            return nil
-        }
-        return data
     }
     
     func createNoteFetchedResultsController(query: String? = nil) -> NSFetchedResultsController<T> {

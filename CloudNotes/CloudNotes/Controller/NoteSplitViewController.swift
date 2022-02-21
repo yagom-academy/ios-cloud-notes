@@ -90,7 +90,7 @@ extension NoteSplitViewController: NoteListViewControllerDelegate {
         _ viewController: NoteListViewController,
         cellToDelete indexPath: IndexPath
     ) {
-        guard let deletedData = dataManager?.extractData(indexPath: indexPath) else { return }
+        guard let deletedData = fetchedController?.object(at: indexPath) else { return }
         dataManager?.delete(target: deletedData)
     }
     
@@ -103,7 +103,7 @@ extension NoteSplitViewController: NoteListViewControllerDelegate {
                 return
             }
         
-        guard let memo = dataManager?.dataList[indexPath.row] else {
+        guard let memo = fetchedController?.object(at: indexPath) else {
             return
         }
         secondaryViewController.setUpText(with: memo)
@@ -118,17 +118,16 @@ extension NoteSplitViewController: NoteListViewControllerDelegate {
     
     func noteListViewController(addButtonTapped viewController: NoteListViewController) {
         dataManager?.create(target: CDMemo.self, attributes: atrributesForNewCell)
-        noteListViewController.updateTableView()
     }
 }
 
 extension NoteSplitViewController: NoteListViewControllerDataSource {
     func noteListViewControllerNumberOfData(_ viewController: NoteListViewController) -> Int {
-        dataManager?.dataList.count ?? .zero
+        fetchedController?.sections?[0].numberOfObjects ?? .zero
     }
     
     func noteListViewControllerSampleForCell(_ viewController: NoteListViewController, indexPath: IndexPath) -> CDMemo? {
-        dataManager?.dataList[safe: indexPath.row]
+        fetchedController?.object(at: indexPath)
     }
 }
 
@@ -139,15 +138,15 @@ extension NoteSplitViewController: NoteDetailViewControllerDelegate {
     ) {
         let attribute = createAttributes(body: body)
         
-        guard let selectedMemo = dataManager?.dataList[selectedIndexPath?.row ?? .zero] else {
+        guard let selectedMemo = fetchedController?.object(at: selectedIndexPath ?? IndexPath(row: .zero, section: .zero)) else {
             return
         }
-        
         dataManager?.update(target: selectedMemo, attributes: attribute)
-        noteListViewController.updateTableView()
     }
 }
 
 extension NoteSplitViewController: NSFetchedResultsControllerDelegate {
-    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        noteListViewController.updateTableView()
+    }
 }

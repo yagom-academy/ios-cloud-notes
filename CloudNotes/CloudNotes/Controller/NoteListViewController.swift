@@ -36,7 +36,7 @@ class NoteListViewController: UIViewController {
         var tableView = UITableView(frame: .zero)
         tableView.register(cellWithClass: NoteListTableViewCell.self)
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.allowsSelectionDuringEditing = true
+        tableView.allowsSelectionDuringEditing = false
         return tableView
     }()
     

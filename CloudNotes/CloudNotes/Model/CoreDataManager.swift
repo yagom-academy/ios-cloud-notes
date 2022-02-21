@@ -24,20 +24,6 @@ final class CoreDataManager<T: NSManagedObject> {
         save()
     }
     
-    func fetchAll() {
-        guard let context = context else {
-            return
-        }
-        
-        do {
-            guard let fetchRequest = T.fetchRequest() as? NSFetchRequest<T> else { return }
-            fetchRequest.sortDescriptors = [NSSortDescriptor(key: "lastModified", ascending: false)]
-        } catch {
-            print(error.localizedDescription)
-            return
-        }
-    }
-    
     func update(target: T, attributes: [String: Any]) {
         attributes.forEach { (key: String, value: Any) in
             target.setValue(value, forKey: key)
@@ -61,7 +47,6 @@ final class CoreDataManager<T: NSManagedObject> {
                 print(error.localizedDescription)
             }
         }
-        fetchAll()
     }
     
     func createNoteFetchedResultsController(query: String? = nil) -> NSFetchedResultsController<T> {
@@ -72,6 +57,7 @@ final class CoreDataManager<T: NSManagedObject> {
         guard let fetchRequest = T.fetchRequest() as? NSFetchRequest<T> else {
             return NSFetchedResultsController()
         }
+        
         let sortDescriptor = NSSortDescriptor(key: "lastModified", ascending: false)
         fetchRequest.sortDescriptors = [sortDescriptor]
         

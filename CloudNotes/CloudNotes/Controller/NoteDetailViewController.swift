@@ -1,10 +1,13 @@
 import UIKit
-
+// MARK: - Declare NoteDetailViewControllerDelegate
 protocol NoteDetailViewControllerDelegate: AnyObject {
     func noteDetailViewController(_ viewController: UIViewController, didChangeBody body: String)
+    
+    func noteDetailViewController(didTapRightBarButton viewController: UIViewController)
 }
 
 class NoteDetailViewController: UIViewController {
+    // MARK: - Property
     weak var delegate: NoteDetailViewControllerDelegate?
     private var textView: UITextView = {
         let textview = UITextView(frame: .zero)
@@ -12,7 +15,7 @@ class NoteDetailViewController: UIViewController {
         textview.translatesAutoresizingMaskIntoConstraints = false
         return textview
     }()
-    
+    // MARK: - ViewLifeCycle
     override func loadView() {
         view = .init()
         view.backgroundColor = .white
@@ -26,7 +29,7 @@ class NoteDetailViewController: UIViewController {
         setUpNavigationItems()
         textView.selectedRange = NSRange("\n") ?? NSRange()
     }
-    
+    // MARK: - Method
     func setUpText(with data: CDMemo) {
         guard let title = data.title, let body = data.body else {
              return
@@ -40,8 +43,12 @@ class NoteDetailViewController: UIViewController {
             image: circleImage,
             style: .plain,
             target: nil,
-            action: nil
+            action: #selector(tappedShareButton)
         )
+    }
+    
+    @objc private func tappedShareButton() {
+        delegate?.noteDetailViewController(didTapRightBarButton: self)
     }
     
     private func setUpTextViewLayout() {
@@ -53,12 +60,10 @@ class NoteDetailViewController: UIViewController {
         ])
     }
 }
-
+// MARK: - UITextView Delegate
 extension NoteDetailViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
-        let body = textView.text ?? "" // date를 업데이트
+        let body = textView.text ?? "" 
         delegate?.noteDetailViewController(self, didChangeBody: body)
     }
-    
-   
 }

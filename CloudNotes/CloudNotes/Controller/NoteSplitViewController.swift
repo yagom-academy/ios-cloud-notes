@@ -2,6 +2,7 @@ import UIKit
 import CoreData
 
 class NoteSplitViewController: UISplitViewController {
+// MARK: - Property
     private var dataManager: CoreDataManager<CDMemo>?
     private let noteListViewController = NoteListViewController()
     private let noteDetailViewController = NoteDetailViewController()
@@ -12,7 +13,7 @@ class NoteSplitViewController: UISplitViewController {
     private var atrributesForNewCell: [String: Any] {
         ["title": "새로운 메모", "body": "", "lastModified": Date()] as [String : Any]
     }
-    
+// MARK: - ViewLifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         configureSplitViewController()
@@ -23,7 +24,7 @@ class NoteSplitViewController: UISplitViewController {
         dataManager?.fetchAll()
         configureNoteDetailViewController()
     }
-    
+// MARK: - Method
     private func configureSplitViewController() {
         setViewController(noteListViewController, for: .primary)
         setViewController(noteDetailViewController, for: .secondary)
@@ -86,7 +87,7 @@ class NoteSplitViewController: UISplitViewController {
         return attribute
     }
 }
-
+// MARK: - NoteListViewController Delegate
 extension NoteSplitViewController: NoteListViewControllerDelegate {
     func noteListViewController(
         _ viewController: NoteListViewController,
@@ -122,7 +123,7 @@ extension NoteSplitViewController: NoteListViewControllerDelegate {
         dataManager?.create(target: CDMemo.self, attributes: atrributesForNewCell)
     }
 }
-
+// MARK: - NoteListViewController DataSource
 extension NoteSplitViewController: NoteListViewControllerDataSource {
     func noteListViewControllerNumberOfData(_ viewController: NoteListViewController) -> Int {
         fetchedController?.sections?[0].numberOfObjects ?? .zero
@@ -132,8 +133,13 @@ extension NoteSplitViewController: NoteListViewControllerDataSource {
         fetchedController?.object(at: indexPath)
     }
 }
-
+// MARK: - NoteDetailViewController Delegate
 extension NoteSplitViewController: NoteDetailViewControllerDelegate {
+    func noteDetailViewController(
+        didTapRightBarButton viewController: UIViewController) {
+        presentActivityView()
+    }
+    
     func noteDetailViewController(
         _ viewController: UIViewController,
         didChangeBody body: String
@@ -146,7 +152,7 @@ extension NoteSplitViewController: NoteDetailViewControllerDelegate {
         dataManager?.update(target: selectedMemo, attributes: attribute)
     }
 }
-
+// MARK: - NSFetchedResultsControllerDelegate
 extension NoteSplitViewController: NSFetchedResultsControllerDelegate {
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         noteListViewController.updateTableView()

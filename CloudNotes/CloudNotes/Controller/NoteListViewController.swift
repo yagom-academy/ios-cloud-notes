@@ -1,5 +1,5 @@
 import UIKit
-
+    // MARK: - Declare NoteListViewController Delegate
 protocol NoteListViewControllerDelegate: AnyObject {
     func noteListViewController(
         _ viewController: NoteListViewController,
@@ -18,7 +18,7 @@ protocol NoteListViewControllerDelegate: AnyObject {
         cellToShare indexPath: IndexPath
     )
 }
-
+    // MARK: - Declare NoteListViewController Datasource
 protocol NoteListViewControllerDataSource: AnyObject {
     func noteListViewControllerNumberOfData(
         _ viewController: NoteListViewController
@@ -30,6 +30,7 @@ protocol NoteListViewControllerDataSource: AnyObject {
 }
 
 class NoteListViewController: UIViewController {
+    // MARK: - Property
     weak var delegate: NoteListViewControllerDelegate?
     weak var dataSource: NoteListViewControllerDataSource?
     private var listTableView: UITableView = {
@@ -39,7 +40,7 @@ class NoteListViewController: UIViewController {
         tableView.allowsSelectionDuringEditing = false
         return tableView
     }()
-    
+    // MARK: - ViewLifeCycle
     override func loadView() {
         view = .init()
         view.backgroundColor = .white
@@ -53,7 +54,7 @@ class NoteListViewController: UIViewController {
         setUpLayout()
         setUpNavigationItems()
     }
-
+    // MARK: - Method
     private func setUpLayout() {
         NSLayoutConstraint.activate([
             listTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
@@ -98,7 +99,7 @@ class NoteListViewController: UIViewController {
         present(alertController, animated: true, completion: nil)
     }
 }
-
+// MARK: - UITableView Delegate
 extension NoteListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         delegate?.noteListViewController(self, didSelectedCell: indexPath)
@@ -128,7 +129,7 @@ extension NoteListViewController: UITableViewDelegate {
         return actionConfigurations
     }
 }
-
+// MARK: - UITableView DataSource
 extension NoteListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         dataSource?.noteListViewControllerNumberOfData(self) ?? .zero

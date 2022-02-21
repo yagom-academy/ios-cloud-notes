@@ -35,28 +35,28 @@ class CoreDataManager {
         }
     }
     
-    func load() -> [Memo] {
+    func load(errorHandler: (Error) -> Void) -> [Memo] {
         do {
             return try context.fetch(Memo.fetchRequest()).reversed()
         } catch {
-            print(error)
+            errorHandler(error)
         }
         
         return []
     }
     
-    func delete(data: Memo) {
+    func delete(data: Memo, errorHandler: (Error) -> Void) {
         context.delete(data)
         do {
             try context.save()
             memoListViewController?.reload()
             memoContentViewController?.reload()
         } catch {
-            print(error)
+            errorHandler(error)
         }
     }
     
-    func update(data: Memo, title: String?, body: String?) {
+    func update(data: Memo, title: String?, body: String?, errorHandler: (Error) -> Void) {
         data.title = title
         data.body = body
         data.lastModified = Date().timeIntervalSince1970
@@ -64,18 +64,18 @@ class CoreDataManager {
             try context.save()
             memoListViewController?.reload()
         } catch {
-            print(error)
+            errorHandler(error)
         }
     }
     
-    func create() {
+    func create(errorHandler: (Error) -> Void) {
         let memo = Memo(context: context)
         memo.lastModified = Date().timeIntervalSince1970
         do {
             try context.save()
             memoListViewController?.reload()
         } catch {
-            print(error)
+            errorHandler(error)
         }
     }
 }

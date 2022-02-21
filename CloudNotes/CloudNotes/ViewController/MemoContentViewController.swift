@@ -117,8 +117,18 @@ extension MemoContentViewController {
     
     private func deleteMemo() {
         guard let currentMemo = selectedMemo else { return }
-        CoreDataManager.shared.delete(data: currentMemo)
+        CoreDataManager.shared.delete(data: currentMemo) { error in
+            presentErrorAlert(errorMessage: error.localizedDescription)
+        }
     }
+    
+    private func presentErrorAlert(errorMessage: String) {
+        let alert = UIAlertController(title: errorMessage, message: nil, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "닫기", style: .cancel, handler: nil)
+        alert.addAction(okAction)
+        present(alert, animated: true)
+    }
+
 }
 
 // MARK: - TextViewDelegate
@@ -132,10 +142,14 @@ extension MemoContentViewController: UITextViewDelegate {
             let bodyStartIndex = memoDetail.index(after: firstLineBreakIndex)
             let bodyEndIndex = memoDetail.endIndex
             let body = String(memoDetail[bodyStartIndex..<bodyEndIndex])
-            CoreDataManager.shared.update(data: currentMemo, title: title, body: body)
+            CoreDataManager.shared.update(data: currentMemo, title: title, body: body) { error in
+                presentErrorAlert(errorMessage: error.localizedDescription)
+            }
         } else {
             let title = memoDetail
-            CoreDataManager.shared.update(data: currentMemo, title: title, body: nil)
+            CoreDataManager.shared.update(data: currentMemo, title: title, body: nil) { error in
+                presentErrorAlert(errorMessage: error.localizedDescription)
+            }
         }
     }
      

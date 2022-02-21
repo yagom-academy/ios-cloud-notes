@@ -18,7 +18,9 @@ final class MemoListViewController: UIViewController, MemoReloadable {
     }
     
     func reload() {
-        memos = CoreDataManager.shared.load()
+        memos = CoreDataManager.shared.load { error in
+            presentErrorAlert(errorMessage: error.localizedDescription)
+        }
         tableView.reloadData()
         tableView.selectRow(at: selectedIndexPath, animated: false, scrollPosition: .none)
     }
@@ -62,7 +64,9 @@ final class MemoListViewController: UIViewController, MemoReloadable {
     
     @objc private func createMemo() {
         let newMemoIndex = IndexPath(row: 0, section: 0)
-        CoreDataManager.shared.create()
+        CoreDataManager.shared.create { error in
+            presentErrorAlert(errorMessage: error.localizedDescription)
+        }
         changeSelectedCell(indexPath: newMemoIndex)
         tableView.selectRow(at: newMemoIndex, animated: false, scrollPosition: .none)
     }
@@ -123,7 +127,9 @@ extension MemoListViewController: UITableViewDelegate {
         let alert = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
         let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
         let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
-            CoreDataManager.shared.delete(data: currentMemo)
+            CoreDataManager.shared.delete(data: currentMemo) { error in
+                self.presentErrorAlert(errorMessage: error.localizedDescription)
+            }
         }
         alert.addAction(cancelAction)
         alert.addAction(deleteAction)
@@ -139,4 +145,12 @@ extension MemoListViewController: UITableViewDelegate {
         activityViewController.popoverPresentationController?.sourceView = sourceView
         present(activityViewController, animated: true)
     }
+    
+    private func presentErrorAlert(errorMessage: String) {
+        let alert = UIAlertController(title: errorMessage, message: nil, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "닫기", style: .cancel, handler: nil)
+        alert.addAction(okAction)
+        present(alert, animated: true)
+    }
+    
 }

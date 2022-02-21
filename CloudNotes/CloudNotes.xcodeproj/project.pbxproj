@@ -14,7 +14,6 @@
 		C7481C7A25BBCF3A00B9CA55 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C7481C7925BBCF3A00B9CA55 /* Assets.xcassets */; };
 		C7481C8825BBCF3A00B9CA55 /* CloudNotesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C8725BBCF3A00B9CA55 /* CloudNotesTests.swift */; };
 		C7481C9325BBCF3A00B9CA55 /* CloudNotesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C9225BBCF3A00B9CA55 /* CloudNotesUITests.swift */; };
-		EA8574A327BB411900F9D5E3 /* SplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8574A227BB411900F9D5E3 /* SplitViewController.swift */; };
 		EA8574A527BB43EA00F9D5E3 /* MemoListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8574A427BB43EA00F9D5E3 /* MemoListViewController.swift */; };
 		EA8574A727BB43F800F9D5E3 /* MemoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8574A627BB43F800F9D5E3 /* MemoDetailViewController.swift */; };
 		EA8574A927BBB0B800F9D5E3 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8574A827BBB0B800F9D5E3 /* UIViewController+Extension.swift */; };
@@ -56,7 +55,6 @@
 		C7481C8E25BBCF3A00B9CA55 /* CloudNotesUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CloudNotesUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7481C9225BBCF3A00B9CA55 /* CloudNotesUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudNotesUITests.swift; sourceTree = "<group>"; };
 		C7481C9425BBCF3A00B9CA55 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		EA8574A227BB411900F9D5E3 /* SplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitViewController.swift; sourceTree = "<group>"; };
 		EA8574A427BB43EA00F9D5E3 /* MemoListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoListViewController.swift; sourceTree = "<group>"; };
 		EA8574A627BB43F800F9D5E3 /* MemoDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoDetailViewController.swift; sourceTree = "<group>"; };
 		EA8574A827BBB0B800F9D5E3 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
@@ -147,7 +145,6 @@
 		FB5C7F5527BB457D00C91626 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				EA8574A227BB411900F9D5E3 /* SplitViewController.swift */,
 				EA8574A427BB43EA00F9D5E3 /* MemoListViewController.swift */,
 				EA8574A627BB43F800F9D5E3 /* MemoDetailViewController.swift */,
 			);
@@ -340,7 +337,6 @@
 				FB5C7F6227BB851000C91626 /* Collection+Extension.swift in Sources */,
 				FB5C7F8F27BBE6A600C91626 /* Memo+CoreDataProperties.swift in Sources */,
 				FB5C7F5E27BB4D8400C91626 /* MemoDataManager.swift in Sources */,
-				EA8574A327BB411900F9D5E3 /* SplitViewController.swift in Sources */,
 				EA8574A727BB43F800F9D5E3 /* MemoDetailViewController.swift in Sources */,
 				EA8574A527BB43EA00F9D5E3 /* MemoListViewController.swift in Sources */,
 				C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */,

@@ -46,7 +46,6 @@ final class MemoListViewController: UIViewController {
     private func setupRowSelection() {
         if MemoDataManager.shared.isEmpty == false {
             tableView.selectRow(at: IndexPath(row: 0, section: 0), animated: false, scrollPosition: .top)
-//            tableView(tableView, didSelectRowAt: IndexPath(row: 0, section: 0))
         }
     }
     
@@ -130,16 +129,14 @@ extension MemoListViewController: UITableViewDelegate {
     }
     
     private func showActivityView(indexPath: IndexPath) {
-        guard let splitViewController = splitViewController as? SplitViewController else {
-            return
-        }
         let memo = MemoDataManager.shared.memos[indexPath.row]
         let title = memo.title ?? ""
         let body = memo.body ?? ""
         let memoToShare = "\(title)\n\(body)"
         let activityViewController = UIActivityViewController(activityItems: [memoToShare], applicationActivities: nil)
         
-        if let popOver = activityViewController.popoverPresentationController {
+        if let popOver = activityViewController.popoverPresentationController,
+           let splitViewController = splitViewController{
             popOver.sourceView = splitViewController.view
             popOver.sourceRect = CGRect(x: splitViewController.view.bounds.midX,
                                         y: splitViewController.view.bounds.midY,

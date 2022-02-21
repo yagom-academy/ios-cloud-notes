@@ -19,13 +19,13 @@ final class MemoDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        textView.delegate = self
-        setUpNotification()
-        setupTextView()
+        setupNotification()
+        registerTextViewDelegate()
+        setupTextViewLayout()
         setupNavigationItem()
     }
     
-    private func setUpNotification() {
+    private func setupNotification() {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardWillShow),
                                                name: UIResponder.keyboardWillShowNotification,
@@ -42,7 +42,11 @@ final class MemoDetailViewController: UIViewController {
         textView.scrollIndicatorInsets = textView.contentInset
     }
     
-    private func setupTextView() {
+    private func registerTextViewDelegate() {
+        textView.delegate = self
+    }
+    
+    private func setupTextViewLayout() {
         view.addSubview(textView)
         NSLayoutConstraint.activate([
             textView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),

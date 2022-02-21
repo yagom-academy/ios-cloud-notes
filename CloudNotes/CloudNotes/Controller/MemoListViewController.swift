@@ -13,14 +13,13 @@ final class MemoListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        MemoDataManager.shared.memos = MemoDataManager.shared.fetchMemos()
-        setupTableView()
+        setupTableViewInitialSetting()
         setupTableViewLayout()
         setupNavigationBar()
         setupRowSelection()
     }
     
-    private func setupTableView() {
+    private func setupTableViewInitialSetting() {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellIdentifier)

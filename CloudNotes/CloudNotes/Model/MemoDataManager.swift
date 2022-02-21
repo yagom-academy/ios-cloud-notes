@@ -2,7 +2,7 @@ import CoreData
 
 final class MemoDataManager {
     static let shared = MemoDataManager(modelName: "CloudNotes")
-    var memos = [Memo]()
+    private var memos = [Memo]()
     private let persistentContainer: NSPersistentContainer
     private var viewContext: NSManagedObjectContext {
         return persistentContainer.viewContext
@@ -18,6 +18,10 @@ final class MemoDataManager {
                 print(error.localizedDescription)
             }
         }
+    }
+    
+    func setMemosArray() {
+        memos = fetchMemos()
     }
     
     private func saveViewContext() {

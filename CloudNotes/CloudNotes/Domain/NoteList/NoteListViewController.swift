@@ -1,5 +1,6 @@
 import UIKit
 import SwiftyDropbox
+import CoreData
 
 class NoteListViewController: UITableViewController {
     private var noteListData = [Content]() {
@@ -39,7 +40,7 @@ class NoteListViewController: UITableViewController {
             let loginAction = UIAlertAction(title: "로그인", style: .default) { _ in
                 let scopeRequest = ScopeRequest(
                     scopeType: .user,
-                    scopes: ["account_info.read"],
+                    scopes: ["account_info.read", "files.content.write", "files.content.read"],
                     includeGrantedScopes: false
                 )
                 DropboxClientsManager.authorizeFromControllerV2(
@@ -56,19 +57,21 @@ class NoteListViewController: UITableViewController {
             let logoutAction = UIAlertAction(title: "로그아웃", style: .destructive) { _ in
                 DropboxClientsManager.unlinkClients()
             }
+            let downloadAction = UIAlertAction(title: "다운로드", style: .default) { _ in
+                //self.download()
+            }
+            let uploadAction = UIAlertAction(title: "업로드", style: .default) { _ in
+                //self.upload()
+            }
             actionSheet.addAction(logoutAction)
+            actionSheet.addAction(uploadAction)
+            actionSheet.addAction(downloadAction)
         }
 
         actionSheet.popoverPresentationController?.barButtonItem = configureButton
         self.present(actionSheet, animated: true, completion: nil)
     }
-
-//    private lazy var configureActionSheet: UIAlertController = {
-//        let accountInfo = DropboxClientsManager.authorizedClient?.users.getCurrentAccount()
-//        print(accountInfo)
-//
-//        return actionSheet
-//    }()
+    
 
     private lazy var activityController: UIActivityViewController = {
         let controller = UIActivityViewController(
@@ -77,8 +80,6 @@ class NoteListViewController: UITableViewController {
         )
         return controller
     }()
-
-    // MARK: - View Life Cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()

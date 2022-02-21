@@ -35,7 +35,11 @@ class MemoTableViewController: UITableViewController {
     
     private func configureNavigationBar() {
         self.navigationItem.title = "메모"
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addEmptyMemo))
+        let addMemoButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addEmptyMemo))
+        let connectDropboxButton = UIBarButtonItem(image: UIImage(systemName: "link.icloud"), style: .plain, target: self, action: #selector(connectDropbox))
+        connectDropboxButton.imageInsets = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: -15)
+        
+        self.navigationItem.rightBarButtonItems = [addMemoButton, connectDropboxButton]
     }
     
     private func configureTableView() {
@@ -52,6 +56,17 @@ class MemoTableViewController: UITableViewController {
         tableView.selectRow(at: initialIndexPath, animated: true, scrollPosition: .none)
         delegate?.showSecondaryView(of: initialIndexPath)
         tableView.isEditing = false
+    }
+    
+    @objc private func connectDropbox() {
+        let scopeRequest = ScopeRequest(scopeType: .user, scopes: ["account_info.read"], includeGrantedScopes: false)
+        DropboxClientsManager.authorizeFromControllerV2(
+            UIApplication.shared,
+            controller: self,
+            loadingStatusDelegate: nil,
+            openURL: { (url: URL) -> Void in UIApplication.shared.open(url, options: [:], completionHandler: nil) },
+            scopeRequest: scopeRequest
+        )
     }
     
     func deleteRow(at indexPath: IndexPath) {

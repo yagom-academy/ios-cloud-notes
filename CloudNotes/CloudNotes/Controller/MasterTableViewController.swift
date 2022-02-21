@@ -55,8 +55,8 @@ final class MasterTableViewController: UITableViewController {
         let request = Memo.fetchRequest()
         let firstIndexPath = IndexPath(row: 0, section: 0)
         
-        CoreDataManager.shared.saveContext(memo: memo)
-        memoDataSource?.memos = CoreDataManager.shared.fetch(request)
+        memoDataSource?.saveMemo(memo)
+        memoDataSource?.fetchMemos()
         // tableView.reloadData()  // selectFirstCell 비정상작동
         tableView.insertRows(at: [firstIndexPath], with: .none)
         tableView(tableView, didSelectRowAt: firstIndexPath)
@@ -73,7 +73,7 @@ final class MasterTableViewController: UITableViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(deleteTableViewCell), name: Notification.Name("didDeleteMemo"), object: nil)
     }
     
-    @objc func updateTableView() {
+    @objc func updateTableView(notification: Notification) {
         let firstIndexPath = IndexPath(row: 0, section: 0)
         guard let previousIndexPath = tableView.indexPathForSelectedRow else {
             return
@@ -84,8 +84,21 @@ final class MasterTableViewController: UITableViewController {
         }
         memoDataSource?.memos?.insert(memoToMove, at: firstIndexPath.row)
         
+        
+        guard let memoToUpdate = notification.userInfo?["memo"] as? Memo else {
+            return
+        }
+        
+        memoDataSource?.memos?[0] = memoToUpdate
+        
+        memoDataSource?.updateMemo(memoToMove)
         tableView.moveRow(at: previousIndexPath, to: firstIndexPath)
-        tableView.reloadRows(at: [firstIndexPath], with: .automatic)
+        //tableView.reloadRows(at: [firstIndexPath], with: .automatic)
+        guard let cell = tableView.cellForRow(at: firstIndexPath) as? MasterTableViewCell else {
+            return
+        }
+        
+        cell.applyData(memoToUpdate)
         tableView.selectRow(at: firstIndexPath, animated: true, scrollPosition: .none)
     }
     
@@ -99,7 +112,7 @@ final class MasterTableViewController: UITableViewController {
     
     private func deleteMemo(at index: IndexPath) {
         let removedMemo = memoDataSource?.memos?.remove(at: index.row)
-        CoreDataManager.shared.deleteMemo(memoId: removedMemo?.memoId)
+        memoDataSource?.deleteMemo(with: removedMemo?.memoId)
         tableView.deleteRows(at: [index], with: .fade)
         selectFirstCell()
     }

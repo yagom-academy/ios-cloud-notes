@@ -3,15 +3,37 @@ import CoreData
 
 protocol MasterTableViewDataSourceProtocol: AnyObject {
     var memos: [Memo]? { get set }
-    func fetchData() -> [Memo]?
+    func fetchMemos()
+    func saveMemo(_ memo: TemporaryMemo)
+    func updateMemo(_ memo: Memo)
+    func deleteMemo(with memoId: UUID?)
 }
 
 final class MasterTableViewDataSource: NSObject, MasterTableViewDataSourceProtocol {
-    lazy var memos: [Memo]? = fetchData()
+    let coreDataManager = CoreDataManager()
+    var memos: [Memo]?
     
-    func fetchData() -> [Memo]? {
+    override init() {
+        super.init()
+        self.fetchMemos()
+    }
+    
+    func fetchMemos() {
         let request = Memo.fetchRequest()
-        return CoreDataManager.shared.fetch(request)
+        
+        memos = coreDataManager.fetch(request)
+    }
+    
+    func saveMemo(_ memo: TemporaryMemo) {
+        coreDataManager.saveContext(memo: memo)
+    }
+    
+    func updateMemo(_ memo: Memo) {
+        coreDataManager.updateMemo(memo)
+    }
+    
+    func deleteMemo(with memoId: UUID?) {
+        coreDataManager.deleteMemo(memoId: memoId)
     }
 }
 

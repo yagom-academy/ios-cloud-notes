@@ -75,7 +75,8 @@ final class DetailViewController: UIViewController {
         let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
             let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
             let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
-                CoreDataManager.shared.deleteMemo(memoId: self.memo?.memoId)
+                
+                //CoreDataManager.shared.deleteMemo(memoId: self.memo?.memoId)
                 self.textView.text = nil
                 NotificationCenter.default.post(name: Notification.Name("didDeleteMemo"), object: nil)
             }
@@ -102,7 +103,7 @@ final class DetailViewController: UIViewController {
         textView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
     }
     
-    func updateCoreData() {
+    func updateCoreData() -> TemporaryMemo? {
         let texts = textView.text.split(separator: "\n", maxSplits: 1)
         let strings = texts.map { String($0) }
         var titleText: String = ""
@@ -117,11 +118,13 @@ final class DetailViewController: UIViewController {
 
         let currentTime = NSDate().timeIntervalSince1970
         guard let memoId = memo?.memoId else {
-            return
+            return nil
         }
         
         let memoToUpdate = TemporaryMemo(title: titleText, body: bodyText, lastModifiedDate: currentTime, memoId: memoId)
-        CoreDataManager.shared.updateMemo(memoToUpdate)
+        //CoreDataManager.shared.updateMemo(memoToUpdate)
+        
+        return memoToUpdate
     }
 }
 
@@ -165,7 +168,7 @@ extension DetailViewController: UITextViewDelegate {
     }
     
     func textViewDidChange(_ textView: UITextView) {
-        updateCoreData()
-        NotificationCenter.default.post(name: Notification.Name("didChangeTextView"), object: nil)
+        let memoToUpdate = updateCoreData()
+        NotificationCenter.default.post(name: Notification.Name("didChangeTextView"), object: nil, userInfo: ["memo" : memoToUpdate])
     }
 }

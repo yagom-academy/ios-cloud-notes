@@ -16,5 +16,11 @@ extension Memo {
 }
 
 extension Memo : Identifiable {
-
+//    convenience init (title: String?, body: String?, lastModifiedDate: Double, memoId: UUID?) {
+//        self.init()
+//        self.title = title
+//        self.body = body
+//        self.lastModifiedDate = lastModifiedDate
+//        self.memoId = memoId
+//    }
 }

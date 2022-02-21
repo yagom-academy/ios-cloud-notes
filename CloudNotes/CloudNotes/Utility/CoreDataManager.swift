@@ -2,8 +2,6 @@ import Foundation
 import CoreData
 
 class CoreDataManager {
-    static let shared = CoreDataManager()
-    
     lazy var persistentContainer: NSPersistentCloudKitContainer = {
         let container = NSPersistentCloudKitContainer(name: "CloudNotes")
         container.loadPersistentStores(completionHandler: { (_, error) in
@@ -17,8 +15,6 @@ class CoreDataManager {
     var context: NSManagedObjectContext {
         return persistentContainer.viewContext
     }
-    
-    private init() {}
     
     func fetch<Element: NSManagedObject>(_ request: NSFetchRequest<Element>) -> [Element]? {
         do {
@@ -48,8 +44,31 @@ class CoreDataManager {
         }
     }
     
+    func updateMemo(_ memo: Memo) {
+        let request: NSFetchRequest<Memo> = NSFetchRequest<Memo>(entityName: "Memo")
+        guard let memoId = memo.memoId else {
+            return
+        }
+        
+        request.predicate = NSPredicate(format: "memoId = %@", memoId.uuidString)
+        
+        do {
+            let memoToUpdate = try context.fetch(request)
+            
+            let managedObject = memoToUpdate.first
+            managedObject?.setValue(memo.title, forKey: "title")
+            managedObject?.setValue(memo.body ?? "", forKey: "body")
+            managedObject?.setValue(memo.lastModifiedDate, forKey: "lastModifiedDate")
+            
+            try context.save()
+        } catch {
+            fatalError("\(error)")
+        }
+    }
+    
     func updateMemo(_ memo: TemporaryMemo) {
         let request: NSFetchRequest<Memo> = NSFetchRequest<Memo>(entityName: "Memo")
+        
         request.predicate = NSPredicate(format: "memoId = %@", memo.memoId.uuidString)
         
         do {

@@ -9,7 +9,9 @@ class NoteSplitViewController: UISplitViewController {
     private var selectedIndexPath: IndexPath? {
         return noteListViewController.extractSeletedRow()
     }
-    private let atrributesForNewCell: [String: Any] = ["title": "새로운 메모", "body": "", "lastModified": Date()] as [String : Any]
+    private var atrributesForNewCell: [String: Any] {
+        ["title": "새로운 메모", "body": "", "lastModified": Date()] as [String : Any]
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

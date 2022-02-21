@@ -1,6 +1,6 @@
 import UIKit
 
-final class MemoContentViewController: UIViewController, MemoReloadable {
+final class MemoContentViewController: UIViewController {
     weak var selectedMemo: Memo?
     private let headerAttributes = [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .title1)]
     private let bodyAttributes = [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .body)]
@@ -17,16 +17,6 @@ final class MemoContentViewController: UIViewController, MemoReloadable {
         super.viewDidLoad()
         setupMainMemoView()
         textView.delegate = self
-    }
-    
-    func reload() {
-        guard let currentMemo = selectedMemo else {
-            textView.text = nil
-            return
-        }
-        setTextView(memo: currentMemo)
-        let startPosition = textView.beginningOfDocument
-        textView.selectedTextRange = textView.textRange(from: startPosition, to: startPosition)
     }
 
     private func setupMainMemoView() {
@@ -75,6 +65,18 @@ final class MemoContentViewController: UIViewController, MemoReloadable {
             attributtedString.addAttributes(headerAttributes, range: entireContent.range(of: title))
             textView.attributedText = attributtedString
         }
+    }
+}
+
+extension MemoContentViewController: MemoReloadable {
+    func reload() {
+        guard let currentMemo = selectedMemo else {
+            textView.text = nil
+            return
+        }
+        setTextView(memo: currentMemo)
+        let startPosition = textView.beginningOfDocument
+        textView.selectedTextRange = textView.textRange(from: startPosition, to: startPosition)
     }
 }
 

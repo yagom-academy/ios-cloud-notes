@@ -1,6 +1,6 @@
 import UIKit
 
-final class MemoListViewController: UIViewController, MemoReloadable {
+final class MemoListViewController: UIViewController {
     private let tableView = UITableView()
     private var memos: [Memo] = []
     private let navigationTitle = "메모"
@@ -15,14 +15,6 @@ final class MemoListViewController: UIViewController, MemoReloadable {
         super.viewDidLoad()
         reload()
         setupMainListView()
-    }
-    
-    func reload() {
-        memos = CoreDataManager.shared.load { error in
-            presentErrorAlert(errorMessage: error.localizedDescription)
-        }
-        tableView.reloadData()
-        tableView.selectRow(at: selectedIndexPath, animated: false, scrollPosition: .none)
     }
 
     private func setupMainListView() {
@@ -76,6 +68,16 @@ final class MemoListViewController: UIViewController, MemoReloadable {
         let selectedMemo = memos[indexPath.row]
         splitViewController.updateMemoContentsView(with: selectedMemo)
         self.selectedIndexPath = indexPath
+    }
+}
+
+extension MemoListViewController: MemoReloadable {
+    func reload() {
+        memos = CoreDataManager.shared.load { error in
+            presentErrorAlert(errorMessage: error.localizedDescription)
+        }
+        tableView.reloadData()
+        tableView.selectRow(at: selectedIndexPath, animated: false, scrollPosition: .none)
     }
 }
 
@@ -152,5 +154,4 @@ extension MemoListViewController: UITableViewDelegate {
         alert.addAction(okAction)
         present(alert, animated: true)
     }
-    
 }

@@ -1,4 +1,5 @@
 import UIKit
+import SwiftyDropbox
 
 class NoteListViewController: UITableViewController {
     private var noteListData = [Content]() {
@@ -23,6 +24,51 @@ class NoteListViewController: UITableViewController {
         button.action = #selector(touchUpPlusButton)
         return button
     }()
+
+    private lazy var configureButton: UIBarButtonItem = {
+        let button = UIBarButtonItem()
+        button.image = UIImage(systemName: "square.and.arrow.up")
+        button.target = self
+        button.action = #selector(showActionSheet)
+        return button
+    }()
+
+    @objc func showActionSheet() {
+        let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        if DropboxClientsManager.authorizedClient == nil {
+            let loginAction = UIAlertAction(title: "로그인", style: .default) { _ in
+                let scopeRequest = ScopeRequest(
+                    scopeType: .user,
+                    scopes: ["account_info.read"],
+                    includeGrantedScopes: false
+                )
+                DropboxClientsManager.authorizeFromControllerV2(
+                    UIApplication.shared,
+                    controller: self,
+                    loadingStatusDelegate: nil,
+                    openURL: { (url: URL) -> Void in
+                        UIApplication.shared.open(url, options: [:], completionHandler: nil) },
+                    scopeRequest: scopeRequest
+                )
+            }
+            actionSheet.addAction(loginAction)
+        } else {
+            let logoutAction = UIAlertAction(title: "로그아웃", style: .destructive) { _ in
+                DropboxClientsManager.unlinkClients()
+            }
+            actionSheet.addAction(logoutAction)
+        }
+
+        actionSheet.popoverPresentationController?.barButtonItem = configureButton
+        self.present(actionSheet, animated: true, completion: nil)
+    }
+
+//    private lazy var configureActionSheet: UIAlertController = {
+//        let accountInfo = DropboxClientsManager.authorizedClient?.users.getCurrentAccount()
+//        print(accountInfo)
+//
+//        return actionSheet
+//    }()
 
     private lazy var activityController: UIActivityViewController = {
         let controller = UIActivityViewController(
@@ -127,7 +173,8 @@ class NoteListViewController: UITableViewController {
     private func configureNavigationBar() {
         self.title = "메모"
 
-        self.navigationItem.rightBarButtonItem = addButton
+        //self.navigationItem.rightBarButtonItem = addButton
+        self.navigationItem.rightBarButtonItems = [addButton, configureButton, ]
     }
 
     private func configureTableView() {

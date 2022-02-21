@@ -16,6 +16,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
           if let authResult = $0 {
               switch authResult {
               case .success:
+                  print(authResult)
                   print("Success! User is logged into DropboxClientsManager.")
               case .cancel:
                   print("Authorization flow was manually canceled by user!")
@@ -26,7 +27,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
 
         for context in URLContexts {
-            // stop iterating after the first handle-able url
             if DropboxClientsManager.handleRedirectURL(context.url, completion: oauthCompletion) { break }
         }
     }

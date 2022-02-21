@@ -21,25 +21,30 @@ class SplitViewController: UISplitViewController {
         self.detailedNoteViewController.setDelegate(delegate: self)
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        myButtonInControllerPressed()
-    }
-
 // MARK: - DropBox Method
 
-    func myButtonInControllerPressed() {
-        let scopeRequest = ScopeRequest(
-            scopeType: .user, scopes: ["account_info.read"],
-            includeGrantedScopes: false
-        )
-        DropboxClientsManager.authorizeFromControllerV2(
-            UIApplication.shared,
-            controller: self,
-            loadingStatusDelegate: nil,
-            openURL: { (url: URL) -> Void in
-                UIApplication.shared.open(url, options: [:], completionHandler: nil) },
-            scopeRequest: scopeRequest
-        )
+    func upload() {
+        let fileData = "testing data example".data(using: String.Encoding.utf8, allowLossyConversion: false)!
+        guard let client = DropboxClientsManager.authorizedClient else {
+            return
+        }
+
+        let request = client.files.upload(path: "/CloudNotes", input: fileData)
+            .response { response, error in
+                if let response = response {
+                    print(response)
+                } else if let error = error {
+                    print(error)
+                }
+            }
+            .progress { progressData in
+                print(progressData)
+            }
+
+        // in case you want to cancel the request
+//        if someConditionIsSatisfied {
+//            request.cancel()
+//        }
     }
 
     private func fetchNotes() {
@@ -89,26 +94,27 @@ extension SplitViewController: NoteListViewDelegate {
     }
 
     func creatNote() {
-        let note = Content(
-            title: "",
-            body: "",
-            lastModifiedDate: Date().timeIntervalSince1970,
-            identification: UUID()
-        )
-        do {
-            try dataSourceProvider?.createNote(note)
-        } catch let error {
-            print(error)
-        }
-
-        guard let note = dataSourceProvider?.noteList.first else {
-            return
-        }
-
-        noteListViewController.insert(note)
-        noteListViewController.selectedIndexPath = IndexPath(row: 0, section: 0)
-
-        detailedNoteViewController.setNoteData(note)
+        upload()
+//        let note = Content(
+//            title: "",
+//            body: "",
+//            lastModifiedDate: Date().timeIntervalSince1970,
+//            identification: UUID()
+//        )
+//        do {
+//            try dataSourceProvider?.createNote(note)
+//        } catch let error {
+//            print(error)
+//        }
+//
+//        guard let note = dataSourceProvider?.noteList.first else {
+//            return
+//        }
+//
+//        noteListViewController.insert(note)
+//        noteListViewController.selectedIndexPath = IndexPath(row: 0, section: 0)
+//
+//        detailedNoteViewController.setNoteData(note)
     }
 
     func passNote(at index: Int) {

@@ -76,7 +76,7 @@ final class NoteDetailViewController: UIViewController {
     }
     
     @objc private func showPopover(_ sender: UIBarButtonItem) {
-        self.showActionSheet(titles: ("shared", "delete"), targetBarButton: sender) { _ in
+        self.showActionSheet(sharedTitle: "shared", deleteTitle: "delete", targetBarButton: sender) { _ in
             self.delegate?.sharedNoteAction(sender)
         } deleteHandler: { _ in
             self.delegate?.deleteNoteAction()

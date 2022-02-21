@@ -20,13 +20,14 @@ extension UIViewController {
     }
     
     func showActionSheet(
-        titles: (String, String),
+        sharedTitle: String,
+        deleteTitle: String,
         targetBarButton: UIBarButtonItem,
         sharedHandler: @escaping (UIAlertAction) -> Void,
         deleteHandler: @escaping (UIAlertAction) -> Void
     ) {
-        let sharedAction = UIAlertAction(title: titles.0, style: .default, handler: sharedHandler)
-        let deleteAction = UIAlertAction(title: titles.1, style: .destructive, handler: deleteHandler)
+        let sharedAction = UIAlertAction(title: sharedTitle, style: .default, handler: sharedHandler)
+        let deleteAction = UIAlertAction(title: deleteTitle, style: .destructive, handler: deleteHandler)
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let popover = alert.popoverPresentationController

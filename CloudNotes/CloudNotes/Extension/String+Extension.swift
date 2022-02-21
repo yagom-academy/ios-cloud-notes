@@ -15,6 +15,6 @@ extension String {
         let startIndex = index(self.startIndex, offsetBy: from)
         let endIndex = index(self.startIndex, offsetBy: to + 1)
         
-        return String(self[startIndex ..< endIndex])
+        return String(self[startIndex..<endIndex])
     }
 }

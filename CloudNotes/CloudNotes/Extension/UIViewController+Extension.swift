@@ -1,10 +1,3 @@
-//
-//  UIViewController+Extension.swift
-//  CloudNotes
-//
-//  Created by Siwon Kim on 2022/02/15.
-//
-
 import UIKit
 extension UIViewController {
     func hideKeyboard() {

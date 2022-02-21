@@ -14,12 +14,7 @@ extension Memo {
     @NSManaged public var id: UUID!
 
     var subtitle: NSAttributedString {
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.locale = .current
-        dateFormatter.dateStyle = .medium
-        
-        let dateString = dateFormatter.string(from: lastModified)
+        let dateString = createFormattedDate()
         let truncatedBody = body.truncated(limit: 40)
         
         let attributedString = NSMutableAttributedString()
@@ -37,6 +32,14 @@ extension Memo {
             ]
         ))
         return attributedString
+    }
+    
+    private func createFormattedDate() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = .current
+        dateFormatter.dateStyle = .medium
+        
+        return dateFormatter.string(from: lastModified)
     }
 }
 

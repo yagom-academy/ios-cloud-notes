@@ -8,7 +8,7 @@ final class DetailViewController: UIViewController {
     textView.keyboardDismissMode = .interactive
     return textView
   }()
-  private let ellipsisCircleButton: UIBarButtonItem = {
+  private lazy var ellipsisCircleButton: UIBarButtonItem = {
     let buttonImage = UIImage(systemName: "ellipsis.circle")
     return UIBarButtonItem(image: buttonImage, style: .plain, target: self, action: #selector(showMoreButtonTapped))
   }()
@@ -101,7 +101,7 @@ final class DetailViewController: UIViewController {
   }
   
   @objc private func showMoreButtonTapped(_ sender: UIBarButtonItem) {
-    let textToShare = textView.text
+    let textToShare = textView.text ?? ""
     let delete = DeleteActivity()
     delete.delegate = delegate as? MemoActivityDelegate
     let activityViewController = UIActivityViewController(activityItems: [textToShare], applicationActivities: [delete])

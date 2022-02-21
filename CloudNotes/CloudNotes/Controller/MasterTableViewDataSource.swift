@@ -11,7 +11,7 @@ protocol MasterTableViewDataSourceProtocol: AnyObject {
 
 final class MasterTableViewDataSource: NSObject, MasterTableViewDataSourceProtocol {
 //    let memoCoreDataManager: StorageProtocol?  // 프로토콜/제네릭 관련 오류 발생
-    private lazy var memoCoreDataManager: MemoCoreDataManager? = MemoCoreDataManager()
+    private var memoCoreDataManager: MemoCoreDataManager? = MemoCoreDataManager()
     var memos: [MemoEntity]?
     
     override init() {

@@ -1,7 +1,7 @@
 import UIKit
 
 final class DetailViewController: UIViewController {
-    private var memo: Memo?
+    private var memo: MemoEntity?
 
     private let textView: UITextView = {
         let textView = UITextView()
@@ -16,7 +16,6 @@ final class DetailViewController: UIViewController {
         super.viewDidLoad()
         configureUI()
         configureKeyboardNotificationCenter()
-        setupTextView()
     }
     
     private func configureUI() {
@@ -27,10 +26,6 @@ final class DetailViewController: UIViewController {
     
     private func configureKeyboardNotificationCenter() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-    }
-    
-    private func setupTextView() {
-        textView.delegate = self
     }
     
     @objc private func keyboardWillShow(_ sender: Notification) {
@@ -63,7 +58,7 @@ final class DetailViewController: UIViewController {
     @objc private func touchUpDetailButton() {
         let shareAction = UIAlertAction(title: "Share...", style: .default) { _ in
             let title = self.memo?.title
-            let textToShare: [Any] = [title]
+            let textToShare: [Any] = [title as Any]
             let acitivityView = UIActivityViewController(activityItems: textToShare, applicationActivities: nil)
                         
             let alertPopover = acitivityView.popoverPresentationController
@@ -94,6 +89,7 @@ final class DetailViewController: UIViewController {
     }
     
     private func configureTextView() {
+        textView.delegate = self
         view.addSubview(textView)
         textView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
         textView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
@@ -104,8 +100,8 @@ final class DetailViewController: UIViewController {
     private func createMemoToUpdate() -> MemoEntity? {
         let texts = textView.text.split(separator: "\n", maxSplits: 1)
         let strings = texts.map { String($0) }
-        var titleText: String = ""
-        var bodyText: String = ""
+        var titleText: String?
+        var bodyText: String?
         
         if texts.count == 2 {
             titleText = strings[0]
@@ -128,11 +124,14 @@ final class DetailViewController: UIViewController {
         let titleAttributes = [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .title1)]
         let bodyAttributes = [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .body)]
         
-        let titleAttributedText = NSAttributedString(string: memo?.title ?? "", attributes: titleAttributes)
-        let bodyAattributedText = NSAttributedString(string: "\n\(memo?.body ?? "")", attributes: bodyAttributes)
+        let totalAttributedText = NSMutableAttributedString()
+        let titleAttributedText = NSMutableAttributedString(string: memo?.title ?? "", attributes: titleAttributes)
+        let bodyAattributedText = NSMutableAttributedString(string: "\n\n\(memo?.body ?? "")", attributes: bodyAttributes)
         
-        textView.attributedText = titleAttributedText
-        textView.textStorage.append(bodyAattributedText)
+        totalAttributedText.append(titleAttributedText)
+        totalAttributedText.append(bodyAattributedText)
+        
+        textView.attributedText = totalAttributedText
     }
 }
 
@@ -141,9 +140,13 @@ extension DetailViewController: MemoSelectionDelegate {
         return self
     }
     
-    func applyData(with data: Memo) {
+    func applyData(with data: MemoEntity) {
         memo = data
         updateTextView()
+    }
+    
+    func clearTextView() {
+        textView.text = nil
     }
 }
 
@@ -166,6 +169,6 @@ extension DetailViewController: UITextViewDelegate {
     
     func textViewDidChange(_ textView: UITextView) {
         let memoToUpdate = createMemoToUpdate()
-        NotificationCenter.default.post(name: Notification.Name("didChangeTextView"), object: nil, userInfo: ["memo": memoToUpdate])
+        NotificationCenter.default.post(name: Notification.Name("didChangeTextView"), object: nil, userInfo: ["memo": memoToUpdate as Any])
     }
 }

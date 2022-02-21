@@ -9,7 +9,7 @@ protocol StorageProtocol {
     func delete(request: NSFetchRequest<Element>)
 }
 
-//class MemoCoreDataManager<Element: NSManagedObject>: StorageProtocol {  // 오류 발생
+// class MemoCoreDataManager<Element: NSManagedObject>: StorageProtocol { 오류 발생
 class MemoCoreDataManager {
     lazy var persistentContainer: NSPersistentCloudKitContainer = {
         let container = NSPersistentCloudKitContainer(name: "CloudNotes")
@@ -79,10 +79,7 @@ class MemoCoreDataManager {
             let elementsToDelete = try context.fetch(request)
             
             elementsToDelete.forEach { element in
-                guard let managedObject = element as? NSManagedObject else {
-                    return
-                }
-                context.delete(managedObject)
+                context.delete(element)
             }
             
             try context.save()

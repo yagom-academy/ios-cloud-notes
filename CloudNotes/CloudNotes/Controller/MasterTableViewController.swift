@@ -2,7 +2,8 @@ import UIKit
 
 protocol MemoSelectionDelegate: AnyObject {
     var memoSelectionDestination: UIViewController { get }
-    func applyData(with data: Memo)
+    func applyData(with data: MemoEntity)
+    func clearTextView()
 }
 
 final class MasterTableViewController: UITableViewController {
@@ -44,7 +45,7 @@ final class MasterTableViewController: UITableViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        selectFirstCell()
+        selectFirstMemo()
     }
     
     // MARK: - Methods
@@ -80,7 +81,7 @@ final class MasterTableViewController: UITableViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(deleteTableViewCell), name: Notification.Name("didDeleteMemo"), object: nil)
     }
     
-    @objc private func updateTableView(notification: Notification) {
+    @objc private func updateTableView(_ notification: Notification) {
         let firstIndexPath = IndexPath(row: 0, section: 0)
         guard let previousIndexPath = tableView.indexPathForSelectedRow else {
             return
@@ -119,15 +120,28 @@ final class MasterTableViewController: UITableViewController {
         let removedMemo = memoDataSource?.memos?.remove(at: index.row)
         memoDataSource?.deleteMemo(with: removedMemo?.memoId)
         tableView.deleteRows(at: [index], with: .fade)
-        selectFirstCell()
+        changeMemoIfNotEmpty()
     }
     
-    private func selectFirstCell() {
+    private func changeMemoIfNotEmpty() {
         if memoDataSource?.memos?.isEmpty == false {
-            let firstIndexPath = IndexPath(row: 0, section: 0)
-            tableView.selectRow(at: firstIndexPath, animated: true, scrollPosition: .middle)
-            tableView(tableView, didSelectRowAt: firstIndexPath)
+            selectFirstMemo()
+        } else {
+            clearMemo()
         }
+    }
+    
+    private func selectFirstMemo() {
+        let firstIndexPath = IndexPath(row: 0, section: 0)
+        tableView.selectRow(at: firstIndexPath, animated: true, scrollPosition: .middle)
+        tableView(tableView, didSelectRowAt: firstIndexPath)
+    }
+    
+    private func clearMemo() {
+        guard let destination = delegate?.memoSelectionDestination as? DetailViewController else {
+            return
+        }
+        destination.clearTextView()
     }
     
     // MARK: - Table view delegate
@@ -140,9 +154,7 @@ final class MasterTableViewController: UITableViewController {
             return
         }
         
-        guard let memo = memos[indexPath.row] as? Memo else {
-            return
-        }
+        let memo = memos[indexPath.row]
 
         destination.applyData(with: memo)
         splitViewController?.showDetailViewController(UINavigationController(rootViewController: destination), sender: self)

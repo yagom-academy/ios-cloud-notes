@@ -24,7 +24,7 @@ final class MainSplitViewController: UISplitViewController {
         preferredDisplayMode = .oneBesideSecondary
     }
     
-    func configureChildViewController(_ masterViewController: MasterTableViewController, _ detailViewController: DetailViewController) {
+    private func configureChildViewController(_ masterViewController: MasterTableViewController, _ detailViewController: DetailViewController) {
         viewControllers = [masterViewController, detailViewController]
     }
 }

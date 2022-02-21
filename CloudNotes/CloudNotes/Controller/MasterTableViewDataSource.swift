@@ -2,38 +2,39 @@ import UIKit
 import CoreData
 
 protocol MasterTableViewDataSourceProtocol: AnyObject {
-    var memos: [Memo]? { get set }
+    var memos: [MemoEntity]? { get set }
     func fetchMemos()
-    func saveMemo(_ memo: TemporaryMemo)
-    func updateMemo(_ memo: Memo)
+    func saveMemo(_ memo: MemoEntity)
+    func updateMemo(_ memo: MemoEntity)
     func deleteMemo(with memoId: UUID?)
 }
 
 final class MasterTableViewDataSource: NSObject, MasterTableViewDataSourceProtocol {
-    let coreDataManager = CoreDataManager()
-    var memos: [Memo]?
+//    let memoCoreDataManager: StorageProtocol?  // 프로토콜/제네릭 관련 오류 발생
+    private lazy var memoCoreDataManager: MemoCoreDataManager? = MemoCoreDataManager()
+    var memos: [MemoEntity]?
     
     override init() {
         super.init()
-        self.fetchMemos()
+        fetchMemos()
     }
     
     func fetchMemos() {
         let request = Memo.fetchRequest()
         
-        memos = coreDataManager.fetch(request)
+        memos = memoCoreDataManager?.fetch(request)
     }
     
-    func saveMemo(_ memo: TemporaryMemo) {
-        coreDataManager.saveContext(memo: memo)
+    func saveMemo(_ memo: MemoEntity) {
+        memoCoreDataManager?.saveContext(memo: memo)
     }
     
-    func updateMemo(_ memo: Memo) {
-        coreDataManager.updateMemo(memo)
+    func updateMemo(_ memo: MemoEntity) {
+        memoCoreDataManager?.updateMemo(memo)
     }
     
     func deleteMemo(with memoId: UUID?) {
-        coreDataManager.deleteMemo(memoId: memoId)
+        memoCoreDataManager?.deleteMemo(memoId: memoId)
     }
 }
 

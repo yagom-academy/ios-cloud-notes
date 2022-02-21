@@ -1,7 +1,16 @@
-import Foundation
 import CoreData
 
-class CoreDataManager {
+protocol StorageProtocol {
+    associatedtype Element: NSManagedObject
+    
+    func fetch(_ request: NSFetchRequest<Element>) -> [Element]?
+    func saveContext(memo: MemoEntity)
+//    func update()
+    func delete(request: NSFetchRequest<Element>)
+}
+
+//class MemoCoreDataManager<Element: NSManagedObject>: StorageProtocol {  // 오류 발생
+class MemoCoreDataManager {
     lazy var persistentContainer: NSPersistentCloudKitContainer = {
         let container = NSPersistentCloudKitContainer(name: "CloudNotes")
         container.loadPersistentStores(completionHandler: { (_, error) in
@@ -26,7 +35,7 @@ class CoreDataManager {
         }
     }
 
-    func saveContext(memo: TemporaryMemo) {
+    func saveContext(memo: MemoEntity) {
         guard let entity = NSEntityDescription.entity(forEntityName: "Memo", in: context) else {
             return
         }
@@ -44,32 +53,12 @@ class CoreDataManager {
         }
     }
     
-    func updateMemo(_ memo: Memo) {
+    func updateMemo(_ memo: MemoEntity) {
         let request: NSFetchRequest<Memo> = NSFetchRequest<Memo>(entityName: "Memo")
         guard let memoId = memo.memoId else {
             return
         }
-        
         request.predicate = NSPredicate(format: "memoId = %@", memoId.uuidString)
-        
-        do {
-            let memoToUpdate = try context.fetch(request)
-            
-            let managedObject = memoToUpdate.first
-            managedObject?.setValue(memo.title, forKey: "title")
-            managedObject?.setValue(memo.body ?? "", forKey: "body")
-            managedObject?.setValue(memo.lastModifiedDate, forKey: "lastModifiedDate")
-            
-            try context.save()
-        } catch {
-            fatalError("\(error)")
-        }
-    }
-    
-    func updateMemo(_ memo: TemporaryMemo) {
-        let request: NSFetchRequest<Memo> = NSFetchRequest<Memo>(entityName: "Memo")
-        
-        request.predicate = NSPredicate(format: "memoId = %@", memo.memoId.uuidString)
         
         do {
             let memoToUpdate = try context.fetch(request)
@@ -90,7 +79,10 @@ class CoreDataManager {
             let elementsToDelete = try context.fetch(request)
             
             elementsToDelete.forEach { element in
-                context.delete(element)
+                guard let managedObject = element as? NSManagedObject else {
+                    return
+                }
+                context.delete(managedObject)
             }
             
             try context.save()

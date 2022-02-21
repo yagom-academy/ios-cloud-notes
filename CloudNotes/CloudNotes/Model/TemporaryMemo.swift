@@ -1,8 +1,8 @@
 import Foundation
 
-struct TemporaryMemo {
-    let title: String
+struct TemporaryMemo: MemoEntity {
+    let title: String?
     let body: String?
     let lastModifiedDate: Double
-    let memoId: UUID
+    let memoId: UUID?
 }

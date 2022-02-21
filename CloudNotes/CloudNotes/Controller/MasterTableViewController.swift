@@ -7,7 +7,7 @@ protocol MemoSelectionDelegate: AnyObject {
 
 final class MasterTableViewController: UITableViewController {
     // MARK: - Properties
-    var memoDataSource: MasterTableViewDataSourceProtocol?
+    private var memoDataSource: MasterTableViewDataSourceProtocol?
     weak var delegate: MemoSelectionDelegate?
     
     // MARK: - Initializer
@@ -15,6 +15,14 @@ final class MasterTableViewController: UITableViewController {
         super.init(style: style)
     }
     
+    // 오류 발생 ('let' property 'memoDataSource' may not be initialized directly; use "self.init(...)" or "self = ..." instead)
+//    init(style: UITableView.Style, memoDataSource: MasterTableViewDataSourceProtocol = MasterTableViewDataSource(), delegate: MemoSelectionDelegate) {
+//        self.init(style: style)
+//        self.memoDataSource = memoDataSource
+//        self.delegate = delegate
+//    }
+    
+    // 기존 코드
     convenience init(style: UITableView.Style, dataSource: MasterTableViewDataSourceProtocol = MasterTableViewDataSource(), delegate: MemoSelectionDelegate) {
         self.init(style: style)
         self.memoDataSource = dataSource
@@ -49,10 +57,9 @@ final class MasterTableViewController: UITableViewController {
         navigationItem.rightBarButtonItem = addMemoButton
     }
     
-    @objc func touchUpAddMemoButton() {
+    @objc private func touchUpAddMemoButton() {
         let currentTime = NSDate().timeIntervalSince1970
         let memo = TemporaryMemo(title: "새로운 메모", body: "테스트용 메모입니다.", lastModifiedDate: currentTime, memoId: UUID()) // Test
-        let request = Memo.fetchRequest()
         let firstIndexPath = IndexPath(row: 0, section: 0)
         
         memoDataSource?.saveMemo(memo)
@@ -73,36 +80,34 @@ final class MasterTableViewController: UITableViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(deleteTableViewCell), name: Notification.Name("didDeleteMemo"), object: nil)
     }
     
-    @objc func updateTableView(notification: Notification) {
+    @objc private func updateTableView(notification: Notification) {
         let firstIndexPath = IndexPath(row: 0, section: 0)
         guard let previousIndexPath = tableView.indexPathForSelectedRow else {
             return
         }
-        
-        guard let memoToMove = memoDataSource?.memos?.remove(at: previousIndexPath.row) else {
+        memoDataSource?.memos?.remove(at: previousIndexPath.row)
+
+        guard let memoToUpdate = notification.userInfo?["memo"] as? MemoEntity else {
             return
         }
-        memoDataSource?.memos?.insert(memoToMove, at: firstIndexPath.row)
+        memoDataSource?.memos?.insert(memoToUpdate, at: firstIndexPath.row)
+        memoDataSource?.updateMemo(memoToUpdate)
         
-        
-        guard let memoToUpdate = notification.userInfo?["memo"] as? Memo else {
-            return
-        }
-        
-        memoDataSource?.memos?[0] = memoToUpdate
-        
-        memoDataSource?.updateMemo(memoToMove)
         tableView.moveRow(at: previousIndexPath, to: firstIndexPath)
-        //tableView.reloadRows(at: [firstIndexPath], with: .automatic)
-        guard let cell = tableView.cellForRow(at: firstIndexPath) as? MasterTableViewCell else {
-            return
-        }
+        tableView.selectRow(at: firstIndexPath, animated: true, scrollPosition: .middle)
         
-        cell.applyData(memoToUpdate)
-        tableView.selectRow(at: firstIndexPath, animated: true, scrollPosition: .none)
+        updateCell(at: firstIndexPath, with: memoToUpdate)
     }
     
-    @objc func deleteTableViewCell() {
+    private func updateCell(at indexPath: IndexPath, with memo: MemoEntity) {
+        guard let cell = tableView.cellForRow(at: indexPath) as? MasterTableViewCell else {
+            return
+        }
+        
+        cell.applyData(memo)
+    }
+    
+    @objc private func deleteTableViewCell() {
         guard let currentIndexPath = tableView.indexPathForSelectedRow else {
             return
         }
@@ -134,8 +139,12 @@ final class MasterTableViewController: UITableViewController {
         guard let destination = delegate?.memoSelectionDestination as? DetailViewController else {
             return
         }
+        
+        guard let memo = memos[indexPath.row] as? Memo else {
+            return
+        }
 
-        destination.applyData(with: memos[indexPath.row])
+        destination.applyData(with: memo)
         splitViewController?.showDetailViewController(UINavigationController(rootViewController: destination), sender: self)
     }
     

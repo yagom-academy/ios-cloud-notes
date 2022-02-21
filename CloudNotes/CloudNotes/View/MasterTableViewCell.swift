@@ -83,7 +83,7 @@ final class MasterTableViewCell: UITableViewCell {
         previewLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
     }
     
-    func applyData(_ data: Memo) {
+    func applyData(_ data: MemoEntity) {
         self.titleLabel.text = data.title
         let date = Date(timeIntervalSince1970: data.lastModifiedDate)
         self.dateLabel.text = dateFormatter.string(from: date)

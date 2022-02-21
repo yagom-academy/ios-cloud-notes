@@ -6,4 +6,8 @@ protocol NoteListViewDelegate: AnyObject {
     func creatNote()
 
     func deleteNote(_ note: Content, index: Int)
+
+    func upload()
+
+    func download()
 }

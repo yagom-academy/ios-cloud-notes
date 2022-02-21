@@ -201,8 +201,8 @@
 				0D3DAAEB27B259D6005F9502 /* DecodingUtility.swift */,
 				339A3F8027BA171000241E74 /* CDDataSourceProvider.swift */,
 				33171EA227C399E6008D9463 /* DropboxManager.swift */,
-				0DE02F4227BB3B9C00E05C33 /* PersistentManager.swift */,
 				33171EA427C3A2E0008D9463 /* DropboxError.swift */,
+				0DE02F4227BB3B9C00E05C33 /* PersistentManager.swift */,
 			);
 			path = DataSourceProvider;
 			sourceTree = "<group>";

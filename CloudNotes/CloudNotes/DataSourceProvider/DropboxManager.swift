@@ -1,7 +1,7 @@
 import Foundation
 import SwiftyDropbox
 
-struct DropboxManager {
+class DropboxManager {
     let client = DropboxClientsManager.authorizedClient
     let coredataURL: URL? = try? FileManager.default.url(
         for: .applicationSupportDirectory,
@@ -11,22 +11,33 @@ struct DropboxManager {
     )
     let filePaths = ["/CloudNotes.sqlite", "/CloudNotes.sqlite-shm", "/CloudNotes.sqlite-wal"]
 
-    func upload(_ completionHandelr: @escaping (DropboxError?) -> Void) {
+    func upload(_ completionHandler: @escaping (DropboxError?) -> Void) {
         filePaths.forEach { filePath in
             guard let fileURL = coredataURL?.appendingPathComponent(filePath) else {
                 return
             }
 
-            client?.files.upload(path: "/CloudNote\(filePath)", mode: .overwrite, autorename: false, clientModified: nil, mute: false, propertyGroups: nil, strictConflict: false, input: fileURL)
-                .response { _ , error in
+            client?.files.upload(
+                path: "/CloudNote\(filePath)",
+                mode: .overwrite,
+                autorename: false,
+                clientModified: nil,
+                mute: false,
+                propertyGroups: nil,
+                strictConflict: false,
+                input: fileURL
+            )
+                .response { response, error in
+                    print(response)
                     if error != nil {
-                        completionHandelr(.uploadFailure)
+                        print(error)
+                        completionHandler(.uploadFailure)
                     }
                 }
         }
     }
 
-    func download(_ completionHandelr: @escaping (DropboxError?) -> Void) {
+    func download(_ completionHandler: @escaping (DropboxError?) -> Void) {
         filePaths.forEach { filePath in
             guard let fileURL = coredataURL?.appendingPathComponent(filePath) else {
                 return
@@ -41,7 +52,8 @@ struct DropboxManager {
                             contents: fileContents,
                             attributes: nil)
                     } else if error != nil {
-                        completionHandelr(.downloadFailure)
+                        print(error)
+                        completionHandler(.downloadFailure)
                     }
                 }
         }

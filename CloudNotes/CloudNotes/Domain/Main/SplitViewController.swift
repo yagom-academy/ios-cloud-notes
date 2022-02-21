@@ -6,6 +6,7 @@ class SplitViewController: UISplitViewController {
     private let detailedNoteViewController = DetailedNoteViewController()
     private var dataSourceProvider: NoteDataSource?
     private var currentNoteIndex: Int?
+    private var dropboxManager = DropboxManager()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,6 +45,42 @@ class SplitViewController: UISplitViewController {
 
 // MARK: - NoteList View Delegate
 extension SplitViewController: NoteListViewDelegate {
+    func upload() {
+        let dispatchGroup = DispatchGroup()
+        var errors = [DropboxError?]()
+        self.dropboxManager.upload { error in
+            dispatchGroup.enter()
+            if error != nil {
+                errors.append(error)
+            }
+            dispatchGroup.leave()
+        }
+        dispatchGroup.wait()
+        if !errors.isEmpty {
+            print("no error")
+            self.noteListViewController.presentUploadFailureAlert()
+        }
+    }
+
+    func download() {
+        let dispatchGroup = DispatchGroup()
+        var errors = [DropboxError?]()
+        self.dropboxManager.download { error in
+            dispatchGroup.enter()
+            if error != nil {
+                errors.append(error)
+            }
+            dispatchGroup.leave()
+        }
+        dispatchGroup.notify(queue: .main) {
+            if errors.isEmpty {
+                self.fetchNotes()
+            } else {
+                self.noteListViewController.presentDownloadFailureAlert()
+            }
+        }
+    }
+
     func deleteNote(_ note: Content, index: Int) {
         do {
             try self.dataSourceProvider?.deleteNote(note)

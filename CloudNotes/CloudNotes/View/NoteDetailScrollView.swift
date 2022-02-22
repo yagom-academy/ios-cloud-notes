@@ -41,23 +41,24 @@ final class NoteDetailScrollView: UIScrollView {
         ])
     }
     
-    func configure(with note: Note) {
-        guard let title = note.title,
-              let content = note.content else {
-                  return
-              }
+    func configure(with noteInfomation: NoteInformation) {
+        let title = noteInfomation.title
+        let content = noteInfomation.content
+        
         if title == "" && content == "" {
             self.noteDetailTextView.text = ""
+        } else if title != "" && content == ""{
+            noteDetailTextView.font = .preferredFont(forTextStyle: .title1)
         } else {
             let attributedString = NSMutableAttributedString()
-                .preferredFont(string: title + "\n", forTextStyle: .body)
+                .preferredFont(string: title + "\n", forTextStyle: .title1)
                 .preferredFont(string: content, forTextStyle: .body)
             attributedString.color(to: .label)
             DispatchQueue.main.async {
                 self.noteDetailTextView.attributedText = attributedString
             }
         }
-        self.lastModifiedDateLabel.text = note.localizedDateString
+        self.lastModifiedDateLabel.text = noteInfomation.localizedDateString
     }
     
     // MARK: - private Methods

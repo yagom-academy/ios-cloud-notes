@@ -38,11 +38,15 @@ final class NoteDetailViewController: UIViewController {
     
     func setupDetailView(index: Int) {
         currentIndex = index
-        if let note = persistentManager?.notes[index] {
-            noteDetailScrollView.configure(with: note)
+        let note = persistentManager?.notes[index]
+        let title = note?.title ?? ""
+        let content = note?.content ?? ""
+        let lastModifiedDate = note?.lastModifiedDate ?? 0
+        let information = NoteInformation(title: title, content: content, lastModifiedDate: lastModifiedDate)
+            noteDetailScrollView.configure(with: information)
             scrollTextViewToVisible()
             view.endEditing(true)
-        }
+        
     }
     
     func setupEmptyDetailView() {
@@ -143,20 +147,21 @@ extension NoteDetailViewController: UITextViewDelegate {
         guard let textViewText = textView.text else {
             return
         }
-        if textViewText.contains("\n") {
+        
+        if textViewText.contains("\n") == false && textViewText.count <= 100 {
+            title = textViewText
+        } else if textViewText.contains("\n") == false && textViewText.count > 100 {
+            title = textViewText.substring(from: 0, to: 99)
+            body = "\n" + textViewText.substring(from: 100, to: textViewText.count - 1)
+        } else {
             let splitedText = textView.text.split(separator: "\n", maxSplits: 1, omittingEmptySubsequences: false)
             title = String(splitedText.first ?? "")
             body = String(splitedText.last ?? "")
-        } else if textViewText.contains("\n") == false && textViewText.count > 100 {
-            title = textViewText.substring(from: 0, to: 99)
-            body = textViewText.substring(from: 100, to: textViewText.count - 1)
-        } else {
-            title = textViewText
         }
         let information = NoteInformation(title: title, content: body, lastModifiedDate: Date().timeIntervalSince1970)
+        noteDetailScrollView.configure(with: information)
         delegate?.textViewDidChange(noteInformation: information)
     }
-    
 }
 
 // MARK: - Keyboard

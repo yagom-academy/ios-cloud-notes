@@ -5,6 +5,7 @@ protocol MemoDataManagerListDelegate: AnyObject {
     func addNewMemo()
     func deleteMemo2(at indexPath: IndexPath)
     func selectNextMemo(at indexPath: IndexPath)
+    var selectedCellIndex: IndexPath? { get }
 }
 
 protocol MemoDataManagerDetailDelegate: AnyObject {
@@ -136,15 +137,25 @@ extension MemoDataManager {
         detailDelegate?.showEmptyTextView()
     }
     
-    func deleteSelectedMemo(at indexPath: IndexPath) {
-        let deletedMemo = memos[indexPath.row]
-        deleteMemo(id: deletedMemo.id)
-        listDelegate?.deleteMemo2(at: indexPath)
+    func deleteSelectedMemo(at indexPath: IndexPath? = nil) {
+        let selectecIndexPath: IndexPath?
+        if indexPath != nil {
+            selectecIndexPath = indexPath
+        } else {
+            selectecIndexPath = listDelegate?.selectedCellIndex
+        }
         
-        if indexPath.row < memos.count {
-            let memo = memos[indexPath.row]
+        guard let selectecIndexPath = selectecIndexPath else {
+            return
+        }
+        let deletedMemo = memos[selectecIndexPath.row]
+        deleteMemo(id: deletedMemo.id)
+        listDelegate?.deleteMemo2(at: selectecIndexPath)
+        
+        if selectecIndexPath.row < memos.count {
+            let memo = memos[selectecIndexPath.row]
             detailDelegate?.showTextView(with: memo)
-            listDelegate?.selectNextMemo(at: indexPath)
+            listDelegate?.selectNextMemo(at: selectecIndexPath)
         } else {
             detailDelegate?.showIneditableTextView()
         }

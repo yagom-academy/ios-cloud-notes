@@ -2,7 +2,6 @@ import UIKit
 
 protocol MemoListViewControllerDelegate: AnyObject {
     func memoListViewController(updateTableViewCellWith title: String, body: String, lastModified: Date)
-    func deleteTableViewCell()
 }
 
 final class MemoListViewController: UIViewController {
@@ -107,21 +106,6 @@ extension MemoListViewController: UITableViewDelegate {
         return UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
     }
     
-    private func deleteMemo(at indexPath: IndexPath) {
-        let deletedMemo = dataManager.memos[indexPath.row]
-        dataManager.deleteMemo(id: deletedMemo.id)
-        tableView.deleteRows(at: [indexPath], with: .none)
-
-        if indexPath.row < dataManager.memos.count {
-            let memo = dataManager.memos[indexPath.row]
-            delegate?.memoDetailViewController(showTextViewWith: memo)
-            tableView.allowsSelectionDuringEditing = true
-            tableView.selectRow(at: indexPath, animated: false, scrollPosition: .top)
-        } else {
-            delegate?.showIneditableTextView()
-        }
-    }
-    
     func tableView(_ tableView: UITableView, didEndEditingRowAt indexPath: IndexPath?) {
         guard let indexPath = indexPath else {
             return
@@ -154,13 +138,6 @@ extension MemoListViewController: UITableViewDelegate {
 // MARK: - MemoListViewControllerDelegate
 
 extension MemoListViewController: MemoListViewControllerDelegate {
-    func deleteTableViewCell() {
-        guard let indexPath = tableView.indexPathForSelectedRow else {
-            return
-        }
-        deleteMemo(at: indexPath)
-    }
-    
     func memoListViewController(updateTableViewCellWith title: String, body: String, lastModified: Date) {
         guard let indexPath = tableView.indexPathForSelectedRow,
               let id = dataManager.memos[indexPath.row].id else {
@@ -191,5 +168,9 @@ extension MemoListViewController: MemoDataManagerListDelegate {
     func selectNextMemo(at indexPath: IndexPath) {
         tableView.allowsSelectionDuringEditing = true
         tableView.selectRow(at: indexPath, animated: false, scrollPosition: .top)
+    }
+    
+    var selectedCellIndex: IndexPath? {
+        return tableView.indexPathForSelectedRow
     }
 }

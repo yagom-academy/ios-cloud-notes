@@ -44,7 +44,7 @@ final class MasterTableViewController: UITableViewController {
         configureNotificationCenter()
         tableView.reloadData()
         
-        presentSafariViewController()
+//        presentSafariViewController()  // DropBox 관련 기능
     }
     
     override func viewDidAppear(_ animated: Bool) {

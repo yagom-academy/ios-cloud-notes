@@ -8,7 +8,7 @@ final class DetailViewController: UIViewController {
     textView.keyboardDismissMode = .interactive
     return textView
   }()
-  private lazy var ellipsisCircleButton: UIBarButtonItem = {
+  private lazy var showMoreButton: UIBarButtonItem = {
     let buttonImage = UIImage(systemName: "ellipsis.circle")
     return UIBarButtonItem(image: buttonImage, style: .plain, target: self, action: #selector(showMoreButtonTapped))
   }()
@@ -97,7 +97,7 @@ final class DetailViewController: UIViewController {
   }
   
   private func setNavigationBar() {
-    navigationItem.rightBarButtonItem = ellipsisCircleButton
+    navigationItem.rightBarButtonItem = showMoreButton
   }
   
   private func showShareActivityView(_ sender: UIBarButtonItem) {
@@ -138,7 +138,7 @@ extension DetailViewController: MemoDisplayable {
   
   func set(editable: Bool, needClear: Bool) {
     textView.isEditable = editable
-    ellipsisCircleButton.isEnabled = editable
+    showMoreButton.isEnabled = editable
     if needClear {
       textView.text = ""
     }

@@ -52,11 +52,14 @@ extension CoreDataMemos {
     let memo = Memo(entity: entity, insertInto: managedContext)
     memo.title = title
     memo.body = body
+    memo.lastModified = Date()
+    memo.id = UUID()
     try insert(memo, at: 0)
   }
   
   func reload() throws {
     let request: NSFetchRequest<Memo> = Memo.fetchRequest()
+    request.sortDescriptors = [NSSortDescriptor(key: "lastModified", ascending: false)]
     let persistentData = try managedContext.fetch(request)
     memos = persistentData
   }

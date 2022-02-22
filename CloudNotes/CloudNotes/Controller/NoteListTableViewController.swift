@@ -1,4 +1,5 @@
 import UIKit
+import CoreData
 
 final class NoteListTableViewController: UITableViewController {
     
@@ -26,7 +27,8 @@ final class NoteListTableViewController: UITableViewController {
         super.viewDidLoad()
         configureTableView()
         configureLayout()
-        viewModel.updateHandler = updateUI
+        viewModel.updatePrimaryHandler = updateUI
+        viewModel.updateSecondaryHandler = updateTable
         viewModel.viewDidLoad()
         updateUI()
     }
@@ -47,6 +49,29 @@ final class NoteListTableViewController: UITableViewController {
         snapshot.appendItems(viewModel.noteData, toSection: .main)
         
         dataSource.apply(snapshot, animatingDifferences: true)
+    }
+    
+    private func updateTable(_ type: NSFetchedResultsChangeType) {
+        
+        print(type.rawValue)
+        let snapshot = dataSource.snapshot()
+        
+        guard let item = snapshot.itemIdentifiers.first else { return }
+        
+        switch type {
+        case .move:
+            let indexPath = IndexPath(row: 0, section: 0)
+            tableView.selectRow(at: indexPath, animated: true, scrollPosition: UITableView.ScrollPosition.top)
+            
+        case .update:
+            return
+            
+        default:
+            let indexPath = IndexPath(row: 0, section: 0)
+            tableView.selectRow(at: indexPath, animated: true, scrollPosition: UITableView.ScrollPosition.top)
+            delegate?.selectNote(with: item.identifier)
+        }
+        
     }
     
     private func configureTableView() {
@@ -73,6 +98,7 @@ extension NoteListTableViewController {
     
     // MARK: - Table View Delegate
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        delegate?.selectNote(with: nil)
         let item = dataSource.itemIdentifier(for: indexPath)
         guard let identifier = item?.identifier else {
             return

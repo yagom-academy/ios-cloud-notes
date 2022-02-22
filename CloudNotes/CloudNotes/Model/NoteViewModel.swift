@@ -4,7 +4,8 @@ import CoreData
 final class NoteViewModel: NSObject {
     
     private let model: NoteModel
-    var updateHandler: (() -> Void)?
+    var updatePrimaryHandler: (() -> Void)?
+    var updateSecondaryHandler: ((NSFetchedResultsChangeType) -> Void)?
     
     init(model: NoteModel) {
         self.model = model
@@ -61,8 +62,11 @@ final class NoteViewModel: NSObject {
 
 extension NoteViewModel: NSFetchedResultsControllerDelegate {
     
-    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        updateHandler?()
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        
+        updatePrimaryHandler?()
+        updateSecondaryHandler?(type)
+        
     }
     
 }

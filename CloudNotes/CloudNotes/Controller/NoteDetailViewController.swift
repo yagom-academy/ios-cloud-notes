@@ -51,7 +51,6 @@ final class NoteDetailViewController: UIViewController {
                     UIAlertAction(title: "취소", style: .cancel),
                     UIAlertAction(title: "삭제", style: .destructive) { _ in
                         self.viewModel.deleteNote(identifier: identifier)
-                        self.identifier = nil
                     }
                 ]
                 alert.addAction(actions)
@@ -124,6 +123,7 @@ extension NoteDetailViewController: UITextViewDelegate {
         let text = textView.text ?? ""
         let result = text.split(separator: "\n", maxSplits: 1).map { String($0) }
         
+        guard result.count >= 1 else { return }
         let title = result[0]
         let body = result.count >= 2 ? result[1] : ""
         
@@ -134,8 +134,11 @@ extension NoteDetailViewController: UITextViewDelegate {
 
 extension NoteDetailViewController: NoteListTableViewDelegate {
     
-    func selectNote(with identifier: UUID) {
+    func selectNote(with identifier: UUID?) {
         self.identifier = identifier
+        guard let identifier = identifier else {
+            return
+        }
         let title = viewModel.fetchTitle(identifier: identifier)
         let body = viewModel.fetchBody(identifier: identifier)
         noteDetailTextView.text = "\(title)\n\(body)"

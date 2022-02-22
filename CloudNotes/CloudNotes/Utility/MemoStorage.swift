@@ -23,17 +23,6 @@ class MemoStorage {
     
     // MARK: - CoreData CRUD
     
-    func synchronizeCoreDataToDropbox() {
-        dropboxManager.fetchFilePaths { metaDatas in
-            metaDatas.forEach { metaData in
-                self.dropboxManager.download(from: "/\(metaData.name)") {
-                    self.create(id: $0.id, title: $0.title, body: $0.body, lastModified: $0.clientModified)
-                    NotificationCenter.default.post(name: .tableViewNeedUpdate, object: nil)
-                }
-            }
-        }
-    }
-    
     func create(id: UUID = UUID(), title: String = .blank, body: String = .blank, lastModified: TimeInterval = Date().timeIntervalSince1970) {
         guard let memoEntity = NSEntityDescription.entity(forEntityName: "Memo", in: context) else {
             return
@@ -90,5 +79,26 @@ class MemoStorage {
     func uploadAll() {
         let fetchedMemos = fetchAll()
         dropboxManager.upload(memos: fetchedMemos)
+    }
+    
+    func synchronizeCoreDataToDropbox() {
+        dropboxManager.fetchFilePaths { metaDatas in
+            metaDatas.forEach { metaData in
+                self.dropboxManager.download(from: "/\(metaData.name)") {
+                    if self.checkMemoExistence(with: $0.id) {
+                        self.create(id: $0.id, title: $0.title, body: $0.body, lastModified: $0.clientModified)
+                        NotificationCenter.default.post(name: .tableViewNeedUpdate, object: nil)
+                    }
+                }
+            }
+        }
+    }
+    
+    func checkMemoExistence(with id: UUID) -> Bool {
+        let request = Memo.fetchRequest()
+        request.predicate = NSPredicate(format: "id == %@", id as CVarArg)
+        let fetchedMemos = try? self.context.fetch(request)
+        
+        return fetchedMemos?.isEmpty == true
     }
 }

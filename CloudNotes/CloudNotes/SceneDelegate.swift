@@ -17,6 +17,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
               switch authResult {
               case .success:
                   self.memoStorage.synchronizeCoreDataToDropbox()
+                  UserDefaults.standard.set(true, forKey: "dropboxConnected")
                   print("❤️ Success! User is logged into DropboxClientsManager.")
               case .cancel:
                   print("☠️ Authorization flow was manually canceled by user!")
@@ -37,9 +38,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else {
             return
         }
+        
         window = UIWindow(windowScene: windowScene)
         window?.rootViewController = MemoSplitViewController(style: .doubleColumn, memoStorage: memoStorage)
         window?.makeKeyAndVisible()
+        
+        if UserDefaults.standard.bool(forKey: "dropboxConnected") {
+            memoStorage.synchronizeCoreDataToDropbox()
+        }
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -65,7 +71,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func sceneDidEnterBackground(_ scene: UIScene) {
-        print("백그라운드 진입!!")
         memoStorage.uploadAll()
     }
 }

@@ -34,9 +34,12 @@ struct DropboxManager {
         )
     }
     
-    func upload() {
+    func upload(complition: ((Result<Bool, Error>) -> Void)?) {
+        let group = DispatchGroup()
+        var hasErrorOccured = false
         for fileName in fileNames {
             let fileURL = applicationSupportDirectoryURL.appendingPathComponent(fileName)
+            group.enter()
             client?.files.upload(
                 path: fileName,
                 mode: .overwrite,
@@ -47,8 +50,17 @@ struct DropboxManager {
             ).response { _, error in
                     if let error = error {
                         print(error)
+                        hasErrorOccured = true
                     }
+                group.leave()
                 }
+        }
+        group.notify(queue: .main) {
+            if hasErrorOccured {
+                complition?(.failure(DropboxError.failureDownload))
+            } else {
+                complition?(.success(true))
+            }
         }
     }
     

@@ -9,7 +9,14 @@ extension UIViewController {
 
     @objc func dismissKeyboard() {
         view.endEditing(true)
-        DropboxManager().upload()
+        DropboxManager().upload { result in
+            switch result {
+            case .success:
+                print("업로드 성공")
+            case .failure(let error):
+                self.showAlert(message: error.localizedDescription)
+            }
+        }
     }
     
     func showActivityViewController(data: String...) {

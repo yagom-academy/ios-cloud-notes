@@ -59,7 +59,7 @@ extension CoreDataMemos {
   
   func reload() throws {
     let request: NSFetchRequest<Memo> = Memo.fetchRequest()
-    request.sortDescriptors = [NSSortDescriptor(key: "lastModified", ascending: false)]
+    request.sortDescriptors = [NSSortDescriptor(keyPath: \Memo.lastModified, ascending: false)]
     let persistentData = try managedContext.fetch(request)
     memos = persistentData
   }

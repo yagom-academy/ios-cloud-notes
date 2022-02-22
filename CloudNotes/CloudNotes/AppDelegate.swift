@@ -16,6 +16,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         DropboxClientsManager.setupWithAppKey("bhmlttykz7ps11f", transportClient: nil)
         return true
     }
+    
+    func applicationWillTerminate(_ application: UIApplication) {
+        memoStorage.uploadAll()
+        Thread.sleep(forTimeInterval: 5)
+    }
 
     // MARK: UISceneSession Lifecycle
 

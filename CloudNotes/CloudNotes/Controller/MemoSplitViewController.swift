@@ -222,4 +222,9 @@ extension MemoSplitViewController: MemoStorageManageable {
     func connectDropbox(viewController: UIViewController) {
         memoStorage.connectDropbox(viewController: viewController)
     }
+    
+    func upload(at indexPath: IndexPath) {
+        let memoToUpload = memos[indexPath.row]
+        memoStorage.upload(memo: memoToUpload)
+    }
 }

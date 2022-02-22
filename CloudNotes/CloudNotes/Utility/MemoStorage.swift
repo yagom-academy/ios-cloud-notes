@@ -70,4 +70,13 @@ class MemoStorage {
     func connectDropbox(viewController: UIViewController) {
         dropboxManager.connectDropbox(viewController: viewController)
     }
+    
+    func upload(memo: Memo) {
+        dropboxManager.upload(memos: [memo])
+    }
+    
+    func uploadAll() {
+        let fetchedMemos = fetchAll()
+        dropboxManager.upload(memos: fetchedMemos)
+    }
 }

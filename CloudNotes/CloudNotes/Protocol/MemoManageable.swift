@@ -20,6 +20,7 @@ protocol MemoStorageManageable: AnyObject {
     func update(at indexPath: IndexPath, title: String, body: String)
     
     func connectDropbox(viewController: UIViewController)
+    func upload(at indexPath: IndexPath)
 }
 
 protocol MemoSplitViewManageable: AnyObject {

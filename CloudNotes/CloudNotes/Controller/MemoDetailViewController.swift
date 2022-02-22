@@ -155,6 +155,7 @@ extension MemoDetailViewController: UITextViewDelegate {
             delegate?.delete(at: currentIndexPath)
             return
         }
+        delegate?.upload(at: currentIndexPath)
     }
     
     func textViewDidChange(_ textView: UITextView) {

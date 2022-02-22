@@ -4,7 +4,6 @@ final class MemoListViewController: UITableViewController {
   weak var delegate: MemoDisplayable?
   private let reuseIdentifier = "Cell"
   private var memos = CoreDataMemos.shared
-  private let firstRowIndexPath = IndexPath(row: 0, section: 0)
   private var currentMemoIndexPath = IndexPath(row: 0, section: 0)
   private var keyboardShowNotification: NSObjectProtocol?
   private var keyboardHideNotification: NSObjectProtocol?
@@ -24,7 +23,7 @@ final class MemoListViewController: UITableViewController {
       showAlert(title: "Load fail")
     }
     if memos.isEmpty == false {
-      loadDetail(at: firstRowIndexPath)
+      loadDetail(at: .first)
     } else {
       delegate?.set(editable: false, needClear: true)
     }
@@ -112,9 +111,9 @@ final class MemoListViewController: UITableViewController {
   @objc private func addMemo() {
     do {
       try memos.createFirst(title: "", body: "")
-      tableView.insertRows(at: [firstRowIndexPath], with: .fade)
-      tableView.selectRow(at: firstRowIndexPath, animated: true, scrollPosition: .top)
-      loadDetail(at: firstRowIndexPath)
+      tableView.insertRows(at: [.first], with: .fade)
+      tableView.selectRow(at: .first, animated: true, scrollPosition: .top)
+      loadDetail(at: .first)
     } catch {
       showAlert(title: "Save fail")
     }
@@ -236,9 +235,15 @@ extension MemoListViewController {
     } else if numberOfRows > 1 {
       willSelectIndexPath = currentMemoIndexPath
     } else {
-      willSelectIndexPath = firstRowIndexPath
+      willSelectIndexPath = .first
     }
     tableView.selectRow(at: willSelectIndexPath, animated: false, scrollPosition: .none)
     self.loadDetail(at: willSelectIndexPath)
+  }
+}
+
+private extension IndexPath {
+  static var first: Self {
+    return .init(row: 0, section: 0)
   }
 }

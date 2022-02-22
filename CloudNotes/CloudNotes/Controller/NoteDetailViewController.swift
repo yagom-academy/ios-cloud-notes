@@ -70,8 +70,6 @@ extension NoteDetailViewController {
                     section: .zero
                 )
             )
-            self.currentIndex = self.currentIndex - 1 < 0 ? 0 : self.currentIndex - 1
-            self.updateData(with: self.currentIndex)
         }
     }
 }

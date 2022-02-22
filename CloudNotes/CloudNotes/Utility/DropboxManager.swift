@@ -57,7 +57,7 @@ struct DropboxManager {
         }
         group.notify(queue: .main) {
             if hasErrorOccured {
-                complition?(.failure(DropboxError.failureDownload))
+                complition?(.failure(DropboxError.failureUpload))
             } else {
                 complition?(.success(true))
             }

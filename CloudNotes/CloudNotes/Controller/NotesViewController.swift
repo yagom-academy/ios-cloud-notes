@@ -28,10 +28,6 @@ class NotesViewController: UITableViewController {
     override func setEditing(_ editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: animated)
         tableView.selectRow(at: selectedIndex, animated: false, scrollPosition: .none)
-        if editing == false {
-            delegate?.clearTextView()
-            showNoteDetailView()
-        }
     }
     
     private func showAuthentication() {
@@ -157,6 +153,8 @@ extension NotesViewController: NotesViewControllerDelegate {
         PersistentManager.shared.delete(item)
         tableView.deleteRows(at: [indexPath], with: .fade)
         changeSelectedIndex(indexPath: indexPath)
+        delegate?.clearTextView()
+        showNoteDetailView()
     }
     
     private func changeSelectedIndex(indexPath: IndexPath) {

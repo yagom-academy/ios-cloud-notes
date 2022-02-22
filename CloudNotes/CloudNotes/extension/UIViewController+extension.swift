@@ -14,7 +14,7 @@ extension UIViewController {
             case .success:
                 print("업로드 성공")
             case .failure(let error):
-                self.showAlert(message: error.localizedDescription)
+                print(error.localizedDescription)
             }
         }
     }

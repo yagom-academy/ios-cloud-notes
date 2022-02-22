@@ -2,23 +2,26 @@ import UIKit
 import CoreData
 
 protocol MasterTableViewDataSourceProtocol: AnyObject {
-    var memos: [MemoEntity]? { get set }
+    //var memos: [MemoEntity]? { get set }
     func fetchMemos()
     func saveMemo(_ memo: MemoEntity)
     func updateMemo(_ memo: MemoEntity)
     func deleteMemo(with memoId: UUID?)
+    func retrieveMemos() -> [MemoEntity]?
+    func removeMemo(at index: Int) -> MemoEntity?
+    func insertMemo(_ memo: MemoEntity, at index: Int)
 }
 
 final class MasterTableViewDataSource: NSObject, MasterTableViewDataSourceProtocol {
 //    let memoCoreDataManager: StorageProtocol?  // 프로토콜/제네릭 관련 오류 발생
     private var memoCoreDataManager: MemoCoreDataManager? = MemoCoreDataManager()
-    var memos: [MemoEntity]?
-    
+     var memos: [MemoEntity]?
+ 
     override init() {
         super.init()
         fetchMemos()
     }
-    
+  
     func fetchMemos() {
         let request = Memo.fetchRequest()
         
@@ -36,6 +39,23 @@ final class MasterTableViewDataSource: NSObject, MasterTableViewDataSourceProtoc
     func deleteMemo(with memoId: UUID?) {
         memoCoreDataManager?.deleteMemo(memoId: memoId)
     }
+    
+    func retrieveMemos() -> [MemoEntity]? {
+        return memos
+    }
+    
+    func removeMemo(at index: Int) -> MemoEntity? {
+        guard let memoToRemove = memos?.remove(at: index) else {
+            return nil
+        }
+        
+        return memoToRemove
+    }
+    
+    func insertMemo(_ memo: MemoEntity, at index: Int) {
+        memos?.insert(memo, at: index)
+    }
+    
 }
 
 // MARK: - Table view data source

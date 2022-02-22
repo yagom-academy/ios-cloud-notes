@@ -45,7 +45,7 @@ final class MasterTableViewController: UITableViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        selectFirstMemo()
+        changeMemoIfNotEmpty()
     }
     
     // MARK: - Methods
@@ -86,12 +86,12 @@ final class MasterTableViewController: UITableViewController {
         guard let previousIndexPath = tableView.indexPathForSelectedRow else {
             return
         }
-        memoDataSource?.memos?.remove(at: previousIndexPath.row)
+        memoDataSource?.removeMemo(at: previousIndexPath.row)
 
         guard let memoToUpdate = notification.userInfo?["memo"] as? MemoEntity else {
             return
         }
-        memoDataSource?.memos?.insert(memoToUpdate, at: firstIndexPath.row)
+        memoDataSource?.insertMemo(memoToUpdate, at: firstIndexPath.row)
         memoDataSource?.updateMemo(memoToUpdate)
         
         tableView.moveRow(at: previousIndexPath, to: firstIndexPath)
@@ -117,14 +117,14 @@ final class MasterTableViewController: UITableViewController {
     }
     
     private func deleteMemo(at index: IndexPath) {
-        let removedMemo = memoDataSource?.memos?.remove(at: index.row)
+        let removedMemo = memoDataSource?.removeMemo(at: index.row)
         memoDataSource?.deleteMemo(with: removedMemo?.memoId)
         tableView.deleteRows(at: [index], with: .fade)
         changeMemoIfNotEmpty()
     }
     
     private func changeMemoIfNotEmpty() {
-        if memoDataSource?.memos?.isEmpty == false {
+        if memoDataSource?.retrieveMemos()?.isEmpty == false {
             selectFirstMemo()
         } else {
             clearMemo()
@@ -146,7 +146,7 @@ final class MasterTableViewController: UITableViewController {
     
     // MARK: - Table view delegate
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let memos = memoDataSource?.memos else {
+        guard let memos = memoDataSource?.retrieveMemos() else {
             return
         }
         
@@ -173,7 +173,7 @@ final class MasterTableViewController: UITableViewController {
         }
         
         let shareAction = UIContextualAction(style: .normal, title: nil) { _, _, _ in
-            guard let memos = self.memoDataSource?.memos else {
+            guard let memos = self.memoDataSource?.retrieveMemos() else {
                 return
             }
             

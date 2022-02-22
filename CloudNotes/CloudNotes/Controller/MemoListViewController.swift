@@ -211,12 +211,12 @@ extension MemoListViewController {
   }
   
   override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-    let shareAction = UIContextualAction(style: .normal, title: "Share") { [unowned self] _, sourceView, completionHandler in
-      self.shareActionTapped(sourceView, completionHandler: completionHandler)
+    let shareAction = UIContextualAction(style: .normal, title: "Share") { [weak self] _, sourceView, completionHandler in
+      self?.shareActionTapped(sourceView, completionHandler: completionHandler)
     }
     shareAction.image = UIImage(systemName: "square.and.arrow.up")
-    let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [unowned self] _, _, completionHandler in
-      self.removeMemo(at: indexPath)
+    let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [weak self] _, _, completionHandler in
+      self?.removeMemo(at: indexPath)
       completionHandler(true)
     }
     deleteAction.image = UIImage(systemName: "trash")

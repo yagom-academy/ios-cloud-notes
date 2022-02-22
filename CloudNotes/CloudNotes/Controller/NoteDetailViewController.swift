@@ -3,7 +3,14 @@ import UIKit
 final class NoteDetailViewController: UIViewController {
     
     private let viewModel: NoteViewModel
-    private var identifier: UUID?
+    private var identifier: UUID? {
+        didSet {
+            noteDetailTextView.isEditable = identifier != nil
+            if identifier == nil {
+                noteDetailTextView.text = ""
+            }
+        }
+    }
     
     private let noteDetailTextView: UITextView = {
         let textView = UITextView()
@@ -44,6 +51,7 @@ final class NoteDetailViewController: UIViewController {
                     UIAlertAction(title: "취소", style: .cancel),
                     UIAlertAction(title: "삭제", style: .destructive) { _ in
                         self.viewModel.deleteNote(identifier: identifier)
+                        self.identifier = nil
                     }
                 ]
                 alert.addAction(actions)

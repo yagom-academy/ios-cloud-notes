@@ -1,9 +1,5 @@
 import UIKit
 
-protocol MemoDetailViewControllerDelegate: AnyObject {
-    func memoDetailViewController(showTextViewWith memo: Memo)
-}
-
 final class MemoDetailViewController: UIViewController {
     private let dataManager: MemoDataManager
     
@@ -113,22 +109,6 @@ final class MemoDetailViewController: UIViewController {
         alert.addAction(cancel)
         alert.addAction(delete)
         present(alert, animated: true)
-    }
-}
-
-// MARK: MemoDetailViewControllerDelegate
-
-extension MemoDetailViewController: MemoDetailViewControllerDelegate {
-    func memoDetailViewController(showTextViewWith memo: Memo) {
-        textView.isEditable = true
-        let title = memo.title ?? ""
-        let body = memo.body ?? ""
-        
-        if title.isEmpty && body.isEmpty {
-            textView.text = ""
-            return
-        }
-        textView.text = "\(title)\n\(body)"
     }
 }
 

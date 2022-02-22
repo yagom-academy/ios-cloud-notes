@@ -2,8 +2,6 @@ import UIKit
 
 final class MemoListViewController: UIViewController {
     private let dataManager: MemoDataManager
-    weak var delegate: MemoDetailViewControllerDelegate?
-    
     private let cellIdentifier = "Cell"
     private let tableView = UITableView()
     
@@ -18,7 +16,7 @@ final class MemoListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupTableViewInitialSetting()
+        setupTableViewDelegateAndCell()
         setupTableViewLayout()
         setupNavigationBar()
         dataManager.listDelegate = self
@@ -29,7 +27,7 @@ final class MemoListViewController: UIViewController {
         dataManager.selectFirstMemo()
     }
     
-    private func setupTableViewInitialSetting() {
+    private func setupTableViewDelegateAndCell() {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellIdentifier)
@@ -85,8 +83,7 @@ extension MemoListViewController: UITableViewDataSource {
 
 extension MemoListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let memo = dataManager.memos[indexPath.row]
-        delegate?.memoDetailViewController(showTextViewWith: memo)
+        dataManager.showMemo()
     }
     
     func tableView(_ tableView: UITableView,

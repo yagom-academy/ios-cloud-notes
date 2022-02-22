@@ -139,14 +139,14 @@ extension MemoDataManager {
     }
     
     func deleteSelectedMemo(at indexPath: IndexPath? = nil) {
-        let selectecIndexPath: IndexPath?
+        let selectedIndexPath: IndexPath?
         if indexPath != nil {
-            selectecIndexPath = indexPath
+            selectedIndexPath = indexPath
         } else {
-            selectecIndexPath = listDelegate?.selectedCellIndex
+            selectedIndexPath = listDelegate?.selectedCellIndex
         }
         
-        guard let selectecIndexPath = selectecIndexPath else {
+        guard let selectecIndexPath = selectedIndexPath else {
             return
         }
         let deletedMemo = memos[selectecIndexPath.row]
@@ -168,5 +168,13 @@ extension MemoDataManager {
         }
         updateMemo(id: memos[indexPath.row].id, title: title, body: body, lastModified: lastModified)
         listDelegate?.updateCell(at: indexPath)
+    }
+    
+    func showMemo() {
+        guard let indexPath = listDelegate?.selectedCellIndex else {
+            return
+        }
+        let memo = memos[indexPath.row]
+        detailDelegate?.showTextView(with: memo)
     }
 }

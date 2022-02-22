@@ -7,6 +7,7 @@ class SplitViewController: UISplitViewController {
     private var dataSourceProvider: NoteDataSource?
     private var currentNoteIndex: Int?
     private var dropboxManager = DropboxManager()
+    var timer: Timer?
 
     private let activityIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView(style: .large)
@@ -38,6 +39,7 @@ class SplitViewController: UISplitViewController {
         self.detailedNoteViewController.setDelegate(delegate: self)
         self.view.addSubview(activityIndicator)
         self.view.addSubview(dimView)
+        setUploadTimer()
     }
 
     private func fetchNotes() {
@@ -65,7 +67,7 @@ class SplitViewController: UISplitViewController {
     func configureConstraint() {
         NSLayoutConstraint.activate([
             activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
     }
 
@@ -92,9 +94,21 @@ class SplitViewController: UISplitViewController {
             self.dimView.isHidden = true
         }
     }
+
+    func setUploadTimer() {
+        self.timer = Timer.scheduledTimer(
+            timeInterval: 15,
+            target: self,
+            selector: #selector(upload),
+            userInfo: nil,
+            repeats: true
+        )
+
+    }
 }
 
 // MARK: - NoteList View Delegate
+
 extension SplitViewController: NoteListViewDelegate {
     func deleteNote(_ note: Content, index: Int) {
         do {

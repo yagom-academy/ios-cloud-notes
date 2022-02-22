@@ -3,11 +3,7 @@ import SwiftyDropbox
 import CoreData
 
 class NoteListViewController: UITableViewController {
-    private var noteListData = [Content]() {
-        willSet {
-            print(newValue)
-        }
-    }
+    private var noteListData = [Content]()
     private weak var dataSourceDelegate: NoteListViewDelegate?
     private let firstIndex = IndexPath(row: 0, section: 0)
     lazy var selectedIndexPath: IndexPath? = self.firstIndex {
@@ -97,7 +93,6 @@ class NoteListViewController: UITableViewController {
         actionSheet.popoverPresentationController?.barButtonItem = configureButton
         self.present(actionSheet, animated: true, completion: nil)
     }
-    
 
     private lazy var activityController: UIActivityViewController = {
         let controller = UIActivityViewController(

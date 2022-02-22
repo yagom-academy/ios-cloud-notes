@@ -1,4 +1,5 @@
 import UIKit
+import SwiftyDropbox
 
 protocol MemoSelectionDelegate: AnyObject {
     var memoSelectionDestination: UIViewController { get }
@@ -10,6 +11,7 @@ final class MasterTableViewController: UITableViewController {
     // MARK: - Properties
     private var memoDataSource: MasterTableViewDataSourceProtocol?
     weak var delegate: MemoSelectionDelegate?
+    private let dropBoxClient = DropboxClientsManager.authorizedClient
     
     // MARK: - Initializer
     override init(style: UITableView.Style) {
@@ -41,6 +43,8 @@ final class MasterTableViewController: UITableViewController {
         configureTableView()
         configureNotificationCenter()
         tableView.reloadData()
+        
+        presentSafariViewController()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -191,5 +195,64 @@ final class MasterTableViewController: UITableViewController {
         shareAction.image = UIImage(systemName: "square.and.arrow.up")
         
         return UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
+    }
+}
+
+extension MasterTableViewController {
+    func presentSafariViewController() {
+        let scopeRequest = ScopeRequest(scopeType: .user, scopes: ["account_info.write", "account_info.read", "files.metadata.write" ,"files.metadata.read", "files.content.write", "files.content.read", "file_requests.write"], includeGrantedScopes: false)
+        DropboxClientsManager.authorizeFromControllerV2(
+            UIApplication.shared,
+            controller: self,
+            loadingStatusDelegate: nil,
+            openURL: { (url: URL) -> Void in UIApplication.shared.open(url, options: [:], completionHandler: nil) },
+            scopeRequest: scopeRequest
+        )
+    }
+    
+    func createFolderAtDropBox() {
+        dropBoxClient?.files.createFolderV2(path: "/test/path/in/Dropbox/account").response { response, error in
+            if let response = response {
+                print(response)
+            } else if let error = error {
+                print(error)
+            }
+        }
+    }
+    
+    func uploadToDropBox() {
+        let fileData = "testing data example".data(using: String.Encoding.utf8, allowLossyConversion: false)!
+
+        let request = dropBoxClient?.files.upload(path: "/test/path/in/Dropbox/account", mode: .overwrite, autorename: true, clientModified: Date(), mute: false, propertyGroups: nil, strictConflict: false, input: fileData)
+            .response { response, error in
+                if let response = response {
+                    print(response)
+                } else if let error = error {
+                    print(error)
+                }
+            }
+            .progress { progressData in
+                print(progressData)
+            }
+    }
+    
+    func downloadFromDropBox() {
+        let fileManager = FileManager.default
+        let directoryURL = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let destURL = directoryURL.appendingPathComponent("myTestFile")
+        let destination: (URL, HTTPURLResponse) -> URL = { _, response in
+            return destURL
+        }
+        dropBoxClient?.files.download(path: "/test/path/in/Dropbox/account", overwrite: true, destination: destination)
+            .response { response, error in
+                if let response = response {
+                    print(response)
+                } else if let error = error {
+                    print(error)
+                }
+            }
+            .progress { progressData in
+                print(progressData)
+            }
     }
 }

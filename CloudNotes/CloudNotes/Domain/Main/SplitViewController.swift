@@ -39,6 +39,7 @@ class SplitViewController: UISplitViewController {
         self.detailedNoteViewController.setDelegate(delegate: self)
         self.view.addSubview(activityIndicator)
         self.view.addSubview(dimView)
+        configureConstraint()
         setUploadTimer()
     }
 

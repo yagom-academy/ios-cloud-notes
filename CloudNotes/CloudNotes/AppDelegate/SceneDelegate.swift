@@ -9,19 +9,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
-        let listViewController = MemoListViewController()
-        let detailViewController = MemoDetailViewController()
-        listViewController.delegate = detailViewController
-        detailViewController.delegate = listViewController
-        
-        let splitViewController = UISplitViewController(style: .doubleColumn)
-        splitViewController.setViewController(listViewController, for: .primary)
-        splitViewController.setViewController(detailViewController, for: .secondary)
-        splitViewController.preferredSplitBehavior = .tile
-        splitViewController.preferredDisplayMode = .oneBesideSecondary
-        splitViewController.registerGestureRecognizer()
-        
         window = UIWindow(windowScene: windowScene)
+        let splitViewController = SplitViewController(style: .doubleColumn)
         window?.rootViewController = splitViewController
         window?.makeKeyAndVisible()
     }

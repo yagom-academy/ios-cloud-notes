@@ -6,7 +6,6 @@ protocol MemoDetailViewControllerDelegate: AnyObject {
 
 final class MemoDetailViewController: UIViewController {
     private let dataManager: MemoDataManager
-    weak var delegate: MemoListViewControllerDelegate?
     
     private let textView: UITextView = {
         let textView = UITextView()
@@ -170,6 +169,6 @@ extension MemoDetailViewController: UITextViewDelegate {
         let body = memoComponents[safe: 1] ?? ""
         let lastModified = Date()
         
-        delegate?.memoListViewController(updateTableViewCellWith: title, body: body, lastModified: lastModified)
+        dataManager.updateEditedMemo(title: title, body: body, lastModified: lastModified)
     }
 }

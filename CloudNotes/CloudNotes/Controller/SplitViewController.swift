@@ -10,7 +10,6 @@ final class SplitViewController: UISplitViewController {
         assignChlidViewController()
         setupDisplay()
         listViewController.delegate = detailViewController
-        detailViewController.delegate = listViewController
         registerGestureRecognizer()
     }
     

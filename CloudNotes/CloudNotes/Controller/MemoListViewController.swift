@@ -1,9 +1,5 @@
 import UIKit
 
-protocol MemoListViewControllerDelegate: AnyObject {
-    func memoListViewController(updateTableViewCellWith title: String, body: String, lastModified: Date)
-}
-
 final class MemoListViewController: UIViewController {
     private let dataManager: MemoDataManager
     weak var delegate: MemoDetailViewControllerDelegate?
@@ -135,20 +131,6 @@ extension MemoListViewController: UITableViewDelegate {
     }
 }
 
-// MARK: - MemoListViewControllerDelegate
-
-extension MemoListViewController: MemoListViewControllerDelegate {
-    func memoListViewController(updateTableViewCellWith title: String, body: String, lastModified: Date) {
-        guard let indexPath = tableView.indexPathForSelectedRow,
-              let id = dataManager.memos[indexPath.row].id else {
-                  return
-              }
-        dataManager.updateMemo(id: id, title: title, body: body, lastModified: lastModified)
-        tableView.reloadRows(at: [indexPath], with: .none)
-        tableView.selectRow(at: indexPath, animated: true, scrollPosition: .none)
-    }
-}
-
 // MARK: - MemoDataManagerListDelegate
 
 extension MemoListViewController: MemoDataManagerListDelegate {
@@ -156,21 +138,26 @@ extension MemoListViewController: MemoDataManagerListDelegate {
         tableView.selectRow(at: IndexPath(row: 0, section: 0), animated: false, scrollPosition: .top)
     }
     
-    func addNewMemo() {
+    func addNewCell() {
         tableView.reloadData()
         tableView.selectRow(at: IndexPath(row: 0, section: 0), animated: true, scrollPosition: .top)
     }
     
-    func deleteMemo2(at indexPath: IndexPath) {
+    func deleteCell(at indexPath: IndexPath) {
         tableView.deleteRows(at: [indexPath], with: .none)
     }
     
-    func selectNextMemo(at indexPath: IndexPath) {
+    func selectNextCell(at indexPath: IndexPath) {
         tableView.allowsSelectionDuringEditing = true
         tableView.selectRow(at: indexPath, animated: false, scrollPosition: .top)
     }
     
     var selectedCellIndex: IndexPath? {
         return tableView.indexPathForSelectedRow
+    }
+    
+    func updateCell(at indexPath: IndexPath) {
+        tableView.reloadRows(at: [indexPath], with: .none)
+        tableView.selectRow(at: indexPath, animated: true, scrollPosition: .none)
     }
 }

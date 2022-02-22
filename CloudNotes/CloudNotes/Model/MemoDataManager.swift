@@ -2,10 +2,11 @@ import CoreData
 
 protocol MemoDataManagerListDelegate: AnyObject {
     func setupRowSelection()
-    func addNewMemo()
-    func deleteMemo2(at indexPath: IndexPath)
-    func selectNextMemo(at indexPath: IndexPath)
+    func addNewCell()
+    func deleteCell(at indexPath: IndexPath)
+    func selectNextCell(at indexPath: IndexPath)
     var selectedCellIndex: IndexPath? { get }
+    func updateCell(at indexPath: IndexPath)
 }
 
 protocol MemoDataManagerDetailDelegate: AnyObject {
@@ -133,7 +134,7 @@ extension MemoDataManager {
     
     func addNewMemo() {
         memos.insert(newMemo, at: 0)
-        listDelegate?.addNewMemo()
+        listDelegate?.addNewCell()
         detailDelegate?.showEmptyTextView()
     }
     
@@ -150,14 +151,22 @@ extension MemoDataManager {
         }
         let deletedMemo = memos[selectecIndexPath.row]
         deleteMemo(id: deletedMemo.id)
-        listDelegate?.deleteMemo2(at: selectecIndexPath)
+        listDelegate?.deleteCell(at: selectecIndexPath)
         
         if selectecIndexPath.row < memos.count {
             let memo = memos[selectecIndexPath.row]
             detailDelegate?.showTextView(with: memo)
-            listDelegate?.selectNextMemo(at: selectecIndexPath)
+            listDelegate?.selectNextCell(at: selectecIndexPath)
         } else {
             detailDelegate?.showIneditableTextView()
         }
+    }
+    
+    func updateEditedMemo(title: String, body: String, lastModified: Date) {
+        guard let indexPath = listDelegate?.selectedCellIndex else {
+            return
+        }
+        updateMemo(id: memos[indexPath.row].id, title: title, body: body, lastModified: lastModified)
+        listDelegate?.updateCell(at: indexPath)
     }
 }

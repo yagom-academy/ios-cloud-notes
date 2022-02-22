@@ -100,13 +100,6 @@ final class DetailViewController: UIViewController {
     navigationItem.rightBarButtonItem = showMoreButton
   }
   
-  private func showShareActivityView(_ sender: UIBarButtonItem) {
-    let textToShare = textView.text ?? ""
-    let activityViewController = UIActivityViewController(activityItems: [textToShare], applicationActivities: nil)
-    activityViewController.popoverPresentationController?.barButtonItem = sender
-    present(activityViewController, animated: true)
-  }
-  
   @objc private func showMoreButtonTapped(_ sender: UIBarButtonItem) {
     let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
     let share = UIAlertAction(title: "Share", style: .default) { [weak self] _ in
@@ -121,6 +114,13 @@ final class DetailViewController: UIViewController {
     alertController.addAction(cancel)
     alertController.popoverPresentationController?.barButtonItem = sender
     present(alertController, animated: true)
+  }
+  
+  private func showShareActivityView(_ sender: UIBarButtonItem) {
+    let textToShare = textView.text ?? ""
+    let activityViewController = UIActivityViewController(activityItems: [textToShare], applicationActivities: nil)
+    activityViewController.popoverPresentationController?.barButtonItem = sender
+    present(activityViewController, animated: true)
   }
 }
 

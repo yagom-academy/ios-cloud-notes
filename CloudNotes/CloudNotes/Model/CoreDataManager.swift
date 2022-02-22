@@ -1,10 +1,32 @@
 import UIKit
 import CoreData
  
-final class CoreDataManager<T: NSManagedObject> {
+final class CoreDataManager<T: NSManagedObject>: DataProvider {
+    func create(target: MemoType, attributes: [String : Any]) {
+        createCoreData(target: T.self, attributes: attributes)
+    }
+    
+    func update(target: T, attributes: [String: Any] ) {
+        updateCoreData(target: target, attributes: attributes)
+    }
+    
+    func read(index: IndexPath) -> MemoType {
+        do {
+            try fetcheController.performFetch()
+        } catch {
+            
+        }
+        fetcheController.object(at: index)
+    }
+    
+    func delete(target: MemoType) {
+        delete(target: target)
+    }
+    
     private let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext
- 
-    func create(target: T.Type, attributes: [String: Any]) {
+    lazy var fetcheController = createNoteFetchedResultsController()
+    
+    func createCoreData(target: T.Type, attributes: [String: Any]) {
         guard let context = context else {
             return
         }
@@ -24,7 +46,7 @@ final class CoreDataManager<T: NSManagedObject> {
         save()
     }
     
-    func update(target: T, attributes: [String: Any]) {
+    func updateCoreData(target: T, attributes: [String: Any]) {
         attributes.forEach { (key: String, value: Any) in
             target.setValue(value, forKey: key)
         }

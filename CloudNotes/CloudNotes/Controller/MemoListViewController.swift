@@ -164,11 +164,7 @@ extension MemoListViewController: MemoStorable {
       showAlert(title: "Update fail")
     }
   }
-}
-
-// MARK: - MemoActivityDelegate
-
-extension MemoListViewController: MemoActivityDelegate {
+  
   func removeCurrentMemo() {
     if memos.isEmpty == false {
       removeMemo(at: currentMemoIndexPath)

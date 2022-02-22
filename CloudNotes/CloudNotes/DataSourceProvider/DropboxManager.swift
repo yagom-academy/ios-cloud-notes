@@ -10,6 +10,7 @@ class DropboxManager {
         create: true
     )
     let filePaths = ["/CloudNotes.sqlite", "/CloudNotes.sqlite-shm", "/CloudNotes.sqlite-wal"]
+    var lastUpdatedDate: Date?
 
     func upload(_ completionHandler: @escaping (DropboxError?) -> Void) {
         let group = DispatchGroup()
@@ -41,6 +42,7 @@ class DropboxManager {
         group.notify(queue: .main) {
             if errors.isEmpty {
                 completionHandler(nil)
+                self.lastUpdatedDate = Date()
             } else {
             completionHandler(.downloadFailure)
             }

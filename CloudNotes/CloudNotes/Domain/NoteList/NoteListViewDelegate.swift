@@ -12,4 +12,6 @@ protocol NoteListViewDelegate: AnyObject {
     func download()
 
     func logIn()
+
+    func dropBoxLastUpdated() -> String
 }

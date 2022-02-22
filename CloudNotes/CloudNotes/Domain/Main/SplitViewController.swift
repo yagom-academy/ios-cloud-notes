@@ -78,6 +78,7 @@ class SplitViewController: UISplitViewController {
         self.dropboxManager.upload { error in
             if error != nil {
                 self.noteListViewController.presentUploadFailureAlert()
+                self.noteListViewController
             }
         }
     }
@@ -165,6 +166,14 @@ extension SplitViewController: NoteListViewDelegate {
         self.currentNoteIndex = index
         detailedNoteViewController.setNoteData(dataSourceProvider?.noteList[index])
         self.view.endEditing(true)
+    }
+
+    func dropBoxLastUpdated() -> String {
+        guard let date = dropboxManager.lastUpdatedDate else {
+            return "동기화가 아직 완료되지 않았습니다."
+        }
+        let formattedDate = DateFormatter.lastUploadDate.string(from: date)
+        return "동기화가 완료 된 상태입니다.\n \(formattedDate)"
     }
 }
 

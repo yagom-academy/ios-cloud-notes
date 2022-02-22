@@ -230,6 +230,7 @@ class NoteListViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.selectedIndexPath = indexPath
         dataSourceDelegate?.passNote(at: indexPath.row)
+        splitViewController?.show(.secondary)
     }
 
     override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {

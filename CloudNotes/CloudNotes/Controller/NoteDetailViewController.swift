@@ -7,31 +7,66 @@
 
 import UIKit
 
+protocol NoteDetailViewDelegate: AnyObject {
+    func textViewDidChange(noteInformation: NoteInformation)
+    func sharedNoteAction(_ sender: UIBarButtonItem)
+    func deleteNoteAction()
+}
+
 final class NoteDetailViewController: UIViewController {
     
     // MARK: - Properties
     
     private let noteDetailScrollView = NoteDetailScrollView()
-    var noteDataSource: CloudNotesDataSource?
+    weak var delegate: NoteDetailViewDelegate?
+    var persistantManager: PersistentManager?
+    var currentIndex = 0
 
-    // MARK: - Methods
+    // MARK: - View LifeCycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigation()
         setupNoteDetailScrollView()
         addObserverKeyboardNotification()
+        noteDetailScrollView.noteDetailTextView.delegate = self
     }
+    
+    // MARK: - internal Methods
+    
+    func setupDetailView(index: Int) {
+        currentIndex = index
+        if let note = persistantManager?.notes[index] {
+            noteDetailScrollView.configure(with: note)
+            scrollTextViewToVisible()
+            view.endEditing(true)
+        }
+    }
+    
+    func setupEmptyDetailView() {
+        DispatchQueue.main.async {
+            self.noteDetailScrollView.isHidden = true
+        }
+    }
+    
+    func setupNotEmptyDetailView() {
+        DispatchQueue.main.async {
+            self.noteDetailScrollView.isHidden = false
+        }
+    }
+    
+    // MARK: - private Methods
     
     private func setupNavigation() {
         let seeMoreMenuButtonImage = UIImage(systemName: ImageNames.ellipsisCircleImageName)
         let rightButton = UIBarButtonItem(
           image: seeMoreMenuButtonImage,
           style: .done,
-          target: nil,
-          action: nil
+          target: self,
+          action: #selector(showPopover(_:))
         )
         navigationItem.setRightBarButton(rightButton, animated: false)
+        
     }
     
     private func setupNoteDetailScrollView() {
@@ -40,11 +75,11 @@ final class NoteDetailViewController: UIViewController {
         noteDetailScrollView.setupConstraint(view: view)
     }
     
-    func setupDetailView(index: Int) {
-        if let information = noteDataSource?.noteInformations?[index] {
-            noteDetailScrollView.configure(with: information)
-            scrollTextViewToVisible()
-            view.endEditing(true)
+    @objc private func showPopover(_ sender: UIBarButtonItem) {
+        self.showActionSheet(sharedTitle: "shared", deleteTitle: "delete", targetBarButton: sender) { _ in
+            self.delegate?.sharedNoteAction(sender)
+        } deleteHandler: { _ in
+            self.delegate?.deleteNoteAction()
         }
     }
     
@@ -72,6 +107,31 @@ extension NoteDetailViewController: UIScrollViewDelegate {
             targetContentOffset.pointee = CGPoint.zero
         }
     }
+}
+
+// MARK: - TextView Delegate
+
+extension NoteDetailViewController: UITextViewDelegate {
+    func textViewDidChange(_ textView: UITextView) {
+        var title = ""
+        var body = ""
+        guard let textViewText = textView.text else {
+            return
+        }
+        if textViewText.contains("\n") {
+            let splitedText = textView.text.split(separator: "\n", maxSplits: 1, omittingEmptySubsequences: false)
+            title = String(splitedText.first ?? "")
+            body = String(splitedText.last ?? "")
+        } else if textViewText.contains("\n") == false && textViewText.count > 100 {
+            title = textViewText.substring(from: 0, to: 99)
+            body = textViewText.substring(from: 100, to: textViewText.count - 1)
+        } else {
+            title = textViewText
+        }
+        let information = NoteInformation(title: title, content: body, lastModifiedDate: Date().timeIntervalSince1970)
+        delegate?.textViewDidChange(noteInformation: information)
+    }
+    
 }
 
 // MARK: - Keyboard

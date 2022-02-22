@@ -6,9 +6,14 @@
 //
 
 import UIKit
+import CoreData
 
 protocol NoteListViewDelegate: AnyObject {
     func noteListView(didSeletedCell row: Int)
+    func setupEmptyNoteContents()
+    func setupNotEmptyNoteContents()
+    func sharedNoteActionWithSwipe()
+    func deleteNoteActionWithSwipe()
 }
 
 final class NoteListViewController: UIViewController {
@@ -16,19 +21,52 @@ final class NoteListViewController: UIViewController {
     // MARK: - Properties
     
     private let tableView: UITableView = UITableView()
-    
     weak var delegate: NoteListViewDelegate?
-    var noteDataSource: CloudNotesDataSource?
+    lazy var dataSource = NoteListDataSource(persistantManager: persistantManager)
+    var persistantManager: PersistentManager?
     
-    // MARK: - Methods
+    // MARK: - View LifeCycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigation()
         setupTableView()
         setupConstraints()
-        selectFirstNote()
+        selectNote(with: 0)
+        setupbackgroundLabel()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.tableView.backgroundView?.isHidden = persistantManager?.notes.count == 0 ? false : true
+    }
+    
+    // MARK: - internal Methods
+    
+    func updateListView(index: Int, noteInformation: NoteInformation) {
+        if let note = persistantManager?.notes[index] {
+            persistantManager?.update(object: note, noteInformation: noteInformation)
+            DispatchQueue.main.async {
+                self.tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .none)
+            }
+            view.endEditing(true)
+        }
+    }
+    
+    func deleteNote(object: NSManagedObject, indexPath: IndexPath) {
+        tableView.performBatchUpdates {
+            persistantManager?.notes.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            persistantManager?.delete(object: object)
+        } completion: { _ in
+            if self.persistantManager?.notes.count == indexPath.row {
+                self.selectNote(with: indexPath.row - 1)
+            } else {
+                self.selectNote(with: indexPath.row)
+            }
+        }
+    }
+    
+    // MARK: - private Methods
     
     private func setupNavigation() {
         title = "메모"
@@ -36,17 +74,21 @@ final class NoteListViewController: UIViewController {
         let rightButton = UIBarButtonItem(
           image: addButtonImage,
           style: .done,
-          target: nil,
-          action: nil
+          target: self,
+          action: #selector(addNewNote)
         )
         navigationItem.setRightBarButton(rightButton, animated: false)
     }
     
-    private func setupTableView() {
-        guard let noteDataSource = noteDataSource else {
-            return
+    private func setUpEmptyNotes() {
+        DispatchQueue.main.async {
+            self.tableView.backgroundView?.isHidden = false
         }
-        tableView.dataSource = noteDataSource
+        self.delegate?.setupEmptyNoteContents()
+    }
+    
+    private func setupTableView() {
+        tableView.dataSource = dataSource
         tableView.delegate = self
         tableView.register(
             NoteListCell.self,
@@ -66,13 +108,41 @@ final class NoteListViewController: UIViewController {
         ])
     }
     
-    private func selectFirstNote() {
-        guard let noteInformations = noteDataSource?.noteInformations,
-              noteInformations.count > 0 else {
-               return
+    private func setupbackgroundLabel() {
+        let backgroundLabel = UILabel()
+        backgroundLabel.text = "메모없음"
+        backgroundLabel.textColor = .systemGray
+        backgroundLabel.font = .preferredFont(forTextStyle: .title1)
+        backgroundLabel.textAlignment = .center
+        tableView.backgroundView = backgroundLabel
+    }
+    
+    @objc private func addNewNote() {
+        tableView.performBatchUpdates {
+            let emptyNoteInformation = NoteInformation(
+                title: "",
+                content: "",
+                lastModifiedDate: Date().timeIntervalSince1970
+            )
+            persistantManager?.save(noteInformation: emptyNoteInformation)
+            persistantManager?.notes = persistantManager?.fetch() ?? []
+            tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .none)
+        } completion: {_ in
+            self.tableView.backgroundView?.isHidden = true
+            self.delegate?.setupNotEmptyNoteContents()
+            self.tableView.reloadData()
+            self.selectNote(with: 0)
         }
-        let indexPath = IndexPath(row: 0, section: 0)
-        tableView.selectRow(at: indexPath, animated: false, scrollPosition: .top)
+    }
+    
+    private func selectNote(with index: Int) {
+        guard let notes = persistantManager?.notes,
+              notes.count > 0 else {
+                  self.setUpEmptyNotes()
+                  return
+              }
+        let indexPath = IndexPath(row: index, section: 0)
+        self.tableView.selectRow(at: indexPath, animated: false, scrollPosition: .top)
         delegate?.noteListView(didSeletedCell: indexPath.row)
     }
 }
@@ -82,5 +152,24 @@ final class NoteListViewController: UIViewController {
 extension NoteListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         delegate?.noteListView(didSeletedCell: indexPath.row)
+    }
+    
+    func tableView(
+        _ tableView: UITableView,
+        trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
+    ) -> UISwipeActionsConfiguration? {
+        let delete = UIContextualAction(style: .normal, title: "Delete") { _, _, _ in
+            self.delegate?.deleteNoteActionWithSwipe()
+        }
+        delete.backgroundColor = .systemRed
+        delete.image = UIImage(systemName: ImageNames.trashImageName)
+        
+        let shared = UIContextualAction(style: .normal, title: "Shared") { _, _, _ in
+            self.delegate?.sharedNoteActionWithSwipe()
+        }
+        shared.backgroundColor = .systemBlue
+        shared.image = UIImage(systemName: ImageNames.sharedImageName)
+        
+        return UISwipeActionsConfiguration(actions: [delete, shared])
     }
 }

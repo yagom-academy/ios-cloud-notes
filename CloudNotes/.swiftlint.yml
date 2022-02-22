@@ -8,3 +8,9 @@ excluded: # 린트 과정에서 무시할 파일 경로. included보다 우선�
   - Pods #설치한 Pod 파일 내부는 린트를 하지 않도록 설정
   - CloudNotes/AppLiftCycle/AppDelegate.swift
   - CloudNotes/AppLiftCycle/SceneDelegate.swift
+
+identifier_name:
+  min_length:
+    error: 2
+  excluded:
+    - to

@@ -57,12 +57,8 @@ final class MemoListViewController: UIViewController {
         navigationItem.title = "메모"
     }
     
-    @objc private func addMemo() {
-        let newMemo = dataManager.newMemo
-        dataManager.memos.insert(newMemo, at: 0)
-        tableView.reloadData()
-        tableView.selectRow(at: IndexPath(row: 0, section: 0), animated: true, scrollPosition: .top)
-        delegate?.memoDetailViewController(showTextViewWith: newMemo)
+    @objc internal func addMemo() {
+        dataManager.addNewMemo()
     }
 }
 
@@ -122,7 +118,7 @@ extension MemoListViewController: UITableViewDelegate {
             tableView.allowsSelectionDuringEditing = true
             tableView.selectRow(at: indexPath, animated: false, scrollPosition: .top)
         } else {
-            delegate?.showEmptyTextView()
+            delegate?.showIneditableTextView()
         }
     }
     
@@ -181,5 +177,10 @@ extension MemoListViewController: MemoListViewControllerDelegate {
 extension MemoListViewController: MemoDataManagerListDelegate {
     func setupRowSelection() {
         tableView.selectRow(at: IndexPath(row: 0, section: 0), animated: false, scrollPosition: .top)
+    }
+    
+    func addNewMemo() {
+        tableView.reloadData()
+        tableView.selectRow(at: IndexPath(row: 0, section: 0), animated: true, scrollPosition: .top)
     }
 }

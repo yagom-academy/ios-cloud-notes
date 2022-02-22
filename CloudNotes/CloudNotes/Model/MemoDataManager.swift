@@ -2,10 +2,12 @@ import CoreData
 
 protocol MemoDataManagerListDelegate: AnyObject {
     func setupRowSelection()
+    func addNewMemo()
 }
 
 protocol MemoDataManagerDetailDelegate: AnyObject {
     func showTextView(with memo: Memo)
+    func showEmptyTextView()
 }
 
 final class MemoDataManager {
@@ -123,5 +125,11 @@ extension MemoDataManager {
             listDelegate?.setupRowSelection()
             detailDelegate?.showTextView(with: memos[0])
         }
+    }
+    
+    func addNewMemo() {
+        memos.insert(newMemo, at: 0)
+        listDelegate?.addNewMemo()
+        detailDelegate?.showEmptyTextView()
     }
 }

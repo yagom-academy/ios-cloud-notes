@@ -2,7 +2,7 @@ import UIKit
 
 protocol MemoDetailViewControllerDelegate: AnyObject {
     func memoDetailViewController(showTextViewWith memo: Memo)
-    func showEmptyTextView()
+    func showIneditableTextView()
 }
 
 final class MemoDetailViewController: UIViewController {
@@ -133,7 +133,7 @@ extension MemoDetailViewController: MemoDetailViewControllerDelegate {
         textView.text = "\(title)\n\(body)"
     }
     
-    func showEmptyTextView() {
+    func showIneditableTextView() {
         textView.isEditable = false
         textView.text = ""
     }
@@ -153,8 +153,11 @@ extension MemoDetailViewController: MemoDataManagerDetailDelegate {
         }
         textView.text = "\(title)\n\(body)"
     }
+    
+    func showEmptyTextView() {
+        textView.text = ""
+    }
 }
-
 
 // MARK: UITextViewDelegate
 

@@ -104,6 +104,7 @@ extension MemoSplitViewController: MemoSplitViewManageable {
         let memoToShow = memos[indexPath.row]
         memoDetailViewController.updateMemo(title: memoToShow.title, body: memoToShow.body) 
         memoDetailViewController.updateCurrentIndexPath(with: indexPath)
+        memoDetailViewController.makeTextViewFirstResponder()
         show(.secondary)
     }
     

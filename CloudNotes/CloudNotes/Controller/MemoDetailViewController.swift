@@ -67,6 +67,10 @@ class MemoDetailViewController: UIViewController {
         memoTextView.contentOffset = .zero
     }
     
+    func makeTextViewFirstResponder() {
+        memoTextView.becomeFirstResponder()
+    }
+    
     private func convertToAttributedString(title: String, body: String) -> NSMutableAttributedString {
         let mutableAttributedString = NSMutableAttributedString()
         

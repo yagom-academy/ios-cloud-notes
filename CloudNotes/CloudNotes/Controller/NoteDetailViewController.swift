@@ -31,6 +31,7 @@ final class NoteDetailViewController: UIViewController {
         setupNoteDetailScrollView()
         addObserverKeyboardNotification()
         noteDetailScrollView.noteDetailTextView.delegate = self
+        view.backgroundColor = .systemBackground
     }
     
     // MARK: - internal Methods

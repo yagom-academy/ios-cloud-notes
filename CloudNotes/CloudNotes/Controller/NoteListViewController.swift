@@ -37,6 +37,7 @@ final class NoteListViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        view.backgroundColor = .systemBackground
         self.tableView.backgroundView?.isHidden = persistentManager?.notes.count == 0 ? false : true
     }
     
@@ -78,6 +79,7 @@ final class NoteListViewController: UIViewController {
           action: #selector(addNewNote)
         )
         navigationItem.setRightBarButton(rightButton, animated: false)
+        
     }
     
     private func setUpEmptyNotes() {

@@ -37,4 +37,12 @@ struct DropboxManager {
             DropboxClientsManager.authorizedClient?.files.upload(path: "/\(id)", mode: .overwrite, input: uploadData)
         }
     }
+    
+    func delete(memo: Memo) {
+        guard let id = memo.id else {
+            return
+        }
+        
+        DropboxClientsManager.authorizedClient?.files.deleteV2(path: "/\(id)", parentRev: nil)
+    }
 }

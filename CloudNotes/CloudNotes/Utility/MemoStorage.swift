@@ -45,6 +45,7 @@ class MemoStorage {
     }
     
     func delete(memo: Memo) {
+        dropboxManager.delete(memo: memo)
         context.delete(memo)
         saveContext()
     }

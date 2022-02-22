@@ -3,11 +3,14 @@ import CoreData
 protocol MemoDataManagerListDelegate: AnyObject {
     func setupRowSelection()
     func addNewMemo()
+    func deleteMemo2(at indexPath: IndexPath)
+    func selectNextMemo(at indexPath: IndexPath)
 }
 
 protocol MemoDataManagerDetailDelegate: AnyObject {
     func showTextView(with memo: Memo)
     func showEmptyTextView()
+    func showIneditableTextView()
 }
 
 final class MemoDataManager {
@@ -131,5 +134,19 @@ extension MemoDataManager {
         memos.insert(newMemo, at: 0)
         listDelegate?.addNewMemo()
         detailDelegate?.showEmptyTextView()
+    }
+    
+    func deleteSelectedMemo(at indexPath: IndexPath) {
+        let deletedMemo = memos[indexPath.row]
+        deleteMemo(id: deletedMemo.id)
+        listDelegate?.deleteMemo2(at: indexPath)
+        
+        if indexPath.row < memos.count {
+            let memo = memos[indexPath.row]
+            detailDelegate?.showTextView(with: memo)
+            listDelegate?.selectNextMemo(at: indexPath)
+        } else {
+            detailDelegate?.showIneditableTextView()
+        }
     }
 }

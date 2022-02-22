@@ -132,11 +132,6 @@ extension MemoDetailViewController: MemoDetailViewControllerDelegate {
         }
         textView.text = "\(title)\n\(body)"
     }
-    
-    func showIneditableTextView() {
-        textView.isEditable = false
-        textView.text = ""
-    }
 }
 
 // MARK: - MemoDataManagerDetailDelegate
@@ -155,6 +150,11 @@ extension MemoDetailViewController: MemoDataManagerDetailDelegate {
     }
     
     func showEmptyTextView() {
+        textView.text = ""
+    }
+    
+    func showIneditableTextView() {
+        textView.isEditable = false
         textView.text = ""
     }
 }

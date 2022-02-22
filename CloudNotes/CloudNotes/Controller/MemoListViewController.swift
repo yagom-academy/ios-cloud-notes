@@ -98,7 +98,7 @@ extension MemoListViewController: UITableViewDelegate {
                    trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
     ) -> UISwipeActionsConfiguration? {
         let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, _ in
-            self.deleteMemo(at: indexPath)
+            self.dataManager.deleteSelectedMemo(at: indexPath)
         }
         let shareAction = UIContextualAction(style: .normal, title: "Share") { _, _, _ in
             self.showActivityView(indexPath: indexPath)
@@ -111,7 +111,7 @@ extension MemoListViewController: UITableViewDelegate {
         let deletedMemo = dataManager.memos[indexPath.row]
         dataManager.deleteMemo(id: deletedMemo.id)
         tableView.deleteRows(at: [indexPath], with: .none)
-        
+
         if indexPath.row < dataManager.memos.count {
             let memo = dataManager.memos[indexPath.row]
             delegate?.memoDetailViewController(showTextViewWith: memo)
@@ -182,5 +182,14 @@ extension MemoListViewController: MemoDataManagerListDelegate {
     func addNewMemo() {
         tableView.reloadData()
         tableView.selectRow(at: IndexPath(row: 0, section: 0), animated: true, scrollPosition: .top)
+    }
+    
+    func deleteMemo2(at indexPath: IndexPath) {
+        tableView.deleteRows(at: [indexPath], with: .none)
+    }
+    
+    func selectNextMemo(at indexPath: IndexPath) {
+        tableView.allowsSelectionDuringEditing = true
+        tableView.selectRow(at: indexPath, animated: false, scrollPosition: .top)
     }
 }

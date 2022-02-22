@@ -76,6 +76,10 @@ extension CoreDataMemos {
     memo.title = title
     memo.body = body
     memo.lastModified = Date()
+    memos = memos.sorted(by: { (lhs, rhs) -> Bool in
+      guard let lhsDate = lhs.lastModified, let rhsDate = rhs.lastModified else { return true }
+      return lhsDate > rhsDate
+    })
     try managedContext.save()
   }
 }

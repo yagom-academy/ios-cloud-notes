@@ -159,7 +159,9 @@ extension MemoListViewController: MemoStorable {
     let index = currentMemoIndexPath.row
     do {
       try memos.update(at: index, title: title, body: body)
-      tableView.reloadData()
+      tableView.moveRow(at: currentMemoIndexPath, to: .first)
+      tableView.reloadRows(at: [.first], with: .none)
+      currentMemoIndexPath = .first
       tableView.selectRow(at: currentMemoIndexPath, animated: false, scrollPosition: .none)
     } catch {
       showAlert(title: "Update fail")

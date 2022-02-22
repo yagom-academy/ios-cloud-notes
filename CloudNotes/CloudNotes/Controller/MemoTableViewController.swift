@@ -59,7 +59,7 @@ class MemoTableViewController: UITableViewController {
     }
     
     @objc private func connectDropbox() {
-        // TODO: - AppDelegate의 DropboxManager 호출해서 Connnect 필요
+        delegate?.connectDropbox(viewController: self)
     }
     
     func deleteRow(at indexPath: IndexPath) {

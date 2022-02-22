@@ -33,7 +33,8 @@ private enum AlertMessage {
 class MemoSplitViewController: UISplitViewController {
     private lazy var memoTableViewController = MemoTableViewController(style: .insetGrouped, delegate: self)
     private lazy var memoDetailViewController = MemoDetailViewController(delegate: self)
-    private let memoStorage = MemoStorage()
+    private var memoStorage: MemoStorage
+    
     private var memos = [Memo]() {
         didSet {
             memos.sort { $0.lastModified > $1.lastModified }
@@ -45,6 +46,16 @@ class MemoSplitViewController: UISplitViewController {
         delegate = self
         configureSplitViewController()
         configureMemoData()
+    }
+    
+    init(style: UISplitViewController.Style, memoStorage: MemoStorage) {
+        self.memoStorage = memoStorage
+        super.init(style: style)
+    }
+    
+    required init?(coder: NSCoder) {
+        self.memoStorage = MemoStorage()
+        super.init(coder: coder)
     }
     
     func deleteMemo(at indexPath: IndexPath) {
@@ -206,5 +217,9 @@ extension MemoSplitViewController: MemoStorageManageable {
         if isCollapsed == false {
             showSecondaryView(of: newIndexPath)
         }
+    }
+    
+    func connectDropbox(viewController: UIViewController) {
+        memoStorage.connectDropbox(viewController: viewController)
     }
 }

@@ -5,7 +5,7 @@
 //  Created by 이차민 on 2022/02/15.
 //
 
-import Foundation
+import UIKit
 
 typealias MemoManageable = MemoSplitViewManageable & MemoStorageManageable
 
@@ -18,6 +18,8 @@ protocol MemoStorageManageable: AnyObject {
     func fetch(at indexPath: IndexPath) -> Memo
     func delete(at indexPath: IndexPath)
     func update(at indexPath: IndexPath, title: String, body: String)
+    
+    func connectDropbox(viewController: UIViewController)
 }
 
 protocol MemoSplitViewManageable: AnyObject {

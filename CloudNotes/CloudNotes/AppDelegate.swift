@@ -10,6 +10,7 @@ import SwiftyDropbox
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
+    let memoStorage = MemoStorage()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         DropboxClientsManager.setupWithAppKey("bhmlttykz7ps11f", transportClient: nil)

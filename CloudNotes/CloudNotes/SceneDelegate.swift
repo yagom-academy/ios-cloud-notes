@@ -8,7 +8,7 @@ import UIKit
 import SwiftyDropbox
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-
+    private let memoStorage = (UIApplication.shared.delegate as! AppDelegate).memoStorage
     var window: UIWindow?
     
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
@@ -35,7 +35,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             return
         }
         window = UIWindow(windowScene: windowScene)
-        window?.rootViewController = MemoSplitViewController(style: .doubleColumn)
+        window?.rootViewController = MemoSplitViewController(style: .doubleColumn, memoStorage: memoStorage)
         window?.makeKeyAndVisible()
     }
 

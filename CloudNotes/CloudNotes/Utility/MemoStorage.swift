@@ -5,9 +5,11 @@
 //  Created by 예거 on 2022/02/11.
 //
 
+import UIKit
 import CoreData
 
 class MemoStorage {
+    let dropboxManager = DropboxManager()
     lazy var context = persistentContainer.newBackgroundContext()
     private var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "CloudNotes")
@@ -18,6 +20,8 @@ class MemoStorage {
         }
         return container
     }()
+    
+    // MARK: - CoreData CRUD
     
     func create() {
         guard let memoEntity = NSEntityDescription.entity(forEntityName: "Memo", in: context) else {
@@ -59,5 +63,11 @@ class MemoStorage {
         } catch {
             print(error)
         }
+    }
+    
+    // MARK: - Dropbox Synchronization
+    
+    func connectDropbox(viewController: UIViewController) {
+        dropboxManager.connectDropbox(viewController: viewController)
     }
 }

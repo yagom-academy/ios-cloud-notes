@@ -2,7 +2,7 @@ import CoreData
 
 final class MemoDataManager {
     static let shared = MemoDataManager(modelName: "CloudNotes")
-    private var memos = [Memo]()
+    var memos = [Memo]()
     private let persistentContainer: NSPersistentContainer
     private var viewContext: NSManagedObjectContext {
         return persistentContainer.viewContext

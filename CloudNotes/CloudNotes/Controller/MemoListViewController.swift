@@ -131,6 +131,8 @@ final class MemoListViewController: UITableViewController {
         self.tableView.deleteRows(at: [indexPath], with: .fade)
         if self.memos.isEmpty == false {
           self.currentMemoIndexPath.row -= self.currentMemoIndexPath.row > indexPath.row ?  1 : 0
+          self.tableView.selectRow(at: self.currentMemoIndexPath, animated: true, scrollPosition: .none)
+          self.loadDetail(at: self.currentMemoIndexPath)
         } else {
           self.delegate?.set(editable: false, needClear: true)
         }

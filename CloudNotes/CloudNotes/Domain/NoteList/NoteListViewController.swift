@@ -206,9 +206,7 @@ class NoteListViewController: UITableViewController {
 
     private func configureNavigationBar() {
         self.title = "메모"
-
-        //self.navigationItem.rightBarButtonItem = addButton
-        self.navigationItem.rightBarButtonItems = [addButton, configureButton, ]
+        self.navigationItem.rightBarButtonItems = [addButton, configureButton]
     }
 
     private func configureTableView() {

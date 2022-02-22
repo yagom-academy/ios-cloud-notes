@@ -6,18 +6,32 @@ protocol MemoListViewControllerDelegate: AnyObject {
 }
 
 final class MemoListViewController: UIViewController {
-    private let dataManager = MemoDataManager()
+    private let dataManager: MemoDataManager
     weak var delegate: MemoDetailViewControllerDelegate?
     
     private let cellIdentifier = "Cell"
     private let tableView = UITableView()
+    
+    init(dataManager: MemoDataManager) {
+        self.dataManager = dataManager
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTableViewInitialSetting()
         setupTableViewLayout()
         setupNavigationBar()
-        setupRowSelection()
+        dataManager.listDelegate = self
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        dataManager.selectFirstMemo()
     }
     
     private func setupTableViewInitialSetting() {
@@ -41,13 +55,6 @@ final class MemoListViewController: UIViewController {
         let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addMemo))
         navigationItem.rightBarButtonItem = addButton
         navigationItem.title = "메모"
-    }
-    
-    private func setupRowSelection() {
-        if dataManager.memos.isEmpty == false {
-            tableView.selectRow(at: IndexPath(row: 0, section: 0), animated: false, scrollPosition: .top)
-            delegate?.memoDetailViewController(showTextViewWith: dataManager.memos[0])
-        }
     }
     
     @objc private func addMemo() {
@@ -161,10 +168,18 @@ extension MemoListViewController: MemoListViewControllerDelegate {
     func memoListViewController(updateTableViewCellWith title: String, body: String, lastModified: Date) {
         guard let indexPath = tableView.indexPathForSelectedRow,
               let id = dataManager.memos[indexPath.row].id else {
-            return
-        }
+                  return
+              }
         dataManager.updateMemo(id: id, title: title, body: body, lastModified: lastModified)
         tableView.reloadRows(at: [indexPath], with: .none)
         tableView.selectRow(at: indexPath, animated: true, scrollPosition: .none)
+    }
+}
+
+// MARK: - MemoDataManagerListDelegate
+
+extension MemoListViewController: MemoDataManagerListDelegate {
+    func setupRowSelection() {
+        tableView.selectRow(at: IndexPath(row: 0, section: 0), animated: false, scrollPosition: .top)
     }
 }

@@ -1,8 +1,9 @@
 import UIKit
 
 final class SplitViewController: UISplitViewController {
-    private let listViewController = MemoListViewController()
-    private let detailViewController = MemoDetailViewController()
+    private let dataManager = MemoDataManager()
+    private lazy var listViewController = MemoListViewController(dataManager: dataManager)
+    private lazy var detailViewController = MemoDetailViewController(dataManager: dataManager)
     
     override func viewDidLoad() {
         super.viewDidLoad()

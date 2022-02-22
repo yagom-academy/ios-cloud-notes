@@ -6,7 +6,7 @@ protocol MemoDetailViewControllerDelegate: AnyObject {
 }
 
 final class MemoDetailViewController: UIViewController {
-    private let dataManager = MemoDataManager()
+    private let dataManager: MemoDataManager
     weak var delegate: MemoListViewControllerDelegate?
     
     private let textView: UITextView = {
@@ -17,6 +17,15 @@ final class MemoDetailViewController: UIViewController {
         return textView
     }()
     
+    init(dataManager: MemoDataManager) {
+        self.dataManager = dataManager
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
@@ -24,6 +33,7 @@ final class MemoDetailViewController: UIViewController {
         registerTextViewDelegate()
         setupTextViewLayout()
         setupNavigationItem()
+        dataManager.detailDelegate = self
     }
     
     private func setupNotification() {
@@ -128,6 +138,23 @@ extension MemoDetailViewController: MemoDetailViewControllerDelegate {
         textView.text = ""
     }
 }
+
+// MARK: - MemoDataManagerDetailDelegate
+
+extension MemoDetailViewController: MemoDataManagerDetailDelegate {
+    func showTextView(with memo: Memo) {
+        textView.isEditable = true
+        let title = memo.title ?? ""
+        let body = memo.body ?? ""
+        
+        if title.isEmpty && body.isEmpty {
+            textView.text = ""
+            return
+        }
+        textView.text = "\(title)\n\(body)"
+    }
+}
+
 
 // MARK: UITextViewDelegate
 

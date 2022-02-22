@@ -1,14 +1,17 @@
 import CoreData
 
 protocol MemoDataManagerListDelegate: AnyObject {
-    
+    func setupRowSelection()
 }
 
 protocol MemoDataManagerDetailDelegate: AnyObject {
-    
+    func showTextView(with memo: Memo)
 }
 
 final class MemoDataManager {
+    weak var listDelegate: MemoDataManagerListDelegate?
+    weak var detailDelegate: MemoDataManagerDetailDelegate?
+    
     var memos = [Memo]()
     private let persistentContainer: NSPersistentContainer
     private var viewContext: NSManagedObjectContext {
@@ -109,5 +112,16 @@ extension MemoDataManager {
     
     var isEmpty: Bool {
         memos.count == 0
+    }
+}
+
+// MARK: - MemoDataManagerListDelegate
+
+extension MemoDataManager {
+    func selectFirstMemo() {
+        if memos.isEmpty == false {
+            listDelegate?.setupRowSelection()
+            detailDelegate?.showTextView(with: memos[0])
+        }
     }
 }

@@ -8,6 +8,22 @@ class SplitViewController: UISplitViewController {
     private var currentNoteIndex: Int?
     private var dropboxManager = DropboxManager()
 
+    private let activityIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView(style: .large)
+        indicator.hidesWhenStopped = true
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        return indicator
+    }()
+
+    private lazy var dimView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .systemGray
+        view.alpha = 0.3
+        view.isHidden = true
+        view.frame = self.view.frame
+        return view
+    }()
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -20,6 +36,8 @@ class SplitViewController: UISplitViewController {
 
         self.noteListViewController.setDelegate(delegate: self)
         self.detailedNoteViewController.setDelegate(delegate: self)
+        self.view.addSubview(activityIndicator)
+        self.view.addSubview(dimView)
     }
 
     private func fetchNotes() {
@@ -38,49 +56,46 @@ class SplitViewController: UISplitViewController {
         }
 
         self.noteListViewController.setNoteList(data)
+        self.noteListViewController.selectedIndexPath = IndexPath(row: 0, section: 0)
         self.detailedNoteViewController.setNoteData(data.first)
         self.currentNoteIndex = 0
+    }
+
+    // MARK: - View Configure
+    func configureConstraint() {
+        NSLayoutConstraint.activate([
+            activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+        ])
+    }
+
+    // MARK: - Dropbox Method
+    @objc
+    func upload() {
+        self.dropboxManager.upload { error in
+            if error != nil {
+                self.noteListViewController.presentUploadFailureAlert()
+            }
+        }
+    }
+
+    func download() {
+        activityIndicator.startAnimating()
+        self.dimView.isHidden = false
+        self.dropboxManager.download { error in
+            if error == nil {
+                self.fetchNotes()
+            } else {
+                self.noteListViewController.presentDownloadFailureAlert()
+            }
+            self.activityIndicator.stopAnimating()
+            self.dimView.isHidden = true
+        }
     }
 }
 
 // MARK: - NoteList View Delegate
 extension SplitViewController: NoteListViewDelegate {
-    func upload() {
-        let dispatchGroup = DispatchGroup()
-        var errors = [DropboxError?]()
-        self.dropboxManager.upload { error in
-            dispatchGroup.enter()
-            if error != nil {
-                errors.append(error)
-            }
-            dispatchGroup.leave()
-        }
-        dispatchGroup.wait()
-        if !errors.isEmpty {
-            print("no error")
-            self.noteListViewController.presentUploadFailureAlert()
-        }
-    }
-
-    func download() {
-        let dispatchGroup = DispatchGroup()
-        var errors = [DropboxError?]()
-        self.dropboxManager.download { error in
-            dispatchGroup.enter()
-            if error != nil {
-                errors.append(error)
-            }
-            dispatchGroup.leave()
-        }
-        dispatchGroup.notify(queue: .main) {
-            if errors.isEmpty {
-                self.fetchNotes()
-            } else {
-                self.noteListViewController.presentDownloadFailureAlert()
-            }
-        }
-    }
-
     func deleteNote(_ note: Content, index: Int) {
         do {
             try self.dataSourceProvider?.deleteNote(note)

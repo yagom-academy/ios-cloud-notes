@@ -12,7 +12,10 @@ class DropboxManager {
     let filePaths = ["/CloudNotes.sqlite", "/CloudNotes.sqlite-shm", "/CloudNotes.sqlite-wal"]
 
     func upload(_ completionHandler: @escaping (DropboxError?) -> Void) {
+        let group = DispatchGroup()
+        var errors: [CallError<Files.UploadError>?] = []
         filePaths.forEach { filePath in
+            group.enter()
             guard let fileURL = coredataURL?.appendingPathComponent(filePath) else {
                 return
             }
@@ -27,22 +30,31 @@ class DropboxManager {
                 strictConflict: false,
                 input: fileURL
             )
-                .response { response, error in
-                    print(response)
+                .response { _, error in
                     if error != nil {
-                        print(error)
+                        errors.append(error)
                         completionHandler(.uploadFailure)
                     }
+                    group.leave()
                 }
+        }
+        group.notify(queue: .main) {
+            if errors.isEmpty {
+                completionHandler(nil)
+            } else {
+            completionHandler(.downloadFailure)
+            }
         }
     }
 
     func download(_ completionHandler: @escaping (DropboxError?) -> Void) {
+        let group = DispatchGroup()
+        var errors: [CallError<Files.DownloadError>?] = []
         filePaths.forEach { filePath in
+            group.enter()
             guard let fileURL = coredataURL?.appendingPathComponent(filePath) else {
                 return
             }
-
             client?.files.download(path: "/CloudNote\(filePath)")
                 .response { response, error in
                     if let response = response {
@@ -52,10 +64,18 @@ class DropboxManager {
                             contents: fileContents,
                             attributes: nil)
                     } else if error != nil {
-                        print(error)
-                        completionHandler(.downloadFailure)
+                        errors.append(error)
                     }
+                    group.leave()
                 }
+        }
+
+        group.notify(queue: .main) {
+            if errors.isEmpty {
+                completionHandler(nil)
+            } else {
+            completionHandler(.downloadFailure)
+            }
         }
     }
 }

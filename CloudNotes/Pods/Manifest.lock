@@ -1,16 +1,24 @@
 PODS:
+  - Alamofire (5.4.4)
   - SwiftLint (0.46.2)
+  - SwiftyDropbox (8.2.1):
+    - Alamofire (~> 5.4.3)
 
 DEPENDENCIES:
   - SwiftLint
+  - SwiftyDropbox
 
 SPEC REPOS:
   trunk:
+    - Alamofire
     - SwiftLint
+    - SwiftyDropbox
 
 SPEC CHECKSUMS:
+  Alamofire: f3b09a368f1582ab751b3fff5460276e0d2cf5c9
   SwiftLint: 6bc52a21f0fd44cab9aa2dc8e534fb9f5e3ec507
+  SwiftyDropbox: f6c55aae36c4ea944fe6b35f807c19897f78b09b
 
-PODFILE CHECKSUM: 90ad5d8451d49c1ae8a14f860d82c557556b94b7
+PODFILE CHECKSUM: c9f34ef64414bbad782e6b458240e51804e61816
 
 COCOAPODS: 1.11.2

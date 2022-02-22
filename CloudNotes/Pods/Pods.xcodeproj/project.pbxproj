@@ -15,7 +15,6 @@
 			dependencies = (
 			);
 			name = SwiftLint;
-			productName = SwiftLint;
 		};
 /* End PBXAggregateTarget section */
 
@@ -271,7 +270,7 @@
 		797C44FCC01925F4003FC26DDBE3989B /* OAuthConstants.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OAuthConstants.swift; path = Source/SwiftyDropbox/Shared/Handwritten/OAuth/OAuthConstants.swift; sourceTree = "<group>"; };
 		7EB3D219E5144D1AC0EF763B4A174576 /* LoadingViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = LoadingViewController.swift; path = Source/SwiftyDropbox/Platform/SwiftyDropbox_iOS/LoadingViewController.swift; sourceTree = "<group>"; };
 		8069CB06EB059DC4DEB65E0AF50E6FE9 /* MultipartFormData.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MultipartFormData.swift; path = Source/MultipartFormData.swift; sourceTree = "<group>"; };
-		83CB0F39411722D227328DAA5D2807D8 /* Pods_CloudNotes.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CloudNotes.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		83CB0F39411722D227328DAA5D2807D8 /* Pods-CloudNotes */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Pods-CloudNotes"; path = Pods_CloudNotes.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8522860DC8148300D1C0E1504ACC7BEF /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.0.sdk/System/Library/Frameworks/SystemConfiguration.framework; sourceTree = DEVELOPER_DIR; };
 		89893133A4C3846B7C5386973296AD03 /* Base.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Base.swift; path = Source/SwiftyDropbox/Shared/Generated/Base.swift; sourceTree = "<group>"; };
 		8C36E62CECCDD66B6B99579E5D8B5A01 /* SwiftLint.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SwiftLint.release.xcconfig; sourceTree = "<group>"; };
@@ -282,7 +281,7 @@
 		993232423FB0CDF5401A89318F404B0A /* CustomTasks.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CustomTasks.swift; path = Source/SwiftyDropbox/Shared/Handwritten/CustomTasks.swift; sourceTree = "<group>"; };
 		99B1221DE1C224A51CF922C88FBDF93E /* SecondaryEmails.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SecondaryEmails.swift; path = Source/SwiftyDropbox/Shared/Generated/SecondaryEmails.swift; sourceTree = "<group>"; };
 		9C295E3BAA451E3F4AB56956A3B8006F /* OAuthMobile.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OAuthMobile.swift; path = Source/SwiftyDropbox/Platform/SwiftyDropbox_iOS/OAuthMobile.swift; sourceTree = "<group>"; };
-		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		9DD13868903FA952B2ADA70BA56740C8 /* Pods-CloudNotes.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-CloudNotes.modulemap"; sourceTree = "<group>"; };
 		A02BDD7A2630E113145F8B61BDBDAD40 /* SwiftLint.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SwiftLint.debug.xcconfig; sourceTree = "<group>"; };
 		A05604F8B93FADB276F22E1AD536D00E /* FileProperties.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FileProperties.swift; path = Source/SwiftyDropbox/Shared/Generated/FileProperties.swift; sourceTree = "<group>"; };
@@ -444,6 +443,7 @@
 				C845DC27CF45F3DBBBBDAD1C6BBD1FDA /* UsersRoutes.swift */,
 				B089C68AE3810A41B4B3E6AF970A9AB6 /* Support Files */,
 			);
+			name = SwiftyDropbox;
 			path = SwiftyDropbox;
 			sourceTree = "<group>";
 		};
@@ -479,6 +479,7 @@
 			children = (
 				3CE0E18CE530729E90FAA539572660EE /* Support Files */,
 			);
+			name = SwiftLint;
 			path = SwiftLint;
 			sourceTree = "<group>";
 		};
@@ -540,7 +541,7 @@
 			isa = PBXGroup;
 			children = (
 				5D797E9A5C5782CE845840781FA1CC81 /* Alamofire */,
-				83CB0F39411722D227328DAA5D2807D8 /* Pods_CloudNotes.framework */,
+				83CB0F39411722D227328DAA5D2807D8 /* Pods-CloudNotes */,
 				2EA1ED8E5ADCDE33A763D9B78E5C51D1 /* Pods-CloudNotes-CloudNotesUITests */,
 				4CECA25E8FBE6366DCA327D43581CBD4 /* Pods-CloudNotesTests */,
 				1CBA76EDD27FA2D20B1EA0F0BF7F082C /* SwiftyDropbox */,
@@ -637,6 +638,7 @@
 				4E735D074C3D76F8E37D5463A8632E33 /* Validation.swift */,
 				5B12F30381DC8B78838D2577B13859B5 /* Support Files */,
 			);
+			name = Alamofire;
 			path = Alamofire;
 			sourceTree = "<group>";
 		};
@@ -736,7 +738,7 @@
 			);
 			name = "Pods-CloudNotes";
 			productName = Pods_CloudNotes;
-			productReference = 83CB0F39411722D227328DAA5D2807D8 /* Pods_CloudNotes.framework */;
+			productReference = 83CB0F39411722D227328DAA5D2807D8 /* Pods-CloudNotes */;
 			productType = "com.apple.product-type.framework";
 		};
 		D7CBA5B58691F201AACEB2614A8EA55F /* Pods-CloudNotesTests */ = {

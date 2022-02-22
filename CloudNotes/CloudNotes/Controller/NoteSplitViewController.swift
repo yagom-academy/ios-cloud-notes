@@ -11,7 +11,7 @@ class NoteSplitViewController: UISplitViewController {
         return noteListViewController.extractSeletedRow()
     }
     private var atrributesForNewCell: [String: Any] {
-        ["title": "새로운 메모", "body": "", "lastModified": Date()] as [String : Any]
+        ["title": "새로운 메모", "body": "", "lastModified": Date()] as [String: Any]
     }
 // MARK: - ViewLifeCycle
     override func viewDidLoad() {
@@ -21,7 +21,6 @@ class NoteSplitViewController: UISplitViewController {
         configureColumnStyle()
         configureDataStorage()
         configureFetchedResultsController()
-        dataManager?.fetchAll()
         configureNoteDetailViewController()
     }
 // MARK: - Method

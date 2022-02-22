@@ -1,4 +1,6 @@
 import UIKit
+import SwiftyDropbox
+
     // MARK: - Declare NoteListViewController Delegate
 protocol NoteListViewControllerDelegate: AnyObject {
     func noteListViewController(
@@ -53,6 +55,7 @@ class NoteListViewController: UIViewController {
         listTableView.delegate = self
         setUpLayout()
         setUpNavigationItems()
+        myButtonInControllerPressed()
     }
     // MARK: - Method
     private func setUpLayout() {
@@ -85,6 +88,10 @@ class NoteListViewController: UIViewController {
         listTableView.indexPathForSelectedRow
     }
     
+    func reloadRow(at indexPath: IndexPath) {
+        listTableView.reloadRows(at: [indexPath], with: .none)
+    }
+    
     private func presentVerifyingDeletionAlert(indexPath: IndexPath) {
         let alertController = UIAlertController(title: "삭제하시겠습니까?", message: "후회하지 않으시겠습니까?", preferredStyle: .alert)
         let cancel = UIAlertAction(title: "취소", style: .cancel) { [weak self]_ in
@@ -97,6 +104,27 @@ class NoteListViewController: UIViewController {
         alertController.addAction(ok)
         
         present(alertController, animated: true, completion: nil)
+    }
+    
+    private func myButtonInControllerPressed() {
+        // OAuth 2 code flow with PKCE that grants a short-lived token with scopes, and performs refreshes of the token automatically.
+        let scopeRequest = ScopeRequest(scopeType: .user, scopes: ["account_info.read"], includeGrantedScopes: false)
+        DropboxClientsManager.authorizeFromControllerV2(
+            UIApplication.shared,
+            controller: self,
+            loadingStatusDelegate: nil,
+            openURL: { (url: URL) -> Void in UIApplication.shared.open(url, options: [:], completionHandler: nil) },
+            scopeRequest: scopeRequest
+        )
+
+        // Note: this is the DEPRECATED authorization flow that grants a long-lived token.
+        // If you are still using this, please update your app to use the `authorizeFromControllerV2` call instead.
+        // See https://dropbox.tech/developers/migrating-app-permissions-and-access-tokens
+        DropboxClientsManager.authorizeFromController(UIApplication.shared,
+                                                      controller: self,
+                                                      openURL: { (url: URL) -> Void in
+                                                        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                                                      })
     }
 }
 // MARK: - UITableView Delegate

@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -12,6 +12,7 @@
 		185EF28E27B52D0E00204AEA /* Array+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185EF28D27B52D0D00204AEA /* Array+Extension.swift */; };
 		1A4CDBD379C838A981008068 /* Pods_CloudNotesTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8797059B2E1AE8C63E4A9A70 /* Pods_CloudNotesTests.framework */; };
 		636B914B27B253EB0027D4A4 /* NoteListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636B914A27B253EB0027D4A4 /* NoteListTableViewCell.swift */; };
+		637F63EB27C4BD6400B5B989 /* DropBoxManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637F63EA27C4BD6400B5B989 /* DropBoxManager.swift */; };
 		637FF93027BDEDB800C309A1 /* CDMemo+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637FF92F27BDEDB800C309A1 /* CDMemo+CoreDataClass.swift */; };
 		637FF93127BDEDB800C309A1 /* CDMemo+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637FF92E27BDEDB800C309A1 /* CDMemo+CoreDataProperties.swift */; };
 		6385CFB327BBE412002EB151 /* CloudNote.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6385CFB127BBE412002EB151 /* CloudNote.xcdatamodeld */; };
@@ -52,6 +53,7 @@
 		185EF28D27B52D0D00204AEA /* Array+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extension.swift"; sourceTree = "<group>"; };
 		1E231DE067500A8F54483010 /* Pods_CloudNotes.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CloudNotes.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		636B914A27B253EB0027D4A4 /* NoteListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteListTableViewCell.swift; sourceTree = "<group>"; };
+		637F63EA27C4BD6400B5B989 /* DropBoxManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropBoxManager.swift; sourceTree = "<group>"; };
 		637FF92E27BDEDB800C309A1 /* CDMemo+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "CDMemo+CoreDataProperties.swift"; path = "../../CDMemo+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		637FF92F27BDEDB800C309A1 /* CDMemo+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "CDMemo+CoreDataClass.swift"; path = "../../CDMemo+CoreDataClass.swift"; sourceTree = "<group>"; };
 		6385CFB227BBE412002EB151 /* CloudNote.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CloudNote.xcdatamodel; sourceTree = "<group>"; };
@@ -176,8 +178,8 @@
 		C7481C6C25BBCF3900B9CA55 /* CloudNotes */ = {
 			isa = PBXGroup;
 			children = (
-				C7481C7E25BBCF3A00B9CA55 /* Info.plist */,
 				C7481C7925BBCF3A00B9CA55 /* Assets.xcassets */,
+				C7481C7E25BBCF3A00B9CA55 /* Info.plist */,
 				FB8B343727B23AF800D85311 /* Model */,
 				FB8B343627B23AF300D85311 /* View */,
 				FB8B343527B23AD500D85311 /* Controller */,
@@ -230,6 +232,7 @@
 				637FF92E27BDEDB800C309A1 /* CDMemo+CoreDataProperties.swift */,
 				63CCA08127BB7A0A004B1841 /* CoreDataManager.swift */,
 				6385CFB127BBE412002EB151 /* CloudNote.xcdatamodeld */,
+				637F63EA27C4BD6400B5B989 /* DropBoxManager.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -255,6 +258,7 @@
 				C7481C6725BBCF3900B9CA55 /* Frameworks */,
 				C7481C6825BBCF3900B9CA55 /* Resources */,
 				185EF24727B1032700204AEA /* ShellScript */,
+				9FF300481EE07F23D772CE4E /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -292,6 +296,7 @@
 				C7481C8A25BBCF3A00B9CA55 /* Sources */,
 				C7481C8B25BBCF3A00B9CA55 /* Frameworks */,
 				C7481C8C25BBCF3A00B9CA55 /* Resources */,
+				8F4B1CB8C5D8DC6ED8505712 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -433,6 +438,40 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		8F4B1CB8C5D8DC6ED8505712 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CloudNotes-CloudNotesUITests/Pods-CloudNotes-CloudNotesUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CloudNotes-CloudNotesUITests/Pods-CloudNotes-CloudNotesUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CloudNotes-CloudNotesUITests/Pods-CloudNotes-CloudNotesUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9FF300481EE07F23D772CE4E /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CloudNotes/Pods-CloudNotes-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CloudNotes/Pods-CloudNotes-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CloudNotes/Pods-CloudNotes-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		D22DF7DF78C4B5480DAFA4C0 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -466,6 +505,7 @@
 				63CCA08227BB7A0A004B1841 /* CoreDataManager.swift in Sources */,
 				637FF93027BDEDB800C309A1 /* CDMemo+CoreDataClass.swift in Sources */,
 				636B914B27B253EB0027D4A4 /* NoteListTableViewCell.swift in Sources */,
+				637F63EB27C4BD6400B5B989 /* DropBoxManager.swift in Sources */,
 				185EF28E27B52D0E00204AEA /* Array+Extension.swift in Sources */,
 				C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */,
 				FB8B343027B2062200D85311 /* NoteSplitViewController.swift in Sources */,

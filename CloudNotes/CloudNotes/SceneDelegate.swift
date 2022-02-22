@@ -12,28 +12,31 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
     
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
-         let oauthCompletion: DropboxOAuthCompletion = {
-          if let authResult = $0 {
-              switch authResult {
-              case .success:
-                  self.memoStorage.synchronizeCoreDataToDropbox()
-                  UserDefaults.standard.set(true, forKey: "dropboxConnected")
-                  print("❤️ Success! User is logged into DropboxClientsManager.")
-              case .cancel:
-                  print("☠️ Authorization flow was manually canceled by user!")
-              case .error(_, let description):
-                  print("Error: \(String(describing: description))")
-              }
-          }
+        let memoSplitViewController = self.window?.rootViewController as! MemoSplitViewController
+        let oauthCompletion: DropboxOAuthCompletion = {
+            if let authResult = $0 {
+                switch authResult {
+                case .success:
+                    self.memoStorage.synchronizeCoreDataToDropbox()
+                    UserDefaults.standard.set(true, forKey: UserDefaultsKey.dropboxConnected)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        memoSplitViewController.presentConnectResultAlert(type: .connectSuccess)
+                    }
+                case .cancel:
+                    memoSplitViewController.presentConnectResultAlert(type: .connectFailure)
+                case .error(_, _):
+                    memoSplitViewController.presentConnectResultAlert(type: .connectFailure)
+                }
+            }
         }
-
+        
         for context in URLContexts {
             if DropboxClientsManager.handleRedirectURL(context.url, completion: oauthCompletion) {
                 break
             }
         }
     }
-
+    
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else {
             return
@@ -43,7 +46,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.rootViewController = MemoSplitViewController(style: .doubleColumn, memoStorage: memoStorage)
         window?.makeKeyAndVisible()
         
-        if UserDefaults.standard.bool(forKey: "dropboxConnected") {
+        if UserDefaults.standard.bool(forKey: UserDefaultsKey.dropboxConnected) {
             memoStorage.synchronizeCoreDataToDropbox()
         }
     }

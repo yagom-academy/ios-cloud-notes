@@ -9,9 +9,6 @@ import Foundation
 import SwiftyDropbox
 
 struct DropboxManager {
-    let downloadGroup = DispatchGroup()
-    let downloadQueue = DispatchQueue(label: "downloadQueue")
-    
     func connectDropbox(viewController: UIViewController) {
         let scopes = ["account_info.read", "files.content.write", "files.content.read"]
         let scopeRequest = ScopeRequest(scopeType: .user, scopes: scopes, includeGrantedScopes: false)
@@ -50,7 +47,7 @@ struct DropboxManager {
     }
     
     func fetchFilePaths(completion: @escaping ([Files.Metadata]) -> Void) {
-        DropboxClientsManager.authorizedClient?.files.listFolder(path: "")
+        DropboxClientsManager.authorizedClient?.files.listFolder(path: .blank)
             .response { response, _ in
                 if let response = response {
                     completion(response.entries)

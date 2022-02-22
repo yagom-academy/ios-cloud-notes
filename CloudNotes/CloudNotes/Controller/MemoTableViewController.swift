@@ -38,7 +38,7 @@ class MemoTableViewController: UITableViewController {
     private func configureNavigationBar() {
         self.navigationItem.title = "메모"
         let addMemoButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addEmptyMemo))
-        let connectDropboxButton = UIBarButtonItem(image: UIImage(systemName: "link.icloud"), style: .plain, target: self, action: #selector(connectDropbox))
+        let connectDropboxButton = UIBarButtonItem(image: UIImage(systemName: SystemIcon.linkDropbox), style: .plain, target: self, action: #selector(connectDropbox))
         connectDropboxButton.imageInsets = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: -15)
         
         self.navigationItem.rightBarButtonItems = [addMemoButton, connectDropboxButton]

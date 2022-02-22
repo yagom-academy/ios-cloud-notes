@@ -7,29 +7,6 @@
 
 import UIKit
 
-private enum AlertMessage {
-    case delete
-    case deleteCaution
-    
-    var title: String {
-        switch self {
-        case .delete:
-            return "진짜요?"
-        case .deleteCaution:
-            return "삭제할 수 없습니다"
-        }
-    }
-    
-    var message: String {
-        switch self {
-        case .delete:
-            return "정말로 삭제하시겠어요?"
-        case .deleteCaution:
-            return "메모는 최소 한 개 존재해야합니다"
-        }
-    }
-}
-
 class MemoSplitViewController: UISplitViewController {
     private lazy var memoTableViewController = MemoTableViewController(style: .insetGrouped, delegate: self)
     private lazy var memoDetailViewController = MemoDetailViewController(delegate: self)
@@ -106,6 +83,13 @@ extension MemoSplitViewController: MemoSplitViewManageable {
         memoDetailViewController.updateCurrentIndexPath(with: indexPath)
         memoDetailViewController.makeTextViewFirstResponder()
         show(.secondary)
+    }
+
+    func presentConnectResultAlert(type: AlertMessage) {
+        let alert = UIAlertController(title: type.title, message: type.message, preferredStyle: .alert)
+        let confirmAction = UIAlertAction(title: ActionTitle.confirm, style: .default)
+        alert.addAction(confirmAction)
+        self.present(alert, animated: true)
     }
     
     func presentDeleteAlert(at indexPath: IndexPath) {

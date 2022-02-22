@@ -21,6 +21,8 @@
 		C7481C9325BBCF3A00B9CA55 /* CloudNotesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C9225BBCF3A00B9CA55 /* CloudNotesUITests.swift */; };
 		C94DE44527BB79ED0002875C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94DE44427BB79ED0002875C /* AppDelegate.swift */; };
 		C982B2DD27BB79770021B14C /* MemoManageable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C982B2DC27BB79760021B14C /* MemoManageable.swift */; };
+		C994047127C50D400015AFCE /* UserDefaultsKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = C994047027C50D400015AFCE /* UserDefaultsKey.swift */; };
+		C994047327C50F210015AFCE /* AlertMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C994047227C50F210015AFCE /* AlertMessage.swift */; };
 		C994CB8D27C4D4F000EEA5E9 /* DropboxFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = C994CB8C27C4D4F000EEA5E9 /* DropboxFile.swift */; };
 		C994CB8F27C4D70E00EEA5E9 /* String+splitedText.swift in Sources */ = {isa = PBXBuildFile; fileRef = C994CB8E27C4D70E00EEA5E9 /* String+splitedText.swift */; };
 		C994CB9127C4E7E500EEA5E9 /* Notification+Name.swift in Sources */ = {isa = PBXBuildFile; fileRef = C994CB9027C4E7E400EEA5E9 /* Notification+Name.swift */; };
@@ -81,6 +83,8 @@
 		C7481C9425BBCF3A00B9CA55 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C94DE44427BB79ED0002875C /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C982B2DC27BB79760021B14C /* MemoManageable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoManageable.swift; sourceTree = "<group>"; };
+		C994047027C50D400015AFCE /* UserDefaultsKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsKey.swift; sourceTree = "<group>"; };
+		C994047227C50F210015AFCE /* AlertMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertMessage.swift; sourceTree = "<group>"; };
 		C994CB8C27C4D4F000EEA5E9 /* DropboxFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropboxFile.swift; sourceTree = "<group>"; };
 		C994CB8E27C4D70E00EEA5E9 /* String+splitedText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+splitedText.swift"; sourceTree = "<group>"; };
 		C994CB9027C4E7E400EEA5E9 /* Notification+Name.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+Name.swift"; sourceTree = "<group>"; };
@@ -260,6 +264,8 @@
 			children = (
 				C9B3074F27BCEFA000C275A8 /* ActionTitle.swift */,
 				C9B3075127BCF00900C275A8 /* SystemIcon.swift */,
+				C994047027C50D400015AFCE /* UserDefaultsKey.swift */,
+				C994047227C50F210015AFCE /* AlertMessage.swift */,
 			);
 			path = Constant;
 			sourceTree = "<group>";
@@ -539,10 +545,12 @@
 				C9F4255E27B2595F00BC4BF0 /* TimeInterval+dateString.swift in Sources */,
 				C9F4255227B20BE900BC4BF0 /* MemoSplitViewController.swift in Sources */,
 				C9B3074A27BCE96E00C275A8 /* Character+lineBreak.swift in Sources */,
+				C994047127C50D400015AFCE /* UserDefaultsKey.swift in Sources */,
 				C9AA78EB27C3B68C00F3B307 /* DropboxManager.swift in Sources */,
 				C94DE44527BB79ED0002875C /* AppDelegate.swift in Sources */,
 				C9B3075227BCF00900C275A8 /* SystemIcon.swift in Sources */,
 				C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */,
+				C994047327C50F210015AFCE /* AlertMessage.swift in Sources */,
 				C9D36D0B27BA2E590070A768 /* Memo+CoreDataClass.swift in Sources */,
 				C9B3075027BCEFA000C275A8 /* ActionTitle.swift in Sources */,
 				C994CB8D27C4D4F000EEA5E9 /* DropboxFile.swift in Sources */,

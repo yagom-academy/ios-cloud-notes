@@ -24,6 +24,7 @@
 		C7481C9325BBCF3A00B9CA55 /* CloudNotesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C9225BBCF3A00B9CA55 /* CloudNotesUITests.swift */; };
 		E933D22627B3AC1100F12F9C /* Collection+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E933D22527B3AC1100F12F9C /* Collection+Extension.swift */; };
 		E933D22B27B3AC6500F12F9C /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E933D22A27B3AC6500F12F9C /* String+Extension.swift */; };
+		E936E63427C4B70300799B4C /* UITableViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E936E63327C4B70300799B4C /* UITableViewController+Extension.swift */; };
 		E9D5DF4427BFD12500066807 /* CoreDataMemos.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D5DF4327BFD12500066807 /* CoreDataMemos.swift */; };
 /* End PBXBuildFile section */
 
@@ -69,6 +70,7 @@
 		C7481C9425BBCF3A00B9CA55 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E933D22527B3AC1100F12F9C /* Collection+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Collection+Extension.swift"; sourceTree = "<group>"; };
 		E933D22A27B3AC6500F12F9C /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
+		E936E63327C4B70300799B4C /* UITableViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableViewController+Extension.swift"; sourceTree = "<group>"; };
 		E9D5DF4327BFD12500066807 /* CoreDataMemos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataMemos.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -189,6 +191,7 @@
 				E933D22527B3AC1100F12F9C /* Collection+Extension.swift */,
 				E933D22A27B3AC6500F12F9C /* String+Extension.swift */,
 				3A1A8D5927C3879900180720 /* UIViewController+Extension.swift */,
+				E936E63327C4B70300799B4C /* UITableViewController+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -357,6 +360,7 @@
 				3A2AAA0427B211A500078B2C /* DetailViewController.swift in Sources */,
 				C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */,
 				C7481C7825BBCF3900B9CA55 /* CloudNotes.xcdatamodeld in Sources */,
+				E936E63427C4B70300799B4C /* UITableViewController+Extension.swift in Sources */,
 				3ABF136A27BFCDF1000BB8A6 /* Memo+CoreDataProperties.swift in Sources */,
 				E933D22627B3AC1100F12F9C /* Collection+Extension.swift in Sources */,
 			);

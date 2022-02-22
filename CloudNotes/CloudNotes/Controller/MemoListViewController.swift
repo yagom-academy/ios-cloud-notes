@@ -1,9 +1,8 @@
 import UIKit
 
-private let reuseIdentifier = "Cell"
-
 final class MemoListViewController: UITableViewController {
   weak var delegate: MemoDisplayable?
+  private let reuseIdentifier = "Cell"
   private var memos = CoreDataMemos.shared
   private let firstRowIndexPath = IndexPath(row: 0, section: 0)
   private var currentMemoIndexPath = IndexPath(row: 0, section: 0)

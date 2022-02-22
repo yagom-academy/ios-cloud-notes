@@ -59,11 +59,10 @@ extension PersistentManager {
 
 // MARK: - CRUD
 extension PersistentManager {
-    @discardableResult
-    func insert(entityName: String = "Note", items: [String: Any]) -> Note? {
+    func insert(entityName: String = "Note", items: [String: Any]) {
         let context = persistentContainer.viewContext
         let managedObject = NSEntityDescription.insertNewObject(forEntityName: entityName, into: context)
-        return update(managedObject, items: items)
+        update(managedObject, items: items)
     }
     
     @discardableResult
@@ -83,8 +82,7 @@ extension PersistentManager {
         return newData
     }
     
-    @discardableResult
-    func update(_ managedObject: NSManagedObject, items: [String: Any]) -> Note? {
+    func update(_ managedObject: NSManagedObject, items: [String: Any]) {
         let keys = managedObject.entity.attributesByName.keys
         for key in keys {
             if let value = items[key] {
@@ -93,7 +91,6 @@ extension PersistentManager {
         }
         saveContext()
         fetch()
-        return managedObject as? Note
     }
     
     func delete(_ item: Note) {
@@ -107,7 +104,7 @@ extension PersistentManager {
         entityName: String = "Note",
         items: [String: Any]
     ) {
-        _ = items["id"]
+        items["id"]
             .flatMap { $0 as? UUID as CVarArg? }
             .flatMap { fetch(entityName: entityName, predicate: NSPredicate(format: "id == %@", $0))?.first }
             .flatMap { $0 as NSManagedObject }

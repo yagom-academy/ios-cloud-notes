@@ -6,8 +6,6 @@ final class SplitViewController: UISplitViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        MemoDataManager.shared.loadPersistentContainer()
-        MemoDataManager.shared.setMemosArray()
         assignChlidViewController()
         setupDisplay()
         listViewController.delegate = detailViewController

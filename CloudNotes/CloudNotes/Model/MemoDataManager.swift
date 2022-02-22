@@ -1,15 +1,24 @@
 import CoreData
 
+protocol MemoDataManagerListDelegate: AnyObject {
+    
+}
+
+protocol MemoDataManagerDetailDelegate: AnyObject {
+    
+}
+
 final class MemoDataManager {
-    static let shared = MemoDataManager(modelName: "CloudNotes")
     var memos = [Memo]()
     private let persistentContainer: NSPersistentContainer
     private var viewContext: NSManagedObjectContext {
         return persistentContainer.viewContext
     }
     
-    private init(modelName: String) {
+    init(modelName: String = "CloudNotes") {
         persistentContainer = NSPersistentContainer(name: modelName)
+        loadPersistentContainer()
+        setMemosArray()
     }
     
     func loadPersistentContainer() {
@@ -88,7 +97,7 @@ final class MemoDataManager {
 
 extension MemoDataManager {
     var newMemo: Memo {
-        let newMemo = Memo(context: MemoDataManager.shared.viewContext)
+        let newMemo = Memo(context: viewContext)
         newMemo.id = UUID()
         newMemo.title = ""
         newMemo.body = ""

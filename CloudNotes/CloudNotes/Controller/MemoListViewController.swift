@@ -6,6 +6,7 @@ protocol MemoListViewControllerDelegate: AnyObject {
 }
 
 final class MemoListViewController: UIViewController {
+    private let dataManager = MemoDataManager()
     weak var delegate: MemoDetailViewControllerDelegate?
     
     private let cellIdentifier = "Cell"
@@ -43,15 +44,15 @@ final class MemoListViewController: UIViewController {
     }
     
     private func setupRowSelection() {
-        if MemoDataManager.shared.isEmpty == false {
+        if dataManager.memos.isEmpty == false {
             tableView.selectRow(at: IndexPath(row: 0, section: 0), animated: false, scrollPosition: .top)
-            delegate?.memoDetailViewController(showTextViewWith: MemoDataManager.shared.memos[0])
+            delegate?.memoDetailViewController(showTextViewWith: dataManager.memos[0])
         }
     }
     
     @objc private func addMemo() {
-        let newMemo = MemoDataManager.shared.newMemo
-        MemoDataManager.shared.memos.insert(newMemo, at: 0)
+        let newMemo = dataManager.newMemo
+        dataManager.memos.insert(newMemo, at: 0)
         tableView.reloadData()
         tableView.selectRow(at: IndexPath(row: 0, section: 0), animated: true, scrollPosition: .top)
         delegate?.memoDetailViewController(showTextViewWith: newMemo)
@@ -62,13 +63,13 @@ final class MemoListViewController: UIViewController {
 
 extension MemoListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return MemoDataManager.shared.memos.count
+        return dataManager.memos.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
         var configuration = cell.defaultContentConfiguration()
-        let memo = MemoDataManager.shared.memos[indexPath.row]
+        let memo = dataManager.memos[indexPath.row]
         configuration.text = memo.title.isEmpty ? "새로운 메모" : memo.title
         configuration.secondaryAttributedText = memo.subtitle
         configuration.textProperties.numberOfLines = 1
@@ -86,7 +87,7 @@ extension MemoListViewController: UITableViewDataSource {
 
 extension MemoListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let memo = MemoDataManager.shared.memos[indexPath.row]
+        let memo = dataManager.memos[indexPath.row]
         delegate?.memoDetailViewController(showTextViewWith: memo)
     }
     
@@ -104,12 +105,12 @@ extension MemoListViewController: UITableViewDelegate {
     }
     
     private func deleteMemo(at indexPath: IndexPath) {
-        let deletedMemo = MemoDataManager.shared.memos[indexPath.row]
-        MemoDataManager.shared.deleteMemo(id: deletedMemo.id)
+        let deletedMemo = dataManager.memos[indexPath.row]
+        dataManager.deleteMemo(id: deletedMemo.id)
         tableView.deleteRows(at: [indexPath], with: .none)
         
-        if indexPath.row < MemoDataManager.shared.memos.count {
-            let memo = MemoDataManager.shared.memos[indexPath.row]
+        if indexPath.row < dataManager.memos.count {
+            let memo = dataManager.memos[indexPath.row]
             delegate?.memoDetailViewController(showTextViewWith: memo)
             tableView.allowsSelectionDuringEditing = true
             tableView.selectRow(at: indexPath, animated: false, scrollPosition: .top)
@@ -122,13 +123,13 @@ extension MemoListViewController: UITableViewDelegate {
         guard let indexPath = indexPath else {
             return
         }
-        if indexPath.row < MemoDataManager.shared.memos.count {
+        if indexPath.row < dataManager.memos.count {
             tableView.selectRow(at: indexPath, animated: false, scrollPosition: .top)
         }
     }
     
     private func showActivityView(indexPath: IndexPath) {
-        let memo = MemoDataManager.shared.memos[indexPath.row]
+        let memo = dataManager.memos[indexPath.row]
         let title = memo.title ?? ""
         let body = memo.body ?? ""
         let memoToShare = "\(title)\n\(body)"
@@ -159,10 +160,10 @@ extension MemoListViewController: MemoListViewControllerDelegate {
     
     func memoListViewController(updateTableViewCellWith title: String, body: String, lastModified: Date) {
         guard let indexPath = tableView.indexPathForSelectedRow,
-              let id = MemoDataManager.shared.memos[indexPath.row].id else {
+              let id = dataManager.memos[indexPath.row].id else {
             return
         }
-        MemoDataManager.shared.updateMemo(id: id, title: title, body: body, lastModified: lastModified)
+        dataManager.updateMemo(id: id, title: title, body: body, lastModified: lastModified)
         tableView.reloadRows(at: [indexPath], with: .none)
         tableView.selectRow(at: indexPath, animated: true, scrollPosition: .none)
     }

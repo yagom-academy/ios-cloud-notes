@@ -6,6 +6,7 @@ protocol MemoDetailViewControllerDelegate: AnyObject {
 }
 
 final class MemoDetailViewController: UIViewController {
+    private let dataManager = MemoDataManager()
     weak var delegate: MemoListViewControllerDelegate?
     
     private let textView: UITextView = {

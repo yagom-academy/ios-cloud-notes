@@ -24,18 +24,20 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
         let splitVC = self.window?.rootViewController as? SplitViewController
         let primaryVC = splitVC?.viewController(for: .primary) as? NotesViewController
+
         // MARK: - Dropbox Redirection
         let oauthCompletion: DropboxOAuthCompletion = {
             if let authResult = $0 {
                 switch authResult {
                 case .success:
                     print("Success! User is logged into DropboxClientsManager.")
-                    DropboxManager().download() { error in
-                        if error != nil {
+                    DropboxManager().download() { result in
+                        switch result {
+                        case .failure(let error):
                             primaryVC?.dismiss(animated: false) {
-                                primaryVC?.showAlert(message: "다운로드에 실패했습니다.")
+                                primaryVC?.showAlert(message: error.localizedDescription)
                             }
-                        } else {
+                        case .success:
                             PersistentManager.shared.setUpNotes()
                             primaryVC?.tableView.reloadData()
                             primaryVC?.dismiss(animated: false)

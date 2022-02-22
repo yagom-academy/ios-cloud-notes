@@ -52,8 +52,9 @@ struct DropboxManager {
         }
     }
     
-    func download(complition: ((CallError<Files.DownloadError>?) -> Void)?) {
+    func download(complition: ((Result<Bool, Error>) -> Void)?) {
         let group = DispatchGroup()
+        var hasErrorOccured = false
         for fileName in fileNames {
             let destURL = applicationSupportDirectoryURL.appendingPathComponent(fileName)
             let destination: (URL, HTTPURLResponse) -> URL = { _, _ in
@@ -64,13 +65,17 @@ struct DropboxManager {
                 .response { _, error in
                     if let error = error {
                         print(error)
-                        complition?(error)
+                        hasErrorOccured = true
                     }
                     group.leave()
                 }
         }
         group.notify(queue: .main) {
-            complition?(nil)
+            if hasErrorOccured {
+                complition?(.failure(DropboxError.failureDownload))
+            } else {
+                complition?(.success(true))
+            }
         }
     }
 }

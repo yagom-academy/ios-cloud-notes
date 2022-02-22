@@ -170,7 +170,7 @@ extension DetailedNoteViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         var content = textView.text.components(separatedBy: ["\n"])
         var title = content.removeFirst()
-        var body = content.joined(separator: "")
+        var body = content.joined(separator: "\n")
         if title.count > 100 {
             title = String(textView.text.prefix(100))
             body = String(textView.text.suffix(textView.text.count - 100))

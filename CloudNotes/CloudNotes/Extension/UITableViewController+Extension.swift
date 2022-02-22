@@ -1,7 +1,7 @@
 import UIKit
 
 extension UITableViewController {
-  func setBackground(with message: String) {
+  func setBackgroundView(with message: String) {
     let backgroundView = UIView()
     let messageLabel = UILabel()
     messageLabel.text = message

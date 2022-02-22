@@ -180,7 +180,7 @@ extension MemoListViewController {
   override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     if memos.isEmpty {
       tableView.separatorStyle = .none
-      setBackground(with: "메모 없음")
+      setBackgroundView(with: "메모 없음")
     } else {
       tableView.separatorStyle = .singleLine
       tableView.backgroundView = nil

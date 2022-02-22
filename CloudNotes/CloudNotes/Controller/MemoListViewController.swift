@@ -22,10 +22,11 @@ final class MemoListViewController: UITableViewController {
     } catch {
       showAlert(title: "Load fail")
     }
-    if memos.isEmpty == false {
-      loadDetail(at: .first)
-    } else {
+    
+    if memos.isEmpty {
       delegate?.set(editable: false, needClear: true)
+    } else {
+      loadDetail(at: .first)
     }
   }
   

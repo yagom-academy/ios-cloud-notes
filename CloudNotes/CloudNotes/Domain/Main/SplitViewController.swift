@@ -73,8 +73,8 @@ class SplitViewController: UISplitViewController {
     }
 
     // MARK: - Dropbox Method
-    @objc
-    func upload() {
+    
+    @objc func upload() {
         self.dropboxManager.upload { error in
             if error != nil {
                 self.noteListViewController.presentUploadFailureAlert()
@@ -111,6 +111,10 @@ class SplitViewController: UISplitViewController {
 // MARK: - NoteList View Delegate
 
 extension SplitViewController: NoteListViewDelegate {
+    func logIn() {
+        dropboxManager.logIn(at: noteListViewController)
+    }
+
     func deleteNote(_ note: Content, index: Int) {
         do {
             try self.dataSourceProvider?.deleteNote(note)

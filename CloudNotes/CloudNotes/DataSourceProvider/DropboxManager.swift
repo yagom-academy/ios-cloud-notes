@@ -78,4 +78,20 @@ class DropboxManager {
             }
         }
     }
+
+    func logIn(at controller: UIViewController) {
+        let scopeRequest = ScopeRequest(
+            scopeType: .user,
+            scopes: ["account_info.read", "files.content.write", "files.content.read"],
+            includeGrantedScopes: false
+        )
+        DropboxClientsManager.authorizeFromControllerV2(
+            UIApplication.shared,
+            controller: controller,
+            loadingStatusDelegate: nil,
+            openURL: { (url: URL) -> Void in
+                UIApplication.shared.open(url, options: [:], completionHandler: nil) },
+            scopeRequest: scopeRequest
+        )
+    }
 }

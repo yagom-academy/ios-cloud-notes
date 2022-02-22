@@ -60,19 +60,7 @@ class NoteListViewController: UITableViewController {
         let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         if DropboxClientsManager.authorizedClient == nil {
             let loginAction = UIAlertAction(title: "로그인", style: .default) { _ in
-                let scopeRequest = ScopeRequest(
-                    scopeType: .user,
-                    scopes: ["account_info.read", "files.content.write", "files.content.read"],
-                    includeGrantedScopes: false
-                )
-                DropboxClientsManager.authorizeFromControllerV2(
-                    UIApplication.shared,
-                    controller: self,
-                    loadingStatusDelegate: nil,
-                    openURL: { (url: URL) -> Void in
-                        UIApplication.shared.open(url, options: [:], completionHandler: nil) },
-                    scopeRequest: scopeRequest
-                )
+                self.dataSourceDelegate?.logIn()
             }
             actionSheet.addAction(loginAction)
         } else {
@@ -168,10 +156,10 @@ class NoteListViewController: UITableViewController {
             message: nil,
             preferredStyle: .alert
         )
-        let cancelAction = UIAlertAction(title: "취소", style: .cancel) { action in
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel) { _ in
             self.dismiss(animated: true, completion: nil)
         }
-        let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { action in
+        let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
             let note = self.noteListData[indexPath.row]
             self.dataSourceDelegate?.deleteNote(note, index: indexPath.row)
         }
@@ -252,7 +240,7 @@ class NoteListViewController: UITableViewController {
         let share = UIContextualAction(
             style: .normal,
             title: "공유"
-        ) { action, view, completionHandler in
+        ) { _, _, completionHandler in
             self.showActivityController()
             completionHandler(true)
         }
@@ -260,7 +248,7 @@ class NoteListViewController: UITableViewController {
         let delete = UIContextualAction(
             style: .destructive,
             title: "삭제"
-        ) { action, view, completionHandler in
+        ) { _, _, completionHandler in
             self.showDeleteAlert(indexPath: indexPath)
             completionHandler(true)
         }

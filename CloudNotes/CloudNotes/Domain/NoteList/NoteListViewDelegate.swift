@@ -10,4 +10,6 @@ protocol NoteListViewDelegate: AnyObject {
     func upload()
 
     func download()
+
+    func logIn()
 }

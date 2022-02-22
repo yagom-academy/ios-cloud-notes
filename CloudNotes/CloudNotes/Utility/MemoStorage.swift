@@ -23,17 +23,28 @@ class MemoStorage {
     
     // MARK: - CoreData CRUD
     
-    func create() {
+    func synchronizeCoreDataToDropbox() {
+        dropboxManager.fetchFilePaths { metaDatas in
+            metaDatas.forEach { metaData in
+                self.dropboxManager.download(from: "/\(metaData.name)") {
+                    self.create(id: $0.id, title: $0.title, body: $0.body, lastModified: $0.clientModified)
+                    NotificationCenter.default.post(name: .tableViewNeedUpdate, object: nil)
+                }
+            }
+        }
+    }
+    
+    func create(id: UUID = UUID(), title: String = .blank, body: String = .blank, lastModified: TimeInterval = Date().timeIntervalSince1970) {
         guard let memoEntity = NSEntityDescription.entity(forEntityName: "Memo", in: context) else {
             return
         }
         
         let memoManagedObject = NSManagedObject(entity: memoEntity, insertInto: context)
         
-        memoManagedObject.setValue(UUID(), forKey: "id")
-        memoManagedObject.setValue(String.blank, forKey: "title")
-        memoManagedObject.setValue(String.blank, forKey: "body")
-        memoManagedObject.setValue(Date().timeIntervalSince1970, forKey: "lastModified")
+        memoManagedObject.setValue(id, forKey: "id")
+        memoManagedObject.setValue(title, forKey: "title")
+        memoManagedObject.setValue(body, forKey: "body")
+        memoManagedObject.setValue(lastModified, forKey: "lastModified")
         
         saveContext()
     }

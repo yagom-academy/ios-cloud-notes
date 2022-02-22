@@ -9,6 +9,9 @@ import Foundation
 import SwiftyDropbox
 
 struct DropboxManager {
+    let downloadGroup = DispatchGroup()
+    let downloadQueue = DispatchQueue(label: "downloadQueue")
+    
     func connectDropbox(viewController: UIViewController) {
         let scopes = ["account_info.read", "files.content.write", "files.content.read"]
         let scopeRequest = ScopeRequest(scopeType: .user, scopes: scopes, includeGrantedScopes: false)
@@ -29,7 +32,7 @@ struct DropboxManager {
                 return
             }
             
-            let memoData = title + "\n" + body
+            let memoData = title + String.lineBreak + body
             guard let uploadData = memoData.data(using: .utf8) else {
                 return
             }
@@ -44,5 +47,35 @@ struct DropboxManager {
         }
         
         DropboxClientsManager.authorizedClient?.files.deleteV2(path: "/\(id)", parentRev: nil)
+    }
+    
+    func fetchFilePaths(completion: @escaping ([Files.Metadata]) -> Void) {
+        DropboxClientsManager.authorizedClient?.files.listFolder(path: "")
+            .response { response, _ in
+                if let response = response {
+                    completion(response.entries)
+                }
+            }
+    }
+    
+    func download(from path: String, completion: @escaping (DropboxFile) -> Void) {
+        DropboxClientsManager.authorizedClient?.files.download(path: path)
+            .response { data, _ in
+                guard let data = data else {
+                    return
+                }
+                
+                let metaData = data.0
+                let content = data.1
+                
+                guard let contentString = String(data: content, encoding: .utf8) else {
+                    return
+                }
+                
+                let (title, body) = contentString.splitedText
+                
+                let dropboxFile = DropboxFile(id: metaData.name, title: title, body: body, clientModified: metaData.clientModified)
+                completion(dropboxFile)
+            }
     }
 }

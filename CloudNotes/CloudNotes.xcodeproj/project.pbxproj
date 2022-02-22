@@ -21,6 +21,9 @@
 		C7481C9325BBCF3A00B9CA55 /* CloudNotesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C9225BBCF3A00B9CA55 /* CloudNotesUITests.swift */; };
 		C94DE44527BB79ED0002875C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94DE44427BB79ED0002875C /* AppDelegate.swift */; };
 		C982B2DD27BB79770021B14C /* MemoManageable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C982B2DC27BB79760021B14C /* MemoManageable.swift */; };
+		C994CB8D27C4D4F000EEA5E9 /* DropboxFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = C994CB8C27C4D4F000EEA5E9 /* DropboxFile.swift */; };
+		C994CB8F27C4D70E00EEA5E9 /* String+splitedText.swift in Sources */ = {isa = PBXBuildFile; fileRef = C994CB8E27C4D70E00EEA5E9 /* String+splitedText.swift */; };
+		C994CB9127C4E7E500EEA5E9 /* Notification+Name.swift in Sources */ = {isa = PBXBuildFile; fileRef = C994CB9027C4E7E400EEA5E9 /* Notification+Name.swift */; };
 		C9AA78EB27C3B68C00F3B307 /* DropboxManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AA78EA27C3B68C00F3B307 /* DropboxManager.swift */; };
 		C9B3074A27BCE96E00C275A8 /* Character+lineBreak.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B3074927BCE96E00C275A8 /* Character+lineBreak.swift */; };
 		C9B3074C27BCEBFE00C275A8 /* String+customString.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B3074B27BCEBFE00C275A8 /* String+customString.swift */; };
@@ -78,6 +81,9 @@
 		C7481C9425BBCF3A00B9CA55 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C94DE44427BB79ED0002875C /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C982B2DC27BB79760021B14C /* MemoManageable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoManageable.swift; sourceTree = "<group>"; };
+		C994CB8C27C4D4F000EEA5E9 /* DropboxFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropboxFile.swift; sourceTree = "<group>"; };
+		C994CB8E27C4D70E00EEA5E9 /* String+splitedText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+splitedText.swift"; sourceTree = "<group>"; };
+		C994CB9027C4E7E400EEA5E9 /* Notification+Name.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+Name.swift"; sourceTree = "<group>"; };
 		C9AA78EA27C3B68C00F3B307 /* DropboxManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropboxManager.swift; sourceTree = "<group>"; };
 		C9B3074927BCE96E00C275A8 /* Character+lineBreak.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Character+lineBreak.swift"; sourceTree = "<group>"; };
 		C9B3074B27BCEBFE00C275A8 /* String+customString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+customString.swift"; sourceTree = "<group>"; };
@@ -200,6 +206,7 @@
 		C7481C6C25BBCF3900B9CA55 /* CloudNotes */ = {
 			isa = PBXGroup;
 			children = (
+				C994CB8B27C4D4CA00EEA5E9 /* Model */,
 				C13E937D27B211C200446D79 /* View */,
 				C13E937B27B2118F00446D79 /* Controller */,
 				C13E938227B233F400446D79 /* Utility */,
@@ -240,6 +247,14 @@
 			path = Protocol;
 			sourceTree = "<group>";
 		};
+		C994CB8B27C4D4CA00EEA5E9 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				C994CB8C27C4D4F000EEA5E9 /* DropboxFile.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		C9B3074827BCE70E00C275A8 /* Constant */ = {
 			isa = PBXGroup;
 			children = (
@@ -256,7 +271,9 @@
 				C9F4255D27B2595F00BC4BF0 /* TimeInterval+dateString.swift */,
 				C9B3074927BCE96E00C275A8 /* Character+lineBreak.swift */,
 				C9B3074B27BCEBFE00C275A8 /* String+customString.swift */,
+				C994CB8E27C4D70E00EEA5E9 /* String+splitedText.swift */,
 				C9B3074D27BCEC1900C275A8 /* IndexPath+zero.swift */,
+				C994CB9027C4E7E400EEA5E9 /* Notification+Name.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -518,6 +535,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C9F4255C27B24F2200BC4BF0 /* UITableView+dequeueReusableCell.swift in Sources */,
+				C994CB9127C4E7E500EEA5E9 /* Notification+Name.swift in Sources */,
 				C9F4255E27B2595F00BC4BF0 /* TimeInterval+dateString.swift in Sources */,
 				C9F4255227B20BE900BC4BF0 /* MemoSplitViewController.swift in Sources */,
 				C9B3074A27BCE96E00C275A8 /* Character+lineBreak.swift in Sources */,
@@ -527,11 +545,13 @@
 				C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */,
 				C9D36D0B27BA2E590070A768 /* Memo+CoreDataClass.swift in Sources */,
 				C9B3075027BCEFA000C275A8 /* ActionTitle.swift in Sources */,
+				C994CB8D27C4D4F000EEA5E9 /* DropboxFile.swift in Sources */,
 				C982B2DD27BB79770021B14C /* MemoManageable.swift in Sources */,
 				C1D3DCAB27B64A8400A646BC /* MemoStorage.swift in Sources */,
 				C13E937F27B212D200446D79 /* MemoTableViewController.swift in Sources */,
 				C9B3074C27BCEBFE00C275A8 /* String+customString.swift in Sources */,
 				C7481C7825BBCF3900B9CA55 /* CloudNotes.xcdatamodeld in Sources */,
+				C994CB8F27C4D70E00EEA5E9 /* String+splitedText.swift in Sources */,
 				C9D36D0C27BA2E590070A768 /* Memo+CoreDataProperties.swift in Sources */,
 				C13E938627B244F900446D79 /* MemoTableViewCell.swift in Sources */,
 				C13E938127B2179B00446D79 /* MemoDetailViewController.swift in Sources */,

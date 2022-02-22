@@ -16,6 +16,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
           if let authResult = $0 {
               switch authResult {
               case .success:
+                  self.memoStorage.synchronizeCoreDataToDropbox()
                   print("❤️ Success! User is logged into DropboxClientsManager.")
               case .cancel:
                   print("☠️ Authorization flow was manually canceled by user!")
@@ -26,7 +27,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
 
         for context in URLContexts {
-            if DropboxClientsManager.handleRedirectURL(context.url, completion: oauthCompletion) { break }
+            if DropboxClientsManager.handleRedirectURL(context.url, completion: oauthCompletion) {
+                break
+            }
         }
     }
 

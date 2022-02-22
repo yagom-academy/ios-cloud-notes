@@ -138,19 +138,7 @@ class MemoDetailViewController: UIViewController {
     @objc private func keyboardWillHide() {
         memoTextView.contentInset.bottom = .zero
         memoTextView.verticalScrollIndicatorInsets.bottom = .zero
-    }
-    
-    func splitText(text: String) -> (title: String, body: String) {
-        let splitedText = text.split(separator: .lineBreak, maxSplits: 1).map { String($0) }
-        
-        if splitedText.count == 1 {
-            return (splitedText[0], .blank)
-        } else if splitedText.count == 2 {
-            return (splitedText[0], splitedText[1])
-        } else {
-            return (.blank, .blank)
-        }
-    }
+    }        
 }
 
 extension MemoDetailViewController: UITextViewDelegate {
@@ -163,7 +151,7 @@ extension MemoDetailViewController: UITextViewDelegate {
     }
     
     func textViewDidChange(_ textView: UITextView) {
-        let (title, body) = splitText(text: textView.text)
+        let (title, body) = textView.text.splitedText
         delegate?.update(at: currentIndexPath, title: title, body: body)
         currentIndexPath = .zero
     }

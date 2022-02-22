@@ -239,7 +239,7 @@ extension MemoListViewController {
       willSelectIndexPath = .first
     }
     tableView.selectRow(at: willSelectIndexPath, animated: false, scrollPosition: .none)
-    self.loadDetail(at: willSelectIndexPath)
+    loadDetail(at: willSelectIndexPath)
   }
 }
 

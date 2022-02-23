@@ -19,8 +19,6 @@ class MemoTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        NotificationCenter.default.addObserver(self, selector: #selector(updateTableView), name: .tableViewNeedUpdate, object: nil)
-        
         tableView.register(cellWithClass: MemoTableViewCell.self)
         configureNavigationBar()
         configureTableView()
@@ -65,7 +63,7 @@ class MemoTableViewController: UITableViewController {
         delegate?.connectDropbox(viewController: self)
     }
     
-    @objc private func updateTableView() {
+    func updateTableView() {
         delegate?.fetchAll()
         tableView.reloadData()
     }

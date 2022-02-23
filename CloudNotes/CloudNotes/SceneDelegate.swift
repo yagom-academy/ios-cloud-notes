@@ -13,15 +13,20 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
         let memoSplitViewController = self.window?.rootViewController as! MemoSplitViewController
+        let memoTableViewController = memoSplitViewController.viewController(for: .primary) as! MemoTableViewController
         let oauthCompletion: DropboxOAuthCompletion = {
             if let authResult = $0 {
                 switch authResult {
                 case .success:
-                    self.memoStorage.synchronizeCoreDataToDropbox()
-                    UserDefaults.standard.set(true, forKey: UserDefaultsKey.dropboxConnected)
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                        memoSplitViewController.presentConnectResultAlert(type: .connectSuccess)
+                    self.memoStorage.synchronizeCoreDataToDropbox { isSuccess in
+                        if isSuccess {
+                            DispatchQueue.main.async {
+                                memoSplitViewController.presentConnectResultAlert(type: .connectSuccess)
+                                memoTableViewController.updateTableView()
+                            }
+                        }
                     }
+                    UserDefaults.standard.set(true, forKey: UserDefaultsKey.dropboxConnected)
                 case .cancel:
                     memoSplitViewController.presentConnectResultAlert(type: .connectFailure)
                 case .error(_, _):

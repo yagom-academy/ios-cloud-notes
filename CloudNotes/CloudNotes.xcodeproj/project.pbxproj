@@ -27,7 +27,6 @@
 		C994047327C50F210015AFCE /* AlertMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C994047227C50F210015AFCE /* AlertMessage.swift */; };
 		C994CB8D27C4D4F000EEA5E9 /* DropboxFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = C994CB8C27C4D4F000EEA5E9 /* DropboxFile.swift */; };
 		C994CB8F27C4D70E00EEA5E9 /* String+splitedText.swift in Sources */ = {isa = PBXBuildFile; fileRef = C994CB8E27C4D70E00EEA5E9 /* String+splitedText.swift */; };
-		C994CB9127C4E7E500EEA5E9 /* Notification+Name.swift in Sources */ = {isa = PBXBuildFile; fileRef = C994CB9027C4E7E400EEA5E9 /* Notification+Name.swift */; };
 		C9AA78EB27C3B68C00F3B307 /* DropboxManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AA78EA27C3B68C00F3B307 /* DropboxManager.swift */; };
 		C9B3074A27BCE96E00C275A8 /* Character+lineBreak.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B3074927BCE96E00C275A8 /* Character+lineBreak.swift */; };
 		C9B3074C27BCEBFE00C275A8 /* String+customString.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B3074B27BCEBFE00C275A8 /* String+customString.swift */; };
@@ -91,7 +90,6 @@
 		C994047227C50F210015AFCE /* AlertMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertMessage.swift; sourceTree = "<group>"; };
 		C994CB8C27C4D4F000EEA5E9 /* DropboxFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropboxFile.swift; sourceTree = "<group>"; };
 		C994CB8E27C4D70E00EEA5E9 /* String+splitedText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+splitedText.swift"; sourceTree = "<group>"; };
-		C994CB9027C4E7E400EEA5E9 /* Notification+Name.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+Name.swift"; sourceTree = "<group>"; };
 		C9AA78EA27C3B68C00F3B307 /* DropboxManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropboxManager.swift; sourceTree = "<group>"; };
 		C9B3074927BCE96E00C275A8 /* Character+lineBreak.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Character+lineBreak.swift"; sourceTree = "<group>"; };
 		C9B3074B27BCEBFE00C275A8 /* String+customString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+customString.swift"; sourceTree = "<group>"; };
@@ -285,7 +283,6 @@
 				C9B3074B27BCEBFE00C275A8 /* String+customString.swift */,
 				C994CB8E27C4D70E00EEA5E9 /* String+splitedText.swift */,
 				C9B3074D27BCEC1900C275A8 /* IndexPath+zero.swift */,
-				C994CB9027C4E7E400EEA5E9 /* Notification+Name.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -547,7 +544,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				C9F4255C27B24F2200BC4BF0 /* UITableView+dequeueReusableCell.swift in Sources */,
-				C994CB9127C4E7E500EEA5E9 /* Notification+Name.swift in Sources */,
 				C9F4255E27B2595F00BC4BF0 /* TimeInterval+dateString.swift in Sources */,
 				C9F4255227B20BE900BC4BF0 /* MemoSplitViewController.swift in Sources */,
 				C9B3074A27BCE96E00C275A8 /* Character+lineBreak.swift in Sources */,

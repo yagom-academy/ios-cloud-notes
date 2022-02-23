@@ -43,13 +43,13 @@ final class MemoStorage {
         dropboxManager.upload(memos: fetchedMemos)
     }
     
-    func synchronizeCoreDataToDropbox() {
+    func synchronizeCoreDataToDropbox(completion: ((Bool) -> Void)? = nil) {
         dropboxManager.fetchFilePaths { metaDatas in
             metaDatas.forEach { metaData in
                 self.dropboxManager.download(from: "/\(metaData.name)") {
                     if self.hasNoMemo(with: $0.id) {
                         self.create(id: $0.id, title: $0.title, body: $0.body, lastModified: $0.clientModified)
-                        NotificationCenter.default.post(name: .tableViewNeedUpdate, object: nil)
+                        completion?(true)
                     }
                 }
             }

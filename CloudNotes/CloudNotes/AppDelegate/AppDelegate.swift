@@ -7,7 +7,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         DropboxClientsManager.setupWithAppKey("18h0uv2xmjg8lhv")
+        makeDropboxDirectory()
         return true
+    }
+    
+    private func makeDropboxDirectory() {
+        let fileManager = FileManager.default
+        let documentsURL = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let filePath =  documentsURL.appendingPathComponent("dropboxMemos")
+        if !fileManager.fileExists(atPath: filePath.path) {
+            do {
+                try fileManager.createDirectory(atPath: filePath.path, withIntermediateDirectories: true, attributes: nil)
+                
+            } catch {
+                NSLog("Couldn't create document directory")
+            }
+        }
     }
 
     // MARK: UISceneSession Lifecycle

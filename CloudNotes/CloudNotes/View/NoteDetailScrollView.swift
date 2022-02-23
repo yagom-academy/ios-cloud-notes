@@ -50,12 +50,14 @@ final class NoteDetailScrollView: UIScrollView {
             self.noteDetailTextView.text = ""
             DispatchQueue.main.async {
                 let position = self.noteDetailTextView.beginningOfDocument
-                self.noteDetailTextView.selectedTextRange = self.noteDetailTextView.textRange(from: position, to: position)
+                self.noteDetailTextView.selectedTextRange = self.noteDetailTextView.textRange(
+                                                                                from: position,
+                                                                                to: position)
                 self.noteDetailTextView.becomeFirstResponder()
             }
         } else {
             let attributedString = NSMutableAttributedString()
-                .preferredFont(string: title + "\n", forTextStyle: .body)
+                .preferredFont(string: title + "\n", forTextStyle: .title1)
                 .preferredFont(string: content, forTextStyle: .body)
             attributedString.color(to: .label)
             DispatchQueue.main.async {
@@ -64,9 +66,6 @@ final class NoteDetailScrollView: UIScrollView {
         }
         self.lastModifiedDateLabel.text = note.localizedDateString
     }
-    
-    
-    
     
     // MARK: - private Methods
     

@@ -22,6 +22,15 @@ final class NoteDetailViewController: UIViewController {
     weak var delegate: NoteDetailViewDelegate?
     var persistentManager: PersistentManager?
     
+    let titleAttirbuteText = [
+        NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .title1),
+        NSAttributedString.Key.foregroundColor: UIColor.label
+    ]
+    let bodyAttributeText = [
+        NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .body),
+        NSAttributedString.Key.foregroundColor: UIColor.label
+    ]
+    
     // MARK: - View LifeCycle
     
     override func viewDidLoad() {
@@ -153,6 +162,19 @@ extension NoteDetailViewController: UITextViewDelegate {
         }
         let information = NoteInformation(title: title, content: body, lastModifiedDate: Date().timeIntervalSince1970)
         delegate?.textViewDidChange(noteInformation: information)
+    }
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        let textAsNSString = textView.text as NSString
+        let replacedString = textAsNSString.replacingCharacters(in: range, with: text) as NSString
+        let titleRange = replacedString.range(of: "\n")
+
+        if titleRange.location > range.location {
+            textView.typingAttributes = titleAttirbuteText
+        } else {
+            textView.typingAttributes = bodyAttributeText
+        }
+        return true
     }
 }
 

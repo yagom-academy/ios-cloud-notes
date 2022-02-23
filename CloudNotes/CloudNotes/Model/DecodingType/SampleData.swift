@@ -4,6 +4,7 @@ struct SampleData: Decodable, MemoType {
      var title: String?
      var body: String?
      var lastModified: Date?
+     var identifier: UUID?
 
      enum CodingKeys: String, CodingKey {
          case title, body

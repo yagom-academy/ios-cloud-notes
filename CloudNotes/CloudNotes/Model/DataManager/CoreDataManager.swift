@@ -5,7 +5,7 @@ final class CoreDataManager<T: NSManagedObject>: DataProvider {
     private let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext
     lazy var fetchedController = createNoteFetchedResultsController()
     
-    func create(attributes: [String : Any]) {
+    func create(attributes: [String: Any]) {
         createCoreData(target: T.self, attributes: attributes)
     }
     
@@ -13,7 +13,7 @@ final class CoreDataManager<T: NSManagedObject>: DataProvider {
         return fetchedController.object(at: index) as? MemoType
     }
     
-    func update(target: MemoType, attributes: [String : Any]) {
+    func update(target: MemoType, attributes: [String: Any]) {
         guard let target = target as? T else {
             return
         }
@@ -21,10 +21,14 @@ final class CoreDataManager<T: NSManagedObject>: DataProvider {
     }
     
     func delete(target: MemoType) {
-        guard let target = target as? T else {
-            return
+        let finder = find(identifier: target.identifier?.uuidString ?? "")
+        let data = finder.object(at: IndexPath(row: 0, section: 0))
+        do {
+            try fetchedController.performFetch()
+        } catch {
+            
         }
-        deleteCoreData(target: target)
+        deleteCoreData(target: data)
     }
     
     func countAllData() -> Int {
@@ -74,6 +78,32 @@ final class CoreDataManager<T: NSManagedObject>: DataProvider {
                 print(error.localizedDescription)
             }
         }
+    }
+    
+    private func find(identifier query: String) -> NSFetchedResultsController<T> {
+        guard let context = context else {
+            return NSFetchedResultsController()
+        }
+        
+        guard let fetchRequest = T.fetchRequest() as? NSFetchRequest<T> else {
+            return NSFetchedResultsController()
+        }
+        
+        let sortDescriptor = NSSortDescriptor(key: "lastModified", ascending: false)
+        fetchRequest.sortDescriptors = [sortDescriptor]
+        
+        let predicate = NSPredicate(format: "identifier = %@", query)
+        fetchRequest.predicate = predicate
+    
+         let controller = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+        
+        do {
+            try controller.performFetch()
+        } catch {
+            
+        }
+        
+        return controller
     }
     
     private func createNoteFetchedResultsController(query: String? = nil) -> NSFetchedResultsController<T> {

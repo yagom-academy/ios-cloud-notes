@@ -55,7 +55,7 @@ class NoteListViewController: UIViewController {
         listTableView.delegate = self
         setUpLayout()
         setUpNavigationItems()
-        myButtonInControllerPressed()
+//        myButtonInControllerPressed()
     }
     // MARK: - Method
     private func setUpLayout() {

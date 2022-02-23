@@ -10,7 +10,7 @@ class NoteSplitViewController: UISplitViewController {
         return noteListViewController.extractSeletedRow()
     }
     private var atrributesForNewCell: [String: Any] {
-        ["title": "새로운 메모", "body": "", "lastModified": Date()] as [String: Any]
+        ["title": "새로운 메모", "body": "", "lastModified": Date(), "identifier": UUID()] as [String: Any]
     }
 // MARK: - ViewLifeCycle
     override func viewDidLoad() {
@@ -48,10 +48,9 @@ class NoteSplitViewController: UISplitViewController {
     }
     
     private func configureFetchedResultsController() {
-        guard let coreDataManager = dataManager as? CoreDataManager else {
-            return
+        if let datamanager = dataManager as? CoreDataManager<CDMemo> {
+            datamanager.fetchedController.delegate = self
         }
-        coreDataManager.fetchedController.delegate = self
     }
     
     private func presentActivityView() {

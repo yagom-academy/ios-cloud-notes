@@ -1,15 +1,5 @@
 import CoreData
 
-protocol StorageProtocol {
-    associatedtype Element: NSManagedObject
-    
-    func fetch(_ request: NSFetchRequest<Element>) -> [Element]?
-    func saveContext(memo: MemoEntity)
-//    func update()
-    func delete(request: NSFetchRequest<Element>)
-}
-
-// class MemoCoreDataManager<Element: NSManagedObject>: StorageProtocol { 오류 발생
 class MemoCoreDataManager {
     lazy var persistentContainer: NSPersistentCloudKitContainer = {
         let container = NSPersistentCloudKitContainer(name: "CloudNotes")
@@ -25,7 +15,7 @@ class MemoCoreDataManager {
         return persistentContainer.viewContext
     }
     
-    func fetch<Element: NSManagedObject>(_ request: NSFetchRequest<Element>) -> [Element]? {
+    func fetchMemo(_ request: NSFetchRequest<Memo>) -> [Memo]? {
         do {
             request.sortDescriptors = [NSSortDescriptor(key: "lastModifiedDate", ascending: false)]
             let elements = try context.fetch(request)
@@ -65,22 +55,8 @@ class MemoCoreDataManager {
             
             let managedObject = memoToUpdate.first
             managedObject?.setValue(memo.title, forKey: "title")
-            managedObject?.setValue(memo.body ?? "", forKey: "body")
+            managedObject?.setValue(memo.body, forKey: "body")
             managedObject?.setValue(memo.lastModifiedDate, forKey: "lastModifiedDate")
-            
-            try context.save()
-        } catch {
-            fatalError("\(error)")
-        }
-    }
-    
-    func delete<Element: NSManagedObject>(request: NSFetchRequest<Element>) {
-        do {
-            let elementsToDelete = try context.fetch(request)
-            
-            elementsToDelete.forEach { element in
-                context.delete(element)
-            }
             
             try context.save()
         } catch {
@@ -95,8 +71,18 @@ class MemoCoreDataManager {
 
         let deleteRequest = Memo.fetchRequest()
         deleteRequest.predicate = NSPredicate(format: "memoId = %@", memoId.uuidString)
-        
-        delete(request: deleteRequest)
+    
+        do {
+            let memoToDelete = try context.fetch(deleteRequest)
+            
+            memoToDelete.forEach { memo in
+                context.delete(memo)
+            }
+            
+            try context.save()
+        } catch {
+            fatalError("\(error)")
+        }
     }
     
     func deleteAll() {

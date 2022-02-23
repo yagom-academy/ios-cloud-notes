@@ -9,27 +9,15 @@ protocol MemoSelectionDelegate: AnyObject {
 
 final class MasterTableViewController: UITableViewController {
     // MARK: - Properties
-    private var memoDataSource: MasterTableViewDataSourceProtocol?
+    private let memoDataSource: MasterTableViewDataSourceProtocol?
     weak var delegate: MemoSelectionDelegate?
     private let dropBoxClient = DropboxClientsManager.authorizedClient
     
     // MARK: - Initializer
-    override init(style: UITableView.Style) {
-        super.init(style: style)
-    }
-    
-    // 오류 발생 ('let' property 'memoDataSource' may not be initialized directly; use "self.init(...)" or "self = ..." instead)
-//    init(style: UITableView.Style, memoDataSource: MasterTableViewDataSourceProtocol = MasterTableViewDataSource(), delegate: MemoSelectionDelegate) {
-//        self.init(style: style)
-//        self.memoDataSource = memoDataSource
-//        self.delegate = delegate
-//    }
-    
-    // 기존 코드
-    convenience init(style: UITableView.Style, dataSource: MasterTableViewDataSourceProtocol = MasterTableViewDataSource(), delegate: MemoSelectionDelegate) {
-        self.init(style: style)
+    init(style: UITableView.Style, dataSource: MasterTableViewDataSourceProtocol = MasterTableViewDataSource(), delegate: MemoSelectionDelegate) {
         self.memoDataSource = dataSource
         self.delegate = delegate
+        super.init(style: style)
     }
     
     required init?(coder: NSCoder) {
@@ -137,6 +125,7 @@ final class MasterTableViewController: UITableViewController {
     
     private func selectFirstMemo() {
         let firstIndexPath = IndexPath(row: 0, section: 0)
+        tableView.reloadData()
         tableView.selectRow(at: firstIndexPath, animated: true, scrollPosition: .middle)
         tableView(tableView, didSelectRowAt: firstIndexPath)
     }
@@ -200,7 +189,14 @@ final class MasterTableViewController: UITableViewController {
 
 extension MasterTableViewController {
     func presentSafariViewController() {
-        let scopeRequest = ScopeRequest(scopeType: .user, scopes: ["account_info.write", "account_info.read", "files.metadata.write" ,"files.metadata.read", "files.content.write", "files.content.read", "file_requests.write"], includeGrantedScopes: false)
+        let scopeRequest = ScopeRequest(scopeType: .user, scopes: [
+            "account_info.write",
+            "account_info.read",
+            "files.metadata.write",
+            "files.metadata.read",
+            "files.content.write",
+            "files.content.read",
+            "file_requests.write"], includeGrantedScopes: false)
         DropboxClientsManager.authorizeFromControllerV2(
             UIApplication.shared,
             controller: self,

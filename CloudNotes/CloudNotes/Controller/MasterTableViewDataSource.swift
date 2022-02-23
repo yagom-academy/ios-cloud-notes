@@ -1,45 +1,33 @@
 import UIKit
 import CoreData
 
-protocol MasterTableViewDataSourceProtocol: AnyObject {
-    //var memos: [MemoEntity]? { get set }
-    func fetchMemos()
-    func saveMemo(_ memo: MemoEntity)
-    func updateMemo(_ memo: MemoEntity)
-    func deleteMemo(with memoId: UUID?)
+protocol MemosManageable: AnyObject {
     func retrieveMemos() -> [MemoEntity]?
     func removeMemo(at index: Int) -> MemoEntity?
     func insertMemo(_ memo: MemoEntity, at index: Int)
 }
 
+protocol CoreDataManageable: AnyObject {
+    func fetchMemos()
+    func saveMemo(_ memo: MemoEntity)
+    func updateMemo(_ memo: MemoEntity)
+    func deleteMemo(with memoId: UUID?)
+}
+
+typealias MasterTableViewDataSourceProtocol = MemosManageable & CoreDataManageable
+
 final class MasterTableViewDataSource: NSObject, MasterTableViewDataSourceProtocol {
-//    let memoCoreDataManager: StorageProtocol?  // 프로토콜/제네릭 관련 오류 발생
     private var memoCoreDataManager: MemoCoreDataManager? = MemoCoreDataManager()
-     var memos: [MemoEntity]?
+    private var memos: [MemoEntity]?
  
     override init() {
         super.init()
         fetchMemos()
     }
-  
-    func fetchMemos() {
-        let request = Memo.fetchRequest()
-        
-        memos = memoCoreDataManager?.fetch(request)
-    }
-    
-    func saveMemo(_ memo: MemoEntity) {
-        memoCoreDataManager?.saveContext(memo: memo)
-    }
-    
-    func updateMemo(_ memo: MemoEntity) {
-        memoCoreDataManager?.updateMemo(memo)
-    }
-    
-    func deleteMemo(with memoId: UUID?) {
-        memoCoreDataManager?.deleteMemo(memoId: memoId)
-    }
-    
+}
+
+// MARK: - MemosManageable
+extension MasterTableViewDataSource {
     func retrieveMemos() -> [MemoEntity]? {
         return memos
     }
@@ -55,7 +43,27 @@ final class MasterTableViewDataSource: NSObject, MasterTableViewDataSourceProtoc
     func insertMemo(_ memo: MemoEntity, at index: Int) {
         memos?.insert(memo, at: index)
     }
+}
+
+// MARK: - CoreDataManageable
+extension MasterTableViewDataSource {
+    func fetchMemos() {
+        let request = Memo.fetchRequest()
+        
+        memos = memoCoreDataManager?.fetchMemo(request)
+    }
     
+    func saveMemo(_ memo: MemoEntity) {
+        memoCoreDataManager?.saveContext(memo: memo)
+    }
+    
+    func updateMemo(_ memo: MemoEntity) {
+        memoCoreDataManager?.updateMemo(memo)
+    }
+    
+    func deleteMemo(with memoId: UUID?) {
+        memoCoreDataManager?.deleteMemo(memoId: memoId)
+    }
 }
 
 // MARK: - Table view data source

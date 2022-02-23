@@ -43,7 +43,7 @@ final class MemoStorage {
         dropboxManager.upload(memos: fetchedMemos)
     }
     
-    func synchronizeCoreDataToDropbox(completion: ((Bool) -> Void)? = nil) {
+    func downloadDropboxData(completion: ((Bool) -> Void)? = nil) {
         dropboxManager.fetchFilePaths { metaDatas in
             metaDatas.forEach { metaData in
                 self.dropboxManager.download(from: "/\(metaData.name)") {

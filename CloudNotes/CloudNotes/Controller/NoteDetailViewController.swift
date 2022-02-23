@@ -30,7 +30,7 @@ class NoteDetailViewController: UIViewController {
         textView.selectedRange = NSRange("\n") ?? NSRange()
     }
     // MARK: - Method
-    func setUpText(with data: CDMemo) {
+    func setUpText(with data: MemoType) {
         guard let title = data.title, let body = data.body else {
              return
         }

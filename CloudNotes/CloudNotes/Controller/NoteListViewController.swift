@@ -28,7 +28,7 @@ protocol NoteListViewControllerDataSource: AnyObject {
     func noteListViewControllerSampleForCell(
         _ viewController: NoteListViewController,
         indexPath: IndexPath
-    ) -> CDMemo?
+    ) -> MemoType?
 }
 
 class NoteListViewController: UIViewController {

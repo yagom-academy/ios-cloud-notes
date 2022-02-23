@@ -2,31 +2,36 @@ import UIKit
 import CoreData
  
 final class CoreDataManager<T: NSManagedObject>: DataProvider {
-    func create(target: MemoType, attributes: [String : Any]) {
+    private let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext
+    lazy var fetchedController = createNoteFetchedResultsController()
+    
+    func create(attributes: [String : Any]) {
         createCoreData(target: T.self, attributes: attributes)
     }
     
-    func update(target: T, attributes: [String: Any] ) {
+    func read(index: IndexPath) -> MemoType? {
+        return fetchedController.object(at: index) as? MemoType
+    }
+    
+    func update(target: MemoType, attributes: [String : Any]) {
+        guard let target = target as? T else {
+            return
+        }
         updateCoreData(target: target, attributes: attributes)
     }
     
-    func read(index: IndexPath) -> MemoType {
-        do {
-            try fetcheController.performFetch()
-        } catch {
-            
-        }
-        fetcheController.object(at: index)
-    }
-    
     func delete(target: MemoType) {
-        delete(target: target)
+        guard let target = target as? T else {
+            return
+        }
+        deleteCoreData(target: target)
     }
     
-    private let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext
-    lazy var fetcheController = createNoteFetchedResultsController()
+    func countAllData() -> Int {
+        fetchedController.sections?[0].numberOfObjects ?? .zero
+    }
     
-    func createCoreData(target: T.Type, attributes: [String: Any]) {
+    private func createCoreData(target: T.Type, attributes: [String: Any]) {
         guard let context = context else {
             return
         }
@@ -46,7 +51,7 @@ final class CoreDataManager<T: NSManagedObject>: DataProvider {
         save()
     }
     
-    func updateCoreData(target: T, attributes: [String: Any]) {
+    private func updateCoreData(target: T, attributes: [String: Any]) {
         attributes.forEach { (key: String, value: Any) in
             target.setValue(value, forKey: key)
         }
@@ -54,12 +59,12 @@ final class CoreDataManager<T: NSManagedObject>: DataProvider {
         save()
     }
     
-    func delete(target: T) {
+    private func deleteCoreData(target: T) {
         context?.delete(target)
         save()
     }
     
-    func save() {
+    private func save() {
         guard let context = context else { return }
         
         if context.hasChanges {
@@ -71,7 +76,7 @@ final class CoreDataManager<T: NSManagedObject>: DataProvider {
         }
     }
     
-    func createNoteFetchedResultsController(query: String? = nil) -> NSFetchedResultsController<T> {
+    private func createNoteFetchedResultsController(query: String? = nil) -> NSFetchedResultsController<T> {
         guard let context = context else {
             return NSFetchedResultsController()
         }
@@ -88,6 +93,12 @@ final class CoreDataManager<T: NSManagedObject>: DataProvider {
             fetchRequest.predicate = predicate
         }
         
-        return NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+        let fetchedController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+        do {
+            try fetchedController.performFetch()
+        } catch {
+            
+        }
+        return fetchedController
     }
 }

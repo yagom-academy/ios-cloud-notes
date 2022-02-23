@@ -3,10 +3,9 @@ import CoreData
 
 class NoteSplitViewController: UISplitViewController {
 // MARK: - Property
-    private var dataManager: CoreDataManager<CDMemo>?
+    private var dataManager: DataProvider?
     private let noteListViewController = NoteListViewController()
     private let noteDetailViewController = NoteDetailViewController()
-    private var fetchedController: NSFetchedResultsController<CDMemo>?
     private var selectedIndexPath: IndexPath? {
         return noteListViewController.extractSeletedRow()
     }
@@ -17,9 +16,9 @@ class NoteSplitViewController: UISplitViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureSplitViewController()
+        configureDataManager()
         configureNoteListViewController()
         configureColumnStyle()
-        configureDataStorage()
         configureFetchedResultsController()
         configureNoteDetailViewController()
     }
@@ -40,7 +39,7 @@ class NoteSplitViewController: UISplitViewController {
         preferredSplitBehavior = .tile
     }
     
-    private func configureDataStorage() {
+    private func configureDataManager() {
         dataManager = CoreDataManager<CDMemo>()
     }
     
@@ -48,15 +47,11 @@ class NoteSplitViewController: UISplitViewController {
         noteDetailViewController.delegate = self
     }
     
-    private func configureFetchedResultsController(query: String? = nil) {
-        if query == nil {
-            fetchedController = dataManager?.createNoteFetchedResultsController()
-        } else {
-        fetchedController = dataManager?.createNoteFetchedResultsController(query: query)
+    private func configureFetchedResultsController() {
+        guard let coreDataManager = dataManager as? CoreDataManager else {
+            return
         }
-        
-        try? fetchedController?.performFetch()
-        fetchedController?.delegate = self
+        coreDataManager.fetchedController.delegate = self
     }
     
     private func presentActivityView() {
@@ -92,7 +87,7 @@ extension NoteSplitViewController: NoteListViewControllerDelegate {
         _ viewController: NoteListViewController,
         cellToDelete indexPath: IndexPath
     ) {
-        guard let deletedData = fetchedController?.object(at: indexPath) else { return }
+        guard let deletedData = dataManager?.read(index: indexPath) else { return }
         dataManager?.delete(target: deletedData)
     }
     
@@ -105,7 +100,7 @@ extension NoteSplitViewController: NoteListViewControllerDelegate {
                 return
             }
         
-        guard let memo = fetchedController?.object(at: indexPath) else {
+        guard let memo = dataManager?.read(index: indexPath) else {
             return
         }
         secondaryViewController.setUpText(with: memo)
@@ -119,17 +114,17 @@ extension NoteSplitViewController: NoteListViewControllerDelegate {
     }
     
     func noteListViewController(addButtonTapped viewController: NoteListViewController) {
-        dataManager?.create(target: CDMemo.self, attributes: atrributesForNewCell)
+        dataManager?.create(attributes: atrributesForNewCell)
     }
 }
 // MARK: - NoteListViewController DataSource
 extension NoteSplitViewController: NoteListViewControllerDataSource {
     func noteListViewControllerNumberOfData(_ viewController: NoteListViewController) -> Int {
-        fetchedController?.sections?[0].numberOfObjects ?? .zero
+        dataManager?.countAllData() ?? .zero
     }
     
-    func noteListViewControllerSampleForCell(_ viewController: NoteListViewController, indexPath: IndexPath) -> CDMemo? {
-        fetchedController?.object(at: indexPath)
+    func noteListViewControllerSampleForCell(_ viewController: NoteListViewController, indexPath: IndexPath) -> MemoType? {
+        dataManager?.read(index: indexPath)
     }
 }
 // MARK: - NoteDetailViewController Delegate
@@ -145,7 +140,7 @@ extension NoteSplitViewController: NoteDetailViewControllerDelegate {
     ) {
         let attribute = createAttributes(body: body)
         
-        guard let selectedMemo = fetchedController?.object(at: selectedIndexPath ?? IndexPath(row: .zero, section: .zero)) else {
+        guard let selectedMemo = dataManager?.read(index: selectedIndexPath ?? IndexPath(row: .zero, section: .zero)) else {
             return
         }
         dataManager?.update(target: selectedMemo, attributes: attribute)

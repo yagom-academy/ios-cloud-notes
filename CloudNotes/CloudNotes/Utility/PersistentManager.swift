@@ -59,11 +59,10 @@ extension PersistentManager {
 
 // MARK: - CRUD
 extension PersistentManager {
-    @discardableResult
-    func insert(entityName: String = "Note", items: [String: Any]) -> Note? {
+    func insert(entityName: String = "Note", items: [String: Any]) {
         let context = persistentContainer.viewContext
         let managedObject = NSEntityDescription.insertNewObject(forEntityName: entityName, into: context)
-        return update(managedObject, items: items)
+        update(managedObject, items: items)
     }
     
     @discardableResult
@@ -83,8 +82,7 @@ extension PersistentManager {
         return newData
     }
     
-    @discardableResult
-    func update(_ managedObject: NSManagedObject, items: [String: Any]) -> Note? {
+    func update(_ managedObject: NSManagedObject, items: [String: Any]) {
         let keys = managedObject.entity.attributesByName.keys
         for key in keys {
             if let value = items[key] {
@@ -93,7 +91,6 @@ extension PersistentManager {
         }
         saveContext()
         fetch()
-        return managedObject as? Note
     }
     
     func delete(_ item: Note) {
@@ -105,21 +102,12 @@ extension PersistentManager {
 
     func updateNote(
         entityName: String = "Note",
-        id: UUID?,
-        title: String?,
-        body: String?,
-        lastModified: TimeInterval
+        items: [String: Any]
     ) {
-        guard let id = id else {
-            return
-        }
-        let predicate = NSPredicate(format: "id == %@", id as CVarArg)
-        guard let note = fetch(entityName: entityName, predicate: predicate)?.first else {
-            return
-        }
-        note.title = title
-        note.body = body
-        note.lastModified = lastModified
-        saveContext()
+        items["id"]
+            .flatMap { $0 as? UUID as CVarArg? }
+            .flatMap { fetch(entityName: entityName, predicate: NSPredicate(format: "id == %@", $0))?.first }
+            .flatMap { $0 as NSManagedObject }
+            .flatMap { update($0, items: items) }
     }
 }

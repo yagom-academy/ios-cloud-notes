@@ -1,4 +1,5 @@
 import UIKit
+import SwiftyDropbox
 
 class NotesViewController: UITableViewController {
     private enum Constant {
@@ -8,6 +9,7 @@ class NotesViewController: UITableViewController {
         static let deleteIconName = "trash.fill"
         static let shareIconName = "square.and.arrow.up"
     }
+    let dropBoxManager = DropboxManager()
     weak var delegate: NotesDetailViewControllerDelegate?
     private var selectedIndex: IndexPath? {
         didSet {
@@ -20,15 +22,18 @@ class NotesViewController: UITableViewController {
         setUpNavigationItem()
         tableView.allowsSelectionDuringEditing = true
         tableView.register(NotesCell.self, forCellReuseIdentifier: NotesCell.identifier)
+        showAuthentication()
     }
     
     override func setEditing(_ editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: animated)
         tableView.selectRow(at: selectedIndex, animated: false, scrollPosition: .none)
-        if editing == false {
-            delegate?.clearTextView()
-            showNoteDetailView()
-        }
+    }
+    
+    private func showAuthentication() {
+        let authenticationViewController = AuthenticationViewController()
+        authenticationViewController.modalPresentationStyle = .overFullScreen
+        present(authenticationViewController, animated: false, completion: nil)
     }
     
     private func showNoteDetailView() {
@@ -148,6 +153,8 @@ extension NotesViewController: NotesViewControllerDelegate {
         PersistentManager.shared.delete(item)
         tableView.deleteRows(at: [indexPath], with: .fade)
         changeSelectedIndex(indexPath: indexPath)
+        delegate?.clearTextView()
+        showNoteDetailView()
     }
     
     private func changeSelectedIndex(indexPath: IndexPath) {

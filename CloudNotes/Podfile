@@ -6,6 +6,7 @@ target 'CloudNotes' do
   use_frameworks!
 
   # Pods for CloudNotes
+  pod 'SwiftyDropbox'
 
   pod 'SwiftLint'
   target 'CloudNotesTests' do

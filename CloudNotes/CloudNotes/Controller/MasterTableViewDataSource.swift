@@ -1,25 +1,68 @@
 import UIKit
+import CoreData
 
-protocol MasterTableViewDataSourceProtocol: AnyObject {
-    var memos: [Memo]? { get }
-    func fetchData() -> [Memo]?
+protocol MemosManageable: AnyObject {
+    func retrieveMemos() -> [MemoEntity]?
+    func removeMemo(at index: Int) -> MemoEntity?
+    func insertMemo(_ memo: MemoEntity, at index: Int)
 }
 
-final class MasterTableViewDataSource: NSObject, MasterTableViewDataSourceProtocol {
-    private(set) lazy var memos: [Memo]? = fetchData()
-    
-    func fetchData() -> [Memo]? {
-        guard let url = Bundle.main.url(forResource: "sample", withExtension: "json") else {
-            return nil
-        }
-        
-        guard let data = try? Data(contentsOf: url) else {
-            return nil
-        }
+protocol CoreDataManageable: AnyObject {
+    func fetchMemos()
+    func saveMemo(_ memo: MemoEntity)
+    func updateMemo(_ memo: MemoEntity)
+    func deleteMemo(with memoId: UUID?)
+}
 
-        let memos = try? JSONDecoder().decode([Memo].self, from: data)
-        
+typealias MasterTableViewDataSourceProtocol = MemosManageable & CoreDataManageable
+
+final class MasterTableViewDataSource: NSObject, MasterTableViewDataSourceProtocol {
+    private var memoCoreDataManager: MemoCoreDataManager? = MemoCoreDataManager()
+    private var memos: [MemoEntity]?
+ 
+    override init() {
+        super.init()
+        fetchMemos()
+    }
+}
+
+// MARK: - MemosManageable
+extension MasterTableViewDataSource {
+    func retrieveMemos() -> [MemoEntity]? {
         return memos
+    }
+    
+    func removeMemo(at index: Int) -> MemoEntity? {
+        guard let memoToRemove = memos?.remove(at: index) else {
+            return nil
+        }
+        
+        return memoToRemove
+    }
+    
+    func insertMemo(_ memo: MemoEntity, at index: Int) {
+        memos?.insert(memo, at: index)
+    }
+}
+
+// MARK: - CoreDataManageable
+extension MasterTableViewDataSource {
+    func fetchMemos() {
+        let request = Memo.fetchRequest()
+        
+        memos = memoCoreDataManager?.fetchMemo(request)
+    }
+    
+    func saveMemo(_ memo: MemoEntity) {
+        memoCoreDataManager?.saveContext(memo: memo)
+    }
+    
+    func updateMemo(_ memo: MemoEntity) {
+        memoCoreDataManager?.updateMemo(memo)
+    }
+    
+    func deleteMemo(with memoId: UUID?) {
+        memoCoreDataManager?.deleteMemo(memoId: memoId)
     }
 }
 
@@ -40,5 +83,5 @@ extension MasterTableViewDataSource: UITableViewDataSource {
         cell.applyData(memos[indexPath.row])
         
         return cell
-    }
+    }      
 }

@@ -34,7 +34,7 @@ struct DropboxManager {
                 return
             }
             
-            DropboxClientsManager.authorizedClient?.files.upload(path: "/\(id)", mode: .overwrite, input: uploadData)
+            DropboxClientsManager.authorizedClient?.files.upload(path: "/\(id)\(FileFormat.txt)", mode: .overwrite, input: uploadData)
         }
     }
     
@@ -43,7 +43,7 @@ struct DropboxManager {
             return
         }
         
-        DropboxClientsManager.authorizedClient?.files.deleteV2(path: "/\(id)", parentRev: nil)
+        DropboxClientsManager.authorizedClient?.files.deleteV2(path: "/\(id)\(FileFormat.txt)", parentRev: nil)
     }
     
     func fetchFilePaths(completion: @escaping ([Files.Metadata]) -> Void) {

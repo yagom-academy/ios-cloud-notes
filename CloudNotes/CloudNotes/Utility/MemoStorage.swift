@@ -85,7 +85,7 @@ class MemoStorage {
         dropboxManager.fetchFilePaths { metaDatas in
             metaDatas.forEach { metaData in
                 self.dropboxManager.download(from: "/\(metaData.name)") {
-                    if self.checkMemoExistence(with: $0.id) {
+                    if self.hasNoMemo(with: $0.id) {
                         self.create(id: $0.id, title: $0.title, body: $0.body, lastModified: $0.clientModified)
                         NotificationCenter.default.post(name: .tableViewNeedUpdate, object: nil)
                     }
@@ -94,7 +94,7 @@ class MemoStorage {
         }
     }
     
-    func checkMemoExistence(with id: UUID) -> Bool {
+    func hasNoMemo(with id: UUID) -> Bool {
         let request = Memo.fetchRequest()
         request.predicate = NSPredicate(format: "id == %@", id as CVarArg)
         let fetchedMemos = try? self.context.fetch(request)

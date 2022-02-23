@@ -36,6 +36,7 @@ class MemoTableViewController: UITableViewController {
     }
     
     private func configureNavigationBar() {
+        self.navigationController?.navigationBar.prefersLargeTitles = true
         self.navigationItem.title = "메모"
         let addMemoButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addEmptyMemo))
         let connectDropboxButton = UIBarButtonItem(image: UIImage(systemName: SystemIcon.linkDropbox), style: .plain, target: self, action: #selector(connectDropbox))

@@ -12,6 +12,7 @@
 		C13E937F27B212D200446D79 /* MemoTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13E937E27B212D200446D79 /* MemoTableViewController.swift */; };
 		C13E938127B2179B00446D79 /* MemoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13E938027B2179B00446D79 /* MemoDetailViewController.swift */; };
 		C13E938627B244F900446D79 /* MemoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13E938527B244F900446D79 /* MemoTableViewCell.swift */; };
+		C19C23C627C609DE00DEB6D2 /* FileFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = C19C23C527C609DE00DEB6D2 /* FileFormat.swift */; };
 		C1D3DCAB27B64A8400A646BC /* MemoStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1D3DCAA27B64A8400A646BC /* MemoStorage.swift */; };
 		C3C3FD847C44783BF3F264F0 /* Pods_CloudNotesTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A10F5BBFB6F1A18BD88D92EA /* Pods_CloudNotesTests.framework */; };
 		C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */; };
@@ -69,6 +70,7 @@
 		C13E937E27B212D200446D79 /* MemoTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoTableViewController.swift; sourceTree = "<group>"; };
 		C13E938027B2179B00446D79 /* MemoDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoDetailViewController.swift; sourceTree = "<group>"; };
 		C13E938527B244F900446D79 /* MemoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoTableViewCell.swift; sourceTree = "<group>"; };
+		C19C23C527C609DE00DEB6D2 /* FileFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileFormat.swift; sourceTree = "<group>"; };
 		C1D3DCAA27B64A8400A646BC /* MemoStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoStorage.swift; sourceTree = "<group>"; };
 		C7481C6A25BBCF3900B9CA55 /* CloudNotes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CloudNotes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -266,6 +268,7 @@
 				C9B3075127BCF00900C275A8 /* SystemIcon.swift */,
 				C994047027C50D400015AFCE /* UserDefaultsKey.swift */,
 				C994047227C50F210015AFCE /* AlertMessage.swift */,
+				C19C23C527C609DE00DEB6D2 /* FileFormat.swift */,
 			);
 			path = Constant;
 			sourceTree = "<group>";
@@ -552,6 +555,7 @@
 				C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */,
 				C994047327C50F210015AFCE /* AlertMessage.swift in Sources */,
 				C9D36D0B27BA2E590070A768 /* Memo+CoreDataClass.swift in Sources */,
+				C19C23C627C609DE00DEB6D2 /* FileFormat.swift in Sources */,
 				C9B3075027BCEFA000C275A8 /* ActionTitle.swift in Sources */,
 				C994CB8D27C4D4F000EEA5E9 /* DropboxFile.swift in Sources */,
 				C982B2DD27BB79770021B14C /* MemoManageable.swift in Sources */,

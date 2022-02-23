@@ -14,7 +14,8 @@ struct DropboxFile {
     var clientModified: TimeInterval
     
     init(id: String, title: String, body: String, clientModified: Date) {
-        self.id = UUID(uuidString: id) ?? UUID()
+        let identifier = id.replacingOccurrences(of: FileFormat.txt, with: String.blank)
+        self.id = UUID(uuidString: identifier) ?? UUID()
         self.title = title
         self.body = body
         self.clientModified = clientModified.timeIntervalSince1970

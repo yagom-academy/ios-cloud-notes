@@ -55,6 +55,13 @@ extension PersistentManager {
     func moveNotes(from oldIndex: Int, to newIndex: Int) {
         notes.move(from: oldIndex, to: newIndex)
     }
+    
+    func updateSearchResult(text: String) {
+        guard let searchResultNotes = fetch(predicate: NSPredicate(format: "body CONTAINS[cd] %@", text)) else {
+            return
+        }
+        self.notes = searchResultNotes
+    }
 }
 
 // MARK: - CRUD

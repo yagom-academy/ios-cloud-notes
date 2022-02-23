@@ -51,6 +51,27 @@ class NotesViewController: UITableViewController {
             target: self,
             action: #selector(tappedAddButton)
         )
+        setUpSearchController()
+    }
+    
+    private func setUpSearchController() {
+        let searchController = UISearchController(searchResultsController: nil)
+        searchController.searchBar.placeholder = "Search"
+        searchController.searchResultsUpdater = self
+        navigationItem.searchController = searchController
+        navigationItem.hidesSearchBarWhenScrolling = true
+    }
+}
+
+// MARK: - UISearchResultsUpdating
+extension NotesViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        if let text = searchController.searchBar.text, text != "" {
+            PersistentManager.shared.updateSearchResult(text: text)
+        } else {
+            PersistentManager.shared.setUpNotes()
+        }
+        tableView.reloadData()
     }
 }
 

@@ -143,17 +143,17 @@ extension MemoDataManager {
             selectedIndexPath = listDelegate?.selectedCellIndex
         }
         
-        guard let selectecIndexPath = selectedIndexPath else {
+        guard let selectedIndexPath = selectedIndexPath else {
             return
         }
-        let deletedMemo = memos[selectecIndexPath.row]
+        let deletedMemo = memos[selectedIndexPath.row]
         deleteMemo(id: deletedMemo.id)
-        listDelegate?.deleteCell(at: selectecIndexPath)
+        listDelegate?.deleteCell(at: selectedIndexPath)
         
-        if selectecIndexPath.row < memos.count {
-            let memo = memos[selectecIndexPath.row]
+        if selectedIndexPath.row < memos.count {
+            let memo = memos[selectedIndexPath.row]
             detailDelegate?.showTextView(with: memo)
-            listDelegate?.selectNextCell(at: selectecIndexPath)
+            listDelegate?.selectNextCell(at: selectedIndexPath)
         } else {
             detailDelegate?.showIneditableTextView()
         }

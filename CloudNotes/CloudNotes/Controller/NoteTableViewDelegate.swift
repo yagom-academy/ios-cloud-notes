@@ -1,6 +1,6 @@
 import Foundation
 
-protocol NoteListTableViewDelegate: AnyObject {
+protocol NoteTableViewDelegate: AnyObject {
     
     func selectNote(with identifier: UUID?)
     func detailBarButtonItemDidTap()

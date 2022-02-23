@@ -1,13 +1,13 @@
 import UIKit
 
-final class NoteListTableViewDiffableDataSource: UITableViewDiffableDataSource<Section, Note> {
+final class NoteTableViewDiffableDataSource: UITableViewDiffableDataSource<NoteTableViewController.Section, Note> {
     
     private let viewModel: NoteViewModel
     
     init(
         model: NoteViewModel,
         tableView: UITableView,
-        cellProvider: @escaping UITableViewDiffableDataSource<Section, Note>.CellProvider
+        cellProvider: @escaping UITableViewDiffableDataSource<NoteTableViewController.Section, Note>.CellProvider
     ) {
         viewModel = model
         super.init(tableView: tableView, cellProvider: cellProvider)

@@ -1,23 +1,28 @@
 import UIKit
 import CoreData
 
-final class NoteListTableViewController: UITableViewController {
+final class NoteTableViewController: UITableViewController {
+    
+    enum Section {
+        
+        case main
+        
+    }
     
     private let viewModel: NoteViewModel
-    weak var delegate: NoteListTableViewDelegate?
+    weak var delegate: NoteTableViewDelegate?
     private lazy var dataSource = {
-        return NoteListTableViewDiffableDataSource(
-            model: viewModel,
+        return NoteTableViewDiffableDataSource(
             tableView: self.tableView) { tableView, _, item in
-            let cell = tableView.dequeueReusableCell(withIdentifier: NoteListTableViewCell.reuseIdentifier)
-            
-            if let cell = cell as? NoteListTableViewCell {
-                cell.setLabelText(
-                    title: item.title,
-                    body: item.body,
-                    lastModified: self.viewModel.fetchDate(note: item)
-                )
+            let identifier = NoteTableViewCell.reuseIdentifier
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: identifier) as? NoteTableViewCell else {
+                return nil
             }
+            
+            cell.setLabelText(
+                title: item.title,
+                body: item.body,
+                lastModified: self.viewModel.fetchDate(note: item))
             
             return cell
         }
@@ -72,7 +77,7 @@ final class NoteListTableViewController: UITableViewController {
     }
     
     private func configureTableView() {
-        tableView.register(NoteListTableViewCell.self)
+        tableView.register(NoteTableViewCell.self)
     }
     
     private func configureLayout() {
@@ -91,7 +96,7 @@ final class NoteListTableViewController: UITableViewController {
     
 }
     
-extension NoteListTableViewController {
+extension NoteTableViewController {
     
     // MARK: - Table View Delegate
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

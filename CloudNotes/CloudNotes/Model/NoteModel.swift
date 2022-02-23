@@ -13,7 +13,7 @@ final class NoteModel {
     
     var fetchedObjects: [Note] {
         return controller.fetchedObjects?.compactMap { note in
-            return Note.convertToNote(from: note)
+            return Note(cdNote: note)
         } ?? []
     }
     
@@ -30,7 +30,7 @@ final class NoteModel {
             return nil
         }
         
-        return Note.convertToNote(from: cdNote)
+        return Note(cdNote: cdNote)
     }
     
     func createNote() {

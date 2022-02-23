@@ -31,7 +31,7 @@ extension SceneDelegate {
         let model = NoteModel(persistentDataManager: persistentDataManager)
         let viewModel = NoteViewModel(model: model)
         
-        let primaryViewController = NoteListTableViewController(viewModel: viewModel)
+        let primaryViewController = NoteTableViewController(viewModel: viewModel)
         let secondaryViewController = NoteDetailViewController(viewModel: viewModel)
         let splitViewController = UISplitViewController(style: .doubleColumn)
         

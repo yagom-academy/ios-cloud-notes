@@ -5,10 +5,8 @@ final class NoteDetailViewController: UIViewController {
     private let viewModel: NoteViewModel
     private var identifier: UUID? {
         didSet {
-            noteDetailTextView.isEditable = identifier != nil
-            if identifier == nil {
-                noteDetailTextView.text = ""
-            }
+            changeTextViewEditingByIdentifier()
+            resetDetailTextView()
         }
     }
     
@@ -79,6 +77,16 @@ final class NoteDetailViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    private func changeTextViewEditingByIdentifier() {
+        noteDetailTextView.isEditable = identifier != nil
+    }
+    
+    private func resetDetailTextView() {
+        if identifier == nil {
+            noteDetailTextView.text = ""
+        }
+    }
+    
     private func configureHierarchy() {
         view.addSubview(scrollView)
         scrollView.addSubview(noteDetailTextView)
@@ -132,7 +140,7 @@ extension NoteDetailViewController: UITextViewDelegate {
     
 }
 
-extension NoteDetailViewController: NoteListTableViewDelegate {
+extension NoteDetailViewController: NoteTableViewDelegate {
     
     func selectNote(with identifier: UUID?) {
         self.identifier = identifier

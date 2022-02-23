@@ -1,6 +1,6 @@
 import UIKit
 
-class NoteListTableViewCell: UITableViewCell {
+class NoteTableViewCell: UITableViewCell {
     
     private let primaryStackView: UIStackView = {
         let stackView = UIStackView()
@@ -85,4 +85,4 @@ class NoteListTableViewCell: UITableViewCell {
     
 }
 
-extension NoteListTableViewCell: TypeNameConvertible {}
+extension NoteTableViewCell: TypeNameConvertible {}

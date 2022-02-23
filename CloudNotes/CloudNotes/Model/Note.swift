@@ -11,12 +11,11 @@ struct Note: Decodable, Hashable {
 
 extension Note {
     
-    static func convertToNote(from cdNote: CDNote) -> Note {
-        return Note(
-            identifier: cdNote.identifier,
-            title: cdNote.title ?? "",
-            body: cdNote.body ?? "",
-            lastModified: cdNote.lastModified)
+    init(cdNote: CDNote) {
+        self.identifier = cdNote.identifier
+        self.title = cdNote.title ?? ""
+        self.body = cdNote.body ?? ""
+        self.lastModified = cdNote.lastModified
     }
     
 }

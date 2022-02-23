@@ -8,7 +8,7 @@
 import Foundation
 import SwiftyDropbox
 
-struct DropboxManager {
+final class DropboxManager {
     func connectDropbox(viewController: UIViewController) {
         let scopes = ["account_info.read", "files.content.write", "files.content.read"]
         let scopeRequest = ScopeRequest(scopeType: .user, scopes: scopes, includeGrantedScopes: false)

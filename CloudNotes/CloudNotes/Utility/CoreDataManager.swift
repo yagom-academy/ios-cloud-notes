@@ -8,8 +8,7 @@
 import UIKit
 import CoreData
 
-class CoreDataManager {
-    let dropboxManager = DropboxManager()
+final class CoreDataManager {
     lazy var context = persistentContainer.newBackgroundContext()
     private var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "CloudNotes")
@@ -45,7 +44,6 @@ class CoreDataManager {
     }
     
     func delete(memo: Memo) {
-        dropboxManager.delete(memo: memo)
         context.delete(memo)
         saveContext()
     }
@@ -64,41 +62,5 @@ class CoreDataManager {
         } catch {
             print(error)
         }
-    }
-    
-    // MARK: - Dropbox Synchronization
-    
-    func connectDropbox(viewController: UIViewController) {
-        dropboxManager.connectDropbox(viewController: viewController)
-    }
-    
-    func upload(memo: Memo) {
-        dropboxManager.upload(memos: [memo])
-    }
-    
-    func uploadAll() {
-        let fetchedMemos = fetchAll()
-        dropboxManager.upload(memos: fetchedMemos)
-    }
-    
-    func synchronizeCoreDataToDropbox() {
-        dropboxManager.fetchFilePaths { metaDatas in
-            metaDatas.forEach { metaData in
-                self.dropboxManager.download(from: "/\(metaData.name)") {
-                    if self.hasNoMemo(with: $0.id) {
-                        self.create(id: $0.id, title: $0.title, body: $0.body, lastModified: $0.clientModified)
-                        NotificationCenter.default.post(name: .tableViewNeedUpdate, object: nil)
-                    }
-                }
-            }
-        }
-    }
-    
-    func hasNoMemo(with id: UUID) -> Bool {
-        let request = Memo.fetchRequest()
-        request.predicate = NSPredicate(format: "id == %@", id as CVarArg)
-        let fetchedMemos = try? self.context.fetch(request)
-        
-        return fetchedMemos?.isEmpty == true
     }
 }

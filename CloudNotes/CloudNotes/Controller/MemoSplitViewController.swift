@@ -10,7 +10,7 @@ import UIKit
 class MemoSplitViewController: UISplitViewController {
     private lazy var memoTableViewController = MemoTableViewController(style: .insetGrouped, delegate: self)
     private lazy var memoDetailViewController = MemoDetailViewController(delegate: self)
-    private var coreDataManager: CoreDataManager
+    private var memoStorage: MemoStorage
     
     private var memos = [Memo]() {
         didSet {
@@ -25,13 +25,13 @@ class MemoSplitViewController: UISplitViewController {
         configureMemoData()
     }
     
-    init(style: UISplitViewController.Style, coreDataManager: CoreDataManager) {
-        self.coreDataManager = coreDataManager
+    init(style: UISplitViewController.Style, memoStorage: MemoStorage) {
+        self.memoStorage = memoStorage
         super.init(style: style)
     }
     
     required init?(coder: NSCoder) {
-        self.coreDataManager = CoreDataManager()
+        self.memoStorage = MemoStorage()
         super.init(coder: coder)
     }
     
@@ -145,12 +145,12 @@ extension MemoSplitViewController: CoreDataManageable {
     }
     
     func create() {
-        coreDataManager.create()
+        memoStorage.create()
         fetchAll()
     }
     
     func fetchAll() {
-        memos = coreDataManager.fetchAll()
+        memos = memoStorage.fetchAll()
     }
     
     func fetch(at indexPath: IndexPath) -> Memo {
@@ -170,7 +170,7 @@ extension MemoSplitViewController: CoreDataManageable {
         }
         
         let memoToUpdate = memos[indexPath.row]
-        coreDataManager.update(to: memoToUpdate, title: title, body: body)
+        memoStorage.update(to: memoToUpdate, title: title, body: body)
         fetchAll()
     }
 
@@ -181,7 +181,7 @@ extension MemoSplitViewController: CoreDataManageable {
         }
         
         let memoToDelete = memos[indexPath.row]
-        coreDataManager.delete(memo: memoToDelete)
+        memoStorage.delete(memo: memoToDelete)
         fetchAll()
         
         self.memoTableViewController.deleteRow(at: indexPath)
@@ -209,12 +209,11 @@ extension MemoSplitViewController: CoreDataManageable {
 
 extension MemoSplitViewController: DropboxManageable {
     func connectDropbox(viewController: UIViewController) {
-        coreDataManager.connectDropbox(viewController: viewController)
+        memoStorage.connectDropbox(viewController: viewController)
     }
     
     func upload(at indexPath: IndexPath) {
         let memoToUpload = memos[indexPath.row]
-        coreDataManager.upload(memo: memoToUpload)
+        memoStorage.upload(memo: memoToUpload)
     }
 }
-

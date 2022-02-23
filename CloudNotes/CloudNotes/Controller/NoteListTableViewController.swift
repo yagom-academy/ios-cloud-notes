@@ -53,23 +53,21 @@ final class NoteListTableViewController: UITableViewController {
     
     private func updateTable(_ type: NSFetchedResultsChangeType) {
         let snapshot = dataSource.snapshot()
-        
-        guard let item = snapshot.itemIdentifiers.first else { return }
+        guard let item = snapshot.itemIdentifiers.first else {
+            return
+        }
         
         switch type {
         case .move:
             let indexPath = IndexPath(row: 0, section: 0)
             tableView.selectRow(at: indexPath, animated: true, scrollPosition: UITableView.ScrollPosition.top)
-            
         case .update:
             return
-            
         default:
             let indexPath = IndexPath(row: 0, section: 0)
             tableView.selectRow(at: indexPath, animated: true, scrollPosition: UITableView.ScrollPosition.top)
             delegate?.selectNote(with: item.identifier)
         }
-        
     }
     
     private func configureTableView() {

@@ -32,17 +32,13 @@ final class NoteViewModel: NSObject {
     }
     
     func fetchTitle(identifier: UUID) -> String {
-        guard let note = model.fetchNote(identifier: identifier) else {
-            return "불러오기 실패"
-        }
-        return note.title
+        let note = model.fetchNote(identifier: identifier)
+        return note?.title ?? ""
     }
     
     func fetchBody(identifier: UUID) -> String {
-        guard let note = model.fetchNote(identifier: identifier) else {
-            return "불러오기 실패"
-        }
-        return note.body
+        let note = model.fetchNote(identifier: identifier)
+        return note?.body ?? ""
     }
     
     func createNote() {
@@ -62,11 +58,15 @@ final class NoteViewModel: NSObject {
 
 extension NoteViewModel: NSFetchedResultsControllerDelegate {
     
-    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-        
+    func controller(
+        _ controller: NSFetchedResultsController<NSFetchRequestResult>,
+        didChange anObject: Any,
+        at indexPath: IndexPath?,
+        for type: NSFetchedResultsChangeType,
+        newIndexPath: IndexPath?
+    ) {
         updatePrimaryHandler?()
         updateSecondaryHandler?(type)
-        
     }
     
 }

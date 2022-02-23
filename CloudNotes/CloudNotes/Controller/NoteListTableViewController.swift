@@ -54,6 +54,7 @@ final class NoteListTableViewController: UITableViewController {
     private func updateTable(_ type: NSFetchedResultsChangeType) {
         let snapshot = dataSource.snapshot()
         guard let item = snapshot.itemIdentifiers.first else {
+            delegate?.selectNote(with: nil)
             return
         }
         
@@ -121,10 +122,6 @@ extension NoteListTableViewController {
                     UIAlertAction(title: "취소", style: .cancel),
                     UIAlertAction(title: "삭제", style: .destructive) { _ in
                         self.viewModel.deleteNote(identifier: item.identifier)
-                        tableView.selectRow(
-                            at: IndexPath(row: 0, section: 0),
-                            animated: true,
-                            scrollPosition: UITableView.ScrollPosition.top)
                     }]
                 controller.addAction(actions)
             }

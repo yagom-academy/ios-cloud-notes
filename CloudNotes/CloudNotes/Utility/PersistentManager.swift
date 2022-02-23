@@ -8,8 +8,10 @@
 import Foundation
 import CoreData
 
-class PersistentManager {
-    lazy var notes: [Note] = self.fetch()
+struct PersistentManager {
+    var notes: [Note] {
+        self.fetch()
+    }
     
     func save(noteInformation: NoteInformation) {
         let context = CoreDataStack.shared.context

@@ -55,7 +55,6 @@ final class NoteListViewController: UIViewController {
     
     func deleteNote(object: NSManagedObject, indexPath: IndexPath) {
         tableView.performBatchUpdates {
-            persistentManager?.notes.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
             persistentManager?.delete(object: object)
         } completion: { _ in
@@ -127,7 +126,6 @@ final class NoteListViewController: UIViewController {
                 lastModifiedDate: Date().timeIntervalSince1970
             )
             persistentManager?.save(noteInformation: emptyNoteInformation)
-            persistentManager?.notes = persistentManager?.fetch() ?? []
             tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .none)
         } completion: {_ in
             self.tableView.backgroundView?.isHidden = true

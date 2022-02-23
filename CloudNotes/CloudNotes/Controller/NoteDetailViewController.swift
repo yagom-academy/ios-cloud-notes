@@ -147,7 +147,6 @@ extension NoteDetailViewController: UITextViewDelegate {
         guard let textViewText = textView.text else {
             return
         }
-        
         if textViewText.contains("\n") == false && textViewText.count <= 100 {
             title = textViewText
         } else if textViewText.contains("\n") == false && textViewText.count > 100 {

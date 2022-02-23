@@ -7,10 +7,10 @@
 
 import UIKit
 
-typealias MemoManageable = MemoSplitViewManageable & MemoStorageManageable
+typealias MemoManageable = MemoSplitViewManageable & CoreDataManageable & DropboxManageable
 
-protocol MemoStorageManageable: AnyObject {
-    var isMemoStorageEmpty: Bool { get }
+protocol CoreDataManageable: AnyObject {
+    var isMemosEmpty: Bool { get }
     var memosCount: Int { get }
     
     func create()
@@ -18,7 +18,9 @@ protocol MemoStorageManageable: AnyObject {
     func fetch(at indexPath: IndexPath) -> Memo
     func delete(at indexPath: IndexPath)
     func update(at indexPath: IndexPath, title: String, body: String)
-    
+}
+
+protocol DropboxManageable: AnyObject {
     func connectDropbox(viewController: UIViewController)
     func upload(at indexPath: IndexPath)
 }

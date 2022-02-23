@@ -8,7 +8,7 @@ import UIKit
 import SwiftyDropbox
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-    private let memoStorage = (UIApplication.shared.delegate as! AppDelegate).memoStorage
+    private let coreDataManager = (UIApplication.shared.delegate as! AppDelegate).coreDataManager
     var window: UIWindow?
     
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
@@ -17,7 +17,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             if let authResult = $0 {
                 switch authResult {
                 case .success:
-                    self.memoStorage.synchronizeCoreDataToDropbox()
+                    self.coreDataManager.synchronizeCoreDataToDropbox()
                     UserDefaults.standard.set(true, forKey: UserDefaultsKey.dropboxConnected)
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                         memoSplitViewController.presentConnectResultAlert(type: .connectSuccess)
@@ -43,11 +43,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
         
         window = UIWindow(windowScene: windowScene)
-        window?.rootViewController = MemoSplitViewController(style: .doubleColumn, memoStorage: memoStorage)
+        window?.rootViewController = MemoSplitViewController(style: .doubleColumn, coreDataManager: coreDataManager)
         window?.makeKeyAndVisible()
         
         if UserDefaults.standard.bool(forKey: UserDefaultsKey.dropboxConnected) {
-            memoStorage.synchronizeCoreDataToDropbox()
+            coreDataManager.synchronizeCoreDataToDropbox()
         }
     }
 
@@ -74,7 +74,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func sceneDidEnterBackground(_ scene: UIScene) {
-        memoStorage.uploadAll()
+        coreDataManager.uploadAll()
     }
 }
 

@@ -10,7 +10,7 @@ import SwiftyDropbox
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
-    let memoStorage = MemoStorage()
+    let coreDataManager = CoreDataManager()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         DropboxClientsManager.setupWithAppKey("bhmlttykz7ps11f", transportClient: nil)
@@ -18,7 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func applicationWillTerminate(_ application: UIApplication) {
-        memoStorage.uploadAll()
+        coreDataManager.uploadAll()
         Thread.sleep(forTimeInterval: 5)
     }
 

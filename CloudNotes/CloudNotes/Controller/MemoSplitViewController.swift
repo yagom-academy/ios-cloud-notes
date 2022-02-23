@@ -10,7 +10,7 @@ import UIKit
 class MemoSplitViewController: UISplitViewController {
     private lazy var memoTableViewController = MemoTableViewController(style: .insetGrouped, delegate: self)
     private lazy var memoDetailViewController = MemoDetailViewController(delegate: self)
-    private var memoStorage: MemoStorage
+    private var coreDataManager: CoreDataManager
     
     private var memos = [Memo]() {
         didSet {
@@ -25,13 +25,13 @@ class MemoSplitViewController: UISplitViewController {
         configureMemoData()
     }
     
-    init(style: UISplitViewController.Style, memoStorage: MemoStorage) {
-        self.memoStorage = memoStorage
+    init(style: UISplitViewController.Style, coreDataManager: CoreDataManager) {
+        self.coreDataManager = coreDataManager
         super.init(style: style)
     }
     
     required init?(coder: NSCoder) {
-        self.memoStorage = MemoStorage()
+        self.coreDataManager = CoreDataManager()
         super.init(coder: coder)
     }
     
@@ -133,10 +133,10 @@ extension MemoSplitViewController: MemoSplitViewManageable {
     }
 }
 
-// MARK: - MemoStorageManageable
+// MARK: - CoreDataManageable
 
-extension MemoSplitViewController: MemoStorageManageable {
-    var isMemoStorageEmpty: Bool {
+extension MemoSplitViewController: CoreDataManageable {
+    var isMemosEmpty: Bool {
         return memos.isEmpty
     }
     
@@ -145,12 +145,12 @@ extension MemoSplitViewController: MemoStorageManageable {
     }
     
     func create() {
-        memoStorage.create()
+        coreDataManager.create()
         fetchAll()
     }
     
     func fetchAll() {
-        memos = memoStorage.fetchAll()
+        memos = coreDataManager.fetchAll()
     }
     
     func fetch(at indexPath: IndexPath) -> Memo {
@@ -170,7 +170,7 @@ extension MemoSplitViewController: MemoStorageManageable {
         }
         
         let memoToUpdate = memos[indexPath.row]
-        memoStorage.update(to: memoToUpdate, title: title, body: body)
+        coreDataManager.update(to: memoToUpdate, title: title, body: body)
         fetchAll()
     }
 
@@ -181,7 +181,7 @@ extension MemoSplitViewController: MemoStorageManageable {
         }
         
         let memoToDelete = memos[indexPath.row]
-        memoStorage.delete(memo: memoToDelete)
+        coreDataManager.delete(memo: memoToDelete)
         fetchAll()
         
         self.memoTableViewController.deleteRow(at: indexPath)
@@ -203,13 +203,18 @@ extension MemoSplitViewController: MemoStorageManageable {
             showSecondaryView(of: newIndexPath)
         }
     }
-    
+}
+
+// MARK: - DropboxManageable
+
+extension MemoSplitViewController: DropboxManageable {
     func connectDropbox(viewController: UIViewController) {
-        memoStorage.connectDropbox(viewController: viewController)
+        coreDataManager.connectDropbox(viewController: viewController)
     }
     
     func upload(at indexPath: IndexPath) {
         let memoToUpload = memos[indexPath.row]
-        memoStorage.upload(memo: memoToUpload)
+        coreDataManager.upload(memo: memoToUpload)
     }
 }
+

@@ -46,7 +46,7 @@ class MemoTableViewController: UITableViewController {
     }
     
     private func configureTableView() {
-        if isSplitViewCollapsed == false && delegate?.isMemoStorageEmpty == false {
+        if isSplitViewCollapsed == false && delegate?.isMemosEmpty == false {
             tableView.delegate?.tableView?(tableView, didSelectRowAt: initialIndexPath)
         }
         tableView.separatorInset = UIEdgeInsets.zero

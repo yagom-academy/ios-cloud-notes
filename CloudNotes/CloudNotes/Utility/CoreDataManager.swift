@@ -1,5 +1,5 @@
 //
-//  MemoStorage.swift
+//  CoreDataManager.swift
 //  CloudNotes
 //
 //  Created by 예거 on 2022/02/11.
@@ -8,7 +8,7 @@
 import UIKit
 import CoreData
 
-class MemoStorage {
+class CoreDataManager {
     let dropboxManager = DropboxManager()
     lazy var context = persistentContainer.newBackgroundContext()
     private var persistentContainer: NSPersistentContainer = {

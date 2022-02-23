@@ -89,7 +89,7 @@ final class NoteListTableViewController: UITableViewController {
     }
     
 }
-
+    
 extension NoteListTableViewController {
     
     // MARK: - Table View Delegate
@@ -101,49 +101,40 @@ extension NoteListTableViewController {
         }
         delegate?.selectNote(with: identifier)
     }
-    
-//    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-//        super.viewWillTransition(to: size, with: coordinator)
-//    }
-    
+
     override func tableView(
         _ tableView: UITableView,
         trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
     ) -> UISwipeActionsConfiguration? {
-        let shareAction = UIContextualAction(style: .normal, title: "Share") { (action, view, completionHandler) in
-            
-            self.presentActivityView(items: [""]) { activityViewController in
-                activityViewController.modalPresentationStyle = .formSheet
-                activityViewController.popoverPresentationController?.sourceView = self.view
-                activityViewController.popoverPresentationController?.sourceRect = view.bounds
-                activityViewController.popoverPresentationController?.permittedArrowDirections = []
+        let snapshot = self.dataSource.snapshot()
+        let item = snapshot.itemIdentifiers[indexPath.row]
+        let shareAction = UIContextualAction(style: .normal, title: nil) { _, _, _ in
+            self.presentActivityView(items: ["\(item.title)\n\(item.body)"]) { controller in
+                let cell = tableView.cellForRow(at: indexPath)
+                controller.modalPresentationStyle = .popover
+                controller.popoverPresentationController?.sourceView = cell
             }
-            completionHandler(true)
         }
-        let deleteAction = UIContextualAction(style: .normal, title: "Delete") { (_, _, completionHandler) in
-            let item = self.dataSource.itemIdentifier(for: indexPath)
-            guard let identifier = item?.identifier else {
-                return
-            }
-            
-            self.presentAlert(title: "진짜요?", message: "정말로 지워요?") { alert in
+        let deleteAction = UIContextualAction(style: .normal, title: nil) { _, _, _ in
+            self.presentAlert(title: "진짜요?", message: "정말로 지워요?") { controller in
                 let actions = [
                     UIAlertAction(title: "취소", style: .cancel),
                     UIAlertAction(title: "삭제", style: .destructive) { _ in
-                        self.viewModel.deleteNote(identifier: identifier)
-                        
-                        let indexPath = IndexPath(row: 0, section: 0)
+                        self.viewModel.deleteNote(identifier: item.identifier)
                         tableView.selectRow(
-                            at: indexPath,
+                            at: IndexPath(row: 0, section: 0),
                             animated: true,
                             scrollPosition: UITableView.ScrollPosition.top)
-                        completionHandler(true)
-                    }
-                ]
-                alert.addAction(actions)
+                    }]
+                controller.addAction(actions)
             }
         }
+        
+        shareAction.backgroundColor = .systemBlue
+        shareAction.image = UIImage(systemName: "square.and.arrow.up")
         deleteAction.backgroundColor = .systemRed
+        deleteAction.image = UIImage(systemName: "trash")
+        
         let actionsConfiguration = UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
         return actionsConfiguration
     }

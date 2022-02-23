@@ -9,18 +9,18 @@ final class NoteListTableViewController: UITableViewController {
         return NoteListTableViewDiffableDataSource(
             model: viewModel,
             tableView: self.tableView) { tableView, _, item in
-                let cell = tableView.dequeueReusableCell(withIdentifier: NoteListTableViewCell.reuseIdentifier)
-                
-                if let cell = cell as? NoteListTableViewCell {
-                    cell.setLabelText(
-                        title: item.title,
-                        body: item.body,
-                        lastModified: self.viewModel.fetchDate(note: item)
-                    )
-                }
-                
-                return cell
+            let cell = tableView.dequeueReusableCell(withIdentifier: NoteListTableViewCell.reuseIdentifier)
+            
+            if let cell = cell as? NoteListTableViewCell {
+                cell.setLabelText(
+                    title: item.title,
+                    body: item.body,
+                    lastModified: self.viewModel.fetchDate(note: item)
+                )
             }
+            
+            return cell
+        }
     }()
     
     override func viewDidLoad() {
@@ -52,8 +52,6 @@ final class NoteListTableViewController: UITableViewController {
     }
     
     private func updateTable(_ type: NSFetchedResultsChangeType) {
-        
-        print(type.rawValue)
         let snapshot = dataSource.snapshot()
         
         guard let item = snapshot.itemIdentifiers.first else { return }
@@ -106,11 +104,50 @@ extension NoteListTableViewController {
         delegate?.selectNote(with: identifier)
     }
     
+//    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+//        super.viewWillTransition(to: size, with: coordinator)
+//    }
+    
     override func tableView(
         _ tableView: UITableView,
-        editingStyleForRowAt indexPath: IndexPath
-    ) -> UITableViewCell.EditingStyle {
-        return .delete
+        trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
+    ) -> UISwipeActionsConfiguration? {
+        let shareAction = UIContextualAction(style: .normal, title: "Share") { (action, view, completionHandler) in
+            
+            self.presentActivityView(items: [""]) { activityViewController in
+                activityViewController.modalPresentationStyle = .formSheet
+                activityViewController.popoverPresentationController?.sourceView = self.view
+                activityViewController.popoverPresentationController?.sourceRect = view.bounds
+                activityViewController.popoverPresentationController?.permittedArrowDirections = []
+            }
+            completionHandler(true)
+        }
+        let deleteAction = UIContextualAction(style: .normal, title: "Delete") { (_, _, completionHandler) in
+            let item = self.dataSource.itemIdentifier(for: indexPath)
+            guard let identifier = item?.identifier else {
+                return
+            }
+            
+            self.presentAlert(title: "진짜요?", message: "정말로 지워요?") { alert in
+                let actions = [
+                    UIAlertAction(title: "취소", style: .cancel),
+                    UIAlertAction(title: "삭제", style: .destructive) { _ in
+                        self.viewModel.deleteNote(identifier: identifier)
+                        
+                        let indexPath = IndexPath(row: 0, section: 0)
+                        tableView.selectRow(
+                            at: indexPath,
+                            animated: true,
+                            scrollPosition: UITableView.ScrollPosition.top)
+                        completionHandler(true)
+                    }
+                ]
+                alert.addAction(actions)
+            }
+        }
+        deleteAction.backgroundColor = .systemRed
+        let actionsConfiguration = UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
+        return actionsConfiguration
     }
     
 }

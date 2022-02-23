@@ -36,7 +36,7 @@ final class NoteDetailViewController: UIViewController {
     }()
     
     @objc
-    private func detailBarButtonItemDidTap() {
+    func detailBarButtonItemDidTap() {
         guard let identifier = identifier else {
             return
         }

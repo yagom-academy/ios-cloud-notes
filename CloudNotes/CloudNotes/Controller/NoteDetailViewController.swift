@@ -145,23 +145,29 @@ extension NoteDetailViewController: UIScrollViewDelegate {
 
 extension NoteDetailViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
-        var title = ""
-        var body = ""
         guard let textViewText = textView.text else {
             return
         }
-        if textViewText.contains("\n") == false && textViewText.count <= 100 {
-            title = textViewText
-        } else if textViewText.contains("\n") == false && textViewText.count > 100 {
-            title = textViewText.substring(from: 0, to: 99)
-            body = "\n" + textViewText.substring(from: 100, to: textViewText.count - 1)
+        let information = splitText(text: textViewText)
+        delegate?.textViewDidChange(noteInformation: information)
+    }
+    
+    func splitText(text: String) -> NoteInformation {
+        var title = ""
+        var body = ""
+        
+        if text.contains("\n") == false && text.count <= 100 {
+            title = text
+        } else if text.contains("\n") == false && text.count > 100 {
+            title = text.substring(from: 0, to: 99)
+            body = "\n" + text.substring(from: 100, to: text.count - 1)
         } else {
-            let splitedText = textView.text.split(separator: "\n", maxSplits: 1, omittingEmptySubsequences: false)
+            let splitedText = text.split(separator: "\n", maxSplits: 1, omittingEmptySubsequences: false)
             title = String(splitedText.first ?? "")
             body = String(splitedText.last ?? "")
         }
         let information = NoteInformation(title: title, content: body, lastModifiedDate: Date().timeIntervalSince1970)
-        delegate?.textViewDidChange(noteInformation: information)
+        return information
     }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {

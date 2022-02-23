@@ -50,7 +50,7 @@ final class MemoListViewController: UIViewController {
         navigationItem.title = "메모"
     }
     
-    @objc internal func addMemo() {
+    @objc private func addMemo() {
         dataManager.addNewMemo()
     }
 }
@@ -131,6 +131,10 @@ extension MemoListViewController: UITableViewDelegate {
 // MARK: - MemoDataManagerListDelegate
 
 extension MemoListViewController: MemoDataManagerListDelegate {
+    var selectedCellIndex: IndexPath? {
+        return tableView.indexPathForSelectedRow
+    }
+    
     func setupRowSelection() {
         tableView.selectRow(at: IndexPath(row: 0, section: 0), animated: false, scrollPosition: .top)
     }
@@ -147,10 +151,6 @@ extension MemoListViewController: MemoDataManagerListDelegate {
     func selectNextCell(at indexPath: IndexPath) {
         tableView.allowsSelectionDuringEditing = true
         tableView.selectRow(at: indexPath, animated: false, scrollPosition: .top)
-    }
-    
-    var selectedCellIndex: IndexPath? {
-        return tableView.indexPathForSelectedRow
     }
     
     func updateCell(at indexPath: IndexPath) {

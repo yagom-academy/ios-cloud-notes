@@ -1,6 +1,9 @@
 import UIKit.UIFont
 import CoreData
 
+enum NameSpace {
+    static let bodyLimit = 40
+}
 
 extension Memo {
 
@@ -15,7 +18,7 @@ extension Memo {
 
     var subtitle: NSAttributedString {
         let dateString = createFormattedDate()
-        let truncatedBody = body.truncated(limit: 40)
+        let truncatedBody = body.truncated(limit: NameSpace.bodyLimit)
         
         let attributedString = NSMutableAttributedString()
         

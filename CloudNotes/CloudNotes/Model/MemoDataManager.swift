@@ -1,11 +1,11 @@
 import CoreData
 
 protocol MemoDataManagerListDelegate: AnyObject {
+    var selectedCellIndex: IndexPath? { get }
     func setupRowSelection()
     func addNewCell()
     func deleteCell(at indexPath: IndexPath)
     func selectNextCell(at indexPath: IndexPath)
-    var selectedCellIndex: IndexPath? { get }
     func updateCell(at indexPath: IndexPath)
 }
 
@@ -21,9 +21,7 @@ final class MemoDataManager {
     
     var memos = [Memo]()
     private let persistentContainer: NSPersistentContainer
-    private var viewContext: NSManagedObjectContext {
-        return persistentContainer.viewContext
-    }
+    private lazy var viewContext: NSManagedObjectContext = persistentContainer.viewContext
     
     init(modelName: String = "CloudNotes") {
         persistentContainer = NSPersistentContainer(name: modelName)
@@ -32,7 +30,7 @@ final class MemoDataManager {
     }
     
     func loadPersistentContainer() {
-        persistentContainer.loadPersistentStores { description, error in
+        persistentContainer.loadPersistentStores { _, error in
             if let error = error {
                 print(error.localizedDescription)
             }
@@ -73,8 +71,7 @@ final class MemoDataManager {
     func updateMemo(id: UUID,
                     title: String,
                     body: String,
-                    lastModified: Date)
-    {
+                    lastModified: Date) {
         let predicate = NSPredicate(format: "id == %@", id.uuidString)
         guard let memo = fetchMemos(predicate: predicate).first else {
             return

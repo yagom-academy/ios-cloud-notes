@@ -9,7 +9,7 @@ final class SplitViewController: UISplitViewController {
         super.viewDidLoad()
         assignChlidViewController()
         setupDisplay()
-        registerGestureRecognizer()
+        registerGestureRecognizerForHidingKeyboard()
     }
     
     private func assignChlidViewController() {

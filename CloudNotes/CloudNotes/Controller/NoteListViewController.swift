@@ -47,6 +47,7 @@ final class NoteListViewController: UIViewController {
         if let note = persistentManager?.notes[index] {
             persistentManager?.update(object: note, noteInformation: noteInformation)
             DispatchQueue.main.async {
+                self.tableView.moveRow(at: IndexPath(row: index, section: 0), to: IndexPath(row: 0, section: 0))
                 self.tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .none)
             }
             view.endEditing(true)

@@ -137,5 +137,6 @@ extension CloudNotesSplitViewController: NoteDetailViewDelegate {
     
     func textViewDidChange(noteInformation: NoteInformation) {
         noteListViewController.updateListView(index: currentIndex, noteInformation: noteInformation)
+        currentIndex = 0
     }
 }

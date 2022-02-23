@@ -41,25 +41,32 @@ final class NoteDetailScrollView: UIScrollView {
         ])
     }
     
-    func configure(with noteInfomation: NoteInformation) {
-        let title = noteInfomation.title
-        let content = noteInfomation.content
-        
+    func configure(with note: Note) {
+        guard let title = note.title,
+              let content = note.content else {
+                  return
+              }
         if title == "" && content == "" {
             self.noteDetailTextView.text = ""
-        } else if title != "" && content == ""{
-            noteDetailTextView.font = .preferredFont(forTextStyle: .title1)
+            DispatchQueue.main.async {
+                let position = self.noteDetailTextView.beginningOfDocument
+                self.noteDetailTextView.selectedTextRange = self.noteDetailTextView.textRange(from: position, to: position)
+                self.noteDetailTextView.becomeFirstResponder()
+            }
         } else {
             let attributedString = NSMutableAttributedString()
-                .preferredFont(string: title + "\n", forTextStyle: .title1)
+                .preferredFont(string: title + "\n", forTextStyle: .body)
                 .preferredFont(string: content, forTextStyle: .body)
             attributedString.color(to: .label)
             DispatchQueue.main.async {
                 self.noteDetailTextView.attributedText = attributedString
             }
         }
-        self.lastModifiedDateLabel.text = noteInfomation.localizedDateString
+        self.lastModifiedDateLabel.text = note.localizedDateString
     }
+    
+    
+    
     
     // MARK: - private Methods
     
@@ -86,8 +93,8 @@ final class NoteDetailScrollView: UIScrollView {
     
     private func setupLastModifiedDateLabel() {
         lastModifiedDateLabel.setContentHuggingPriority(
-          .required,
-          for: .vertical
+            .required,
+            for: .vertical
         )
         lastModifiedDateLabel.textAlignment = .center
         lastModifiedDateLabel.font = .preferredFont(forTextStyle: .caption1)
@@ -98,18 +105,18 @@ final class NoteDetailScrollView: UIScrollView {
         noteDetailTextView.font = .preferredFont(forTextStyle: .body)
         let inset: CGFloat = 10
         noteDetailTextView.textContainerInset = UIEdgeInsets(
-          top: inset,
-          left: inset,
-          bottom: inset,
-          right: inset
+            top: inset,
+            left: inset,
+            bottom: inset,
+            right: inset
         )
     }
 }
 
 private extension NSMutableAttributedString {
     func preferredFont(
-      string: String,
-      forTextStyle: UIFont.TextStyle
+        string: String,
+        forTextStyle: UIFont.TextStyle
     ) -> NSMutableAttributedString {
         let attributeFont: [NSAttributedString.Key: Any] = [.font: UIFont.preferredFont(forTextStyle: forTextStyle)]
         self.append(NSAttributedString(string: string, attributes: attributeFont))

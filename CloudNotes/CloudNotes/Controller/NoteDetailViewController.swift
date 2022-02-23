@@ -21,8 +21,7 @@ final class NoteDetailViewController: UIViewController {
     private let noteDetailScrollView = NoteDetailScrollView()
     weak var delegate: NoteDetailViewDelegate?
     var persistentManager: PersistentManager?
-    var currentIndex = 0
-
+    
     // MARK: - View LifeCycle
     
     override func viewDidLoad() {
@@ -37,16 +36,11 @@ final class NoteDetailViewController: UIViewController {
     // MARK: - internal Methods
     
     func setupDetailView(index: Int) {
-        currentIndex = index
-        let note = persistentManager?.notes[index]
-        let title = note?.title ?? ""
-        let content = note?.content ?? ""
-        let lastModifiedDate = note?.lastModifiedDate ?? 0
-        let information = NoteInformation(title: title, content: content, lastModifiedDate: lastModifiedDate)
-            noteDetailScrollView.configure(with: information)
+        if let note = persistentManager?.notes[index] {
+            noteDetailScrollView.configure(with: note)
             scrollTextViewToVisible()
             view.endEditing(true)
-        
+        }
     }
     
     func setupEmptyDetailView() {
@@ -66,10 +60,10 @@ final class NoteDetailViewController: UIViewController {
     private func setupNavigation() {
         let seeMoreMenuButtonImage = UIImage(systemName: ImageNames.ellipsisCircleImageName)
         let rightButton = UIBarButtonItem(
-          image: seeMoreMenuButtonImage,
-          style: .done,
-          target: self,
-          action: #selector(showPopover(_:))
+            image: seeMoreMenuButtonImage,
+            style: .done,
+            target: self,
+            action: #selector(showPopover(_:))
         )
         navigationItem.setRightBarButton(rightButton, animated: false)
         
@@ -131,7 +125,7 @@ extension NoteDetailViewController: UIScrollViewDelegate {
         targetContentOffset: UnsafeMutablePointer<CGPoint>
     ) {
         let dateLabelHeight = noteDetailScrollView.lastModifiedDateLabel.frame.height
-
+        
         if scrollView.contentOffset.y < dateLabelHeight {
             targetContentOffset.pointee = CGPoint.zero
         }
@@ -158,7 +152,6 @@ extension NoteDetailViewController: UITextViewDelegate {
             body = String(splitedText.last ?? "")
         }
         let information = NoteInformation(title: title, content: body, lastModifiedDate: Date().timeIntervalSince1970)
-        noteDetailScrollView.configure(with: information)
         delegate?.textViewDidChange(noteInformation: information)
     }
 }
@@ -168,16 +161,16 @@ extension NoteDetailViewController: UITextViewDelegate {
 extension NoteDetailViewController {
     private func addObserverKeyboardNotification() {
         NotificationCenter.default.addObserver(
-          self,
-          selector: #selector(keyboardWillShow),
-          name: UIResponder.keyboardWillShowNotification,
-          object: nil
+            self,
+            selector: #selector(keyboardWillShow),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil
         )
         NotificationCenter.default.addObserver(
-          self,
-          selector: #selector(keyboardWillHide),
-          name: UIResponder.keyboardWillHideNotification,
-          object: nil
+            self,
+            selector: #selector(keyboardWillHide),
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil
         )
     }
     
@@ -188,7 +181,7 @@ extension NoteDetailViewController {
         
         let userInfo = info as NSDictionary
         guard let keyboardFrame = userInfo.value(
-          forKey: UIResponder.keyboardFrameEndUserInfoKey
+            forKey: UIResponder.keyboardFrameEndUserInfoKey
         ) as? NSValue else {
             return
         }

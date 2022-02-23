@@ -1,4 +1,5 @@
 import UIKit
+import SwiftyDropbox
 
 final class MainSplitViewController: UISplitViewController {
     private let listViewController = MemoListViewController()
@@ -13,10 +14,41 @@ final class MainSplitViewController: UISplitViewController {
         CoreDataManager.shared.memoContentViewController = contentViewController
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        if DropboxManager.isAuthorized == false {
+            beginAuthorizationFlow()
+            DropboxManager.isAuthorized = true
+        }
+    }
+    
+    func beginAuthorizationFlow() {
+        let scopes = [
+            "account_info.read",
+            "account_info.write",
+            "files.content.read",
+            "files.content.write",
+            "files.metadata.read",
+            "files.metadata.write"
+        ]
+        let scopeRequest = ScopeRequest(scopeType: .user, scopes: scopes, includeGrantedScopes: false)
+        DropboxClientsManager.authorizeFromControllerV2(
+            UIApplication.shared,
+            controller: self,
+            loadingStatusDelegate: nil,
+            openURL: { (url: URL) -> Void in UIApplication.shared.open(url, options: [:], completionHandler: nil) },
+            scopeRequest: scopeRequest
+        )
+    }
+    
     func updateMemoContentsView(with memo: Memo) {
         contentViewController.selectedMemo = memo
         contentViewController.reload()
         showDetailViewController(contentViewController, sender: nil)
+    }
+    
+    func reloadAll() {
+        listViewController.reload()
+        contentViewController.reload()
     }
 
     private func setupMainSplitView() {

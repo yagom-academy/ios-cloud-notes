@@ -1,4 +1,5 @@
 import UIKit
+import CloudKit
 
 final class MemoListViewController: UIViewController {
     private let tableView = UITableView()
@@ -13,7 +14,6 @@ final class MemoListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        reload()
         setupMainListView()
     }
 

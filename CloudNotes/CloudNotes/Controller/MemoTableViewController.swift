@@ -37,8 +37,19 @@ class MemoTableViewController: UITableViewController {
         self.navigationController?.navigationBar.prefersLargeTitles = true
         self.navigationItem.title = "메모"
         let addMemoButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addEmptyMemo))
-        let connectDropboxButton = UIBarButtonItem(image: UIImage(systemName: SystemIcon.linkDropbox), style: .plain, target: self, action: #selector(connectDropbox))
+        let connectDropboxButton = UIBarButtonItem(image: UIImage(systemName: SystemIcon.linkDropbox), style: .plain, target: self, action: nil)
         connectDropboxButton.imageInsets = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: -15)
+        
+        let loginAction = UIAction(title: ActionTitle.login) { _ in
+            self.connectDropbox()
+        }
+        
+        let logoutAction = UIAction(title: ActionTitle.logout, attributes: .destructive) { _ in
+            self.disconnectDropbox()
+        }
+        
+        let connectionMenu = UIMenu(options: .displayInline, children: [loginAction, logoutAction])
+        connectDropboxButton.menu = connectionMenu
         
         self.navigationItem.rightBarButtonItems = [addMemoButton, connectDropboxButton]
     }
@@ -59,8 +70,14 @@ class MemoTableViewController: UITableViewController {
         tableView.isEditing = false
     }
     
-    @objc private func connectDropbox() {
+    private func connectDropbox() {
         delegate?.connectDropbox(viewController: self)
+    }
+    
+    private func disconnectDropbox() {
+        DropboxClientsManager.unlinkClients()
+        UserDefaults.standard.set(false, forKey: UserDefaultsKey.dropboxConnected)
+        delegate?.presentConnectResultAlert(type: .disconnect)
     }
     
     func updateTableView() {

@@ -18,6 +18,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             if let authResult = $0 {
                 switch authResult {
                 case .success:
+                    UserDefaults.standard.set(true, forKey: UserDefaultsKey.dropboxConnected)
                     self.memoStorage.synchronizeCoreDataToDropbox { isSuccess in
                         if isSuccess {
                             DispatchQueue.main.async {
@@ -26,7 +27,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                             }
                         }
                     }
-                    UserDefaults.standard.set(true, forKey: UserDefaultsKey.dropboxConnected)
                 case .cancel:
                     memoSplitViewController.presentConnectResultAlert(type: .connectFailure)
                 case .error(_, _):

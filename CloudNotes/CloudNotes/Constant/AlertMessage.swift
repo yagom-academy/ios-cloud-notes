@@ -12,6 +12,7 @@ enum AlertMessage {
     case deleteCaution
     case connectSuccess
     case connectFailure
+    case disconnect
     
     var title: String {
         switch self {
@@ -23,6 +24,8 @@ enum AlertMessage {
             return "Dropbox 연동 성공"
         case .connectFailure:
             return "Dropbox 연동 실패"
+        case .disconnect:
+            return "Dropbox 로그아웃"
         }
     }
     
@@ -36,6 +39,8 @@ enum AlertMessage {
             return "앞으로 메모장을 Dropbox와 동기화합니다"
         case .connectFailure:
             return "다시 시도해주세요"
+        case .disconnect:
+            return "성공적으로 로그아웃되었습니다"
         }
     }
 }

@@ -3,7 +3,7 @@ import CoreData
 
 final class NoteListTableViewController: UITableViewController {
     
-    private var viewModel: NoteViewModel
+    private let viewModel: NoteViewModel
     weak var delegate: NoteListTableViewDelegate?
     private lazy var dataSource = {
         return NoteListTableViewDiffableDataSource(
@@ -27,14 +27,14 @@ final class NoteListTableViewController: UITableViewController {
         super.viewDidLoad()
         configureTableView()
         configureLayout()
-        viewModel.updatePrimaryHandler = updateUI
-        viewModel.updateSecondaryHandler = updateTable
+        viewModel.updateUIHandler = updateUI
+        viewModel.updateUIByDataHandler = updateTable
         viewModel.viewDidLoad()
         updateUI()
     }
     
-    init(model: NoteViewModel) {
-        self.viewModel = model
+    init(viewModel: NoteViewModel) {
+        self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
     

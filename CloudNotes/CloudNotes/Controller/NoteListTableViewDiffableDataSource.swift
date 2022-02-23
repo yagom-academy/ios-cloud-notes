@@ -2,7 +2,7 @@ import UIKit
 
 final class NoteListTableViewDiffableDataSource: UITableViewDiffableDataSource<Section, Note> {
     
-    private var viewModel: NoteViewModel
+    private let viewModel: NoteViewModel
     
     init(
         model: NoteViewModel,

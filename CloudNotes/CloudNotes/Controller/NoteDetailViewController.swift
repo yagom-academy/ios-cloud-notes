@@ -70,8 +70,8 @@ final class NoteDetailViewController: UIViewController {
         configureDelegate()
     }
     
-    init(model: NoteViewModel) {
-        self.viewModel = model
+    init(viewModel: NoteViewModel) {
+        self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
     

@@ -4,8 +4,8 @@ import CoreData
 final class NoteViewModel: NSObject {
     
     private let model: NoteModel
-    var updatePrimaryHandler: (() -> Void)?
-    var updateSecondaryHandler: ((NSFetchedResultsChangeType) -> Void)?
+    var updateUIHandler: (() -> Void)?
+    var updateUIByDataHandler: ((NSFetchedResultsChangeType) -> Void)?
     
     init(model: NoteModel) {
         self.model = model
@@ -65,8 +65,8 @@ extension NoteViewModel: NSFetchedResultsControllerDelegate {
         for type: NSFetchedResultsChangeType,
         newIndexPath: IndexPath?
     ) {
-        updatePrimaryHandler?()
-        updateSecondaryHandler?(type)
+        updateUIHandler?()
+        updateUIByDataHandler?(type)
     }
     
 }

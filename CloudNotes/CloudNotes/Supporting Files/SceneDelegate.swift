@@ -31,8 +31,8 @@ extension SceneDelegate {
         let model = NoteModel(persistentDataManager: persistentDataManager)
         let viewModel = NoteViewModel(model: model)
         
-        let primaryViewController = NoteListTableViewController(model: viewModel)
-        let secondaryViewController = NoteDetailViewController(model: viewModel)
+        let primaryViewController = NoteListTableViewController(viewModel: viewModel)
+        let secondaryViewController = NoteDetailViewController(viewModel: viewModel)
         let splitViewController = UISplitViewController(style: .doubleColumn)
         
         primaryViewController.delegate = secondaryViewController

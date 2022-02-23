@@ -10,7 +10,7 @@ struct DropboxManager {
         "/CloudNotes.sqlite-shm",
         "/CloudNotes.sqlite-wal"
     ]
-
+    
     func upload() {
         guard let client = DropboxClientsManager.authorizedClient else {
             print("No client")
@@ -20,11 +20,9 @@ struct DropboxManager {
         Self.sqliteFileNames.forEach {
             let coreDataPath = NSPersistentContainer.defaultDirectoryURL().appendingPathComponent($0)
             let data = FileManager.default.contents(atPath: coreDataPath.path)!
-            _ = client.files.upload(path: "\(Self.basePath)\($0)", input: data)
-                .response { response, error in
-                    if let response = response {
-                        print(response)
-                    } else if let error = error {
+            client.files.upload(path: "\(Self.basePath)\($0)", mode: .overwrite, input: data)
+                .response { _, error in
+                    if let error = error {
                         print(error)
                     }
                 }

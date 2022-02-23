@@ -4,6 +4,7 @@ import SwiftyDropbox
 final class MainSplitViewController: UISplitViewController {
     private let listViewController = MemoListViewController()
     private let contentViewController = MemoContentViewController()
+    private var indicatorView: UIActivityIndicatorView?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -12,6 +13,7 @@ final class MainSplitViewController: UISplitViewController {
         hideKeyboardWhenTappedBackground()
         CoreDataManager.shared.memoListViewController = listViewController
         CoreDataManager.shared.memoContentViewController = contentViewController
+        presentIndicatorView()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -19,6 +21,21 @@ final class MainSplitViewController: UISplitViewController {
             beginAuthorizationFlow()
             DropboxManager.isAuthorized = true
         }
+    }
+    
+    func presentIndicatorView() {
+        let indicator = UIActivityIndicatorView()
+        indicator.backgroundColor = .systemGray3
+        indicator.style = .large
+        indicatorView = indicator
+        view.addSubview(indicator)
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        indicator.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        indicator.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        indicator.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        indicator.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        indicator.startAnimating()
+        
     }
     
     func beginAuthorizationFlow() {
@@ -49,6 +66,8 @@ final class MainSplitViewController: UISplitViewController {
     func reloadAll() {
         listViewController.reload()
         contentViewController.reload()
+        indicatorView?.removeFromSuperview()
+        indicatorView = nil
     }
 
     private func setupMainSplitView() {

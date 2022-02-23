@@ -42,9 +42,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
         
         for context in URLContexts {
-            // stop iterating after the first handle-able url
             if DropboxClientsManager.handleRedirectURL(context.url, completion: oauthCompletion) { break }
         }
+    }
+
+    func sceneWillResignActive(_ scene: UIScene) {
+        DropboxManager().upload()
     }
 }
 

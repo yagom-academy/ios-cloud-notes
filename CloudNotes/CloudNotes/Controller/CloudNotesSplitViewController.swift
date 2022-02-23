@@ -88,17 +88,17 @@ final class CloudNotesSplitViewController: UISplitViewController {
 // MARK: - NoteListView Delegate
 
 extension CloudNotesSplitViewController: NoteListViewDelegate {
-    func sharedNoteActionWithSwipe() {
-        let note = persistentManager.notes[currentIndex]
+    func sharedNoteActionWithSwipe(index: Int) {
+        let note = persistentManager.notes[index]
         showActivityView(note: note, targetButton: nil)
     }
     
-    func deleteNoteActionWithSwipe() {
-        let note = persistentManager.notes[currentIndex]
+    func deleteNoteActionWithSwipe(index: Int) {
+        let note = persistentManager.notes[index]
         self.showDeleteAlert(message: "정말로 삭제하시겠어요?") {
             self.noteListViewController.deleteNote(
                 object: note,
-                indexPath: IndexPath(row: self.currentIndex, section: 0)
+                indexPath: IndexPath(row: index, section: 0)
             )
         }
     }

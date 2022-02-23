@@ -35,6 +35,11 @@ final class DropboxManager {
             }
             
             DropboxClientsManager.authorizedClient?.files.upload(path: "/\(id)\(FileFormat.txt)", mode: .overwrite, input: uploadData)
+                .response { _, error in
+                    if let error = error {
+                        print("Upload Error: \(error)")
+                    }
+                }
         }
     }
     
@@ -44,20 +49,32 @@ final class DropboxManager {
         }
         
         DropboxClientsManager.authorizedClient?.files.deleteV2(path: "/\(id)\(FileFormat.txt)", parentRev: nil)
+            .response { _, error in
+                if let error = error {
+                    print("Delete Error: \(error)")
+                }
+            }
     }
     
     func fetchFilePaths(completion: @escaping ([Files.Metadata]) -> Void) {
         DropboxClientsManager.authorizedClient?.files.listFolder(path: .blank)
-            .response { response, _ in
+            .response { response, error in
                 if let response = response {
                     completion(response.entries)
+                } else if let error = error {
+                    print("Fetch FilePath Error: \(error)")
                 }
             }
     }
     
     func download(from path: String, completion: @escaping (DropboxFile) -> Void) {
         DropboxClientsManager.authorizedClient?.files.download(path: path)
-            .response { data, _ in
+            .response { data, error in
+                if let error = error {
+                    print("Download Error: \(error)")
+                    return
+                }
+                
                 guard let data = data else {
                     return
                 }

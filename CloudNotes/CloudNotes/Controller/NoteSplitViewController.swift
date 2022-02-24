@@ -10,9 +10,6 @@ class NoteSplitViewController: UISplitViewController {
     private var selectedIndexPath: IndexPath? {
         return noteListViewController.extractSeletedRow()
     }
-    private var atrributesForNewCell: [String: Any] {
-        ["title": "새로운 메모", "body": "", "lastModified": Date(), "identifier": UUID()] as [String: Any]
-    }
 // MARK: - ViewLifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -82,17 +79,14 @@ class NoteSplitViewController: UISplitViewController {
         let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let asset = UIAlertAction(title: "Asset", style: .default) { [weak self] _ in
             self?.modeChanger.switchMode(to: .asset)
-            print("\(ModeChecker.currentMode)")
             self?.switchDataManager()
         }
         let coreData = UIAlertAction(title: "CoreData", style: .default) { [weak self] _ in
             self?.modeChanger.switchMode(to: .coreData)
-            print("\(ModeChecker.currentMode)")
             self?.switchDataManager()
         }
         let dropBox = UIAlertAction(title: "Dropbox", style: .default) { [weak self] _ in
             self?.modeChanger.switchMode(to: .dropBox)
-            print("\(ModeChecker.currentMode)")
             self?.switchDataManager()
         }
         actionSheet.addAction(asset)
@@ -105,16 +99,7 @@ class NoteSplitViewController: UISplitViewController {
         
         present(actionSheet, animated: false) 
     }
-    
-    private func createAttributes(body: String) -> [String: Any] {
-        var attribute: [String: Any] = [:]
-        let title = body.components(separatedBy: "\n")[0]
-        let long = body.components(separatedBy: "\n")[1...].joined()
-        attribute.updateValue(title, forKey: "title")
-        attribute.updateValue(long, forKey: "body")
-        attribute.updateValue(Date(), forKey: "lastModified")
-        return attribute
-    }
+
 }
 // MARK: - NoteListViewController Delegate
 extension NoteSplitViewController: NoteListViewControllerDelegate {
@@ -149,7 +134,7 @@ extension NoteSplitViewController: NoteListViewControllerDelegate {
     }
     
     func noteListViewController(addButtonTapped viewController: NoteListViewController) {
-        dataManager?.create(attributes: atrributesForNewCell)
+        dataManager?.create(attributes: Memo.defaults.attributes)
     }
 }
 // MARK: - NoteListViewController DataSource
@@ -173,11 +158,11 @@ extension NoteSplitViewController: NoteDetailViewControllerDelegate {
         _ viewController: UIViewController,
         didChangeBody body: String
     ) {
-        let attribute = createAttributes(body: body)
-        
         guard let selectedMemo = dataManager?.read(index: selectedIndexPath ?? IndexPath(row: .zero, section: .zero)) else {
             return
         }
+        let attribute = selectedMemo.createAttributes(body: body)
+        
         dataManager?.update(target: selectedMemo, attributes: attribute)
     }
 }

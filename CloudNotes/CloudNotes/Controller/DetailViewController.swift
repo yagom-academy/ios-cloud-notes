@@ -121,8 +121,10 @@ final class DetailViewController: UIViewController {
     }
     
     private func updateTextView() {
-        let titleAttributes = [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .title1)]
-        let bodyAttributes = [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .body)]
+        let titleAttributes = [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .title1),
+                               NSAttributedString.Key.foregroundColor: UIColor.label]
+        let bodyAttributes = [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .body),
+                              NSAttributedString.Key.foregroundColor: UIColor.label]
         
         let totalAttributedText = NSMutableAttributedString()
         let titleAttributedText = NSMutableAttributedString(string: memo?.title ?? "", attributes: titleAttributes)
@@ -152,8 +154,10 @@ extension DetailViewController: MemoSelectionDelegate {
 
 extension DetailViewController: UITextViewDelegate {
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        let titleAttributes = [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .title1)]
-        let bodyAttributes = [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .body)]
+        let titleAttributes = [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .title1),
+                               NSAttributedString.Key.foregroundColor: UIColor.label]
+        let bodyAttributes = [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .body),
+                              NSAttributedString.Key.foregroundColor: UIColor.label]
         
         let textAsNSString = textView.text as NSString
         let titleRange = textAsNSString.range(of: "\n")

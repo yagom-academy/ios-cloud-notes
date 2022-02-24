@@ -1,5 +1,6 @@
 import UIKit
 import CoreData
+import SwiftyDropbox
 
 final class NoteTableViewController: UITableViewController {
     
@@ -14,18 +15,32 @@ final class NoteTableViewController: UITableViewController {
     private lazy var dataSource = {
         return NoteTableViewDiffableDataSource(
             tableView: self.tableView) { tableView, _, item in
-            let identifier = NoteTableViewCell.reuseIdentifier
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: identifier) as? NoteTableViewCell else {
-                return nil
+                let identifier = NoteTableViewCell.reuseIdentifier
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: identifier) as? NoteTableViewCell else {
+                    return nil
+                }
+                
+                cell.setLabelText(
+                    title: item.title,
+                    body: item.body,
+                    lastModified: self.viewModel.fetchDate(note: item))
+                
+                return cell
             }
-            
-            cell.setLabelText(
-                title: item.title,
-                body: item.body,
-                lastModified: self.viewModel.fetchDate(note: item))
-            
-            return cell
-        }
+    }()
+    
+    private lazy var addBarButtonItem: UIBarButtonItem = {
+        UIBarButtonItem(
+            barButtonSystemItem: .add,
+            target: self,
+            action: #selector(addNoteDidTap))
+    }()
+    
+    private lazy var loginBarButtonItem: UIBarButtonItem = {
+        UIBarButtonItem(
+            barButtonSystemItem: .bookmarks,
+            target: self,
+            action: #selector(loginButtonDidTap))
     }()
     
     override func viewDidLoad() {
@@ -82,11 +97,7 @@ final class NoteTableViewController: UITableViewController {
     
     private func configureLayout() {
         navigationController?.navigationBar.topItem?.title = "메모"
-        let addBarButtonItem = UIBarButtonItem(
-            barButtonSystemItem: .add,
-            target: self,
-            action: #selector(addNoteDidTap))
-        navigationItem.rightBarButtonItem = addBarButtonItem
+        navigationItem.rightBarButtonItems = [addBarButtonItem, loginBarButtonItem]
     }
     
     @objc
@@ -94,8 +105,21 @@ final class NoteTableViewController: UITableViewController {
         viewModel.createNote()
     }
     
-}
+    @objc
+    private func loginButtonDidTap(_ sender: UIBarButtonItem) {
+        // OAuth 2 code flow with PKCE that grants a short-lived token with scopes, and performs refreshes of the token automatically.
+        let scopeRequest = ScopeRequest(scopeType: .user, scopes: ["account_info.read", "files.content.write"], includeGrantedScopes: false)
+        DropboxClientsManager.authorizeFromControllerV2(
+            UIApplication.shared,
+            controller: self,
+            loadingStatusDelegate: nil,
+            openURL: { (url: URL) -> Void in UIApplication.shared.open(url, options: [:], completionHandler: nil) },
+            scopeRequest: scopeRequest
+        )
+    }
     
+}
+
 extension NoteTableViewController {
     
     // MARK: - Table View Delegate
@@ -107,7 +131,7 @@ extension NoteTableViewController {
         }
         delegate?.selectNote(with: identifier)
     }
-
+    
     override func tableView(
         _ tableView: UITableView,
         trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath

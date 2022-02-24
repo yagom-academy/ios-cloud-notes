@@ -1,4 +1,7 @@
 import UIKit
+import SwiftyDropbox
+
+import CoreData
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
@@ -17,6 +20,32 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(windowScene: windowScene)
         window?.rootViewController = mainSplitViewController
         window?.makeKeyAndVisible()
+        
+    }
+    
+    func sceneWillEnterForeground(_ scene: UIScene) {
+        let object = CloudDataManager()
+        object.uploadDB()
+    }
+    
+    func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+        let oauthCompletion: DropboxOAuthCompletion = {
+              if let authResult = $0 {
+                  switch authResult {
+                  case .success:
+                      print("Success! User is logged into DropboxClientsManager.")
+                  case .cancel:
+                      print("Authorization flow was manually canceled by user!")
+                  case .error(_, let description):
+                      print("Error: \(String(describing: description))")
+                  }
+              }
+            }
+
+            for context in URLContexts {
+                // stop iterating after the first handle-able url
+                if DropboxClientsManager.handleRedirectURL(context.url, completion: oauthCompletion) { break }
+            }
     }
     
     func sceneDidEnterBackground(_ scene: UIScene) {

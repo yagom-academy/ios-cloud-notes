@@ -3,6 +3,8 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     var window: UIWindow?
+    let persistentDataManager = PersistentDataManager()
+    
     func scene(
         _ scene: UIScene,
         willConnectTo session: UISceneSession,
@@ -16,26 +18,28 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.rootViewController = mainSplitViewController
         window?.makeKeyAndVisible()
     }
-
+    
     func sceneDidEnterBackground(_ scene: UIScene) {
-        (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
+        persistentDataManager.saveContext()
     }
-
+    
 }
 
 extension SceneDelegate {
     
     private func configureSplitView() -> UISplitViewController {
-        let noteModelManager: NoteModel = NoteModelManager()
-        let primaryViewController = NoteListTableViewController(model: noteModelManager)
-        let secondaryViewController = NoteDetailViewController()
+        let model = NoteModel(persistentDataManager: persistentDataManager)
+        let viewModel = NoteViewModel(model: model)
+        
+        let primaryViewController = NoteTableViewController(viewModel: viewModel)
+        let secondaryViewController = NoteDetailViewController(viewModel: viewModel)
         let splitViewController = UISplitViewController(style: .doubleColumn)
-
+        
         primaryViewController.delegate = secondaryViewController
         splitViewController.view.backgroundColor = .systemBackground
         splitViewController.setViewController(primaryViewController, for: .primary)
         splitViewController.setViewController(secondaryViewController, for: .secondary)
-
+        
         return splitViewController
     }
     

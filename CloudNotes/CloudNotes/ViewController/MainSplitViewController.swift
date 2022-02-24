@@ -8,25 +8,24 @@ final class MainSplitViewController: UISplitViewController {
         super.viewDidLoad()
         setupMainSplitView()
         setupKeyboardNotification()
+        hideKeyboardWhenTappedBackground()
+        CoreDataManager.shared.memoListViewController = listViewController
+        CoreDataManager.shared.memoContentViewController = contentViewController
     }
     
     func updateMemoContentsView(with memo: Memo) {
-        contentViewController.updateTextView(with: memo)
+        contentViewController.selectedMemo = memo
+        contentViewController.reload()
         showDetailViewController(contentViewController, sender: nil)
     }
-     
+
     private func setupMainSplitView() {
         configureSplitView()
-        configureNavigationBar()
     }
     
     private func configureSplitView() {
         setViewController(listViewController, for: .primary)
         setViewController(contentViewController, for: .secondary)
-    }
-    
-    private func configureNavigationBar() {
-        navigationItem.leftBarButtonItem = displayModeButtonItem
     }
 }
 
@@ -47,11 +46,6 @@ extension MainSplitViewController {
         )
     }
     
-    private func hideKeyboard() {
-        let tapEmptySpace = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        view.addGestureRecognizer(tapEmptySpace)
-    }
-    
     @objc private func keyboardWillShow(_ sender: Notification) {
         guard let keyboardFrame = sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue,
               let window = view.window else { return }
@@ -65,8 +59,14 @@ extension MainSplitViewController {
         guard let window = view.window else { return }
         view.frame = window.frame
     }
+
+    private func hideKeyboardWhenTappedBackground() {
+        let tapEvent = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        tapEvent.cancelsTouchesInView = false
+        view.addGestureRecognizer(tapEvent)
+    }
     
-    @objc private func dismissKeyboard() {
-        view.endEditing(true)
+    @objc func dismissKeyboard() {
+        contentViewController.view.endEditing(true)
     }
 }

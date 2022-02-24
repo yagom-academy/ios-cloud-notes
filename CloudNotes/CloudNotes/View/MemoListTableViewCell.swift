@@ -7,6 +7,7 @@ final class MemoListTableViewCell: UITableViewCell {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.spacing = 10
+        stackView.alignment = .leading
         
         return stackView
     }()
@@ -21,7 +22,7 @@ final class MemoListTableViewCell: UITableViewCell {
     private let secondaryStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
-        stackView.spacing = 5
+        stackView.spacing = 15
         stackView.alignment = .center
         
         return stackView
@@ -39,6 +40,7 @@ final class MemoListTableViewCell: UITableViewCell {
         label.textColor = .systemGray
         label.numberOfLines = 1
         label.lineBreakMode = .byTruncatingTail
+        label.textAlignment = .left
         
         return label
     }()
@@ -67,7 +69,11 @@ final class MemoListTableViewCell: UITableViewCell {
     }
     
     func setupLabel(from memo: Memo) {
-        titleLabel.text = memo.title
+        if memo.title == nil || memo.title?.isEmpty == true {
+            titleLabel.text = "새로운 메모"
+        } else {
+            titleLabel.text = memo.title
+        }
         dateLabel.text = memo.convertedDate
         previewLabel.text = memo.body
     }

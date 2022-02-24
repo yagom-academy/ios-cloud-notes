@@ -59,6 +59,7 @@ class MemoTableViewController: UITableViewController {
             tableView.delegate?.tableView?(tableView, didSelectRowAt: initialIndexPath)
         }
         tableView.separatorInset = UIEdgeInsets.zero
+        tableView.allowsSelectionDuringEditing = true
     }
 
     @objc private func addEmptyMemo() {
@@ -130,6 +131,11 @@ extension MemoTableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         selectedIndexPath = indexPath
         delegate?.showSecondaryView(of: indexPath)
+    }
+    
+    override func setEditing(_ editing: Bool, animated: Bool) {
+        super.setEditing(editing, animated: animated)
+        tableView.selectRow(at: selectedIndexPath, animated: false, scrollPosition: .none)
     }
     
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {

@@ -1,10 +1,3 @@
-//
-//  AuthenticationViewController.swift
-//  CloudNotes
-//
-//  Created by 박병호 on 2022/02/21.
-//
-
 import UIKit
 
 class AuthenticationViewController: UIViewController {

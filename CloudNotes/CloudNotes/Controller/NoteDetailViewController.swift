@@ -84,6 +84,8 @@ extension NoteDetailViewController {
             noteDetailTextView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             noteDetailTextView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
         ])
+        noteDetailTextView.isAccessibilityElement = true
+        noteDetailTextView.accessibilityLabel = "Note Content".localized()
     }
     
     private func setUpNotification() {
@@ -127,7 +129,7 @@ extension NoteDetailViewController {
         ) else {
             return nil
         }
-        let titleText = note[safe: 0]?.description
+        let titleText = note[safe: .zero]?.description
         let bodyText = note[safe: 1]?.description
         
         let attributedString = NSMutableAttributedString()

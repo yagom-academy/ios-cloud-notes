@@ -32,7 +32,7 @@ final class PersistentManager {
 
 extension PersistentManager {
     func insertNote(_ note: Note) {
-        notes.insert(note, at: 0)
+        notes.insert(note, at: .zero)
     }
     
     func setUpNotes() {

@@ -14,3 +14,4 @@
 "Success! User is logged into DropboxClientsManager." = "성공! 사용자가 드롭박스에 로그인하였습니다.";
 "Authorization flow was manually canceled by user!" = "인증과정을 사용자가 수동으로 취소하였습니다.";
 "An unknown error has occurred." = "알 수 없는 에러가 발생하였습니다.";
+"Note Content" = "메모 내용";

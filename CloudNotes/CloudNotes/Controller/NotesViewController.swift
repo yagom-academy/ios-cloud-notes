@@ -184,7 +184,7 @@ extension NotesViewController: NotesViewControllerDelegate {
             return
         }
         if let selectedIndex = selectedIndex, selectedIndex >= indexPath {
-            self.selectedIndex?.row = selectedIndex.row - 1 > 0 ? selectedIndex.row - 1 : 0
+            self.selectedIndex?.row = selectedIndex.row - 1 > .zero ? selectedIndex.row - 1 : .zero
         }
     }
 }

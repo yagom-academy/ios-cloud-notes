@@ -6,7 +6,7 @@ struct DropboxManager {
     private let applicationSupportDirectoryURL = FileManager.default.urls(
         for: .applicationSupportDirectory,
         in: .userDomainMask
-    )[0]
+    )[.zero]
     private let fileNames: [String] = ["/CloudNotes.sqlite", "/CloudNotes.sqlite-shm", "/CloudNotes.sqlite-wal"]
     private let scopes = [
         "account_info.read",

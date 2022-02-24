@@ -1,13 +1,6 @@
-//
-//  DefaultMemo.swift
-//  CloudNotes
-//
-//  Created by 1 on 2022/02/24.
-//
-
 import Foundation
 
-enum Memo {
+enum MemoFormat {
     case defaults
     
     var attributes: [String: Any] {

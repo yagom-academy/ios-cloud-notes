@@ -2,11 +2,10 @@ import Foundation
 import SwiftyDropbox
 
 class DropBoxManager: DataProvider {
-    var memoList: [SampleData]?
-    let client = DropboxClientsManager.authorizedClient
+    private var memoList: [Memo]?
+    private let client = DropboxClientsManager.authorizedClient
     
     func create(attributes: [String: Any]) {
-        //
     }
     
     func read(index: IndexPath) -> MemoType? {
@@ -15,12 +14,12 @@ class DropBoxManager: DataProvider {
         let directoryURL = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
         let dropboxURL = directoryURL.appendingPathComponent("dropboxMemos").description
         let filePaths = fileManager.subpaths(atPath: dropboxURL)
-        var sampleMemos: [SampleData]?
+        var sampleMemos: [Memo]?
         
         do {
-            let memos = try filePaths?.map({ (path) -> SampleData in
+            let memos = try filePaths?.map({ (path) -> Memo in
                 let data = fileManager.contents(atPath: path)
-                return try JSONDecoder().decode(SampleData.self, from: data ?? Data())
+                return try JSONDecoder().decode(Memo.self, from: data ?? Data())
             })
             sampleMemos = memos?.sorted(by: {
                 guard let lhs = $0.lastModified, let rhs = $1.lastModified else {
@@ -40,7 +39,6 @@ class DropBoxManager: DataProvider {
     }
     
     func delete(target: MemoType) {
-        //
     }
     
     func countAllData() -> Int {
@@ -54,13 +52,14 @@ class DropBoxManager: DataProvider {
             } else if let error = error {
                 print(error)
             }
+            
         }
     }
     
-    func upload(target: MemoType) {
+    private func upload(target: MemoType) {
         // TODO: createFolder 메서드 한 번만 호출하도록 수정 필요
         createFolder()
-        let memo = SampleData(title: target.title, body: target.body, lastModified: target.lastModified, identifier: target.identifier)
+        let memo = Memo(title: target.title, body: target.body, lastModified: target.lastModified, identifier: target.identifier)
         guard let data = try? JSONEncoder().encode(memo) else {
             return
         }
@@ -83,6 +82,7 @@ class DropBoxManager: DataProvider {
         let destination: (URL, HTTPURLResponse) -> URL = { temporaryURL, response in
             return destURL
         }
+        
         client?.files.download(path: "/test/path/in/Dropbox/account/", overwrite: true, destination: destination)
             .response { response, error in
                 if let response = response {

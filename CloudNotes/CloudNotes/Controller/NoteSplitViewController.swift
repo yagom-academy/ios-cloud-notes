@@ -145,7 +145,7 @@ extension NoteSplitViewController: NoteListViewControllerDelegate {
     }
     
     func noteListViewController(addButtonTapped viewController: NoteListViewController) {
-        dataManager?.create(attributes: Memo.defaults.attributes)
+        dataManager?.create(attributes: MemoFormat.defaults.attributes)
     }
 }
 // MARK: - NoteListViewController DataSource

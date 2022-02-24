@@ -11,10 +11,11 @@
 		185EF24927B23C1800204AEA /* JSONParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185EF24827B23C1800204AEA /* JSONParser.swift */; };
 		185EF28E27B52D0E00204AEA /* Array+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185EF28D27B52D0D00204AEA /* Array+Extension.swift */; };
 		1894804627C4D1B800F6D9ED /* AssetDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1894804527C4D1B800F6D9ED /* AssetDataManager.swift */; };
-		1894804827C4D22D00F6D9ED /* SampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1894804727C4D22D00F6D9ED /* SampleData.swift */; };
+		1894804827C4D22D00F6D9ED /* Memo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1894804727C4D22D00F6D9ED /* Memo.swift */; };
 		1894804A27C4D25C00F6D9ED /* DataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1894804927C4D25C00F6D9ED /* DataProvider.swift */; };
 		1894804C27C4D2C600F6D9ED /* MemoType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1894804B27C4D2C600F6D9ED /* MemoType.swift */; };
 		1894805627C75B0F00F6D9ED /* ModeChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1894805527C75B0F00F6D9ED /* ModeChecker.swift */; };
+		1894805827C7C11100F6D9ED /* MemoModeChanger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1894805727C7C11100F6D9ED /* MemoModeChanger.swift */; };
 		1A4CDBD379C838A981008068 /* Pods_CloudNotesTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8797059B2E1AE8C63E4A9A70 /* Pods_CloudNotesTests.framework */; };
 		634493ED27C6204C003F6A43 /* CDMemo+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634493EB27C6204C003F6A43 /* CDMemo+CoreDataClass.swift */; };
 		634493EE27C6204C003F6A43 /* CDMemo+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634493EC27C6204C003F6A43 /* CDMemo+CoreDataProperties.swift */; };
@@ -58,11 +59,12 @@
 		185EF24827B23C1800204AEA /* JSONParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONParser.swift; sourceTree = "<group>"; };
 		185EF28D27B52D0D00204AEA /* Array+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extension.swift"; sourceTree = "<group>"; };
 		1894804527C4D1B800F6D9ED /* AssetDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetDataManager.swift; sourceTree = "<group>"; };
-		1894804727C4D22D00F6D9ED /* SampleData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleData.swift; sourceTree = "<group>"; };
+		1894804727C4D22D00F6D9ED /* Memo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memo.swift; sourceTree = "<group>"; };
 		1894804927C4D25C00F6D9ED /* DataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataProvider.swift; sourceTree = "<group>"; };
 		1894804B27C4D2C600F6D9ED /* MemoType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoType.swift; sourceTree = "<group>"; };
 		1894805427C6187E00F6D9ED /* CloudNote 4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "CloudNote 4.xcdatamodel"; sourceTree = "<group>"; };
 		1894805527C75B0F00F6D9ED /* ModeChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModeChecker.swift; sourceTree = "<group>"; };
+		1894805727C7C11100F6D9ED /* MemoModeChanger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoModeChanger.swift; sourceTree = "<group>"; };
 		1E231DE067500A8F54483010 /* Pods_CloudNotes.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CloudNotes.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		634493EB27C6204C003F6A43 /* CDMemo+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "CDMemo+CoreDataClass.swift"; path = "../../../CDMemo+CoreDataClass.swift"; sourceTree = "<group>"; };
 		634493EC27C6204C003F6A43 /* CDMemo+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "CDMemo+CoreDataProperties.swift"; path = "../../../CDMemo+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -140,7 +142,6 @@
 				1894804527C4D1B800F6D9ED /* AssetDataManager.swift */,
 				63CCA08127BB7A0A004B1841 /* CoreDataManager.swift */,
 				637F63EA27C4BD6400B5B989 /* DropBoxManager.swift */,
-				1894805527C75B0F00F6D9ED /* ModeChecker.swift */,
 			);
 			path = DataManager;
 			sourceTree = "<group>";
@@ -154,14 +155,23 @@
 			path = Protocol;
 			sourceTree = "<group>";
 		};
-		1894804F27C60C0400F6D9ED /* DecodingType */ = {
+		1894804F27C60C0400F6D9ED /* MemoType */ = {
 			isa = PBXGroup;
 			children = (
-				1894804727C4D22D00F6D9ED /* SampleData.swift */,
+				1894804727C4D22D00F6D9ED /* Memo.swift */,
 				634493EB27C6204C003F6A43 /* CDMemo+CoreDataClass.swift */,
 				634493EC27C6204C003F6A43 /* CDMemo+CoreDataProperties.swift */,
 			);
-			path = DecodingType;
+			path = MemoType;
+			sourceTree = "<group>";
+		};
+		1894805927C7C13B00F6D9ED /* MemoChanger */ = {
+			isa = PBXGroup;
+			children = (
+				1894805527C75B0F00F6D9ED /* ModeChecker.swift */,
+				1894805727C7C11100F6D9ED /* MemoModeChanger.swift */,
+			);
+			path = MemoChanger;
 			sourceTree = "<group>";
 		};
 		4AF0D067F5B2E34E7161858E /* Frameworks */ = {
@@ -272,11 +282,12 @@
 		FB8B343727B23AF800D85311 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				63FE4A0E27C77963008925BF /* DefaultMemo.swift */,
+				1894805927C7C13B00F6D9ED /* MemoChanger */,
 				1894804E27C60BD700F6D9ED /* Protocol */,
 				1894804D27C60BAE00F6D9ED /* DataManager */,
-				1894804F27C60C0400F6D9ED /* DecodingType */,
+				1894804F27C60C0400F6D9ED /* MemoType */,
 				6385CFB127BBE412002EB151 /* CloudNote.xcdatamodeld */,
-				63FE4A0E27C77963008925BF /* DefaultMemo.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -545,6 +556,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1894805827C7C11100F6D9ED /* MemoModeChanger.swift in Sources */,
 				634493ED27C6204C003F6A43 /* CDMemo+CoreDataClass.swift in Sources */,
 				FB8B343427B2094400D85311 /* NoteListViewController.swift in Sources */,
 				63CCA08227BB7A0A004B1841 /* CoreDataManager.swift in Sources */,
@@ -554,7 +566,7 @@
 				637F63EB27C4BD6400B5B989 /* DropBoxManager.swift in Sources */,
 				185EF28E27B52D0E00204AEA /* Array+Extension.swift in Sources */,
 				1894804627C4D1B800F6D9ED /* AssetDataManager.swift in Sources */,
-				1894804827C4D22D00F6D9ED /* SampleData.swift in Sources */,
+				1894804827C4D22D00F6D9ED /* Memo.swift in Sources */,
 				634493EE27C6204C003F6A43 /* CDMemo+CoreDataProperties.swift in Sources */,
 				C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */,
 				FB8B343027B2062200D85311 /* NoteSplitViewController.swift in Sources */,

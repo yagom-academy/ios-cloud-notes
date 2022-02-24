@@ -1,6 +1,6 @@
 import Foundation
 
-struct SampleData: Codable, MemoType {
+struct Memo: Codable, MemoType {
      var title: String?
      var body: String?
      var lastModified: Date?

@@ -2,7 +2,7 @@ import Foundation
 
 class AssetDataManager: DataProvider {
     private var list: [MemoType] {
-        let list2 = JSONParser.decodeData(of: "sample", how: [SampleData].self)
+        let list2 = JSONParser.decodeData(of: "sample", how: [Memo].self)
         var returnList: [MemoType] = []
         list2?.forEach { data in
             if let dataEach = data as? MemoType {

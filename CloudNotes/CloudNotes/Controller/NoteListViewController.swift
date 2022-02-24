@@ -101,22 +101,31 @@ class NoteListViewController: UIViewController {
     }
     
     private func presentVerifyingDeletionAlert(indexPath: IndexPath) {
-        let alertController = UIAlertController(title: "삭제하시겠습니까?", message: "후회하지 않으시겠습니까?", preferredStyle: .alert)
-        let cancel = UIAlertAction(title: "취소", style: .cancel) { [weak self]_ in
+        let alertController = UIAlertController(
+            title: "삭제하시겠습니까?",
+            message: "후회하지 않으시겠습니까?",
+            preferredStyle: .alert
+        )
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel) { [weak self]_ in
             self?.listTableView.reloadRows(at: [indexPath], with: .right)
         }
-        let ok = UIAlertAction(title: "삭제", style: .destructive) { [weak self] _ in
+        let okAction = UIAlertAction(title: "삭제", style: .destructive) { [weak self] _ in
             self?.delegate?.noteListViewController(self ?? NoteListViewController(), cellToDelete: indexPath)
         }
-        alertController.addAction(cancel)
-        alertController.addAction(ok)
+        alertController.addAction(cancelAction)
+        alertController.addAction(okAction)
         
         present(alertController, animated: true, completion: nil)
     }
     
     private func presentDropboxLoginScene() {
-        // OAuth 2 code flow with PKCE that grants a short-lived token with scopes, and performs refreshes of the token automatically.
-        let scopeRequest = ScopeRequest(scopeType: .user, scopes: ["account_info.read", "files.content.write", "files.content.read", "file_requests.write", "file_requests.read"], includeGrantedScopes: false)
+        let scopeRequest = ScopeRequest(scopeType: .user, scopes: [
+            "account_info.read",
+            "files.content.write",
+            "files.content.read",
+            "file_requests.write",
+            "file_requests.read"],
+        includeGrantedScopes: false)
         DropboxClientsManager.authorizeFromControllerV2(
             UIApplication.shared,
             controller: self,
@@ -124,15 +133,6 @@ class NoteListViewController: UIViewController {
             openURL: { (url: URL) -> Void in UIApplication.shared.open(url, options: [:], completionHandler: nil) },
             scopeRequest: scopeRequest
         )
-
-        // Note: this is the DEPRECATED authorization flow that grants a long-lived token.
-        // If you are still using this, please update your app to use the `authorizeFromControllerV2` call instead.
-        // See https://dropbox.tech/developers/migrating-app-permissions-and-access-tokens
-        DropboxClientsManager.authorizeFromController(UIApplication.shared,
-                                                      controller: self,
-                                                      openURL: { (url: URL) -> Void in
-                                                        UIApplication.shared.open(url, options: [:], completionHandler: nil)
-                                                      })
     }
 }
 // MARK: - UITableView Delegate

@@ -1,6 +1,6 @@
 import Foundation
 
-enum DropboxError: Error {
+enum SynchronizationError: Error {
     case uploadFailure
     case downloadFailure
 }

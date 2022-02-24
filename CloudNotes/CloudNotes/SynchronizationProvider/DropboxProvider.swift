@@ -12,7 +12,7 @@ class DropboxProvider: Synchronizable {
     let filePaths = ["/CloudNotes.sqlite", "/CloudNotes.sqlite-shm", "/CloudNotes.sqlite-wal"]
     var lastUpdatedDate: Date?
 
-    func upload(_ completionHandler: @escaping (DropboxError?) -> Void) {
+    func upload(_ completionHandler: @escaping (SynchronizationError?) -> Void) {
         let group = DispatchGroup()
         var errors: [CallError<Files.UploadError>?] = []
         filePaths.forEach { filePath in
@@ -49,7 +49,7 @@ class DropboxProvider: Synchronizable {
         }
     }
 
-    func download(_ completionHandler: @escaping (DropboxError?) -> Void) {
+    func download(_ completionHandler: @escaping (SynchronizationError?) -> Void) {
         let group = DispatchGroup()
         var errors: [CallError<Files.DownloadError>?] = []
         filePaths.forEach { filePath in

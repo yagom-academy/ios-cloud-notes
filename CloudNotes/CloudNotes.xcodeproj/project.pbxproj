@@ -18,7 +18,7 @@
 		0DE02F4327BB3B9C00E05C33 /* PersistentManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE02F4227BB3B9C00E05C33 /* PersistentManager.swift */; };
 		0F54B39373C5EF8AE00908CA /* Pods_CloudNotes_CloudNotesUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E3ECB8C9B3FD64FDB494A09 /* Pods_CloudNotes_CloudNotesUITests.framework */; };
 		33171EA327C399E6008D9463 /* DropboxProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33171EA227C399E6008D9463 /* DropboxProvider.swift */; };
-		33171EA527C3A2E0008D9463 /* DropboxError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33171EA427C3A2E0008D9463 /* DropboxError.swift */; };
+		33171EA527C3A2E0008D9463 /* SynchronizationError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33171EA427C3A2E0008D9463 /* SynchronizationError.swift */; };
 		3361C9C527B237720074B6B7 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 3361C9C427B237720074B6B7 /* .swiftlint.yml */; };
 		3361C9C727B245190074B6B7 /* NoteListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3361C9C627B245190074B6B7 /* NoteListViewController.swift */; };
 		3361C9C927B246BD0074B6B7 /* DetailedNoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3361C9C827B246BD0074B6B7 /* DetailedNoteViewController.swift */; };
@@ -72,7 +72,7 @@
 		2057D6A129B2310431C6B7D5 /* Pods-CloudNotes-CloudNotesUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudNotes-CloudNotesUITests.release.xcconfig"; path = "Target Support Files/Pods-CloudNotes-CloudNotesUITests/Pods-CloudNotes-CloudNotesUITests.release.xcconfig"; sourceTree = "<group>"; };
 		2FD874CF6629A1868FD171ED /* Pods-CloudNotes-CloudNotesUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudNotes-CloudNotesUITests.debug.xcconfig"; path = "Target Support Files/Pods-CloudNotes-CloudNotesUITests/Pods-CloudNotes-CloudNotesUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		33171EA227C399E6008D9463 /* DropboxProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropboxProvider.swift; sourceTree = "<group>"; };
-		33171EA427C3A2E0008D9463 /* DropboxError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropboxError.swift; sourceTree = "<group>"; };
+		33171EA427C3A2E0008D9463 /* SynchronizationError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SynchronizationError.swift; sourceTree = "<group>"; };
 		3361C9C427B237720074B6B7 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		3361C9C627B245190074B6B7 /* NoteListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteListViewController.swift; sourceTree = "<group>"; };
 		3361C9C827B246BD0074B6B7 /* DetailedNoteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailedNoteViewController.swift; sourceTree = "<group>"; };
@@ -202,9 +202,6 @@
 				3361C9D027B24D130074B6B7 /* JSONDataSourceProvider.swift */,
 				0D3DAAEB27B259D6005F9502 /* DecodingUtility.swift */,
 				339A3F8027BA171000241E74 /* CDDataSourceProvider.swift */,
-				33171EA227C399E6008D9463 /* DropboxProvider.swift */,
-				33D827A927C755E50029C2F6 /* Synchronizable.swift */,
-				33171EA427C3A2E0008D9463 /* DropboxError.swift */,
 				0DE02F4227BB3B9C00E05C33 /* PersistentManager.swift */,
 			);
 			path = DataSourceProvider;
@@ -246,6 +243,16 @@
 			path = Extension;
 			sourceTree = "<group>";
 		};
+		33D827AB27C760F40029C2F6 /* SynchronizationProvider */ = {
+			isa = PBXGroup;
+			children = (
+				33D827A927C755E50029C2F6 /* Synchronizable.swift */,
+				33171EA227C399E6008D9463 /* DropboxProvider.swift */,
+				33171EA427C3A2E0008D9463 /* SynchronizationError.swift */,
+			);
+			path = SynchronizationProvider;
+			sourceTree = "<group>";
+		};
 		687DD662CB8F41C499ACF6E9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -285,6 +292,7 @@
 				0DE02F4127BA293F00E05C33 /* CoreData */,
 				33A2AF6627B293AE00877CEC /* Extension */,
 				3361C9CD27B24C400074B6B7 /* DataSourceProvider */,
+				33D827AB27C760F40029C2F6 /* SynchronizationProvider */,
 				0D3DAAE527B24901005F9502 /* Model */,
 				3361C9CC27B248410074B6B7 /* Bundle */,
 				3361C9CB27B248150074B6B7 /* Domain */,
@@ -582,7 +590,7 @@
 				0DE02F4027BA28E500E05C33 /* Note+CoreDataProperties.swift in Sources */,
 				3361C9D327B25F890074B6B7 /* NoteListCell.swift in Sources */,
 				3361C9C727B245190074B6B7 /* NoteListViewController.swift in Sources */,
-				33171EA527C3A2E0008D9463 /* DropboxError.swift in Sources */,
+				33171EA527C3A2E0008D9463 /* SynchronizationError.swift in Sources */,
 				0D3DAAE427B23D59005F9502 /* SplitViewController.swift in Sources */,
 				0D3DAAEC27B259D6005F9502 /* DecodingUtility.swift in Sources */,
 				0D3DAAEA27B2589D005F9502 /* DataSourceError.swift in Sources */,

@@ -3,9 +3,9 @@ import UIKit
 protocol Synchronizable {
     var lastUpdatedDate: Date? { get set }
 
-    func upload(_ completionHandler: @escaping (DropboxError?) -> Void)
+    func upload(_ completionHandler: @escaping (SynchronizationError?) -> Void)
 
-    func download(_ completionHandler: @escaping (DropboxError?) -> Void)
+    func download(_ completionHandler: @escaping (SynchronizationError?) -> Void)
 
     func logIn(at controller: UIViewController)
 }

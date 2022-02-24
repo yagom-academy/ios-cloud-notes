@@ -19,6 +19,11 @@ protocol NoteListViewControllerDelegate: AnyObject {
         _ viewController: NoteListViewController,
         cellToShare indexPath: IndexPath
     )
+    
+    func noteListViewController(
+        _ viewController: NoteListViewController,
+        cellToUpload indexPath: IndexPath
+    )
 }
     // MARK: - Declare NoteListViewController Datasource
 protocol NoteListViewControllerDataSource: AnyObject {
@@ -57,7 +62,7 @@ class NoteListViewController: UIViewController {
         listTableView.selectRow(at: IndexPath(row: 0, section: 0), animated: false, scrollPosition: .none)
         setUpLayout()
         setUpNavigationItems()
-//        myButtonInControllerPressed()
+        presentDropboxLoginScene()
     }
     // MARK: - Method
     private func setUpLayout() {
@@ -109,7 +114,7 @@ class NoteListViewController: UIViewController {
         present(alertController, animated: true, completion: nil)
     }
     
-    private func myButtonInControllerPressed() {
+    private func presentDropboxLoginScene() {
         // OAuth 2 code flow with PKCE that grants a short-lived token with scopes, and performs refreshes of the token automatically.
         let scopeRequest = ScopeRequest(scopeType: .user, scopes: ["account_info.read"], includeGrantedScopes: false)
         DropboxClientsManager.authorizeFromControllerV2(
@@ -158,6 +163,16 @@ extension NoteListViewController: UITableViewDelegate {
         let actionConfigurations = UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
         
         return actionConfigurations
+    }
+    
+    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let uploadAction = UIContextualAction(
+            style: .normal,
+            title: "Dropbox") { [weak self] _, _, _ in
+                self?.delegate?.noteListViewController(self ?? NoteListViewController(), cellToShare: indexPath)
+            }
+        uploadAction.backgroundColor = .systemBlue
+        return  UISwipeActionsConfiguration(actions: [uploadAction])
     }
 }
 // MARK: - UITableView DataSource

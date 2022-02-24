@@ -19,7 +19,7 @@ class NoteSplitViewController: UISplitViewController {
         configureColumnStyle()
         configureFetchedResultsController()
         configureNoteDetailViewController()
-        print("\(ModeChecker.currentMode)")
+
     }
 // MARK: - Method
     private func configureSplitViewController() {
@@ -131,6 +131,17 @@ extension NoteSplitViewController: NoteListViewControllerDelegate {
         cellToShare indexPath: IndexPath
     ) {
         presentActivityView()
+    }
+    
+    func noteListViewController(
+        _ viewController: NoteListViewController,
+        cellToUpload indexPath: IndexPath
+    ) {
+        guard let memoToUpdate = dataManager?.read(index: indexPath) as? MemoType else {
+            return
+        }
+        
+        DropBoxManager().update(target: memoToUpdate, attributes: [:] )
     }
     
     func noteListViewController(addButtonTapped viewController: NoteListViewController) {

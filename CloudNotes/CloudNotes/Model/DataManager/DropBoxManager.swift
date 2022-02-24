@@ -35,8 +35,8 @@ class DropBoxManager: DataProvider {
         return sampleMemos?[index.row]
     }
     
-    func update(target: MemoType, attributes: [String : Any]) {
-        upload(target: target, attributes: attributes)
+    func update(target: MemoType, attributes: [String: Any]) {
+        upload(target: target)
     }
     
     func delete(target: MemoType) {
@@ -47,7 +47,7 @@ class DropBoxManager: DataProvider {
         memoList?.count ?? .zero
     }
     
-    func upload(target: MemoType, attributes: [String: Any]) {
+    func upload(target: MemoType) {
         let memo = SampleData(title: target.title, body: target.body, lastModified: target.lastModified, identifier: target.identifier)
         guard let data = try? JSONEncoder().encode(memo) else {
             return

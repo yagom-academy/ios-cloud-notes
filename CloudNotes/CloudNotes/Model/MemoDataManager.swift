@@ -26,7 +26,7 @@ final class MemoDataManager {
     init(modelName: String = "CloudNotes") {
         persistentContainer = NSPersistentContainer(name: modelName)
         loadPersistentContainer()
-        setMemosArray()
+        setMemos()
     }
     
     func loadPersistentContainer() {
@@ -37,7 +37,7 @@ final class MemoDataManager {
         }
     }
     
-    func setMemosArray() {
+    func setMemos() {
         memos = fetchMemos()
     }
     
@@ -119,59 +119,3 @@ extension MemoDataManager {
     }
 }
 
-// MARK: - MemoDataManagerListDelegate
-
-extension MemoDataManager {
-    func selectFirstMemo() {
-        if memos.isEmpty == false {
-            listDelegate?.setupRowSelection()
-            detailDelegate?.showTextView(with: memos[0])
-        }
-    }
-    
-    func addNewMemo() {
-        memos.insert(newMemo, at: 0)
-        listDelegate?.addNewCell()
-        detailDelegate?.showEmptyTextView()
-    }
-    
-    func deleteSelectedMemo(at indexPath: IndexPath? = nil) {
-        let selectedIndexPath: IndexPath?
-        if indexPath != nil {
-            selectedIndexPath = indexPath
-        } else {
-            selectedIndexPath = listDelegate?.selectedCellIndex
-        }
-        
-        guard let selectedIndexPath = selectedIndexPath else {
-            return
-        }
-        let deletedMemo = memos[selectedIndexPath.row]
-        deleteMemo(id: deletedMemo.id)
-        listDelegate?.deleteCell(at: selectedIndexPath)
-        
-        if selectedIndexPath.row < memos.count {
-            let memo = memos[selectedIndexPath.row]
-            detailDelegate?.showTextView(with: memo)
-            listDelegate?.selectNextCell(at: selectedIndexPath)
-        } else {
-            detailDelegate?.showIneditableTextView()
-        }
-    }
-    
-    func updateEditedMemo(title: String, body: String, lastModified: Date) {
-        guard let indexPath = listDelegate?.selectedCellIndex else {
-            return
-        }
-        updateMemo(id: memos[indexPath.row].id, title: title, body: body, lastModified: lastModified)
-        listDelegate?.updateCell(at: indexPath)
-    }
-    
-    func showMemo() {
-        guard let indexPath = listDelegate?.selectedCellIndex else {
-            return
-        }
-        let memo = memos[indexPath.row]
-        detailDelegate?.showTextView(with: memo)
-    }
-}

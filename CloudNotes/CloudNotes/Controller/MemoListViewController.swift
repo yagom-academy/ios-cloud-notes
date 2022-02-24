@@ -23,8 +23,11 @@ final class MemoListViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        guard let splitViewController = splitViewController as? SplitViewController else {
+            return
+        }
         super.viewDidAppear(animated)
-        dataManager.selectFirstMemo()
+        splitViewController.selectFirstMemo()
     }
     
     private func setupTableViewDelegateAndCell() {
@@ -51,7 +54,10 @@ final class MemoListViewController: UIViewController {
     }
     
     @objc private func addMemo() {
-        dataManager.addNewMemo()
+        guard let splitViewController = splitViewController as? SplitViewController else {
+            return
+        }
+        splitViewController.addNewMemo()
     }
 }
 
@@ -83,14 +89,20 @@ extension MemoListViewController: UITableViewDataSource {
 
 extension MemoListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        dataManager.showMemo()
+        guard let splitViewController = splitViewController as? SplitViewController else {
+            return
+        }
+        splitViewController.showMemo()
     }
     
     func tableView(_ tableView: UITableView,
                    trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
     ) -> UISwipeActionsConfiguration? {
         let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, _ in
-            self.dataManager.deleteSelectedMemo(at: indexPath)
+            guard let splitViewController = self.splitViewController as? SplitViewController else {
+                return
+            }
+            splitViewController.deleteSelectedMemo(at: indexPath)
         }
         let shareAction = UIContextualAction(style: .normal, title: "Share") { _, _, _ in
             self.showActivityView(indexPath: indexPath)

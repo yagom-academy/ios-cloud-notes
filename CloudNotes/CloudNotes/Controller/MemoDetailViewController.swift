@@ -1,6 +1,7 @@
 import UIKit
 
 final class MemoDetailViewController: UIViewController {
+
     private let dataManager: MemoDataManager
     
     private let textView: UITextView = {
@@ -104,7 +105,10 @@ final class MemoDetailViewController: UIViewController {
         let alert = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
         let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
         let delete = UIAlertAction(title: "삭제", style: .destructive) { _ in
-            self.dataManager.deleteSelectedMemo()
+            guard let splitViewController = self.splitViewController as? SplitViewController else {
+                return
+            }
+            splitViewController.deleteSelectedMemo()
         }
         alert.addAction(cancel)
         alert.addAction(delete)
@@ -149,6 +153,9 @@ extension MemoDetailViewController: UITextViewDelegate {
         let body = memoComponents[safe: 1] ?? ""
         let lastModified = Date()
         
-        dataManager.updateEditedMemo(title: title, body: body, lastModified: lastModified)
+        guard let splitViewController = splitViewController as? SplitViewController else {
+            return
+        }
+        splitViewController.updateEditedMemo(title: title, body: body, lastModified: lastModified)
     }
 }

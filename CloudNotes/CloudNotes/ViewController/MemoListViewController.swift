@@ -5,7 +5,7 @@ final class MemoListViewController: UIViewController {
     private let tableView = UITableView()
     private var memos: [Memo] = []
     private var filteredMemos: [Memo] = []
-    private let navigationTitle = "메모"
+    private let navigationTitle = LocalizedString.memo
     private var selectedIndexPath: IndexPath?
     private let searchController = UISearchController()
     private var isFiltering: Bool {
@@ -125,10 +125,10 @@ extension MemoListViewController: UITableViewDelegate {
         _ tableView: UITableView,
         trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
     ) -> UISwipeActionsConfiguration? {
-        let deleteAction = UIContextualAction(style: .destructive, title: "삭제") { _, _, _  in
+        let deleteAction = UIContextualAction(style: .destructive, title: LocalizedString.delete) { _, _, _  in
             self.presentDeleteAlert(currentMemo: self.memos[indexPath.row])
         }
-        let shareAction = UIContextualAction(style: .normal, title: "공유") { _, sourceView, _ in
+        let shareAction = UIContextualAction(style: .normal, title: LocalizedString.share) { _, sourceView, _ in
             self.presentActivityViewController(currentMemo: self.memos[indexPath.row], at: sourceView)
         }
         shareAction.backgroundColor = .systemBlue
@@ -145,9 +145,13 @@ extension MemoListViewController: UITableViewDelegate {
     }
     
     private func presentDeleteAlert(currentMemo: Memo) {
-        let alert = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
-        let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
-        let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
+        let alert = UIAlertController(
+            title: LocalizedString.deleteAlertTitle,
+            message: LocalizedString.deleteAlertMessage,
+            preferredStyle: .alert
+        )
+        let cancelAction = UIAlertAction(title: LocalizedString.cancel, style: .cancel, handler: nil)
+        let deleteAction = UIAlertAction(title: LocalizedString.delete, style: .destructive) { _ in
             CoreDataManager.shared.delete(data: currentMemo) { error in
                 self.presentErrorAlert(errorMessage: error.localizedDescription)
             }
@@ -169,7 +173,7 @@ extension MemoListViewController: UITableViewDelegate {
     
     private func presentErrorAlert(errorMessage: String) {
         let alert = UIAlertController(title: errorMessage, message: nil, preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "닫기", style: .cancel, handler: nil)
+        let okAction = UIAlertAction(title: LocalizedString.close, style: .cancel, handler: nil)
         alert.addAction(okAction)
         present(alert, animated: true)
     }

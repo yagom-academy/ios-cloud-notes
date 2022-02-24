@@ -2,8 +2,14 @@ import UIKit
 
 final class MemoContentViewController: UIViewController {
     weak var selectedMemo: Memo?
-    private let headerAttributes = [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .title1)]
-    private let bodyAttributes = [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .body)]
+    private let headerAttributes = [
+        NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .title1),
+        NSAttributedString.Key.foregroundColor: UIColor.label
+    ]
+    private let bodyAttributes = [
+        NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .body),
+        NSAttributedString.Key.foregroundColor: UIColor.label
+    ]
     
     private let textView: UITextView = {
         let textView = UITextView()
@@ -84,10 +90,10 @@ extension MemoContentViewController: MemoReloadable {
 extension MemoContentViewController {
     @objc func presentPopover(sender: UIBarButtonItem) {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let shareAction = UIAlertAction(title: "Share...", style: .default) { _ in
+        let shareAction = UIAlertAction(title: LocalizedString.share, style: .default) { _ in
             self.presentActivityViewController(sender: sender)
         }
-        let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
+        let deleteAction = UIAlertAction(title: LocalizedString.delete, style: .destructive) { _ in
             self.presentDeleteAlert()
         }
         alert.addAction(shareAction)
@@ -107,9 +113,13 @@ extension MemoContentViewController {
     }
     
     private func presentDeleteAlert() {
-        let alert = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
-        let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
-        let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
+        let alert = UIAlertController(
+            title: LocalizedString.deleteAlertTitle,
+            message: LocalizedString.deleteAlertMessage,
+            preferredStyle: .alert
+        )
+        let cancelAction = UIAlertAction(title: LocalizedString.cancel, style: .cancel, handler: nil)
+        let deleteAction = UIAlertAction(title: LocalizedString.delete, style: .destructive) { _ in
             self.deleteMemo()
         }
         alert.addAction(cancelAction)
@@ -126,7 +136,7 @@ extension MemoContentViewController {
     
     private func presentErrorAlert(errorMessage: String) {
         let alert = UIAlertController(title: errorMessage, message: nil, preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "닫기", style: .cancel, handler: nil)
+        let okAction = UIAlertAction(title: LocalizedString.close, style: .cancel, handler: nil)
         alert.addAction(okAction)
         present(alert, animated: true)
     }

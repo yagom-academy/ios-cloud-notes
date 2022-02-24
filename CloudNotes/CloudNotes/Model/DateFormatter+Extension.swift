@@ -5,7 +5,7 @@ extension DateFormatter {
         let dateFormatter = DateFormatter()
         dateFormatter.timeZone = .autoupdatingCurrent
         dateFormatter.locale = .current
-        dateFormatter.dateFormat = "yyyy. MM. dd."
+        dateFormatter.dateFormat = NSLocalizedString("dd. MM. yyyy.", comment: "")
         
         return dateFormatter
     }()

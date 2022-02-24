@@ -143,10 +143,6 @@ class MemoDetailViewController: UIViewController {
 
 extension MemoDetailViewController: UITextViewDelegate {
     func textViewDidEndEditing(_ textView: UITextView) {
-        guard textView.hasText else {
-            delegate?.delete(at: currentIndexPath)
-            return
-        }
         delegate?.upload(at: currentIndexPath)
     }
     

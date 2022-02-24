@@ -8,12 +8,12 @@ import UIKit
 import SwiftyDropbox
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-    private let memoStorage = (UIApplication.shared.delegate as! AppDelegate).memoStorage
     var window: UIWindow?
+    private let memoStorage = (UIApplication.shared.delegate as! AppDelegate).memoStorage
+    private lazy var memoSplitViewController = window?.rootViewController as! MemoSplitViewController
+    private lazy var memoTableViewController = memoSplitViewController.viewController(for: .primary) as! MemoTableViewController
     
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
-        let memoSplitViewController = self.window?.rootViewController as! MemoSplitViewController
-        let memoTableViewController = memoSplitViewController.viewController(for: .primary) as! MemoTableViewController
         let oauthCompletion: DropboxOAuthCompletion = {
             if let authResult = $0 {
                 switch authResult {
@@ -22,15 +22,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                     self.memoStorage.downloadDropboxData { isSuccess in
                         if isSuccess {
                             DispatchQueue.main.async {
-                                memoSplitViewController.presentConnectResultAlert(type: .connectSuccess)
-                                memoTableViewController.updateTableView()
+                                self.memoSplitViewController.presentConnectResultAlert(type: .connectSuccess)
+                                self.memoTableViewController.updateTableView()
                             }
                         }
                     }
                 case .cancel:
-                    memoSplitViewController.presentConnectResultAlert(type: .connectFailure)
+                    self.memoSplitViewController.presentConnectResultAlert(type: .connectFailure)
                 case .error(_, _):
-                    memoSplitViewController.presentConnectResultAlert(type: .connectFailure)
+                    self.memoSplitViewController.presentConnectResultAlert(type: .connectFailure)
                 }
             }
         }
@@ -52,7 +52,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.makeKeyAndVisible()
         
         if UserDefaults.standard.bool(forKey: UserDefaultsKey.dropboxConnected) {
-            memoStorage.downloadDropboxData()
+            memoStorage.downloadDropboxData { isSuccess in
+                if isSuccess {
+                    DispatchQueue.main.async {
+                        self.memoTableViewController.updateTableView()
+                    }
+                }
+            }
         }
     }
     

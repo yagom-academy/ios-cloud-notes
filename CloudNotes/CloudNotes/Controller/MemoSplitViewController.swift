@@ -213,6 +213,10 @@ extension MemoSplitViewController: DropboxManageable {
     }
     
     func upload(at indexPath: IndexPath) {
+        guard indexPath.row <= memos.count - 1 else {
+            return
+        }
+        
         let memoToUpload = memos[indexPath.row]
         memoStorage.upload(memo: memoToUpload)
     }

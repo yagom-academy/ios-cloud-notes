@@ -37,6 +37,12 @@
     + [의문점](#3-2-의문점)
     + [Trouble Shooting](#3-3-Trouble-Shooting)
     + [배운 개념](#3-4-배운-개념)
+    + [PR 후 개선사항](#3-5-PR-후-개선사항)
+- [STEP 4 : 추가 기능 및 UI 구현](#STEP-3--추가-기능-및-UI-구현)
+    + [고민했던 것](#4-1-고민했던-것)
+    + [의문점](#4-2-의문점)
+    + [Trouble Shooting](#4-3-Trouble-Shooting)
+    + [배운 개념](#4-4-배운-개념)
 
 ## ⌨️ 키워드
 
@@ -69,6 +75,12 @@
     - `DispatchGroup`
     - `FileManager`
 - `UIActivityIndicatorView`
+- `UISearchController`
+- `Localization`
+    - `NSLocalizedString`
+- `Accessibility` `Dynamic Type` `VoiceOver`
+    - `Accessibility Inspector`
+- `Lite Mode` `Dark Mode`
 
 
 # STEP 1 : 리스트 및 메모영역 화면 UI구현
@@ -337,6 +349,7 @@ class MemoListViewController: UITableViewController {
 </details>
 
 ## 1-5 PR 후 개선사항
+
 * View의 보여줄 요소들을 별도의 타입으로 만들어 보여주었던 부분을 제거후 Core Data로 모두 통일하여 리팩토링
 
 [![top](https://img.shields.io/badge/top-%23000000.svg?&amp;style=for-the-badge&amp;logo=Acclaim&amp;logoColor=white&amp;)](#동기화-메모장)
@@ -768,12 +781,12 @@ func download(_ tableViewController: NotesViewController?) {
 </div>
 </details>
 
-
 <details>
 <summary>[프로젝트에 SwiftyDropbox 설정하기]</summary>
 <div markdown="1">
 
 > 아래 프로젝트 설정하는 튜토리얼을 참고하여 진행하였다.
+
 https://github.com/dropbox/SwiftyDropbox#configure-your-project
 
 > 먼저 Info.plist 파일을 수정해주어야 하는데, 그 전에 dropbox에 app을 등록해야 한다. 로그인 후 apps에 들어가면 아래와 같은 버튼이 있다.
@@ -799,6 +812,7 @@ https://github.com/dropbox/SwiftyDropbox#configure-your-project
 ```
 
 > 아까 만들고 얻은 App key를 `db-` 뒤부터 기입해주면 된다.
+
 ```
 <key>CFBundleURLTypes</key>
     <array>
@@ -884,7 +898,6 @@ func myButtonInControllerPressed() {
 
 ![](https://i.imgur.com/1O8bJws.jpg)
 
-
 > 이 다음에 API에 호출할 DropboxClient 인스턴스를 생성한다.
 
 ```swift
@@ -965,6 +978,189 @@ https://dropbox.github.io/SwiftyDropbox/api-docs/latest/index.html
 </div>
 </details>
 
-</br>
 
+## 3-5 PR 후 개선사항
+    
+* 다운로드 중일 때 터치를 제한하는 것이 아니라 indicator가 추가된 컨트롤러로 화면을 덮기
+* 다운로드, 업로드의 에러처리를 할 수 있도록 개선
+* PersistentManager의 discardableResult 옵션을 제거
+* NotesViewController의 setEditing 내부 if문 로직을 deleteCell 메소드로 이동
+    
+[![top](https://img.shields.io/badge/top-%23000000.svg?&amp;style=for-the-badge&amp;logo=Acclaim&amp;logoColor=white&amp;)](#동기화-메모장)
+
+# STEP 4 : 추가 기능 및 UI 구현
+
+* 지역화, 접근성, 검색기능 등을 추가 구현합니다.
+    
+## 4-1 고민했던 것
+
+### 1. 검색 기능
+
+* 검색어를 입력할 때마다 검색어에 해당하는 메모를 `실시간`으로 보여줄 수 있도록 `NSPredicate`를 활용하여 fetch하는 기능을 추가
+* 검색어가 `빈 문자열("")`이라면 다시 메모의 전체목록을 보여줄 수 있도록 구현
+    
+### 2. 지역화 
+
+* `언어` 영어를 기본설정으로 하고 한국어에 대해서도 다국어화를 지원하도록 구현
+* `날짜` 시간은 시스템 시간을 따르도록 하고, 날짜 형식은 언어에 따라 포맷을 변경되도록 구현
+    
+### 3. 접근성
+    
+* 우측 메모 상세 내용의 경우 VoiceOver가 리스트를 읽은 후, 텍스트를 바로 읽어주는 것을 확인하고, `메모 내용`이라는 `accessibilityLabel`을 추가하여, 메모 텍스트를 읽기 전에 좀 더 화면의 구성요소를 이해하기 쉽도록 구현
+* View의 텍스트 요소들에 `Dynamic Type`을 적용하여 사용자가 원하는 사이즈로 텍스트 크기를 설정할 수 있도록 유연성을 제공
+
+## 4-2 의문점
+    
+* `Cancel`이나 `OK` 같은 것들은 자동으로 지역화가 되지 않는걸까?
+* `UITableView`에는 `accessibilityLabel`을 추가해줄 수 없는걸까?
+* CoreData를 불러오는 `fetch` 기능은 여러번하면 비용이 많이 드는걸까...?
+* Dropbox에서 백업했던 파일을 다운로드해서 CoreData를 덮어쓰면 데이터베이스 에러가 나는데, 앱은 정상적으로 작동한다. 이 부분은 신경쓰지 않아도 될까?
+    
+## 4-3 Trouble Shooting
+
+### 접근성을 위해 Accessibility Inspector를 활용
+
+![](https://i.imgur.com/VP2HGaV.png)
+
+* Accessibility Inspector를 활용하여 접근성을 위해 Run Audit을 통해 개선할 항목들이 없는지 검수하였다.
+* 그리고 VoiceOver를 직접 실행해서 테스트해보며 부족한 부분이 있는지 확인해보았다.
+* 다이나믹 타입의 경우도 텍스트 크기가 유연한지 검수하였다.
+    
+## 4-4 배운 개념
+
+<details>
+<summary>[Localization]</summary>
+<div markdown="1">
+
+# Localization
+
+### 지역화란?
+* 지역화는 현지화한다는 뜻을 가졌다
+* 즉, 해당 언어와 나라 지역에 맞게 앱을 설정해주는 것을 뜻한다.
+* 국제화(internationalization)를 I18N or i18n으로, 지역화(localization)를 L10N이나 l10n으로 표기한다
+
+### 지역화의 전제조건
+* 해당 앱이 지역화가 되려면 여러 국가에 배포되어 국제화 되어있는 앱이라는 조건이 있어야 한다.
+* 해당 앱이 한국에서만 사용되는 앱이라면 지역화가 의미 없을 것이다.
+
+### 지역화 가능한 요소
+* RTL, LTR (문화권에 따른 읽기/쓰기 방식), 언어, 시간, 날짜, 주소, 화폐단위 및 통화, 이미지 등등...
+
+### 지역화와 접근성의 관계
+* 지역화를 함으로 여러 국가와 지역에서 해당 앱에 대한 접근성(accessibility)가 우수해진다.
+* 접근성은 애플의 가장 강점인 부분으로 꼭 이 부분을 잘 활용하여 구현해놓으면 좋다.
+    * 접근성(accessibility)을 설정하려면 accessibility inspector를 활용하여 여러가지를 구현할 수 있다.
+
+### 언어 지역화
+* 지역화 하려는 언어를 프로젝트에 추가한다.
+    * 타겟을 선택해서 다국어화
+
+![](https://i.imgur.com/LXGcj3d.png)
+
+*  코드로 다국어 처리
+    * Strings 파일을 생성하고
+        * `Localizable.strings` 로 네이밍 변경
+
+![](https://i.imgur.com/WoU9xAR.png)
+
+* Localize... 버튼 클릭
+
+![](https://i.imgur.com/y32fgtE.png)
+
+* 다시 타겟으로 돌아가서 지역화하고 싶은 언어를 추가해주기 
+
+![](https://i.imgur.com/vbkbUyR.png)
+
+* 아까 만든 파일을 체크해주고 Finish
+
+![](https://i.imgur.com/nHotMZL.png)
+
+* 프로젝트에 파일이 생성되어 있는 모습
+
+![](https://i.imgur.com/jcCIwcf.png)
+
+![](https://i.imgur.com/yclkqR1.png)
+
+* Localizable.strings에 다국어 처리를 햅주면 되는데, Key와 Value로 다국어 처리를 해줄 수 있다.
+
+![](https://i.imgur.com/6bOA2a5.png)
+
+![](https://i.imgur.com/ne1UxDS.png)
+
+* 그리고 다국어화 한 문자열을 사용할 땐 `NSLocalizedString` 메소드를 활용해주어야 하는데, 번거로우니 extension을 활용하여 간단히 사용해볼 수 있다.
+
+```swift
+test.text = String(format: NSLocalizedString("Test", comment: ""))
+
+// String Extension for Localization
+extension String {
+    var localized: String {
+    	return NSLocalizedString(self, tableName: nil, bundle: Bundle.main, value: "", comment: "")
+    }
+}
+text.text = "Test".localized
+```
+> 스토리보드를 코드로 말고 Interface Builder Storyboard 옵션을 활용하여 스토리보드 자체를 지역화해줄 수도 있다.
+
+![](https://i.imgur.com/x8neP9B.png)
+
+> 앱의 언어를 바꿀 때는 App Language, App Region 둘다 바꿔주자.
+![](https://i.imgur.com/sR5vqSC.png)
+
+> 이미지의 지역화는 Assets에 접근해서 이미지를 클릭후 우측 인스펙터에서 Localization을 활성화 시켜주면 된다.
+![](https://i.imgur.com/xCXc1AU.png)
+
+> 날짜 지역화
+
+```swift
+let date = DateFormatter.localizedString(from: Date(), dateStyle: .medium, timeStyle: .short)
+        dateTimeLabel.text = date
+```
+
+> 통화 지역화
+
+```swift
+func currency(text: Double) -> String? {
+    let locale = Locale.current
+    let price = text as NSNumber
+    let formatter = NumberFormatter()
+
+    formatter.numberStyle = .currency
+    formatter.currencyCode = locale.languageCode
+    formatter.locale = locale
+
+    return formatter.string(from: price)
+}
+
+currencyLabel.text = currency(text: 3000.34)
+```
+
+> 뷰의 방향을 지역화 (방향 바꿀 때에도 유용하게 쓰는 듯?)
+
+```swift
+view.semanticContentAttribute = .forceRightToLeft
+```
+
+> 여러 문자열들을 지역화할 때 구글 스프레드 시트를 활용하기
+
+![](https://i.imgur.com/U4VhRNW.png)
+
+* 구글 스프레드 시트를 새로 생성한 후 위 사진과 같이 국가코드와 번역할 문장을 적으면 된다.
+* 좌측에 국제코드를 적고 우측에 아래 코드를 적으면 번역한 문장이 생성된다. ([국가코드 참고사이트](https://www.ibabbleon.com/iOS-Language-Codes-ISO-639.html))
+```
+// 예시
+=GOOGLETRANSLATE("Welcome to yagom-academy", "en", A10)
+```
+
+### Localization을 할 때 유의할 점
+
+* 국가별로 제공하는 기능이 다르게 해야하는 점도 참고하자.
+* 국가별 기능차이를 두는 이유는 특정 화면이나 기능이 특정 나라에서는 사용하면 안되는 것이라던지, 특정 나라에 효과적으로 런칭하기 위해 새로운 기능을 도입한다던지, 비즈니스 적인 이유가 다양하다.
+
+
+</div>
+</details>
+
+</br>
+    
 [![top](https://img.shields.io/badge/top-%23000000.svg?&amp;style=for-the-badge&amp;logo=Acclaim&amp;logoColor=white&amp;)](#동기화-메모장)

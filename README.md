@@ -38,7 +38,7 @@
     + [Trouble Shooting](#3-3-Trouble-Shooting)
     + [배운 개념](#3-4-배운-개념)
     + [PR 후 개선사항](#3-5-PR-후-개선사항)
-- [STEP 4 : 추가 기능 및 UI 구현](#STEP-3--추가-기능-및-UI-구현)
+- [STEP 4 : 추가 기능 및 UI 구현](#STEP-4--추가-기능-및-ui-구현)
     + [고민했던 것](#4-1-고민했던-것)
     + [의문점](#4-2-의문점)
     + [Trouble Shooting](#4-3-Trouble-Shooting)

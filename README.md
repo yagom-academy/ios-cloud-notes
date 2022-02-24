@@ -532,3 +532,256 @@ private func deleteMemo(at indexPath: IndexPath) {
           // ...
       }
     ```
+
+
+# STEP 2-2 REFACTOR
+
+이번 스텝에서는 각각의 타입의 역할을 명확하게 분리하는데 초점을 두었습니다.
+
+타입의 역할이 잘 분리된다면, 다음과 같은 장점이 있습니다.
+
+1. 어떤 부분을 고쳐야 하는지 금방 파악할 수 있어서 유지보수가 용이해진다.
+2. 의존성이 없어지기 때문에 재사용성이 높아진다.
+3. 특정 타입에 대한 수정이 다른 타입에 영향을 주지 않는다.
+
+1, 2차 수정을 거쳐서 SplitViewController가 모델인 MemoDataManager와 자식 뷰컨들인 ListViewController / DetailViewController 사이에서 중개를 하는 구조로 refactor하였습니다.
+
+이로써 모델은 모델 관련 로직만, 각 뷰컨은 각자의 뷰 관련 로직만 가지고 있도록 구성하였습니다. 
+
+---
+
+# 1차 수정
+
+### **설계 목적**
+
+- 데이터를 한곳에서 관리하기
+- ListViewController / DetailViewController 에서 model 관련 로직을 최대한 덜어내기
+- MVC 디자인 패턴으로 구조 짜기
+
+처음에는 SplitViewController를 이용해서 한 곳에서 data를 관리해주는 방법으로 고민을 했습니다. 하지만, SplitViewController도 ListViewController / DetailViewController와 마찬가지로 ViewController라는 점에서 그 또한 데이터를 관리해주는 역할을 맡기에 부적절하는 생각이 들었습니다. 
+
+고민끝에, DataManager의 인스턴스를 SplitViewController가 가지고 있고, ListVC / DetailVC 에게 전달해주는 방식으로 구현하기로 결정을 했습니다. 
+결과적으로 ListVC / DetailVC은 SplitViewController으로부터 받은 DataManager를 가지고 있고, DataManager는 listDelegate / detailDelegate를 가지고 소통을 하는 구조입니다.
+
+- 기존에 ListVC / DetailVC에서 Model 관련 로직이 많았던 부분은 모두 DataManager 안으로 옮겨주었습니다.
+    - (ex `if indexPath.row < dataManager.memos.count` 이런식으로 조건을 확인하는 부분)
+- ListVC와 DetailVC는 각각 MemoDataManagerListDelegate, MemoDataManagerDetailDelegate를 채택합니다.
+- DataManager는 데이터에 변화가 일어날 때 listDelegate / detailDelegate에게 일을 시킵니다.
+    - 예를들어 유저가 셀을 삭제 → 삭제 이벤트를 받은 ListVC가 DataManager의 메모삭제 메서드를 호출 → DataManager는 조건을 확인하여 listDelegate / detailDelegate에게 적절한 일을 시킴
+
+
+## 2-1 고민했던 것
+<details>
+<summary>indexPath를 활용하여 하나의 메서드로 ListVC와 DetailVC에서 메모 삭제</summary>
+<div markdown="1">
+
+## indexPath를 활용하여 하나의 메서드로 ListVC와 DetailVC에서 메모 삭제
+
+메모를 지울 때 indexPath를 활용해서 지워야 해서 Core Data에서 선택된 메모의 indexPath를 가져오는 방법에 대해 고민하였습니다.
+ListVC의 메모 목록에서 스와이프해서 삭제할때는 선택된 indexPath의 정보를 같이 전달해줄 수 있지만,
+DetailCV의 메모 상세페이지에서 더보기 버튼으로 삭제시에는 선택된 셀의 indexPath를 알 수 없어서
+indexPath가 있으면 그대로 사용하고, 없으면 listVC의 selectedCellIndex에서 선택된 셀의 인덱스를 가져와서 listVC의 셀도 지우고 detailVC의 텍스트도 지워주도록 구성하였습니다. 
+
+```swift
+final class MemoListViewController: UIViewController {
+	func tableView(_ tableView: UITableView,
+		       trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
+	) -> UISwipeActionsConfiguration? {
+	    let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, _ in
+		self.dataManager.deleteSelectedMemo(at: **indexPath**)
+	    }
+	    ...
+	}
+}
+```
+
+```swift
+final class MemoDetailViewController: UIViewController {
+	private func showDeleteAlert(_ sender: UIBarButtonItem) {
+	    ...
+	    let delete = UIAlertAction(title: "삭제", style: .destructive) { _ in
+		self.dataManager.deleteSelectedMemo()
+	    }
+	    ...
+	}
+}
+```
+
+```swift
+final class MemoDataManager {
+	...
+	func deleteSelectedMemo(at indexPath: IndexPath? = nil) {
+	    let selectedIndexPath: IndexPath?
+	    if indexPath != nil {
+		selectedIndexPath = indexPath
+	    } else {
+		selectedIndexPath = listDelegate?.selectedCellIndex
+	    }
+
+	    guard let selectedIndexPath = selectedIndexPath else {
+		return
+	    }
+	    let deletedMemo = memos[selectedIndexPath.row]
+	    deleteMemo(id: deletedMemo.id)
+	    listDelegate?.deleteCell(at: selectedIndexPath)
+
+	    if selectedIndexPath.row < memos.count {
+		let memo = memos[selectedIndexPath.row]
+		detailDelegate?.showTextView(with: memo)
+		listDelegate?.selectNextCell(at: selectedIndexPath)
+	    } else {
+		detailDelegate?.showIneditableTextView()
+	    }
+	}
+	...
+}
+```
+
+</div>
+</details>
+	
+## 2-2 Trouble Shooting
+<details>
+<summary>앱 첫 실행 화면에서 첫번째 셀이 선택되지 않는 문제</summary>
+<div markdown="1">
+
+### **앱 첫 실행 화면에서 첫번째 셀이 선택되지 않는 문제**
+
+<img src="https://i.imgur.com/RCSVaJz.png" width="50%" height="50%">
+
+정상적으로 작동하는 모습
+
+### 문제 상황
+
+앱을 실행했을 때, selectFirstMemo()가 실행되면서 첫번째 셀이 선택되고 해당 셀의 내용을 detailView에 보여줘야합니다.
+원래는 MemoListViewController의 viewDidLoad() 에서 selectFirstMemo()를 호출주었습니다.
+그런데 List의 셀은 선택이 되지만, 선택된 셀의 상세페이지는 보이지 않는 문제가 발생했습니다. 
+반대로 MemoDetailViewController에서 viewDidLoad() 에서 selectFirstMemo()를 호출하면 
+선택된 셀의 상세페이지는 보이지만 List의 셀은 선택이 되지 않는 문제가 발생합니다. 
+
+### 원인
+
+문제의 원인은 selectFirstMemo()를 호출하는 VC의 delegate 등록만 작동해서 발생하는 것이었습니다.
+- ListVC에서 호출하면 listDelegate만 등록되고 detailDelegate는 nil → 첫번째 셀이 선택되지만, 상세메모는 보이지 않음
+- DetailVC에서 호출하면 detailDelegate만 등록되고 listDelegate는 nil → 첫번째 상세메모는 보이지만 셀 선택이 안됨
+
+```swift
+extension MemoDataManager {
+    func selectFirstMemo() {
+        if memos.isEmpty == false {
+            listDelegate?.setupRowSelection()
+            detailDelegate?.showTextView(with: memos[0])
+        }
+    }
+}
+```
+
+|ListViewController의 viewDidLoad에서 호출하는 모습|detailDelegate가 nil인 모습|
+|:---:|:---:|
+|<img src="https://i.imgur.com/HOFGyRr.png" width="50%" height="50%">|<img src="https://i.imgur.com/LLxnl5I.png" width="50%" height="50%">|
+
+
+해당 메서드를 호출하지 않으면 delegate임을 명시하더라도 무시되는 현상을 확인했습니다. 
+좌측 사진은 ListViewController의 `viewDidLoad()`에서 `selectFirstMemo()`를 호출하고 있는 상태고, 
+listDelegate / detailDelegate를 출력했을 때 `detailDelegate` 만 nil 이 나오는것을 확인할 수 있었습니다.
+
+### 해결
+listVC의 `viewDidAppear`에서 `dataManager.selectFirstMemo()` 호출하는 방식으로 해결했습니다. 
+
+```swift
+private let dataManager = MemoDataManager()
+
+private lazy var listViewController = MemoListViewController(dataManager: dataManager)
+private lazy var detailViewController = MemoDetailViewController(dataManager: dataManager)
+
+override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+    dataManager.selectFirstMemo()
+}
+```
+
+</div>
+</details>
+	
+	
+<details>
+<summary>메모를 삭제할 때 viewContext를 save하기전에 memos 배열에서도 삭제하지 않으면 Crash가 나는 문제</summary>
+<div markdown="1">
+
+### 메모를 삭제할 때 viewContext를 save하기전에 memos 배열에서도 삭제하지 않으면 Crash가 나는 문제
+
+|saveViewContext를 먼저호출|saveViewContext를 나중에 호출|
+|:---:|:---:|
+|<img src="https://i.imgur.com/1n9pMDt.jpg" width="50%" height="50%">|<img src="https://i.imgur.com/beG1DkD.jpg" width="50%" height="50%">|
+
+
+### 문제 상황
+
+처음에는 view context 에서 메모를 삭제하고나서 `viewContext.delete(memoToDelete)`
+바로 view context를 save 한 후 `saveViewContext()`
+MemoDataManager가 가지고 있는 memos 배열에서도 삭제하였습니다.
+그랬더니 Crash가 나며 앱이 중지되었습니다.
+
+### 해결
+
+MemoDataManager가 가지고 있는 memos 배열에서도 삭제해준 후 view context를 save 하는 방법으로 순서를 바꿔서 해결해주었습니다.
+
+</div>
+</details>
+	
+
+# 2차 수정
+### 설계 목적
+
+- DataManager는 UI와 관련된 역할을 하지 않는다
+- SplitVC만 DataManager를 갖는다
+- ListVC / DetailVC에서는 데이터와 관련된 작업을 하지 않는다
+
+1차 수정을 하고 나서, ListVC / DetailVC가 DataManager를 꼭 알아야 하는지에 대해서 많은 고민을 했습니다. DataManager를 아는 타입이 많음으로 인해서 DataManager에 발생하는 일들이 어떻게  관리가 되고 있는지 파악하기 힘들어 지고, 처리가 분산되어 있다고 생각했습니다. 
+
+그래서 DataManager를 갖게되는 SplitVC가 이러한 일들을 담당하도록 다시 설계했습니다. SplitVC가 DataManager를 갖는 이유는  `Debug view hierarchy`를 통해 확인해봤을 때 계층구조가 SplitVC가 자식 뷰컨들을 직접적으로 알고 있기 때문에 모델과 연결되어야 하는 컨트롤러가 SplitVC이라고 생각했습니다.
+
+기존에 ListVC / DetailVC에서 Model 관련 로직들을 모두 없앴습니다. ListVC / DetailVC는 View를 Controller하는 역할만 하고 있습니다.
+또, MemoDataManager에 남아있던 UI관련 로직들도 모두 삭제했습니다.
+그 중간에서 SplitVC가 DataManager와 자식 뷰컨들을 중개해주고 있습니다.
+	
+	
+	
+# <최종 구조>
+
+<img src="https://i.imgur.com/uar9NND.png" width="50%" height="50%">
+
+
+`SplitViewController`는 DataManager와 childViewControllers와 메시지를 주고 받고, 각각의 childViewController들은 `splitViewController`와만 메시지를 주고 받는 로직입니다.
+
+### ListVC, DetailVC의 delegate = SplitVC
+
+listViewController와 detailViewController의 delegate를 SplitVC로 지정하여 DataManager의 데이터에 따라 SplitVC가 ListVC와 DetailVC가 할 일을 대신 해주도록 구현하였습니다. 
+
+### SOLID - DIP 원칙 (의존관계 역전 원칙)
+
+상위레벨 모듈은 하위레벨 모듈에 의존하면 안된다는 DIP 원칙에 따라, MemoDataManagable 프로토콜을 정의하여 SplitVC이 생성될 때 MemoDataManagable 프로토콜을 준수하는 어떤 타입이라도 주입될 수 있도록 해주었습니다.
+	
+	
+```swift
+protocol MemoDataManagable {
+    ...
+}
+
+extension MemoDataManager: MemoDataManagable {
+    ...
+}
+```
+
+```swift
+final class SplitViewController: UISplitViewController {
+    private let dataManager: MemoDataManagable
+	  ...
+    init(style: UISplitViewController.Style, dataManager: MemoDataManagable) {
+        self.dataManager = dataManager
+        super.init(style: style)
+    }
+    ...
+}
+```
+	

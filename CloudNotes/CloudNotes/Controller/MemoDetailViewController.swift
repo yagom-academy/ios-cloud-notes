@@ -1,12 +1,11 @@
 import UIKit
 
 protocol MemoDetailViewControllerDelegate: AnyObject {
-    func deleteMemo(at indexPath: IndexPath?)
+    func deleteSelectedMemo()
     func updateEditedMemo(title: String, body: String, lastModified: Date)
 }
 
 final class MemoDetailViewController: UIViewController {
-    private let dataManager: MemoDataManager
     weak var delegate: MemoDetailViewControllerDelegate?
     
     private let textView: UITextView = {
@@ -16,15 +15,6 @@ final class MemoDetailViewController: UIViewController {
         textView.translatesAutoresizingMaskIntoConstraints = false
         return textView
     }()
-    
-    init(dataManager: MemoDataManager) {
-        self.dataManager = dataManager
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -109,7 +99,7 @@ final class MemoDetailViewController: UIViewController {
         let alert = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
         let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
         let delete = UIAlertAction(title: "삭제", style: .destructive) { _ in
-            self.delegate?.deleteMemo(at: nil)
+            self.delegate?.deleteSelectedMemo()
         }
         alert.addAction(cancel)
         alert.addAction(delete)

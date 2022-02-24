@@ -1,26 +1,18 @@
 import UIKit
 
 protocol MemoListViewControllerDelegate: AnyObject {
+    var numberOfMemos: Int { get }
+    func getMemo(for indexPath: IndexPath) -> Memo
     func selectFirstMemo()
     func addNewMemo()
-    func deleteSelectedMemo(at indexPath: IndexPath?)
+    func deleteSelectedMemo(at indexPath: IndexPath)
     func showMemo()
 }
 
 final class MemoListViewController: UIViewController {
-    private let dataManager: MemoDataManager
     weak var delegate: MemoListViewControllerDelegate?
     private let cellIdentifier = "Cell"
     private let tableView = UITableView()
-    
-    init(dataManager: MemoDataManager) {
-        self.dataManager = dataManager
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,13 +58,13 @@ final class MemoListViewController: UIViewController {
 
 extension MemoListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dataManager.memos.count
+        return delegate?.numberOfMemos ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
         var configuration = cell.defaultContentConfiguration()
-        let memo = dataManager.memos[indexPath.row]
+        let memo = delegate!.getMemo(for: indexPath)
         configuration.text = memo.title.isEmpty ? "새로운 메모" : memo.title
         configuration.secondaryAttributedText = memo.subtitle
         configuration.textProperties.numberOfLines = 1
@@ -107,16 +99,19 @@ extension MemoListViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didEndEditingRowAt indexPath: IndexPath?) {
-        guard let indexPath = indexPath else {
-            return
-        }
-        if indexPath.row < dataManager.memos.count {
+        guard let indexPath = indexPath,
+              let delegate = delegate else {
+                  return
+              }
+        if indexPath.row < delegate.numberOfMemos {
             tableView.selectRow(at: indexPath, animated: false, scrollPosition: .top)
         }
     }
     
     private func showActivityView(indexPath: IndexPath) {
-        let memo = dataManager.memos[indexPath.row]
+        guard let memo = delegate?.getMemo(for: indexPath) else {
+            return
+        }
         let title = memo.title ?? ""
         let body = memo.body ?? ""
         let memoToShare = "\(title)\n\(body)"

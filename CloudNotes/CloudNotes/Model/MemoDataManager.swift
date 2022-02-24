@@ -1,10 +1,28 @@
 import CoreData
 
 final class MemoDataManager {
-
-    var memos = [Memo]()
     private let persistentContainer: NSPersistentContainer
-    private lazy var viewContext: NSManagedObjectContext = persistentContainer.viewContext
+    private lazy var viewContext = persistentContainer.viewContext
+    private (set) var memos = [Memo]()
+    
+    var isEmpty: Bool {
+        memos.count == 0
+    }
+    
+    var numberOfMemos: Int {
+        memos.count
+    }
+    
+    private var newMemo: Memo {
+        let newMemo = Memo(context: viewContext)
+        newMemo.id = UUID()
+        newMemo.title = ""
+        newMemo.body = ""
+        newMemo.lastModified = Date()
+        saveViewContext()
+        
+        return newMemo
+    }
     
     init(modelName: String = "CloudNotes") {
         persistentContainer = NSPersistentContainer(name: modelName)
@@ -20,10 +38,6 @@ final class MemoDataManager {
         }
     }
     
-    func setMemos() {
-        memos = fetchMemos()
-    }
-    
     private func saveViewContext() {
         if viewContext.hasChanges {
             do {
@@ -34,7 +48,15 @@ final class MemoDataManager {
         }
     }
     
-    func fetchMemos(predicate: NSPredicate? = nil,
+    private func setMemos() {
+        memos = fetchMemos()
+    }
+    
+    func insertMemo(at index: Int) {
+        memos.insert(newMemo, at: index)
+    }
+  
+    private func fetchMemos(predicate: NSPredicate? = nil,
                     sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: "lastModified", ascending: false)]
     ) -> [Memo] {
         let request = Memo.fetchRequest()
@@ -84,21 +106,3 @@ final class MemoDataManager {
         }
     }
 }
-
-extension MemoDataManager {
-    var newMemo: Memo {
-        let newMemo = Memo(context: viewContext)
-        newMemo.id = UUID()
-        newMemo.title = ""
-        newMemo.body = ""
-        newMemo.lastModified = Date()
-        saveViewContext()
-        
-        return newMemo
-    }
-    
-    var isEmpty: Bool {
-        memos.count == 0
-    }
-}
-

@@ -8,9 +8,10 @@
 import UIKit
 import SwiftyDropbox
 
-class MemoTableViewController: UITableViewController {    
-    private let initialIndexPath: IndexPath = .zero
+class MemoTableViewController: UITableViewController {
     lazy var selectedIndexPath = initialIndexPath
+    private let initialIndexPath: IndexPath = .zero
+    private lazy var addMemoButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addEmptyMemo))
     private weak var delegate: MemoManageable?
     
     private var isSplitViewCollapsed: Bool? {
@@ -36,7 +37,6 @@ class MemoTableViewController: UITableViewController {
     private func configureNavigationBar() {
         self.navigationController?.navigationBar.prefersLargeTitles = true
         self.navigationItem.title = "메모"
-        let addMemoButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addEmptyMemo))
         let connectDropboxButton = UIBarButtonItem(image: UIImage(systemName: SystemIcon.linkDropbox), style: .plain, target: self, action: nil)
         connectDropboxButton.imageInsets = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: -15)
         
@@ -62,6 +62,7 @@ class MemoTableViewController: UITableViewController {
     }
 
     @objc private func addEmptyMemo() {
+        addMemoButton.isEnabled = false
         delegate?.create()
         tableView.insertRows(at: [initialIndexPath], with: .fade)
         tableView.scrollToRow(at: initialIndexPath, at: .bottom, animated: true)
@@ -92,6 +93,10 @@ class MemoTableViewController: UITableViewController {
     func updateSelectedIndexPath(with indexPath: IndexPath) {
         selectedIndexPath = indexPath
         tableView.selectRow(at: selectedIndexPath, animated: true, scrollPosition: .none)
+    }
+    
+    func changeAddButtonState(disabled: Bool) {
+        addMemoButton.isEnabled = !disabled
     }
 }
 

@@ -158,6 +158,8 @@ extension MemoSplitViewController: CoreDataManageable {
     }
     
     func update(at indexPath: IndexPath, title: String, body: String) {
+        memoTableViewController.changeAddButtonState(disabled: title.isEmpty)
+        
         memoTableViewController.tableView.performBatchUpdates {
             if indexPath.row != 0 {
                 memoTableViewController.tableView.moveRow(at: indexPath, to: .zero)

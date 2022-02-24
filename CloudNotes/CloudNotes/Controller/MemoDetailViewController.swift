@@ -1,8 +1,13 @@
 import UIKit
 
-final class MemoDetailViewController: UIViewController {
+protocol MemoDetailViewControllerDelegate: AnyObject {
+    func deleteMemo(at indexPath: IndexPath?)
+    func updateEditedMemo(title: String, body: String, lastModified: Date)
+}
 
+final class MemoDetailViewController: UIViewController {
     private let dataManager: MemoDataManager
+    weak var delegate: MemoDetailViewControllerDelegate?
     
     private let textView: UITextView = {
         let textView = UITextView()
@@ -28,7 +33,6 @@ final class MemoDetailViewController: UIViewController {
         registerTextViewDelegate()
         setupTextViewLayout()
         setupNavigationItem()
-        dataManager.detailDelegate = self
     }
     
     private func setupNotification() {
@@ -105,20 +109,13 @@ final class MemoDetailViewController: UIViewController {
         let alert = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
         let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
         let delete = UIAlertAction(title: "삭제", style: .destructive) { _ in
-            guard let splitViewController = self.splitViewController as? SplitViewController else {
-                return
-            }
-            splitViewController.deleteSelectedMemo()
+            self.delegate?.deleteMemo(at: nil)
         }
         alert.addAction(cancel)
         alert.addAction(delete)
         present(alert, animated: true)
     }
-}
-
-// MARK: - MemoDataManagerDetailDelegate
-
-extension MemoDetailViewController: MemoDataManagerDetailDelegate {
+    
     func showTextView(with memo: Memo) {
         textView.isEditable = true
         let title = memo.title ?? ""
@@ -153,9 +150,6 @@ extension MemoDetailViewController: UITextViewDelegate {
         let body = memoComponents[safe: 1] ?? ""
         let lastModified = Date()
         
-        guard let splitViewController = splitViewController as? SplitViewController else {
-            return
-        }
-        splitViewController.updateEditedMemo(title: title, body: body, lastModified: lastModified)
+        delegate?.updateEditedMemo(title: title, body: body, lastModified: lastModified)
     }
 }

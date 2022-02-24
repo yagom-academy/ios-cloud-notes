@@ -1,24 +1,7 @@
 import CoreData
 
-protocol MemoDataManagerListDelegate: AnyObject {
-    var selectedCellIndex: IndexPath? { get }
-    func setupRowSelection()
-    func addNewCell()
-    func deleteCell(at indexPath: IndexPath)
-    func selectNextCell(at indexPath: IndexPath)
-    func updateCell(at indexPath: IndexPath)
-}
-
-protocol MemoDataManagerDetailDelegate: AnyObject {
-    func showTextView(with memo: Memo)
-    func showEmptyTextView()
-    func showIneditableTextView()
-}
-
 final class MemoDataManager {
-    weak var listDelegate: MemoDataManagerListDelegate?
-    weak var detailDelegate: MemoDataManagerDetailDelegate?
-    
+
     var memos = [Memo]()
     private let persistentContainer: NSPersistentContainer
     private lazy var viewContext: NSManagedObjectContext = persistentContainer.viewContext

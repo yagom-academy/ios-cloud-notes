@@ -1,7 +1,15 @@
 import UIKit
 
+protocol MemoListViewControllerDelegate: AnyObject {
+    func selectFirstMemo()
+    func addNewMemo()
+    func deleteSelectedMemo(at indexPath: IndexPath?)
+    func showMemo()
+}
+
 final class MemoListViewController: UIViewController {
     private let dataManager: MemoDataManager
+    weak var delegate: MemoListViewControllerDelegate?
     private let cellIdentifier = "Cell"
     private let tableView = UITableView()
     
@@ -19,15 +27,11 @@ final class MemoListViewController: UIViewController {
         setupTableViewDelegateAndCell()
         setupTableViewLayout()
         setupNavigationBar()
-        dataManager.listDelegate = self
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        guard let splitViewController = splitViewController as? SplitViewController else {
-            return
-        }
         super.viewDidAppear(animated)
-        splitViewController.selectFirstMemo()
+        delegate?.selectFirstMemo()
     }
     
     private func setupTableViewDelegateAndCell() {
@@ -54,10 +58,7 @@ final class MemoListViewController: UIViewController {
     }
     
     @objc private func addMemo() {
-        guard let splitViewController = splitViewController as? SplitViewController else {
-            return
-        }
-        splitViewController.addNewMemo()
+        delegate?.addNewMemo()
     }
 }
 
@@ -89,20 +90,14 @@ extension MemoListViewController: UITableViewDataSource {
 
 extension MemoListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let splitViewController = splitViewController as? SplitViewController else {
-            return
-        }
-        splitViewController.showMemo()
+        delegate?.showMemo()
     }
     
     func tableView(_ tableView: UITableView,
                    trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
     ) -> UISwipeActionsConfiguration? {
         let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, _ in
-            guard let splitViewController = self.splitViewController as? SplitViewController else {
-                return
-            }
-            splitViewController.deleteSelectedMemo(at: indexPath)
+            self.delegate?.deleteSelectedMemo(at: indexPath)
         }
         let shareAction = UIContextualAction(style: .normal, title: "Share") { _, _, _ in
             self.showActivityView(indexPath: indexPath)
@@ -142,7 +137,7 @@ extension MemoListViewController: UITableViewDelegate {
 
 // MARK: - MemoDataManagerListDelegate
 
-extension MemoListViewController: MemoDataManagerListDelegate {
+extension MemoListViewController {
     var selectedCellIndex: IndexPath? {
         return tableView.indexPathForSelectedRow
     }

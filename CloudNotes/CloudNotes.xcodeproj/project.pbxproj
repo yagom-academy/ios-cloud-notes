@@ -147,8 +147,8 @@
 		FB5C7F5527BB457D00C91626 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				EA8574A427BB43EA00F9D5E3 /* MemoListViewController.swift */,
 				3B1B775F27C47CFA00E16607 /* SplitViewController.swift */,
+				EA8574A427BB43EA00F9D5E3 /* MemoListViewController.swift */,
 				EA8574A627BB43F800F9D5E3 /* MemoDetailViewController.swift */,
 			);
 			path = Controller;

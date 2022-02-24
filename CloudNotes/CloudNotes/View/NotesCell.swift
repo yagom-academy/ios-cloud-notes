@@ -72,8 +72,8 @@ class NotesCell: UITableViewCell {
     
     func configure(with item: Note?) {
         let data = item?.body?.split(separator: "\n")
-        let title = item?.title ?? "새로운 메모"
-        let body = data?[safe: 1]?.trimmingCharacters(in: ["\n", " "]) ?? "추가 텍스트 없음"
+        let title = item?.title ?? "New Note".localized()
+        let body = data?[safe: 1]?.trimmingCharacters(in: ["\n", " "]) ?? "No additional text".localized()
         let lastModified = item?.lastModified.formattedDate ?? Date().timeIntervalSince1970.formattedDate
         
         titleLabel.text = title

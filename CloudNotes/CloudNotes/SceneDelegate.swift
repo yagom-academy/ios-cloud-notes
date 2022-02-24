@@ -30,7 +30,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             if let authResult = $0 {
                 switch authResult {
                 case .success:
-                    print("Success! User is logged into DropboxClientsManager.")
+                    print("Success! User is logged into DropboxClientsManager.".localized())
                     DropboxManager().download() { result in
                         switch result {
                         case .failure(let error):
@@ -44,12 +44,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                         }
                     }
                 case .cancel:
-                    print("Authorization flow was manually canceled by user!")
+                    print("Authorization flow was manually canceled by user!".localized())
                     primaryVC?.dismiss(animated: false)
                 case .error(_, let description):
                     print("Error: \(String(describing: description))")
                     primaryVC?.dismiss(animated: false) {
-                        primaryVC?.showAlert(message: "알 수 없는 에러가 발생했습니다.")
+                        primaryVC?.showAlert(message: "Do you really want to delete it?".localized())
                     }
                 }
             }

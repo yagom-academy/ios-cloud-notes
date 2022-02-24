@@ -3,7 +3,7 @@ import SwiftyDropbox
 
 class NotesViewController: UITableViewController {
     private enum Constant {
-        static let navigationTitle = "메모"
+        static let navigationTitle = "Notes".localized()
         static let lastModified = "lastModified"
         static let id = "id"
         static let deleteIconName = "trash.fill"
@@ -56,7 +56,7 @@ class NotesViewController: UITableViewController {
     
     private func setUpSearchController() {
         let searchController = UISearchController(searchResultsController: nil)
-        searchController.searchBar.placeholder = "Search"
+        searchController.searchBar.placeholder = "Search".localized()
         searchController.searchResultsUpdater = self
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = true

@@ -4,8 +4,8 @@ class NoteDetailViewController: UIViewController {
     private enum Constant {
         static let lineBreak: Character = "\n"
         static let navigationBarIconName = "ellipsis.circle"
-        static let deleteWarningMessage = "정말 삭제하시겠습니까?"
-        static let deleteAlertActionTitle = "OK"
+        static let deleteWarningMessage = "Do you really want to delete it?".localized()
+        static let deleteAlertActionTitle = "OK".localized()
         static let headerAttributes: [NSAttributedString.Key : Any] = [
             .font: UIFont.preferredFont(for: .title1, weight: .bold),
             .foregroundColor: UIColor.label

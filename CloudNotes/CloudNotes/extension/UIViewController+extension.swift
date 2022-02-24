@@ -12,7 +12,7 @@ extension UIViewController {
         DropboxManager().upload { result in
             switch result {
             case .success:
-                print("업로드 성공")
+                print("Upload Success".localized())
             case .failure(let error):
                 print(error.localizedDescription)
             }
@@ -46,15 +46,15 @@ extension UIViewController {
     ) {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
-        let shareAction = UIAlertAction(title: "Share...", style: .default, handler: shareHandler)
+        let shareAction = UIAlertAction(title: "Share...".localized(), style: .default, handler: shareHandler)
         shareAction.setValue(0, forKey: "titleTextAlignment")
         shareAction.setValue(UIImage(systemName: "square.and.arrow.up"), forKey: "image")
         
-        let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: deleteHandler)
+        let deleteAction = UIAlertAction(title: "Delete".localized(), style: .destructive, handler: deleteHandler)
         deleteAction.setValue(0, forKey: "titleTextAlignment")
         deleteAction.setValue(UIImage(systemName: "trash.fill"), forKey: "image")
         
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let cancelAction = UIAlertAction(title: "Cancel".localized(), style: .cancel, handler: nil)
         
         alert.addAction(shareAction)
         alert.addAction(deleteAction)
@@ -68,8 +68,8 @@ extension UIViewController {
     }
     
     func showAlert(message: String, actionTitle: String, handler: ((UIAlertAction) -> Void)? = nil) {
-        let alert = UIAlertController(title: "알림", message: message, preferredStyle: .alert)
-        let cancelAction = UIAlertAction(title: "cancel", style: .default, handler: nil)
+        let alert = UIAlertController(title: "Notice".localized(), message: message, preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "Cancel".localized(), style: .default, handler: nil)
         let okAction = UIAlertAction(title: actionTitle, style: .destructive, handler: handler)
         alert.addAction(cancelAction)
         alert.addAction(okAction)
@@ -77,8 +77,8 @@ extension UIViewController {
     }
     
     func showAlert(message: String, handler: ((UIAlertAction) -> Void)? = nil) {
-        let alert = UIAlertController(title: "알림", message: message, preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "OK", style: .default, handler: handler)
+        let alert = UIAlertController(title: "Notice".localized(), message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK".localized(), style: .default, handler: handler)
         alert.addAction(okAction)
         present(alert, animated: true, completion: nil)
     }

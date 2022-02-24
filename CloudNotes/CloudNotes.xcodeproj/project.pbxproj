@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		25297A5927C36E770040CD5F /* AuthenticationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25297A5827C36E770040CD5F /* AuthenticationViewController.swift */; };
+		25297A9327C758070040CD5F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 25297A9527C758070040CD5F /* Localizable.strings */; };
+		25297A9827C75D5C0040CD5F /* String+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25297A9727C75D5C0040CD5F /* String+extension.swift */; };
 		256119B427BCBF0A005B0A07 /* NotesViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 256119B327BCBF0A005B0A07 /* NotesViewControllerDelegate.swift */; };
 		256119B627BCBF22005B0A07 /* NotesDetailViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 256119B527BCBF22005B0A07 /* NotesDetailViewControllerDelegate.swift */; };
 		256119B927BDEFEC005B0A07 /* DropboxManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 256119B827BDEFEC005B0A07 /* DropboxManager.swift */; };
@@ -54,6 +56,9 @@
 
 /* Begin PBXFileReference section */
 		25297A5827C36E770040CD5F /* AuthenticationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationViewController.swift; sourceTree = "<group>"; };
+		25297A9427C758070040CD5F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		25297A9627C758290040CD5F /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
+		25297A9727C75D5C0040CD5F /* String+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+extension.swift"; sourceTree = "<group>"; };
 		256119B327BCBF0A005B0A07 /* NotesViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesViewControllerDelegate.swift; sourceTree = "<group>"; };
 		256119B527BCBF22005B0A07 /* NotesDetailViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesDetailViewControllerDelegate.swift; sourceTree = "<group>"; };
 		256119B827BDEFEC005B0A07 /* DropboxManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropboxManager.swift; sourceTree = "<group>"; };
@@ -156,6 +161,7 @@
 				9A7A1B1727B28D3800639908 /* UIViewController+extension.swift */,
 				9A45A7DB27B65B6800CE33DD /* Array+extension.swift */,
 				258578FE27BA292200889D06 /* UIFont+extension.swift */,
+				25297A9727C75D5C0040CD5F /* String+extension.swift */,
 			);
 			path = extension;
 			sourceTree = "<group>";
@@ -180,6 +186,7 @@
 		C7481C6125BBCF3900B9CA55 = {
 			isa = PBXGroup;
 			children = (
+				25297A9527C758070040CD5F /* Localizable.strings */,
 				2585787D27B4D90100889D06 /* Note+CoreDataClass.swift */,
 				2585787E27B4D90100889D06 /* Note+CoreDataProperties.swift */,
 				C7481C6C25BBCF3900B9CA55 /* CloudNotes */,
@@ -326,6 +333,7 @@
 			knownRegions = (
 				en,
 				Base,
+				ko,
 			);
 			mainGroup = C7481C6125BBCF3900B9CA55;
 			packageReferences = (
@@ -348,6 +356,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C7481C7D25BBCF3A00B9CA55 /* LaunchScreen.storyboard in Resources */,
+				25297A9327C758070040CD5F /* Localizable.strings in Resources */,
 				C7481C7A25BBCF3A00B9CA55 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -409,6 +418,7 @@
 				25297A5927C36E770040CD5F /* AuthenticationViewController.swift in Sources */,
 				2585782E27B2060E00889D06 /* NotesViewController.swift in Sources */,
 				C7481C7825BBCF3900B9CA55 /* CloudNotes.xcdatamodeld in Sources */,
+				25297A9827C75D5C0040CD5F /* String+extension.swift in Sources */,
 				2585788027B4D90100889D06 /* Note+CoreDataProperties.swift in Sources */,
 				9A45A7DC27B65B6800CE33DD /* Array+extension.swift in Sources */,
 				2585788227B4D98300889D06 /* PersistentManager.swift in Sources */,
@@ -449,6 +459,15 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		25297A9527C758070040CD5F /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				25297A9427C758070040CD5F /* en */,
+				25297A9627C758290040CD5F /* ko */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		C7481C7B25BBCF3A00B9CA55 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -464,6 +483,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -525,6 +545,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";

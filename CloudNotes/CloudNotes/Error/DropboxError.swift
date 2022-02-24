@@ -7,9 +7,9 @@ enum DropboxError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .failureDownload:
-            return "다운로드를 실패하였습니다."
+            return "Download Failed".localized()
         case .failureUpload:
-            return "업로드를 실패하였습니다."
+            return "Upload Failed".localized()
         }
     }
 }

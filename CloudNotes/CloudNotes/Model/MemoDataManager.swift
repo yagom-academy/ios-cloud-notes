@@ -1,18 +1,19 @@
 import CoreData
 
+protocol MemoDataManagable {
+    var isEmpty: Bool { get }
+    var numberOfMemos: Int { get }
+    func getCurrentMemo(for indexPath: IndexPath) -> Memo
+    func insertMemo(at index: Int)
+    func updateMemo(id: UUID, title: String, body: String, lastModified: Date)
+    func deleteMemo(id: UUID)
+}
+
 final class MemoDataManager {
     private let persistentContainer: NSPersistentContainer
     private lazy var viewContext = persistentContainer.viewContext
-    private (set) var memos = [Memo]()
     
-    var isEmpty: Bool {
-        memos.count == 0
-    }
-    
-    var numberOfMemos: Int {
-        memos.count
-    }
-    
+    private var memos = [Memo]()
     private var newMemo: Memo {
         let newMemo = Memo(context: viewContext)
         newMemo.id = UUID()
@@ -20,7 +21,6 @@ final class MemoDataManager {
         newMemo.body = ""
         newMemo.lastModified = Date()
         saveViewContext()
-        
         return newMemo
     }
     
@@ -52,10 +52,6 @@ final class MemoDataManager {
         memos = fetchMemos()
     }
     
-    func insertMemo(at index: Int) {
-        memos.insert(newMemo, at: index)
-    }
-  
     private func fetchMemos(predicate: NSPredicate? = nil,
                     sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: "lastModified", ascending: false)]
     ) -> [Memo] {
@@ -71,6 +67,26 @@ final class MemoDataManager {
             print(error.localizedDescription)
         }
         return memos
+    }
+}
+
+// MARK: - MemoDataManagable Protocol
+
+extension MemoDataManager: MemoDataManagable {
+    var isEmpty: Bool {
+        memos.count == 0
+    }
+    
+    var numberOfMemos: Int {
+        memos.count
+    }
+    
+    func getCurrentMemo(for indexPath: IndexPath) -> Memo {
+        memos[indexPath.row]
+    }
+    
+    func insertMemo(at index: Int) {
+        memos.insert(newMemo, at: index)
     }
     
     func updateMemo(id: UUID,

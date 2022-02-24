@@ -10,7 +10,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         window = UIWindow(windowScene: windowScene)
-        let splitViewController = SplitViewController(style: .doubleColumn)
+        let splitViewController = SplitViewController(style: .doubleColumn, dataManager: MemoDataManager())
         window?.rootViewController = splitViewController
         window?.makeKeyAndVisible()
     }

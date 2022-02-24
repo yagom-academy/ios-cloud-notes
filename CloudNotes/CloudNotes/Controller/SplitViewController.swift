@@ -1,9 +1,18 @@
 import UIKit
 
 final class SplitViewController: UISplitViewController {
-    private let dataManager = MemoDataManager()
+    private let dataManager: MemoDataManagable
     private let listViewController = MemoListViewController()
     private let detailViewController = MemoDetailViewController()
+    
+    init(style: UISplitViewController.Style, dataManager: MemoDataManagable) {
+        self.dataManager = dataManager
+        super.init(style: style)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,13 +42,13 @@ extension SplitViewController: MemoListViewControllerDelegate {
     }
     
     func getMemo(for indexPath: IndexPath) -> Memo {
-        dataManager.memos[indexPath.row]
+        dataManager.getCurrentMemo(for: indexPath)
     }
     
     func selectFirstMemo() {
-        if dataManager.memos.isEmpty == false {
+        if dataManager.isEmpty == false {
             listViewController.setupRowSelection()
-            detailViewController.showTextView(with: dataManager.memos[0])
+            detailViewController.showTextView(with: dataManager.getCurrentMemo(for: IndexPath(row: 0, section: 0)))
         }
     }
     
@@ -50,12 +59,12 @@ extension SplitViewController: MemoListViewControllerDelegate {
     }
     
     func deleteSelectedMemo(at indexPath: IndexPath) {
-        let deletedMemo = dataManager.memos[indexPath.row]
+        let deletedMemo = dataManager.getCurrentMemo(for: indexPath)
         dataManager.deleteMemo(id: deletedMemo.id)
         listViewController.deleteCell(at: indexPath)
         
-        if indexPath.row < dataManager.memos.count {
-            let memo = dataManager.memos[indexPath.row]
+        if indexPath.row < dataManager.numberOfMemos {
+            let memo = dataManager.getCurrentMemo(for: indexPath)
             detailViewController.showTextView(with: memo)
             listViewController.selectNextCell(at: indexPath)
         } else {
@@ -67,7 +76,7 @@ extension SplitViewController: MemoListViewControllerDelegate {
         guard let indexPath = listViewController.selectedCellIndex else {
             return
         }
-        let memo = dataManager.memos[indexPath.row]
+        let memo = dataManager.getCurrentMemo(for: indexPath)
         detailViewController.showTextView(with: memo)
     }
 }
@@ -79,12 +88,12 @@ extension SplitViewController: MemoDetailViewControllerDelegate {
         guard let indexPath = listViewController.selectedCellIndex else {
             return
         }
-        let deletedMemo = dataManager.memos[indexPath.row]
+        let deletedMemo = dataManager.getCurrentMemo(for: indexPath)
         dataManager.deleteMemo(id: deletedMemo.id)
         listViewController.deleteCell(at: indexPath)
         
-        if indexPath.row < dataManager.memos.count {
-            let memo = dataManager.memos[indexPath.row]
+        if indexPath.row < dataManager.numberOfMemos {
+            let memo = dataManager.getCurrentMemo(for: indexPath)
             detailViewController.showTextView(with: memo)
             listViewController.selectNextCell(at: indexPath)
         } else {
@@ -96,7 +105,7 @@ extension SplitViewController: MemoDetailViewControllerDelegate {
         guard let indexPath = listViewController.selectedCellIndex else {
             return
         }
-        dataManager.updateMemo(id: dataManager.memos[indexPath.row].id,
+        dataManager.updateMemo(id: dataManager.getCurrentMemo(for: indexPath).id,
                                title: title,
                                body: body,
                                lastModified: lastModified)

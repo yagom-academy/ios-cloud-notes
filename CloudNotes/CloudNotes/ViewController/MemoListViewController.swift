@@ -4,8 +4,17 @@ import CloudKit
 final class MemoListViewController: UIViewController {
     private let tableView = UITableView()
     private var memos: [Memo] = []
+    private var filteredMemos: [Memo] = []
     private let navigationTitle = "메모"
     private var selectedIndexPath: IndexPath?
+    private let searchController = UISearchController()
+    private var isFiltering: Bool {
+        let searchController = self.navigationItem.searchController
+        let isActive = searchController?.isActive ?? false
+        let isSearchBarHasText = searchController?.searchBar.text?.isEmpty == false
+        
+        return isActive && isSearchBarHasText
+    }
 
     convenience init() {
         self.init(nibName: nil, bundle: nil)
@@ -14,6 +23,7 @@ final class MemoListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        searchController.searchResultsUpdater = self
         setupMainListView()
     }
 
@@ -52,6 +62,7 @@ final class MemoListViewController: UIViewController {
             target: self,
             action: #selector(createMemo)
         )
+        navigationItem.searchController = searchController
     }
     
     @objc private func createMemo() {
@@ -65,7 +76,7 @@ final class MemoListViewController: UIViewController {
     
     private func changeSelectedCell(indexPath: IndexPath) {
         guard let splitViewController = splitViewController as? MainSplitViewController else { return }
-        let selectedMemo = memos[indexPath.row]
+        let selectedMemo = isFiltering ? filteredMemos[indexPath.row] : memos[indexPath.row]
         splitViewController.updateMemoContentsView(with: selectedMemo)
         self.selectedIndexPath = indexPath
     }
@@ -84,14 +95,22 @@ extension MemoListViewController: MemoReloadable {
 // MARK: - TableViewDataSource
 extension MemoListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return memos.count
+        if isFiltering {
+            return filteredMemos.count
+        } else {
+            return memos.count
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(MemoListTableViewCell.self, for: indexPath) else {
             return UITableViewCell()
         }
-        cell.setupLabel(from: memos[indexPath.row])
+        if isFiltering {
+            cell.setupLabel(from: filteredMemos[indexPath.row])
+        } else {
+            cell.setupLabel(from: memos[indexPath.row])
+        }
         return cell
     }
 }
@@ -153,5 +172,18 @@ extension MemoListViewController: UITableViewDelegate {
         let okAction = UIAlertAction(title: "닫기", style: .cancel, handler: nil)
         alert.addAction(okAction)
         present(alert, animated: true)
+    }
+}
+
+extension MemoListViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let text = searchController.searchBar.text?.lowercased() else { return }
+        filteredMemos = memos.filter {
+            guard let title = $0.title?.lowercased() else {
+                return false
+            }
+            return title.contains(text)
+        }
+        tableView.reloadData()
     }
 }

@@ -167,6 +167,10 @@ extension SplitViewController: NoteListViewDelegate {
         detailedNoteViewController.setNoteData(dataSourceProvider?.noteList[index])
         self.view.endEditing(true)
     }
+
+    func synchronizationLastUpdated() -> String? {
+        self.synchronizationProvider?.lastUpdated()
+    }
 }
 
 // MARK: - DetailedNote View Delegate

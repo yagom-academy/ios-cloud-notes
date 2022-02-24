@@ -1,4 +1,5 @@
 import UIKit
+import SwiftyDropbox
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -7,6 +8,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
+        DropboxClientsManager.setupWithAppKey("ppezytas3cbnotq")
         return true
     }
     

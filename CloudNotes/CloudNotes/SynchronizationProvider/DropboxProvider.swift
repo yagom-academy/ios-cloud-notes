@@ -15,6 +15,7 @@ class DropboxProvider: Synchronizable {
     func upload(_ completionHandler: @escaping (SynchronizationError?) -> Void) {
         let group = DispatchGroup()
         var errors: [CallError<Files.UploadError>?] = []
+
         filePaths.forEach { filePath in
             group.enter()
             guard let fileURL = coredataURL?.appendingPathComponent(filePath) else {
@@ -95,5 +96,70 @@ class DropboxProvider: Synchronizable {
                 UIApplication.shared.open(url, options: [:], completionHandler: nil) },
             scopeRequest: scopeRequest
         )
+    }
+
+    func convertModelToText(from model: [Content]) -> String {
+        let firstBoundary = UUID().uuidString
+        var string = ""
+        model.forEach { content in
+            let secondBoundary = "--\(content.identification.uuidString)--"
+
+            string += "--\(firstBoundary)--"
+            string += "\n"
+            string += secondBoundary
+            string += "\n"
+            string += content.identification.uuidString
+            string += secondBoundary
+            string += String(content.lastModifiedDate)
+            string += secondBoundary
+            string += content.title
+            string += secondBoundary
+            string += content.body
+        }
+
+        return string
+    }
+
+    func convertTextToModel(from text: String) -> [Content]? {
+        var content = [Content]()
+        let separatedText = text.split(separator: "\n", maxSplits: 1, omittingEmptySubsequences: true)
+
+        guard let firstSeparator = separatedText.first else {
+            return nil
+        }
+
+        guard let memosText = separatedText.last else {
+            return nil
+        }
+
+        let memos = memosText.components(separatedBy: firstSeparator)
+        memos.forEach { memo in
+            let separatedMemoText = memo.split(separator: "\n", maxSplits: 1, omittingEmptySubsequences: true)
+            guard let secondSeparator = separatedMemoText.first else {
+                return
+            }
+            guard let memoText = separatedMemoText.last else {
+                return
+            }
+
+            let memoComponents = memoText.components(separatedBy: secondSeparator)
+            guard let date = Double(memoComponents[2]) else {
+                return
+            }
+            guard let uuid = UUID(uuidString: memoComponents[3]) else {
+                return
+            }
+
+            content.append(
+                Content(
+                    title: memoComponents[0],
+                    body: memoComponents[1],
+                    lastModifiedDate: date,
+                    identification: uuid
+                )
+            )
+        }
+
+        return content
     }
 }

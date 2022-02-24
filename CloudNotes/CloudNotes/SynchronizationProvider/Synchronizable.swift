@@ -8,6 +8,8 @@ protocol Synchronizable {
     func download(_ completionHandler: @escaping (SynchronizationError?) -> Void)
 
     func logIn(at controller: UIViewController)
+
+    func convertModelToText(from model: [Content]) -> String
 }
 
 extension Synchronizable {

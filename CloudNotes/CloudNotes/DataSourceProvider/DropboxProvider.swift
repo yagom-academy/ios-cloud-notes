@@ -1,7 +1,7 @@
 import Foundation
 import SwiftyDropbox
 
-class DropboxManager {
+class DropboxProvider: Synchronizable {
     let client = DropboxClientsManager.authorizedClient
     let coredataURL: URL? = try? FileManager.default.url(
         for: .applicationSupportDirectory,

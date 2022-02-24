@@ -6,7 +6,7 @@ class SplitViewController: UISplitViewController {
     private let detailedNoteViewController = DetailedNoteViewController()
     private var dataSourceProvider: NoteDataSource?
     private var currentNoteIndex: Int?
-    private var dropboxManager = DropboxManager()
+    private var synchronizationProvider: Synchronizable?
     var timer: Timer?
 
     private let activityIndicator: UIActivityIndicatorView = {
@@ -29,6 +29,7 @@ class SplitViewController: UISplitViewController {
         super.viewDidLoad()
 
         self.dataSourceProvider = CDDataSourceProvider()
+        self.synchronizationProvider = DropboxProvider()
         self.preferredDisplayMode = .oneBesideSecondary
         self.preferredSplitBehavior = .tile
         self.setViewController(noteListViewController, for: .primary)
@@ -72,10 +73,10 @@ class SplitViewController: UISplitViewController {
         ])
     }
 
-    // MARK: - Dropbox Method
+    // MARK: - Synchronization Method
     
     @objc func upload() {
-        self.dropboxManager.upload { error in
+        self.synchronizationProvider?.upload { error in
             if error != nil {
                 self.noteListViewController.presentUploadFailureAlert()
                 self.noteListViewController
@@ -86,7 +87,7 @@ class SplitViewController: UISplitViewController {
     func download() {
         activityIndicator.startAnimating()
         self.dimView.isHidden = false
-        self.dropboxManager.download { error in
+        self.synchronizationProvider?.download { error in
             if error == nil {
                 self.fetchNotes()
             } else {
@@ -105,7 +106,6 @@ class SplitViewController: UISplitViewController {
             userInfo: nil,
             repeats: true
         )
-
     }
 }
 
@@ -113,7 +113,7 @@ class SplitViewController: UISplitViewController {
 
 extension SplitViewController: NoteListViewDelegate {
     func logIn() {
-        dropboxManager.logIn(at: noteListViewController)
+        self.synchronizationProvider?.logIn(at: noteListViewController)
     }
 
     func deleteNote(_ note: Content, index: Int) {
@@ -166,14 +166,6 @@ extension SplitViewController: NoteListViewDelegate {
         self.currentNoteIndex = index
         detailedNoteViewController.setNoteData(dataSourceProvider?.noteList[index])
         self.view.endEditing(true)
-    }
-
-    func dropBoxLastUpdated() -> String {
-        guard let date = dropboxManager.lastUpdatedDate else {
-            return "동기화가 아직 완료되지 않았습니다."
-        }
-        let formattedDate = DateFormatter.lastUploadDate.string(from: date)
-        return "동기화가 완료 된 상태입니다.\n \(formattedDate)"
     }
 }
 

@@ -50,14 +50,12 @@ class NoteListViewController: UITableViewController {
             actionSheet.addAction(logoutAction)
             actionSheet.addAction(uploadAction)
             actionSheet.addAction(downloadAction)
-            actionSheet.title = dataSourceDelegate?.dropBoxLastUpdated()
+            actionSheet.title = dataSourceDelegate?.synchronizationLastUpdated()
         }
 
         actionSheet.popoverPresentationController?.barButtonItem = configureButton
         self.present(actionSheet, animated: true, completion: nil)
     }
-
-
 
     private lazy var activityController: UIActivityViewController = {
         let controller = UIActivityViewController(

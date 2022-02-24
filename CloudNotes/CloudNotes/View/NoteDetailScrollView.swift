@@ -97,11 +97,14 @@ final class NoteDetailScrollView: UIScrollView {
         )
         lastModifiedDateLabel.textAlignment = .center
         lastModifiedDateLabel.font = .preferredFont(forTextStyle: .caption1)
+        lastModifiedDateLabel.adjustsFontForContentSizeCategory = true
+        lastModifiedDateLabel.adjustsFontSizeToFitWidth = true
     }
     
     private func setupNoteDetailTextView() {
         noteDetailTextView.isScrollEnabled = false
         noteDetailTextView.font = .preferredFont(forTextStyle: .body)
+        noteDetailTextView.adjustsFontForContentSizeCategory = true
         let inset: CGFloat = 10
         noteDetailTextView.textContainerInset = UIEdgeInsets(
             top: inset,

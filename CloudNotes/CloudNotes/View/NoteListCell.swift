@@ -43,8 +43,8 @@ final class NoteListCell: UITableViewCell {
     // MARK: - internal Methods
     
     func configure(with note: Note) {
-        titleLabel.text = note.title == "" ? "New Note".localized() : note.title
-        contentLabel.text = note.content == "" ? "No addtional text".localized() : note.content
+        titleLabel.text = note.title == "" ? "New Note".localized : note.title
+        contentLabel.text = note.content == "" ? "No addtional text".localized : note.content
         dateLabel.text = note.localizedDateString
     }
     
@@ -91,11 +91,15 @@ final class NoteListCell: UITableViewCell {
     private func setupTitleLabel() {
         titleLabel.textAlignment = .left
         titleLabel.font = .preferredFont(forTextStyle: .title3)
+        titleLabel.adjustsFontForContentSizeCategory = true
+        titleLabel.adjustsFontSizeToFitWidth = true
     }
     
     private func setupDateLabel() {
         dateLabel.textAlignment = .left
         dateLabel.font = .preferredFont(forTextStyle: .body)
+        dateLabel.adjustsFontForContentSizeCategory = true
+        dateLabel.adjustsFontSizeToFitWidth = true
         dateLabel.setContentHuggingPriority(
           .required,
           for: .horizontal
@@ -109,6 +113,8 @@ final class NoteListCell: UITableViewCell {
     private func setupContentLabel() {
         contentLabel.textAlignment = .left
         contentLabel.font = .preferredFont(forTextStyle: .caption1)
+        contentLabel.adjustsFontForContentSizeCategory = true
+        contentLabel.adjustsFontSizeToFitWidth = true
         contentLabel.textColor = .systemGray
     }
     

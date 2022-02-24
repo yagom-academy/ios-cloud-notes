@@ -9,11 +9,11 @@ import UIKit
 
 extension UIViewController {
     func showDeleteAlert(message: String, completion: (() -> Void)? = nil) {
-        let deleteAction = UIAlertAction(title: "Delete".localized(), style: .destructive) { _ in
+        let deleteAction = UIAlertAction(title: "Delete".localized, style: .destructive) { _ in
             completion?()
         }
-        let cancelAction = UIAlertAction(title: "Cancle".localized(), style: .cancel)
-        let alert = UIAlertController(title: "Notice".localized(), message: message, preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "Cancle".localized, style: .cancel)
+        let alert = UIAlertController(title: "Notice".localized, message: message, preferredStyle: .alert)
         alert.addAction(cancelAction)
         alert.addAction(deleteAction)
         self.present(alert, animated: true)

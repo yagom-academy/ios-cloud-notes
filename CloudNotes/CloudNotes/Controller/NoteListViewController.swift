@@ -70,7 +70,7 @@ final class NoteListViewController: UIViewController {
     // MARK: - private Methods
     
     private func setupNavigation() {
-        title = "Memo".localized()
+        title = "Memo".localized
         let addButtonImage = UIImage(systemName: ImageNames.plusImageName)
         let rightButton = UIBarButtonItem(
           image: addButtonImage,
@@ -112,7 +112,7 @@ final class NoteListViewController: UIViewController {
     
     private func setupbackgroundLabel() {
         let backgroundLabel = UILabel()
-        backgroundLabel.text = "Empty".localized()
+        backgroundLabel.text = "Empty".localized
         backgroundLabel.textColor = .systemGray
         backgroundLabel.font = .preferredFont(forTextStyle: .title1)
         backgroundLabel.textAlignment = .center
@@ -159,13 +159,13 @@ extension NoteListViewController: UITableViewDelegate {
         _ tableView: UITableView,
         trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
     ) -> UISwipeActionsConfiguration? {
-        let delete = UIContextualAction(style: .normal, title: "Delete".localized()) { _, _, _ in
+        let delete = UIContextualAction(style: .normal, title: "Delete".localized) { _, _, _ in
             self.delegate?.deleteNoteActionWithSwipe(index: indexPath.row)
         }
         delete.backgroundColor = .systemRed
         delete.image = UIImage(systemName: ImageNames.trashImageName)
         
-        let shared = UIContextualAction(style: .normal, title: "Shared".localized()) { _, _, _ in
+        let shared = UIContextualAction(style: .normal, title: "Shared".localized) { _, _, _ in
             self.delegate?.sharedNoteActionWithSwipe(index: indexPath.row)
         }
         shared.backgroundColor = .systemBlue

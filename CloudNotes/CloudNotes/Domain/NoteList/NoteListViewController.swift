@@ -30,32 +30,6 @@ class NoteListViewController: UITableViewController {
         return button
     }()
 
-    private lazy var uploadFailureAlert: UIAlertController = {
-        let alert = UIAlertController(
-            title: "백업에 실패하였습니다",
-            message: nil,
-            preferredStyle: .alert
-        )
-        let okAction = UIAlertAction(title: "확인", style: .default) { _ in
-            self.dismiss(animated: true, completion: nil)
-        }
-        alert.addAction(okAction)
-        return alert
-    }()
-
-    private lazy var downloadFailureAlert: UIAlertController = {
-        let alert = UIAlertController(
-            title: "다운로드에 실패하였습니다",
-            message: nil,
-            preferredStyle: .alert
-        )
-        let okAction = UIAlertAction(title: "확인", style: .default) { _ in
-            self.dismiss(animated: true, completion: nil)
-        }
-        alert.addAction(okAction)
-        return alert
-    }()
-
     @objc func showActionSheet() {
         let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         if DropboxClientsManager.authorizedClient == nil {
@@ -129,12 +103,32 @@ class NoteListViewController: UITableViewController {
     }
 
     func presentUploadFailureAlert() {
+        let uploadFailureAlert = UIAlertController(
+            title: "백업에 실패하였습니다",
+            message: nil,
+            preferredStyle: .alert
+        )
+        let okAction = UIAlertAction(title: "확인", style: .default) { _ in
+            self.dismiss(animated: true, completion: nil)
+        }
+        uploadFailureAlert.addAction(okAction)
+
         if !uploadFailureAlert.isBeingPresented {
             self.present(uploadFailureAlert, animated: true, completion: nil)
         }
     }
 
     func presentDownloadFailureAlert() {
+        let downloadFailureAlert = UIAlertController(
+            title: "다운로드에 실패하였습니다",
+            message: nil,
+            preferredStyle: .alert
+        )
+        let okAction = UIAlertAction(title: "확인", style: .default) { _ in
+            self.dismiss(animated: true, completion: nil)
+        }
+        downloadFailureAlert.addAction(okAction)
+
         if !downloadFailureAlert.isBeingPresented {
             self.present(downloadFailureAlert, animated: true, completion: nil)
         }

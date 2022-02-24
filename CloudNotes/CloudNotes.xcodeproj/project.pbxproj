@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 50;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -16,7 +16,6 @@
 		48369D4527BD18C700E81F33 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48369D4427BD18C700E81F33 /* CoreDataStack.swift */; };
 		484E80F127B10CDC00AEB70F /* JSONParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484E80F027B10CDC00AEB70F /* JSONParser.swift */; };
 		487AB3B027B1018500968C43 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 487AB3AF27B1018500968C43 /* .swiftlint.yml */; };
-		48986EEC27C37DED0013B4F6 /* SwiftyDropbox in Frameworks */ = {isa = PBXBuildFile; productRef = 48986EEB27C37DED0013B4F6 /* SwiftyDropbox */; };
 		48F4C2C627BA51DA002BB381 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48F4C2C527BA51DA002BB381 /* String+Extension.swift */; };
 		C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */; };
 		C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */; };
@@ -105,7 +104,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				20F9A7F38954600CDB775017 /* Pods_CloudNotes.framework in Frameworks */,
-				48986EEC27C37DED0013B4F6 /* SwiftyDropbox in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -306,7 +304,6 @@
 			);
 			name = CloudNotes;
 			packageProductDependencies = (
-				48986EEB27C37DED0013B4F6 /* SwiftyDropbox */,
 			);
 			productName = CloudNotes;
 			productReference = C7481C6A25BBCF3900B9CA55 /* CloudNotes.app */;
@@ -382,7 +379,6 @@
 			);
 			mainGroup = C7481C6125BBCF3900B9CA55;
 			packageReferences = (
-				48986EEA27C37DED0013B4F6 /* XCRemoteSwiftPackageReference "SwiftyDropbox" */,
 			);
 			productRefGroup = C7481C6B25BBCF3900B9CA55 /* Products */;
 			projectDirPath = "";
@@ -858,25 +854,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		48986EEA27C37DED0013B4F6 /* XCRemoteSwiftPackageReference "SwiftyDropbox" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/dropbox/SwiftyDropbox.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 8.0.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		48986EEB27C37DED0013B4F6 /* SwiftyDropbox */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 48986EEA27C37DED0013B4F6 /* XCRemoteSwiftPackageReference "SwiftyDropbox" */;
-			productName = SwiftyDropbox;
-		};
-/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		C7481C7625BBCF3900B9CA55 /* CloudNotes.xcdatamodeld */ = {

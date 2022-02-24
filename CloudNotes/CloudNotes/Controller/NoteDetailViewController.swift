@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import SwiftyDropbox
 
 protocol NoteDetailViewDelegate: AnyObject {
     func textViewDidChange(noteInformation: NoteInformation)
@@ -85,12 +84,10 @@ final class NoteDetailViewController: UIViewController {
     }
     
     @objc private func showPopover(_ sender: UIBarButtonItem) {
-        self.showActionSheet(sharedTitle: "shared", deleteTitle: "delete", dropBoxTitle: "dropBox", targetBarButton: sender) { _ in
+        self.showActionSheet(sharedTitle: "shared", deleteTitle: "delete", targetBarButton: sender) { _ in
             self.delegate?.sharedNoteAction(sender)
         } deleteHandler: { _ in
             self.delegate?.deleteNoteAction()
-        } dropBoxHandler: { _ in
-            self.myButtonInControllerPressed()
         }
     }
     
@@ -101,27 +98,6 @@ final class NoteDetailViewController: UIViewController {
                 self?.noteDetailScrollView.setContentOffset(offset, animated: true)
             }
         }
-    }
-    
-    func myButtonInControllerPressed() {
-        let scopeRequest = ScopeRequest(
-            scopeType: .user,
-            scopes: ["account_info.read"],
-            includeGrantedScopes: false
-        )
-        DropboxClientsManager.authorizeFromControllerV2(
-            UIApplication.shared,
-            controller: self,
-            loadingStatusDelegate: nil,
-            openURL: { (url: URL) -> Void in UIApplication.shared.open(url, options: [:], completionHandler: nil) },
-            scopeRequest: scopeRequest
-        )
-        DropboxClientsManager.authorizeFromController(
-            UIApplication.shared,
-            controller: self,
-            openURL: { (url: URL) -> Void in
-                UIApplication.shared.open(url, options: [:], completionHandler: nil)
-            })
     }
 }
 

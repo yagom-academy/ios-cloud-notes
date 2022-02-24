@@ -22,16 +22,12 @@ extension UIViewController {
     func showActionSheet(
         sharedTitle: String,
         deleteTitle: String,
-        dropBoxTitle: String,
         targetBarButton: UIBarButtonItem,
         sharedHandler: @escaping (UIAlertAction) -> Void,
-        deleteHandler: @escaping (UIAlertAction) -> Void,
-        dropBoxHandler: @escaping (UIAlertAction) -> Void
+        deleteHandler: @escaping (UIAlertAction) -> Void
     ) {
         let sharedAction = UIAlertAction(title: sharedTitle, style: .default, handler: sharedHandler)
         let deleteAction = UIAlertAction(title: deleteTitle, style: .destructive, handler: deleteHandler)
-        let dropBoxAction = UIAlertAction(title: dropBoxTitle, style: .default, handler: dropBoxHandler)
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let popover = alert.popoverPresentationController
         popover?.sourceView = self.view
@@ -39,10 +35,7 @@ extension UIViewController {
         
         alert.addAction(deleteAction)
         alert.addAction(sharedAction)
-        alert.addAction(cancelAction)
-        alert.addAction(dropBoxAction)
 
         self.present(alert, animated: true)
-        
     }
 }

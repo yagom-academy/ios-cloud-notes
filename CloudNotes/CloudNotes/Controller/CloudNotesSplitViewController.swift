@@ -95,7 +95,7 @@ extension CloudNotesSplitViewController: NoteListViewDelegate {
     
     func deleteNoteActionWithSwipe(index: Int) {
         let note = persistentManager.notes[index]
-        self.showDeleteAlert(message: "정말로 삭제하시겠어요?") {
+        self.showDeleteAlert(message: "Do you want to delete?".localized()) {
             self.noteListViewController.deleteNote(
                 object: note,
                 indexPath: IndexPath(row: index, section: 0)
@@ -122,7 +122,7 @@ extension CloudNotesSplitViewController: NoteListViewDelegate {
 extension CloudNotesSplitViewController: NoteDetailViewDelegate {
     func deleteNoteAction() {
         let note = persistentManager.notes[currentIndex]
-        noteListViewController.showDeleteAlert(message: "정말로 삭제하시겠어요?") {
+        noteListViewController.showDeleteAlert(message: "Do you want to delete?".localized()) {
             self.noteListViewController.deleteNote(
                 object: note,
                 indexPath: IndexPath(row: self.currentIndex, section: 0)

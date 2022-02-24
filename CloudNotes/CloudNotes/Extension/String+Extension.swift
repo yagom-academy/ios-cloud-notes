@@ -17,4 +17,8 @@ extension String {
         
         return String(self[startIndex..<endIndex])
     }
+    
+    func localized(bundle: Bundle = .main, tablename: String = "Localizable") -> String {
+        return NSLocalizedString(self, tableName: tablename, value: self, comment: "")
+    }
 }

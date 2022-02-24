@@ -1,0 +1,16 @@
+/* 
+  Localizable.strings
+  CloudNotes
+
+  Created by 서녕 on 2022/02/24.
+  
+*/
+"Memo" = "메모";
+"Empty" = "메모없음";
+"Delete" = "삭제";
+"Shared" = "공유";
+"Notice" = "알림";
+"Cancle" = "취소";
+"Do you want to delete?" = "정말로 삭제하시겠어요?";
+"New Note" = "새로운 메모";
+"No addtional text" = "추가 텍스트 없음";

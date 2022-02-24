@@ -12,7 +12,7 @@ import SwiftyDropbox
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        DropboxClientsManager.setupWithAppKey("cw6gr31z68zgvkm")
+        DropboxClientsManager.setupWithAppKey("bg6xjvljgmkc6ui")
         return true
     }
 

@@ -17,6 +17,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 switch authResult {
                 case .success(let token):
                     print("Success! User is logged into Dropbox with token: \(token)")
+                    DropBoxManager().uploadToDropBox()
                 case .cancel:
                     print("Authorization flow was manually canceled by user!")
                 case .error(_, let description):

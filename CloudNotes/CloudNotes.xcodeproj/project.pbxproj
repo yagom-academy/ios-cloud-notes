@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -12,6 +12,7 @@
 		364359E527BA33F300F95297 /* AlertFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 364359E427BA33F300F95297 /* AlertFactory.swift */; };
 		3682BC4B27C37D9100BBDCA5 /* MemoEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3682BC4A27C37D9100BBDCA5 /* MemoEntity.swift */; };
 		36E2C84A27B630C7004C8F7D /* UITableViewCell+Identifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36E2C84927B630C7004C8F7D /* UITableViewCell+Identifier.swift */; };
+		531A8D5527C61F55007943A0 /* DropBoxManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 531A8D5427C61F55007943A0 /* DropBoxManager.swift */; };
 		532A8B5827BB8684004591ED /* Memo+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532A8B5627BB8684004591ED /* Memo+CoreDataClass.swift */; };
 		532A8B5927BB8684004591ED /* Memo+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532A8B5727BB8684004591ED /* Memo+CoreDataProperties.swift */; };
 		538B2C4427B2351B00C31617 /* MasterTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 538B2C4327B2351B00C31617 /* MasterTableViewController.swift */; };
@@ -60,6 +61,7 @@
 		48336AE6FA6AF885936EB6F0 /* Pods-CloudNotes.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudNotes.debug.xcconfig"; path = "Target Support Files/Pods-CloudNotes/Pods-CloudNotes.debug.xcconfig"; sourceTree = "<group>"; };
 		4E04B2B2FECFEB8C12190639 /* Pods-CloudNotes-CloudNotesUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudNotes-CloudNotesUITests.debug.xcconfig"; path = "Target Support Files/Pods-CloudNotes-CloudNotesUITests/Pods-CloudNotes-CloudNotesUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		50981C50F192DEBD473C418A /* Pods-CloudNotesTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudNotesTests.debug.xcconfig"; path = "Target Support Files/Pods-CloudNotesTests/Pods-CloudNotesTests.debug.xcconfig"; sourceTree = "<group>"; };
+		531A8D5427C61F55007943A0 /* DropBoxManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropBoxManager.swift; sourceTree = "<group>"; };
 		532A8B5627BB8684004591ED /* Memo+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Memo+CoreDataClass.swift"; sourceTree = "<group>"; };
 		532A8B5727BB8684004591ED /* Memo+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Memo+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		538B2C4327B2351B00C31617 /* MasterTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterTableViewController.swift; sourceTree = "<group>"; };
@@ -152,6 +154,7 @@
 			children = (
 				364359E427BA33F300F95297 /* AlertFactory.swift */,
 				A68A845027BA67E00035BD96 /* MemoCoreDataManager.swift */,
+				531A8D5427C61F55007943A0 /* DropBoxManager.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -528,6 +531,7 @@
 				538B2C4627B235B200C31617 /* MasterTableViewCell.swift in Sources */,
 				532A8B5927BB8684004591ED /* Memo+CoreDataProperties.swift in Sources */,
 				532A8B5827BB8684004591ED /* Memo+CoreDataClass.swift in Sources */,
+				531A8D5527C61F55007943A0 /* DropBoxManager.swift in Sources */,
 				C7481C7225BBCF3900B9CA55 /* DetailViewController.swift in Sources */,
 				3682BC4B27C37D9100BBDCA5 /* MemoEntity.swift in Sources */,
 				C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */,

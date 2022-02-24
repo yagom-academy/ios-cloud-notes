@@ -17,44 +17,11 @@ final class MainSplitViewController: UISplitViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         if DropboxManager.isAuthorized == false {
-            beginAuthorizationFlow()
+            DropboxManager().authorize(viewController: self)
             DropboxManager.isAuthorized = true
         }
-    }
-    
-    func presentIndicatorView() {
-        let indicator = UIActivityIndicatorView()
-        indicator.backgroundColor = .systemGray3
-        indicator.style = .large
-        indicatorView = indicator
-        view.addSubview(indicator)
-        indicator.translatesAutoresizingMaskIntoConstraints = false
-        indicator.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        indicator.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        indicator.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        indicator.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        indicator.startAnimating()
-        
-    }
-    
-    func beginAuthorizationFlow() {
-        let scopes = [
-            "account_info.read",
-            "account_info.write",
-            "files.content.read",
-            "files.content.write",
-            "files.metadata.read",
-            "files.metadata.write"
-        ]
-        let scopeRequest = ScopeRequest(scopeType: .user, scopes: scopes, includeGrantedScopes: false)
-        DropboxClientsManager.authorizeFromControllerV2(
-            UIApplication.shared,
-            controller: self,
-            loadingStatusDelegate: nil,
-            openURL: { (url: URL) -> Void in UIApplication.shared.open(url, options: [:], completionHandler: nil) },
-            scopeRequest: scopeRequest
-        )
     }
     
     func updateMemoContentsView(with memo: Memo) {
@@ -77,6 +44,21 @@ final class MainSplitViewController: UISplitViewController {
     private func configureSplitView() {
         setViewController(listViewController, for: .primary)
         setViewController(contentViewController, for: .secondary)
+    }
+    
+    private func presentIndicatorView() {
+        let indicator = UIActivityIndicatorView()
+        indicator.backgroundColor = .systemGray3
+        indicator.style = .large
+        indicatorView = indicator
+        
+        view.addSubview(indicator)
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        indicator.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        indicator.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        indicator.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        indicator.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        indicator.startAnimating()
     }
 }
 

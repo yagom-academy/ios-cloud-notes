@@ -32,6 +32,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                     }
                     DropboxManager().download {
                         splitViewController.reloadAll()
+                    } errorHandler: { errorMessages in
+                        print(errorMessages)
                     }
                 case .cancel:
                     print("Authorization flow was manually canceled by user!")
@@ -47,7 +49,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func sceneWillResignActive(_ scene: UIScene) {
-        DropboxManager().upload()
+        DropboxManager().upload { errorMessages in
+            print(errorMessages)
+        }
     }
 }
 

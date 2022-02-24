@@ -23,7 +23,6 @@ final class MemoListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        searchController.searchResultsUpdater = self
         setupMainListView()
     }
 
@@ -63,6 +62,7 @@ final class MemoListViewController: UIViewController {
             action: #selector(createMemo)
         )
         navigationItem.searchController = searchController
+        searchController.searchResultsUpdater = self
     }
     
     @objc private func createMemo() {
@@ -95,11 +95,7 @@ extension MemoListViewController: MemoReloadable {
 // MARK: - TableViewDataSource
 extension MemoListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if isFiltering {
-            return filteredMemos.count
-        } else {
-            return memos.count
-        }
+        return isFiltering ? filteredMemos.count : memos.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

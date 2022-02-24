@@ -8,4 +8,5 @@ enum LocalizedString {
     static let close = NSLocalizedString("Close", comment: "")
     static let deleteAlertTitle = NSLocalizedString("Really?", comment: "")
     static let deleteAlertMessage = NSLocalizedString("Really want to delete this?", comment: "")
+    static let newMemoTitle = NSLocalizedString("New Memo", comment: "")
 }

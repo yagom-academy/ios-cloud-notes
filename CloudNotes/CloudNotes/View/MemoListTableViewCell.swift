@@ -70,7 +70,7 @@ final class MemoListTableViewCell: UITableViewCell {
     
     func setupLabel(from memo: Memo) {
         if memo.title == nil || memo.title?.isEmpty == true {
-            titleLabel.text = "새로운 메모"
+            titleLabel.text = LocalizedString.newMemoTitle
         } else {
             titleLabel.text = memo.title
         }

@@ -1,9 +1,6 @@
 import UIKit
 
 enum Assets {
-    static var goForwardImage: UIImage? {
-        return UIImage(systemName: "goforward")
-    }
     static var plusImage: UIImage? {
         return UIImage(systemName: "plus")
     }

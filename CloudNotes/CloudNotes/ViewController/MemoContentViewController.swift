@@ -10,7 +10,6 @@ final class MemoContentViewController: UIViewController {
         NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .body),
         NSAttributedString.Key.foregroundColor: UIColor.label
     ]
-    
     private let textView: UITextView = {
         let textView = UITextView()
         textView.font = .preferredFont(forTextStyle: .body)

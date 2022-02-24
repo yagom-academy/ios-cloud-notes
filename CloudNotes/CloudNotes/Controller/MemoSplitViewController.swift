@@ -11,6 +11,7 @@ class MemoSplitViewController: UISplitViewController {
     private lazy var memoTableViewController = MemoTableViewController(style: .insetGrouped, delegate: self)
     private lazy var memoDetailViewController = MemoDetailViewController(delegate: self)
     private var memoStorage: MemoStorage
+    private var shareActivity: UIActivityViewController?
     
     private var memos = [Memo]() {
         didSet {
@@ -59,6 +60,16 @@ class MemoSplitViewController: UISplitViewController {
         let confirmAction = UIAlertAction(title: ActionTitle.confirm, style: .default)
         alert.addAction(confirmAction)
         self.present(alert, animated: true, completion: nil)
+    }
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        guard let shareActivity = shareActivity else {
+            return
+        }
+        
+        let adjustedRect = CGRect(origin: CGPoint(x: size.width / 2, y: size.height / 2), size: .zero)
+        shareActivity.popoverPresentationController?.sourceRect = adjustedRect
     }
 }
 
@@ -114,12 +125,16 @@ extension MemoSplitViewController: MemoSplitViewManageable {
             return
         }
         
-        let shareActivity = UIActivityViewController(activityItems: [title, body], applicationActivities: nil)
+        shareActivity = UIActivityViewController(activityItems: [title, body], applicationActivities: nil)
+        
+        guard let shareActivity = shareActivity else {
+            return
+        }
 
         shareActivity.modalPresentationStyle = .popover
+        shareActivity.popoverPresentationController?.permittedArrowDirections = []
         shareActivity.popoverPresentationController?.sourceRect = CGRect(origin: self.view.center, size: .zero)
         shareActivity.popoverPresentationController?.sourceView = self.view
-        shareActivity.popoverPresentationController?.permittedArrowDirections = []
 
         self.present(shareActivity, animated: true, completion: nil)
     }

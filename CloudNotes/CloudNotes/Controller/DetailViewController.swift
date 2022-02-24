@@ -8,10 +8,18 @@ final class DetailViewController: UIViewController {
     textView.keyboardDismissMode = .interactive
     return textView
   }()
+  private lazy var showMoreButton: UIBarButtonItem = {
+    let buttonImage = UIImage(systemName: "ellipsis.circle")
+    return UIBarButtonItem(image: buttonImage, style: .plain, target: self, action: #selector(showMoreButtonTapped))
+  }()
   private var keyboardShowNotification: NSObjectProtocol?
   private var keyboardHideNotification: NSObjectProtocol?
 
-  private var currentMemo: Memo {
+  deinit {
+    removeObservers()
+  }
+  
+  private var currentMemo: (title: String, body: String) {
     let memoComponents = textView.text.split(
       separator: "\n",
       maxSplits: 1,
@@ -19,8 +27,7 @@ final class DetailViewController: UIViewController {
     ).map(String.init)
     let title = memoComponents[safe: 0] ?? ""
     let body = memoComponents[safe: 1] ?? ""
-    let date = Date()
-    return Memo(title: title, body: body, lastModified: date)
+    return (title, body)
   }
   
   override func viewDidLoad() {
@@ -40,68 +47,101 @@ final class DetailViewController: UIViewController {
   }
 
   override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
     addObservers()
   }
 
-  override func viewDidDisappear(_ animated: Bool) {
-    removeObservers()
-  }
-
   private func addObservers() {
-    let bottomInset = view.safeAreaInsets.bottom
-    let addSafeAreaInset: (Notification) -> Void = { [weak self] notification in
-      guard
-        let self = self,
-        let userInfo = notification.userInfo,
-        let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else {
-        return
+    if keyboardShowNotification == nil {
+      let bottomInset = view.safeAreaInsets.bottom
+      let addSafeAreaInset: (Notification) -> Void = { [weak self] notification in
+        guard
+          let self = self,
+          let userInfo = notification.userInfo,
+          let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else {
+          return
+        }
+        self.additionalSafeAreaInsets.bottom = keyboardFrame.height - bottomInset
       }
-      self.additionalSafeAreaInsets.bottom = keyboardFrame.height - bottomInset
+      
+      keyboardShowNotification = NotificationCenter.default.addObserver(
+        forName: UIResponder.keyboardWillShowNotification,
+        object: nil,
+        queue: nil,
+        using: addSafeAreaInset
+      )
     }
-
-    let removeSafeAreaInset: (Notification) -> Void = { [weak self] _ in
-      self?.additionalSafeAreaInsets.bottom = 0
+    if keyboardHideNotification == nil {
+      let removeSafeAreaInset: (Notification) -> Void = { [weak self] _ in
+        self?.additionalSafeAreaInsets.bottom = 0
+      }
+      
+      keyboardHideNotification = NotificationCenter.default.addObserver(
+        forName: UIResponder.keyboardWillHideNotification,
+        object: nil,
+        queue: nil,
+        using: removeSafeAreaInset
+      )
     }
-
-    keyboardShowNotification = NotificationCenter.default.addObserver(
-      forName: UIResponder.keyboardWillShowNotification,
-      object: nil,
-      queue: nil,
-      using: addSafeAreaInset
-    )
-    keyboardHideNotification = NotificationCenter.default.addObserver(
-      forName: UIResponder.keyboardWillHideNotification,
-      object: nil,
-      queue: nil,
-      using: removeSafeAreaInset
-    )
   }
 
   private func removeObservers() {
-    guard
-      let keyboardShowNotification = keyboardShowNotification,
-      let keyboardHideNotification = keyboardHideNotification else { return }
-    NotificationCenter.default.removeObserver(keyboardShowNotification)
-    NotificationCenter.default.removeObserver(keyboardHideNotification)
+    if let keyboardShowNotification = keyboardShowNotification {
+      NotificationCenter.default.removeObserver(keyboardShowNotification)
+      self.keyboardShowNotification = nil
+    }
+    if let keyboardHideNotification = keyboardHideNotification {
+      NotificationCenter.default.removeObserver(keyboardHideNotification)
+      self.keyboardHideNotification = nil
+    }
   }
   
   private func setNavigationBar() {
-    let buttonImage = UIImage(systemName: "ellipsis.circle")
-    let ellipsisCircleButton = UIBarButtonItem(image: buttonImage, style: .plain, target: self, action: nil)
-    navigationItem.rightBarButtonItem = ellipsisCircleButton
+    navigationItem.rightBarButtonItem = showMoreButton
+  }
+  
+  @objc private func showMoreButtonTapped(_ sender: UIBarButtonItem) {
+    let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+    let share = UIAlertAction(title: "Share", style: .default) { [weak self] _ in
+      self?.showShareActivityView(sender)
+    }
+    let delete = UIAlertAction(title: "Delete", style: .destructive) { [weak self] _ in
+      self?.delegate?.removeCurrentMemo()
+    }
+    let cancel = UIAlertAction(title: "Cancel", style: .cancel)
+    alertController.addAction(share)
+    alertController.addAction(delete)
+    alertController.addAction(cancel)
+    alertController.popoverPresentationController?.barButtonItem = sender
+    present(alertController, animated: true)
+  }
+  
+  private func showShareActivityView(_ sender: UIBarButtonItem) {
+    let textToShare = textView.text ?? ""
+    let activityViewController = UIActivityViewController(activityItems: [textToShare], applicationActivities: nil)
+    activityViewController.popoverPresentationController?.barButtonItem = sender
+    present(activityViewController, animated: true)
   }
 }
 
 // MARK: - MemoDisplayable
 
 extension DetailViewController: MemoDisplayable {
-  func show(memo: Memo?) {
-    let title = memo?.title ?? ""
-    let body = memo?.body ?? ""
+  func showMemo(title: String?, body: String?) {
+    let title = title ?? ""
+    let body = body ?? ""
     textView.text = title.isEmpty && body.isEmpty ? "" : title + "\n" + body
     textView.endEditing(true)
     let topOffset = CGPoint(x: 0, y: 0 - view.safeAreaInsets.top)
     textView.setContentOffset(topOffset, animated: false)
+  }
+  
+  func set(editable: Bool, needClear: Bool) {
+    textView.isEditable = editable
+    showMoreButton.isEnabled = editable
+    if needClear {
+      textView.text = ""
+    }
   }
 }
 
@@ -109,6 +149,7 @@ extension DetailViewController: MemoDisplayable {
 
 extension DetailViewController: UITextViewDelegate {
   func textViewDidChange(_ textView: UITextView) {
-    delegate?.update(currentMemo)
+    let newMemo = currentMemo
+    delegate?.updateMemo(title: newMemo.title, body: newMemo.body)
   }
 }

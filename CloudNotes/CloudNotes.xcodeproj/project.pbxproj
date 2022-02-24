@@ -7,11 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3A1A8D5A27C3879900180720 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1A8D5927C3879900180720 /* UIViewController+Extension.swift */; };
 		3A2AAA0227B2117500078B2C /* MemoListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A2AAA0127B2117500078B2C /* MemoListViewController.swift */; };
 		3A2AAA0427B211A500078B2C /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A2AAA0327B211A500078B2C /* DetailViewController.swift */; };
 		3AA2070527B0ED0900EFC97A /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 3AA2070427B0ED0900EFC97A /* .swiftlint.yml */; };
+		3ABF136927BFCDF1000BB8A6 /* Memo+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ABF136727BFCDF1000BB8A6 /* Memo+CoreDataClass.swift */; };
+		3ABF136A27BFCDF1000BB8A6 /* Memo+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ABF136827BFCDF1000BB8A6 /* Memo+CoreDataProperties.swift */; };
 		3AFDA11827B3B56D0000E55B /* MemoStorable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AFDA11727B3B56D0000E55B /* MemoStorable.swift */; };
-		3B8F330627B23308006E47C5 /* Memo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8F330527B23308006E47C5 /* Memo.swift */; };
 		3B8F330A27B26724006E47C5 /* MemoDisplayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8F330927B26724006E47C5 /* MemoDisplayable.swift */; };
 		C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */; };
 		C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */; };
@@ -22,6 +24,8 @@
 		C7481C9325BBCF3A00B9CA55 /* CloudNotesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C9225BBCF3A00B9CA55 /* CloudNotesUITests.swift */; };
 		E933D22627B3AC1100F12F9C /* Collection+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E933D22527B3AC1100F12F9C /* Collection+Extension.swift */; };
 		E933D22B27B3AC6500F12F9C /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E933D22A27B3AC6500F12F9C /* String+Extension.swift */; };
+		E936E63427C4B70300799B4C /* UITableViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E936E63327C4B70300799B4C /* UITableViewController+Extension.swift */; };
+		E9D5DF4427BFD12500066807 /* CoreDataMemos.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D5DF4327BFD12500066807 /* CoreDataMemos.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,12 +46,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3A1A8D5927C3879900180720 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		3A2AAA0127B2117500078B2C /* MemoListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoListViewController.swift; sourceTree = "<group>"; };
 		3A2AAA0327B211A500078B2C /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		3AA2070427B0ED0900EFC97A /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
+		3ABF136727BFCDF1000BB8A6 /* Memo+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Memo+CoreDataClass.swift"; sourceTree = "<group>"; };
+		3ABF136827BFCDF1000BB8A6 /* Memo+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Memo+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		3AFDA11627B38F400000E55B /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		3AFDA11727B3B56D0000E55B /* MemoStorable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoStorable.swift; sourceTree = "<group>"; };
-		3B8F330527B23308006E47C5 /* Memo.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = Memo.swift; sourceTree = "<group>"; };
 		3B8F330927B26724006E47C5 /* MemoDisplayable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoDisplayable.swift; sourceTree = "<group>"; };
 		C7481C6A25BBCF3900B9CA55 /* CloudNotes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CloudNotes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -64,6 +70,8 @@
 		C7481C9425BBCF3A00B9CA55 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E933D22527B3AC1100F12F9C /* Collection+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Collection+Extension.swift"; sourceTree = "<group>"; };
 		E933D22A27B3AC6500F12F9C /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
+		E936E63327C4B70300799B4C /* UITableViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableViewController+Extension.swift"; sourceTree = "<group>"; };
+		E9D5DF4327BFD12500066807 /* CoreDataMemos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataMemos.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,7 +111,9 @@
 		3B8F330327B231B5006E47C5 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				3B8F330527B23308006E47C5 /* Memo.swift */,
+				3ABF136727BFCDF1000BB8A6 /* Memo+CoreDataClass.swift */,
+				3ABF136827BFCDF1000BB8A6 /* Memo+CoreDataProperties.swift */,
+				E9D5DF4327BFD12500066807 /* CoreDataMemos.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -180,6 +190,8 @@
 			children = (
 				E933D22527B3AC1100F12F9C /* Collection+Extension.swift */,
 				E933D22A27B3AC6500F12F9C /* String+Extension.swift */,
+				3A1A8D5927C3879900180720 /* UIViewController+Extension.swift */,
+				E936E63327C4B70300799B4C /* UITableViewController+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -337,15 +349,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E9D5DF4427BFD12500066807 /* CoreDataMemos.swift in Sources */,
+				3A1A8D5A27C3879900180720 /* UIViewController+Extension.swift in Sources */,
 				3A2AAA0227B2117500078B2C /* MemoListViewController.swift in Sources */,
 				E933D22B27B3AC6500F12F9C /* String+Extension.swift in Sources */,
 				3B8F330A27B26724006E47C5 /* MemoDisplayable.swift in Sources */,
 				C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */,
 				3AFDA11827B3B56D0000E55B /* MemoStorable.swift in Sources */,
+				3ABF136927BFCDF1000BB8A6 /* Memo+CoreDataClass.swift in Sources */,
 				3A2AAA0427B211A500078B2C /* DetailViewController.swift in Sources */,
 				C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */,
 				C7481C7825BBCF3900B9CA55 /* CloudNotes.xcdatamodeld in Sources */,
-				3B8F330627B23308006E47C5 /* Memo.swift in Sources */,
+				E936E63427C4B70300799B4C /* UITableViewController+Extension.swift in Sources */,
+				3ABF136A27BFCDF1000BB8A6 /* Memo+CoreDataProperties.swift in Sources */,
 				E933D22627B3AC1100F12F9C /* Collection+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -520,7 +536,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = D485P46SAA;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = CloudNotes/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -538,7 +554,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = D485P46SAA;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = CloudNotes/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

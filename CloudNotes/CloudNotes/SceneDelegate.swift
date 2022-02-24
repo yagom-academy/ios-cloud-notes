@@ -18,19 +18,20 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     memoListViewController.delegate = detailViewController
     detailViewController.delegate = memoListViewController
     
-    let rootNavigationController = UINavigationController(rootViewController: memoListViewController)
+    let memoListNavigationController = UINavigationController(rootViewController: memoListViewController)
     let detailNavigationController = UINavigationController(rootViewController: detailViewController)
     
     let splitViewController = UISplitViewController(style: .doubleColumn)
-    splitViewController.setViewController(rootNavigationController, for: .primary)
+    splitViewController.setViewController(memoListNavigationController, for: .primary)
     splitViewController.setViewController(detailNavigationController, for: .secondary)
     splitViewController.preferredDisplayMode = .oneBesideSecondary
     splitViewController.preferredSplitBehavior = .tile
-    
+
     window = UIWindow()
     window?.windowScene = windowScene
     window?.rootViewController = splitViewController
     window?.makeKeyAndVisible()
+    splitViewController.show(.primary)
   }
   
   func sceneDidDisconnect(_ scene: UIScene) {
@@ -61,6 +62,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     // to restore the scene back to its current state.
     
     // Save changes in the application's managed object context when the application transitions to the background.
-    (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
+//    (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
   }
 }

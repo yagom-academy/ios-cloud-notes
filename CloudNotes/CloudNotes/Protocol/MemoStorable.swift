@@ -1,3 +1,4 @@
 protocol MemoStorable: AnyObject {
-  func update(_ memo: Memo)
+  func updateMemo(title: String, body: String)
+  func removeCurrentMemo()
 }

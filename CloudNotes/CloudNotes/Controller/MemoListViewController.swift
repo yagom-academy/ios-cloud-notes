@@ -1,35 +1,45 @@
 import UIKit
 
-private let reuseIdentifier = "Cell"
-
 final class MemoListViewController: UITableViewController {
   weak var delegate: MemoDisplayable?
-  private var memos = [Memo]()
-  private let firstRowIndexPath = IndexPath(row: 0, section: 0)
+  private let reuseIdentifier = "Cell"
+  private var memos = CoreDataMemos.shared
   private var currentMemoIndexPath = IndexPath(row: 0, section: 0)
   private var keyboardShowNotification: NSObjectProtocol?
   private var keyboardHideNotification: NSObjectProtocol?
 
+  deinit {
+    removeObservers()
+  }
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     setNavigationBar()
     tableView.register(UITableViewCell.self, forCellReuseIdentifier: reuseIdentifier)
     tableView.allowsSelectionDuringEditing = true
-    loadJSON()
-    loadDetail(at: firstRowIndexPath)
+    do {
+      try memos.reload()
+    } catch {
+      showAlert(title: "Load fail")
+    }
+    
+    if memos.isEmpty {
+      delegate?.set(editable: false, needClear: true)
+    } else {
+      loadDetail(at: .first)
+    }
   }
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-    tableView.selectRow(at: currentMemoIndexPath, animated: false, scrollPosition: .top)
+    if memos.isEmpty == false {
+      tableView.selectRow(at: currentMemoIndexPath, animated: false, scrollPosition: .top)
+    }
   }
   
   override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
     addObservers()
-  }
-
-  override func viewDidDisappear(_ animated: Bool) {
-    removeObservers()
   }
   
   override func setEditing(_ editing: Bool, animated: Bool) {
@@ -38,21 +48,18 @@ final class MemoListViewController: UITableViewController {
   }
 
   private func addObservers() {
-    let bottomInset = view.safeAreaInsets.bottom
-    let addSafeAreaInset: (Notification) -> Void = { [weak self] notification in
-      guard
-        let self = self,
-        let userInfo = notification.userInfo,
-        let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else {
-        return
-      }
-      self.additionalSafeAreaInsets.bottom = keyboardFrame.height - bottomInset
-    }
-    let removeSafeAreaInset: (Notification) -> Void = { [weak self] _ in
-      self?.additionalSafeAreaInsets.bottom = 0
-    }
-    
     if keyboardShowNotification == nil {
+      let bottomInset = view.safeAreaInsets.bottom
+      let addSafeAreaInset: (Notification) -> Void = { [weak self] notification in
+        guard
+          let self = self,
+          let userInfo = notification.userInfo,
+          let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else {
+          return
+        }
+        self.additionalSafeAreaInsets.bottom = keyboardFrame.height - bottomInset
+      }
+      
       keyboardShowNotification = NotificationCenter.default.addObserver(
         forName: UIResponder.keyboardWillShowNotification,
         object: nil,
@@ -61,6 +68,10 @@ final class MemoListViewController: UITableViewController {
       )
     }
     if keyboardHideNotification == nil {
+      let removeSafeAreaInset: (Notification) -> Void = { [weak self] _ in
+        self?.additionalSafeAreaInsets.bottom = 0
+      }
+      
       keyboardHideNotification = NotificationCenter.default.addObserver(
         forName: UIResponder.keyboardWillHideNotification,
         object: nil,
@@ -87,50 +98,80 @@ final class MemoListViewController: UITableViewController {
     navigationItem.title = "메모"
   }
 
-  @objc private func addMemo() {
-    let newMemo = Memo(title: "", body: "", lastModified: Date())
-    if memos.isEmpty {
-      memos.append(newMemo)
-      tableView.reloadRows(at: [firstRowIndexPath], with: .fade)
-    } else {
-      memos.insert(newMemo, at: 0)
-      tableView.insertRows(at: [firstRowIndexPath], with: .fade)
+  @objc private func shareActionTapped(_ sender: UIView, completionHandler: @escaping (Bool) -> Void) {
+    let memo = memos[currentMemoIndexPath.row]
+    let textToShare = memo.title ?? "" + "\n" + (memo.body ?? "")
+    let activityViewController = UIActivityViewController(activityItems: [textToShare], applicationActivities: nil)
+    activityViewController.completionWithItemsHandler = { _, completed, _, _ in
+      completionHandler(completed)
     }
-    tableView.selectRow(at: firstRowIndexPath, animated: true, scrollPosition: .top)
-    loadDetail(at: firstRowIndexPath)
+    activityViewController.popoverPresentationController?.sourceView = sender
+    present(activityViewController, animated: true)
+  }
+
+  @objc private func addMemo() {
+    do {
+      try memos.createFirst(title: "", body: "")
+      tableView.insertRows(at: [.first], with: .fade)
+      tableView.selectRow(at: .first, animated: true, scrollPosition: .top)
+      loadDetail(at: .first)
+    } catch {
+      showAlert(title: "Save fail")
+    }
   }
   
-  private func loadJSON() {
-    guard let data = NSDataAsset(name: "memo")?.data else {
-      return
+  private func removeMemo(at indexPath: IndexPath) {
+    let alertController = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
+    let cancel = UIAlertAction(title: "취소", style: .cancel)
+    let delete = UIAlertAction(title: "삭제", style: .destructive) { [weak self] _ in
+      guard let self = self else { return }
+      do {
+        try self.memos.remove(at: indexPath.row)
+        self.tableView.deleteRows(at: [indexPath], with: .fade)
+        if self.memos.isEmpty == false {
+          self.currentMemoIndexPath.row -= self.currentMemoIndexPath.row > indexPath.row ?  1 : 0
+          self.tableView.selectRow(at: self.currentMemoIndexPath, animated: true, scrollPosition: .none)
+          self.loadDetail(at: self.currentMemoIndexPath)
+        } else {
+          self.delegate?.set(editable: false, needClear: true)
+        }
+      } catch {
+        self.showAlert(title: "Remove fail")
+      }
     }
-    do {
-      let decoder = JSONDecoder()
-      decoder.keyDecodingStrategy = .convertFromSnakeCase
-      decoder.dateDecodingStrategy = .secondsSince1970
-      let memo = try decoder.decode([Memo].self, from: data)
-      memos.append(contentsOf: memo)
-      tableView.reloadData()
-    } catch let error {
-      print(error)
-    }
+    alertController.addAction(cancel)
+    alertController.addAction(delete)
+    present(alertController, animated: true)
   }
 
   private func loadDetail(at indexPath: IndexPath) {
     let memo = memos[indexPath.row]
     currentMemoIndexPath = indexPath
-    delegate?.show(memo: memo)
+    delegate?.showMemo(title: memo.title, body: memo.body)
+    delegate?.set(editable: true, needClear: false)
   }
 }
 
 // MARK: - MemoStorable
 
 extension MemoListViewController: MemoStorable {
-  func update(_ memo: Memo) {
+  func updateMemo(title: String, body: String) {
     let index = currentMemoIndexPath.row
-    memos[index] = memo
-    tableView.reloadData()
-    tableView.selectRow(at: currentMemoIndexPath, animated: false, scrollPosition: .none)
+    do {
+      try memos.update(at: index, title: title, body: body)
+      tableView.moveRow(at: currentMemoIndexPath, to: .first)
+      tableView.reloadRows(at: [.first], with: .none)
+      currentMemoIndexPath = .first
+      tableView.selectRow(at: currentMemoIndexPath, animated: false, scrollPosition: .none)
+    } catch {
+      showAlert(title: "Update fail")
+    }
+  }
+  
+  func removeCurrentMemo() {
+    if memos.isEmpty == false {
+      removeMemo(at: currentMemoIndexPath)
+    }
   }
 }
 
@@ -138,6 +179,13 @@ extension MemoListViewController: MemoStorable {
 
 extension MemoListViewController {
   override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    if memos.isEmpty {
+      tableView.separatorStyle = .none
+      setBackgroundView(with: "메모 없음")
+    } else {
+      tableView.separatorStyle = .singleLine
+      tableView.backgroundView = nil
+    }
     return memos.count
   }
   
@@ -145,7 +193,7 @@ extension MemoListViewController {
     let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
     let memo = memos[indexPath.row]
     var configuration = cell.defaultContentConfiguration()
-    let title = memo.title
+    let title = memo.title ?? ""
     configuration.text = title.isEmpty ? "새로운 메모" : title
     configuration.secondaryAttributedText = memo.subtitle
     configuration.textProperties.numberOfLines = 1
@@ -161,38 +209,44 @@ extension MemoListViewController {
 extension MemoListViewController {
   override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     loadDetail(at: indexPath)
+    splitViewController?.show(.secondary)
   }
   
   override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-    let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, completionHandler in
-      self.memos.remove(at: indexPath.row)
-      if self.memos.isEmpty {
-        self.addMemo()
-      } else {
-        tableView.deleteRows(at: [indexPath], with: .fade)
-        self.currentMemoIndexPath.row -= self.currentMemoIndexPath.row > indexPath.row ?  1 : 0
-      }
+    let shareAction = UIContextualAction(style: .normal, title: "Share") { [weak self] _, sourceView, completionHandler in
+      self?.shareActionTapped(sourceView, completionHandler: completionHandler)
+    }
+    shareAction.image = UIImage(systemName: "square.and.arrow.up")
+    let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [weak self] _, _, completionHandler in
+      self?.removeMemo(at: indexPath)
       completionHandler(true)
     }
     deleteAction.image = UIImage(systemName: "trash")
-    let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
+    let configuration = UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
     return configuration
   }
   
   override func tableView(_ tableView: UITableView, didEndEditingRowAt indexPath: IndexPath?) {
+    guard tableView.numberOfRows(inSection: 0) != 0 else { return }
     let section = currentMemoIndexPath.section
     let numberOfRows = tableView.numberOfRows(inSection: section)
     let maximumVaildRow = numberOfRows - 1
     let willSelectIndexPath: IndexPath
-    
+
     if maximumVaildRow < currentMemoIndexPath.row {
       willSelectIndexPath = IndexPath(row: maximumVaildRow, section: section)
     } else if numberOfRows > 1 {
       willSelectIndexPath = currentMemoIndexPath
     } else {
-      willSelectIndexPath = firstRowIndexPath
+      willSelectIndexPath = .first
     }
     tableView.selectRow(at: willSelectIndexPath, animated: false, scrollPosition: .none)
-    self.loadDetail(at: willSelectIndexPath)
+    loadDetail(at: willSelectIndexPath)
+  }
+}
+
+private extension IndexPath {
+  static var first: Self {
+    return .init(row: 0, section: 0)
   }
 }

@@ -47,15 +47,27 @@ class DropBoxManager: DataProvider {
         memoList?.count ?? .zero
     }
     
+    private func createFolder() {
+        client?.files.createFolderV2(path: "/test/path/in/Dropbox/account").response { response, error in
+            if let response = response {
+                print(response)
+            } else if let error = error {
+                print(error)
+            }
+        }
+    }
+    
     func upload(target: MemoType) {
+        // TODO: createFolder 메서드 한 번만 호출하도록 수정 필요
+        createFolder()
         let memo = SampleData(title: target.title, body: target.body, lastModified: target.lastModified, identifier: target.identifier)
         guard let data = try? JSONEncoder().encode(memo) else {
             return
         }
         
-        client?.files.upload(path: "/\(String(describing: target.identifier))/memos", input: data).response{ response, error in
+        client?.files.upload(path: "/test/path/in/Dropbox/account/\(String(describing: target.identifier))", input: data).response{ (response, error) in
             if let response = response {
-                print(response)
+                print("✅\(response)")
             } else if let error = error {
                 print(error)
             }
@@ -71,7 +83,7 @@ class DropBoxManager: DataProvider {
         let destination: (URL, HTTPURLResponse) -> URL = { temporaryURL, response in
             return destURL
         }
-        client?.files.download(path: "/memos", overwrite: true, destination: destination)
+        client?.files.download(path: "/test/path/in/Dropbox/account/", overwrite: true, destination: destination)
             .response { response, error in
                 if let response = response {
                     print(response)

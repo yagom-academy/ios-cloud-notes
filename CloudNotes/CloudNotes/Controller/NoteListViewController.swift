@@ -116,7 +116,7 @@ class NoteListViewController: UIViewController {
     
     private func presentDropboxLoginScene() {
         // OAuth 2 code flow with PKCE that grants a short-lived token with scopes, and performs refreshes of the token automatically.
-        let scopeRequest = ScopeRequest(scopeType: .user, scopes: ["account_info.read"], includeGrantedScopes: false)
+        let scopeRequest = ScopeRequest(scopeType: .user, scopes: ["account_info.read", "files.content.write", "files.content.read", "file_requests.write", "file_requests.read"], includeGrantedScopes: false)
         DropboxClientsManager.authorizeFromControllerV2(
             UIApplication.shared,
             controller: self,
@@ -169,7 +169,7 @@ extension NoteListViewController: UITableViewDelegate {
         let uploadAction = UIContextualAction(
             style: .normal,
             title: "Dropbox") { [weak self] _, _, _ in
-                self?.delegate?.noteListViewController(self ?? NoteListViewController(), cellToShare: indexPath)
+                self?.delegate?.noteListViewController(self ?? NoteListViewController(), cellToUpload: indexPath)
             }
         uploadAction.backgroundColor = .systemBlue
         return  UISwipeActionsConfiguration(actions: [uploadAction])

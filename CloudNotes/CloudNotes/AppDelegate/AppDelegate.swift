@@ -4,7 +4,6 @@ import SwiftyDropbox
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         DropboxClientsManager.setupWithAppKey("18h0uv2xmjg8lhv")
         makeDropboxDirectory()

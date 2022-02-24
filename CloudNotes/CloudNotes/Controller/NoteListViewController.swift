@@ -40,6 +40,7 @@ class NoteListViewController: UIViewController {
         tableView.register(cellWithClass: NoteListTableViewCell.self)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.allowsSelectionDuringEditing = false
+        tableView.allowsMultipleSelection = false
         return tableView
     }()
     // MARK: - ViewLifeCycle
@@ -53,6 +54,7 @@ class NoteListViewController: UIViewController {
         super.viewDidLoad()
         listTableView.dataSource = self
         listTableView.delegate = self
+        listTableView.selectRow(at: IndexPath(row: 0, section: 0), animated: false, scrollPosition: .none)
         setUpLayout()
         setUpNavigationItems()
 //        myButtonInControllerPressed()
@@ -69,11 +71,12 @@ class NoteListViewController: UIViewController {
     
     private func setUpNavigationItems() {
         navigationItem.title = "메모"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(
+        let addButton = UIBarButtonItem(
             barButtonSystemItem: .add,
             target: self,
             action: #selector(tappedPlusButton)
         )
+        navigationItem.rightBarButtonItems = [addButton]
     }
 
     @objc private func tappedPlusButton() {

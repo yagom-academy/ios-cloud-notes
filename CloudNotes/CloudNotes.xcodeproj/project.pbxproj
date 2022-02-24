@@ -14,6 +14,7 @@
 		1894804827C4D22D00F6D9ED /* SampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1894804727C4D22D00F6D9ED /* SampleData.swift */; };
 		1894804A27C4D25C00F6D9ED /* DataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1894804927C4D25C00F6D9ED /* DataProvider.swift */; };
 		1894804C27C4D2C600F6D9ED /* MemoType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1894804B27C4D2C600F6D9ED /* MemoType.swift */; };
+		1894805627C75B0F00F6D9ED /* ModeChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1894805527C75B0F00F6D9ED /* ModeChecker.swift */; };
 		1A4CDBD379C838A981008068 /* Pods_CloudNotesTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8797059B2E1AE8C63E4A9A70 /* Pods_CloudNotesTests.framework */; };
 		634493ED27C6204C003F6A43 /* CDMemo+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634493EB27C6204C003F6A43 /* CDMemo+CoreDataClass.swift */; };
 		634493EE27C6204C003F6A43 /* CDMemo+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634493EC27C6204C003F6A43 /* CDMemo+CoreDataProperties.swift */; };
@@ -60,6 +61,7 @@
 		1894804927C4D25C00F6D9ED /* DataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataProvider.swift; sourceTree = "<group>"; };
 		1894804B27C4D2C600F6D9ED /* MemoType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoType.swift; sourceTree = "<group>"; };
 		1894805427C6187E00F6D9ED /* CloudNote 4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "CloudNote 4.xcdatamodel"; sourceTree = "<group>"; };
+		1894805527C75B0F00F6D9ED /* ModeChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModeChecker.swift; sourceTree = "<group>"; };
 		1E231DE067500A8F54483010 /* Pods_CloudNotes.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CloudNotes.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		634493EB27C6204C003F6A43 /* CDMemo+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "CDMemo+CoreDataClass.swift"; path = "../../../CDMemo+CoreDataClass.swift"; sourceTree = "<group>"; };
 		634493EC27C6204C003F6A43 /* CDMemo+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "CDMemo+CoreDataProperties.swift"; path = "../../../CDMemo+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -136,6 +138,7 @@
 				1894804527C4D1B800F6D9ED /* AssetDataManager.swift */,
 				63CCA08127BB7A0A004B1841 /* CoreDataManager.swift */,
 				637F63EA27C4BD6400B5B989 /* DropBoxManager.swift */,
+				1894805527C75B0F00F6D9ED /* ModeChecker.swift */,
 			);
 			path = DataManager;
 			sourceTree = "<group>";
@@ -556,6 +559,7 @@
 				FB8B343227B208D500D85311 /* NoteDetailViewController.swift in Sources */,
 				185EF24927B23C1800204AEA /* JSONParser.swift in Sources */,
 				1894804C27C4D2C600F6D9ED /* MemoType.swift in Sources */,
+				1894805627C75B0F00F6D9ED /* ModeChecker.swift in Sources */,
 				63B93E5B27BA2D51008E407F /* UITableView+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

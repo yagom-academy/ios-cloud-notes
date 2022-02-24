@@ -2,9 +2,10 @@ import Foundation
 import SwiftyDropbox
 
 class DropBoxManager: DataProvider {
+    var memoList: [SampleData]?
     let client = DropboxClientsManager.authorizedClient
     
-    func create(attributes: [String : Any]) {
+    func create(attributes: [String: Any]) {
         //
     }
     
@@ -22,14 +23,15 @@ class DropBoxManager: DataProvider {
                 return try JSONDecoder().decode(SampleData.self, from: data ?? Data())
             })
             sampleMemos = memos?.sorted(by: {
-                guard let memo1 = $0.lastModified, let memo2 = $1.lastModified else {
+                guard let lhs = $0.lastModified, let rhs = $1.lastModified else {
                     return false
                 }
-                return memo1 > memo2 }
+                return lhs > rhs }
             )
         } catch {
             print("dropbox download fail")
         }
+        sampleMemos = memoList
         return sampleMemos?[index.row]
     }
     
@@ -42,7 +44,7 @@ class DropBoxManager: DataProvider {
     }
     
     func countAllData() -> Int {
-        1
+        memoList?.count ?? .zero
     }
     
     func upload(target: MemoType, attributes: [String: Any]) {

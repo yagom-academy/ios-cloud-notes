@@ -3,7 +3,7 @@ import UIKit
 protocol NoteDetailViewControllerDelegate: AnyObject {
     func noteDetailViewController(_ viewController: UIViewController, didChangeBody body: String)
     
-    func noteDetailViewController(didTapRightBarButton viewController: UIViewController)
+    func noteDetailViewController(didTapRightBarButton viewController: UIViewController, sender: AnyObject)
 }
 
 class NoteDetailViewController: UIViewController {
@@ -43,12 +43,12 @@ class NoteDetailViewController: UIViewController {
             image: circleImage,
             style: .plain,
             target: nil,
-            action: #selector(tappedShareButton)
+            action: #selector(tappedShareButton(sender: ))
         )
     }
     
-    @objc private func tappedShareButton() {
-        delegate?.noteDetailViewController(didTapRightBarButton: self)
+    @objc private func tappedShareButton(sender: AnyObject) {
+        delegate?.noteDetailViewController(didTapRightBarButton: self, sender: sender)
     }
     
     private func setUpTextViewLayout() {

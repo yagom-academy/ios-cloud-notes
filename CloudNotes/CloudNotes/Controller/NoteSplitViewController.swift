@@ -4,6 +4,7 @@ import CoreData
 class NoteSplitViewController: UISplitViewController {
 // MARK: - Property
     private var dataManager: DataProvider?
+    private let modeChanger = MemoModeChanger()
     private let noteListViewController = NoteListViewController()
     private let noteDetailViewController = NoteDetailViewController()
     private var selectedIndexPath: IndexPath? {
@@ -16,11 +17,12 @@ class NoteSplitViewController: UISplitViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureSplitViewController()
-        configureDataManager()
+        configureIntialDataManager()
         configureNoteListViewController()
         configureColumnStyle()
         configureFetchedResultsController()
         configureNoteDetailViewController()
+        print("\(ModeChecker.currentMode)")
     }
 // MARK: - Method
     private func configureSplitViewController() {
@@ -34,13 +36,19 @@ class NoteSplitViewController: UISplitViewController {
     }
     
     private func configureColumnStyle() {
-        preferredPrimaryColumnWidthFraction = 1/3
-        preferredDisplayMode = .oneBesideSecondary
+        preferredPrimaryColumnWidthFraction = 1/2
+        preferredDisplayMode = .twoBesideSecondary
         preferredSplitBehavior = .tile
     }
     
-    private func configureDataManager() {
-        dataManager = CoreDataManager<CDMemo>()
+    private func configureIntialDataManager() {
+        dataManager = modeChanger.factoryDataManager(mode: ModeChecker.currentMode)
+        noteListViewController.updateTableView()
+    }
+    
+    private func switchDataManager() {
+        dataManager = modeChanger.factoryDataManager(mode: ModeChecker.currentMode)
+        noteListViewController.updateTableView()
     }
     
     private func configureNoteDetailViewController() {
@@ -68,6 +76,34 @@ class NoteSplitViewController: UISplitViewController {
             )
         }
         present(activityViewController, animated: true, completion: nil)
+    }
+    
+    private func presentModeChangeAlert(sender: AnyObject) {
+        let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let asset = UIAlertAction(title: "Asset", style: .default) { [weak self] _ in
+            self?.modeChanger.switchMode(to: .asset)
+            print("\(ModeChecker.currentMode)")
+            self?.switchDataManager()
+        }
+        let coreData = UIAlertAction(title: "CoreData", style: .default) { [weak self] _ in
+            self?.modeChanger.switchMode(to: .coreData)
+            print("\(ModeChecker.currentMode)")
+            self?.switchDataManager()
+        }
+        let dropBox = UIAlertAction(title: "Dropbox", style: .default) { [weak self] _ in
+            self?.modeChanger.switchMode(to: .dropBox)
+            print("\(ModeChecker.currentMode)")
+            self?.switchDataManager()
+        }
+        actionSheet.addAction(asset)
+        actionSheet.addAction(coreData)
+        actionSheet.addAction(dropBox)
+        
+        if let popoverPresentationController = actionSheet.popoverPresentationController {
+            popoverPresentationController.barButtonItem = sender as? UIBarButtonItem
+        }
+        
+        present(actionSheet, animated: false) 
     }
     
     private func createAttributes(body: String) -> [String: Any] {
@@ -129,8 +165,8 @@ extension NoteSplitViewController: NoteListViewControllerDataSource {
 // MARK: - NoteDetailViewController Delegate
 extension NoteSplitViewController: NoteDetailViewControllerDelegate {
     func noteDetailViewController(
-        didTapRightBarButton viewController: UIViewController) {
-        presentActivityView()
+        didTapRightBarButton viewController: UIViewController, sender: AnyObject) {
+            presentModeChangeAlert(sender: sender)
     }
     
     func noteDetailViewController(

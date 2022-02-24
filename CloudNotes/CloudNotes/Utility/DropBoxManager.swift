@@ -4,14 +4,14 @@ import CoreData
 
 struct DropBoxManager {
     private let dropBoxClient = DropboxClientsManager.authorizedClient
+    private let fileNames = ["CloudNotes.sqlite", "CloudNotes.sqlite-shm", "CloudNotes.sqlite-wal"]
+    private let filePath = "/test/path/in/Dropbox"
     
     func presentSafariViewController(controller: UIViewController) {
-        let scopeRequest = ScopeRequest(scopeType: .user, scopes: [
-            "account_info.read",
-            "files.metadata.read",
-            "files.content.write",
-            "files.content.read"]
-                                        , includeGrantedScopes: false)
+        let scopeRequest = ScopeRequest(
+            scopeType: .user,
+            scopes: ["account_info.read", "files.metadata.read", "files.content.write", "files.content.read"],
+            includeGrantedScopes: false)
         DropboxClientsManager.authorizeFromControllerV2(
             UIApplication.shared,
             controller: controller,
@@ -22,7 +22,7 @@ struct DropBoxManager {
     }
     
     func createFolderAtDropBox() {
-        dropBoxClient?.files.createFolderV2(path: "/test/path/in/Dropbox/account").response { response, error in
+        dropBoxClient?.files.createFolderV2(path: filePath).response { response, error in
             if let response = response {
                 print(response)
             } else if let error = error {
@@ -32,38 +32,42 @@ struct DropBoxManager {
     }
     
     func uploadToDropBox() {
-        let fileData = "testing data example".data(using: String.Encoding.utf8, allowLossyConversion: false)!
-        
-        let request = dropBoxClient?.files.upload(path: "/test/path/in/Dropbox/account", mode: .overwrite, autorename: true, clientModified: Date(), mute: false, propertyGroups: nil, strictConflict: false, input: fileData)
-            .response { response, error in
-                if let response = response {
-                    print(response)
-                } else if let error = error {
-                    print(error)
+        fileNames.forEach { fileName in
+            let fileURL = NSPersistentContainer.defaultDirectoryURL().appendingPathComponent(fileName)
+            
+            dropBoxClient?.files.upload(path: "\(filePath)/\(fileName)", mode: .overwrite, autorename: true, clientModified: Date(), mute: false, propertyGroups: nil, strictConflict: false, input: fileURL)
+                .response { response, error in
+                    if let response = response {
+                        print(response)
+                    } else if let error = error {
+                        print(error)
+                    }
                 }
-            }
-            .progress { progressData in
-                print(progressData)
-            }
+                .progress { progressData in
+                    print(progressData)
+                }
+        }
     }
     
     func downloadFromDropBox() {
-        let fileURL = NSPersistentContainer.defaultDirectoryURL().appendingPathComponent("CloudNotes.sqlite")
-        
-        let destination: (URL, HTTPURLResponse) -> URL = { _, response in
-            return fileURL
-        }
-        
-        dropBoxClient?.files.download(path: "/test/path/in/Dropbox/CloudNotes.sqlite", overwrite: true, destination: destination)
-            .response(queue: .main) { response, error in
-                if let response = response {
-                    print(response)
-                } else if let error = error {
-                    print(error)
+        fileNames.forEach { fileName in
+            let fileURL = NSPersistentContainer.defaultDirectoryURL().appendingPathComponent(fileName)
+            
+            let destination: (URL, HTTPURLResponse) -> URL = { _, _ in
+                return fileURL
+            }
+            
+            dropBoxClient?.files.download(path: "\(filePath)/\(fileName)", overwrite: true, destination: destination)
+                .response(queue: .main) { response, error in
+                    if let response = response {
+                        print(response)
+                    } else if let error = error {
+                        print(error)
+                    }
                 }
-            }
-            .progress { progressData in
-                print(progressData)
-            }
+                .progress { progressData in
+                    print(progressData)
+                }
+        }
     }
 }

@@ -29,6 +29,8 @@ final class MasterTableViewController: UITableViewController {
         configureTableView()
         configureNotificationCenter()
         tableView.reloadData()
+        
+        DropBoxManager().createFolderAtDropBox() // 앱 최초실행 시 폴더를 한 번 생성함 (그 후에는 error를 출력)
         DropBoxManager().presentSafariViewController(controller: self) // DropBox 관련 기능
     }
     
@@ -58,6 +60,8 @@ final class MasterTableViewController: UITableViewController {
         tableView.insertRows(at: [firstIndexPath], with: .none)
         tableView(tableView, didSelectRowAt: firstIndexPath)
         tableView.selectRow(at: firstIndexPath, animated: true, scrollPosition: .middle)
+        
+        DropBoxManager().uploadToDropBox()
     }
     
     private func configureTableView() {
@@ -110,6 +114,8 @@ final class MasterTableViewController: UITableViewController {
         memoDataSource?.deleteMemo(with: removedMemo?.memoId)
         tableView.deleteRows(at: [index], with: .fade)
         changeMemoIfNotEmpty()
+        
+        DropBoxManager().uploadToDropBox()
     }
     
     private func changeMemoIfNotEmpty() {

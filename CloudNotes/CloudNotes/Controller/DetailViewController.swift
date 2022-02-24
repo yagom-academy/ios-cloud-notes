@@ -171,4 +171,8 @@ extension DetailViewController: UITextViewDelegate {
         let memoToUpdate = createMemoToUpdate()
         NotificationCenter.default.post(name: Notification.Name("didChangeTextView"), object: nil, userInfo: ["memo": memoToUpdate as Any])
     }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        DropBoxManager().uploadToDropBox()
+    }
 }

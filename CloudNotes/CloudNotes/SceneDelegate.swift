@@ -17,7 +17,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 switch authResult {
                 case .success(let token):
                     print("Success! User is logged into Dropbox with token: \(token)")
-                    DropBoxManager().uploadToDropBox()
+                    DropBoxManager().downloadFromDropBox()
+                    // fetch 및 table.reload 처리를 completion으로 해야 함
+                    
+//                    DropBoxManager().uploadToDropBox() // 테스트하려면 업로드를 먼저 해야 함
                 case .cancel:
                     print("Authorization flow was manually canceled by user!")
                 case .error(_, let description):

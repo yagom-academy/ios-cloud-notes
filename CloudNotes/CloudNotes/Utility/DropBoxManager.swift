@@ -49,14 +49,15 @@ struct DropBoxManager {
         }
     }
     
-    func downloadFromDropBox() {
+    func downloadFromDropBox(completion: @escaping () -> Void) {
+        let group = DispatchGroup()
         fileNames.forEach { fileName in
             let fileURL = NSPersistentContainer.defaultDirectoryURL().appendingPathComponent(fileName)
             
             let destination: (URL, HTTPURLResponse) -> URL = { _, _ in
                 return fileURL
             }
-            
+            group.enter()
             dropBoxClient?.files.download(path: "\(filePath)/\(fileName)", overwrite: true, destination: destination)
                 .response(queue: .main) { response, error in
                     if let response = response {
@@ -64,10 +65,14 @@ struct DropBoxManager {
                     } else if let error = error {
                         print(error)
                     }
+                    group.leave()
                 }
                 .progress { progressData in
                     print(progressData)
                 }
+        }
+        group.notify(queue: .main) {
+            completion()
         }
     }
 }

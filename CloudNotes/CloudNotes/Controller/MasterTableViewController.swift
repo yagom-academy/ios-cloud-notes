@@ -8,7 +8,7 @@ protocol MemoSelectionDelegate: AnyObject {
 
 final class MasterTableViewController: UITableViewController {
     // MARK: - Properties
-    private let memoDataSource: MasterTableViewDataSourceProtocol?
+    private(set) var memoDataSource: MasterTableViewDataSourceProtocol?
     weak var delegate: MemoSelectionDelegate?
     
     // MARK: - Initializer

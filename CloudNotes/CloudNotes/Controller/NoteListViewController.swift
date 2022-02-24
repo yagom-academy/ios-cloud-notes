@@ -39,6 +39,11 @@ final class NoteListViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         view.backgroundColor = .systemBackground
         self.tableView.backgroundView?.isHidden = persistentManager?.notes.count == 0 ? false : true
+        if let firstNote = persistentManager?.notes[0] {
+            if firstNote.title == "" {
+                navigationItem.rightBarButtonItem?.isEnabled = false
+            }
+        }
     }
     
     // MARK: - internal Methods
@@ -48,9 +53,27 @@ final class NoteListViewController: UIViewController {
             persistentManager?.update(object: note, noteInformation: noteInformation)
             DispatchQueue.main.async {
                 self.tableView.moveRow(at: IndexPath(row: index, section: 0), to: IndexPath(row: 0, section: 0))
-                self.tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .none)
+                self.tableView.reloadData()
             }
             view.endEditing(true)
+        }
+        
+        if index != 0 {
+            if let firstNote = persistentManager?.notes[1] {
+                if firstNote.title == "" {
+                    DispatchQueue.main.async {
+                        self.persistentManager?.delete(object: firstNote)
+                        self.tableView.deleteRows(at: [IndexPath(row: 0, section: 0)], with: .fade)
+                    }
+                }
+            }
+            navigationItem.rightBarButtonItem?.isEnabled = true
+        } else {
+            if let firstNote = persistentManager?.notes[0] {
+                if firstNote.title == "" {
+                    navigationItem.rightBarButtonItem?.isEnabled = false
+                }
+            }
         }
     }
     
@@ -134,6 +157,7 @@ final class NoteListViewController: UIViewController {
             self.tableView.reloadData()
             self.selectNote(with: 0)
         }
+        navigationItem.rightBarButtonItem?.isEnabled = false
     }
     
     private func selectNote(with index: Int) {

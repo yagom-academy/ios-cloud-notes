@@ -136,7 +136,11 @@ extension CloudNotesSplitViewController: NoteDetailViewDelegate {
     }
     
     func textViewDidChange(noteInformation: NoteInformation) {
+        if currentIndex == 0 && noteInformation.title != "" {
+            noteListViewController.navigationItem.rightBarButtonItem?.isEnabled = true
+        }
         noteListViewController.updateListView(index: currentIndex, noteInformation: noteInformation)
         currentIndex = 0
+
     }
 }

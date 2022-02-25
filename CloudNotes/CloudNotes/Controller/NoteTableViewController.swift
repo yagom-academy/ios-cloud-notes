@@ -38,7 +38,8 @@ final class NoteTableViewController: UITableViewController {
     
     private lazy var loginBarButtonItem: UIBarButtonItem = {
         UIBarButtonItem(
-            barButtonSystemItem: .bookmarks,
+            image: UIImage(systemName: "externaldrive.badge.icloud"),
+            style: .plain,
             target: self,
             action: #selector(loginButtonDidTap))
     }()
@@ -105,10 +106,11 @@ final class NoteTableViewController: UITableViewController {
         viewModel.createNote()
     }
     
-    @objc
-    private func loginButtonDidTap(_ sender: UIBarButtonItem) {
-        // OAuth 2 code flow with PKCE that grants a short-lived token with scopes, and performs refreshes of the token automatically.
-        let scopeRequest = ScopeRequest(scopeType: .user, scopes: ["account_info.read", "files.content.write"], includeGrantedScopes: false)
+    private func loginDropBox() {
+        let scopeRequest = ScopeRequest(
+            scopeType: .user,
+            scopes: ["account_info.read", "files.content.write", "files.content.read"],
+            includeGrantedScopes: false)
         DropboxClientsManager.authorizeFromControllerV2(
             UIApplication.shared,
             controller: self,
@@ -116,6 +118,35 @@ final class NoteTableViewController: UITableViewController {
             openURL: { (url: URL) -> Void in UIApplication.shared.open(url, options: [:], completionHandler: nil) },
             scopeRequest: scopeRequest
         )
+    }
+    
+    @objc
+    private func loginButtonDidTap(_ sender: UIBarButtonItem) {
+        let backupAction = UIAlertAction(title: "Backup", style: .default) { [self] _ in
+            viewModel.uploadDB()
+        }
+        let restoreAction = UIAlertAction(title: "Restore", style: .default) { [self] _ in
+            viewModel.downloadDB()
+        }
+        var actionList = [backupAction, restoreAction]
+        
+        if DropboxClientsManager.authorizedClient != nil {
+            let logoutAction = UIAlertAction(title: "Logout", style: .destructive) { _ in
+                DropboxClientsManager.unlinkClients()
+            }
+            actionList.insert(logoutAction, at: 0)
+        } else {
+            let loginAction = UIAlertAction(title: "Login", style: .default) { [self] _ in
+                loginDropBox()
+            }
+            actionList = [loginAction]
+        }
+        
+        presentAlert(preferredStyle: .actionSheet) { alertController in
+            alertController.modalPresentationStyle = .popover
+            alertController.popoverPresentationController?.barButtonItem = sender
+            alertController.addAction(actionList)
+        }
     }
     
 }

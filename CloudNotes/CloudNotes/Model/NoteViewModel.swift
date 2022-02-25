@@ -4,6 +4,8 @@ import CoreData
 final class NoteViewModel: NSObject {
     
     private let model: NoteModel
+    private let cloudModel = CloudDataManager()
+    
     var updateUIHandler: (() -> Void)?
     var updateUIByDataHandler: ((NSFetchedResultsChangeType) -> Void)?
     
@@ -52,6 +54,14 @@ final class NoteViewModel: NSObject {
     func updateNote(identifier: UUID, title: String, body: String) {
         let note = Note(identifier: identifier, title: title, body: body, lastModified: Date())
         model.updateNote(note)
+    }
+    
+    func uploadDB() {
+        cloudModel.uploadDB()
+    }
+    
+    func downloadDB() {
+        cloudModel.downloadDB()
     }
     
 }

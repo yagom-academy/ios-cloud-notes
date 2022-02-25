@@ -23,11 +23,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
     }
     
-    func sceneWillEnterForeground(_ scene: UIScene) {
-        let object = CloudDataManager()
-        object.uploadDB()
-    }
-    
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
         let oauthCompletion: DropboxOAuthCompletion = {
               if let authResult = $0 {

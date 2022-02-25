@@ -9,6 +9,8 @@ import UIKit
 import SwiftyDropbox
 
 class MemoTableViewController: UITableViewController {
+    private let memoSearchResultTableViewController = MemoSearchResultTableViewController(style: .insetGrouped)
+    private lazy var memoSearchController = MemoSearchController(searchResultsController: memoSearchResultTableViewController)
     lazy var selectedIndexPath = initialIndexPath
     private let initialIndexPath: IndexPath = .zero
     private lazy var addMemoButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addEmptyMemo))
@@ -23,6 +25,7 @@ class MemoTableViewController: UITableViewController {
         tableView.register(cellWithClass: MemoTableViewCell.self)
         configureNavigationBar()
         configureTableView()
+        configureSearchController()
     }
         
     init(style: UITableView.Style, delegate: MemoManageable) {
@@ -32,6 +35,11 @@ class MemoTableViewController: UITableViewController {
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+    }
+    
+    private func configureSearchController() {
+        self.navigationItem.searchController = memoSearchController
+        self.navigationItem.hidesSearchBarWhenScrolling = false
     }
     
     private func configureNavigationBar() {

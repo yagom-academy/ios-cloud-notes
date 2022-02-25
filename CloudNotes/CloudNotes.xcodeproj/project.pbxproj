@@ -23,6 +23,8 @@
 		C7481C9325BBCF3A00B9CA55 /* CloudNotesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C9225BBCF3A00B9CA55 /* CloudNotesUITests.swift */; };
 		C94DE44527BB79ED0002875C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94DE44427BB79ED0002875C /* AppDelegate.swift */; };
 		C982B2DD27BB79770021B14C /* MemoManageable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C982B2DC27BB79760021B14C /* MemoManageable.swift */; };
+		C9836DBC27C8719D0074273A /* MemoSearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9836DBB27C8719C0074273A /* MemoSearchController.swift */; };
+		C9836DBE27C873940074273A /* MemoSearchResultTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9836DBD27C873940074273A /* MemoSearchResultTableViewController.swift */; };
 		C994047127C50D400015AFCE /* UserDefaultsKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = C994047027C50D400015AFCE /* UserDefaultsKey.swift */; };
 		C994047327C50F210015AFCE /* AlertMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C994047227C50F210015AFCE /* AlertMessage.swift */; };
 		C994CB8D27C4D4F000EEA5E9 /* DropboxFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = C994CB8C27C4D4F000EEA5E9 /* DropboxFile.swift */; };
@@ -86,6 +88,8 @@
 		C7481C9425BBCF3A00B9CA55 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C94DE44427BB79ED0002875C /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C982B2DC27BB79760021B14C /* MemoManageable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoManageable.swift; sourceTree = "<group>"; };
+		C9836DBB27C8719C0074273A /* MemoSearchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoSearchController.swift; sourceTree = "<group>"; };
+		C9836DBD27C873940074273A /* MemoSearchResultTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoSearchResultTableViewController.swift; sourceTree = "<group>"; };
 		C994047027C50D400015AFCE /* UserDefaultsKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsKey.swift; sourceTree = "<group>"; };
 		C994047227C50F210015AFCE /* AlertMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertMessage.swift; sourceTree = "<group>"; };
 		C994CB8C27C4D4F000EEA5E9 /* DropboxFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropboxFile.swift; sourceTree = "<group>"; };
@@ -161,6 +165,8 @@
 			children = (
 				C9F4255127B20BE900BC4BF0 /* MemoSplitViewController.swift */,
 				C13E937E27B212D200446D79 /* MemoTableViewController.swift */,
+				C9836DBB27C8719C0074273A /* MemoSearchController.swift */,
+				C9836DBD27C873940074273A /* MemoSearchResultTableViewController.swift */,
 				C13E938027B2179B00446D79 /* MemoDetailViewController.swift */,
 			);
 			path = Controller;
@@ -550,6 +556,7 @@
 				C994047127C50D400015AFCE /* UserDefaultsKey.swift in Sources */,
 				C9AA78EB27C3B68C00F3B307 /* DropboxManager.swift in Sources */,
 				C94DE44527BB79ED0002875C /* AppDelegate.swift in Sources */,
+				C9836DBE27C873940074273A /* MemoSearchResultTableViewController.swift in Sources */,
 				C9B3075227BCF00900C275A8 /* SystemIcon.swift in Sources */,
 				C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */,
 				C994047327C50F210015AFCE /* AlertMessage.swift in Sources */,
@@ -564,6 +571,7 @@
 				C7481C7825BBCF3900B9CA55 /* CloudNotes.xcdatamodeld in Sources */,
 				C994CB8F27C4D70E00EEA5E9 /* String+splitedText.swift in Sources */,
 				C9D36D0C27BA2E590070A768 /* Memo+CoreDataProperties.swift in Sources */,
+				C9836DBC27C8719D0074273A /* MemoSearchController.swift in Sources */,
 				C13E938627B244F900446D79 /* MemoTableViewCell.swift in Sources */,
 				C13E938127B2179B00446D79 /* MemoDetailViewController.swift in Sources */,
 				C9B3074E27BCEC1900C275A8 /* IndexPath+zero.swift in Sources */,

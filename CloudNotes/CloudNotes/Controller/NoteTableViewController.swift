@@ -30,7 +30,7 @@ final class NoteTableViewController: UITableViewController {
             }
     }()
     
-    private lazy var addBarButtonItem: UIBarButtonItem = {
+    private lazy var addNoteBarButtonItem: UIBarButtonItem = {
         UIBarButtonItem(
             barButtonSystemItem: .add,
             target: self,
@@ -108,7 +108,7 @@ final class NoteTableViewController: UITableViewController {
     
     private func configureLayout() {
         navigationController?.navigationBar.topItem?.title = "메모"
-        navigationItem.rightBarButtonItems = [addBarButtonItem, loginBarButtonItem]
+        navigationItem.rightBarButtonItems = [addNoteBarButtonItem, loginBarButtonItem]
         navigationItem.searchController = noteSearchController
         navigationItem.hidesSearchBarWhenScrolling = false
     }

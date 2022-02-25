@@ -26,6 +26,7 @@ class MemoDetailViewController: UIViewController {
     private let memoTextView: UITextView = {
         let textView = UITextView()
         textView.font = .preferredFont(forTextStyle: .largeTitle)
+        textView.adjustsFontForContentSizeCategory = true
         textView.translatesAutoresizingMaskIntoConstraints = false
         return textView
     }()

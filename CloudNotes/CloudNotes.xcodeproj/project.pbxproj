@@ -29,6 +29,8 @@
 		339A3F8127BA171000241E74 /* CDDataSourceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339A3F8027BA171000241E74 /* CDDataSourceProvider.swift */; };
 		33A2AF6527B2905E00877CEC /* DateFormatter+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A2AF6427B2905E00877CEC /* DateFormatter+Extension.swift */; };
 		33D827AA27C755E50029C2F6 /* Synchronizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D827A927C755E50029C2F6 /* Synchronizable.swift */; };
+		33F1601527C890A2005061B1 /* SearchResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F1601427C890A2005061B1 /* SearchResultViewController.swift */; };
+		33F1601727C8915D005061B1 /* UITableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F1601627C8915D005061B1 /* UITableView+Extension.swift */; };
 		41C46D59E466870636042C13 /* Pods_CloudNotes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05CB22C62AD44A5BEB012F9A /* Pods_CloudNotes.framework */; };
 		C569208F295181F6C2064D11 /* Pods_CloudNotesTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 171506D4D23C24FEEE14CA85 /* Pods_CloudNotesTests.framework */; };
 		C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */; };
@@ -83,6 +85,8 @@
 		339A3F8027BA171000241E74 /* CDDataSourceProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDDataSourceProvider.swift; sourceTree = "<group>"; };
 		33A2AF6427B2905E00877CEC /* DateFormatter+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Extension.swift"; sourceTree = "<group>"; };
 		33D827A927C755E50029C2F6 /* Synchronizable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Synchronizable.swift; sourceTree = "<group>"; };
+		33F1601427C890A2005061B1 /* SearchResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultViewController.swift; sourceTree = "<group>"; };
+		33F1601627C8915D005061B1 /* UITableView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Extension.swift"; sourceTree = "<group>"; };
 		6E3ECB8C9B3FD64FDB494A09 /* Pods_CloudNotes_CloudNotesUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CloudNotes_CloudNotesUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		75D242E741D95FB17FB9AAA9 /* Pods-CloudNotes.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudNotes.debug.xcconfig"; path = "Target Support Files/Pods-CloudNotes/Pods-CloudNotes.debug.xcconfig"; sourceTree = "<group>"; };
 		7740B1C2836F52733C544420 /* Pods-CloudNotesTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudNotesTests.release.xcconfig"; path = "Target Support Files/Pods-CloudNotesTests/Pods-CloudNotesTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -221,6 +225,7 @@
 				0D89DF6E27B629DE00ADF3F6 /* NoteListViewDelegate.swift */,
 				3361C9C627B245190074B6B7 /* NoteListViewController.swift */,
 				3361C9D227B25F880074B6B7 /* NoteListCell.swift */,
+				33F1601327C89088005061B1 /* Search */,
 			);
 			path = NoteList;
 			sourceTree = "<group>";
@@ -239,6 +244,7 @@
 			children = (
 				33A2AF6427B2905E00877CEC /* DateFormatter+Extension.swift */,
 				3399D41927B64E3000DBF577 /* UIFont+Extension.swift */,
+				33F1601627C8915D005061B1 /* UITableView+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -251,6 +257,14 @@
 				33171EA427C3A2E0008D9463 /* SynchronizationError.swift */,
 			);
 			path = SynchronizationProvider;
+			sourceTree = "<group>";
+		};
+		33F1601327C89088005061B1 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				33F1601427C890A2005061B1 /* SearchResultViewController.swift */,
+			);
+			path = Search;
 			sourceTree = "<group>";
 		};
 		687DD662CB8F41C499ACF6E9 /* Frameworks */ = {
@@ -593,11 +607,13 @@
 				33171EA527C3A2E0008D9463 /* SynchronizationError.swift in Sources */,
 				0D3DAAE427B23D59005F9502 /* SplitViewController.swift in Sources */,
 				0D3DAAEC27B259D6005F9502 /* DecodingUtility.swift in Sources */,
+				33F1601727C8915D005061B1 /* UITableView+Extension.swift in Sources */,
 				0D3DAAEA27B2589D005F9502 /* DataSourceError.swift in Sources */,
 				33A2AF6527B2905E00877CEC /* DateFormatter+Extension.swift in Sources */,
 				339A3F8127BA171000241E74 /* CDDataSourceProvider.swift in Sources */,
 				3399D41A27B64E3000DBF577 /* UIFont+Extension.swift in Sources */,
 				0D89DF6F27B629DE00ADF3F6 /* NoteListViewDelegate.swift in Sources */,
+				33F1601527C890A2005061B1 /* SearchResultViewController.swift in Sources */,
 				0DE02F3E27BA28D600E05C33 /* Note+CoreDataClass.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

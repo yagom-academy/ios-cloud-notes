@@ -4,7 +4,6 @@ import CoreData
 
 class NoteListViewController: UITableViewController {
     private var noteListData = [Content]()
-    private var searchedNoteData = [Content]()
     private weak var dataSourceDelegate: NoteListViewDelegate?
     private let firstIndex = IndexPath(row: 0, section: 0)
     lazy var selectedIndexPath: IndexPath? = self.firstIndex {
@@ -32,8 +31,9 @@ class NoteListViewController: UITableViewController {
     }()
 
     private var searchController: UISearchController = {
-        let controller = UISearchController(searchResultsController: nil)
+        let controller = UISearchController(searchResultsController: SearchResultViewController())
         controller.hidesNavigationBarDuringPresentation = true
+        controller.obscuresBackgroundDuringPresentation = true
         controller.searchBar.placeholder = "검색"
 
         return controller
@@ -90,6 +90,7 @@ class NoteListViewController: UITableViewController {
         configureNavigationBar()
         configureTableView()
         setUpController()
+        setSearchResultTableViewDelegate()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -213,6 +214,15 @@ class NoteListViewController: UITableViewController {
         self.tableView.allowsSelectionDuringEditing = true
     }
 
+    private func setSearchResultTableViewDelegate() {
+        guard let tableViewController = self.searchController.searchResultsController
+                as? SearchResultViewController else {
+                    return
+                }
+
+        tableViewController.tableView.delegate = self
+    }
+
     // MARK: - Table View Data Source
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -237,9 +247,34 @@ class NoteListViewController: UITableViewController {
 
     // MARK: - Table View Delegate
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if tableView == self.tableView {
+            passNoteByMainTableView(at: indexPath)
+        } else {
+            passNoteBySearchResultTableView(at: indexPath)
+        }
+
+        splitViewController?.show(.secondary)
+    }
+
+    private func passNoteByMainTableView(at indexPath: IndexPath) {
         self.selectedIndexPath = indexPath
         dataSourceDelegate?.passNote(at: indexPath.row)
-        splitViewController?.show(.secondary)
+    }
+
+    private func passNoteBySearchResultTableView(at indexPath: IndexPath) {
+        guard let controller = self.searchController.searchResultsController
+                as? SearchResultViewController else {
+                    return
+                }
+
+        let selectedNote = controller.selectedSearchedNote(at: indexPath)
+
+        for (index, note) in noteListData.enumerated()
+        where note.identification == selectedNote.identification {
+            self.selectedIndexPath = IndexPath(row: index, section: 0)
+            dataSourceDelegate?.passNote(at: index)
+            return
+        }
     }
 
     override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
@@ -274,18 +309,16 @@ class NoteListViewController: UITableViewController {
 
 extension NoteListViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
-        guard let searchBarText = searchController.searchBar.text?.lowercased() else {
-            return
+        guard let controller = self.searchController.searchResultsController
+                as? SearchResultViewController,
+              let searchBarText = searchController.searchBar.text?.lowercased() else {
+                  return
+              }
+
+        let searchedNoteData = self.noteListData.filter { note in
+            (note.title + note.body).lowercased().contains(searchBarText)
         }
 
-        self.searchedNoteData = self.noteListData.filter { note in
-            note.title.lowercased().contains(searchBarText)
-        }
-
-        self.searchedNoteData.append(
-            contentsOf: self.noteListData.filter { note in
-                note.body.lowercased().contains(searchBarText)
-            }
-        )
+        controller.setSearchedNoteData(searchedNoteData)
     }
 }

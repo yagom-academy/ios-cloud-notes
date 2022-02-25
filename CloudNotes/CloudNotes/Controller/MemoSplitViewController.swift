@@ -17,7 +17,7 @@ class MemoSplitViewController: UISplitViewController {
         didSet {
             memos.sort { $0.lastModified > $1.lastModified }
             
-            let isFirstMemoEmpty = memos[0].title == String.blank
+            let isFirstMemoEmpty = memos.first?.title == String.blank
             memoTableViewController.changeAddButtonState(disabled: isFirstMemoEmpty)
         }
     }

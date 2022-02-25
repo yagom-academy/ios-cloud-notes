@@ -18,6 +18,7 @@ protocol CoreDataManageable: AnyObject {
     func fetch(at indexPath: IndexPath) -> Memo
     func delete(at indexPath: IndexPath)
     func update(at indexPath: IndexPath, title: String, body: String)
+    func search(for keyword: String) -> [Memo]
 }
 
 protocol DropboxManageable: AnyObject {

@@ -38,6 +38,7 @@ class MemoTableViewController: UITableViewController {
     }
     
     private func configureSearchController() {
+        memoSearchController.searchResultsUpdater = self
         self.navigationItem.searchController = memoSearchController
         self.navigationItem.hidesSearchBarWhenScrolling = false
     }
@@ -163,5 +164,29 @@ extension MemoTableViewController {
         let swipeActions = UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
         swipeActions.performsFirstActionWithFullSwipe = false
         return swipeActions
+    }
+}
+
+// MARK: - UISearchResultsUpdating
+
+extension MemoTableViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        var searchedMemos = Set<Memo>()
+        
+        guard let searchKeyword = searchController.searchBar.text else {
+            return
+        }
+        
+        let strippedKeyword = searchKeyword.trimmingCharacters(in: CharacterSet.whitespaces)
+        let searchKeywords = strippedKeyword.components(separatedBy: .whitespaces)
+        
+        searchKeywords.forEach { keyword in
+            delegate?.search(for: keyword).forEach { result in
+                searchedMemos.insert(result)
+            }
+        }
+        
+        memoSearchResultTableViewController.updateSearchResult(with: Array(searchedMemos))
+        memoSearchResultTableViewController.changeStateOfSearchResultLabel(hidden: !searchedMemos.isEmpty)
     }
 }

@@ -223,6 +223,10 @@ extension MemoSplitViewController: CoreDataManageable {
             showSecondaryView(of: newIndexPath)
         }
     }
+    
+    func search(for keyword: String) -> [Memo] {
+        return memoStorage.search(for: keyword)
+    }
 }
 
 // MARK: - DropboxManageable

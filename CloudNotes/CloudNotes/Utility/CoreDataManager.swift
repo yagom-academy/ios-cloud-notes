@@ -56,6 +56,19 @@ final class CoreDataManager {
         saveContext()
     }
     
+    func search(for keyword: String) -> [Memo] {
+        let request = Memo.fetchRequest()
+        var orList = [NSPredicate]()
+        orList.append(NSPredicate(format: "title CONTAINS[cd] %@", keyword))
+        orList.append(NSPredicate(format: "body CONTAINS[cd] %@", keyword))
+        let orPredicate = NSCompoundPredicate(orPredicateWithSubpredicates: orList)
+        
+        request.predicate = orPredicate
+        let searchedMemos = try? context.fetch(request)
+        
+        return searchedMemos ?? []
+    }
+    
     private func saveContext() {
         do {
             try context.save()

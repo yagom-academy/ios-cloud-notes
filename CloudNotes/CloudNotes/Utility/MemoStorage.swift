@@ -28,6 +28,10 @@ final class MemoStorage {
         coreDataManager.update(to: memo, title: title, body: body)
     }
     
+    func search(for keyword: String) -> [Memo] {
+        return coreDataManager.search(for: keyword)
+    }
+    
     // MARK: - Dropbox Synchronization
     
     func connectDropbox(viewController: UIViewController) {

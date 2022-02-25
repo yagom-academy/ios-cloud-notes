@@ -122,10 +122,18 @@ extension MemoListViewController: UITableViewDelegate {
         trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
     ) -> UISwipeActionsConfiguration? {
         let deleteAction = UIContextualAction(style: .destructive, title: LocalizedString.delete) { _, _, _  in
-            self.presentDeleteAlert(currentMemo: self.memos[indexPath.row])
+            if self.isFiltering {
+                self.presentDeleteAlert(currentMemo: self.filteredMemos[indexPath.row])
+            } else {
+                self.presentDeleteAlert(currentMemo: self.memos[indexPath.row])
+            }
         }
         let shareAction = UIContextualAction(style: .normal, title: LocalizedString.share) { _, sourceView, _ in
-            self.presentActivityViewController(currentMemo: self.memos[indexPath.row], at: sourceView)
+            if self.isFiltering {
+                self.presentActivityViewController(currentMemo: self.filteredMemos[indexPath.row], at: sourceView)
+            } else {
+                self.presentActivityViewController(currentMemo: self.memos[indexPath.row], at: sourceView)
+            }
         }
         shareAction.backgroundColor = .systemBlue
         

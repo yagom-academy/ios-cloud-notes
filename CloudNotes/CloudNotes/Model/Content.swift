@@ -1,10 +1,11 @@
 import Foundation
 
 struct Content: Decodable {
-    var title: String
-    var body: String
-    var lastModifiedDate: Double
-    var identification: UUID
+
+    let title: String
+    let body: String
+    let lastModifiedDate: Double
+    let identification: UUID
 
     enum CodingKeys: String, CodingKey {
         case title, body, identification
@@ -13,6 +14,7 @@ struct Content: Decodable {
 }
 
 extension Content {
+    
     var formattedDateString: String {
         let date = Date(timeIntervalSince1970: self.lastModifiedDate)
         return DateFormatter.memoDate.string(from: date)

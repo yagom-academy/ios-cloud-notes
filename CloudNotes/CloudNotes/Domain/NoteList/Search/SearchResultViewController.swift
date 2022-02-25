@@ -17,7 +17,7 @@ class SearchResultViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUpTableView()
+        self.setUpTableView()
     }
 
     func setSearchedNoteData(_ data: [Content]) {
@@ -37,12 +37,14 @@ class SearchResultViewController: UITableViewController {
 // MARK: - TableView DataSource
 
 extension SearchResultViewController {
+
     override func tableView(
         _ tableView: UITableView,
         cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withClass: NoteListCell.self)
         cell.configureContent(for: searchedNoteData[indexPath.row])
+
         return cell
     }
 

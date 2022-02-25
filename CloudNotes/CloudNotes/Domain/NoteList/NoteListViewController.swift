@@ -3,14 +3,15 @@ import SwiftyDropbox
 import CoreData
 
 class NoteListViewController: UITableViewController {
-    private var noteListData = [Content]()
-    private weak var dataSourceDelegate: NoteListViewDelegate?
-    private let firstIndex = IndexPath(row: 0, section: 0)
-    lazy var selectedIndexPath: IndexPath? = self.firstIndex {
+
+    var selectedIndexPath: IndexPath? {
         didSet {
             tableView.selectRow(at: selectedIndexPath, animated: true, scrollPosition: .none)
         }
     }
+    private let firstIndex = IndexPath(row: 0, section: 0)
+    private var noteListData = [Content]()
+    private weak var dataSourceDelegate: NoteListViewDelegate?
 
     // MARK: - View Component
 
@@ -19,6 +20,7 @@ class NoteListViewController: UITableViewController {
         button.image = UIImage(systemName: "plus")
         button.target = self
         button.action = #selector(touchUpPlusButton)
+
         return button
     }()
 
@@ -27,6 +29,7 @@ class NoteListViewController: UITableViewController {
         button.image = UIImage(systemName: "square.and.arrow.up")
         button.target = self
         button.action = #selector(showActionSheet)
+
         return button
     }()
 
@@ -39,38 +42,44 @@ class NoteListViewController: UITableViewController {
         return controller
     }()
 
-    func setUpController() {
-        self.navigationItem.searchController = searchController
-        self.navigationItem.hidesSearchBarWhenScrolling = true
-
-        searchController.searchResultsUpdater = self
-    }
-
-    @objc func showActionSheet() {
+    @objc
+    func showActionSheet() {
         let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+
         if DropboxClientsManager.authorizedClient == nil {
-            let loginAction = UIAlertAction(title: "로그인", style: .default) { _ in
-                self.dataSourceDelegate?.logIn()
-            }
-            actionSheet.addAction(loginAction)
+            self.setActionWithLogoutStatus(in: actionSheet)
         } else {
-            let logoutAction = UIAlertAction(title: "로그아웃", style: .destructive) { _ in
-                DropboxClientsManager.unlinkClients()
-            }
-            let downloadAction = UIAlertAction(title: "다운로드", style: .default) { _ in
-                self.dataSourceDelegate?.download()
-            }
-            let uploadAction = UIAlertAction(title: "업로드", style: .default) { _ in
-                self.dataSourceDelegate?.upload()
-            }
-            actionSheet.addAction(logoutAction)
-            actionSheet.addAction(uploadAction)
-            actionSheet.addAction(downloadAction)
-            actionSheet.title = dataSourceDelegate?.synchronizationLastUpdated()
+            self.setActionWithLoginStatus(in: actionSheet)
         }
 
-        actionSheet.popoverPresentationController?.barButtonItem = configureButton
+        actionSheet.popoverPresentationController?.barButtonItem = self.configureButton
         self.present(actionSheet, animated: true, completion: nil)
+    }
+
+    private func setActionWithLoginStatus(in actionSheet: UIAlertController) {
+        let logoutAction = UIAlertAction(title: "로그아웃", style: .destructive) { _ in
+            DropboxClientsManager.unlinkClients()
+        }
+        let downloadAction = UIAlertAction(title: "다운로드", style: .default) { _ in
+            self.dataSourceDelegate?.download()
+        }
+        let uploadAction = UIAlertAction(title: "업로드", style: .default) { _ in
+            self.dataSourceDelegate?.upload()
+        }
+
+        actionSheet.addAction(logoutAction)
+        actionSheet.addAction(uploadAction)
+        actionSheet.addAction(downloadAction)
+
+        actionSheet.title = dataSourceDelegate?.synchronizationLastUpdated()
+    }
+
+    private func setActionWithLogoutStatus(in actionSheet: UIAlertController) {
+        let loginAction = UIAlertAction(title: "로그인", style: .default) { _ in
+            self.dataSourceDelegate?.logIn()
+        }
+
+        actionSheet.addAction(loginAction)
     }
 
     private lazy var activityController: UIActivityViewController = {
@@ -78,22 +87,44 @@ class NoteListViewController: UITableViewController {
             activityItems: ["memo"],
             applicationActivities: nil
         )
+
         return controller
     }()
 
+// MARK: - Life Cycle Methods
+
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        self.setUpController()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        self.setInitialSelectedCell()
+    }
+
+    private func setUpController() {
+        self.setUpSearchController()
+
         self.tableView.register(
             NoteListCell.self,
             forCellReuseIdentifier: String(describing: NoteListCell.self)
         )
-        configureNavigationBar()
-        configureTableView()
-        setUpController()
-        setSearchResultTableViewDelegate()
+
+        self.configureNavigationBar()
+        self.configureTableView()
+        self.setSearchResultTableViewDelegate()
+
+        self.selectedIndexPath = IndexPath(row: 0, section: 0)
     }
 
-    override func viewWillAppear(_ animated: Bool) {
+    private func setUpSearchController() {
+        self.navigationItem.searchController = self.searchController
+        self.navigationItem.hidesSearchBarWhenScrolling = true
+        self.searchController.searchResultsUpdater = self
+    }
+
+    private func setInitialSelectedCell() {
         self.tableView.selectRow(
             at: self.selectedIndexPath,
             animated: false,
@@ -114,7 +145,8 @@ class NoteListViewController: UITableViewController {
 
     // MARK: - Action Method
 
-    @objc func touchUpPlusButton() {
+    @objc
+    private func touchUpPlusButton() {
         self.dataSourceDelegate?.creatNote()
     }
 
@@ -127,6 +159,7 @@ class NoteListViewController: UITableViewController {
         let okAction = UIAlertAction(title: "확인", style: .default) { _ in
             self.dismiss(animated: true, completion: nil)
         }
+
         uploadFailureAlert.addAction(okAction)
 
         if !uploadFailureAlert.isBeingPresented {
@@ -143,6 +176,7 @@ class NoteListViewController: UITableViewController {
         let okAction = UIAlertAction(title: "확인", style: .default) { _ in
             self.dismiss(animated: true, completion: nil)
         }
+
         downloadFailureAlert.addAction(okAction)
 
         if !downloadFailureAlert.isBeingPresented {
@@ -158,12 +192,12 @@ class NoteListViewController: UITableViewController {
 
     // MARK: - Present Method
 
-    func showActivityController() {
-        activityController.popoverPresentationController?.sourceView = self.view
-        self.present(activityController, animated: true, completion: nil)
+    private func showActivityController() {
+        self.activityController.popoverPresentationController?.sourceView = self.view
+        self.present(self.activityController, animated: true, completion: nil)
     }
 
-    func showDeleteAlert(indexPath: IndexPath) {
+    private func showDeleteAlert(indexPath: IndexPath) {
         let alert = UIAlertController(
             title: "메모를 삭제하시겠습니까?",
             message: nil,
@@ -176,8 +210,10 @@ class NoteListViewController: UITableViewController {
             let note = self.noteListData[indexPath.row]
             self.dataSourceDelegate?.deleteNote(note, index: indexPath.row)
         }
+
         alert.addAction(deleteAction)
         alert.addAction(cancelAction)
+
         self.present(alert, animated: true, completion: nil)
     }
 
@@ -185,7 +221,7 @@ class NoteListViewController: UITableViewController {
 
     func setNoteList(_ data: [Content]) {
         self.noteListData = data
-        tableView.reloadData()
+        self.tableView.reloadData()
     }
 
     func insert(_ note: Content) {
@@ -216,9 +252,10 @@ class NoteListViewController: UITableViewController {
 
     private func setSearchResultTableViewDelegate() {
         guard let tableViewController = self.searchController.searchResultsController
-                as? SearchResultViewController else {
-                    return
-                }
+                as? SearchResultViewController
+        else {
+            return
+        }
 
         tableViewController.tableView.delegate = self
     }
@@ -233,46 +270,43 @@ class NoteListViewController: UITableViewController {
         _ tableView: UITableView,
         cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(
-            withIdentifier: String(describing: NoteListCell.self),
-            for: indexPath
-        ) as? NoteListCell else {
-            return UITableViewCell()
-        }
-
+        let cell = tableView.dequeueReusableCell(withClass: NoteListCell.self)
         cell.configureContent(for: noteListData[indexPath.row])
 
         return cell
     }
 
     // MARK: - Table View Delegate
+
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if tableView == self.tableView {
-            passNoteByMainTableView(at: indexPath)
+            self.passNoteByMainTableView(at: indexPath)
         } else {
-            passNoteBySearchResultTableView(at: indexPath)
+            self.passNoteBySearchResultTableView(at: indexPath)
         }
 
-        splitViewController?.show(.secondary)
+        self.splitViewController?.show(.secondary)
     }
 
     private func passNoteByMainTableView(at indexPath: IndexPath) {
         self.selectedIndexPath = indexPath
-        dataSourceDelegate?.passNote(at: indexPath.row)
+        self.dataSourceDelegate?.passNote(at: indexPath.row)
     }
 
     private func passNoteBySearchResultTableView(at indexPath: IndexPath) {
         guard let controller = self.searchController.searchResultsController
-                as? SearchResultViewController else {
-                    return
-                }
+                as? SearchResultViewController
+        else {
+            return
+        }
 
         let selectedNote = controller.selectedSearchedNote(at: indexPath)
 
         for (index, note) in noteListData.enumerated()
         where note.identification == selectedNote.identification {
             self.selectedIndexPath = IndexPath(row: index, section: 0)
-            dataSourceDelegate?.passNote(at: index)
+            self.dataSourceDelegate?.passNote(at: index)
+
             return
         }
     }
@@ -285,10 +319,7 @@ class NoteListViewController: UITableViewController {
         _ tableView: UITableView,
         trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
     ) -> UISwipeActionsConfiguration? {
-        let share = UIContextualAction(
-            style: .normal,
-            title: "공유"
-        ) { _, _, completionHandler in
+        let share = UIContextualAction(style: .normal, title: "공유") { _, _, completionHandler in
             self.showActivityController()
             completionHandler(true)
         }
@@ -311,7 +342,7 @@ extension NoteListViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         guard let controller = self.searchController.searchResultsController
                 as? SearchResultViewController,
-              let searchBarText = searchController.searchBar.text?.lowercased() else {
+              let searchBarText = self.searchController.searchBar.text?.lowercased() else {
                   return
               }
 

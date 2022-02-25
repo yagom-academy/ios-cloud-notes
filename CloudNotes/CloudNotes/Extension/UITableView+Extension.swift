@@ -18,6 +18,7 @@ extension UITableView {
         guard let cell = dequeueReusableCell(withIdentifier: String(describing: name)) as? T else {
             fatalError()
         }
+        
         return cell
     }
 }

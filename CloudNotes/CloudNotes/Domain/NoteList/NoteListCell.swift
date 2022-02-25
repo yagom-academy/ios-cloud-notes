@@ -1,6 +1,7 @@
 import UIKit
 
 class NoteListCell: UITableViewCell {
+
     // MARK: - View Component
 
     private let cellStackView: UIStackView = {
@@ -53,39 +54,56 @@ class NoteListCell: UITableViewCell {
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        self.accessoryType = .disclosureIndicator
-        configureHierarchy()
-        configureConstraints()
-
+        self.commonInit()
     }
 
     required init?(coder: NSCoder) {
-        fatalError()
+        super.init(coder: coder)
+        self.commonInit()
+    }
+
+    private func commonInit() {
+        self.accessoryType = .disclosureIndicator
+        configureHierarchy()
+        configureConstraints()
     }
 
     // MARK: - Configure Views
-    private func configureHierarchy() {
-        self.contentView.addSubview(cellStackView)
-        self.cellStackView.addArrangedSubview(titleLabel)
-        self.cellStackView.addArrangedSubview(contentStackView)
-        self.contentStackView.addArrangedSubview(dateLabel)
-        self.contentStackView.addArrangedSubview(previewLabel)
-    }
-
-    private func configureConstraints() {
-        NSLayoutConstraint.activate([
-            self.cellStackView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 10),
-            self.cellStackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -10),
-            self.cellStackView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 18),
-            self.cellStackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor,
-                                                         constant: -2)
-        ])
-        self.previewLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
-    }
 
     func configureContent(for note: Content) {
         self.titleLabel.text = note.title == "" ? "새로운 메모" : note.title
         self.dateLabel.text = note.formattedDateString
         self.previewLabel.text = note.body == "" ? "추가 텍스트 없음" : note.body
+    }
+
+    private func configureHierarchy() {
+        self.contentView.addSubview(self.cellStackView)
+        self.cellStackView.addArrangedSubview(self.titleLabel)
+        self.cellStackView.addArrangedSubview(self.contentStackView)
+        self.contentStackView.addArrangedSubview(self.dateLabel)
+        self.contentStackView.addArrangedSubview(self.previewLabel)
+    }
+
+    private func configureConstraints() {
+        NSLayoutConstraint.activate([
+            self.cellStackView.topAnchor.constraint(
+                equalTo: self.contentView.topAnchor,
+                constant: 10
+            ),
+            self.cellStackView.bottomAnchor.constraint(
+                equalTo: self.contentView.bottomAnchor,
+                constant: -10
+            ),
+            self.cellStackView.leadingAnchor.constraint(
+                equalTo: self.contentView.leadingAnchor,
+                constant: 18
+            ),
+            self.cellStackView.trailingAnchor.constraint(
+                equalTo: self.contentView.trailingAnchor,
+                constant: -2
+            )
+        ])
+
+        self.previewLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
     }
 }

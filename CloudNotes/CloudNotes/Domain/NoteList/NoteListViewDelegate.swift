@@ -1,6 +1,7 @@
 import Foundation
 
 protocol NoteListViewDelegate: AnyObject {
+    
     func passNote(at index: Int)
 
     func creatNote()

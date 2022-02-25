@@ -1,6 +1,7 @@
 import Foundation
 
 enum DecodingUtility {
+    
     static let decoder = JSONDecoder()
 
     static func decode<T: Decodable>(data: Data) throws -> T {

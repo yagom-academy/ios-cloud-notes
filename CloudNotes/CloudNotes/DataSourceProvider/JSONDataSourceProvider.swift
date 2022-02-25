@@ -1,6 +1,7 @@
 import UIKit
 
 final class JSONDataSourceProvider: NoteDataSource {
+
     var noteList = [Content]()
 
      func fetch() throws {

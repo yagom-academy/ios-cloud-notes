@@ -2,6 +2,7 @@ import Foundation
 import SwiftyDropbox
 
 class DropboxProvider: Synchronizable {
+
     let client = DropboxClientsManager.authorizedClient
     let fileURL: URL? = try? FileManager.default.url(
         for: .applicationSupportDirectory,
@@ -10,7 +11,6 @@ class DropboxProvider: Synchronizable {
         create: true
     )
     let filePath = "/CloudNotes.txt"
-
     var lastUpdatedDate: Date?
 
     func upload(
@@ -20,8 +20,6 @@ class DropboxProvider: Synchronizable {
         guard let filePath = fileURL?.appendingPathComponent(filePath) else {
             return
         }
-
-        print(filePath)
 
         try? memoString.write(to: filePath, atomically: false, encoding: .utf8)
 
@@ -59,10 +57,13 @@ func download(_ completionHandler: @escaping (Result<[Content], SynchronizationE
             } else if error != nil {
                 completionHandler(.failure(.downloadFailure))
             }
+
             let memosFile = FileManager.default.contents(atPath: filePath.path)
+
             guard let convertedMemos = self.convertTextToModel(from: String(data: memosFile!, encoding: .utf8)!) else {
                 return
             }
+
             completionHandler(.success(convertedMemos))
         }
 }
@@ -73,6 +74,7 @@ func download(_ completionHandler: @escaping (Result<[Content], SynchronizationE
             scopes: ["account_info.read", "files.content.write", "files.content.read"],
             includeGrantedScopes: false
         )
+
         DropboxClientsManager.authorizeFromControllerV2(
             UIApplication.shared,
             controller: controller,
@@ -86,6 +88,7 @@ func download(_ completionHandler: @escaping (Result<[Content], SynchronizationE
     func convertModelToText(from model: [Content]) -> String {
         let firstBoundary = UUID().uuidString
         var string = ""
+
         model.forEach { content in
             let secondBoundary = "--\(content.identification.uuidString)--"
 
@@ -106,16 +109,15 @@ func download(_ completionHandler: @escaping (Result<[Content], SynchronizationE
     }
 
     func convertTextToModel(from text: String) -> [Content]? {
-        var content = [Content]()
         let separatedText = text.split(
             separator: "\n",
             maxSplits: 1,
             omittingEmptySubsequences: true
         )
+        var content = [Content]()
 
         guard let memoSeparator = separatedText.first,
-              let memosText = separatedText.last
-        else {
+              let memosText = separatedText.last else {
             return nil
         }
 
@@ -126,9 +128,9 @@ func download(_ completionHandler: @escaping (Result<[Content], SynchronizationE
                 maxSplits: 1,
                 omittingEmptySubsequences: true
             )
+
             guard let memoComponentsSeparator = separatedMemoText.first,
-                  let memoText = separatedMemoText.last
-            else {
+                  let memoText = separatedMemoText.last else {
                 return
             }
 

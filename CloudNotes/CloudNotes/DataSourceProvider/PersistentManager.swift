@@ -1,10 +1,12 @@
 import CoreData
 
 class PersistentManager {
+
     static let shared = PersistentManager()
 
     private lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentCloudKitContainer(name: "CloudNotes")
+
         container.loadPersistentStores { (storeDescription, error) in
             if let error = error as NSError? {
                 fatalError()
@@ -24,6 +26,7 @@ class PersistentManager {
         }
 
         let data = try self.context.fetch(request)
+
         return data
     }
 
@@ -59,6 +62,7 @@ class PersistentManager {
     func deleteAll<T: NSManagedObject>(request: NSFetchRequest<T>) -> Bool {
         let request: NSFetchRequest<NSFetchRequestResult> = T.fetchRequest()
         let delete = NSBatchDeleteRequest(fetchRequest: request)
+
         do {
             try self.context.execute(delete)
             return true

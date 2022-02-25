@@ -2,6 +2,7 @@ import Foundation
 import CoreData
 
 class CDDataSourceProvider: NoteDataSource {
+    
     var noteList: [Content]
     private let persistentManager = PersistentManager.shared
 
@@ -50,6 +51,7 @@ class CDDataSourceProvider: NoteDataSource {
             updatedNote.identification.uuidString
         )
         let notes = try persistentManager.fetch(request: request, predicate: predicate)
+
         guard let note = notes.first else {
             return
         }
@@ -67,9 +69,9 @@ class CDDataSourceProvider: NoteDataSource {
     func deleteNote(_ noteToDelete: Content) throws {
         let request = Note.fetchRequest()
         let uuid = noteToDelete.identification.uuidString
-
         let predicate = NSPredicate(format: "identification == %@", uuid)
         let notes = try persistentManager.fetch(request: request, predicate: predicate)
+
         guard let note = notes.first else {
             return
         }
@@ -80,6 +82,7 @@ class CDDataSourceProvider: NoteDataSource {
 
     func deleteAllNote() throws {
         let request = Note.fetchRequest()
+        
         persistentManager.deleteAll(request: request)
 
         try fetch()

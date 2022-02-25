@@ -38,19 +38,19 @@ final class NoteDetailViewController: UIViewController {
         guard let identifier = identifier else {
             return
         }
-        let shareAction = UIAlertAction(title: "Share", style: .default) { [self] _ in
+        let shareAction = UIAlertAction(title: "share".localized, style: .default) { [self] _ in
             presentActivityView(items: [noteDetailTextView.text ?? ""]) { activityViewController in
                 activityViewController.popoverPresentationController?.barButtonItem = detailBarButtonItem
             }
         }
-        let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
-            self.presentAlert(title: "진짜요?", message: "정말로 지워요?") { alert in
+        let deleteAction = UIAlertAction(title: "delete".localized, style: .destructive) { _ in
+            self.presentAlert(title: "deleteAlertTitleMessage".localized,
+                              message: "deleteAlertBodyMessage".localized) { alert in
                 let actions = [
-                    UIAlertAction(title: "취소", style: .cancel),
-                    UIAlertAction(title: "삭제", style: .destructive) { _ in
+                    UIAlertAction(title: "cancel".localized, style: .cancel),
+                    UIAlertAction(title: "delete".localized, style: .destructive) { _ in
                         self.viewModel.deleteNote(identifier: identifier)
-                    }
-                ]
+                    }]
                 alert.addAction(actions)
             }
         }

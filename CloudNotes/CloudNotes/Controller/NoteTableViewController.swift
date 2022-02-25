@@ -21,7 +21,7 @@ final class NoteTableViewController: UITableViewController {
                 }
                 
                 cell.setLabelText(
-                    title: item.title == "" ? "새로운 메모" : item.title,
+                    title: item.title == "" ? "newNote".localized : item.title,
                     body: item.body,
                     lastModified: self.viewModel.fetchDate(note: item))
                 
@@ -107,7 +107,7 @@ final class NoteTableViewController: UITableViewController {
     }
     
     private func configureLayout() {
-        navigationController?.navigationBar.topItem?.title = "메모"
+        navigationController?.navigationBar.topItem?.title = "title".localized
         navigationItem.rightBarButtonItems = [addNoteBarButtonItem, loginBarButtonItem]
         navigationItem.searchController = noteSearchController
         navigationItem.hidesSearchBarWhenScrolling = false
@@ -134,21 +134,21 @@ final class NoteTableViewController: UITableViewController {
     
     @objc
     private func loginButtonDidTap(_ sender: UIBarButtonItem) {
-        let backupAction = UIAlertAction(title: "Backup", style: .default) { [self] _ in
+        let backupAction = UIAlertAction(title: "backup".localized, style: .default) { [self] _ in
             viewModel.uploadDB()
         }
-        let restoreAction = UIAlertAction(title: "Restore", style: .default) { [self] _ in
+        let restoreAction = UIAlertAction(title: "restore".localized, style: .default) { [self] _ in
             viewModel.downloadDB()
         }
         var actionList = [backupAction, restoreAction]
         
         if DropboxClientsManager.authorizedClient != nil {
-            let logoutAction = UIAlertAction(title: "Logout", style: .destructive) { _ in
+            let logoutAction = UIAlertAction(title: "logout".localized, style: .destructive) { _ in
                 DropboxClientsManager.unlinkClients()
             }
             actionList.insert(logoutAction, at: 0)
         } else {
-            let loginAction = UIAlertAction(title: "Login", style: .default) { [self] _ in
+            let loginAction = UIAlertAction(title: "login".localized, style: .default) { [self] _ in
                 loginDropBox()
             }
             actionList = [loginAction]
@@ -189,10 +189,11 @@ extension NoteTableViewController {
             }
         }
         let deleteAction = UIContextualAction(style: .normal, title: nil) { _, _, _ in
-            self.presentAlert(title: "진짜요?", message: "정말로 지워요?") { controller in
+            self.presentAlert(title: "deleteAlertTitleMessage".localized,
+                              message: "deleteAlertBodyMessage".localized) { controller in
                 let actions = [
-                    UIAlertAction(title: "취소", style: .cancel),
-                    UIAlertAction(title: "삭제", style: .destructive) { _ in
+                    UIAlertAction(title: "cancel".localized, style: .cancel),
+                    UIAlertAction(title: "delete".localized, style: .destructive) { _ in
                         self.viewModel.deleteNote(identifier: item.identifier)
                     }]
                 controller.addAction(actions)

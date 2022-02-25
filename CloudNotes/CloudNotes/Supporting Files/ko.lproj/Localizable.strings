@@ -1,0 +1,11 @@
+"newNote" = "새로운 노트";
+"backup" = "백업";
+"restore" = "복원";
+"login" = "로그인";
+"logout" = "로그아웃";
+"deleteAlertTitleMessage" = "진짜요?";
+"deleteAlertBodyMessage" = "정말로 지워요?";
+"cancel" = "취소";
+"delete" = "삭제";
+"share" = "공유";
+"title" = "노트";

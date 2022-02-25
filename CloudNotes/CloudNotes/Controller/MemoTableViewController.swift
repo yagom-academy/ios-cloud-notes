@@ -38,6 +38,7 @@ class MemoTableViewController: UITableViewController {
     }
     
     private func configureSearchController() {
+        memoSearchResultTableViewController.tableView.delegate = self
         memoSearchController.searchResultsUpdater = self
         self.navigationItem.searchController = memoSearchController
         self.navigationItem.hidesSearchBarWhenScrolling = false
@@ -76,7 +77,11 @@ class MemoTableViewController: UITableViewController {
         tableView.insertRows(at: [initialIndexPath], with: .fade)
         tableView.scrollToRow(at: initialIndexPath, at: .bottom, animated: true)
         tableView.selectRow(at: initialIndexPath, animated: true, scrollPosition: .none)
-        delegate?.showSecondaryView(of: initialIndexPath)
+        guard let memo = delegate?.fetch(at: initialIndexPath) else {
+            return
+        }
+        
+        delegate?.showSecondaryView(of: initialIndexPath, with: memo)
         tableView.isEditing = false
     }
     
@@ -138,7 +143,15 @@ extension MemoTableViewController {
 extension MemoTableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         selectedIndexPath = indexPath
-        delegate?.showSecondaryView(of: indexPath)
+        
+        let selectedMemo: Memo!
+        if tableView == self.tableView {
+            selectedMemo = delegate?.fetch(at: indexPath)
+        } else {
+            selectedMemo = memoSearchResultTableViewController.fetch(at: indexPath)
+        }
+        
+        delegate?.showSecondaryView(of: indexPath, with: selectedMemo)
     }
     
     override func setEditing(_ editing: Bool, animated: Bool) {

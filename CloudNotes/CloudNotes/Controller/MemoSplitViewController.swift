@@ -91,9 +91,8 @@ extension MemoSplitViewController: MemoSplitViewManageable {
         show(.primary)
     }
     
-    func showSecondaryView(of indexPath: IndexPath) {
-        let memoToShow = memos[indexPath.row]
-        memoDetailViewController.updateMemo(title: memoToShow.title, body: memoToShow.body) 
+    func showSecondaryView(of indexPath: IndexPath, with memoToShow: Memo) {
+        memoDetailViewController.updateMemo(title: memoToShow.title, body: memoToShow.body)
         memoDetailViewController.updateCurrentIndexPath(with: indexPath)
         memoDetailViewController.makeTextViewFirstResponder()
         show(.secondary)
@@ -220,7 +219,7 @@ extension MemoSplitViewController: CoreDataManageable {
         
         self.memoTableViewController.updateSelectedIndexPath(with: newIndexPath)
         if isCollapsed == false {
-            showSecondaryView(of: newIndexPath)
+            showSecondaryView(of: newIndexPath, with: memos[newIndexPath.row])
         }
     }
     

@@ -28,7 +28,7 @@ protocol DropboxManageable: AnyObject {
 
 protocol MemoSplitViewManageable: AnyObject {
     func showPrimaryView()
-    func showSecondaryView(of indexPath: IndexPath)
+    func showSecondaryView(of indexPath: IndexPath, with memoToShow: Memo)
     func presentConnectResultAlert(type: AlertMessage)
     func presentShareActivity(at indexPath: IndexPath)
     func presentDeleteAlert(at indexPath: IndexPath)

@@ -8,7 +8,12 @@
 import UIKit
 
 class MemoSearchResultTableViewController: UITableViewController {
-    private var searchedMemos = [Memo]()
+    private var searchedMemos = [Memo]() {
+        didSet {
+            searchedMemos.sort { $0.lastModified > $1.lastModified }
+        }
+    }
+    
     private let searchResultLabel: UILabel = {
         let label = UILabel()
         label.text = "검색 결과 없음"
@@ -34,6 +39,10 @@ class MemoSearchResultTableViewController: UITableViewController {
         ])
         
         tableView.backgroundView = backgroundView
+    }
+    
+    func fetch(at indexPath: IndexPath) -> Memo {
+        return searchedMemos[indexPath.row]
     }
     
     func updateSearchResult(with memos: [Memo]) {

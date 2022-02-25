@@ -2,28 +2,28 @@ import Foundation
 import SwiftyDropbox
 
 class DropboxProvider: Synchronizable {
-
-    let client = DropboxClientsManager.authorizedClient
-    let fileURL: URL? = try? FileManager.default.url(
+    var lastUpdatedDate: Date?
+    private let client = DropboxClientsManager.authorizedClient
+    private let fileURL: URL? = try? FileManager.default.url(
         for: .applicationSupportDirectory,
         in: .userDomainMask,
         appropriateFor: nil,
         create: true
     )
-    let filePath = "/CloudNotes.txt"
-    var lastUpdatedDate: Date?
+    private let filePath = "/CloudNotes.txt"
 
     func upload(
         memoString: String,
         _ completionHandler: @escaping (SynchronizationError?) -> Void
     ) {
-        guard let filePath = fileURL?.appendingPathComponent(filePath) else {
+        guard let filePath = self.fileURL?.appendingPathComponent(filePath)
+        else {
             return
         }
 
         try? memoString.write(to: filePath, atomically: false, encoding: .utf8)
 
-        client?.files.upload(
+        self.client?.files.upload(
             path: "/CloudNote/CloudNote.txt",
             mode: .overwrite,
             autorename: false,
@@ -41,32 +41,34 @@ class DropboxProvider: Synchronizable {
             }
     }
 
-func download(_ completionHandler: @escaping (Result<[Content], SynchronizationError>) -> Void) {
-    guard let filePath = fileURL?.appendingPathComponent(filePath) else {
-        return
-    }
-
-    client?.files.download(path: "/CloudNote/CloudNote.txt")
-        .response { response, error in
-            if let response = response {
-                let fileContents = response.1
-                FileManager.default.createFile(
-                    atPath: filePath.path,
-                    contents: fileContents,
-                    attributes: nil)
-            } else if error != nil {
-                completionHandler(.failure(.downloadFailure))
-            }
-
-            let memosFile = FileManager.default.contents(atPath: filePath.path)
-
-            guard let convertedMemos = self.convertTextToModel(from: String(data: memosFile!, encoding: .utf8)!) else {
-                return
-            }
-
-            completionHandler(.success(convertedMemos))
+    func download(_ completionHandler: @escaping (Result<[Content], SynchronizationError>) -> Void) {
+        guard let filePath = fileURL?.appendingPathComponent(filePath) else {
+            return
         }
-}
+
+        self.client?.files.download(path: "/CloudNote/CloudNote.txt")
+            .response { response, error in
+                if let response = response {
+                    let fileContents = response.1
+                    FileManager.default.createFile(
+                        atPath: filePath.path,
+                        contents: fileContents,
+                        attributes: nil)
+                } else if error != nil {
+                    completionHandler(.failure(.downloadFailure))
+                }
+
+                let memosFile = FileManager.default.contents(atPath: filePath.path)
+
+                guard let convertedMemos = self.convertTextToModel(
+                    from: String(data: memosFile!, encoding: .utf8)!
+                ) else {
+                    return
+                }
+
+                completionHandler(.success(convertedMemos))
+            }
+    }
 
     func logIn(at controller: UIViewController) {
         let scopeRequest = ScopeRequest(
@@ -117,7 +119,8 @@ func download(_ completionHandler: @escaping (Result<[Content], SynchronizationE
         var content = [Content]()
 
         guard let memoSeparator = separatedText.first,
-              let memosText = separatedText.last else {
+              let memosText = separatedText.last
+        else {
             return nil
         }
 
@@ -130,7 +133,8 @@ func download(_ completionHandler: @escaping (Result<[Content], SynchronizationE
             )
 
             guard let memoComponentsSeparator = separatedMemoText.first,
-                  let memoText = separatedMemoText.last else {
+                  let memoText = separatedMemoText.last
+            else {
                 return
             }
 
@@ -138,7 +142,8 @@ func download(_ completionHandler: @escaping (Result<[Content], SynchronizationE
 
             guard let date = Double(memoComponents[1]),
                   let uuid = UUID(uuidString: memoComponents[0]),
-                  memoComponents.count == 4 else {
+                  memoComponents.count == 4
+            else {
                 return
             }
 

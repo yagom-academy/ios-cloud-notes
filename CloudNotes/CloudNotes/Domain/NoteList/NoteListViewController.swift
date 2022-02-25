@@ -4,6 +4,8 @@ import CoreData
 
 class NoteListViewController: UITableViewController {
 
+    // MARK: - Properties
+
     var selectedIndexPath: IndexPath? {
         didSet {
             tableView.selectRow(at: selectedIndexPath, animated: true, scrollPosition: .none)
@@ -12,8 +14,6 @@ class NoteListViewController: UITableViewController {
     private let firstIndex = IndexPath(row: 0, section: 0)
     private var noteListData = [Content]()
     private weak var dataSourceDelegate: NoteListViewDelegate?
-
-    // MARK: - View Component
 
     private lazy var addButton: UIBarButtonItem = {
         let button = UIBarButtonItem()
@@ -91,7 +91,7 @@ class NoteListViewController: UITableViewController {
         return controller
     }()
 
-// MARK: - Life Cycle Methods
+// MARK: - Methods
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -103,37 +103,6 @@ class NoteListViewController: UITableViewController {
         self.setInitialSelectedCell()
     }
 
-    private func setUpController() {
-        self.setUpSearchController()
-
-        self.tableView.register(
-            NoteListCell.self,
-            forCellReuseIdentifier: String(describing: NoteListCell.self)
-        )
-
-        self.configureNavigationBar()
-        self.configureTableView()
-        self.setSearchResultTableViewDelegate()
-
-        self.selectedIndexPath = IndexPath(row: 0, section: 0)
-    }
-
-    private func setUpSearchController() {
-        self.navigationItem.searchController = self.searchController
-        self.navigationItem.hidesSearchBarWhenScrolling = true
-        self.searchController.searchResultsUpdater = self
-    }
-
-    private func setInitialSelectedCell() {
-        self.tableView.selectRow(
-            at: self.selectedIndexPath,
-            animated: false,
-            scrollPosition: .none
-        )
-    }
-
-    // MARK: - Override Method
-
     override func setEditing(_ editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: animated)
         self.tableView.selectRow(
@@ -141,13 +110,6 @@ class NoteListViewController: UITableViewController {
             animated: false,
             scrollPosition: .none
         )
-    }
-
-    // MARK: - Action Method
-
-    @objc
-    private func touchUpPlusButton() {
-        self.dataSourceDelegate?.creatNote()
     }
 
     func presentUploadFailureAlert() {
@@ -184,13 +146,63 @@ class NoteListViewController: UITableViewController {
         }
     }
 
-    // MARK: - Set Delegate Method
-
     func setDelegate(delegate: NoteListViewDelegate) {
         self.dataSourceDelegate = delegate
     }
 
-    // MARK: - Present Method
+    func setNoteList(_ data: [Content]) {
+        self.noteListData = data
+        self.tableView.reloadData()
+    }
+
+    func insert(_ note: Content) {
+        self.noteListData.insert(note, at: 0)
+        switch self.noteListData.count {
+        case 1:
+            self.tableView.reloadData()
+        default:
+            self.tableView.insertRows(at: [firstIndex], with: .automatic)
+        }
+    }
+
+    func delete(at index: Int) {
+        self.noteListData.remove(at: index)
+        self.tableView.deleteRows(at: [IndexPath(row: index, section: 0)], with: .fade)
+    }
+
+    private func setUpController() {
+        self.setUpSearchController()
+
+        self.tableView.register(
+            NoteListCell.self,
+            forCellReuseIdentifier: String(describing: NoteListCell.self)
+        )
+
+        self.configureNavigationBar()
+        self.configureTableView()
+        self.setSearchResultTableViewDelegate()
+
+        self.selectedIndexPath = IndexPath(row: 0, section: 0)
+    }
+
+    private func setUpSearchController() {
+        self.navigationItem.searchController = self.searchController
+        self.navigationItem.hidesSearchBarWhenScrolling = true
+        self.searchController.searchResultsUpdater = self
+    }
+
+    private func setInitialSelectedCell() {
+        self.tableView.selectRow(
+            at: self.selectedIndexPath,
+            animated: false,
+            scrollPosition: .none
+        )
+    }
+
+    @objc
+    private func touchUpPlusButton() {
+        self.dataSourceDelegate?.creatNote()
+    }
 
     private func showActivityController() {
         self.activityController.popoverPresentationController?.sourceView = self.view
@@ -217,30 +229,6 @@ class NoteListViewController: UITableViewController {
         self.present(alert, animated: true, completion: nil)
     }
 
-    // MARK: - Manipulate DataSource
-
-    func setNoteList(_ data: [Content]) {
-        self.noteListData = data
-        self.tableView.reloadData()
-    }
-
-    func insert(_ note: Content) {
-        self.noteListData.insert(note, at: 0)
-        switch self.noteListData.count {
-        case 1:
-            self.tableView.reloadData()
-        default:
-            self.tableView.insertRows(at: [firstIndex], with: .automatic)
-        }
-    }
-
-    func delete(at index: Int) {
-        self.noteListData.remove(at: index)
-        self.tableView.deleteRows(at: [IndexPath(row: index, section: 0)], with: .fade)
-    }
-
-    // MARK: - Configure Views
-
     private func configureNavigationBar() {
         self.title = "메모"
         self.navigationItem.rightBarButtonItems = [addButton, configureButton]
@@ -259,8 +247,11 @@ class NoteListViewController: UITableViewController {
 
         tableViewController.tableView.delegate = self
     }
+}
 
-    // MARK: - Table View Data Source
+// MARK: - Table View Data Source and Delegate
+
+extension NoteListViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return noteListData.count
@@ -276,8 +267,6 @@ class NoteListViewController: UITableViewController {
         return cell
     }
 
-    // MARK: - Table View Delegate
-
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if tableView == self.tableView {
             self.passNoteByMainTableView(at: indexPath)
@@ -286,29 +275,6 @@ class NoteListViewController: UITableViewController {
         }
 
         self.splitViewController?.show(.secondary)
-    }
-
-    private func passNoteByMainTableView(at indexPath: IndexPath) {
-        self.selectedIndexPath = indexPath
-        self.dataSourceDelegate?.passNote(at: indexPath.row)
-    }
-
-    private func passNoteBySearchResultTableView(at indexPath: IndexPath) {
-        guard let controller = self.searchController.searchResultsController
-                as? SearchResultViewController
-        else {
-            return
-        }
-
-        let selectedNote = controller.selectedSearchedNote(at: indexPath)
-
-        for (index, note) in noteListData.enumerated()
-        where note.identification == selectedNote.identification {
-            self.selectedIndexPath = IndexPath(row: index, section: 0)
-            self.dataSourceDelegate?.passNote(at: index)
-
-            return
-        }
     }
 
     override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
@@ -334,6 +300,29 @@ class NoteListViewController: UITableViewController {
 
         return UISwipeActionsConfiguration(actions: [share, delete])
     }
+
+    private func passNoteByMainTableView(at indexPath: IndexPath) {
+        self.selectedIndexPath = indexPath
+        self.dataSourceDelegate?.passNote(at: indexPath.row)
+    }
+
+    private func passNoteBySearchResultTableView(at indexPath: IndexPath) {
+        guard let controller = self.searchController.searchResultsController
+                as? SearchResultViewController
+        else {
+            return
+        }
+
+        let selectedNote = controller.selectedSearchedNote(at: indexPath)
+
+        for (index, note) in noteListData.enumerated()
+        where note.identification == selectedNote.identification {
+            self.selectedIndexPath = IndexPath(row: index, section: 0)
+            self.dataSourceDelegate?.passNote(at: index)
+
+            return
+        }
+    }
 }
 
 // MARK: - UISearchController Result Updater
@@ -342,9 +331,10 @@ extension NoteListViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         guard let controller = self.searchController.searchResultsController
                 as? SearchResultViewController,
-              let searchBarText = self.searchController.searchBar.text?.lowercased() else {
-                  return
-              }
+              let searchBarText = self.searchController.searchBar.text?.lowercased()
+        else {
+            return
+        }
 
         let searchedNoteData = self.noteListData.filter { note in
             (note.title + note.body).lowercased().contains(searchBarText)

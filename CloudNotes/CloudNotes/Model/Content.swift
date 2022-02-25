@@ -17,6 +17,7 @@ extension Content {
     
     var formattedDateString: String {
         let date = Date(timeIntervalSince1970: self.lastModifiedDate)
+        
         return DateFormatter.memoDate.string(from: date)
     }
 }

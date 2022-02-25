@@ -18,7 +18,8 @@ protocol Synchronizable {
 extension Synchronizable {
     
     func lastUpdated() -> String {
-        guard let date = self.lastUpdatedDate else {
+        guard let date = self.lastUpdatedDate
+        else {
             return "동기화가 아직 완료되지 않았습니다."
         }
 

@@ -1,21 +1,23 @@
 import UIKit
 
 class DetailedNoteViewController: UIViewController {
+
+    // MARK: - Properties
+
     private var noteData: Content? {
         didSet {
             configureTextView()
         }
     }
-    private weak var dataSourceDelegate: DetailedNoteViewDelegate?
     private var shouldCreateNote = false
-
-    // MARK: - View Component
+    private weak var dataSourceDelegate: DetailedNoteViewDelegate?
 
     private let noteTextView: UITextView = {
         let textView = UITextView()
         textView.font = .preferredFont(forTextStyle: .body)
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 20)
+
         return textView
     }()
 
@@ -24,6 +26,7 @@ class DetailedNoteViewController: UIViewController {
         button.image = UIImage(systemName: "ellipsis.circle")
         button.target = self
         button.action = #selector(actionButtonDidTap)
+
         return button
     }()
 
@@ -32,6 +35,7 @@ class DetailedNoteViewController: UIViewController {
             activityItems: ["memo"],
             applicationActivities: nil
         )
+
         return controller
     }()
 
@@ -50,42 +54,61 @@ class DetailedNoteViewController: UIViewController {
         return actionSheet
     }()
 
-    // MARK: - View Life Cycle
+    // MARK: - Methods
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureNavigationBar()
-        configureHierarchy()
-        configureConstraints()
+        self.setUpController()
+    }
+
+    func setDelegate(delegate: DetailedNoteViewDelegate) {
+        self.dataSourceDelegate = delegate
+    }
+
+    func setNoteData(_ data: Content?) {
+        self.noteData = data
+    }
+
+
+    private func setUpController() {
+        self.setUpSubView()
         self.view.backgroundColor = .white
+    }
+
+    private func setUpSubView() {
+        self.configureNavigationBar()
+        self.configureHierarchy()
+        self.configureConstraints()
+        self.setUpTableView()
+    }
+
+    private func setUpTableView() {
         self.noteTextView.delegate = self
     }
 
-    // MARK: - Action Method
-
-    @objc func actionButtonDidTap(_ sender: UIBarButtonItem) {
-        actionSheet.popoverPresentationController?.barButtonItem = sender
-        self.present(actionSheet, animated: true, completion: nil)
+    @objc
+    private func actionButtonDidTap(_ sender: UIBarButtonItem) {
+        self.actionSheet.popoverPresentationController?.barButtonItem = sender
+        self.present(self.actionSheet, animated: true, completion: nil)
     }
 
-    // MARK: - Present Method
-
-    func presentActivityController() {
-        activityController.popoverPresentationController?.barButtonItem = actionButton
-        self.present(activityController, animated: true, completion: nil)
+    private func presentActivityController() {
+        self.activityController.popoverPresentationController?.barButtonItem = self.actionButton
+        self.present(self.activityController, animated: true, completion: nil)
     }
 
-    func presentDeleteAlert() {
+    private func presentDeleteAlert() {
         let alert = UIAlertController(
             title: "메모를 삭제하시겠습니까?",
             message: nil,
             preferredStyle: .alert
         )
-        let cancelAction = UIAlertAction(title: "취소", style: .cancel) { action in
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel) { _ in
             self.dismiss(animated: true, completion: nil)
         }
-        let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { action in
-            guard let note = self.noteData else {
+        let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
+            guard let note = self.noteData
+            else {
                 return
             }
 
@@ -97,18 +120,6 @@ class DetailedNoteViewController: UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
 
-    // MARK: - Set Delegate Method
-
-    func setDelegate(delegate: DetailedNoteViewDelegate) {
-        self.dataSourceDelegate = delegate
-    }
-
-    // MARK: - Manipulate DataSource
-
-    func setNoteData(_ data: Content?) {
-        self.noteData = data
-    }
-
     // MARK: - Configure Views
 
     private func configureHierarchy() {
@@ -117,43 +128,70 @@ class DetailedNoteViewController: UIViewController {
 
     private func configureConstraints() {
         NSLayoutConstraint.activate([
-            noteTextView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 4),
-            noteTextView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -4),
-            noteTextView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 4),
-            noteTextView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -4)
+            self.noteTextView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 4),
+            self.noteTextView.bottomAnchor.constraint(
+                equalTo: self.view.bottomAnchor, constant: -4
+            ),
+            self.noteTextView.leadingAnchor.constraint(
+                equalTo: self.view.leadingAnchor, constant: 4
+            ),
+            self.noteTextView.trailingAnchor.constraint(
+                equalTo: self.view.trailingAnchor, constant: -4
+            )
         ])
     }
 
     private func configureNavigationBar() {
-        self.navigationItem.rightBarButtonItem = actionButton
+        self.navigationItem.rightBarButtonItem = self.actionButton
     }
 
     private func configureTextView() {
-        guard let note = noteData else {
-            noteTextView.text = ""
-            self.view.endEditing(true)
-            self.shouldCreateNote = true
+        guard let note = noteData
+        else {
+            self.setTextViewWithoutNote()
+
             return
         }
+
         self.shouldCreateNote = false
+
         let content = NSMutableAttributedString()
-        let title = NSMutableAttributedString(string: note.title)
-        title.addAttribute(
-            .font, value: UIFont.preferredFont(for: .title3, weight: .medium),
-            range: NSRange(location: 0, length: title.length)
-        )
-        content.append(title)
+
+        content.append(self.configuredTitle(for: note))
 
         if note.body != "" {
-            let body = NSMutableAttributedString(string: "\n" + note.body)
-            body.addAttribute(
-                .font, value: UIFont.preferredFont(forTextStyle: .callout),
-                range: NSRange(location: 0, length: body.length)
-            )
-            content.append(body)
+            content.append(self.configuredBody(for: note))
         }
 
-        noteTextView.attributedText = content
+        self.noteTextView.attributedText = content
+    }
+
+    private func setTextViewWithoutNote() {
+        self.noteTextView.text = ""
+        self.view.endEditing(true)
+        self.shouldCreateNote = true
+    }
+
+    private func configuredTitle(for note: Content) -> NSMutableAttributedString {
+        let title = NSMutableAttributedString(string: note.title)
+        title.addAttribute(
+            .font,
+            value: UIFont.preferredFont(for: .title3, weight: .medium),
+            range: NSRange(location: 0, length: title.length)
+        )
+
+        return title
+    }
+
+    private func configuredBody(for note: Content) -> NSMutableAttributedString {
+        let body = NSMutableAttributedString(string: "\n" + note.body)
+        body.addAttribute(
+            .font,
+            value: UIFont.preferredFont(forTextStyle: .callout),
+            range: NSRange(location: 0, length: body.length)
+        )
+
+        return body
     }
 }
 
@@ -177,7 +215,8 @@ extension DetailedNoteViewController: UITextViewDelegate {
         }
 
         let modifiedDate = Date().timeIntervalSince1970
-        guard let id = self.noteData?.identification else {
+        guard let id = self.noteData?.identification
+        else {
             return
         }
 
@@ -187,7 +226,7 @@ extension DetailedNoteViewController: UITextViewDelegate {
             lastModifiedDate: modifiedDate,
             identification: id
         )
-        dataSourceDelegate?.passModifiedNote(newNote)
+        self.dataSourceDelegate?.passModifiedNote(newNote)
     }
 
     func textView(_ textView: UITextView,

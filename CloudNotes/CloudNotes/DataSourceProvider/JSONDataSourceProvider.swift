@@ -5,7 +5,8 @@ final class JSONDataSourceProvider: NoteDataSource {
     var noteList = [Content]()
 
      func fetch() throws {
-        guard let data = NSDataAsset(name: "sampleNotes")?.data else {
+        guard let data = NSDataAsset(name: "sampleNotes")?.data
+        else {
             throw DataSourceError.jsonNotFound
         }
 

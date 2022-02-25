@@ -18,7 +18,8 @@ class CDDataSourceProvider: NoteDataSource {
         let notes = try persistentManager.fetch(request: request)
 
         notes.forEach { note in
-            guard let title = note.title, let body = note.body, let id = note.identification else {
+            guard let title = note.title, let body = note.body, let id = note.identification
+            else {
                 return
             }
 
@@ -52,7 +53,8 @@ class CDDataSourceProvider: NoteDataSource {
         )
         let notes = try persistentManager.fetch(request: request, predicate: predicate)
 
-        guard let note = notes.first else {
+        guard let note = notes.first
+        else {
             return
         }
 
@@ -72,7 +74,8 @@ class CDDataSourceProvider: NoteDataSource {
         let predicate = NSPredicate(format: "identification == %@", uuid)
         let notes = try persistentManager.fetch(request: request, predicate: predicate)
 
-        guard let note = notes.first else {
+        guard let note = notes.first
+        else {
             return
         }
 

@@ -63,7 +63,6 @@ class MemoTableViewController: UITableViewController {
     }
 
     @objc private func addEmptyMemo() {
-        addMemoButton.isEnabled = false
         delegate?.create()
         tableView.insertRows(at: [initialIndexPath], with: .fade)
         tableView.scrollToRow(at: initialIndexPath, at: .bottom, animated: true)

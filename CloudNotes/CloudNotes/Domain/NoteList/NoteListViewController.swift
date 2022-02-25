@@ -4,6 +4,7 @@ import CoreData
 
 class NoteListViewController: UITableViewController {
     private var noteListData = [Content]()
+    private var searchedNoteData = [Content]()
     private weak var dataSourceDelegate: NoteListViewDelegate?
     private let firstIndex = IndexPath(row: 0, section: 0)
     lazy var selectedIndexPath: IndexPath? = self.firstIndex {
@@ -29,6 +30,21 @@ class NoteListViewController: UITableViewController {
         button.action = #selector(showActionSheet)
         return button
     }()
+
+    private var searchController: UISearchController = {
+        let controller = UISearchController(searchResultsController: nil)
+        controller.hidesNavigationBarDuringPresentation = true
+        controller.searchBar.placeholder = "검색"
+
+        return controller
+    }()
+
+    func setUpController() {
+        self.navigationItem.searchController = searchController
+        self.navigationItem.hidesSearchBarWhenScrolling = true
+
+        searchController.searchResultsUpdater = self
+    }
 
     @objc func showActionSheet() {
         let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
@@ -73,6 +89,7 @@ class NoteListViewController: UITableViewController {
         )
         configureNavigationBar()
         configureTableView()
+        setUpController()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -250,5 +267,25 @@ class NoteListViewController: UITableViewController {
         }
 
         return UISwipeActionsConfiguration(actions: [share, delete])
+    }
+}
+
+// MARK: - UISearchController Result Updater
+
+extension NoteListViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let searchBarText = searchController.searchBar.text?.lowercased() else {
+            return
+        }
+
+        self.searchedNoteData = self.noteListData.filter { note in
+            note.title.lowercased().contains(searchBarText)
+        }
+
+        self.searchedNoteData.append(
+            contentsOf: self.noteListData.filter { note in
+                note.body.lowercased().contains(searchBarText)
+            }
+        )
     }
 }

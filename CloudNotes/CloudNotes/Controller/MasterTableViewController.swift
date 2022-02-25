@@ -10,9 +10,10 @@ final class MasterTableViewController: UITableViewController {
     // MARK: - Properties
     private(set) var memoDataSource: MasterTableViewDataSourceProtocol?
     weak var delegate: MemoSelectionDelegate?
+    lazy var searchResultViewController = SearchResultTableViewController(style: .insetGrouped, memos: memoDataSource?.retrieveMemos(), delegate: delegate)
     
     // MARK: - Initializer
-    init(style: UITableView.Style, dataSource: MasterTableViewDataSourceProtocol = MasterTableViewDataSource(), delegate: MemoSelectionDelegate) {
+    init(style: UITableView.Style = .insetGrouped, dataSource: MasterTableViewDataSourceProtocol = MasterTableViewDataSource(), delegate: MemoSelectionDelegate) {
         self.memoDataSource = dataSource
         self.delegate = delegate
         super.init(style: style)
@@ -30,8 +31,8 @@ final class MasterTableViewController: UITableViewController {
         configureNotificationCenter()
         tableView.reloadData()
         
-        DropBoxManager().createFolderAtDropBox() // 앱 최초실행 시 폴더를 한 번 생성함 (그 후에는 error를 출력)
-        DropBoxManager().presentSafariViewController(controller: self) // DropBox 관련 기능
+//        DropBoxManager().createFolderAtDropBox() // 앱 최초실행 시 폴더를 한 번 생성함 (그 후에는 error를 출력)
+//        DropBoxManager().presentSafariViewController(controller: self) // DropBox 관련 기능
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -47,11 +48,21 @@ final class MasterTableViewController: UITableViewController {
                                             target: self,
                                             action: #selector(touchUpAddMemoButton))
         navigationItem.rightBarButtonItem = addMemoButton
+        
+        configureSearchController()
+    }
+    
+    func configureSearchController() {
+        let searchController = UISearchController(searchResultsController: searchResultViewController)
+        searchController.hidesNavigationBarDuringPresentation = false
+        searchController.searchResultsUpdater = self
+        navigationItem.searchController = searchController
+        navigationItem.hidesSearchBarWhenScrolling = true
     }
     
     @objc private func touchUpAddMemoButton() {
         let currentTime = NSDate().timeIntervalSince1970
-        let memo = TemporaryMemo(title: "새로운 메모", body: "테스트용 메모입니다.", lastModifiedDate: currentTime, memoId: UUID()) // Test
+        let memo = TemporaryMemo(title: "새로운 메모", body: "내용을 입력해주세요.", lastModifiedDate: currentTime, memoId: UUID()) // Test
         let firstIndexPath = IndexPath(row: 0, section: 0)
         
         memoDataSource?.saveMemo(memo)
@@ -187,5 +198,17 @@ final class MasterTableViewController: UITableViewController {
         shareAction.image = UIImage(systemName: "square.and.arrow.up")
         
         return UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
+    }
+}
+
+// MARK: - SearchResult TableViewController delegate
+extension MasterTableViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let text = searchController.searchBar.text else {
+            return
+        }
+        
+        searchResultViewController.searchMemo(with: text)
+        searchResultViewController.tableView.reloadData()
     }
 }

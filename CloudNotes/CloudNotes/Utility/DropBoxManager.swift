@@ -35,7 +35,11 @@ struct DropBoxManager {
         fileNames.forEach { fileName in
             let fileURL = NSPersistentContainer.defaultDirectoryURL().appendingPathComponent(fileName)
             
-            dropBoxClient?.files.upload(path: "\(filePath)/\(fileName)", mode: .overwrite, autorename: true, clientModified: Date(), mute: false, propertyGroups: nil, strictConflict: false, input: fileURL)
+            guard let data = FileManager.default.contents(atPath: fileURL.path) else {
+                return
+            }
+            
+            dropBoxClient?.files.upload(path: "\(filePath)/\(fileName)", mode: .overwrite, input: data)
                 .response { response, error in
                     if let response = response {
                         print(response)

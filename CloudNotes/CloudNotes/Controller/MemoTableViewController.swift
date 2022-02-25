@@ -214,7 +214,15 @@ extension MemoTableViewController: UISearchControllerDelegate {
               let selectedRow = delegate?.fetchIndexPathRow(at: selectedId) else {
             return
         }
-                
-        tableView.selectRow(at: IndexPath(row: selectedRow, section: 0), animated: false, scrollPosition: .middle)
+        
+        let previousIndexPath = IndexPath(row: selectedRow, section: 0)
+        selectedIndexPath = previousIndexPath
+        
+        guard let selectedMemo = delegate?.fetch(at: previousIndexPath) else {
+            return
+        }
+        
+        tableView.selectRow(at: previousIndexPath, animated: false, scrollPosition: .middle)
+        delegate?.showSecondaryView(of: previousIndexPath, with: selectedMemo)
     }
 }

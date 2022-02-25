@@ -180,15 +180,12 @@ extension MemoSplitViewController: CoreDataManageable {
     }
     
     func update(at indexPath: IndexPath, title: String, body: String) {
-        
-        // 검색 결과에서 삭제
-        // 원래 테이블: id로 찾은 순서에 따라 지워지는거
-        // 검색 테이블: indexPath 가 지워지는게 맞음
         memoTableViewController.changeAddButtonState(disabled: title.isEmpty)
         
         memoTableViewController.tableView.performBatchUpdates {
             if indexPath.row != 0 {
                 memoTableViewController.tableView.moveRow(at: indexPath, to: .zero)
+                memoTableViewController.tableView.scrollToRow(at: .zero, at: .bottom, animated: true)
             }
         } completion: { isCompleted in
             if isCompleted {

@@ -39,7 +39,7 @@ class CDDataSourceProvider: NoteDataSource {
             "identification": note.identification
         ]
 
-        persistentManager.create(entityName: String(describing: Note.self), values: values)
+        try persistentManager.create(entityName: String(describing: Note.self), values: values)
         try fetch()
     }
 
@@ -60,7 +60,7 @@ class CDDataSourceProvider: NoteDataSource {
             "modifiedDate": updatedNote.lastModifiedDate
         ]
 
-        persistentManager.update(object: note, values: values)
+        try persistentManager.update(object: note, values: values)
         try fetch()
     }
 
@@ -74,18 +74,14 @@ class CDDataSourceProvider: NoteDataSource {
             return
         }
 
-        persistentManager.delete(object: note)
+        try persistentManager.delete(object: note)
         try fetch()
     }
 
-    func saveContext(_ context: NSManagedObjectContext) {
-        if context.hasChanges {
-            do {
-                try context.save()
-            } catch {
-                let nserror = error as NSError
-                fatalError("\(nserror)")
-            }
-        }
+    func deleteAllNote() throws {
+        let request = Note.fetchRequest()
+        persistentManager.deleteAll(request: request)
+
+        try fetch()
     }
 }

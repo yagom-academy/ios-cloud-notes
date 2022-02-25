@@ -1,11 +1,9 @@
 import UIKit
+import SwiftyDropbox
+import CoreData
 
 class NoteListViewController: UITableViewController {
-    private var noteListData = [Content]() {
-        willSet {
-            print(newValue)
-        }
-    }
+    private var noteListData = [Content]()
     private weak var dataSourceDelegate: NoteListViewDelegate?
     private let firstIndex = IndexPath(row: 0, section: 0)
     lazy var selectedIndexPath: IndexPath? = self.firstIndex {
@@ -24,6 +22,41 @@ class NoteListViewController: UITableViewController {
         return button
     }()
 
+    private lazy var configureButton: UIBarButtonItem = {
+        let button = UIBarButtonItem()
+        button.image = UIImage(systemName: "square.and.arrow.up")
+        button.target = self
+        button.action = #selector(showActionSheet)
+        return button
+    }()
+
+    @objc func showActionSheet() {
+        let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        if DropboxClientsManager.authorizedClient == nil {
+            let loginAction = UIAlertAction(title: "로그인", style: .default) { _ in
+                self.dataSourceDelegate?.logIn()
+            }
+            actionSheet.addAction(loginAction)
+        } else {
+            let logoutAction = UIAlertAction(title: "로그아웃", style: .destructive) { _ in
+                DropboxClientsManager.unlinkClients()
+            }
+            let downloadAction = UIAlertAction(title: "다운로드", style: .default) { _ in
+                self.dataSourceDelegate?.download()
+            }
+            let uploadAction = UIAlertAction(title: "업로드", style: .default) { _ in
+                self.dataSourceDelegate?.upload()
+            }
+            actionSheet.addAction(logoutAction)
+            actionSheet.addAction(uploadAction)
+            actionSheet.addAction(downloadAction)
+            actionSheet.title = dataSourceDelegate?.synchronizationLastUpdated()
+        }
+
+        actionSheet.popoverPresentationController?.barButtonItem = configureButton
+        self.present(actionSheet, animated: true, completion: nil)
+    }
+
     private lazy var activityController: UIActivityViewController = {
         let controller = UIActivityViewController(
             activityItems: ["memo"],
@@ -31,8 +64,6 @@ class NoteListViewController: UITableViewController {
         )
         return controller
     }()
-
-    // MARK: - View Life Cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,6 +100,38 @@ class NoteListViewController: UITableViewController {
         self.dataSourceDelegate?.creatNote()
     }
 
+    func presentUploadFailureAlert() {
+        let uploadFailureAlert = UIAlertController(
+            title: "백업에 실패하였습니다",
+            message: nil,
+            preferredStyle: .alert
+        )
+        let okAction = UIAlertAction(title: "확인", style: .default) { _ in
+            self.dismiss(animated: true, completion: nil)
+        }
+        uploadFailureAlert.addAction(okAction)
+
+        if !uploadFailureAlert.isBeingPresented {
+            self.present(uploadFailureAlert, animated: true, completion: nil)
+        }
+    }
+
+    func presentDownloadFailureAlert() {
+        let downloadFailureAlert = UIAlertController(
+            title: "다운로드에 실패하였습니다",
+            message: nil,
+            preferredStyle: .alert
+        )
+        let okAction = UIAlertAction(title: "확인", style: .default) { _ in
+            self.dismiss(animated: true, completion: nil)
+        }
+        downloadFailureAlert.addAction(okAction)
+
+        if !downloadFailureAlert.isBeingPresented {
+            self.present(downloadFailureAlert, animated: true, completion: nil)
+        }
+    }
+
     // MARK: - Set Delegate Method
 
     func setDelegate(delegate: NoteListViewDelegate) {
@@ -88,10 +151,10 @@ class NoteListViewController: UITableViewController {
             message: nil,
             preferredStyle: .alert
         )
-        let cancelAction = UIAlertAction(title: "취소", style: .cancel) { action in
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel) { _ in
             self.dismiss(animated: true, completion: nil)
         }
-        let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { action in
+        let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
             let note = self.noteListData[indexPath.row]
             self.dataSourceDelegate?.deleteNote(note, index: indexPath.row)
         }
@@ -109,7 +172,12 @@ class NoteListViewController: UITableViewController {
 
     func insert(_ note: Content) {
         self.noteListData.insert(note, at: 0)
-        self.tableView.insertRows(at: [firstIndex], with: .automatic)
+        switch self.noteListData.count {
+        case 1:
+            self.tableView.reloadData()
+        default:
+            self.tableView.insertRows(at: [firstIndex], with: .automatic)
+        }
     }
 
     func delete(at index: Int) {
@@ -121,8 +189,7 @@ class NoteListViewController: UITableViewController {
 
     private func configureNavigationBar() {
         self.title = "메모"
-
-        self.navigationItem.rightBarButtonItem = addButton
+        self.navigationItem.rightBarButtonItems = [addButton, configureButton]
     }
 
     private func configureTableView() {
@@ -155,6 +222,7 @@ class NoteListViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.selectedIndexPath = indexPath
         dataSourceDelegate?.passNote(at: indexPath.row)
+        splitViewController?.show(.secondary)
     }
 
     override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
@@ -168,7 +236,7 @@ class NoteListViewController: UITableViewController {
         let share = UIContextualAction(
             style: .normal,
             title: "공유"
-        ) { action, view, completionHandler in
+        ) { _, _, completionHandler in
             self.showActivityController()
             completionHandler(true)
         }
@@ -176,7 +244,7 @@ class NoteListViewController: UITableViewController {
         let delete = UIContextualAction(
             style: .destructive,
             title: "삭제"
-        ) { action, view, completionHandler in
+        ) { _, _, completionHandler in
             self.showDeleteAlert(indexPath: indexPath)
             completionHandler(true)
         }

@@ -1,15 +1,35 @@
 import UIKit
+import SwiftyDropbox
 
 class SplitViewController: UISplitViewController {
     private let noteListViewController = NoteListViewController()
     private let detailedNoteViewController = DetailedNoteViewController()
     private var dataSourceProvider: NoteDataSource?
     private var currentNoteIndex: Int?
+    private var synchronizationProvider: Synchronizable?
+    var timer: Timer?
+
+    private let activityIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView(style: .large)
+        indicator.hidesWhenStopped = true
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        return indicator
+    }()
+
+    private lazy var dimView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .systemGray
+        view.alpha = 0.3
+        view.isHidden = true
+        view.frame = self.view.frame
+        return view
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         self.dataSourceProvider = CDDataSourceProvider()
+        self.synchronizationProvider = DropboxProvider()
         self.preferredDisplayMode = .oneBesideSecondary
         self.preferredSplitBehavior = .tile
         self.setViewController(noteListViewController, for: .primary)
@@ -18,6 +38,10 @@ class SplitViewController: UISplitViewController {
 
         self.noteListViewController.setDelegate(delegate: self)
         self.detailedNoteViewController.setDelegate(delegate: self)
+        self.view.addSubview(activityIndicator)
+        self.view.addSubview(dimView)
+        configureConstraint()
+        setUploadTimer()
     }
 
     private func fetchNotes() {
@@ -36,13 +60,75 @@ class SplitViewController: UISplitViewController {
         }
 
         self.noteListViewController.setNoteList(data)
+        self.noteListViewController.selectedIndexPath = IndexPath(row: 0, section: 0)
         self.detailedNoteViewController.setNoteData(data.first)
         self.currentNoteIndex = 0
+    }
+
+    // MARK: - View Configure
+    func configureConstraint() {
+        NSLayoutConstraint.activate([
+            activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
+    }
+
+    // MARK: - Synchronization Method
+    
+    @objc func upload() {
+        guard let memos = self.dataSourceProvider?.noteList else {
+            return
+        }
+
+        guard let memosString = self.synchronizationProvider?.convertModelToText(from: memos) else {
+            return
+        }
+
+        self.synchronizationProvider?.upload(memoString: memosString) { error in
+            if error != nil {
+                self.noteListViewController.presentUploadFailureAlert()
+            }
+        }
+    }
+
+    func download() {
+        activityIndicator.startAnimating()
+        self.dimView.isHidden = false
+        self.synchronizationProvider?.download { result in
+            switch result {
+            case .success(let memos):
+                try? self.dataSourceProvider?.deleteAllNote()
+                memos.forEach { memo in
+                    try? self.dataSourceProvider?.createNote(memo)
+                }
+                self.fetchNotes()
+
+            case .failure:
+                self.noteListViewController.presentDownloadFailureAlert()
+            }
+            self.activityIndicator.stopAnimating()
+            self.dimView.isHidden = true
+        }
+    }
+
+    func setUploadTimer() {
+//        self.timer = Timer.scheduledTimer(
+//            timeInterval: 15,
+//            target: self,
+//            selector: #selector(upload),
+//            userInfo: nil,
+//            repeats: true
+//        )
     }
 }
 
 // MARK: - NoteList View Delegate
+
 extension SplitViewController: NoteListViewDelegate {
+    func logIn() {
+        self.synchronizationProvider?.logIn(at: noteListViewController)
+    }
+
     func deleteNote(_ note: Content, index: Int) {
         do {
             try self.dataSourceProvider?.deleteNote(note)
@@ -55,19 +141,15 @@ extension SplitViewController: NoteListViewDelegate {
         }
 
         self.noteListViewController.delete(at: index)
-        var changedIndex: Int?
+        var changedIndex: Int
         if noteList.count == index {
             changedIndex = index - 1
         } else {
             changedIndex = index
         }
 
-        guard let index = changedIndex else {
-            return
-        }
-
-        self.noteListViewController.selectedIndexPath = IndexPath(row: index, section: 0)
-        self.detailedNoteViewController.setNoteData(noteList[safe: index])
+        self.noteListViewController.selectedIndexPath = IndexPath(row: changedIndex, section: 0)
+        self.detailedNoteViewController.setNoteData(noteList[safe: changedIndex])
     }
 
     func creatNote() {
@@ -97,6 +179,10 @@ extension SplitViewController: NoteListViewDelegate {
         self.currentNoteIndex = index
         detailedNoteViewController.setNoteData(dataSourceProvider?.noteList[index])
         self.view.endEditing(true)
+    }
+
+    func synchronizationLastUpdated() -> String? {
+        self.synchronizationProvider?.lastUpdated()
     }
 }
 

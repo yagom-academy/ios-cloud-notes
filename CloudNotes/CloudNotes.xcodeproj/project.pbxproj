@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -17,6 +17,8 @@
 		0DE02F4027BA28E500E05C33 /* Note+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE02F3F27BA28E500E05C33 /* Note+CoreDataProperties.swift */; };
 		0DE02F4327BB3B9C00E05C33 /* PersistentManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE02F4227BB3B9C00E05C33 /* PersistentManager.swift */; };
 		0F54B39373C5EF8AE00908CA /* Pods_CloudNotes_CloudNotesUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E3ECB8C9B3FD64FDB494A09 /* Pods_CloudNotes_CloudNotesUITests.framework */; };
+		33171EA327C399E6008D9463 /* DropboxProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33171EA227C399E6008D9463 /* DropboxProvider.swift */; };
+		33171EA527C3A2E0008D9463 /* SynchronizationError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33171EA427C3A2E0008D9463 /* SynchronizationError.swift */; };
 		3361C9C527B237720074B6B7 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 3361C9C427B237720074B6B7 /* .swiftlint.yml */; };
 		3361C9C727B245190074B6B7 /* NoteListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3361C9C627B245190074B6B7 /* NoteListViewController.swift */; };
 		3361C9C927B246BD0074B6B7 /* DetailedNoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3361C9C827B246BD0074B6B7 /* DetailedNoteViewController.swift */; };
@@ -26,6 +28,7 @@
 		3399D41A27B64E3000DBF577 /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3399D41927B64E3000DBF577 /* UIFont+Extension.swift */; };
 		339A3F8127BA171000241E74 /* CDDataSourceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339A3F8027BA171000241E74 /* CDDataSourceProvider.swift */; };
 		33A2AF6527B2905E00877CEC /* DateFormatter+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A2AF6427B2905E00877CEC /* DateFormatter+Extension.swift */; };
+		33D827AA27C755E50029C2F6 /* Synchronizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D827A927C755E50029C2F6 /* Synchronizable.swift */; };
 		41C46D59E466870636042C13 /* Pods_CloudNotes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05CB22C62AD44A5BEB012F9A /* Pods_CloudNotes.framework */; };
 		C569208F295181F6C2064D11 /* Pods_CloudNotesTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 171506D4D23C24FEEE14CA85 /* Pods_CloudNotesTests.framework */; };
 		C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */; };
@@ -68,6 +71,8 @@
 		171506D4D23C24FEEE14CA85 /* Pods_CloudNotesTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CloudNotesTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2057D6A129B2310431C6B7D5 /* Pods-CloudNotes-CloudNotesUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudNotes-CloudNotesUITests.release.xcconfig"; path = "Target Support Files/Pods-CloudNotes-CloudNotesUITests/Pods-CloudNotes-CloudNotesUITests.release.xcconfig"; sourceTree = "<group>"; };
 		2FD874CF6629A1868FD171ED /* Pods-CloudNotes-CloudNotesUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudNotes-CloudNotesUITests.debug.xcconfig"; path = "Target Support Files/Pods-CloudNotes-CloudNotesUITests/Pods-CloudNotes-CloudNotesUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		33171EA227C399E6008D9463 /* DropboxProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropboxProvider.swift; sourceTree = "<group>"; };
+		33171EA427C3A2E0008D9463 /* SynchronizationError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SynchronizationError.swift; sourceTree = "<group>"; };
 		3361C9C427B237720074B6B7 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		3361C9C627B245190074B6B7 /* NoteListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteListViewController.swift; sourceTree = "<group>"; };
 		3361C9C827B246BD0074B6B7 /* DetailedNoteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailedNoteViewController.swift; sourceTree = "<group>"; };
@@ -77,6 +82,7 @@
 		3399D41927B64E3000DBF577 /* UIFont+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extension.swift"; sourceTree = "<group>"; };
 		339A3F8027BA171000241E74 /* CDDataSourceProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDDataSourceProvider.swift; sourceTree = "<group>"; };
 		33A2AF6427B2905E00877CEC /* DateFormatter+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Extension.swift"; sourceTree = "<group>"; };
+		33D827A927C755E50029C2F6 /* Synchronizable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Synchronizable.swift; sourceTree = "<group>"; };
 		6E3ECB8C9B3FD64FDB494A09 /* Pods_CloudNotes_CloudNotesUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CloudNotes_CloudNotesUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		75D242E741D95FB17FB9AAA9 /* Pods-CloudNotes.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudNotes.debug.xcconfig"; path = "Target Support Files/Pods-CloudNotes/Pods-CloudNotes.debug.xcconfig"; sourceTree = "<group>"; };
 		7740B1C2836F52733C544420 /* Pods-CloudNotesTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudNotesTests.release.xcconfig"; path = "Target Support Files/Pods-CloudNotesTests/Pods-CloudNotesTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -237,6 +243,16 @@
 			path = Extension;
 			sourceTree = "<group>";
 		};
+		33D827AB27C760F40029C2F6 /* SynchronizationProvider */ = {
+			isa = PBXGroup;
+			children = (
+				33D827A927C755E50029C2F6 /* Synchronizable.swift */,
+				33171EA227C399E6008D9463 /* DropboxProvider.swift */,
+				33171EA427C3A2E0008D9463 /* SynchronizationError.swift */,
+			);
+			path = SynchronizationProvider;
+			sourceTree = "<group>";
+		};
 		687DD662CB8F41C499ACF6E9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -276,6 +292,7 @@
 				0DE02F4127BA293F00E05C33 /* CoreData */,
 				33A2AF6627B293AE00877CEC /* Extension */,
 				3361C9CD27B24C400074B6B7 /* DataSourceProvider */,
+				33D827AB27C760F40029C2F6 /* SynchronizationProvider */,
 				0D3DAAE527B24901005F9502 /* Model */,
 				3361C9CC27B248410074B6B7 /* Bundle */,
 				3361C9CB27B248150074B6B7 /* Domain */,
@@ -316,6 +333,7 @@
 				C7481C6725BBCF3900B9CA55 /* Frameworks */,
 				C7481C6825BBCF3900B9CA55 /* Resources */,
 				3361C9C327B237090074B6B7 /* ShellScript */,
+				6AE3E2829A5A200F3ECF0CFB /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -353,6 +371,7 @@
 				C7481C8A25BBCF3A00B9CA55 /* Sources */,
 				C7481C8B25BBCF3A00B9CA55 /* Frameworks */,
 				C7481C8C25BBCF3A00B9CA55 /* Resources */,
+				B7D54CA2A5A77B14DBF31A90 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -494,6 +513,40 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		6AE3E2829A5A200F3ECF0CFB /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CloudNotes/Pods-CloudNotes-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CloudNotes/Pods-CloudNotes-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CloudNotes/Pods-CloudNotes-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B7D54CA2A5A77B14DBF31A90 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CloudNotes-CloudNotesUITests/Pods-CloudNotes-CloudNotesUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CloudNotes-CloudNotesUITests/Pods-CloudNotes-CloudNotesUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CloudNotes-CloudNotesUITests/Pods-CloudNotes-CloudNotesUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		C823C55F597C114505F6DE39 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -528,13 +581,16 @@
 				C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */,
 				3361C9D127B24D140074B6B7 /* JSONDataSourceProvider.swift in Sources */,
 				0D3DAAE727B24919005F9502 /* Content.swift in Sources */,
+				33171EA327C399E6008D9463 /* DropboxProvider.swift in Sources */,
 				0D89DF7127B6338C00ADF3F6 /* DetailedNoteViewDelegate.swift in Sources */,
+				33D827AA27C755E50029C2F6 /* Synchronizable.swift in Sources */,
 				0DE02F4327BB3B9C00E05C33 /* PersistentManager.swift in Sources */,
 				C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */,
 				C7481C7825BBCF3900B9CA55 /* CloudNotes.xcdatamodeld in Sources */,
 				0DE02F4027BA28E500E05C33 /* Note+CoreDataProperties.swift in Sources */,
 				3361C9D327B25F890074B6B7 /* NoteListCell.swift in Sources */,
 				3361C9C727B245190074B6B7 /* NoteListViewController.swift in Sources */,
+				33171EA527C3A2E0008D9463 /* SynchronizationError.swift in Sources */,
 				0D3DAAE427B23D59005F9502 /* SplitViewController.swift in Sources */,
 				0D3DAAEC27B259D6005F9502 /* DecodingUtility.swift in Sources */,
 				0D3DAAEA27B2589D005F9502 /* DataSourceError.swift in Sources */,

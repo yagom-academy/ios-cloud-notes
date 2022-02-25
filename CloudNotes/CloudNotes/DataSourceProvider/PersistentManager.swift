@@ -27,7 +27,7 @@ class PersistentManager {
         return data
     }
 
-    func create(entityName: String, values: [String: Any]) {
+    func create(entityName: String, values: [String: Any]) throws {
         let context = self.context
         let entity = NSEntityDescription.entity(forEntityName: entityName, in: context)
 
@@ -38,30 +38,42 @@ class PersistentManager {
             }
         }
 
-        self.saveContext()
+        try self.saveContext()
     }
 
-    func update(object: NSManagedObject, values: [String: Any]) {
+    func update(object: NSManagedObject, values: [String: Any]) throws {
         values.forEach { (key, value) in
             object.setValue(value, forKey: key)
 
         }
 
-        self.saveContext()
+        try self.saveContext()
     }
 
-    func delete(object: NSManagedObject) {
+    func delete(object: NSManagedObject) throws {
         context.delete(object)
-        self.saveContext()
+
+        try self.saveContext()
     }
 
-    func saveContext() {
+    func deleteAll<T: NSManagedObject>(request: NSFetchRequest<T>) -> Bool {
+        let request: NSFetchRequest<NSFetchRequestResult> = T.fetchRequest()
+        let delete = NSBatchDeleteRequest(fetchRequest: request)
+        do {
+            try self.context.execute(delete)
+            return true
+        } catch {
+            return false
+        }
+    }
+
+    func saveContext() throws {
         if self.context.hasChanges {
             do {
                 try self.context.save()
             } catch {
                 let nserror = error as NSError
-                fatalError("\(nserror)")
+                throw DataSourceError.coreDataSaveFailure
             }
         }
     }

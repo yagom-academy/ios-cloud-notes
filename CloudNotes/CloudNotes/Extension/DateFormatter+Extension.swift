@@ -10,4 +10,14 @@ extension DateFormatter {
 
         return formatter
     }()
+
+    static let lastUploadDate: DateFormatter = {
+        let formatter = DateFormatter()
+        let locale = Locale.preferredLanguages.first ?? Locale.current.identifier
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .medium
+        formatter.locale = Locale(identifier: locale)
+
+        return formatter
+    }()
 }

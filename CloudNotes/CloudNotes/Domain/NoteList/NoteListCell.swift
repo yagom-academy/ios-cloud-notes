@@ -46,6 +46,7 @@ class NoteListCell: UITableViewCell {
         label.font = .preferredFont(forTextStyle: .caption2)
         label.textColor = .systemGray2
         label.adjustsFontForContentSizeCategory = true
+        label.textAlignment = .right
 
         return label
     }()

@@ -10,4 +10,6 @@ protocol NoteDataSource {
     func updateNote(_ updatedNote: Content) throws
 
     func deleteNote(_ noteToDelete: Content) throws
+
+    func deleteAllNote() throws
 }

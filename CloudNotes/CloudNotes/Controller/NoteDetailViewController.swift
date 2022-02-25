@@ -119,7 +119,7 @@ final class NoteDetailViewController: UIViewController {
 extension NoteDetailViewController: UITextViewDelegate {
     
     func textViewDidBeginEditing(_ textView: UITextView) {
-        if textView.text == "\n\n" {
+        if textView.text == "\n" {
             textView.text = ""
         }
     }

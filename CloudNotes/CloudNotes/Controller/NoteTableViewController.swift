@@ -21,7 +21,7 @@ final class NoteTableViewController: UITableViewController {
                 }
                 
                 cell.setLabelText(
-                    title: item.title,
+                    title: item.title == "" ? "새로운 메모" : item.title,
                     body: item.body,
                     lastModified: self.viewModel.fetchDate(note: item))
                 

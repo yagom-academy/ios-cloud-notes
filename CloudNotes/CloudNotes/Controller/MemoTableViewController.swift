@@ -40,6 +40,7 @@ class MemoTableViewController: UITableViewController {
     private func configureSearchController() {
         memoSearchResultTableViewController.tableView.delegate = self
         memoSearchController.searchResultsUpdater = self
+        memoSearchController.delegate = self
         memoSearchController.searchBar.placeholder = "검색".localized
         self.navigationItem.searchController = memoSearchController
         self.navigationItem.hidesSearchBarWhenScrolling = false
@@ -143,13 +144,13 @@ extension MemoTableViewController {
 
 extension MemoTableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        selectedIndexPath = indexPath
-        
         let selectedMemo: Memo!
         if tableView == self.tableView {
+            selectedIndexPath = indexPath
             selectedMemo = delegate?.fetch(at: indexPath)
         } else {
             selectedMemo = memoSearchResultTableViewController.fetch(at: indexPath)
+            memoSearchResultTableViewController.selectedMemoId = selectedMemo.id
         }
         
         delegate?.showSecondaryView(of: indexPath, with: selectedMemo)
@@ -202,5 +203,18 @@ extension MemoTableViewController: UISearchResultsUpdating {
         
         memoSearchResultTableViewController.updateSearchResult(with: Array(searchedMemos))
         memoSearchResultTableViewController.changeStateOfSearchResultLabel(hidden: !searchedMemos.isEmpty)
+    }
+}
+
+// MARK: - UISearchControllerDelegate
+
+extension MemoTableViewController: UISearchControllerDelegate {
+    func willDismissSearchController(_ searchController: UISearchController) {
+        guard let selectedId = memoSearchResultTableViewController.selectedMemoId,
+              let selectedRow = delegate?.fetchIndexPathRow(at: selectedId) else {
+            return
+        }
+                
+        tableView.selectRow(at: IndexPath(row: selectedRow, section: 0), animated: false, scrollPosition: .middle)
     }
 }

@@ -8,7 +8,6 @@
 import UIKit
 
 class MemoSearchController: UISearchController {
-
     override func viewDidLoad() {
         super.viewDidLoad()
     }

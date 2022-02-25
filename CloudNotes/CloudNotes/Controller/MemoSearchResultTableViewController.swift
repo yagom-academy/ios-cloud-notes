@@ -8,6 +8,7 @@
 import UIKit
 
 class MemoSearchResultTableViewController: UITableViewController {
+    var selectedMemoId: UUID?
     private var searchedMemos = [Memo]() {
         didSet {
             searchedMemos.sort { $0.lastModified > $1.lastModified }

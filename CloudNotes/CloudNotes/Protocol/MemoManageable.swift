@@ -15,6 +15,7 @@ protocol CoreDataManageable: AnyObject {
     
     func create()
     func fetchAll()
+    func fetchIndexPathRow(at id: UUID) -> Int
     func fetch(at indexPath: IndexPath) -> Memo
     func delete(at indexPath: IndexPath)
     func update(at indexPath: IndexPath, title: String, body: String)

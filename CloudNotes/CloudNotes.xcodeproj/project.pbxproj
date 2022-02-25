@@ -154,14 +154,6 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		0D3DAAE827B25856005F9502 /* Error */ = {
-			isa = PBXGroup;
-			children = (
-				0D3DAAE927B2589D005F9502 /* DataSourceError.swift */,
-			);
-			path = Error;
-			sourceTree = "<group>";
-		};
 		0DE02F4127BA293F00E05C33 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
@@ -180,33 +172,31 @@
 			path = "App Life Cycle";
 			sourceTree = "<group>";
 		};
-		3361C9CB27B248150074B6B7 /* Domain */ = {
+		3361C9CB27B248150074B6B7 /* Scene */ = {
 			isa = PBXGroup;
 			children = (
 				3399D41627B6377B00DBF577 /* Main */,
 				3399D41727B6378600DBF577 /* NoteList */,
 				3399D41827B6378D00DBF577 /* NoteDetail */,
 			);
-			path = Domain;
+			path = Scene;
 			sourceTree = "<group>";
 		};
-		3361C9CC27B248410074B6B7 /* Bundle */ = {
+		3361C9CC27B248410074B6B7 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
 				C7481C7925BBCF3A00B9CA55 /* Assets.xcassets */,
 			);
-			path = Bundle;
+			path = Resource;
 			sourceTree = "<group>";
 		};
 		3361C9CD27B24C400074B6B7 /* DataSourceProvider */ = {
 			isa = PBXGroup;
 			children = (
-				0D3DAAE827B25856005F9502 /* Error */,
 				3361C9CE27B24CD10074B6B7 /* NoteDataSource.swift */,
-				3361C9D027B24D130074B6B7 /* JSONDataSourceProvider.swift */,
-				0D3DAAEB27B259D6005F9502 /* DecodingUtility.swift */,
-				339A3F8027BA171000241E74 /* CDDataSourceProvider.swift */,
-				0DE02F4227BB3B9C00E05C33 /* PersistentManager.swift */,
+				0D3DAAE927B2589D005F9502 /* DataSourceError.swift */,
+				33F1601D27C8E0FA005061B1 /* JSON */,
+				33F1601C27C8E0F8005061B1 /* CoreData */,
 			);
 			path = DataSourceProvider;
 			sourceTree = "<group>";
@@ -267,6 +257,40 @@
 			path = Search;
 			sourceTree = "<group>";
 		};
+		33F1601A27C8E090005061B1 /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				0DE02F4227BB3B9C00E05C33 /* PersistentManager.swift */,
+				0D3DAAEB27B259D6005F9502 /* DecodingUtility.swift */,
+			);
+			path = Util;
+			sourceTree = "<group>";
+		};
+		33F1601B27C8E0E1005061B1 /* DataBase */ = {
+			isa = PBXGroup;
+			children = (
+				3361C9CD27B24C400074B6B7 /* DataSourceProvider */,
+				33D827AB27C760F40029C2F6 /* SynchronizationProvider */,
+			);
+			path = DataBase;
+			sourceTree = "<group>";
+		};
+		33F1601C27C8E0F8005061B1 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				339A3F8027BA171000241E74 /* CDDataSourceProvider.swift */,
+			);
+			path = CoreData;
+			sourceTree = "<group>";
+		};
+		33F1601D27C8E0FA005061B1 /* JSON */ = {
+			isa = PBXGroup;
+			children = (
+				3361C9D027B24D130074B6B7 /* JSONDataSourceProvider.swift */,
+			);
+			path = JSON;
+			sourceTree = "<group>";
+		};
 		687DD662CB8F41C499ACF6E9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -303,14 +327,14 @@
 		C7481C6C25BBCF3900B9CA55 /* CloudNotes */ = {
 			isa = PBXGroup;
 			children = (
-				0DE02F4127BA293F00E05C33 /* CoreData */,
-				33A2AF6627B293AE00877CEC /* Extension */,
-				3361C9CD27B24C400074B6B7 /* DataSourceProvider */,
-				33D827AB27C760F40029C2F6 /* SynchronizationProvider */,
-				0D3DAAE527B24901005F9502 /* Model */,
-				3361C9CC27B248410074B6B7 /* Bundle */,
-				3361C9CB27B248150074B6B7 /* Domain */,
 				3361C9CA27B248130074B6B7 /* App Life Cycle */,
+				3361C9CB27B248150074B6B7 /* Scene */,
+				0D3DAAE527B24901005F9502 /* Model */,
+				33F1601B27C8E0E1005061B1 /* DataBase */,
+				0DE02F4127BA293F00E05C33 /* CoreData */,
+				33F1601A27C8E090005061B1 /* Util */,
+				33A2AF6627B293AE00877CEC /* Extension */,
+				3361C9CC27B248410074B6B7 /* Resource */,
 				C7481C7E25BBCF3A00B9CA55 /* Info.plist */,
 				C7481C7625BBCF3900B9CA55 /* CloudNotes.xcdatamodeld */,
 			);

@@ -44,6 +44,13 @@ final class NoteTableViewController: UITableViewController {
             action: #selector(loginButtonDidTap))
     }()
     
+    private lazy var noteSearchController: UISearchController = {
+        let controller = UISearchController(searchResultsController: nil)
+        controller.searchBar.delegate = self
+        controller.delegate = self
+        return controller
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureTableView()
@@ -99,6 +106,8 @@ final class NoteTableViewController: UITableViewController {
     private func configureLayout() {
         navigationController?.navigationBar.topItem?.title = "메모"
         navigationItem.rightBarButtonItems = [addBarButtonItem, loginBarButtonItem]
+        navigationItem.searchController = noteSearchController
+        navigationItem.hidesSearchBarWhenScrolling = false
     }
     
     @objc
@@ -194,6 +203,35 @@ extension NoteTableViewController {
         
         let actionsConfiguration = UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
         return actionsConfiguration
+    }
+    
+    private func performQuery(with text: String) {
+        let datas = viewModel.noteData.filter { note in
+            return note.title.contains(text) || note.body.contains(text)
+        }
+        
+        var snapshot = NSDiffableDataSourceSnapshot<Section, Note>()
+        
+        snapshot.appendSections([.main])
+        snapshot.appendItems(datas, toSection: .main)
+        
+        dataSource.apply(snapshot, animatingDifferences: true)
+    }
+    
+}
+
+extension NoteTableViewController: UISearchBarDelegate {
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        performQuery(with: searchText)
+    }
+    
+}
+
+extension NoteTableViewController: UISearchControllerDelegate {
+    
+    func willDismissSearchController(_ searchController: UISearchController) {
+        self.updateUI()
     }
     
 }

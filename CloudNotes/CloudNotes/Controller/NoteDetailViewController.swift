@@ -66,6 +66,7 @@ final class NoteDetailViewController: UIViewController {
         configureHierarchy()
         configureLayout()
         configureDelegate()
+        view.backgroundColor = .secondarySystemBackground
     }
     
     init(viewModel: NoteViewModel) {

@@ -25,6 +25,7 @@ final class NoteTableViewController: UITableViewController {
                     body: item.body,
                     lastModified: self.viewModel.fetchDate(note: item))
                 
+                cell.backgroundColor = .tertiarySystemBackground
                 return cell
             }
     }()
@@ -59,6 +60,8 @@ final class NoteTableViewController: UITableViewController {
         viewModel.updateUIByDataHandler = updateTable
         viewModel.viewDidLoad()
         updateUI()
+        
+        tableView.backgroundColor = .secondarySystemBackground
     }
     
     init(viewModel: NoteViewModel) {

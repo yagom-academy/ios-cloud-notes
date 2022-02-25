@@ -6,10 +6,12 @@
 //
 
 import UIKit
+import SwiftyDropbox
 
-class MemoTableViewController: UITableViewController {    
-    private let initialIndexPath: IndexPath = .zero
+class MemoTableViewController: UITableViewController {
     lazy var selectedIndexPath = initialIndexPath
+    private let initialIndexPath: IndexPath = .zero
+    private lazy var addMemoButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addEmptyMemo))
     private weak var delegate: MemoManageable?
     
     private var isSplitViewCollapsed: Bool? {
@@ -33,15 +35,31 @@ class MemoTableViewController: UITableViewController {
     }
     
     private func configureNavigationBar() {
+        self.navigationController?.navigationBar.prefersLargeTitles = true
         self.navigationItem.title = "메모"
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addEmptyMemo))
+        let connectDropboxButton = UIBarButtonItem(image: UIImage(systemName: SystemIcon.linkDropbox), style: .plain, target: self, action: nil)
+        connectDropboxButton.imageInsets = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: -15)
+        
+        let loginAction = UIAction(title: ActionTitle.login) { _ in
+            self.connectDropbox()
+        }
+        
+        let logoutAction = UIAction(title: ActionTitle.logout, attributes: .destructive) { _ in
+            self.disconnectDropbox()
+        }
+        
+        let connectionMenu = UIMenu(options: .displayInline, children: [loginAction, logoutAction])
+        connectDropboxButton.menu = connectionMenu
+        
+        self.navigationItem.rightBarButtonItems = [addMemoButton, connectDropboxButton]
     }
     
     private func configureTableView() {
-        if isSplitViewCollapsed == false && delegate?.isMemoStorageEmpty == false {
+        if isSplitViewCollapsed == false && delegate?.isMemosEmpty == false {
             tableView.delegate?.tableView?(tableView, didSelectRowAt: initialIndexPath)
         }
         tableView.separatorInset = UIEdgeInsets.zero
+        tableView.allowsSelectionDuringEditing = true
     }
 
     @objc private func addEmptyMemo() {
@@ -53,6 +71,21 @@ class MemoTableViewController: UITableViewController {
         tableView.isEditing = false
     }
     
+    private func connectDropbox() {
+        delegate?.connectDropbox(viewController: self)
+    }
+    
+    private func disconnectDropbox() {
+        DropboxClientsManager.unlinkClients()
+        UserDefaults.standard.set(false, forKey: UserDefaultsKey.dropboxConnected)
+        delegate?.presentConnectResultAlert(type: .disconnect)
+    }
+    
+    func updateTableView() {
+        delegate?.fetchAll()
+        tableView.reloadData()
+    }
+    
     func deleteRow(at indexPath: IndexPath) {
         tableView.deleteRows(at: [indexPath], with: .fade)
     }
@@ -60,6 +93,10 @@ class MemoTableViewController: UITableViewController {
     func updateSelectedIndexPath(with indexPath: IndexPath) {
         selectedIndexPath = indexPath
         tableView.selectRow(at: selectedIndexPath, animated: true, scrollPosition: .none)
+    }
+    
+    func changeAddButtonState(disabled: Bool) {
+        addMemoButton.isEnabled = !disabled
     }
 }
 
@@ -93,6 +130,11 @@ extension MemoTableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         selectedIndexPath = indexPath
         delegate?.showSecondaryView(of: indexPath)
+    }
+    
+    override func setEditing(_ editing: Bool, animated: Bool) {
+        super.setEditing(editing, animated: animated)
+        tableView.selectRow(at: selectedIndexPath, animated: false, scrollPosition: .none)
     }
     
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {

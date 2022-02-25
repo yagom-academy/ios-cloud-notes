@@ -6,14 +6,14 @@
 
 import UIKit
 import CoreData
+import SwiftyDropbox
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
-
+    let memoStorage = MemoStorage()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        DropboxClientsManager.setupWithAppKey("bhmlttykz7ps11f", transportClient: nil)
         return true
     }
 

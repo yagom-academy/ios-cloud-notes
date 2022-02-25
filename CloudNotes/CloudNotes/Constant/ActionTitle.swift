@@ -12,4 +12,6 @@ enum ActionTitle {
     static let confirm = "확인"
     static let delete = "삭제"
     static let share = "공유"
+    static let login = "Dropbox 로그인"
+    static let logout = "로그아웃"
 }

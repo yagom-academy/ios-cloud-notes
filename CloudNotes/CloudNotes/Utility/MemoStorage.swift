@@ -2,62 +2,65 @@
 //  MemoStorage.swift
 //  CloudNotes
 //
-//  Created by 예거 on 2022/02/11.
+//  Created by 예거 on 2022/02/23.
 //
 
-import CoreData
+import UIKit
 
-class MemoStorage {
-    lazy var context = persistentContainer.newBackgroundContext()
-    private var persistentContainer: NSPersistentContainer = {
-        let container = NSPersistentContainer(name: "CloudNotes")
-        container.loadPersistentStores { _, error in
-            if let error = error {
-                fatalError("persistent stores 로드에 실패했습니다 : \(error)")
-            }
-        }
-        return container
-    }()
+final class MemoStorage {
+    private let coreDataManager = CoreDataManager()
+    private let dropboxManager = DropboxManager()
     
-    func create() {
-        guard let memoEntity = NSEntityDescription.entity(forEntityName: "Memo", in: context) else {
-            return
-        }
-        
-        let memoManagedObject = NSManagedObject(entity: memoEntity, insertInto: context)
-        
-        memoManagedObject.setValue(UUID(), forKey: "id")
-        memoManagedObject.setValue(String.blank, forKey: "title")
-        memoManagedObject.setValue(String.blank, forKey: "body")
-        memoManagedObject.setValue(Date().timeIntervalSince1970, forKey: "lastModified")
-        
-        saveContext()
+    func create(id: UUID = UUID(), title: String = .blank, body: String = .blank, lastModified: TimeInterval = Date().timeIntervalSince1970) {
+        coreDataManager.create(id: id, title: title, body: body, lastModified: lastModified)
     }
     
     func fetchAll() -> [Memo] {
-        let request = Memo.fetchRequest()
-        let fetchedMemo = try? context.fetch(request)
-        return fetchedMemo ?? []
+        return coreDataManager.fetchAll()
     }
     
     func delete(memo: Memo) {
-        context.delete(memo)
-        saveContext()
+        dropboxManager.delete(memo: memo)
+        coreDataManager.delete(memo: memo)
     }
     
     func update(to memo: Memo, title: String, body: String) {
-        let currentDate = Date().timeIntervalSince1970
-        memo.setValue(title, forKey: "title")
-        memo.setValue(body, forKey: "body")
-        memo.setValue(currentDate, forKey: "lastModified")
-        saveContext()
+        coreDataManager.update(to: memo, title: title, body: body)
     }
     
-    private func saveContext() {
-        do {
-            try context.save()
-        } catch {
-            print(error)
+    // MARK: - Dropbox Synchronization
+    
+    func connectDropbox(viewController: UIViewController) {
+        dropboxManager.connectDropbox(viewController: viewController)
+    }
+    
+    func upload(memo: Memo) {
+        dropboxManager.upload(memos: [memo])
+    }
+    
+    func uploadAll() {
+        let fetchedMemos = fetchAll()
+        dropboxManager.upload(memos: fetchedMemos)
+    }
+    
+    func downloadDropboxData(completion: ((Bool) -> Void)? = nil) {
+        dropboxManager.fetchFilePaths { metaDatas in
+            metaDatas.forEach { metaData in
+                self.dropboxManager.download(from: "/\(metaData.name)") {
+                    if self.hasNoMemo(with: $0.id) {
+                        self.create(id: $0.id, title: $0.title, body: $0.body, lastModified: $0.clientModified)
+                        completion?(true)
+                    }
+                }
+            }
         }
+    }
+    
+    func hasNoMemo(with id: UUID) -> Bool {
+        let request = Memo.fetchRequest()
+        request.predicate = NSPredicate(format: "id == %@", id as CVarArg)
+        let fetchedMemos = try? self.coreDataManager.context.fetch(request)
+        
+        return fetchedMemos?.isEmpty == true
     }
 }

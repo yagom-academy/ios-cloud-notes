@@ -7,36 +7,18 @@
 
 import UIKit
 
-private enum AlertMessage {
-    case delete
-    case deleteCaution
-    
-    var title: String {
-        switch self {
-        case .delete:
-            return "진짜요?"
-        case .deleteCaution:
-            return "삭제할 수 없습니다"
-        }
-    }
-    
-    var message: String {
-        switch self {
-        case .delete:
-            return "정말로 삭제하시겠어요?"
-        case .deleteCaution:
-            return "메모는 최소 한 개 존재해야합니다"
-        }
-    }
-}
-
 class MemoSplitViewController: UISplitViewController {
     private lazy var memoTableViewController = MemoTableViewController(style: .insetGrouped, delegate: self)
     private lazy var memoDetailViewController = MemoDetailViewController(delegate: self)
-    private let memoStorage = MemoStorage()
+    private var memoStorage: MemoStorage
+    private var shareActivity: UIActivityViewController?
+    
     private var memos = [Memo]() {
         didSet {
             memos.sort { $0.lastModified > $1.lastModified }
+            
+            let isFirstMemoEmpty = memos[0].title == String.blank
+            memoTableViewController.changeAddButtonState(disabled: isFirstMemoEmpty)
         }
     }
     
@@ -45,6 +27,16 @@ class MemoSplitViewController: UISplitViewController {
         delegate = self
         configureSplitViewController()
         configureMemoData()
+    }
+    
+    init(style: UISplitViewController.Style, memoStorage: MemoStorage) {
+        self.memoStorage = memoStorage
+        super.init(style: style)
+    }
+    
+    required init?(coder: NSCoder) {
+        self.memoStorage = MemoStorage()
+        super.init(coder: coder)
     }
     
     func deleteMemo(at indexPath: IndexPath) {
@@ -72,6 +64,16 @@ class MemoSplitViewController: UISplitViewController {
         alert.addAction(confirmAction)
         self.present(alert, animated: true, completion: nil)
     }
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        guard let shareActivity = shareActivity else {
+            return
+        }
+        
+        let adjustedRect = CGRect(origin: CGPoint(x: size.width / 2, y: size.height / 2), size: .zero)
+        shareActivity.popoverPresentationController?.sourceRect = adjustedRect
+    }
 }
 
 // MARK: - UISplitViewControllerDelegate
@@ -93,7 +95,15 @@ extension MemoSplitViewController: MemoSplitViewManageable {
         let memoToShow = memos[indexPath.row]
         memoDetailViewController.updateMemo(title: memoToShow.title, body: memoToShow.body) 
         memoDetailViewController.updateCurrentIndexPath(with: indexPath)
+        memoDetailViewController.makeTextViewFirstResponder()
         show(.secondary)
+    }
+
+    func presentConnectResultAlert(type: AlertMessage) {
+        let alert = UIAlertController(title: type.title, message: type.message, preferredStyle: .alert)
+        let confirmAction = UIAlertAction(title: ActionTitle.confirm, style: .default)
+        alert.addAction(confirmAction)
+        self.present(alert, animated: true)
     }
     
     func presentDeleteAlert(at indexPath: IndexPath) {
@@ -118,12 +128,16 @@ extension MemoSplitViewController: MemoSplitViewManageable {
             return
         }
         
-        let shareActivity = UIActivityViewController(activityItems: [title, body], applicationActivities: nil)
+        shareActivity = UIActivityViewController(activityItems: [title, body], applicationActivities: nil)
+        
+        guard let shareActivity = shareActivity else {
+            return
+        }
 
         shareActivity.modalPresentationStyle = .popover
+        shareActivity.popoverPresentationController?.permittedArrowDirections = []
         shareActivity.popoverPresentationController?.sourceRect = CGRect(origin: self.view.center, size: .zero)
         shareActivity.popoverPresentationController?.sourceView = self.view
-        shareActivity.popoverPresentationController?.permittedArrowDirections = []
 
         self.present(shareActivity, animated: true, completion: nil)
     }
@@ -137,10 +151,10 @@ extension MemoSplitViewController: MemoSplitViewManageable {
     }
 }
 
-// MARK: - MemoStorageManageable
+// MARK: - CoreDataManageable
 
-extension MemoSplitViewController: MemoStorageManageable {
-    var isMemoStorageEmpty: Bool {
+extension MemoSplitViewController: CoreDataManageable {
+    var isMemosEmpty: Bool {
         return memos.isEmpty
     }
     
@@ -162,6 +176,8 @@ extension MemoSplitViewController: MemoStorageManageable {
     }
     
     func update(at indexPath: IndexPath, title: String, body: String) {
+        memoTableViewController.changeAddButtonState(disabled: title.isEmpty)
+        
         memoTableViewController.tableView.performBatchUpdates {
             if indexPath.row != 0 {
                 memoTableViewController.tableView.moveRow(at: indexPath, to: .zero)
@@ -206,5 +222,22 @@ extension MemoSplitViewController: MemoStorageManageable {
         if isCollapsed == false {
             showSecondaryView(of: newIndexPath)
         }
+    }
+}
+
+// MARK: - DropboxManageable
+
+extension MemoSplitViewController: DropboxManageable {
+    func connectDropbox(viewController: UIViewController) {
+        memoStorage.connectDropbox(viewController: viewController)
+    }
+    
+    func upload(at indexPath: IndexPath) {
+        guard indexPath.row <= memos.count - 1 else {
+            return
+        }
+        
+        let memoToUpload = memos[indexPath.row]
+        memoStorage.upload(memo: memoToUpload)
     }
 }

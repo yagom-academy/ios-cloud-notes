@@ -77,4 +77,11 @@ class CDDataSourceProvider: NoteDataSource {
         try persistentManager.delete(object: note)
         try fetch()
     }
+
+    func deleteAllNote() throws {
+        let request = Note.fetchRequest()
+        persistentManager.deleteAll(request: request)
+
+        try fetch()
+    }
 }

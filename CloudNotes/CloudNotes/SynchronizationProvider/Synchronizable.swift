@@ -3,13 +3,15 @@ import UIKit
 protocol Synchronizable {
     var lastUpdatedDate: Date? { get set }
 
-    func upload(_ completionHandler: @escaping (SynchronizationError?) -> Void)
+    func upload(memoString: String, _ completionHandler: @escaping (SynchronizationError?) -> Void)
 
-    func download(_ completionHandler: @escaping (SynchronizationError?) -> Void)
+    func download(_ completionHandler: @escaping (Result<[Content], SynchronizationError>) -> Void)
 
     func logIn(at controller: UIViewController)
 
     func convertModelToText(from model: [Content]) -> String
+
+    func convertTextToModel(from text: String) -> [Content]?
 }
 
 extension Synchronizable {

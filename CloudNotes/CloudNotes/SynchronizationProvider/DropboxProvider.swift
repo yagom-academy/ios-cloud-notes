@@ -3,84 +3,69 @@ import SwiftyDropbox
 
 class DropboxProvider: Synchronizable {
     let client = DropboxClientsManager.authorizedClient
-    let coredataURL: URL? = try? FileManager.default.url(
+    let fileURL: URL? = try? FileManager.default.url(
         for: .applicationSupportDirectory,
         in: .userDomainMask,
         appropriateFor: nil,
         create: true
     )
-    let filePaths = ["/CloudNotes.sqlite", "/CloudNotes.sqlite-shm", "/CloudNotes.sqlite-wal"]
+    let filePath = "/CloudNotes.txt"
+
     var lastUpdatedDate: Date?
 
-    func upload(_ completionHandler: @escaping (SynchronizationError?) -> Void) {
-        let group = DispatchGroup()
-        var errors: [CallError<Files.UploadError>?] = []
-
-        filePaths.forEach { filePath in
-            group.enter()
-            guard let fileURL = coredataURL?.appendingPathComponent(filePath) else {
-                return
-            }
-
-            client?.files.upload(
-                path: "/CloudNote\(filePath)",
-                mode: .overwrite,
-                autorename: false,
-                clientModified: nil,
-                mute: false,
-                propertyGroups: nil,
-                strictConflict: false,
-                input: fileURL
-            )
-                .response { _, error in
-                    if error != nil {
-                        errors.append(error)
-                        completionHandler(.uploadFailure)
-                    }
-                    group.leave()
-                }
+    func upload(
+        memoString: String,
+        _ completionHandler: @escaping (SynchronizationError?) -> Void
+    ) {
+        guard let filePath = fileURL?.appendingPathComponent(filePath) else {
+            return
         }
-        group.notify(queue: .main) {
-            if errors.isEmpty {
-                completionHandler(nil)
+
+        print(filePath)
+
+        try? memoString.write(to: filePath, atomically: false, encoding: .utf8)
+
+        client?.files.upload(
+            path: "/CloudNote/CloudNote.txt",
+            mode: .overwrite,
+            autorename: false,
+            clientModified: nil,
+            mute: false,
+            propertyGroups: nil,
+            strictConflict: false,
+            input: filePath
+        )
+            .response { _, error in
+                if error != nil {
+                    completionHandler(.uploadFailure)
+                }
                 self.lastUpdatedDate = Date()
-            } else {
-            completionHandler(.downloadFailure)
             }
-        }
     }
 
-    func download(_ completionHandler: @escaping (SynchronizationError?) -> Void) {
-        let group = DispatchGroup()
-        var errors: [CallError<Files.DownloadError>?] = []
-        filePaths.forEach { filePath in
-            group.enter()
-            guard let fileURL = coredataURL?.appendingPathComponent(filePath) else {
+func download(_ completionHandler: @escaping (Result<[Content], SynchronizationError>) -> Void) {
+    guard let filePath = fileURL?.appendingPathComponent(filePath) else {
+        return
+    }
+
+    client?.files.download(path: "/CloudNote/CloudNote.txt")
+        .response { response, error in
+            if let response = response {
+                let fileContents = response.1
+                FileManager.default.createFile(
+                    atPath: filePath.path,
+                    contents: fileContents,
+                    attributes: nil)
+            } else if error != nil {
+                completionHandler(.failure(.downloadFailure))
+            }
+            let memosFile = FileManager.default.contents(atPath: filePath.path)
+            guard let convertedMemos = self.convertTextToModel(from: String(data: memosFile!, encoding: .utf8)!) else {
                 return
             }
-            client?.files.download(path: "/CloudNote\(filePath)")
-                .response { response, error in
-                    if let response = response {
-                        let fileContents = response.1
-                        FileManager.default.createFile(
-                            atPath: fileURL.path,
-                            contents: fileContents,
-                            attributes: nil)
-                    } else if error != nil {
-                        errors.append(error)
-                    }
-                    group.leave()
-                }
+            completionHandler(.success(convertedMemos))
         }
-
-        group.notify(queue: .main) {
-            if errors.isEmpty {
-                completionHandler(nil)
-            } else {
-            completionHandler(.downloadFailure)
-            }
-        }
-    }
+}
 
     func logIn(at controller: UIViewController) {
         let scopeRequest = ScopeRequest(
@@ -122,38 +107,43 @@ class DropboxProvider: Synchronizable {
 
     func convertTextToModel(from text: String) -> [Content]? {
         var content = [Content]()
-        let separatedText = text.split(separator: "\n", maxSplits: 1, omittingEmptySubsequences: true)
+        let separatedText = text.split(
+            separator: "\n",
+            maxSplits: 1,
+            omittingEmptySubsequences: true
+        )
 
-        guard let firstSeparator = separatedText.first else {
+        guard let memoSeparator = separatedText.first,
+              let memosText = separatedText.last
+        else {
             return nil
         }
 
-        guard let memosText = separatedText.last else {
-            return nil
-        }
-
-        let memos = memosText.components(separatedBy: firstSeparator)
+        let memos = memosText.components(separatedBy: String(memoSeparator))
         memos.forEach { memo in
-            let separatedMemoText = memo.split(separator: "\n", maxSplits: 1, omittingEmptySubsequences: true)
-            guard let secondSeparator = separatedMemoText.first else {
-                return
-            }
-            guard let memoText = separatedMemoText.last else {
+            let separatedMemoText = memo.split(
+                separator: "\n",
+                maxSplits: 1,
+                omittingEmptySubsequences: true
+            )
+            guard let memoComponentsSeparator = separatedMemoText.first,
+                  let memoText = separatedMemoText.last
+            else {
                 return
             }
 
-            let memoComponents = memoText.components(separatedBy: secondSeparator)
-            guard let date = Double(memoComponents[2]) else {
-                return
-            }
-            guard let uuid = UUID(uuidString: memoComponents[3]) else {
+            let memoComponents = memoText.components(separatedBy: memoComponentsSeparator)
+
+            guard let date = Double(memoComponents[1]),
+                  let uuid = UUID(uuidString: memoComponents[0]),
+                  memoComponents.count == 4 else {
                 return
             }
 
             content.append(
                 Content(
-                    title: memoComponents[0],
-                    body: memoComponents[1],
+                    title: memoComponents[2],
+                    body: memoComponents[3],
                     lastModifiedDate: date,
                     identification: uuid
                 )

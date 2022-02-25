@@ -52,7 +52,19 @@ class PersistentManager {
 
     func delete(object: NSManagedObject) throws {
         context.delete(object)
+
         try self.saveContext()
+    }
+
+    func deleteAll<T: NSManagedObject>(request: NSFetchRequest<T>) -> Bool {
+        let request: NSFetchRequest<NSFetchRequestResult> = T.fetchRequest()
+        let delete = NSBatchDeleteRequest(fetchRequest: request)
+        do {
+            try self.context.execute(delete)
+            return true
+        } catch {
+            return false
+        }
     }
 
     func saveContext() throws {

@@ -76,10 +76,17 @@ class SplitViewController: UISplitViewController {
     // MARK: - Synchronization Method
     
     @objc func upload() {
-        self.synchronizationProvider?.upload { error in
+        guard let memos = self.dataSourceProvider?.noteList else {
+            return
+        }
+
+        guard let memosString = self.synchronizationProvider?.convertModelToText(from: memos) else {
+            return
+        }
+
+        self.synchronizationProvider?.upload(memoString: memosString) { error in
             if error != nil {
                 self.noteListViewController.presentUploadFailureAlert()
-                self.noteListViewController
             }
         }
     }
@@ -87,10 +94,16 @@ class SplitViewController: UISplitViewController {
     func download() {
         activityIndicator.startAnimating()
         self.dimView.isHidden = false
-        self.synchronizationProvider?.download { error in
-            if error == nil {
+        self.synchronizationProvider?.download { result in
+            switch result {
+            case .success(let memos):
+                try? self.dataSourceProvider?.deleteAllNote()
+                memos.forEach { memo in
+                    try? self.dataSourceProvider?.createNote(memo)
+                }
                 self.fetchNotes()
-            } else {
+
+            case .failure:
                 self.noteListViewController.presentDownloadFailureAlert()
             }
             self.activityIndicator.stopAnimating()
@@ -99,13 +112,13 @@ class SplitViewController: UISplitViewController {
     }
 
     func setUploadTimer() {
-        self.timer = Timer.scheduledTimer(
-            timeInterval: 15,
-            target: self,
-            selector: #selector(upload),
-            userInfo: nil,
-            repeats: true
-        )
+//        self.timer = Timer.scheduledTimer(
+//            timeInterval: 15,
+//            target: self,
+//            selector: #selector(upload),
+//            userInfo: nil,
+//            repeats: true
+//        )
     }
 }
 

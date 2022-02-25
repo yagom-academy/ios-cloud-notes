@@ -1,4 +1,3 @@
-import Foundation
 import CoreData
 
 final class NoteViewModel: NSObject {

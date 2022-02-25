@@ -31,8 +31,8 @@ final class MasterTableViewController: UITableViewController {
         configureNotificationCenter()
         tableView.reloadData()
         
-//        DropBoxManager().createFolderAtDropBox() // 앱 최초실행 시 폴더를 한 번 생성함 (그 후에는 error를 출력)
-//        DropBoxManager().presentSafariViewController(controller: self) // DropBox 관련 기능
+        DropBoxManager().createFolderAtDropBox() // 앱 최초실행 시 폴더를 한 번 생성함 (그 후에는 error를 출력)
+        DropBoxManager().presentSafariViewController(controller: self) // DropBox 관련 기능
     }
     
     override func viewDidAppear(_ animated: Bool) {

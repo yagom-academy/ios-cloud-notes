@@ -40,13 +40,14 @@ class MemoTableViewController: UITableViewController {
     private func configureSearchController() {
         memoSearchResultTableViewController.tableView.delegate = self
         memoSearchController.searchResultsUpdater = self
+        memoSearchController.searchBar.placeholder = "검색".localized
         self.navigationItem.searchController = memoSearchController
         self.navigationItem.hidesSearchBarWhenScrolling = false
     }
     
     private func configureNavigationBar() {
         self.navigationController?.navigationBar.prefersLargeTitles = true
-        self.navigationItem.title = "메모"
+        self.navigationItem.title = "메모".localized
         let connectDropboxButton = UIBarButtonItem(image: UIImage(systemName: SystemIcon.linkDropbox), style: .plain, target: self, action: nil)
         connectDropboxButton.imageInsets = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: -15)
         

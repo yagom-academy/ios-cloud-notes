@@ -8,10 +8,10 @@
 import Foundation
 
 enum ActionTitle {
-    static let cancel = "취소"
-    static let confirm = "확인"
-    static let delete = "삭제"
-    static let share = "공유"
-    static let login = "Dropbox 로그인"
-    static let logout = "로그아웃"
+    static let cancel = "취소".localized
+    static let confirm = "확인".localized
+    static let delete = "삭제".localized
+    static let share = "공유".localized
+    static let login = "Dropbox 로그인".localized
+    static let logout = "로그아웃".localized
 }

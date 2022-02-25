@@ -1,0 +1,29 @@
+/* 
+  Localizable.strings
+  CloudNotes
+
+  Created by 예거 on 2022/02/25.
+  
+*/
+
+"메모" = "Memo";
+"새로운 메모" = "New Memo";
+"추가 텍스트 없음" = "No extra text";
+"검색 결과 없음" = "No results found";
+"취소" = "cancel";
+"확인" = "OK";
+"삭제" = "delete";
+"공유" = "share";
+"Dropbox 로그인" = "Dropbox Login";
+"로그아웃" = "Logout";
+"진짜요?" = "Are you sure?";
+"삭제할 수 없습니다" = "delete denied";
+"Dropbox 연동 성공" = "Dropbox successfully linked";
+"Dropbox 연동 실패" = "Dropbox failed to link";
+"Dropbox 로그아웃" = "Dropbox logout";
+"정말로 삭제하시겠어요?" = "Do you really want to delete it?";
+"메모는 최소 한 개 존재해야합니다" = "There must be at least one memo";
+"앞으로 메모장을 Dropbox와 동기화합니다" = "From now on, Memo will be synchronized with Dropbox";
+"다시 시도해주세요" = "Please try again";
+"성공적으로 로그아웃되었습니다" = "Successfully logged out";
+"검색" = "Search";

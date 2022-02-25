@@ -14,7 +14,7 @@ final class CoreDataManager {
         let container = NSPersistentContainer(name: "CloudNotes")
         container.loadPersistentStores { _, error in
             if let error = error {
-                fatalError("persistent stores 로드에 실패했습니다 : \(error)")
+                fatalError("persistent stores Loading Failure : \(error)")
             }
         }
         return container

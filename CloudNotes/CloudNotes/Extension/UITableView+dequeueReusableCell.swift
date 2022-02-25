@@ -14,7 +14,7 @@ extension UITableView {
     
     func dequeueReusableCell<T: UITableViewCell>(withClass name: T.Type, for indexPath: IndexPath) -> T {
         guard let cell = dequeueReusableCell(withIdentifier: String(describing: name), for: indexPath) as? T else {
-            fatalError("cell을 dequeue하는데 실패했습니다.")
+            fatalError("cell dequeue failed")
         }
         
         return cell

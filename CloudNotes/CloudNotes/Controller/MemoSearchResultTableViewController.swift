@@ -16,7 +16,7 @@ class MemoSearchResultTableViewController: UITableViewController {
     
     private let searchResultLabel: UILabel = {
         let label = UILabel()
-        label.text = "검색 결과 없음"
+        label.text = "검색 결과 없음".localized
         label.textColor = .placeholderText
         label.font = .preferredFont(forTextStyle: .title1)
         label.translatesAutoresizingMaskIntoConstraints = false

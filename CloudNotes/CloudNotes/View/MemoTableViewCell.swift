@@ -8,8 +8,8 @@
 import UIKit
 
 private enum PlaceholderText {
-    static let title = "새로운 메모"
-    static let body = "추가 텍스트 없음"
+    static let title = "새로운 메모".localized
+    static let body = "추가 텍스트 없음".localized
 }
 
 class MemoTableViewCell: UITableViewCell {    

@@ -59,7 +59,7 @@ class MemoSplitViewController: UISplitViewController {
     }
     
     private func presentDeleteCautionAlert() {
-        let alert = UIAlertController(title: AlertMessage.deleteCaution.title, message: AlertMessage.deleteCaution.message, preferredStyle: .alert)
+        let alert = UIAlertController(title: AlertMessage.deleteCaution.title.localized, message: AlertMessage.deleteCaution.message.localized, preferredStyle: .alert)
         let confirmAction = UIAlertAction(title: ActionTitle.confirm, style: .default)
         alert.addAction(confirmAction)
         self.present(alert, animated: true, completion: nil)
@@ -99,14 +99,14 @@ extension MemoSplitViewController: MemoSplitViewManageable {
     }
 
     func presentConnectResultAlert(type: AlertMessage) {
-        let alert = UIAlertController(title: type.title, message: type.message, preferredStyle: .alert)
+        let alert = UIAlertController(title: type.title.localized, message: type.message.localized, preferredStyle: .alert)
         let confirmAction = UIAlertAction(title: ActionTitle.confirm, style: .default)
         alert.addAction(confirmAction)
         self.present(alert, animated: true)
     }
     
     func presentDeleteAlert(at indexPath: IndexPath) {
-        let alert = UIAlertController(title: AlertMessage.delete.title, message: AlertMessage.delete.message, preferredStyle: .alert)
+        let alert = UIAlertController(title: AlertMessage.delete.title.localized, message: AlertMessage.delete.message.localized, preferredStyle: .alert)
         let cancelAction = UIAlertAction(title: ActionTitle.cancel, style: .cancel)
         let deleteAction = UIAlertAction(title: ActionTitle.delete, style: .destructive) { _ in
             self.delete(at: indexPath)

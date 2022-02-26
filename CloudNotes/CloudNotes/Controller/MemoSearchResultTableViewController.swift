@@ -26,8 +26,12 @@ class MemoSearchResultTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.register(cellWithClass: MemoTableViewCell.self)
+        registerTableViewCell()
         configureSearchResultLabel()
+    }
+    
+    private func registerTableViewCell() {
+        tableView.register(cellWithClass: MemoTableViewCell.self)
     }
     
     func configureSearchResultLabel() {

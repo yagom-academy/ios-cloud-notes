@@ -22,7 +22,7 @@ class MemoTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.register(cellWithClass: MemoTableViewCell.self)
+        registerTableViewCell()
         configureNavigationBar()
         configureTableView()
         configureSearchController()
@@ -35,6 +35,10 @@ class MemoTableViewController: UITableViewController {
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+    }
+    
+    private func registerTableViewCell() {
+        tableView.register(cellWithClass: MemoTableViewCell.self)
     }
     
     private func configureSearchController() {
@@ -210,8 +214,8 @@ extension MemoTableViewController: UISearchResultsUpdating {
 
 extension MemoTableViewController: UISearchControllerDelegate {
     func willDismissSearchController(_ searchController: UISearchController) {
-        guard let selectedId = memoSearchResultTableViewController.selectedMemoId,
-              let selectedRow = delegate?.fetchIndexPathRow(at: selectedId) else {
+        guard let selectedID = memoSearchResultTableViewController.selectedMemoId,
+              let selectedRow = delegate?.fetchIndexPathRow(at: selectedID) else {
             return
         }
         

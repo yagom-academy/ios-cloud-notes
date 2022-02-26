@@ -12,10 +12,13 @@
 		185EF28E27B52D0E00204AEA /* Array+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185EF28D27B52D0D00204AEA /* Array+Extension.swift */; };
 		1894804627C4D1B800F6D9ED /* AssetDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1894804527C4D1B800F6D9ED /* AssetDataManager.swift */; };
 		1894804827C4D22D00F6D9ED /* Memo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1894804727C4D22D00F6D9ED /* Memo.swift */; };
-		1894804A27C4D25C00F6D9ED /* DataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1894804927C4D25C00F6D9ED /* DataProvider.swift */; };
+		1894804A27C4D25C00F6D9ED /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1894804927C4D25C00F6D9ED /* DataManager.swift */; };
 		1894804C27C4D2C600F6D9ED /* MemoType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1894804B27C4D2C600F6D9ED /* MemoType.swift */; };
 		1894805627C75B0F00F6D9ED /* ModeChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1894805527C75B0F00F6D9ED /* ModeChecker.swift */; };
 		1894805827C7C11100F6D9ED /* MemoModeChanger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1894805727C7C11100F6D9ED /* MemoModeChanger.swift */; };
+		189DD4BA27C9EE6700395CF4 /* NoteListViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189DD4B927C9EE6700395CF4 /* NoteListViewControllerDelegate.swift */; };
+		189DD4BC27C9EE9600395CF4 /* NoteListViewControllerDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189DD4BB27C9EE9600395CF4 /* NoteListViewControllerDataSource.swift */; };
+		189DD4BE27C9EEC300395CF4 /* NoteDetailViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189DD4BD27C9EEC300395CF4 /* NoteDetailViewControllerDelegate.swift */; };
 		1A4CDBD379C838A981008068 /* Pods_CloudNotesTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8797059B2E1AE8C63E4A9A70 /* Pods_CloudNotesTests.framework */; };
 		634493ED27C6204C003F6A43 /* CDMemo+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634493EB27C6204C003F6A43 /* CDMemo+CoreDataClass.swift */; };
 		634493EE27C6204C003F6A43 /* CDMemo+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634493EC27C6204C003F6A43 /* CDMemo+CoreDataProperties.swift */; };
@@ -60,14 +63,17 @@
 		185EF28D27B52D0D00204AEA /* Array+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extension.swift"; sourceTree = "<group>"; };
 		1894804527C4D1B800F6D9ED /* AssetDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetDataManager.swift; sourceTree = "<group>"; };
 		1894804727C4D22D00F6D9ED /* Memo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memo.swift; sourceTree = "<group>"; };
-		1894804927C4D25C00F6D9ED /* DataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataProvider.swift; sourceTree = "<group>"; };
+		1894804927C4D25C00F6D9ED /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		1894804B27C4D2C600F6D9ED /* MemoType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoType.swift; sourceTree = "<group>"; };
 		1894805427C6187E00F6D9ED /* CloudNote 4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "CloudNote 4.xcdatamodel"; sourceTree = "<group>"; };
 		1894805527C75B0F00F6D9ED /* ModeChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModeChecker.swift; sourceTree = "<group>"; };
 		1894805727C7C11100F6D9ED /* MemoModeChanger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoModeChanger.swift; sourceTree = "<group>"; };
+		189DD4B927C9EE6700395CF4 /* NoteListViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteListViewControllerDelegate.swift; sourceTree = "<group>"; };
+		189DD4BB27C9EE9600395CF4 /* NoteListViewControllerDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteListViewControllerDataSource.swift; sourceTree = "<group>"; };
+		189DD4BD27C9EEC300395CF4 /* NoteDetailViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteDetailViewControllerDelegate.swift; sourceTree = "<group>"; };
 		1E231DE067500A8F54483010 /* Pods_CloudNotes.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CloudNotes.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		634493EB27C6204C003F6A43 /* CDMemo+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "CDMemo+CoreDataClass.swift"; path = "../../../CDMemo+CoreDataClass.swift"; sourceTree = "<group>"; };
-		634493EC27C6204C003F6A43 /* CDMemo+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "CDMemo+CoreDataProperties.swift"; path = "../../../CDMemo+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		634493EB27C6204C003F6A43 /* CDMemo+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CDMemo+CoreDataClass.swift"; sourceTree = "<group>"; };
+		634493EC27C6204C003F6A43 /* CDMemo+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CDMemo+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		634493EF27C6234A003F6A43 /* CloudNote 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "CloudNote 3.xcdatamodel"; sourceTree = "<group>"; };
 		636B914A27B253EB0027D4A4 /* NoteListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteListTableViewCell.swift; sourceTree = "<group>"; };
 		637F63EA27C4BD6400B5B989 /* DropBoxManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropBoxManager.swift; sourceTree = "<group>"; };
@@ -149,29 +155,48 @@
 		1894804E27C60BD700F6D9ED /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
-				1894804927C4D25C00F6D9ED /* DataProvider.swift */,
+				1894804927C4D25C00F6D9ED /* DataManager.swift */,
 				1894804B27C4D2C600F6D9ED /* MemoType.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
 		};
-		1894804F27C60C0400F6D9ED /* MemoType */ = {
-			isa = PBXGroup;
-			children = (
-				1894804727C4D22D00F6D9ED /* Memo.swift */,
-				634493EB27C6204C003F6A43 /* CDMemo+CoreDataClass.swift */,
-				634493EC27C6204C003F6A43 /* CDMemo+CoreDataProperties.swift */,
-			);
-			path = MemoType;
-			sourceTree = "<group>";
-		};
-		1894805927C7C13B00F6D9ED /* MemoChanger */ = {
+		1894805927C7C13B00F6D9ED /* DataBase */ = {
 			isa = PBXGroup;
 			children = (
 				1894805527C75B0F00F6D9ED /* ModeChecker.swift */,
 				1894805727C7C11100F6D9ED /* MemoModeChanger.swift */,
+				1894804D27C60BAE00F6D9ED /* DataManager */,
 			);
-			path = MemoChanger;
+			path = DataBase;
+			sourceTree = "<group>";
+		};
+		189DD4B527C9EDDD00395CF4 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				FB8B342F27B2062200D85311 /* NoteSplitViewController.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		189DD4B627C9EDE900395CF4 /* NoteList */ = {
+			isa = PBXGroup;
+			children = (
+				FB8B343327B2094400D85311 /* NoteListViewController.swift */,
+				189DD4B927C9EE6700395CF4 /* NoteListViewControllerDelegate.swift */,
+				189DD4BB27C9EE9600395CF4 /* NoteListViewControllerDataSource.swift */,
+				636B914A27B253EB0027D4A4 /* NoteListTableViewCell.swift */,
+			);
+			path = NoteList;
+			sourceTree = "<group>";
+		};
+		189DD4B727C9EDF000395CF4 /* NoteDetail */ = {
+			isa = PBXGroup;
+			children = (
+				FB8B343127B208D500D85311 /* NoteDetailViewController.swift */,
+				189DD4BD27C9EEC300395CF4 /* NoteDetailViewControllerDelegate.swift */,
+			);
+			path = NoteDetail;
 			sourceTree = "<group>";
 		};
 		4AF0D067F5B2E34E7161858E /* Frameworks */ = {
@@ -232,13 +257,13 @@
 		C7481C6C25BBCF3900B9CA55 /* CloudNotes */ = {
 			isa = PBXGroup;
 			children = (
-				C7481C7925BBCF3A00B9CA55 /* Assets.xcassets */,
-				C7481C7E25BBCF3A00B9CA55 /* Info.plist */,
+				FB8B343827B23B0900D85311 /* App Life Cycle */,
 				FB8B343727B23AF800D85311 /* Model */,
 				FB8B343627B23AF300D85311 /* View */,
-				FB8B343527B23AD500D85311 /* Controller */,
 				185EF24E27B24D0E00204AEA /* Utility */,
-				FB8B343827B23B0900D85311 /* AppDelegate */,
+				C7481C7925BBCF3A00B9CA55 /* Assets.xcassets */,
+				C7481C7E25BBCF3A00B9CA55 /* Info.plist */,
+				6385CFB127BBE412002EB151 /* CloudNote.xcdatamodeld */,
 			);
 			path = CloudNotes;
 			sourceTree = "<group>";
@@ -261,20 +286,12 @@
 			path = CloudNotesUITests;
 			sourceTree = "<group>";
 		};
-		FB8B343527B23AD500D85311 /* Controller */ = {
-			isa = PBXGroup;
-			children = (
-				FB8B342F27B2062200D85311 /* NoteSplitViewController.swift */,
-				FB8B343327B2094400D85311 /* NoteListViewController.swift */,
-				FB8B343127B208D500D85311 /* NoteDetailViewController.swift */,
-			);
-			path = Controller;
-			sourceTree = "<group>";
-		};
 		FB8B343627B23AF300D85311 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				636B914A27B253EB0027D4A4 /* NoteListTableViewCell.swift */,
+				189DD4B527C9EDDD00395CF4 /* Main */,
+				189DD4B627C9EDE900395CF4 /* NoteList */,
+				189DD4B727C9EDF000395CF4 /* NoteDetail */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -282,23 +299,23 @@
 		FB8B343727B23AF800D85311 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				1894804727C4D22D00F6D9ED /* Memo.swift */,
+				634493EB27C6204C003F6A43 /* CDMemo+CoreDataClass.swift */,
+				634493EC27C6204C003F6A43 /* CDMemo+CoreDataProperties.swift */,
 				63FE4A0E27C77963008925BF /* DefaultMemo.swift */,
-				1894805927C7C13B00F6D9ED /* MemoChanger */,
+				1894805927C7C13B00F6D9ED /* DataBase */,
 				1894804E27C60BD700F6D9ED /* Protocol */,
-				1894804D27C60BAE00F6D9ED /* DataManager */,
-				1894804F27C60C0400F6D9ED /* MemoType */,
-				6385CFB127BBE412002EB151 /* CloudNote.xcdatamodeld */,
 			);
 			path = Model;
 			sourceTree = "<group>";
 		};
-		FB8B343827B23B0900D85311 /* AppDelegate */ = {
+		FB8B343827B23B0900D85311 /* App Life Cycle */ = {
 			isa = PBXGroup;
 			children = (
 				C7481C6D25BBCF3900B9CA55 /* AppDelegate.swift */,
 				C7481C6F25BBCF3900B9CA55 /* SceneDelegate.swift */,
 			);
-			path = AppDelegate;
+			path = "App Life Cycle";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -561,7 +578,7 @@
 				FB8B343427B2094400D85311 /* NoteListViewController.swift in Sources */,
 				63CCA08227BB7A0A004B1841 /* CoreDataManager.swift in Sources */,
 				63FE4A0F27C77963008925BF /* DefaultMemo.swift in Sources */,
-				1894804A27C4D25C00F6D9ED /* DataProvider.swift in Sources */,
+				1894804A27C4D25C00F6D9ED /* DataManager.swift in Sources */,
 				636B914B27B253EB0027D4A4 /* NoteListTableViewCell.swift in Sources */,
 				637F63EB27C4BD6400B5B989 /* DropBoxManager.swift in Sources */,
 				185EF28E27B52D0E00204AEA /* Array+Extension.swift in Sources */,
@@ -570,11 +587,14 @@
 				634493EE27C6204C003F6A43 /* CDMemo+CoreDataProperties.swift in Sources */,
 				C7481C6E25BBCF3900B9CA55 /* AppDelegate.swift in Sources */,
 				FB8B343027B2062200D85311 /* NoteSplitViewController.swift in Sources */,
+				189DD4BC27C9EE9600395CF4 /* NoteListViewControllerDataSource.swift in Sources */,
 				C7481C7025BBCF3900B9CA55 /* SceneDelegate.swift in Sources */,
 				6385CFB327BBE412002EB151 /* CloudNote.xcdatamodeld in Sources */,
 				FB8B343227B208D500D85311 /* NoteDetailViewController.swift in Sources */,
 				185EF24927B23C1800204AEA /* JSONParser.swift in Sources */,
 				1894804C27C4D2C600F6D9ED /* MemoType.swift in Sources */,
+				189DD4BE27C9EEC300395CF4 /* NoteDetailViewControllerDelegate.swift in Sources */,
+				189DD4BA27C9EE6700395CF4 /* NoteListViewControllerDelegate.swift in Sources */,
 				1894805627C75B0F00F6D9ED /* ModeChecker.swift in Sources */,
 				63B93E5B27BA2D51008E407F /* UITableView+Extension.swift in Sources */,
 			);

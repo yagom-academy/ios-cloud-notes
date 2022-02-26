@@ -1,7 +1,6 @@
 import Foundation
 import CoreData
 
-
 extension CDMemo: MemoType {
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<CDMemo> {

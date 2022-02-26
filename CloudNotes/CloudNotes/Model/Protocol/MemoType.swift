@@ -1,6 +1,7 @@
 import Foundation
 
 protocol MemoType {
+    
     var title: String? { get set }
     var body: String? { get set }
     var lastModified: Date? { get set }
@@ -8,6 +9,7 @@ protocol MemoType {
 }
 
 extension MemoType {
+    
     func createAttributes(body: String) -> [String: Any] {
         var attribute: [String: Any] = [:]
         let title = body.components(separatedBy: "\n")[0]

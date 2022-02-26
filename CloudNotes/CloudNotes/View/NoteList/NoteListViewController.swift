@@ -1,41 +1,6 @@
 import UIKit
 import SwiftyDropbox
 
-    // MARK: - Declare NoteListViewController Delegate
-protocol NoteListViewControllerDelegate: AnyObject {
-    func noteListViewController(
-        _ viewController: NoteListViewController,
-        didSelectedCell indexPath: IndexPath
-    )
-    
-    func noteListViewController(addButtonTapped viewController: NoteListViewController)
-    
-    func noteListViewController(
-        _ viewController: NoteListViewController,
-        cellToDelete indexPath: IndexPath
-    )
-    
-    func noteListViewController(
-        _ viewController: NoteListViewController,
-        cellToShare indexPath: IndexPath
-    )
-    
-    func noteListViewController(
-        _ viewController: NoteListViewController,
-        cellToUpload indexPath: IndexPath
-    )
-}
-    // MARK: - Declare NoteListViewController Datasource
-protocol NoteListViewControllerDataSource: AnyObject {
-    func noteListViewControllerNumberOfData(
-        _ viewController: NoteListViewController
-    ) -> Int
-    func noteListViewControllerSampleForCell(
-        _ viewController: NoteListViewController,
-        indexPath: IndexPath
-    ) -> MemoType?
-}
-
 class NoteListViewController: UIViewController {
     // MARK: - Property
     weak var delegate: NoteListViewControllerDelegate?
@@ -57,47 +22,50 @@ class NoteListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        listTableView.dataSource = self
-        listTableView.delegate = self
-        listTableView.selectRow(at: IndexPath(row: 0, section: 0), animated: false, scrollPosition: .none)
-        setUpLayout()
-        setUpNavigationItems()
-        presentDropboxLoginScene()
+        self.configureListTableView()
+        self.configureLayout()
+        self.setUpNavigationItems()
+        self.presentDropboxLoginScene()
     }
     // MARK: - Method
-    private func setUpLayout() {
+    private func configureListTableView() {
+        self.listTableView.dataSource = self
+        self.listTableView.delegate = self
+        self.listTableView.selectRow(at: IndexPath(row: 0, section: 0), animated: false, scrollPosition: .none)
+    }
+    private func configureLayout() {
         NSLayoutConstraint.activate([
-            listTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            listTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            listTableView.widthAnchor.constraint(equalTo: view.safeAreaLayoutGuide.widthAnchor),
-            listTableView.heightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.heightAnchor)
+            self.listTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            self.listTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            self.listTableView.widthAnchor.constraint(equalTo: view.safeAreaLayoutGuide.widthAnchor),
+            self.listTableView.heightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.heightAnchor)
         ])
     }
     
     private func setUpNavigationItems() {
-        navigationItem.title = "메모"
+        self.navigationItem.title = "메모"
         let addButton = UIBarButtonItem(
             barButtonSystemItem: .add,
             target: self,
             action: #selector(tappedPlusButton)
         )
-        navigationItem.rightBarButtonItems = [addButton]
+        self.navigationItem.rightBarButtonItems = [addButton]
     }
 
     @objc private func tappedPlusButton() {
-        delegate?.noteListViewController(addButtonTapped: self)
+        self.delegate?.noteListViewController(addButtonTapped: self)
     }
     
     func updateTableView() {
-        listTableView.reloadData()
+        self.listTableView.reloadData()
     }
     
     func extractSeletedRow() -> IndexPath? {
-        listTableView.indexPathForSelectedRow
+        self.listTableView.indexPathForSelectedRow
     }
     
     func reloadRow(at indexPath: IndexPath) {
-        listTableView.reloadRows(at: [indexPath], with: .none)
+        self.listTableView.reloadRows(at: [indexPath], with: .none)
     }
     
     private func presentVerifyingDeletionAlert(indexPath: IndexPath) {
@@ -115,7 +83,7 @@ class NoteListViewController: UIViewController {
         alertController.addAction(cancelAction)
         alertController.addAction(okAction)
         
-        present(alertController, animated: true, completion: nil)
+        self.present(alertController, animated: true, completion: nil)
     }
     
     private func presentDropboxLoginScene() {
@@ -137,8 +105,9 @@ class NoteListViewController: UIViewController {
 }
 // MARK: - UITableView Delegate
 extension NoteListViewController: UITableViewDelegate {
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        delegate?.noteListViewController(self, didSelectedCell: indexPath)
+        self.delegate?.noteListViewController(self, didSelectedCell: indexPath)
     }
     
     func tableView(
@@ -172,13 +141,14 @@ extension NoteListViewController: UITableViewDelegate {
                 self?.delegate?.noteListViewController(self ?? NoteListViewController(), cellToUpload: indexPath)
             }
         uploadAction.backgroundColor = .systemBlue
-        return  UISwipeActionsConfiguration(actions: [uploadAction])
+        return UISwipeActionsConfiguration(actions: [uploadAction])
     }
 }
 // MARK: - UITableView DataSource
 extension NoteListViewController: UITableViewDataSource {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        dataSource?.noteListViewControllerNumberOfData(self) ?? .zero
+        self.dataSource?.noteListViewControllerNumberOfData(self) ?? .zero
     }
     
     func tableView(
@@ -189,7 +159,7 @@ extension NoteListViewController: UITableViewDataSource {
             withClass: NoteListTableViewCell.self,
             for: indexPath)
         
-        guard let data = dataSource?.noteListViewControllerSampleForCell(
+        guard let data = self.dataSource?.noteListViewControllerSampleForCell(
             self,
             indexPath: indexPath
         ) else {

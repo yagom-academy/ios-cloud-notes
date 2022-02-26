@@ -1,6 +1,7 @@
 import UIKit
 
 class NoteListTableViewCell: UITableViewCell {
+    
     private var titleLabel: UILabel = {
        var label = UILabel()
         label.font = .preferredFont(forTextStyle: .body)

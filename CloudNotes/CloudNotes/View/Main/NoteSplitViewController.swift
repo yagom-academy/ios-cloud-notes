@@ -3,7 +3,7 @@ import CoreData
 
 class NoteSplitViewController: UISplitViewController {
 // MARK: - Property
-    private var dataManager: DataProvider?
+    private var dataManager: DataManager?
     private let modeChanger = MemoModeChanger()
     private let noteListViewController = NoteListViewController()
     private let noteDetailViewController = NoteDetailViewController()
@@ -13,13 +13,12 @@ class NoteSplitViewController: UISplitViewController {
 // MARK: - ViewLifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureSplitViewController()
-        configureIntialDataManager()
-        configureNoteListViewController()
-        configureColumnStyle()
-        configureFetchedResultsController()
-        configureNoteDetailViewController()
-
+        self.configureSplitViewController()
+        self.configureIntialDataManager()
+        self.configureNoteListViewController()
+        self.configureColumnStyle()
+        self.configureFetchedResultsController()
+        self.configureNoteDetailViewController()
     }
 // MARK: - Method
     private func configureSplitViewController() {
@@ -28,8 +27,8 @@ class NoteSplitViewController: UISplitViewController {
     }
     
     private func configureNoteListViewController() {
-        noteListViewController.delegate = self
-        noteListViewController.dataSource = self
+        self.noteListViewController.delegate = self
+        self.noteListViewController.dataSource = self
     }
     
     private func configureColumnStyle() {
@@ -39,21 +38,21 @@ class NoteSplitViewController: UISplitViewController {
     }
     
     private func configureIntialDataManager() {
-        dataManager = modeChanger.factoryDataManager(mode: ModeChecker.currentMode)
-        noteListViewController.updateTableView()
+        self.dataManager = modeChanger.factoryDataManager(mode: ModeChecker.currentMode)
+        self.noteListViewController.updateTableView()
     }
     
     private func switchDataManager() {
-        dataManager = modeChanger.factoryDataManager(mode: ModeChecker.currentMode)
-        noteListViewController.updateTableView()
+        self.dataManager = modeChanger.factoryDataManager(mode: ModeChecker.currentMode)
+        self.noteListViewController.updateTableView()
     }
     
     private func configureNoteDetailViewController() {
-        noteDetailViewController.delegate = self
+        self.noteDetailViewController.delegate = self
     }
     
     private func configureFetchedResultsController() {
-        if let datamanager = dataManager as? CoreDataManager<CDMemo> {
+        if let datamanager = self.dataManager as? CoreDataManager<CDMemo> {
             datamanager.fetchedController.delegate = self
         }
     }
@@ -96,18 +95,20 @@ class NoteSplitViewController: UISplitViewController {
         if let popoverPresentationController = actionSheet.popoverPresentationController {
             popoverPresentationController.barButtonItem = sender as? UIBarButtonItem
         }
-        
-        present(actionSheet, animated: false) 
-    }
 
+        self.present(actionSheet, animated: false)
+    }
 }
 // MARK: - NoteListViewController Delegate
 extension NoteSplitViewController: NoteListViewControllerDelegate {
+    
     func noteListViewController(
         _ viewController: NoteListViewController,
         cellToDelete indexPath: IndexPath
     ) {
-        guard let deletedData = dataManager?.read(index: indexPath) else { return }
+        guard let deletedData = dataManager?.read(index: indexPath) else {
+            return
+        }
         dataManager?.delete(target: deletedData)
     }
     
@@ -115,12 +116,13 @@ extension NoteSplitViewController: NoteListViewControllerDelegate {
         _ viewController: NoteListViewController,
         didSelectedCell indexPath: IndexPath
     ) {
-        guard let secondaryViewController = self.viewController(
-            for: .secondary) as? NoteDetailViewController else {
-                return
-            }
+        guard let secondaryViewController = self.viewController(for: .secondary) as? NoteDetailViewController
+        else {
+            return
+        }
         
-        guard let memo = dataManager?.read(index: indexPath) else {
+        guard let memo = dataManager?.read(index: indexPath)
+        else {
             return
         }
         secondaryViewController.setUpText(with: memo)
@@ -137,7 +139,8 @@ extension NoteSplitViewController: NoteListViewControllerDelegate {
         _ viewController: NoteListViewController,
         cellToUpload indexPath: IndexPath
     ) {
-        guard let memoToUpdate = dataManager?.read(index: indexPath) as? MemoType else {
+        guard let memoToUpdate = self.dataManager?.read(index: indexPath) as? MemoType
+        else {
             return
         }
         
@@ -145,41 +148,42 @@ extension NoteSplitViewController: NoteListViewControllerDelegate {
     }
     
     func noteListViewController(addButtonTapped viewController: NoteListViewController) {
-        dataManager?.create(attributes: MemoFormat.defaults.attributes)
+        self.dataManager?.create(attributes: MemoFormat.defaults.attributes)
     }
 }
 // MARK: - NoteListViewController DataSource
 extension NoteSplitViewController: NoteListViewControllerDataSource {
     func noteListViewControllerNumberOfData(_ viewController: NoteListViewController) -> Int {
-        dataManager?.countAllData() ?? .zero
+        self.dataManager?.countAllData() ?? .zero
     }
     
     func noteListViewControllerSampleForCell(_ viewController: NoteListViewController, indexPath: IndexPath) -> MemoType? {
-        dataManager?.read(index: indexPath)
+        self.dataManager?.read(index: indexPath)
     }
 }
 // MARK: - NoteDetailViewController Delegate
 extension NoteSplitViewController: NoteDetailViewControllerDelegate {
     func noteDetailViewController(
         didTapRightBarButton viewController: UIViewController, sender: AnyObject) {
-            presentModeChangeAlert(sender: sender)
+            self.presentModeChangeAlert(sender: sender)
     }
     
     func noteDetailViewController(
         _ viewController: UIViewController,
         didChangeBody body: String
     ) {
-        guard let selectedMemo = dataManager?.read(index: selectedIndexPath ?? IndexPath(row: .zero, section: .zero)) else {
+        guard let selectedMemo = dataManager?.read(index: selectedIndexPath ?? IndexPath(row: .zero, section: .zero))
+        else {
             return
         }
         let attribute = selectedMemo.createAttributes(body: body)
         
-        dataManager?.update(target: selectedMemo, attributes: attribute)
+        self.dataManager?.update(target: selectedMemo, attributes: attribute)
     }
 }
 // MARK: - NSFetchedResultsControllerDelegate
 extension NoteSplitViewController: NSFetchedResultsControllerDelegate {
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-        noteListViewController.updateTableView()
+        self.noteListViewController.updateTableView()
     }
 }

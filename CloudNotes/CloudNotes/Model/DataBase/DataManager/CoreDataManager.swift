@@ -1,7 +1,8 @@
 import UIKit
 import CoreData
  
-final class CoreDataManager<T: NSManagedObject>: DataProvider {
+final class CoreDataManager<T: NSManagedObject>: DataManager {
+    
     private let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext
     lazy var fetchedController = createNoteFetchedResultsController()
     

@@ -1,6 +1,7 @@
 import Foundation
 
-class AssetDataManager: DataProvider {
+class AssetDataManager: DataManager {
+    
     private var list: [MemoType] {
         let list2 = JSONParser.decodeData(of: "sample", how: [Memo].self)
         var returnList: [MemoType] = []
@@ -31,5 +32,4 @@ class AssetDataManager: DataProvider {
     func countAllData() -> Int {
         list.count
     }
-    
 }

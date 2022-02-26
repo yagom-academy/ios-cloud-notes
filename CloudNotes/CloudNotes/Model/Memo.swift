@@ -1,6 +1,7 @@
 import Foundation
 
 struct Memo: Codable, MemoType {
+    
      var title: String?
      var body: String?
      var lastModified: Date?

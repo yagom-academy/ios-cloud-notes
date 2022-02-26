@@ -1,7 +1,8 @@
 import Foundation
 import SwiftyDropbox
 
-class DropBoxManager: DataProvider {
+class DropBoxManager: DataManager {
+    
     private var memoList: [Memo]?
     private let client = DropboxClientsManager.authorizedClient
     

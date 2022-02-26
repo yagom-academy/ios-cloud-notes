@@ -63,7 +63,7 @@ final class MemoStorage {
     func hasNoMemo(with id: UUID) -> Bool {
         let request = Memo.fetchRequest()
         request.predicate = NSPredicate(format: "id == %@", id as CVarArg)
-        let fetchedMemos = try? self.coreDataManager.context.fetch(request)
+        let fetchedMemos = try? coreDataManager.context.fetch(request)
         
         return fetchedMemos?.isEmpty == true
     }

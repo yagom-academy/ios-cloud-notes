@@ -76,8 +76,7 @@ class MemoTableViewCell: UITableViewCell {
     private func configureCellAppearance() {
         let backgroundView = UIView()
         backgroundView.backgroundColor = .systemBlue
-        self.selectedBackgroundView = backgroundView
-        
-        self.accessoryType = .disclosureIndicator
+        selectedBackgroundView = backgroundView
+        accessoryType = .disclosureIndicator
     }
 }

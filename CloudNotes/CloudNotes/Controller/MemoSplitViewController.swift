@@ -62,7 +62,7 @@ class MemoSplitViewController: UISplitViewController {
         let alert = UIAlertController(title: AlertMessage.deleteCaution.title.localized, message: AlertMessage.deleteCaution.message.localized, preferredStyle: .alert)
         let confirmAction = UIAlertAction(title: ActionTitle.confirm, style: .default)
         alert.addAction(confirmAction)
-        self.present(alert, animated: true, completion: nil)
+        present(alert, animated: true, completion: nil)
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -103,7 +103,7 @@ extension MemoSplitViewController: MemoSplitViewManageable {
         let alert = UIAlertController(title: type.title.localized, message: type.message.localized, preferredStyle: .alert)
         let confirmAction = UIAlertAction(title: ActionTitle.confirm, style: .default)
         alert.addAction(confirmAction)
-        self.present(alert, animated: true)
+        present(alert, animated: true)
     }
     
     func presentDeleteAlert(at indexPath: IndexPath) {
@@ -117,7 +117,7 @@ extension MemoSplitViewController: MemoSplitViewManageable {
         }
         alert.addAction(cancelAction)
         alert.addAction(deleteAction)
-        self.present(alert, animated: true)
+        present(alert, animated: true)
     }
     
     func presentShareActivity(at indexPath: IndexPath) {
@@ -136,18 +136,18 @@ extension MemoSplitViewController: MemoSplitViewManageable {
 
         shareActivity.modalPresentationStyle = .popover
         shareActivity.popoverPresentationController?.permittedArrowDirections = []
-        shareActivity.popoverPresentationController?.sourceRect = CGRect(origin: self.view.center, size: .zero)
-        shareActivity.popoverPresentationController?.sourceView = self.view
+        shareActivity.popoverPresentationController?.sourceRect = CGRect(origin: view.center, size: .zero)
+        shareActivity.popoverPresentationController?.sourceView = view
 
-        self.present(shareActivity, animated: true, completion: nil)
+        present(shareActivity, animated: true, completion: nil)
     }
     
     func reloadRow(at indexPath: IndexPath, title: String, body: String) {
         let memo = memos[indexPath.row]
         memo.title = title
         memo.body = body
-        self.memoTableViewController.tableView.reloadRows(at: [indexPath], with: .none)
-        self.memoTableViewController.tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
+        memoTableViewController.tableView.reloadRows(at: [indexPath], with: .none)
+        memoTableViewController.tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
     }
 }
 
@@ -209,8 +209,8 @@ extension MemoSplitViewController: CoreDataManageable {
         memoStorage.delete(memo: memoToDelete)
         fetchAll()
         
-        self.memoTableViewController.deleteRow(at: indexPath)
-        let selectedIndexPath = self.memoTableViewController.selectedIndexPath
+        memoTableViewController.deleteRow(at: indexPath)
+        let selectedIndexPath = memoTableViewController.selectedIndexPath
         var newIndexPath = selectedIndexPath
         
         if indexPath.row == 0 {
@@ -223,7 +223,7 @@ extension MemoSplitViewController: CoreDataManageable {
             }
         }
         
-        self.memoTableViewController.updateSelectedIndexPath(with: newIndexPath)
+        memoTableViewController.updateSelectedIndexPath(with: newIndexPath)
         if isCollapsed == false {
             showSecondaryView(of: newIndexPath, with: memos[newIndexPath.row])
         }

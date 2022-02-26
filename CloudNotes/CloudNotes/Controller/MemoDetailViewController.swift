@@ -107,7 +107,7 @@ class MemoDetailViewController: UIViewController {
         }
         let optionMenu = UIMenu(options: .displayInline, children: [shareAction, deleteAction])
         moreOptionButton.menu = optionMenu
-        self.navigationItem.rightBarButtonItem = moreOptionButton
+        navigationItem.rightBarButtonItem = moreOptionButton
     }
     
     private func configureTextView() {

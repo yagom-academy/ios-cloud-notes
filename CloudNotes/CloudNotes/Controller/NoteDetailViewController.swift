@@ -73,11 +73,15 @@ final class NoteDetailViewController: UIViewController {
             target: self,
             action: #selector(showPopover(_:))
         )
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        rightButton.tintColor = .systemYellow
         navigationItem.setRightBarButton(rightButton, animated: false)
         
     }
     
     private func setupNoteDetailScrollView() {
+
+        noteDetailScrollView.backgroundColor = UIColor(red: 0.969, green: 0.969, blue: 0.969, alpha: 1.0)
         noteDetailScrollView.delegate = self
         view.addSubview(noteDetailScrollView)
         noteDetailScrollView.setupConstraint(view: view)

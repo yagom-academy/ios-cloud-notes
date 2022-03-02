@@ -36,6 +36,15 @@ extension NoteListDataSource: UITableViewDataSource {
         guard let information = persistentManager?.notes[indexPath.row] else {
             return UITableViewCell()
         }
+        cell.layer.cornerRadius = 2
+
+
+        let seletedView = UIView()
+        seletedView.backgroundColor = .systemYellow
+        cell.selectedBackgroundView = seletedView
+        
+        
+
         cell.configure(with: information)
         return cell
     }

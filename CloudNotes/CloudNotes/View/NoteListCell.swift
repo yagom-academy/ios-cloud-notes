@@ -70,6 +70,7 @@ final class NoteListCell: UITableViewCell {
           right: inset
         )
         cellStackView.isLayoutMarginsRelativeArrangement = true
+        
     }
     
     private func setupCellStackViewConstraint() {

@@ -29,6 +29,8 @@ final class NoteListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = UIColor(red: 0.969, green: 0.969, blue: 0.969, alpha: 1.0)
+
         setupNavigation()
         setupTableView()
         setupConstraints()
@@ -37,9 +39,8 @@ final class NoteListViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        view.backgroundColor = .systemBackground
         self.tableView.backgroundView?.isHidden = persistentManager?.notes.count == 0 ? false : true
-        if let firstNote = persistentManager?.notes[0] {
+        if let firstNote = persistentManager?.notes.first {
             if firstNote.title == "" {
                 navigationItem.rightBarButtonItem?.isEnabled = false
             }
@@ -101,6 +102,10 @@ final class NoteListViewController: UIViewController {
           target: self,
           action: #selector(addNewNote)
         )
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController?.navigationBar.clipsToBounds = true
+
+        rightButton.tintColor = .systemYellow
         navigationItem.setRightBarButton(rightButton, animated: false)
         
     }
@@ -113,6 +118,10 @@ final class NoteListViewController: UIViewController {
     }
     
     private func setupTableView() {
+        tableView.backgroundColor = UIColor(red: 0.969, green: 0.969, blue: 0.969, alpha: 1.0)
+        tableView.layer.borderWidth = 20
+        tableView.layer.borderColor = UIColor.clear.cgColor
+        tableView.layer.cornerRadius = 20
         tableView.dataSource = dataSource
         tableView.delegate = self
         tableView.register(
@@ -126,10 +135,10 @@ final class NoteListViewController: UIViewController {
         let safeArea = view.safeAreaLayoutGuide
         tableView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: safeArea.topAnchor),
-            tableView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
-            tableView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor)
+            tableView.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 15),
+            tableView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: 15),
+            tableView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 15),
+            tableView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -15)
         ])
     }
     

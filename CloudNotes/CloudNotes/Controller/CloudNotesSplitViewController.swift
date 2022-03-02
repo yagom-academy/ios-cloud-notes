@@ -43,6 +43,7 @@ final class CloudNotesSplitViewController: UISplitViewController {
     private func setupSplitView() {
         preferredSplitBehavior = .tile
         preferredDisplayMode = .oneBesideSecondary
+        
     }
     
     private func setupChildViewControllers() {

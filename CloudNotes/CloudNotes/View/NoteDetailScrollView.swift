@@ -19,6 +19,8 @@ final class NoteDetailScrollView: UIScrollView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        noteDetailTextView.backgroundColor = .clear
+        lastModifiedDateLabel.backgroundColor = .clear
         setupStackView()
         setupStackViewConstraint()
         setupLastModifiedDateLabel()
